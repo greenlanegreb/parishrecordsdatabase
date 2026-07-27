@@ -12,12 +12,9 @@ if (!function_exists('obscure_name_ajax')) {
 
 if (!function_exists('format_boolean_value')) {
     function format_boolean_value($val, $format) {
-        // If empty or null
         if ($val === null || $val === '') return 'N/A';
-        
-        // Normalize boolean integer/string to true/false
+       
         $is_true = filter_var($val, FILTER_VALIDATE_BOOLEAN);
-
         switch ($format) {
             case 'true_false':
                 return $is_true ? 'True' : 'False';
@@ -33,36 +30,23 @@ if (!function_exists('format_boolean_value')) {
 if (!function_exists('sanitize_incoming_text')) {
     function sanitize_incoming_text($text) {
         if (empty($text)) return '';
-
-        // Strip any accidental HTML tags/scripts
         $text = strip_tags($text);
-
-        // Normalize smart/curly quotes to straight ASCII quotes
         $search = [
-            "\xC2\xAB", // « (left guillemet)
-            "\xC2\xBB", // » (right guillemet)
-            "\xE2\x80\x98", // ‘ (left single quote)
-            "\xE2\x80\x99", // ’ (right single quote)
-            "\xE2\x80\x9C", // “ (left double quote)
-            "\xE2\x80\x9D", // ” (right double quote)
-            "\xE2\x80\x93", // – (en dash)
-            "\xE2\x80\x94", // — (em dash)
-            "\xE2\x80\xA6"  // … (ellipsis)
+            "\xC2\xAB", "\xC2\xBB",
+            "\xE2\x80\x98", "\xE2\x80\x99",
+            "\xE2\x80\x9C", "\xE2\x80\x9D",
+            "\xE2\x80\x93", "\xE2\x80\x94",
+            "\xE2\x80\xA6"
         ];
         $replace = [
             '"', '"', "'", "'", '"', '"', '-', '-', '...'
         ];
         $text = str_replace($search, $replace, $text);
-
-        // Normalize non-breaking spaces and invisible control spaces to standard spaces
         $text = preg_replace('/[\x{00A0}\x{200B}]/u', ' ', $text);
-
-        // Trim extra whitespace
         return trim($text);
     }
 }
 
-// Helper function to format UTC timestamps according to user timezone and format preference
 if (!function_exists('format_user_time')) {
     function format_user_time($utc_timestamp, $timezone_str, $format_str) {
         if (empty($utc_timestamp)) return 'N/A';
@@ -76,7 +60,6 @@ if (!function_exists('format_user_time')) {
     }
 }
 
-// Helper function to format stored ISO dates (YYYY-MM-DD) into user's preferred format
 if (!function_exists('format_display_date')) {
     function format_display_date($date_str, $format_pref) {
         if (empty($date_str)) return '';
@@ -89,11 +72,6 @@ if (!function_exists('format_display_date')) {
     }
 }
 
-/**
- * Centralized CSV Export Utility
- * Handles dynamic column mapping, search/date filtering, boolean & date formatting,
- * and direct browser output download headers.
- */
 if (!function_exists('generate_csv_export')) {
     function generate_csv_export($pdo, $filename_prefix = 'psd-export') {
         $user_date_format = 'd/m/Y';
@@ -103,28 +81,21 @@ if (!function_exists('generate_csv_export')) {
                 $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
             }
         }
-
         $cols_stmt = $pdo->query("SELECT * FROM table_columns ORDER BY id ASC");
         $columns = $cols_stmt->fetchAll();
-
         $search_filters = $_GET['filters'] ?? [];
         $date_filters = $_GET['date_filters'] ?? [];
-
         $records_stmt = $pdo->query("SELECT r.id, r.created_at, u.username FROM records r LEFT JOIN users u ON r.created_by = u.id ORDER BY r.id DESC");
         $records = $records_stmt->fetchAll();
-
         $values_stmt = $pdo->query("SELECT record_id, column_id, value_content FROM record_values");
         $raw_values = $values_stmt->fetchAll();
         $record_values = [];
         foreach ($raw_values as $val) {
             $record_values[$val['record_id']][$val['column_id']] = $val['value_content'];
         }
-
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="' . $filename_prefix . '-' . date('Y-m-d') . '.csv"');
-
         $output = fopen('php://output', 'w');
-
         $header_row = ['Record ID'];
         foreach ($columns as $col) {
             $header_row[] = $col['column_name'];
@@ -132,7 +103,6 @@ if (!function_exists('generate_csv_export')) {
         $header_row[] = 'Created By';
         $header_row[] = 'Date Added';
         fputcsv($output, $header_row);
-
         foreach ($records as $rec) {
             $match = true;
             if (!empty($search_filters)) {
@@ -146,13 +116,11 @@ if (!function_exists('generate_csv_export')) {
                     }
                 }
             }
-
             if ($match && !empty($date_filters)) {
                 foreach ($date_filters as $col_id => $range) {
                     $from = trim($range['from'] ?? '');
                     $to = trim($range['to'] ?? '');
                     $cell_val = $record_values[$rec['id']][$col_id] ?? '';
-
                     if (!empty($cell_val)) {
                         if (!empty($from) && $cell_val < $from) { $match = false; break; }
                         if (!empty($to) && $cell_val > $to) { $match = false; break; }
@@ -162,7 +130,6 @@ if (!function_exists('generate_csv_export')) {
                     }
                 }
             }
-
             if ($match) {
                 $row = ['#' . $rec['id']];
                 foreach ($columns as $col) {
@@ -185,9 +152,6 @@ if (!function_exists('generate_csv_export')) {
     }
 }
 
-/**
- * Retrieve a global site setting value by its key.
- */
 if (!function_exists('get_setting')) {
     function get_setting($pdo, $key, $default = '') {
         try {
@@ -201,30 +165,23 @@ if (!function_exists('get_setting')) {
     }
 }
 
-/**
- * Compile the PHP date/time format string based on user preferences.
- */
 if (!function_exists('get_user_datetime_format')) {
     function get_user_datetime_format($current_user) {
         $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
         $user_time_format = $current_user['time_format'] ?? '24';
-        
+       
         if ($user_time_format === '12') {
             return $user_date_format . ' h:i A';
         } elseif ($user_time_format === '24') {
             return $user_date_format . ' H:i';
         } else {
-            return $user_date_format; // Date only
+            return $user_date_format;
         }
     }
 }
 
-/**
- * Evaluates whether a record matches the given text/boolean and date range filters.
- */
 if (!function_exists('record_matches_filters')) {
     function record_matches_filters($record_id, $record_values_map, $search_filters, $date_filters) {
-        // 1. Evaluate standard text/boolean filters
         if (!empty($search_filters)) {
             foreach ($search_filters as $col_id => $search_term) {
                 if (!empty(trim($search_term))) {
@@ -235,14 +192,13 @@ if (!function_exists('record_matches_filters')) {
                 }
             }
         }
-        
-        // 2. Evaluate dynamic date range filters
+       
         if (!empty($date_filters)) {
             foreach ($date_filters as $col_id => $range) {
                 $from = trim($range['from'] ?? '');
                 $to = trim($range['to'] ?? '');
                 $cell_val = $record_values_map[$record_id][$col_id] ?? '';
-                
+               
                 if (!empty($cell_val)) {
                     if (!empty($from) && $cell_val < $from) { return false; }
                     if (!empty($to) && $cell_val > $to) { return false; }
@@ -251,57 +207,11 @@ if (!function_exists('record_matches_filters')) {
                 }
             }
         }
-        
+       
         return true;
     }
 }
 
-/**
- * Generate or retrieve the active session CSRF token.
- */
-if (!function_exists('generate_csrf_token')) {
-    function generate_csrf_token() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        if (empty($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-        }
-        return $_SESSION['csrf_token'];
-    }
-}
-
-/**
- * Output a hidden input field containing the CSRF token.
- */
-if (!function_exists('csrf_field')) {
-    function csrf_field() {
-        $token = generate_csrf_token();
-        return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
-    }
-}
-
-/**
- * Validate an incoming CSRF token against the session.
- */
-if (!function_exists('verify_csrf_token')) {
-    function verify_csrf_token() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        $submitted_token = $_POST['csrf_token'] ?? '';
-        if (empty($_SESSION['csrf_token']) || empty($submitted_token) || !hash_equals($_SESSION['csrf_token'], $submitted_token)) {
-            http_response_code(403);
-            error_log("CSRF token validation failed from IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'Unknown'));
-            exit('Security Error: Invalid or missing CSRF token.');
-        }
-    }
-}
-
-/**
- * Check whether a specific application module is enabled.
- * Defaults to true if the setting has not been explicitly configured yet.
- */
 if (!function_exists('is_module_enabled')) {
     function is_module_enabled($pdo, $module_key) {
         static $module_cache = [];
@@ -312,15 +222,14 @@ if (!function_exists('is_module_enabled')) {
             $stmt = $pdo->prepare("SELECT setting_value FROM site_settings WHERE setting_key = ?");
             $stmt->execute(['module_' . $module_key . '_enabled']);
             $val = $stmt->fetchColumn();
-            
-            // If user management is disabled, leaderboard/gamification is forced off as a dependency
+           
             if ($module_key === 'leaderboard') {
                 $users_enabled = is_module_enabled($pdo, 'users');
                 if (!$users_enabled) {
                     return false;
                 }
             }
-            
+           
             $enabled = ($val === false || $val === null) ? true : (intval($val) === 1);
             $module_cache[$module_key] = $enabled;
             return $enabled;

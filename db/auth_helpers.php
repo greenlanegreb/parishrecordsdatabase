@@ -212,3 +212,23 @@ if (!function_exists('initialize_action')) {
         return get_current_user_data($pdo);
     }
 }
+
+/**
+ * Standard bootstrap for admin pages.
+ * Handles session, permission check, flash messages, and returns the current user.
+ */
+function require_admin_page(PDO $pdo, string $permission_key, string $description = null): array
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    $current_user = require_permission($pdo, $permission_key, $description);
+
+    // Make flash messages available to the view
+    $GLOBALS['message'] = $_SESSION['message'] ?? '';
+    $GLOBALS['error']   = $_SESSION['error']   ?? '';
+    unset($_SESSION['message'], $_SESSION['error']);
+
+    return $current_user;
+}

@@ -3,9 +3,13 @@
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
-session_start();
-require_permission($pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
 
+// Standard admin bootstrap (permission + flash messages)
+$current_user = require_admin_page($pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
+$message = $GLOBALS['message'] ?? '';
+$error   = $GLOBALS['error']   ?? '';
+
+// Auto-register table-scoped permissions for any existing dynamic tables
 try {
     $existing_tables = $pdo->query("SELECT id, table_name FROM dynamic_tables")->fetchAll(PDO::FETCH_ASSOC);
     foreach ($existing_tables as $et) {
@@ -15,14 +19,14 @@ try {
         $view_desc = 'Allows viewing and searching records in table: ' . $t_name;
         $mod_key = 'moderate_table_' . $t_id;
         $mod_desc = 'Allows reviewing and moderating suggestions in table: ' . $t_name;
-        
+       
         $ins_p = $pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)");
         $ins_p->execute([$view_key, $view_desc]);
         $ins_p->execute([$mod_key, $mod_desc]);
     }
 } catch (Exception $e) {}
 
-$current_system_name = function_exists('get_system_name') ? get_system_name($pdo) : "Parish Records Directory (PRD)";
+$current_system_name = get_system_name($pdo);
 
 $get_setting_val = function($pdo, $key, $default) {
     try {
@@ -35,16 +39,15 @@ $get_setting_val = function($pdo, $key, $default) {
     }
 };
 
-$current_mail_domain = $get_setting_val($pdo, 'mail_domain', 'deballiolsociety.org.uk');
-$current_mail_driver = $get_setting_val($pdo, 'mail_driver', 'mail');
-$current_smtp_host = $get_setting_val($pdo, 'smtp_host', '');
-$current_smtp_port = $get_setting_val($pdo, 'smtp_port', '587');
-$current_smtp_user = $get_setting_val($pdo, 'smtp_user', '');
+$current_mail_domain     = $get_setting_val($pdo, 'mail_domain', 'deballiolsociety.org.uk');
+$current_mail_driver     = $get_setting_val($pdo, 'mail_driver', 'mail');
+$current_smtp_host       = $get_setting_val($pdo, 'smtp_host', '');
+$current_smtp_port       = $get_setting_val($pdo, 'smtp_port', '587');
+$current_smtp_user       = $get_setting_val($pdo, 'smtp_user', '');
 $current_smtp_encryption = $get_setting_val($pdo, 'smtp_encryption', 'tls');
-
-$maintenance_mode = $get_setting_val($pdo, 'maintenance_mode', '0');
-$maintenance_reason = $get_setting_val($pdo, 'maintenance_reason', 'Scheduled system maintenance and database updates.');
-$maintenance_eta = $get_setting_val($pdo, 'maintenance_eta', 'Shortly');
+$maintenance_mode        = $get_setting_val($pdo, 'maintenance_mode', '0');
+$maintenance_reason      = $get_setting_val($pdo, 'maintenance_reason', 'Scheduled system maintenance and database updates.');
+$maintenance_eta         = $get_setting_val($pdo, 'maintenance_eta', 'Shortly');
 
 // Module toggles state
 $mod_moderation_val  = $get_setting_val($pdo, 'module_moderation_enabled', '1');
@@ -52,10 +55,6 @@ $mod_volunteers_val  = $get_setting_val($pdo, 'module_volunteers_enabled', '1');
 $mod_feedback_val    = $get_setting_val($pdo, 'module_feedback_enabled', '1');
 $mod_users_val       = $get_setting_val($pdo, 'module_users_enabled', '1');
 $mod_leaderboard_val = $get_setting_val($pdo, 'module_leaderboard_enabled', '1');
-
-$message = $_SESSION['message'] ?? '';
-$error = $_SESSION['error'] ?? '';
-unset($_SESSION['message'], $_SESSION['error']);
 
 $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, id DESC")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -68,15 +67,18 @@ if (isset($_GET['edit_role'])) {
 }
 ?>
 <?php require_once '../partials/header.php'; ?>
+
 <div class="search-box-container" role="region" aria-label="Site Settings Form" style="max-width: 1100px; margin: 0 auto; font-size: 1rem;">
     <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Global Site Settings, Modules & Permissions</h3>
     <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Manage core configurations, mail drivers, feature modules, maintenance mode, site announcements, and role capabilities.</p>
+
     <?php if (!empty($error)): ?>
         <p class="alert-danger" role="alert" style="font-size: 1rem;"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
     <?php if (!empty($message)): ?>
         <p class="alert-success" role="status" style="font-size: 1rem;"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
+
     <!-- Accessible Tab Navigation -->
     <div role="tablist" aria-label="Settings Sections" style="display: flex; gap: 0.75rem; border-bottom: 2px solid var(--border-color); margin-bottom: 2rem; flex-wrap: wrap;">
         <button role="tab" aria-selected="true" aria-controls="panel-core" id="tab-core" onclick="switchTab('core')" class="tab-btn active-tab" style="padding: 0.75rem 1.25rem; cursor: pointer; border: none; background: none; font-size: 1.05rem; font-weight: bold; border-bottom: 3px solid #007bff; margin-bottom: -2px;">Core & Mail</button>
@@ -85,6 +87,7 @@ if (isset($_GET['edit_role'])) {
         <button role="tab" aria-selected="false" aria-controls="panel-notices" id="tab-notices" onclick="switchTab('notices')" class="tab-btn" style="padding: 0.75rem 1.25rem; cursor: pointer; border: none; background: none; font-size: 1.05rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; margin-bottom: -2px;">Site Notices</button>
         <button role="tab" aria-selected="false" aria-controls="panel-permissions" id="tab-permissions" onclick="switchTab('permissions')" class="tab-btn" style="padding: 0.75rem 1.25rem; cursor: pointer; border: none; background: none; font-size: 1.05rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; margin-bottom: -2px;">Roles & Permissions</button>
     </div>
+
     <!-- TAB 1: Core & Mail Settings -->
     <div role="tabpanel" id="panel-core" aria-labelledby="tab-core" class="tab-panel">
         <form method="POST" action="actions/save_settings.php">
@@ -147,13 +150,14 @@ if (isset($_GET['edit_role'])) {
             </div>
         </form>
     </div>
+
     <!-- TAB 2: Modules Management -->
     <div role="tabpanel" id="panel-modules" aria-labelledby="tab-modules" class="tab-panel" style="display: none;">
         <form method="POST" action="actions/save_modules.php">
             <?php echo csrf_field(); ?>
             <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">Application Module Toggles & Efficiency Controls</h4>
             <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Enable or disable features to optimize application execution efficiency and adapt PRD to your specific deployment needs.</p>
-            
+           
             <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                 <div style="background: rgba(0,0,0,0.02); padding: 1.25rem; border: 1px solid var(--border-color); border-radius: 6px;">
                     <label style="cursor: pointer; font-weight: bold; font-size: 1.05rem; display: flex; align-items: center; gap: 0.75rem;">
@@ -198,6 +202,7 @@ if (isset($_GET['edit_role'])) {
             </div>
         </form>
     </div>
+
     <!-- TAB 3: Maintenance Mode Settings -->
     <div role="tabpanel" id="panel-maintenance" aria-labelledby="tab-maintenance" class="tab-panel" style="display: none;">
         <form method="POST" action="actions/save_maintenance.php">
@@ -205,7 +210,7 @@ if (isset($_GET['edit_role'])) {
             <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">System Maintenance Mode</h4>
             <div style="margin-bottom: 1.25rem;">
                 <label style="cursor: pointer; font-size: 1.05rem;">
-                    <input type="checkbox" name="maintenance_mode" value="1" <?php echo ($maintenance_mode === '1') ? 'checked' : ''; ?> style="transform: scale(1.2); margin-right: 0.5rem;"> 
+                    <input type="checkbox" name="maintenance_mode" value="1" <?php echo ($maintenance_mode === '1') ? 'checked' : ''; ?> style="transform: scale(1.2); margin-right: 0.5rem;">
                     <strong>Enable Maintenance Mode (Take Site Offline)</strong>
                 </label>
             </div>
@@ -220,6 +225,7 @@ if (isset($_GET['edit_role'])) {
             <button type="submit" class="btn btn-danger" style="padding: 0.6rem 1.2rem; font-size: 1rem;">Save Maintenance Settings</button>
         </form>
     </div>
+
     <!-- TAB 4: Site Notices -->
     <div role="tabpanel" id="panel-notices" aria-labelledby="tab-notices" class="tab-panel" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
@@ -252,7 +258,8 @@ if (isset($_GET['edit_role'])) {
             </div>
         <?php endif; ?>
     </div>
-    <!-- TAB 5: Roles & Permissions Matrix (Collapsible Grouped Sections with Global Save) -->
+
+    <!-- TAB 5: Roles & Permissions Matrix -->
     <div role="tabpanel" id="panel-permissions" aria-labelledby="tab-permissions" class="tab-panel" style="display: none;">
         <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">Dynamic Role & Permission Matrix</h4>
         <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Permissions are grouped by system functions. Expand sections to configure capabilities, then save your updates at the bottom.</p>
@@ -264,15 +271,12 @@ if (isset($_GET['edit_role'])) {
         foreach ($map_rows as $m) {
             $active_mappings[$m['role_id']][$m['permission_id']] = true;
         }
-
-        // Module status checks for filtering permission groups
-        $mod_users_active = is_module_enabled($pdo, 'users');
-        $mod_volunteers_active = is_module_enabled($pdo, 'volunteers');
-        $mod_feedback_active = is_module_enabled($pdo, 'feedback');
-        $mod_moderation_active = is_module_enabled($pdo, 'moderation');
+        $mod_users_active       = is_module_enabled($pdo, 'users');
+        $mod_volunteers_active  = is_module_enabled($pdo, 'volunteers');
+        $mod_feedback_active    = is_module_enabled($pdo, 'feedback');
+        $mod_moderation_active  = is_module_enabled($pdo, 'moderation');
         $mod_leaderboard_active = is_module_enabled($pdo, 'leaderboard');
 
-        // Helper categorization function for permissions
         function get_permission_category($pkey) {
             if (str_starts_with($pkey, 'view_table_') || str_starts_with($pkey, 'moderate_table_')) {
                 return 'Dynamic Tables & Records';
@@ -288,17 +292,14 @@ if (isset($_GET['edit_role'])) {
             }
             return 'Core System & Settings';
         }
-
         $categorized_perms = [];
         foreach ($perms_list as $p) {
             $pkey = $p['permission_key'];
-            // Filter out permissions whose parent module is currently disabled
             if (($pkey === 'manage_users' || $pkey === 'invite_users' || $pkey === 'access_onboarding') && !$mod_users_active) continue;
             if (($pkey === 'manage_volunteers' || $pkey === 'submit_volunteer') && !$mod_volunteers_active) continue;
             if (($pkey === 'manage_feedback' || $pkey === 'submit_feedback') && !$mod_feedback_active) continue;
             if (($pkey === 'access_suggest_edit') && !$mod_moderation_active) continue;
             if (($pkey === 'view_leaderboard') && !$mod_leaderboard_active) continue;
-
             $cat = get_permission_category($pkey);
             $categorized_perms[$cat][] = $p;
         }
@@ -311,7 +312,7 @@ if (isset($_GET['edit_role'])) {
                         <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 1.1rem; outline: none; display: flex; justify-content: space-between; align-items: center;">
                             <span><?php echo htmlspecialchars($category_name); ?> <span style="font-weight: normal; color: #666; font-size: 0.85rem;">(<?php echo count($cat_perms); ?> permissions)</span></span>
                         </summary>
-                        
+                       
                         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e9ecef; overflow-x: auto;">
                             <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left; background: #fff;">
                                 <thead>
@@ -350,6 +351,7 @@ if (isset($_GET['edit_role'])) {
         </form>
     </div>
 </div>
+
 <script>
 function switchTab(tabId) {
     document.querySelectorAll('.tab-panel').forEach(panel => panel.style.display = 'none');
@@ -388,4 +390,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 <?php require_once '../partials/footer.php'; ?>

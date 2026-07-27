@@ -2,14 +2,12 @@
 // admin/notices.php - Admin interface for managing site notices and announcements
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-session_start();
+require_once '../includes/functions.php';
 
-// Enforce dynamic permission check (automatically registers 'manage_notices' if new)
-require_permission($pdo, 'manage_notices', 'Manage site-wide notices and broadcast announcements');
-
-$message = $_SESSION['message'] ?? '';
-$error = $_SESSION['error'] ?? '';
-unset($_SESSION['message'], $_SESSION['error']);
+// Standard admin bootstrap (permission + flash messages)
+$current_user = require_admin_page($pdo, 'manage_notices', 'Manage site-wide notices and broadcast announcements');
+$message = $GLOBALS['message'] ?? '';
+$error   = $GLOBALS['error']   ?? '';
 
 // Handle form submissions for creating/deleting notices
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -44,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, id DESC")->fetchAll();
 ?>
-
 <?php require_once '../partials/header.php'; ?>
 
 <div class="search-box-container" role="region" aria-label="Notices Management">
@@ -64,7 +61,7 @@ $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, i
         <form method="POST">
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="create">
-            
+           
             <label for="title">Notice Title / Heading:</label><br>
             <input type="text" id="title" name="title" required class="profile-input" style="width: 100%; margin-bottom: 1rem;"><br>
 

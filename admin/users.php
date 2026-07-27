@@ -3,7 +3,6 @@
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
-session_start();
 
 // Ensure the users module is enabled; otherwise block direct access
 if (!is_module_enabled($pdo, 'users')) {
@@ -11,12 +10,10 @@ if (!is_module_enabled($pdo, 'users')) {
     exit('403 Forbidden: The User Management module is currently disabled.');
 }
 
-// Enforce dynamic permission-based access control
-$current_user = require_permission($pdo, 'manage_users', 'Manage user accounts, roles, and status');
-
-$message = $_SESSION['message'] ?? '';
-$error = $_SESSION['error'] ?? '';
-unset($_SESSION['error'], $_SESSION['message']);
+// Standard admin bootstrap (permission + flash messages)
+$current_user = require_admin_page($pdo, 'manage_users', 'Manage user accounts, roles, and status');
+$message = $GLOBALS['message'] ?? '';
+$error   = $GLOBALS['error']   ?? '';
 
 // Determine the first admin user ID dynamically (the earliest created user with the 'admin' role, fallback to ID 1)
 $first_admin_id = 1;
@@ -38,9 +35,9 @@ try {
 
 // Fetch users with their dynamic role names
 $users_stmt = $pdo->query("
-    SELECT u.id, u.username, u.email, u.points, u.email_verified, u.two_fa_enabled, u.is_active, u.created_at, u.role_id, r.role_name 
-    FROM users u 
-    LEFT JOIN roles r ON u.role_id = r.id 
+    SELECT u.id, u.username, u.email, u.points, u.email_verified, u.two_fa_enabled, u.is_active, u.created_at, u.role_id, r.role_name
+    FROM users u
+    LEFT JOIN roles r ON u.role_id = r.id
     ORDER BY u.created_at DESC
 ");
 $users = $users_stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +45,6 @@ $users = $users_stmt->fetchAll(PDO::FETCH_ASSOC);
 // Fetch all available roles for the role-change dropdown
 $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <?php require_once '../partials/header.php'; ?>
 
 <div class="search-box-container" role="region" aria-label="Admin User Management" style="max-width: 100%;">
@@ -118,7 +114,7 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                             </td>
                             <td><?php echo $u['two_fa_enabled'] ? '<span class="user-2fa-enabled">Enabled</span>' : 'Disabled'; ?></td>
                             <td style="display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem;">
-                                
+                               
                                 <!-- Points Override Form -->
                                 <form method="POST" action="actions/save_user_management.php" style="display: flex; gap: 0.3rem; align-items: center;">
                                     <input type="hidden" name="action" value="override_points">
@@ -126,7 +122,6 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                     <input type="number" name="new_points" value="<?php echo intval($u['points']); ?>" style="width: 70px; padding: 0.2rem;" aria-label="Points for <?php echo htmlspecialchars($u['username']); ?>">
                                     <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;">Set Score</button>
                                 </form>
-
                                 <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
                                     <!-- Suspension Toggle Button (Prevent suspending the primary admin too) -->
                                     <?php if ($u['id'] !== $current_user['id'] && !$is_first_admin): ?>
@@ -144,7 +139,6 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                             </form>
                                         <?php endif; ?>
                                     <?php endif; ?>
-
                                     <!-- 2FA Reset Button -->
                                     <?php if ($u['two_fa_enabled']): ?>
                                         <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Reset 2FA for this user?');" style="display:inline;">
@@ -154,7 +148,6 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                         </form>
                                     <?php endif; ?>
                                 </div>
-
                             </td>
                         </tr>
                     <?php endforeach; ?>
