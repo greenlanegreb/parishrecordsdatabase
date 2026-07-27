@@ -11,7 +11,7 @@ if (!is_module_enabled($pdo, 'users')) {
 }
 
 // Standard admin bootstrap (permission + flash messages)
-$current_user = require_admin_page($pdo, 'manage_users', 'Manage user accounts, roles, and status');
+$current_user = require_admin_page($pdo, 'invite_users', 'Create and invite new users');
 $message = $GLOBALS['message'] ?? '';
 $error   = $GLOBALS['error']   ?? '';
 
