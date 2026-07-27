@@ -5,15 +5,8 @@ require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
-// Ensure the volunteers module is enabled; otherwise block direct access
-if (!is_module_enabled($pdo, 'volunteers')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
-}
-
-// Enforce dynamic permission check (automatically registers 'manage_volunteers' if new)
-require_permission($pdo, 'manage_volunteers', 'Manage and review volunteer applications and submissions');
-
+// Enforce strict administrator privileges via central helper
+require_role($pdo, ['admin']);
 $current_user = get_current_user_data($pdo);
 
 // Determine user timezone and dynamically compile the date/time format string using the central helper
@@ -37,10 +30,10 @@ $volunteers = $vol_stmt->fetchAll();
     <p>Review individuals interested in volunteering for data entry and transcription work.</p>
 
     <?php if (!empty($message)): ?>
-        <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
+        <p class="alert-success"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
     <?php if (!empty($error)): ?>
-        <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
+        <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
 
     <table class="data-table" role="table">

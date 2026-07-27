@@ -2,27 +2,12 @@
 // user/actions/save_suggest_edit.php - Handles edit suggestion submissions
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
-require_once '../../includes/functions.php';
 
-// Ensure the moderation module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'moderation')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
-}
-
-// Enforce dynamic permission check replacing hardcoded roles (automatically registers 'access_suggest_edit' if new)
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit('Method Not Allowed');
-}
-verify_csrf_token();
-$current_user = require_permission($pdo, 'access_suggest_edit', 'Allows submitting edit suggestions for records');
+$current_user = initialize_action($pdo, ['user', 'moderator', 'admin'], 'POST');
 $user_id = $current_user['id'];
 
 $record_id = $_POST['record_id'] ?? null;
+
 if (!$record_id) {
     http_response_code(403);
     exit("No record specified.");
@@ -44,8 +29,8 @@ if (empty($proposed_value) || empty($column_id)) {
         if ($ins->execute([$record_id, $user_id, $col_info['column_name'], $proposed_value])) {
             $_SESSION['message'] = "Your edit suggestion has been successfully submitted to the admin queue for review.";
             
-            $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, ?, ?, ?, ?)");
-            $audit->execute([$user_id, 'EDIT_SUGGESTION', $record_id, "Suggested edit for column: {$col_info['column_name']}", $_SERVER['REMOTE_ADDR']]);
+            $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, 'EDIT_SUGGESTION', ?, ?, ?)");
+            $audit->execute([$user_id, $record_id, "Suggested edit for column: {$col_info['column_name']}", $_SERVER['REMOTE_ADDR']]);
         } else {
             $_SESSION['error'] = "Failed to submit suggestion.";
         }

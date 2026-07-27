@@ -1,15 +1,7 @@
 <?php
 // register.php - User registration view
 session_start();
-require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
-
-// Ensure the users module is enabled; otherwise block access to registration
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
 
 $message = $_SESSION['message'] ?? '';
 $error = $_SESSION['error'] ?? '';

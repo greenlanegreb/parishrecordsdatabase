@@ -2,24 +2,8 @@
 // user/actions/save_onboarding.php - Saves wizard preferences and completes onboarding
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
-require_once '../../includes/functions.php';
 
-// Ensure the users module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
-
-// Enforce dynamic permission check replacing hardcoded roles (automatically registers 'access_onboarding' if new)
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit('Method Not Allowed');
-}
-verify_csrf_token();
-$current_user = require_permission($pdo, 'access_onboarding', 'Allows accessing the first-time user onboarding setup wizard');
+$current_user = initialize_action($pdo, ['user', 'moderator', 'admin'], 'POST');
 $user_id = $current_user['id'];
 
 $first_name = trim($_POST['first_name'] ?? '');

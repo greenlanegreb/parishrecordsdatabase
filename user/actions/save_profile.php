@@ -4,17 +4,9 @@ require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../db/mail_helper.php';
 
-// Enforce dynamic permission check replacing hardcoded roles (automatically registers 'access_profile' if new)
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit('Method Not Allowed');
-}
-verify_csrf_token();
-$current_user = require_permission($pdo, 'access_profile', 'Allows viewing and managing personal user profile and security settings');
+$current_user = initialize_action($pdo, ['user', 'moderator', 'admin'], 'POST');
 $user_id = $current_user['id'];
+
 $action = $_POST['action'] ?? '';
 
 // 0. Handle Personal Details Update Request
@@ -62,6 +54,7 @@ if ($action === 'update_personal_details') {
 // 1. Handle Email Update Request
 elseif ($action === 'update_email') {
     $new_email = trim($_POST['email'] ?? '');
+
     if (empty($new_email) || !filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(403);
         error_log("Failed email update attempt (invalid format) for user ID: {$user_id} from IP: " . $_SERVER['REMOTE_ADDR']);
@@ -78,9 +71,10 @@ elseif ($action === 'update_email') {
         } else {
             $token = bin2hex(random_bytes(32));
             $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
+
             $upd = $pdo->prepare("UPDATE users SET email = ?, email_verified = 0, verification_token = ?, token_expires_at = ? WHERE id = ?");
             if ($upd->execute([$new_email, $token, $expires, $user_id])) {
-                if (send_user_invitation($pdo, $new_email, $token)) {
+                if (send_user_invitation($new_email, $token)) {
                     $_SESSION['message'] = "Email updated successfully! A verification link has been sent to your new address.";
                 } else {
                     http_response_code(403);

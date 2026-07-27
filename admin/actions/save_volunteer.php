@@ -2,23 +2,9 @@
 // admin/actions/save_volunteer.php - Handles volunteer submission deletions
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
-require_once '../../includes/functions.php';
-session_start();
 
-// Ensure the volunteers module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'volunteers')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
-}
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit('Method Not Allowed');
-}
-
-// Verify CSRF token and enforce dynamic permission check
-verify_csrf_token();
-$current_user = require_permission($pdo, 'manage_volunteers', 'Manage and review volunteer applications and submissions');
+// Enforce strict administrator privileges and validate POST request method via central helper
+$current_user = initialize_action($pdo, 'admin', 'POST');
 
 if (isset($_POST['action']) && $_POST['action'] === 'delete_volunteer') {
     $volunteer_id = intval($_POST['volunteer_id'] ?? 0);
@@ -26,9 +12,6 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete_volunteer') {
         $del_stmt = $pdo->prepare("DELETE FROM volunteers WHERE id = ?");
         if ($del_stmt->execute([$volunteer_id])) {
             $_SESSION['message'] = "Volunteer entry #{$volunteer_id} has been successfully deleted.";
-            
-            $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'DELETE_VOLUNTEER', ?, ?)");
-            $audit->execute([$current_user['id'], "Deleted volunteer entry ID #{$volunteer_id}", $_SERVER['REMOTE_ADDR']]);
         } else {
             $_SESSION['error'] = "Failed to delete volunteer entry.";
         }

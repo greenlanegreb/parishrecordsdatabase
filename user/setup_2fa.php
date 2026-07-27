@@ -4,8 +4,8 @@ require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 session_start();
 
-// Enforce dynamic permission check for 2FA setup (automatically registers 'setup_2fa' if new)
-require_permission($pdo, 'setup_2fa', 'Allows setting up and configuring Google Authenticator 2FA');
+// Enforce standard user/moderator/admin authentication via central helper
+require_role($pdo, ['user', 'moderator', 'admin']);
 $user = get_current_user_data($pdo);
 
 if ($user['two_fa_enabled']) {

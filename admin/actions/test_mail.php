@@ -4,16 +4,9 @@ require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
 require_once '../../db/mail_helper.php';
-session_start();
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit('Method Not Allowed');
-}
-
-// Verify CSRF token and enforce dynamic permission check
-verify_csrf_token();
-$current_user = require_permission($pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
+// Enforce admin-only access and validate POST request method
+$current_user = initialize_action($pdo, 'admin', 'POST');
 
 $test_email = trim($_POST['test_email'] ?? '');
 
@@ -101,9 +94,6 @@ try {
 
 if ($success) {
     $_SESSION['message'] = "Test email successfully dispatched to " . htmlspecialchars($test_email) . "!";
-    
-    $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'TEST_MAIL', ?, ?)");
-    $audit->execute([$current_user['id'], "Dispatched test email successfully to: {$test_email}", $_SERVER['REMOTE_ADDR']]);
 } else {
     $_SESSION['error'] = "Failed to dispatch test email. Check your server logs or SMTP settings.";
 }

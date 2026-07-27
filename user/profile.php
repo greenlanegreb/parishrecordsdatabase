@@ -5,8 +5,8 @@ require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
-// Enforce dynamic permission check for profile access (automatically registers 'access_profile' if new)
-require_permission($pdo, 'access_profile', 'Allows viewing and managing personal user profile and security settings');
+// Enforce standard user/moderator/admin authentication via central helper
+require_role($pdo, ['user', 'moderator', 'admin']);
 $current_user = get_current_user_data($pdo);
 
 // Pull dynamic system name from database with a clean fallback
@@ -80,6 +80,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                     
                     // Keep UTC prominent at the very top
                     echo '<option value="UTC" ' . ($current_tz === 'UTC' ? 'selected' : '') . '>UTC (Coordinated Universal Time)</option>';
+
                     // Loop through each global region and populate option groups alphabetically
                     foreach ($grouped_timezones as $region => $zones) {
                         asort($zones);
@@ -203,6 +204,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                 </form>
             <?php else: ?>
                 <p style="font-size: 0.9rem; color: #666;">2FA is actively protecting your account login.</p>
+
                 <?php if (!empty($_SESSION['new_raw_backup_codes'])): ?>
                     <div class="backup-codes-box">
                         <h5 style="margin-top: 0; color: var(--danger-color);">Your New Backup Codes</h5>
@@ -214,6 +216,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                         <a href="profile.php?action=download_new_codes" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; display: inline-block;">Download New Codes as .txt</a>
                     </div>
                 <?php endif; ?>
+
                 <form method="POST" action="actions/save_profile.php" style="margin-top: 1rem;">
                     <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="generate_backup_codes">

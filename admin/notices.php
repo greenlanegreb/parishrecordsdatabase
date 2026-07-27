@@ -4,8 +4,7 @@ require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 session_start();
 
-// Enforce dynamic permission check (automatically registers 'manage_notices' if new)
-require_permission($pdo, 'manage_notices', 'Manage site-wide notices and broadcast announcements');
+$current_user = require_role($pdo, ['admin']);
 
 $message = $_SESSION['message'] ?? '';
 $error = $_SESSION['error'] ?? '';
@@ -13,7 +12,6 @@ unset($_SESSION['message'], $_SESSION['error']);
 
 // Handle form submissions for creating/deleting notices
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_token();
     $action = $_POST['action'] ?? '';
 
     if ($action === 'create') {
@@ -52,17 +50,16 @@ $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, i
     <p>Create dynamic alerts, welcome banners, or targeted notifications for specific user roles.</p>
 
     <?php if (!empty($error)): ?>
-        <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
+        <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
     <?php if (!empty($message)): ?>
-        <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
+        <p class="alert-success"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
 
     <!-- Create Notice Form -->
     <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 6px; margin-bottom: 2rem;">
         <h4>Create New Notice</h4>
         <form method="POST">
-            <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="create">
             
             <label for="title">Notice Title / Heading:</label><br>
@@ -118,7 +115,6 @@ $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, i
                         <td><?php echo $n['is_dismissible'] ? 'Yes' : 'No (Sticky)'; ?></td>
                         <td>
                             <form method="POST" onsubmit="return confirm('Delete this notice?');" style="display:inline;">
-                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="notice_id" value="<?php echo $n['id']; ?>">
                                 <button type="submit" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;">Delete</button>

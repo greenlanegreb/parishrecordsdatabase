@@ -2,14 +2,7 @@
 // suggest_edit.php - View for suggesting column edits securely
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
 session_start();
-
-// Ensure the moderation module is enabled; otherwise block access to suggestions
-if (!is_module_enabled($pdo, 'moderation')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
-}
 
 $record_id = $_GET['record_id'] ?? null;
 

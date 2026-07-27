@@ -2,14 +2,7 @@
 // user/actions/save_register.php - Handles user onboarding and email verification token generation
 require_once '../../db/db.php';
 require_once '../../db/mail_helper.php';
-require_once '../../includes/functions.php';
 session_start();
-
-// Ensure the users module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
@@ -34,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insert = $pdo->prepare("INSERT INTO users (username, email, password_hash, verification_token, token_expires_at, is_active) VALUES (?, ?, ?, ?, ?, 1)");
             
             if ($insert->execute([$username, $email, $password_hash, $token, $expires_at])) {
-                // Dispatch using mail_helper with $pdo as the first argument
-                if (send_user_invitation($pdo, $email, $token)) {
+                // Dispatch using mail_helper
+                if (send_user_invitation($email, $token)) {
                     $_SESSION['message'] = "Registration successful! Please check your email to verify your account.";
                 } else {
                     $_SESSION['message'] = "Registration successful, but failed to send verification email.";

@@ -4,16 +4,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Include centralized authentication helpers if available (which also ensures db.php/BASE_PATH is loaded)
 $auth_helper_path = __DIR__ . '/../db/auth_helpers.php';
 if (file_exists($auth_helper_path)) {
     require_once $auth_helper_path;
 }
 
-$functions_path = __DIR__ . '/../includes/functions.php';
-if (file_exists($functions_path)) {
-    require_once $functions_path;
-}
-
+// Handle contrast toggle request via query string
 if (isset($_GET['contrast']) && $_GET['contrast'] === 'toggle') {
     $_SESSION['high_contrast'] = !($_SESSION['high_contrast'] ?? false);
     $redirect_url = strtok($_SERVER['REQUEST_URI'], '?');
@@ -22,220 +19,95 @@ if (isset($_GET['contrast']) && $_GET['contrast'] === 'toggle') {
 }
 
 $is_high_contrast = $_SESSION['high_contrast'] ?? false;
-$current_user     = (function_exists('get_current_user_data') && isset($pdo)) ? get_current_user_data($pdo) : null;
-$is_logged_in     = ($current_user !== null || isset($_SESSION['user_id']));
 
-// ------------------------------------------------------------------
-// Module toggles
-// ------------------------------------------------------------------
-$mod_moderation  = isset($pdo) ? is_module_enabled($pdo, 'moderation')  : true;
-$mod_volunteers  = isset($pdo) ? is_module_enabled($pdo, 'volunteers')  : true;
-$mod_feedback    = isset($pdo) ? is_module_enabled($pdo, 'feedback')    : true;
-$mod_users       = isset($pdo) ? is_module_enabled($pdo, 'users')       : true;
-$mod_leaderboard = isset($pdo) ? is_module_enabled($pdo, 'leaderboard') : true;
+// Use centralized helper functions if defined
+$current_user = (function_exists('get_current_user_data') && isset($pdo)) ? get_current_user_data($pdo) : null;
+$is_logged_in = ($current_user !== null || isset($_SESSION['user_id']));
 
-// ------------------------------------------------------------------
-// Helper: does the guest role have a given permission?
-// ------------------------------------------------------------------
-function guest_has_permission($pdo, $permission_key) {
-    static $cache = [];
-    if (isset($cache[$permission_key])) {
-        return $cache[$permission_key];
-    }
-    try {
-        $stmt = $pdo->prepare("
-            SELECT COUNT(*)
-            FROM role_permissions rp
-            JOIN roles r ON rp.role_id = r.id
-            JOIN permissions p ON rp.permission_id = p.id
-            WHERE p.permission_key = ?
-              AND LOWER(r.role_name) = 'guest'
-        ");
-        $stmt->execute([$permission_key]);
-        $cache[$permission_key] = ($stmt->fetchColumn() > 0);
-    } catch (Exception $e) {
-        $cache[$permission_key] = false;
-    }
-    return $cache[$permission_key];
-}
+// Fallback or helper role evaluations
+$is_admin = function_exists('is_admin') && isset($pdo) ? is_admin($pdo) : (($current_user['role'] ?? '') === 'admin');
+$is_moderator = function_exists('is_moderator') && isset($pdo) ? is_moderator($pdo) : in_array(($current_user['role'] ?? ''), ['admin', 'moderator']);
 
-// Public button visibility (only relevant for guests)
-$can_public_search      = $is_logged_in || (isset($pdo) && guest_has_permission($pdo, 'view_public'));
-$can_public_volunteer   = $is_logged_in || (isset($pdo) && $mod_volunteers  && guest_has_permission($pdo, 'submit_volunteer'));
-$can_public_feedback    = $is_logged_in || (isset($pdo) && $mod_feedback    && guest_has_permission($pdo, 'submit_feedback'));
-$can_public_leaderboard = $is_logged_in || (isset($pdo) && $mod_leaderboard && guest_has_permission($pdo, 'view_leaderboard'));
+// Use dynamic BASE_PATH constant defined in db.php
+$base_url = defined('BASE_PATH') ? BASE_PATH : '';
+$current_script = basename($_SERVER['SCRIPT_NAME']);
 
-// ------------------------------------------------------------------
-// Logged-in capability checks
-// ------------------------------------------------------------------
-$can_moderate = false;
-if (isset($pdo) && $mod_moderation) {
-    if (is_admin($pdo) || has_permission($pdo, 'moderate_table_1')) {
-        $can_moderate = true;
-    } else {
-        $tables_chk = $pdo->query("SELECT id FROM dynamic_tables")->fetchAll(PDO::FETCH_COLUMN);
-        foreach ($tables_chk as $t_id) {
-            if (has_permission($pdo, 'moderate_table_' . $t_id)) {
-                $can_moderate = true;
-                break;
-            }
-        }
-    }
-}
-
-$can_invite       = isset($pdo) && $mod_users && has_permission($pdo, 'invite_users', 'Create and invite new users');
-$can_manage_users = isset($pdo) && $mod_users && has_permission($pdo, 'manage_users', 'Manage user accounts');
-$can_manage_cols  = isset($pdo) && has_permission($pdo, 'manage_columns', 'Configure table columns');
-$can_manage_vols  = isset($pdo) && $mod_volunteers && has_permission($pdo, 'manage_volunteers', 'Manage volunteers');
-$can_manage_feed  = isset($pdo) && $mod_feedback   && has_permission($pdo, 'manage_feedback', 'Manage feedback');
-$can_manage_sets  = isset($pdo) && has_permission($pdo, 'manage_settings', 'Manage global settings');
-
-$base_url         = defined('BASE_PATH') ? BASE_PATH : '';
-$current_script   = basename($_SERVER['SCRIPT_NAME']);
-$system_name      = (function_exists('get_system_name') && isset($pdo)) ? get_system_name($pdo) : "Parish Records Directory (PRD)";
+// Dynamic system name retrieved from site_settings table
+$system_name = (function_exists('get_system_name') && isset($pdo)) ? get_system_name($pdo) : "Parish Records Directory (PRD)";
 $display_username = $current_user['username'] ?? ($_SESSION['username'] ?? 'User');
 ?>
+
+<!-- Flush Top-Left High Contrast Button -->
 <div class="contrast-toggle-wrapper">
     <a href="?contrast=toggle" class="btn contrast-toggle-btn" aria-label="Toggle High Contrast Mode">
         <?php echo $is_high_contrast ? 'Low Contrast' : 'High Contrast'; ?>
     </a>
 </div>
 
+<!-- Header Row with Increased Bottom Margin for Vertical Spacing -->
 <div class="header-bar header-bar-flex" role="banner">
-    <h1><?php echo htmlspecialchars($system_name); ?></h1>
+    <h1>
+        <?php echo htmlspecialchars($system_name); ?>
+    </h1>
+
+    <!-- Top-Right Menu Line with Linked First Name, Star Score, Leaderboard Link & Log Out -->
     <?php if ($is_logged_in): ?>
-        <?php
+        <?php 
             $display_identifier = !empty($current_user['first_name']) ? $current_user['first_name'] : $display_username;
             $user_points = $current_user['points'] ?? 0;
         ?>
-        <div class="top-right-account-menu" aria-label="User Account Menu" style="display:flex;align-items:center;gap:1rem;">
+        <div class="top-right-account-menu" aria-label="User Account Menu" style="display: flex; align-items: center; gap: 1rem;">
             <span class="top-right-welcome">
-                Welcome,
-                <a href="<?php echo $base_url; ?>/user/profile.php"
-                   style="color:inherit;<?php echo ($current_script === 'profile.php') ? 'font-weight:bold;text-decoration:underline;' : ''; ?>"
-                   aria-label="Go to User Profile">
-                    <?php echo htmlspecialchars($display_identifier); ?>
-                </a>
-                <?php if ($mod_leaderboard): ?>
-                    <span class="gamification-badge" style="margin-left:0.75rem;font-weight:bold;" title="View Leaderboard">
-                        <a href="<?php echo $base_url; ?>/leaderboard.php"
-                           style="text-decoration:none;color:inherit;"
-                           aria-label="Leaderboard Score">
-                            ⭐ <span style="text-decoration:underline;"><?php echo intval($user_points); ?></span>
-                        </a>
-                    </span>
-                <?php endif; ?>
+                Welcome, <a href="<?php echo $base_url; ?>/user/profile.php" style="color: inherit; <?php echo ($current_script === 'profile.php') ? 'font-weight: bold; text-decoration: underline;' : ''; ?>" aria-label="Go to User Profile"><?php echo htmlspecialchars($display_identifier); ?></a>
+                <span class="gamification-badge" style="margin-left: 0.75rem; font-weight: bold;" title="View Leaderboard">
+                    <a href="<?php echo $base_url; ?>/leaderboard.php" style="text-decoration: none; color: inherit;" aria-label="Leaderboard Score">
+                        ⭐ <span style="text-decoration: underline;"><?php echo intval($user_points); ?></span>
+                    </a>
+                </span>
             </span>
             <a href="<?php echo $base_url; ?>/user/logout.php" class="btn btn-danger btn-discreet" aria-label="Log Out">Log Out</a>
         </div>
     <?php endif; ?>
 </div>
 
+<!-- Main Navigation Bar -->
 <nav class="nav-menu-container nav-menu-flex" aria-label="Main Navigation">
-
-    <!-- Search -->
-    <?php if ($can_public_search): ?>
-        <a href="<?php echo $base_url; ?>/index.php"
-           class="btn btn-secondary <?php echo ($current_script === 'index.php') ? 'btn-active' : ''; ?>">
-            Search
-        </a>
+    <?php if ($is_logged_in || ($current_script !== 'index.php')): ?>
+        <a href="<?php echo $base_url; ?>/index.php" class="btn btn-secondary <?php echo ($current_script === 'index.php') ? 'btn-active' : ''; ?>">Search</a>
     <?php endif; ?>
 
-    <!-- Volunteer (guests only) -->
-    <?php if (!$is_logged_in && $can_public_volunteer): ?>
-        <a href="<?php echo $base_url; ?>/volunteer.php"
-           class="btn btn-secondary <?php echo ($current_script === 'volunteer.php') ? 'btn-active' : ''; ?>">
-            Volunteer
-        </a>
-    <?php endif; ?>
-
-    <!-- Feedback (guests only) -->
-    <?php if (!$is_logged_in && $can_public_feedback): ?>
-        <a href="<?php echo $base_url; ?>/feedback.php"
-           class="btn btn-secondary <?php echo ($current_script === 'feedback.php') ? 'btn-active' : ''; ?>">
-            Feedback
-        </a>
-    <?php endif; ?>
-
-    <!-- Leaderboard (guests only) -->
-    <?php if (!$is_logged_in && $can_public_leaderboard): ?>
-        <a href="<?php echo $base_url; ?>/leaderboard.php"
-           class="btn btn-secondary <?php echo ($current_script === 'leaderboard.php') ? 'btn-active' : ''; ?>">
-            Leaderboard
-        </a>
+    <!-- Volunteer & Feedback Order for Logged-Out Visitors -->
+    <?php if (!$is_logged_in): ?>
+        <a href="<?php echo $base_url; ?>/volunteer.php" class="btn btn-secondary <?php echo ($current_script === 'volunteer.php') ? 'btn-active' : ''; ?>">Volunteer</a>
+        <a href="<?php echo $base_url; ?>/feedback.php" class="btn btn-secondary <?php echo ($current_script === 'feedback.php') ? 'btn-active' : ''; ?>">Feedback</a>
     <?php endif; ?>
 
     <?php if ($is_logged_in): ?>
-        <a href="<?php echo $base_url; ?>/user/data_entry.php"
-           class="btn <?php echo ($current_script === 'data_entry.php') ? 'btn-active' : ''; ?>">
-            Data Entry
-        </a>
+        <a href="<?php echo $base_url; ?>/user/data_entry.php" class="btn <?php echo ($current_script === 'data_entry.php') ? 'btn-active' : ''; ?>">Data Entry</a>
 
-        <?php if ($can_moderate): ?>
-            <a href="<?php echo $base_url; ?>/admin/moderate.php"
-               class="btn btn-secondary <?php echo ($current_script === 'moderate.php') ? 'btn-active' : ''; ?>">
-                Moderation
-            </a>
+        <?php if ($is_moderator): ?>
+            <a href="<?php echo $base_url; ?>/admin/moderate.php" class="btn btn-secondary <?php echo ($current_script === 'moderate.php') ? 'btn-active' : ''; ?>">Moderation</a>
         <?php endif; ?>
 
-        <?php if ($can_invite): ?>
-            <a href="<?php echo $base_url; ?>/admin/create_user.php"
-               class="btn btn-success <?php echo ($current_script === 'create_user.php') ? 'btn-active' : ''; ?>">
-                Invite User
-            </a>
-        <?php endif; ?>
-
-        <?php if ($can_manage_users): ?>
-            <a href="<?php echo $base_url; ?>/admin/users.php"
-               class="btn btn-secondary <?php echo ($current_script === 'users.php') ? 'btn-active' : ''; ?>">
-                Manage Users
-            </a>
-        <?php endif; ?>
-
-        <?php if ($can_manage_cols): ?>
-            <a href="<?php echo $base_url; ?>/admin/manage_tables.php"
-               class="btn btn-secondary <?php echo ($current_script === 'manage_tables.php') ? 'btn-active' : ''; ?>">
-                Manage Tables
-            </a>
-        <?php endif; ?>
-
-        <?php if ($mod_volunteers && $can_manage_vols): ?>
-            <a href="<?php echo $base_url; ?>/admin/volunteer_dashboard.php"
-               class="btn btn-secondary <?php echo ($current_script === 'volunteer_dashboard.php') ? 'btn-active' : ''; ?>">
-                Volunteer Dashboard
-            </a>
-        <?php endif; ?>
-
-        <?php if ($mod_feedback && $can_manage_feed): ?>
-            <a href="<?php echo $base_url; ?>/admin/feedback_dashboard.php"
-               class="btn btn-secondary <?php echo ($current_script === 'feedback_dashboard.php') ? 'btn-active' : ''; ?>">
-                Feedback Dashboard
-            </a>
-        <?php endif; ?>
-
-        <?php if ($can_manage_sets): ?>
-            <a href="<?php echo $base_url; ?>/admin/settings.php"
-               class="btn btn-secondary <?php echo ($current_script === 'settings.php') ? 'btn-active' : ''; ?>">
-                Site Settings
-            </a>
+        <?php if ($is_admin): ?>
+            <a href="<?php echo $base_url; ?>/admin/create_user.php" class="btn btn-success <?php echo ($current_script === 'create_user.php') ? 'btn-active' : ''; ?>">Invite User</a>
+            <a href="<?php echo $base_url; ?>/admin/users.php" class="btn btn-secondary <?php echo ($current_script === 'users.php') ? 'btn-active' : ''; ?>">Manage Users</a>
+            <a href="<?php echo $base_url; ?>/admin/columns.php" class="btn btn-secondary <?php echo ($current_script === 'columns.php') ? 'btn-active' : ''; ?>">Manage Columns</a>
+            <a href="<?php echo $base_url; ?>/admin/volunteer_dashboard.php" class="btn btn-secondary <?php echo ($current_script === 'volunteer_dashboard.php') ? 'btn-active' : ''; ?>">Volunteer Dashboard</a>
+            <a href="<?php echo $base_url; ?>/admin/feedback_dashboard.php" class="btn btn-secondary <?php echo ($current_script === 'feedback_dashboard.php') ? 'btn-active' : ''; ?>">Feedback Dashboard</a>
+            <a href="<?php echo $base_url; ?>/admin/settings.php" class="btn btn-secondary <?php echo ($current_script === 'settings.php') ? 'btn-active' : ''; ?>">Site Settings</a>
         <?php endif; ?>
     <?php endif; ?>
 
-    <!-- Login (guests only) -->
+    <!-- Login Button for Logged-Out Users -->
     <?php if (!$is_logged_in): ?>
-        <a href="<?php echo $base_url; ?>/user/login.php"
-           class="btn <?php echo ($current_script === 'login.php') ? 'btn-active' : ''; ?> nav-push-right">
-            Login
-        </a>
+        <a href="<?php echo $base_url; ?>/user/login.php" class="btn <?php echo ($current_script === 'login.php') ? 'btn-active' : ''; ?> nav-push-right">Login</a>
     <?php endif; ?>
 
-    <!-- Feedback for logged-in users -->
-    <?php if ($is_logged_in && $mod_feedback): ?>
-        <a href="<?php echo $base_url; ?>/feedback.php"
-           class="btn btn-secondary <?php echo ($current_script === 'feedback.php') ? 'btn-active' : ''; ?> nav-push-right">
-            Feedback
-        </a>
+    <!-- Feedback Button for Logged-In Users / Admins pushed to the far right end -->
+    <?php if ($is_logged_in): ?>
+        <a href="<?php echo $base_url; ?>/feedback.php" class="btn btn-secondary <?php echo ($current_script === 'feedback.php') ? 'btn-active' : ''; ?> nav-push-right">Feedback</a>
     <?php endif; ?>
-
 </nav>
-<hr style="border:0.0625rem solid var(--border-color);margin-top:1rem;margin-bottom:1.5rem;">
+
+<hr style="border: 0.0625rem solid var(--border-color); margin-top: 1rem; margin-bottom: 1.5rem;">
