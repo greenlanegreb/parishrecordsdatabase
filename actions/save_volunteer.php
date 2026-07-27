@@ -16,9 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit('Method Not Allowed');
 }
 
-// Verify the CSRF token and enforce permission check
 verify_csrf_token();
-$current_user = require_permission($pdo, 'submit_volunteer', 'Allows submitting volunteer interest and transcription applications');
+
+// ------------------------------------------------------------------
+// Guest-safe permission: logged-in user OR guest role has submit_volunteer
+// ------------------------------------------------------------------
+$current_user = function_exists('get_current_user_data') ? get_current_user_data($pdo) : null;
+$has_guest_permission = guest_has_permission($pdo, 'submit_volunteer');
+
+if (!$current_user && !$has_guest_permission) {
+    // Fall back to normal require_permission (forces login)
+    $current_user = require_permission($pdo, 'submit_volunteer', 'Allows submitting volunteer interest and transcription applications');
+}
 
 $bot_trap = trim($_POST['website_url'] ?? '');
 
@@ -38,8 +47,7 @@ if (!empty($bot_trap)) {
         $stmt = $pdo->prepare("INSERT INTO volunteers (name, email, experience) VALUES (?, ?, ?)");
         if ($stmt->execute([$name, $email, $experience])) {
             $_SESSION['message'] = "Thank you! Your interest in volunteering for data entry has been successfully recorded.";
-            
-            // Log action if user is logged in
+
             if ($current_user && isset($current_user['id'])) {
                 $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'SUBMIT_VOLUNTEER', ?, ?)");
                 $audit->execute([$current_user['id'], "Submitted volunteer application from: {$email}", $_SERVER['REMOTE_ADDR']]);

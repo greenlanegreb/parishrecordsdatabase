@@ -16,9 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit('Method Not Allowed');
 }
 
-// Verify the CSRF token and enforce submission permission
 verify_csrf_token();
-$current_user = require_permission($pdo, 'submit_feedback', 'Allows submitting public feedback and inquiries');
+
+// ------------------------------------------------------------------
+// Guest-safe permission: logged-in user OR guest role has submit_feedback
+// ------------------------------------------------------------------
+$current_user = function_exists('get_current_user_data') ? get_current_user_data($pdo) : null;
+$has_guest_permission = guest_has_permission($pdo, 'submit_feedback');
+
+if (!$current_user && !$has_guest_permission) {
+    // Fall back to normal require_permission (forces login)
+    $current_user = require_permission($pdo, 'submit_feedback', 'Allows submitting public feedback and inquiries');
+}
 
 $bot_trap = trim($_POST['website_url'] ?? '');
 
@@ -38,8 +47,7 @@ if (!empty($bot_trap)) {
         $stmt = $pdo->prepare("INSERT INTO feedback (name, email, message) VALUES (?, ?, ?)");
         if ($stmt->execute([$name, $email, $feedback_text])) {
             $_SESSION['message'] = "Thank you! Your feedback has been successfully submitted.";
-            
-            // Log action if user is logged in
+
             if ($current_user && isset($current_user['id'])) {
                 $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'SUBMIT_FEEDBACK', ?, ?)");
                 $audit->execute([$current_user['id'], "Submitted feedback from: {$email}", $_SERVER['REMOTE_ADDR']]);
