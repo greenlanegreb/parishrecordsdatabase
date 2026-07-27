@@ -4,47 +4,9 @@ session_start();
 
 require_once 'db/db.php';
 require_once 'db/auth_helpers.php';
-require_once 'includes/functions.php';
-
-// Ensure the volunteers module is enabled; otherwise block access
-if (!is_module_enabled($pdo, 'volunteers')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
-}
 
 // Enforce dynamic permission check (automatically registers 'submit_volunteer' if new)
-$permission_key = 'submit_volunteer';
-$permission_desc = 'Allows submitting volunteer interest and transcription applications';
-
-// Ensure the permission exists in the database first
-$p_check = $pdo->prepare("SELECT id FROM permissions WHERE permission_key = ?");
-$p_check->execute([$permission_key]);
-$perm_id = $p_check->fetchColumn();
-
-if (!$perm_id) {
-    $ins_p = $pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)");
-    $ins_p->execute([$permission_key, $permission_desc]);
-    $p_check->execute([$permission_key]);
-    $perm_id = $p_check->fetchColumn();
-}
-
-$current_user = function_exists('get_current_user_data') ? get_current_user_data($pdo) : null;
-
-$has_guest_permission = false;
-if ($perm_id) {
-    $gp_stmt = $pdo->prepare("
-        SELECT COUNT(*) FROM role_permissions rp
-        JOIN roles r ON rp.role_id = r.id
-        WHERE rp.permission_id = ? AND LOWER(r.role_name) IN ('guest', 'public', 'visitor')
-    ");
-    $gp_stmt->execute([$perm_id]);
-    $has_guest_permission = ($gp_stmt->fetchColumn() > 0);
-}
-
-if (!$current_user && !$has_guest_permission) {
-    // If not logged in and guests don't have permission, require permission (which will prompt login/error)
-    $current_user = require_permission($pdo, $permission_key, $permission_desc);
-}
+require_permission($pdo, 'submit_volunteer', 'Allows submitting volunteer interest and transcription applications');
 
 $system_name = get_system_name($pdo);
 

@@ -1,39 +1,18 @@
 <?php
-// user/data_entry.php - Main view for data entry, multi-table selection, collapsible search, pagination, and CSV export
+// user/data_entry.php - Main view for data entry, collapsible search, pagination, and CSV export
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
-// Enforce dynamic permission check for data entry workstation
+// Enforce dynamic permission check for data entry workstation (automatically registers 'access_data_entry' if new)
 require_permission($pdo, 'access_data_entry', 'Allows accessing the core data entry workstation and creating records');
 $current_user = get_current_user_data($pdo);
 
-// Fetch all custom tables available in the system
-$tables_stmt = $pdo->query("SELECT id, table_name FROM dynamic_tables ORDER BY id ASC");
-$all_tables = $tables_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Filter tables based on user permissions or access
-$available_tables = [];
-foreach ($all_tables as $t) {
-    $perm_key = 'view_table_' . $t['id'];
-    if ($t['id'] === 1 || has_permission($pdo, $perm_key)) {
-        $available_tables[] = $t;
-    }
-}
-
-// Determine active table ID from query string or default to first available
-$active_table_id = isset($_GET['table_id']) ? intval($_GET['table_id']) : (!empty($available_tables) ? $available_tables[0]['id'] : 1);
-
-// Verify user permission for selected table
-$active_perm = 'view_table_' . $active_table_id;
-if ($active_table_id !== 1 && !has_permission($pdo, $active_perm)) {
-    require_once __DIR__ . '/../403.php';
-    exit;
-}
-
 // Pull user date format preference for displaying stored ISO dates cleanly and generating smart placeholders
 $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
+
+// Dynamically generate a clear placeholder string based on user format preference
 $date_placeholder = 'YYYY-MM-DD';
 if ($user_date_format === 'd/m/Y') {
     $date_placeholder = 'DD/MM/YYYY';
@@ -41,9 +20,8 @@ if ($user_date_format === 'd/m/Y') {
     $date_placeholder = 'MM/DD/YYYY';
 }
 
-// Fetch dynamic table columns for the active table ordered by sort_order
-$cols_stmt = $pdo->prepare("SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC");
-$cols_stmt->execute([$active_table_id]);
+// Fetch dynamic table columns ordered by custom sort_order
+$cols_stmt = $pdo->query("SELECT * FROM table_columns ORDER BY sort_order ASC, column_name ASC");
 $columns = $cols_stmt->fetchAll();
 
 // Handle CSV Export Request directly using the centralized helper
@@ -62,12 +40,11 @@ unset($_SESSION['message'], $_SESSION['error']);
 $page = max(1, intval($_GET['page'] ?? 1));
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
+
 $search_filters = $_GET['filters'] ?? [];
 $date_filters = $_GET['date_filters'] ?? [];
 
-// Fetch records restricted to the active table ID
-$records_stmt = $pdo->prepare("SELECT r.id, r.created_at, u.username FROM records r LEFT JOIN users u ON r.created_by = u.id WHERE r.table_id = ? ORDER BY r.id DESC");
-$records_stmt->execute([$active_table_id]);
+$records_stmt = $pdo->query("SELECT r.id, r.created_at, u.username FROM records r LEFT JOIN users u ON r.created_by = u.id ORDER BY r.id DESC");
 $all_records = $records_stmt->fetchAll();
 
 $values_stmt = $pdo->query("SELECT record_id, column_id, value_content FROM record_values");
@@ -83,10 +60,12 @@ foreach ($all_records as $rec) {
         $filtered_records[] = $rec;
     }
 }
+
 $total_records = count($filtered_records);
 $total_pages = ceil($total_records / $per_page);
 $paginated_records = array_slice($filtered_records, $offset, $per_page);
 ?>
+
     <?php require_once '../partials/header.php'; ?>
 
     <?php if (!empty($message)): ?>
@@ -96,48 +75,33 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
 
-    <!-- TABLE SELECTOR BAR -->
-    <?php if (count($available_tables) > 1): ?>
-        <div style="background: rgba(0,0,0,0.02); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-            <label for="data_entry_table_selector" style="font-weight: bold;">Active Data Entry Table:</label>
-            <select id="data_entry_table_selector" class="profile-input" style="padding: 0.4rem; min-width: 250px;" onchange="location.href='data_entry.php?table_id=' + this.value;">
-                <?php foreach ($available_tables as $at): ?>
-                    <option value="<?php echo $at['id']; ?>" <?php echo ($at['id'] === $active_table_id) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($at['table_name']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-    <?php endif; ?>
-
-    <!-- COLLAPSIBLE SEARCH & FILTER SECTION -->
+    <!-- COLLAPSIBLE SEARCH & FILTER SECTION (NOW AT THE TOP) -->
     <details class="search-box-container" style="margin-bottom: 2rem;">
         <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
             🔍 Search & Filter Existing Records (Click to expand)
         </summary>
         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
             <form method="GET">
-                <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
                 <div class="dashboard-grid">
                     <?php foreach ($columns as $col): ?>
                         <div>
                             <label for="search_<?php echo $col['id']; ?>"><strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong></label><br>
                             <?php if (($col['data_type'] ?? '') === 'DATE'): ?>
                                 <div style="display: flex; gap: 0.25rem; align-items: center; max-width: 100%;">
-                                    <input type="text" name="date_filters[<?php echo $col['id']; ?>][from]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['from'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="width: 100%; min-width: 0; padding: 0.3rem;">
+                                    <input type="text" name="date_filters[<?php echo $col['id']; ?>][from]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['from'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" title="From Date (<?php echo $date_placeholder; ?>)" style="width: 100%; min-width: 0; padding: 0.3rem;">
                                     <span style="font-size: 0.85rem; color: #666;">to</span>
-                                    <input type="text" name="date_filters[<?php echo $col['id']; ?>][to]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['to'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="width: 100%; min-width: 0; padding: 0.3rem;">
+                                    <input type="text" name="date_filters[<?php echo $col['id']; ?>][to]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['to'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" title="To Date (<?php echo $date_placeholder; ?>)" style="width: 100%; min-width: 0; padding: 0.3rem;">
                                 </div>
                             <?php else: ?>
-                                <input type="text" id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($search_filters[$col['id']] ?? ''); ?>" placeholder="Filter..." class="dashboard-input">
+                                <input type="text" id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($search_filters[$col['id']] ?? ''); ?>" placeholder="Filter (partial match)..." class="dashboard-input">
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
                 <div class="dashboard-actions-flex" style="margin-top: 1rem;">
                     <button type="submit" class="btn">Apply Search Filters</button>
-                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="text-decoration: none;">Reset Filter</a>
-                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>&export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" style="text-decoration: none;">Download Results as CSV</a>
+                    <a href="data_entry.php" class="btn btn-secondary" style="text-decoration: none;">Reset Filter</a>
+                    <a href="data_entry.php?export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" style="text-decoration: none;">Download Results as CSV</a>
                 </div>
             </form>
         </div>
@@ -157,13 +121,12 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
             <form method="POST" action="actions/save_data_entry.php">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="insert_record">
-                <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
                 <?php foreach ($submitted_data as $cid => $cval): ?>
                     <input type="hidden" name="filters[<?php echo $cid; ?>]" value="<?php echo htmlspecialchars($cval); ?>">
                 <?php endforeach; ?>
                 <input type="hidden" name="confirm_duplicate" value="1">
                 <button type="submit" class="btn btn-danger">Yes, Confirm and Save Duplicate</button>
-                <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="margin-left: 10px; text-decoration: none;">Cancel</a>
+                <a href="data_entry.php" class="btn btn-secondary" style="margin-left: 10px; text-decoration: none;">Cancel</a>
             </form>
         </div>
     <?php endif; ?>
@@ -175,7 +138,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
             <form method="POST" action="actions/save_data_entry.php" id="data-entry-form">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="insert_record">
-                <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
                 <div class="dashboard-grid">
                     <?php foreach ($columns as $col): ?>
                         <div>
@@ -189,11 +151,19 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
                             <?php if (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
                                 <?php 
                                     $display_format = $col['boolean_display_format'] ?? 'yes_no';
-                                    $opt1_text = 'Yes / True';
-                                    $opt2_text = 'No / False';
-                                    if ($display_format === 'male_female') { $opt1_text = 'Male'; $opt2_text = 'Female'; }
-                                    elseif ($display_format === 'true_false') { $opt1_text = 'True'; $opt2_text = 'False'; }
-                                    elseif ($display_format === 'tick_cross') { $opt1_text = '✔ (Tick)'; $opt2_text = '✘ (Cross)'; }
+                                    $opt1_text = 'Yes / No';
+                                    $opt2_text = 'No / Off';
+
+                                    if ($display_format === 'male_female') {
+                                        $opt1_text = 'Male';
+                                        $opt2_text = 'Female';
+                                    } elseif ($display_format === 'true_false') {
+                                        $opt1_text = 'True';
+                                        $opt2_text = 'False';
+                                    } elseif ($display_format === 'tick_cross') {
+                                        $opt1_text = '✔ (Tick)';
+                                        $opt2_text = '✘ (Cross)';
+                                    }
                                 ?>
                                 <select id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
                                     <option value="">-- Select --</option>
@@ -214,15 +184,20 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
                 </div>
             </form>
         </div>
+
         <script>
+        // Keyboard shortcuts for rapid data entry
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('data-entry-form');
             if (form) {
                 form.addEventListener('keydown', (e) => {
+                    // Ctrl + Enter to submit form
                     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                         e.preventDefault();
                         form.submit();
                     }
+                    
+                    // Escape key to clear the currently focused input field
                     if (e.key === 'Escape' && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) {
                         e.preventDefault();
                         e.target.value = '';

@@ -2,13 +2,6 @@
 // user/actions/save_onboarding.php - Saves wizard preferences and completes onboarding
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
-require_once '../../includes/functions.php';
-
-// Ensure the users module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
 
 // Enforce dynamic permission check replacing hardcoded roles (automatically registers 'access_onboarding' if new)
 if (session_status() === PHP_SESSION_NONE) {

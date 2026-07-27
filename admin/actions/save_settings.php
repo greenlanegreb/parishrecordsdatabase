@@ -2,9 +2,9 @@
 // admin/actions/save_settings.php - Processes global site settings updates
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
-require_once '../../includes/functions.php';
 session_start();
 
+// Enforce permission-based access control and validate POST request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Method Not Allowed');
@@ -43,10 +43,8 @@ if (!empty($system_name)) {
     }
     
     $stmt->execute(['smtp_encryption', $smtp_encryption, $smtp_encryption]);
-    
+
     $_SESSION['message'] = "Global site settings and mail configurations updated successfully.";
-    $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE_SETTINGS', ?, ?)");
-    $audit->execute([$current_user['id'], "Updated global site settings and mail driver configuration", $_SERVER['REMOTE_ADDR']]);
 } else {
     $_SESSION['error'] = "System name cannot be empty.";
 }

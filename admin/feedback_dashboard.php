@@ -5,12 +5,6 @@ require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
-// Ensure the feedback module is enabled; otherwise block direct access
-if (!is_module_enabled($pdo, 'feedback')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Feedback Submissions module is currently disabled.');
-}
-
 // Enforce dynamic permission check (automatically registers 'manage_feedback' if new)
 require_permission($pdo, 'manage_feedback', 'Manage and moderate public feedback and submissions');
 

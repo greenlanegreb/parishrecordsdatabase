@@ -2,39 +2,14 @@
 // admin/users.php - Admin interface view for user account management
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
 session_start();
-
-// Ensure the users module is enabled; otherwise block direct access
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
 
 // Enforce dynamic permission-based access control
 $current_user = require_permission($pdo, 'manage_users', 'Manage user accounts, roles, and status');
 
 $message = $_SESSION['message'] ?? '';
 $error = $_SESSION['error'] ?? '';
-unset($_SESSION['error'], $_SESSION['message']);
-
-// Determine the first admin user ID dynamically (the earliest created user with the 'admin' role, fallback to ID 1)
-$first_admin_id = 1;
-try {
-    $fa_stmt = $pdo->query("
-        SELECT u.id FROM users u
-        JOIN roles r ON u.role_id = r.id
-        WHERE LOWER(r.role_name) = 'admin'
-        ORDER BY u.created_at ASC, u.id ASC
-        LIMIT 1
-    ");
-    $fa_id = $fa_stmt->fetchColumn();
-    if ($fa_id) {
-        $first_admin_id = intval($fa_id);
-    }
-} catch (Exception $e) {
-    // Fallback safely to ID 1 if query fails
-}
+unset($_SESSION['message'], $_SESSION['error']);
 
 // Fetch users with their dynamic role names
 $users_stmt = $pdo->query("
@@ -81,32 +56,24 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                     <tr><td colspan="8" style="text-align: center; padding: 1rem;">No users found.</td></tr>
                 <?php else: ?>
                     <?php foreach ($users as $u): ?>
-                        <?php $is_first_admin = (intval($u['id']) === $first_admin_id); ?>
                         <tr>
                             <td><?php echo $u['id']; ?></td>
                             <td><?php echo htmlspecialchars($u['username']); ?></td>
                             <td><?php echo htmlspecialchars($u['email']); ?></td>
                             <td>
                                 <!-- Role Change Form -->
-                                <?php if ($is_first_admin): ?>
-                                    <span style="font-size: 0.85rem; color: #666; font-style: italic;">
-                                        <?php echo htmlspecialchars(ucwords($u['role_name'] ?? 'Admin')); ?><br>
-                                        <small>(Protected Primary Admin)</small>
-                                    </span>
-                                <?php else: ?>
-                                    <form method="POST" action="actions/save_user_management.php" style="display: flex; gap: 0.3rem; align-items: center;">
-                                        <input type="hidden" name="action" value="change_role">
-                                        <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
-                                        <select name="new_role_id" style="padding: 0.2rem; font-size: 0.85rem;" aria-label="Role for <?php echo htmlspecialchars($u['username']); ?>">
-                                            <?php foreach ($roles_list as $r): ?>
-                                                <option value="<?php echo $r['id']; ?>" <?php echo ($u['role_id'] == $r['id']) ? 'selected' : ''; ?>>
-                                                    <?php echo htmlspecialchars(ucwords($r['role_name'])); ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;">Update</button>
-                                    </form>
-                                <?php endif; ?>
+                                <form method="POST" action="actions/save_user_management.php" style="display: flex; gap: 0.3rem; align-items: center;">
+                                    <input type="hidden" name="action" value="change_role">
+                                    <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
+                                    <select name="new_role_id" style="padding: 0.2rem; font-size: 0.85rem;" aria-label="Role for <?php echo htmlspecialchars($u['username']); ?>">
+                                        <?php foreach ($roles_list as $r): ?>
+                                            <option value="<?php echo $r['id']; ?>" <?php echo ($u['role_id'] == $r['id']) ? 'selected' : ''; ?>>
+                                                <?php echo htmlspecialchars(ucwords($r['role_name'])); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;">Update</button>
+                                </form>
                             </td>
                             <td><strong>⭐ <?php echo intval($u['points']); ?></strong></td>
                             <td>
@@ -128,8 +95,8 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                 </form>
 
                                 <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
-                                    <!-- Suspension Toggle Button (Prevent suspending the primary admin too) -->
-                                    <?php if ($u['id'] !== $current_user['id'] && !$is_first_admin): ?>
+                                    <!-- Suspension Toggle Button -->
+                                    <?php if ($u['id'] !== $current_user['id']): ?>
                                         <?php if ($u['is_active']): ?>
                                             <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Suspend user and block access for cheating/violation?');" style="display:inline;">
                                                 <input type="hidden" name="action" value="suspend">

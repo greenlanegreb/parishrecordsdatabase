@@ -1,59 +1,44 @@
 <?php
-// admin/actions/save_moderation.php - Handles suggestion approvals and granular table-scoped security validation
+// admin/actions/save_moderation.php - Handles suggestion approvals, overrides, and rejections by admins/moderators
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
 session_start();
 
-// Ensure the moderation module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'moderation')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
-}
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Method Not Allowed');
 }
+
+// Verify CSRF token and enforce moderation permission check
 verify_csrf_token();
+$current_user = require_permission($pdo, 'manage_moderation', 'Manage and review user correction suggestions and moderation queues');
 
 $suggestion_id = $_POST['suggestion_id'] ?? null;
 $action = $_POST['action'] ?? '';
 $final_value = sanitize_incoming_text($_POST['final_value'] ?? '');
 
 if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
-    // Fetch suggestion joined with record table info
-    $s_stmt = $pdo->prepare("
-        SELECT es.*, r.table_id 
-        FROM edit_suggestions es
-        JOIN records r ON es.record_id = r.id
-        WHERE es.id = ?
-    ");
+    $s_stmt = $pdo->prepare("SELECT * FROM edit_suggestions WHERE id = ?");
     $s_stmt->execute([$suggestion_id]);
     $suggestion = $s_stmt->fetch();
-    
-    if ($suggestion) {
-        $table_id = intval($suggestion['table_id']);
-        $mod_perm_key = 'moderate_table_' . $table_id;
-        
-        // Enforce granular table-scoped moderation permissions
-        $current_user = get_current_user_data($pdo);
-        if (!is_admin($pdo) && !has_permission($pdo, $mod_perm_key)) {
-            http_response_code(403);
-            exit('Unauthorized: You do not have moderation permission for this specific table.');
-        }
 
+    if ($suggestion) {
         if ($action === 'approve') {
-            // Find column metadata including requirement rules for this specific table
-            $c_stmt = $pdo->prepare("SELECT id, is_required, data_type FROM table_columns WHERE column_name = ? AND table_id = ?");
-            $c_stmt->execute([$suggestion['column_name'], $table_id]);
+            // Find column metadata including requirement rules and data types
+            $c_stmt = $pdo->prepare("SELECT id, is_required, data_type FROM table_columns WHERE column_name = ?");
+            $c_stmt->execute([$suggestion['column_name']]);
             $col = $c_stmt->fetch();
+
             if ($col) {
+                // Enforce required column rule if a moderator cleared the field
                 if (!empty($col['is_required']) && $final_value === '') {
                     $_SESSION['error'] = "Cannot approve: This column is marked as required and cannot be left blank.";
                     header('Location: ../moderate.php');
                     exit;
                 }
+
+                // Check if a record value already exists, insert if missing, update if present
                 $check_val = $pdo->prepare("SELECT id FROM record_values WHERE record_id = ? AND column_id = ?");
                 $check_val->execute([$suggestion['record_id'], $col['id']]);
                 
@@ -65,6 +50,7 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
                     $ins_stmt->execute([$suggestion['record_id'], $col['id'], $final_value]);
                 }
             }
+
             $status_stmt = $pdo->prepare("UPDATE edit_suggestions SET status = 'approved' WHERE id = ?");
             $status_stmt->execute([$suggestion_id]);
             $_SESSION['message'] = "Suggestion #{$suggestion_id} approved and applied.";
@@ -73,10 +59,11 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
             $status_stmt->execute([$suggestion_id]);
             $_SESSION['message'] = "Suggestion #{$suggestion_id} has been rejected.";
         }
-        
+
         $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, ?, ?, ?, ?)");
-        $audit->execute([$current_user['id'], strtoupper($action) . '_SUGGESTION', $suggestion['record_id'], "Handled suggestion ID: {$suggestion_id} in table ID {$table_id}", $_SERVER['REMOTE_ADDR']]);
+        $audit->execute([$current_user['id'], strtoupper($action) . '_SUGGESTION', $suggestion['record_id'], "Handled suggestion ID: {$suggestion_id} with final value: '{$final_value}'", $_SERVER['REMOTE_ADDR']]);
     }
 }
+
 header('Location: ../moderate.php');
 exit;

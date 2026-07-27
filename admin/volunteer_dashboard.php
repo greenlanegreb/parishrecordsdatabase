@@ -5,12 +5,6 @@ require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
-// Ensure the volunteers module is enabled; otherwise block direct access
-if (!is_module_enabled($pdo, 'volunteers')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
-}
-
 // Enforce dynamic permission check (automatically registers 'manage_volunteers' if new)
 require_permission($pdo, 'manage_volunteers', 'Manage and review volunteer applications and submissions');
 

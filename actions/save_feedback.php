@@ -2,14 +2,7 @@
 // actions/save_feedback.php - Handles feedback form submission with honeypot anti-spam and CSRF protection
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
 session_start();
-
-// Ensure the feedback module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'feedback')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Feedback Submissions module is currently disabled.');
-}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

@@ -2,14 +2,7 @@
 // admin/create_user.php - Admin interface view for inviting/creating new users securely
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
 session_start();
-
-// Ensure the users module is enabled; otherwise block direct access
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
 
 // Enforce dynamic permission-based access control
 require_permission($pdo, 'manage_users', 'Manage user accounts, roles, and status');

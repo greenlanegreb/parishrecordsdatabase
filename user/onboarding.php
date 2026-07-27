@@ -2,14 +2,7 @@
 // user/onboarding.php - First-time user setup wizard
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
 session_start();
-
-// Ensure the users module is enabled; otherwise block access to onboarding
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
 
 // Enforce dynamic permission check for onboarding access (automatically registers 'access_onboarding' if new)
 require_permission($pdo, 'access_onboarding', 'Allows accessing the first-time user onboarding setup wizard');
