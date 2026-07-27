@@ -11,11 +11,11 @@ function get_current_user_data($pdo) {
     if (!isset($_SESSION['user_id'])) {
         return null;
     }
-    
+   
     $stmt = $pdo->prepare("
-        SELECT u.id, u.username, u.first_name, u.surname, u.email, u.role_id, r.role_name as role, u.points, u.two_fa_enabled, u.email_verified, u.leaderboard_display_mode, u.timezone, u.date_format, u.time_format, u.is_new_user 
-        FROM users u 
-        LEFT JOIN roles r ON u.role_id = r.id 
+        SELECT u.id, u.username, u.first_name, u.surname, u.email, u.role_id, r.role_name as role, u.points, u.two_fa_enabled, u.email_verified, u.leaderboard_display_mode, u.timezone, u.date_format, u.time_format, u.is_new_user
+        FROM users u
+        LEFT JOIN roles r ON u.role_id = r.id
         WHERE u.id = ?
     ");
     $stmt->execute([$_SESSION['user_id']]);
@@ -23,7 +23,7 @@ function get_current_user_data($pdo) {
 }
 
 /**
- * Check if the current user possesses a specific dynamic permission key, 
+ * Check if the current user possesses a specific dynamic permission key,
  * and automatically register the permission in the database if it's new.
  */
 function has_permission($pdo, $permission_key, $description = null) {
@@ -38,16 +38,13 @@ function has_permission($pdo, $permission_key, $description = null) {
     } catch (Exception $e) {
         // Fail silently if DB lacks table during early migrations
     }
-
     $user = get_current_user_data($pdo);
     $role_id = ($user && !empty($user['role_id'])) ? $user['role_id'] : 4; // Fallback to guest (Role ID 4)
-
     static $permission_cache = [];
     $cache_key = $role_id . '_' . $permission_key;
     if (isset($permission_cache[$cache_key])) {
         return $permission_cache[$cache_key];
     }
-
     $stmt = $pdo->prepare("
         SELECT COUNT(*) FROM role_permissions rp
         JOIN permissions p ON rp.permission_id = p.id
@@ -55,9 +52,37 @@ function has_permission($pdo, $permission_key, $description = null) {
     ");
     $stmt->execute([$role_id, $permission_key]);
     $has = ($stmt->fetchColumn() > 0);
-    
+   
     $permission_cache[$cache_key] = $has;
     return $has;
+}
+
+/**
+ * Does the guest role currently hold the given permission?
+ * Used by public-facing pages so they don't each reinvent the query.
+ */
+function guest_has_permission($pdo, $permission_key) {
+    static $cache = [];
+    if (array_key_exists($permission_key, $cache)) {
+        return $cache[$permission_key];
+    }
+
+    try {
+        $stmt = $pdo->prepare("
+            SELECT COUNT(*)
+            FROM role_permissions rp
+            JOIN roles r ON rp.role_id = r.id
+            JOIN permissions p ON rp.permission_id = p.id
+            WHERE p.permission_key = ?
+              AND LOWER(r.role_name) = 'guest'
+        ");
+        $stmt->execute([$permission_key]);
+        $cache[$permission_key] = ((int)$stmt->fetchColumn() > 0);
+    } catch (Exception $e) {
+        $cache[$permission_key] = false;
+    }
+
+    return $cache[$permission_key];
 }
 
 /**
@@ -84,19 +109,19 @@ function require_permission($pdo, $permission_key, $description = null) {
         header('Location: ' . BASE_PATH . '/user/login.php');
         exit;
     }
-    
+   
     if (!has_permission($pdo, $permission_key, $description)) {
         require_once __DIR__ . '/../403.php';
         exit;
     }
-    
+   
     $user = get_current_user_data($pdo);
     $current_script = basename($_SERVER['PHP_SELF']);
     if (!empty($user['is_new_user']) && $current_script !== 'onboarding.php' && $current_script !== 'save_onboarding.php') {
         header('Location: ' . BASE_PATH . '/user/onboarding.php');
         exit;
     }
-    
+   
     return $user;
 }
 
@@ -113,13 +138,13 @@ function require_role($pdo, $allowed_roles) {
         require_once __DIR__ . '/../403.php';
         exit;
     }
-    
+   
     $current_script = basename($_SERVER['PHP_SELF']);
     if (!empty($user['is_new_user']) && $current_script !== 'onboarding.php' && $current_script !== 'save_onboarding.php') {
         header('Location: ' . BASE_PATH . '/user/onboarding.php');
         exit;
     }
-    
+   
     return $user;
 }
 

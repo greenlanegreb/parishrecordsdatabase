@@ -34,32 +34,7 @@ $mod_feedback    = isset($pdo) ? is_module_enabled($pdo, 'feedback')    : true;
 $mod_users       = isset($pdo) ? is_module_enabled($pdo, 'users')       : true;
 $mod_leaderboard = isset($pdo) ? is_module_enabled($pdo, 'leaderboard') : true;
 
-// ------------------------------------------------------------------
-// Helper: does the guest role have a given permission?
-// ------------------------------------------------------------------
-function guest_has_permission($pdo, $permission_key) {
-    static $cache = [];
-    if (isset($cache[$permission_key])) {
-        return $cache[$permission_key];
-    }
-    try {
-        $stmt = $pdo->prepare("
-            SELECT COUNT(*)
-            FROM role_permissions rp
-            JOIN roles r ON rp.role_id = r.id
-            JOIN permissions p ON rp.permission_id = p.id
-            WHERE p.permission_key = ?
-              AND LOWER(r.role_name) = 'guest'
-        ");
-        $stmt->execute([$permission_key]);
-        $cache[$permission_key] = ($stmt->fetchColumn() > 0);
-    } catch (Exception $e) {
-        $cache[$permission_key] = false;
-    }
-    return $cache[$permission_key];
-}
-
-// Public button visibility (only relevant for guests)
+// Public button visibility (uses the shared helper from auth_helpers.php)
 $can_public_search      = $is_logged_in || (isset($pdo) && guest_has_permission($pdo, 'view_public'));
 $can_public_volunteer   = $is_logged_in || (isset($pdo) && $mod_volunteers  && guest_has_permission($pdo, 'submit_volunteer'));
 $can_public_feedback    = $is_logged_in || (isset($pdo) && $mod_feedback    && guest_has_permission($pdo, 'submit_feedback'));

@@ -7,35 +7,10 @@ require_once '../includes/functions.php';
 // ------------------------------------------------------------------
 // Public / guest permission check (same logic as index.php)
 // ------------------------------------------------------------------
-$permission_key  = 'view_public';
-$permission_desc = 'Allows viewing public table records and search directories';
-
-$p_check = $pdo->prepare("SELECT id FROM permissions WHERE permission_key = ?");
-$p_check->execute([$permission_key]);
-$perm_id = $p_check->fetchColumn();
-
-if (!$perm_id) {
-    $ins_p = $pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)");
-    $ins_p->execute([$permission_key, $permission_desc]);
-    $p_check->execute([$permission_key]);
-    $perm_id = $p_check->fetchColumn();
-}
-
 $current_user = function_exists('get_current_user_data') ? get_current_user_data($pdo) : null;
 
 // Only the guest role controls public (unauthenticated) access
-$has_public_permission = false;
-if ($perm_id) {
-    $gp_stmt = $pdo->prepare("
-        SELECT COUNT(*) 
-        FROM role_permissions rp
-        JOIN roles r ON rp.role_id = r.id
-        WHERE rp.permission_id = ? 
-          AND LOWER(r.role_name) = 'guest'
-    ");
-    $gp_stmt->execute([$perm_id]);
-    $has_public_permission = ($gp_stmt->fetchColumn() > 0);
-}
+$has_public_permission = guest_has_permission($pdo, 'view_public');
 
 if (!$current_user && !$has_public_permission) {
     http_response_code(403);
