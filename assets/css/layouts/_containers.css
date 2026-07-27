@@ -1,0 +1,237 @@
+.search-box-container {
+    background: var(--card-bg);
+    border: 0.0625rem solid var(--border-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0.25rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard-input,
+.login-input,
+.profile-input,
+.register-input,
+.password-setup-input,
+.setup-2fa-input,
+.suggest-edit-select,
+.suggest-edit-textarea,
+.verify-2fa-input,
+.feedback-input,
+.feedback-textarea,
+.volunteer-input,
+.volunteer-textarea {
+    width: 100%;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+.profile-input,
+.profile-input-pwd {
+    max-width: 400px;
+    margin-bottom: 1rem;
+}
+
+.profile-input-pwd {
+    margin-bottom: 0.75rem;
+}
+
+.login-container,
+.register-container,
+.verify-2fa-container {
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.verify-2fa-container {
+    margin: 3rem auto;
+}
+
+.password-setup-container,
+.verify-email-container {
+    max-width: 500px;
+    margin: 2rem auto;
+}
+
+.verify-email-container {
+    text-align: center;
+}
+
+.profile-container,
+.setup-2fa-container,
+.suggest-edit-container,
+.feedback-container,
+.volunteer-container {
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.error-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    border: 2px solid var(--danger-color);
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 0.5rem;
+}
+
+.error-heading {
+    color: var(--danger-color);
+}
+
+.error-pre {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 0.25rem;
+}
+
+.error-footer-link {
+    margin-top: 1.5rem;
+}
+
+.dashboard-actions-flex {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pagination-container {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.modal-duplicate {
+    border: 0.125rem solid orange;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    margin-bottom: 20px;
+    border-radius: 0.25rem;
+}
+
+.modal-duplicate h3 {
+    color: orange;
+    margin-top: 0;
+}
+
+.backup-codes-box {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin: 1rem 0;
+}
+
+.backup-codes-list {
+    font-family: monospace;
+    font-size: 1.1rem;
+    background: #fff;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.setup-2fa-qr-wrapper {
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.setup-2fa-qr-inner {
+    background: #fff;
+    padding: 1rem;
+    display: inline-block;
+    border-radius: 0.25rem;
+}
+
+.setup-2fa-secret-code {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.2rem 0.4rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.setup-2fa-input {
+    text-align: center;
+    font-size: 1.2rem;
+    letter-spacing: 0.2rem;
+}
+
+.suggest-edit-list {
+    margin-bottom: 1.5rem;
+}
+
+.user-status-active {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.user-status-suspended {
+    color: var(--danger-color);
+    font-weight: bold;
+}
+
+.user-2fa-enabled {
+    color: #28a745;
+}
+
+.volunteer-actions-cell {
+    white-space: nowrap;
+}
+
+.volunteer-email-btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.volunteer-delete-btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.9rem;
+}
+
+.feedback-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.feedback-label {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.feedback-select,
+.feedback-textarea {
+    padding: 0.3rem;
+    width: 100%;
+}
+
+.feedback-textarea {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    resize: vertical;
+}
+
+.feedback-btn-save {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.85rem;
+}
+
+/* #page-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f8f9fa;
+    font-family: sans-serif;
+    margin: 0;
+}
+*/

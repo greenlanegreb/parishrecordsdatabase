@@ -1,0 +1,93 @@
+.nav-menu-container, .top-right-account-menu {
+    letter-spacing: 0.03em;
+}
+
+.top-right-welcome {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-color, #333);
+}
+
+.contrast-toggle-wrapper {
+    margin-bottom: 0.75rem;
+}
+
+.contrast-toggle-btn {
+    background-color: #000000;
+    color: #ffffff;
+    border: 0.0625rem solid #ffffff;
+    padding: 0.3rem 0.6rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-bar-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.top-right-account-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-menu-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.nav-push-right {
+    margin-left: auto;
+}
+
+/* --- Gamification & Personal Profile Enhancements --- */
+
+/* Gamification Badge in Header / Nav */
+.gamification-badge {
+    margin-left: 0.75rem;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.gamification-badge a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.gamification-badge a span {
+    text-decoration: underline;
+}
+
+.gamification-badge a:hover {
+    opacity: 0.85;
+}
+
+/* Leaderboard Specific Table Styles */
+.data-table th, 
+.data-table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+.data-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}

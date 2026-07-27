@@ -1,0 +1,51 @@
+/* assets/css/components/_notices.css - Styles for dynamic notices and settings accordions */
+
+.site-notice-banner {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color, #007bff);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.site-notice-banner h4 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.site-notice-banner div {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Accordion styling for settings */
+.accordion-container details {
+    background: #fdfdfd;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.accordion-container summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Maintenance Mode Controls */
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}

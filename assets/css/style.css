@@ -1,0 +1,13 @@
+/* /[parish records database root directory]/assets/css/style.css - Main CSS Orchestrator */
+
+/* 1. Base & Variables */
+@import "base/_variables.css";
+@import "base/_reset.css";
+
+/* 2. Components */
+@import "components/_buttons.css";
+@import "components/_nav.css";
+@import "components/_notices.css";
+
+/* 3. Layouts */
+@import "layouts/_containers.css";

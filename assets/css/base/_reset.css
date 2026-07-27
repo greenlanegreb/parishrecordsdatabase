@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    margin: 2rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    margin-top: 1rem;
+}
+
+th, td {
+    border: 0.0625rem solid var(--border-color);
+    padding: 0.75rem;
+    text-align: left;
+}
+
+th {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+th:hover {
+    opacity: 0.8;
+}
+
+.hp-field {
+    display: none !important;
+}
+
+.honeypot-field {
+    display: none;
+}
+
+.site-footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+    border-top: 0.0625rem solid var(--border-color);
+    padding-top: 1rem;
+}

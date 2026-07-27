@@ -1,0 +1,476 @@
+/* assets/css/high-contrast.css */
+body#page-body.high-contrast {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    font-family: Arial, sans-serif;
+    margin: 2rem !important;
+}
+
+.header-bar {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.search-box-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0.25rem;
+}
+
+table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background-color: #000000 !important;
+    margin-top: 1rem;
+}
+
+th, td {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+th {
+    background-color: #1a1a1a !important;
+    color: #ffff00 !important;
+}
+
+a, .suggest-link {
+    color: #00ffff !important;
+    text-decoration: underline;
+}
+
+/* Sleek, clean button styling matching normal mode shape */
+body#page-body.high-contrast .btn {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    border-radius: 0.25rem !important;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+body#page-body.high-contrast .btn-secondary {
+    background-color: #222222 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .btn-danger {
+    background-color: #b30000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .btn-success {
+    background-color: #008800 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+/* Fix welcome text color in high contrast mode */
+body#page-body.high-contrast .top-right-welcome {
+    color: #ffffff !important;
+}
+
+body#page-body.high-contrast .top-right-welcome a {
+    color: #00ffff !important; /* Keeps the profile link a clear high-contrast cyan */
+}
+
+.site-footer {
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    padding-top: 1.5rem !important;
+    margin-top: 3rem !important;
+    text-align: center !important;
+}
+
+/* High Contrast Form Elements & Alerts */
+body#page-body.high-contrast input[type="text"],
+body#page-body.high-contrast input[type="email"],
+body#page-body.high-contrast input[type="number"],
+body#page-body.high-contrast select,
+body#page-body.high-contrast textarea {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    border-radius: 0.25rem;
+}
+
+body#page-body.high-contrast .alert-success {
+    color: #00ff00 !important;
+    background-color: #000000 !important;
+    border: 0.0625rem solid #00ff00 !important;
+    padding: 0.5rem;
+}
+
+body#page-body.high-contrast .alert-danger {
+    color: #ff3333 !important;
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ff3333 !important;
+    padding: 0.5rem;
+}
+
+/* High Contrast User Management Status & Special Buttons */
+body#page-body.high-contrast .user-status-active,
+body#page-body.high-contrast .user-2fa-enabled {
+    color: #00ff00 !important;
+    font-weight: bold !important;
+}
+
+body#page-body.high-contrast .user-status-suspended {
+    color: #ff3333 !important;
+    font-weight: bold !important;
+}
+
+body#page-body.high-contrast .btn-reactivate {
+    background-color: #008800 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .btn-reset-2fa {
+    background-color: #444444 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+/* High Contrast Volunteer Dashboard Actions */
+body#page-body.high-contrast .volunteer-email-btn {
+    background-color: #222222 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .volunteer-delete-btn {
+    background-color: #b30000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+/* High Contrast System Error Box */
+body#page-body.high-contrast .error-container {
+    background-color: #000000 !important;
+    border: 2px solid #ff3333 !important;
+}
+
+body#page-body.high-contrast .error-heading {
+    color: #ff3333 !important;
+}
+
+body#page-body.high-contrast .error-pre {
+    background-color: #1a1a1a !important;
+    border: 0.0625rem solid #ffffff !important;
+    color: #00ff00 !important;
+}
+
+/* High Contrast Dashboard Elements */
+body#page-body.high-contrast .dashboard-input {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+body#page-body.high-contrast .modal-duplicate {
+    background-color: #000000 !important;
+    border: 0.125rem solid #ffff00 !important;
+}
+
+body#page-body.high-contrast .modal-duplicate h3 {
+    color: #ffff00 !important;
+}
+
+/* High Contrast Login Page Elements */
+body#page-body.high-contrast .login-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .login-input {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+/* High Contrast Profile Page Elements */
+body#page-body.high-contrast .profile-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .profile-input,
+body#page-body.high-contrast .profile-input-pwd {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+body#page-body.high-contrast .backup-codes-box {
+    background-color: #1a1a1a !important;
+    border: 0.0625rem solid #ffff00 !important;
+}
+
+body#page-body.high-contrast .backup-codes-list {
+    background-color: #000000 !important;
+    color: #00ff00 !important;
+    border: 0.0625rem solid #ffff00 !important;
+}
+
+/* High Contrast Register Page Elements */
+body#page-body.high-contrast .register-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .register-input {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+/* High Contrast Password Setup Elements */
+body#page-body.high-contrast .password-setup-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .password-setup-input {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+/* High Contrast 2FA Setup Elements */
+body#page-body.high-contrast .setup-2fa-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .setup-2fa-qr-inner {
+    background-color: #ffffff !important;
+    padding: 1rem;
+    display: inline-block;
+    border-radius: 0.25rem;
+}
+
+body#page-body.high-contrast .setup-2fa-secret-code {
+    background-color: #1a1a1a !important;
+    color: #00ff00 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .setup-2fa-input {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+/* High Contrast Suggest Edit Elements */
+body#page-body.high-contrast .suggest-edit-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .suggest-edit-select,
+body#page-body.high-contrast .suggest-edit-textarea {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+/* High Contrast 2FA Verification Elements */
+body#page-body.high-contrast .verify-2fa-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .verify-2fa-input {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+/* High Contrast Email Verification Elements */
+body#page-body.high-contrast .verify-email-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+/* High Contrast Navigation Elements */
+body#page-body.high-contrast .contrast-toggle-btn {
+    background-color: #000000 !important;
+    color: #ffff00 !important;
+    border: 0.0625rem solid #ffff00 !important;
+}
+
+body#page-body.high-contrast .top-right-welcome {
+    color: #ffffff !important;
+}
+
+/* High Contrast Feedback Elements */
+body#page-body.high-contrast .feedback-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .feedback-input,
+body#page-body.high-contrast .feedback-textarea {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+/* High Contrast Volunteer Elements */
+body#page-body.high-contrast .volunteer-container {
+    background-color: #000000 !important;
+    border: 0.0625rem solid #ffffff !important;
+}
+
+body#page-body.high-contrast .volunteer-input,
+body#page-body.high-contrast .volunteer-textarea {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+/* High Contrast Gamification & Leaderboard Enhancements */
+body#page-body.high-contrast .gamification-badge {
+    margin-left: 0.75rem;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+body#page-body.high-contrast .gamification-badge a {
+    color: #00ffff !important;
+    text-decoration: none;
+}
+
+body#page-body.high-contrast .gamification-badge a span {
+    text-decoration: underline;
+}
+
+body#page-body.high-contrast .data-table tr:hover {
+    background-color: #1a1a1a !important;
+}
+
+/* High Contrast Maintenance Mode Settings Elements */
+body#page-body.high-contrast textarea#maintenance_reason,
+body#page-body.high-contrast input#maintenance_eta {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 0.0625rem solid #ffffff !important;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+body#page-body.high-contrast input[name="maintenance_mode"] {
+    accent-color: #ffff00 !important;
+    cursor: pointer;
+}
+
+/* High Contrast Error and Maintenance Screen Additions */
+body#page-body.high-contrast {
+    background: #000000 !important;
+}
+
+body#page-body.high-contrast .error-container {
+    background-color: #000000 !important;
+    border: 3px solid #ff3333 !important;
+    box-shadow: none !important;
+}
+
+body#page-body.high-contrast .error-heading {
+    color: #ff3333 !important;
+}
+
+body#page-body.high-contrast .error-pre {
+    background-color: #1a1a1a !important;
+    border: 0.0625rem solid #ffffff !important;
+    color: #00ff00 !important;
+}
+
+/* Force High Contrast Navigation and Action Buttons to Match Normal Layout Box-Sizing */
+body#page-body.high-contrast .nav-menu-flex a,
+body#page-body.high-contrast .nav-menu-flex button,
+body#page-body.high-contrast .dashboard-actions-flex a,
+body#page-body.high-contrast .dashboard-actions-flex button {
+    box-sizing: border-box !important;
+    display: inline-block !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Fix High-Contrast Header Bar Flex Alignment */
+body#page-body.high-contrast .header-bar,
+body#page-body.high-contrast .header-bar-flex {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+}
+
+body#page-body.high-contrast .top-right-account-menu {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin-left: auto !important;
+}
+
+/* Restore Letter Spacing (Kerning) in High Contrast Mode */
+body#page-body.high-contrast .nav-menu-container, 
+body#page-body.high-contrast .top-right-account-menu {
+    letter-spacing: 0.03em !important;
+}
+
+/* Fix Header Section Vertical Spacing in High Contrast Mode */
+body#page-body.high-contrast .header-bar,
+body#page-body.high-contrast .header-bar-flex {
+    margin-bottom: 1.5rem !important;
+}
+
+body#page-body.high-contrast .nav-menu-flex {
+    margin-top: 0.5rem !important;
+}
+
+/* Align Top Account Row Typography, Weight, and Spacing in High Contrast Mode */
+body#page-body.high-contrast .top-right-welcome {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+}
+
+body#page-body.high-contrast .contrast-toggle-wrapper {
+    margin-bottom: 0.75rem !important;
+}
+
+body#page-body.high-contrast .header-bar,
+body#page-body.high-contrast .header-bar-flex {
+    margin-bottom: 1.5rem !important;
+}
