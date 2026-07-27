@@ -25,8 +25,8 @@ $message = $_SESSION['message'] ?? '';
 $error   = $_SESSION['error']   ?? '';
 unset($_SESSION['message'], $_SESSION['error']);
 
-$user_timezone   = $current_user['timezone'] ?? 'UTC';
-$full_format_str = get_user_datetime_format($current_user);
+// User timezone + datetime format
+[$user_timezone, $full_format_str] = get_user_time_prefs($current_user);
 
 // Fetch pending suggestions and join with records to discover their parent table_id
 $pending_stmt = $pdo->query("
@@ -47,7 +47,7 @@ $pending_suggestions = [];
 foreach ($all_pending as $s) {
     $t_id = intval($s['table_id']);
     $mod_perm_key = 'moderate_table_' . $t_id;
-   
+  
     if (is_admin($pdo) || ($t_id === 1 && has_permission($pdo, 'moderate_table_1')) || has_permission($pdo, $mod_perm_key)) {
         $pending_suggestions[] = $s;
     }
@@ -104,7 +104,7 @@ if (!$has_any_mod_perm) {
                 <?php
                     $live_display = $s['current_live_value'] ?? '';
                     $prop_display = $s['proposed_value'] ?? '';
-                   
+                  
                     if (($s['data_type'] ?? '') === 'BOOLEAN') {
                         $fmt = $s['boolean_display_format'] ?? 'yes_no';
                         $live_display = format_boolean_value($s['current_live_value'], $fmt);
@@ -144,9 +144,9 @@ if (!$has_any_mod_perm) {
                         <form method="POST" action="actions/save_moderation.php" class="moderation-form">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="suggestion_id" value="<?php echo $s['id']; ?>">
-                           
+                          
                             <label for="final_value_<?php echo $s['id']; ?>" style="font-size: 0.85rem; font-weight: bold;">Override Value:</label><br>
-                           
+                          
                             <?php if (($s['data_type'] ?? '') === 'BOOLEAN'): ?>
                                 <?php
                                     $display_format = $s['boolean_display_format'] ?? 'yes_no';
@@ -163,7 +163,7 @@ if (!$has_any_mod_perm) {
                             <?php else: ?>
                                 <input type="text" id="final_value_<?php echo $s['id']; ?>" name="final_value" value="<?php echo htmlspecialchars($s['proposed_value']); ?>" <?php echo (!empty($s['is_required'])) ? 'required' : ''; ?> style="width: 100%; padding: 0.3rem; margin-bottom: 0.5rem;"><br>
                             <?php endif; ?>
-                           
+                          
                             <div style="display: flex; gap: 0.5rem;">
                                 <button type="submit" name="action" value="approve" class="btn btn-success approve-btn" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('Approve and apply this value?');">Approve</button>
                                 <button type="submit" name="action" value="reject" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('Decline and reject this suggestion?');">Decline</button>

@@ -9,9 +9,8 @@ $current_user = require_admin_page($pdo, 'manage_tables', 'Manage dynamic databa
 $message = $GLOBALS['message'] ?? '';
 $error   = $GLOBALS['error']   ?? '';
 
-// Determine user timezone and dynamically compile the date/time format string
-$user_timezone   = $current_user['timezone'] ?? 'UTC';
-$full_format_str = get_user_datetime_format($current_user);
+// User timezone + datetime format
+[$user_timezone, $full_format_str] = get_user_time_prefs($current_user);
 
 // Fetch all existing dynamic tables
 $tables = $pdo->query("SELECT * FROM dynamic_tables ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
@@ -79,7 +78,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endforeach; ?>
             </select>
         </div>
-       
+      
         <?php if ($active_table_info): ?>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <a href="manage_tables.php?edit_table=<?php echo $active_table_info['id']; ?>&table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="font-size: 0.85rem; text-decoration: none; padding: 0.4rem 0.8rem;">Edit Table Metadata</a>
@@ -100,7 +99,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
         <summary style="cursor: pointer; font-weight: bold; color: #333; outline: none;">
             <?php echo $edit_table ? 'Edit Table Definition: ' . htmlspecialchars($edit_table['table_name']) : '+ Create New Dynamic Table'; ?>
         </summary>
-       
+      
         <div style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
             <form method="POST" action="actions/save_manage_tables.php">
                 <?php echo csrf_field(); ?>
@@ -135,7 +134,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
             <summary style="cursor: pointer; font-weight: bold; font-size: 1.15rem; color: #333; padding: 0.25rem 0;">
                 <?php echo $edit_col ? 'Edit Dynamic Column: ' . htmlspecialchars($edit_col['column_name']) : '+ Add New Table Column for "' . htmlspecialchars($active_table_info['table_name']) . '"'; ?>
             </summary>
-           
+          
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color, #ccc);">
                 <form method="POST" action="actions/save_manage_tables.php">
                     <?php echo csrf_field(); ?>
@@ -144,7 +143,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php if ($edit_col): ?>
                         <input type="hidden" name="column_id" value="<?php echo $edit_col['id']; ?>">
                     <?php endif; ?>
-                   
+                  
                     <label for="column_name">Column Name: <span style="color: red;">*</span></label><br>
                     <input type="text" id="column_name" name="column_name" value="<?php echo $edit_col ? htmlspecialchars($edit_col['column_name']) : ''; ?>" required class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-bottom: 1rem;"><br>
 
@@ -208,7 +207,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
         function toggleFieldOptions(val) {
             var boolWrapper = document.getElementById('boolean_options_wrapper');
             var dateWrapper = document.getElementById('date_options_wrapper');
-           
+          
             boolWrapper.style.display = (val === 'BOOLEAN') ? 'block' : 'none';
             dateWrapper.style.display = (val === 'DATE') ? 'block' : 'none';
         }
@@ -282,7 +281,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td><?php echo format_user_time($col['created_at'], $user_timezone, $full_format_str); ?></td>
                                     <td style="white-space: nowrap;">
                                         <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>&edit_column=<?php echo $col['id']; ?>#create-column-details" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem; text-decoration: none; margin-right: 4px;">Edit</a>
-                                       
+                                      
                                         <button type="submit" name="action" value="delete" formaction="actions/save_manage_tables.php" onclick="document.getElementById('delete_col_id').value='<?php echo $col['id']; ?>'; return confirm('WARNING: Deleting this column will also remove all associated cell data across all records. Are you sure?');" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" formnovalidate>Delete</button>
                                     </td>
                                 </tr>

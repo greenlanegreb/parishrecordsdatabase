@@ -3,7 +3,6 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
 require_once 'db/db.php';
 require_once 'db/auth_helpers.php';
 require_once 'includes/functions.php';
@@ -26,8 +25,7 @@ if (!$current_user && !$has_public_permission) {
 // Tables the visitor is allowed to see
 // ------------------------------------------------------------------
 $tables_stmt = $pdo->query("SELECT id, table_name FROM dynamic_tables ORDER BY id ASC");
-$all_tables  = $tables_stmt->fetchAll(PDO::FETCH_ASSOC);
-
+$all_tables = $tables_stmt->fetchAll(PDO::FETCH_ASSOC);
 $available_tables = [];
 foreach ($all_tables as $t) {
     $perm_key = 'view_table_' . $t['id'];
@@ -37,7 +35,6 @@ foreach ($all_tables as $t) {
         $available_tables[] = $t;
     }
 }
-
 $active_table_id = isset($_GET['table_id'])
     ? intval($_GET['table_id'])
     : (!empty($available_tables) ? $available_tables[0]['id'] : 1);
@@ -55,13 +52,11 @@ if ($active_table_id !== 1 && $current_user && !has_permission($pdo, $active_per
 $user_date_format = 'd-m-Y';
 $user_timezone    = 'UTC';
 $user_time_format = '24';
-
 if ($current_user) {
     $user_date_format = $current_user['date_format'] ?? 'd-m-Y';
-    $user_timezone    = $current_user['timezone']    ?? 'UTC';
+    $user_timezone    = $current_user['timezone'] ?? 'UTC';
     $user_time_format = $current_user['time_format'] ?? '24';
 }
-
 $date_placeholder = 'DD-MM-YYYY';
 if ($user_date_format === 'm/d/Y' || $user_date_format === 'm-d-Y') {
     $date_placeholder = 'MM-DD-YYYY';
@@ -78,9 +73,7 @@ $cols_stmt = $pdo->prepare(
 $cols_stmt->execute([$active_table_id]);
 $columns = $cols_stmt->fetchAll();
 
-$system_name = (function_exists('get_system_name') && isset($pdo))
-    ? get_system_name($pdo)
-    : 'Parish Records Directory (PRD)';
+$system_name = get_system_name($pdo);
 
 $message = $_SESSION['message'] ?? '';
 $error   = $_SESSION['error']   ?? '';
@@ -272,16 +265,19 @@ function fetchFilteredData(page = 1) {
     if (exportBtn) exportBtn.href = 'api/export.php?' + formData.toString();
 
     fetch('api/search.php?' + formData.toString())
-        .then(r => r.text())
-        .then(fullResponse => {
-            const parts = fullResponse.split('|||TOTAL_PAGES:');
+        .then(r => {
+            if (!r.ok) throw new Error('Search request failed');
+            return r.json();
+        })
+        .then(data => {
             const tableBody = document.getElementById('table-body');
-            if (tableBody) tableBody.innerHTML = parts[0];
-
-            if (parts[1]) {
-                const metaParts = parts[1].split('|||CURRENT_PAGE:');
-                const totalPages = parseInt(metaParts[0], 10);
-                renderPagination(totalPages, currentPage);
+            if (tableBody) tableBody.innerHTML = data.html || '';
+            renderPagination(data.total_pages || 0, data.current_page || 1);
+        })
+        .catch(() => {
+            const tableBody = document.getElementById('table-body');
+            if (tableBody) {
+                tableBody.innerHTML = '<tr><td colspan="99">Unable to load results. Please try again.</td></tr>';
             }
         });
 }

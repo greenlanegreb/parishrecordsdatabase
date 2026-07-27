@@ -13,7 +13,7 @@ function get_current_user_data($pdo) {
     }
    
     $stmt = $pdo->prepare("
-        SELECT u.id, u.username, u.first_name, u.surname, u.email, u.role_id, r.role_name as role, u.points, u.two_fa_enabled, u.email_verified, u.leaderboard_display_mode, u.timezone, u.date_format, u.time_format, u.is_new_user
+        SELECT u.id, u.username, u.first_name, u.surname, u.email, u.role_id, r.role_name as role, u.points, u.two_fa_enabled, u.email_verified, u.leaderboard_display_mode, u.timezone, u.date_format, u.time_format, u.language, u.is_new_user
         FROM users u
         LEFT JOIN roles r ON u.role_id = r.id
         WHERE u.id = ?

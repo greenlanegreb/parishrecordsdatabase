@@ -4,6 +4,8 @@ require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 
+header('Content-Type: application/json; charset=utf-8');
+
 // ------------------------------------------------------------------
 // Public / guest permission check (same logic as index.php)
 // ------------------------------------------------------------------
@@ -14,7 +16,8 @@ $has_public_permission = guest_has_permission($pdo, 'view_public');
 
 if (!$current_user && !$has_public_permission) {
     http_response_code(403);
-    exit('403 Forbidden: Public viewing is not enabled.');
+    echo json_encode(['error' => '403 Forbidden: Public viewing is not enabled.']);
+    exit;
 }
 
 // ------------------------------------------------------------------
@@ -24,7 +27,8 @@ $table_id = intval($_GET['table_id'] ?? 1);
 $perm_key = 'view_table_' . $table_id;
 if ($table_id !== 1 && $current_user && !has_permission($pdo, $perm_key)) {
     http_response_code(403);
-    exit('Unauthorized table access.');
+    echo json_encode(['error' => 'Unauthorized table access.']);
+    exit;
 }
 
 // ------------------------------------------------------------------
@@ -76,9 +80,11 @@ foreach ($records as $rec) {
 }
 
 $total_matched     = count($matched_records);
-$total_pages       = ceil($total_matched / $per_page);
+$total_pages       = (int) ceil($total_matched / $per_page);
 $paginated_records = array_slice($matched_records, $offset, $per_page);
 
+// Build HTML rows
+ob_start();
 if (empty($paginated_records)) {
     echo '<tr><td colspan="' . (count($columns) + 4) . '">No records found in this table.</td></tr>';
 } else {
@@ -102,5 +108,10 @@ if (empty($paginated_records)) {
         echo '</tr>';
     }
 }
+$html = ob_get_clean();
 
-echo '|||TOTAL_PAGES:' . $total_pages . '|||CURRENT_PAGE:' . $page;
+echo json_encode([
+    'html'         => $html,
+    'total_pages'  => $total_pages,
+    'current_page' => $page,
+]);

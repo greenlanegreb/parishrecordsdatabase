@@ -15,9 +15,8 @@ $current_user = require_admin_page($pdo, 'manage_volunteers', 'Manage and review
 $message = $GLOBALS['message'] ?? '';
 $error   = $GLOBALS['error']   ?? '';
 
-// Determine user timezone and dynamically compile the date/time format string
-$user_timezone   = $current_user['timezone'] ?? 'UTC';
-$full_format_str = get_user_datetime_format($current_user);
+// User timezone + datetime format
+[$user_timezone, $full_format_str] = get_user_time_prefs($current_user);
 
 // Dynamic system name for mail subjects
 $system_name = get_system_name($pdo);
@@ -65,7 +64,7 @@ $volunteers = $vol_stmt->fetchAll();
                     <td class="volunteer-actions-cell">
                         <!-- Email Mailto Button -->
                         <a href="mailto:<?php echo htmlspecialchars($vol['email']); ?>?subject=<?php echo $mail_subject; ?>" class="btn btn-secondary volunteer-email-btn">Email</a>
-                       
+                      
                         <!-- Delete Form Button -->
                         <form method="POST" action="actions/save_volunteer.php" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this volunteer entry?');">
                             <?php echo csrf_field(); ?>

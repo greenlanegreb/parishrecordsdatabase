@@ -13,13 +13,13 @@ $error   = $GLOBALS['error']   ?? '';
 try {
     $existing_tables = $pdo->query("SELECT id, table_name FROM dynamic_tables")->fetchAll(PDO::FETCH_ASSOC);
     foreach ($existing_tables as $et) {
-        $t_id = $et['id'];
+        $t_id   = $et['id'];
         $t_name = $et['table_name'];
-        $view_key = 'view_table_' . $t_id;
+        $view_key  = 'view_table_' . $t_id;
         $view_desc = 'Allows viewing and searching records in table: ' . $t_name;
-        $mod_key = 'moderate_table_' . $t_id;
-        $mod_desc = 'Allows reviewing and moderating suggestions in table: ' . $t_name;
-       
+        $mod_key   = 'moderate_table_' . $t_id;
+        $mod_desc  = 'Allows reviewing and moderating suggestions in table: ' . $t_name;
+
         $ins_p = $pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)");
         $ins_p->execute([$view_key, $view_desc]);
         $ins_p->execute([$mod_key, $mod_desc]);
@@ -39,15 +39,32 @@ $get_setting_val = function($pdo, $key, $default) {
     }
 };
 
-$current_mail_domain     = $get_setting_val($pdo, 'mail_domain', 'deballiolsociety.org.uk');
-$current_mail_driver     = $get_setting_val($pdo, 'mail_driver', 'mail');
-$current_smtp_host       = $get_setting_val($pdo, 'smtp_host', '');
-$current_smtp_port       = $get_setting_val($pdo, 'smtp_port', '587');
-$current_smtp_user       = $get_setting_val($pdo, 'smtp_user', '');
-$current_smtp_encryption = $get_setting_val($pdo, 'smtp_encryption', 'tls');
-$maintenance_mode        = $get_setting_val($pdo, 'maintenance_mode', '0');
-$maintenance_reason      = $get_setting_val($pdo, 'maintenance_reason', 'Scheduled system maintenance and database updates.');
-$maintenance_eta         = $get_setting_val($pdo, 'maintenance_eta', 'Shortly');
+$current_mail_domain      = $get_setting_val($pdo, 'mail_domain', 'deballiolsociety.org.uk');
+$current_mail_driver      = $get_setting_val($pdo, 'mail_driver', 'mail');
+$current_smtp_host        = $get_setting_val($pdo, 'smtp_host', '');
+$current_smtp_port        = $get_setting_val($pdo, 'smtp_port', '587');
+$current_smtp_user        = $get_setting_val($pdo, 'smtp_user', '');
+$current_smtp_encryption  = $get_setting_val($pdo, 'smtp_encryption', 'tls');
+$maintenance_mode         = $get_setting_val($pdo, 'maintenance_mode', '0');
+$maintenance_reason       = $get_setting_val($pdo, 'maintenance_reason', 'Scheduled system maintenance and database updates.');
+$maintenance_eta          = $get_setting_val($pdo, 'maintenance_eta', 'Shortly');
+$current_default_language = $get_setting_val($pdo, 'default_language', 'en');
+
+// Available language files in /lang
+$available_languages = [];
+$lang_dir = __DIR__ . '/../lang';
+if (is_dir($lang_dir)) {
+    foreach (glob($lang_dir . '/*.php') as $file) {
+        $code = basename($file, '.php');
+        if (preg_match('/^[a-z_]+$/', $code)) {
+            $available_languages[] = $code;
+        }
+    }
+    sort($available_languages);
+}
+if (!in_array('en', $available_languages, true)) {
+    array_unshift($available_languages, 'en');
+}
 
 // Module toggles state
 $mod_moderation_val  = $get_setting_val($pdo, 'module_moderation_enabled', '1');
@@ -97,6 +114,18 @@ if (isset($_GET['edit_role'])) {
                 <label for="system_name" style="font-size: 1rem;"><strong>System / Application Name:</strong></label><br>
                 <input type="text" id="system_name" name="system_name" value="<?php echo htmlspecialchars($current_system_name); ?>" required class="volunteer-input" style="width: 100%; padding: 0.6rem; font-size: 1rem; margin-top: 0.4rem;">
             </div>
+            <div style="margin-bottom: 1.25rem;">
+                <label for="default_language" style="font-size: 1rem;"><strong>Default site language:</strong></label><br>
+                <select id="default_language" name="default_language" class="volunteer-input" style="width: 100%; max-width: 320px; padding: 0.6rem; font-size: 1rem; margin-top: 0.4rem;">
+                    <?php foreach ($available_languages as $code): ?>
+                        <option value="<?php echo htmlspecialchars($code); ?>" <?php echo ($current_default_language === $code) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars(strtoupper($code)); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <p style="margin: 0.4rem 0 0; font-size: 0.9rem; color: #555;">Used for guests and users who have not chosen a language. Add files under <code>lang/</code> (e.g. <code>cy.php</code>) to offer more options.</p>
+            </div>
+
             <h4 style="margin-top: 2rem; color: #333; font-size: 1.2rem;">Mail Delivery Configuration</h4>
             <div style="margin-bottom: 1.25rem;">
                 <label for="mail_domain" style="font-size: 1rem;"><strong>System Mail Domain (From Address / Envelope):</strong></label><br>
@@ -139,7 +168,9 @@ if (isset($_GET['edit_role'])) {
             </div>
             <button type="submit" class="btn" style="padding: 0.6rem 1.2rem; font-size: 1rem;">Save Core & Mail Settings</button>
         </form>
+
         <hr style="border: 0.0625rem solid var(--border-color); margin: 2rem 0;">
+
         <h4 style="margin-bottom: 0.75rem; color: #333; font-size: 1.2rem;">Test Mail Configuration</h4>
         <form method="POST" action="actions/test_mail.php">
             <?php echo csrf_field(); ?>
@@ -157,7 +188,7 @@ if (isset($_GET['edit_role'])) {
             <?php echo csrf_field(); ?>
             <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">Application Module Toggles & Efficiency Controls</h4>
             <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Enable or disable features to optimize application execution efficiency and adapt PRD to your specific deployment needs.</p>
-           
+
             <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                 <div style="background: rgba(0,0,0,0.02); padding: 1.25rem; border: 1px solid var(--border-color); border-radius: 6px;">
                     <label style="cursor: pointer; font-weight: bold; font-size: 1.05rem; display: flex; align-items: center; gap: 0.75rem;">
@@ -292,6 +323,7 @@ if (isset($_GET['edit_role'])) {
             }
             return 'Core System & Settings';
         }
+
         $categorized_perms = [];
         foreach ($perms_list as $p) {
             $pkey = $p['permission_key'];
@@ -312,7 +344,7 @@ if (isset($_GET['edit_role'])) {
                         <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 1.1rem; outline: none; display: flex; justify-content: space-between; align-items: center;">
                             <span><?php echo htmlspecialchars($category_name); ?> <span style="font-weight: normal; color: #666; font-size: 0.85rem;">(<?php echo count($cat_perms); ?> permissions)</span></span>
                         </summary>
-                       
+
                         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e9ecef; overflow-x: auto;">
                             <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left; background: #fff;">
                                 <thead>

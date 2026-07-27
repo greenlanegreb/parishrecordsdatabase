@@ -15,9 +15,8 @@ $current_user = require_admin_page($pdo, 'manage_feedback', 'Manage and moderate
 $message = $GLOBALS['message'] ?? '';
 $error   = $GLOBALS['error']   ?? '';
 
-// Determine user timezone and dynamically compile the date/time format string
-$user_timezone   = $current_user['timezone'] ?? 'UTC';
-$full_format_str = get_user_datetime_format($current_user);
+// User timezone + datetime format
+[$user_timezone, $full_format_str] = get_user_time_prefs($current_user);
 
 // Dynamic system name for mail subjects
 $system_name = get_system_name($pdo);
@@ -70,7 +69,7 @@ $feedbacks = $feedback_stmt->fetchAll();
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="action" value="update_feedback">
                             <input type="hidden" name="feedback_id" value="<?php echo $fb['id']; ?>">
-                           
+                          
                             <label class="feedback-label">Status:</label>
                             <select name="status" class="feedback-select">
                                 <option value="Pending" <?php echo ($fb['status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
@@ -85,7 +84,7 @@ $feedbacks = $feedback_stmt->fetchAll();
                     </td>
                     <td class="feedback-actions-cell">
                         <a href="mailto:<?php echo htmlspecialchars($fb['email']); ?>?subject=<?php echo $mail_subject; ?>" class="btn btn-secondary feedback-email-btn">Email User</a>
-                       
+                      
                         <form method="POST" action="actions/save_feedback.php" onsubmit="return confirm('Are you sure you want to delete this feedback entry?');">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="action" value="delete_feedback">

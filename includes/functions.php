@@ -1,6 +1,5 @@
 <?php
 // includes/functions.php - Global utility and helper functions
-
 if (!function_exists('obscure_name_ajax')) {
     function obscure_name_ajax($name) {
         if (empty($name)) return 'User_Anon';
@@ -9,11 +8,10 @@ if (!function_exists('obscure_name_ajax')) {
         return substr($name, 0, 2) . str_repeat('*', max(1, $len - 2));
     }
 }
-
 if (!function_exists('format_boolean_value')) {
     function format_boolean_value($val, $format) {
         if ($val === null || $val === '') return 'N/A';
-       
+      
         $is_true = filter_var($val, FILTER_VALIDATE_BOOLEAN);
         switch ($format) {
             case 'true_false':
@@ -26,7 +24,6 @@ if (!function_exists('format_boolean_value')) {
         }
     }
 }
-
 if (!function_exists('sanitize_incoming_text')) {
     function sanitize_incoming_text($text) {
         if (empty($text)) return '';
@@ -46,7 +43,6 @@ if (!function_exists('sanitize_incoming_text')) {
         return trim($text);
     }
 }
-
 if (!function_exists('format_user_time')) {
     function format_user_time($utc_timestamp, $timezone_str, $format_str) {
         if (empty($utc_timestamp)) return 'N/A';
@@ -59,7 +55,6 @@ if (!function_exists('format_user_time')) {
         }
     }
 }
-
 if (!function_exists('format_display_date')) {
     function format_display_date($date_str, $format_pref) {
         if (empty($date_str)) return '';
@@ -71,7 +66,6 @@ if (!function_exists('format_display_date')) {
         return $date_str;
     }
 }
-
 if (!function_exists('generate_csv_export')) {
     function generate_csv_export($pdo, $filename_prefix = 'psd-export') {
         $user_date_format = 'd/m/Y';
@@ -151,7 +145,6 @@ if (!function_exists('generate_csv_export')) {
         exit;
     }
 }
-
 if (!function_exists('get_setting')) {
     function get_setting($pdo, $key, $default = '') {
         try {
@@ -164,12 +157,11 @@ if (!function_exists('get_setting')) {
         }
     }
 }
-
 if (!function_exists('get_user_datetime_format')) {
     function get_user_datetime_format($current_user) {
         $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
         $user_time_format = $current_user['time_format'] ?? '24';
-       
+      
         if ($user_time_format === '12') {
             return $user_date_format . ' h:i A';
         } elseif ($user_time_format === '24') {
@@ -179,7 +171,6 @@ if (!function_exists('get_user_datetime_format')) {
         }
     }
 }
-
 if (!function_exists('record_matches_filters')) {
     function record_matches_filters($record_id, $record_values_map, $search_filters, $date_filters) {
         if (!empty($search_filters)) {
@@ -192,13 +183,13 @@ if (!function_exists('record_matches_filters')) {
                 }
             }
         }
-       
+      
         if (!empty($date_filters)) {
             foreach ($date_filters as $col_id => $range) {
                 $from = trim($range['from'] ?? '');
                 $to = trim($range['to'] ?? '');
                 $cell_val = $record_values_map[$record_id][$col_id] ?? '';
-               
+              
                 if (!empty($cell_val)) {
                     if (!empty($from) && $cell_val < $from) { return false; }
                     if (!empty($to) && $cell_val > $to) { return false; }
@@ -207,11 +198,10 @@ if (!function_exists('record_matches_filters')) {
                 }
             }
         }
-       
+      
         return true;
     }
 }
-
 if (!function_exists('is_module_enabled')) {
     function is_module_enabled($pdo, $module_key) {
         static $module_cache = [];
@@ -222,14 +212,14 @@ if (!function_exists('is_module_enabled')) {
             $stmt = $pdo->prepare("SELECT setting_value FROM site_settings WHERE setting_key = ?");
             $stmt->execute(['module_' . $module_key . '_enabled']);
             $val = $stmt->fetchColumn();
-           
+          
             if ($module_key === 'leaderboard') {
                 $users_enabled = is_module_enabled($pdo, 'users');
                 if (!$users_enabled) {
                     return false;
                 }
             }
-           
+          
             $enabled = ($val === false || $val === null) ? true : (intval($val) === 1);
             $module_cache[$module_key] = $enabled;
             return $enabled;
@@ -237,5 +227,95 @@ if (!function_exists('is_module_enabled')) {
             $module_cache[$module_key] = true;
             return true;
         }
+    }
+}
+if (!function_exists('get_user_time_prefs')) {
+    /**
+     * Returns [timezone, full_datetime_format] for the current user.
+     */
+    function get_user_time_prefs(array $current_user): array {
+        return [
+            $current_user['timezone'] ?? 'UTC',
+            get_user_datetime_format($current_user),
+        ];
+    }
+}
+
+/**
+ * Resolve active language code.
+ * Order: session → user preference (if column exists) → site default_language → en
+ */
+if (!function_exists('get_active_language')) {
+    function get_active_language(): string {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!empty($_SESSION['lang'])) {
+            return preg_replace('/[^a-z_]/', '', strtolower($_SESSION['lang']));
+        }
+
+        $pdo = $GLOBALS['pdo'] ?? null;
+
+        if ($pdo instanceof PDO && function_exists('get_current_user_data')) {
+            $user = get_current_user_data($pdo);
+            if (!empty($user['language'])) {
+                return preg_replace('/[^a-z_]/', '', strtolower($user['language']));
+            }
+        }
+
+        if ($pdo instanceof PDO && function_exists('get_setting')) {
+            $site = get_setting($pdo, 'default_language', 'en');
+            if (!empty($site)) {
+                return preg_replace('/[^a-z_]/', '', strtolower($site));
+            }
+        }
+
+        return 'en';
+    }
+}
+
+/**
+ * Simple translation helper.
+ * Usage: __('nav.login') or __('hello_user', ['name' => $name])
+ * Placeholders in strings use :name style.
+ */
+if (!function_exists('__')) {
+    function __(string $key, array $replace = []): string {
+        static $catalogue = null;
+        static $loaded_lang = null;
+
+        $lang = get_active_language();
+
+        if ($catalogue === null || $loaded_lang !== $lang) {
+            $safe = preg_replace('/[^a-z_]/', '', $lang) ?: 'en';
+            $path = __DIR__ . '/../lang/' . $safe . '.php';
+            if (!is_file($path)) {
+                $path = __DIR__ . '/../lang/en.php';
+                $safe = 'en';
+            }
+            $catalogue = is_file($path) ? include $path : [];
+            if (!is_array($catalogue)) {
+                $catalogue = [];
+            }
+            $loaded_lang = $safe;
+        }
+
+        $text = $catalogue[$key] ?? $key;
+
+        foreach ($replace as $k => $v) {
+            $text = str_replace(':' . $k, (string) $v, $text);
+        }
+
+        return $text;
+    }
+}
+
+if (!function_exists('set_language')) {
+    function set_language(string $code): void {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $_SESSION['lang'] = preg_replace('/[^a-z_]/', '', strtolower($code)) ?: 'en';
     }
 }

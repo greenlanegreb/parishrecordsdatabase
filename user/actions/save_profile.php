@@ -3,55 +3,66 @@
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../db/mail_helper.php';
+require_once '../../includes/functions.php';
 
-// Enforce dynamic permission check replacing hardcoded roles (automatically registers 'access_profile' if new)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Method Not Allowed');
 }
+
 verify_csrf_token();
 $current_user = require_permission($pdo, 'access_profile', 'Allows viewing and managing personal user profile and security settings');
 $user_id = $current_user['id'];
-$action = $_POST['action'] ?? '';
+$action  = $_POST['action'] ?? '';
 
 // 0. Handle Personal Details Update Request
 if ($action === 'update_personal_details') {
-    $first_name = trim($_POST['first_name'] ?? '');
-    $surname = trim($_POST['surname'] ?? '');
+    $first_name   = trim($_POST['first_name'] ?? '');
+    $surname      = trim($_POST['surname'] ?? '');
     $display_mode = trim($_POST['leaderboard_display_mode'] ?? 'initials_random');
-    $timezone = trim($_POST['timezone'] ?? 'UTC');
-    $date_format = trim($_POST['date_format'] ?? 'd/m/Y');
-    $time_format = trim($_POST['time_format'] ?? '24');
+    $timezone     = trim($_POST['timezone'] ?? 'UTC');
+    $date_format  = trim($_POST['date_format'] ?? 'd/m/Y');
+    $time_format  = trim($_POST['time_format'] ?? '24');
+    $language     = preg_replace('/[^a-z_]/', '', strtolower(trim($_POST['language'] ?? '')));
 
-    // Validate that allowed display mode value is safe and permitted
     $allowed_modes = ['full_name', 'volunteers_only', 'initials_random'];
     if (!in_array($display_mode, $allowed_modes)) {
         $display_mode = 'initials_random';
     }
 
-    // Validate that the timezone identifier is real/supported by PHP
     $valid_timezones = timezone_identifiers_list();
     if (!in_array($timezone, $valid_timezones)) {
         $timezone = 'UTC';
     }
 
-    // Validate that the date format string matches permitted safe options
     $allowed_date_formats = ['d/m/Y', 'd/m/y', 'd.m.Y', 'm/d/Y', 'l j F Y'];
     if (!in_array($date_format, $allowed_date_formats)) {
         $date_format = 'd/m/Y';
     }
 
-    // Validate that the time format string matches permitted safe options
     $allowed_time_formats = ['12', '24', 'none'];
     if (!in_array($time_format, $allowed_time_formats)) {
         $time_format = '24';
     }
 
-    $upd_name = $pdo->prepare("UPDATE users SET first_name = ?, surname = ?, leaderboard_display_mode = ?, timezone = ?, date_format = ?, time_format = ? WHERE id = ?");
-    if ($upd_name->execute([$first_name, $surname, $display_mode, $timezone, $date_format, $time_format, $user_id])) {
+    // Empty = site default; otherwise must have a lang file
+    if ($language !== '') {
+        $lang_file = __DIR__ . '/../../lang/' . $language . '.php';
+        if (!is_file($lang_file)) {
+            $language = '';
+        }
+    }
+    $language_db = ($language === '') ? null : $language;
+
+    $upd_name = $pdo->prepare("UPDATE users SET first_name = ?, surname = ?, leaderboard_display_mode = ?, timezone = ?, date_format = ?, time_format = ?, language = ? WHERE id = ?");
+    if ($upd_name->execute([$first_name, $surname, $display_mode, $timezone, $date_format, $time_format, $language_db, $user_id])) {
+        if ($language_db && function_exists('set_language')) {
+            set_language($language_db);
+        }
         $_SESSION['message'] = "Personal details, timezone, and format settings updated successfully!";
     } else {
         http_response_code(403);
@@ -94,16 +105,21 @@ elseif ($action === 'update_email') {
             }
         }
     }
-} 
+}
 // 2. Handle Password Update Request
 elseif ($action === 'update_password') {
     $current_password = $_POST['current_password'] ?? '';
-    $new_password = $_POST['new_password'] ?? '';
+    $new_password     = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
+
+    // password_hash is not loaded by get_current_user_data — fetch it here
+    $hash_stmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
+    $hash_stmt->execute([$user_id]);
+    $password_hash = $hash_stmt->fetchColumn();
 
     if (empty($current_password) || empty($new_password) || empty($confirm_password)) {
         $_SESSION['error'] = "All password fields are required.";
-    } elseif (!password_verify($current_password, $current_user['password_hash'])) {
+    } elseif (!$password_hash || !password_verify($current_password, $password_hash)) {
         http_response_code(403);
         error_log("Failed password change attempt (incorrect current password) for user ID: {$user_id} from IP: " . $_SERVER['REMOTE_ADDR']);
         $_SESSION['error'] = "Your current password was incorrect.";
@@ -122,7 +138,7 @@ elseif ($action === 'update_password') {
             $_SESSION['error'] = "Failed to update password.";
         }
     }
-} 
+}
 // 3. Handle Generate New Backup Codes Request
 elseif ($action === 'generate_backup_codes') {
     if (!$current_user['two_fa_enabled']) {
@@ -136,7 +152,7 @@ elseif ($action === 'generate_backup_codes') {
             $raw_codes[] = $formatted_code;
             $hashed_codes[] = password_hash($formatted_code, PASSWORD_DEFAULT);
         }
-        
+
         $hashed_codes_json = json_encode($hashed_codes);
         $upd_codes = $pdo->prepare("UPDATE users SET backup_codes = ? WHERE id = ?");
         if ($upd_codes->execute([$hashed_codes_json, $user_id])) {
@@ -148,7 +164,7 @@ elseif ($action === 'generate_backup_codes') {
             $_SESSION['error'] = "Failed to generate new backup codes.";
         }
     }
-} 
+}
 // 4. Handle 2FA Setup Initiation
 elseif ($action === 'setup_2fa') {
     header('Location: ../setup_2fa.php');
