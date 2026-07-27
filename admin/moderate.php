@@ -5,12 +5,6 @@ require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
-// Ensure the moderation module is enabled; otherwise block direct access
-if (!is_module_enabled($pdo, 'moderation')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
-}
-
 $current_user = get_current_user_data($pdo);
 $user_timezone = $current_user['timezone'] ?? 'UTC';
 $full_format_str = get_user_datetime_format($current_user);

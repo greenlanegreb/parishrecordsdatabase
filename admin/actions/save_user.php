@@ -3,14 +3,7 @@
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../db/mail_helper.php';
-require_once '../../includes/functions.php';
 session_start();
-
-// Ensure the users module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'users')) {
-    http_response_code(403);
-    exit('403 Forbidden: The User Management module is currently disabled.');
-}
 
 // Enforce permission-based access control and validate POST request method via central helper
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

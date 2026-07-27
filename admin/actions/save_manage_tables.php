@@ -12,7 +12,6 @@ verify_csrf_token();
 $current_user = require_permission($pdo, 'manage_tables', 'Manage dynamic database tables and column schema definitions');
 $action = $_POST['action'] ?? 'create';
 $table_id = intval($_POST['table_id'] ?? 1);
-
 // 1. HANDLE TABLE CREATION
 if ($action === 'create_table') {
     $table_name = trim($_POST['table_name'] ?? '');
@@ -44,30 +43,15 @@ if ($action === 'create_table') {
                 $get_p->execute([$view_perm_key, $mod_perm_key]);
                 $perms = $get_p->fetchAll(PDO::FETCH_ASSOC);
                 
-                // Dynamically assign permissions based on existing matrix rules (no hardcoded roles)
+                // Assign view to admin and user roles by default; assign moderation to admin and moderator roles by default
                 foreach ($perms as $p) {
                     $p_id = $p['id'];
                     $p_key = $p['permission_key'];
                     
                     if (strpos($p_key, 'view_table_') === 0) {
-                        // Automatically grant table view access to any role that already has general 'view_public' capability
-                        $r_stmt = $pdo->prepare("
-                            SELECT DISTINCT r.id 
-                            FROM roles r
-                            JOIN role_permissions rp ON r.id = rp.role_id
-                            JOIN permissions perm ON rp.permission_id = perm.id
-                            WHERE perm.permission_key = 'view_public'
-                        ");
+                        $r_stmt = $pdo->prepare("SELECT id FROM roles WHERE role_name IN ('admin', 'user')");
                     } else {
-                        // Automatically grant table moderation to roles with general moderation capability or admin roles
-                        $r_stmt = $pdo->prepare("
-                            SELECT DISTINCT r.id 
-                            FROM roles r
-                            LEFT JOIN role_permissions rp ON r.id = rp.role_id
-                            LEFT JOIN permissions perm ON rp.permission_id = perm.id
-                            WHERE perm.permission_key = 'moderate_suggestions' 
-                                OR LOWER(r.role_name) = 'admin'
-                        ");
+                        $r_stmt = $pdo->prepare("SELECT id FROM roles WHERE role_name IN ('admin', 'moderator')");
                     }
                     $r_stmt->execute();
                     $roles = $r_stmt->fetchAll(PDO::FETCH_COLUMN);

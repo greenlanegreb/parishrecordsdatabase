@@ -4,13 +4,6 @@ require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
 session_start();
-
-// Ensure the moderation module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'moderation')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
-}
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Method Not Allowed');

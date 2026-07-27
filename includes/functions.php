@@ -297,36 +297,3 @@ if (!function_exists('verify_csrf_token')) {
         }
     }
 }
-
-/**
- * Check whether a specific application module is enabled.
- * Defaults to true if the setting has not been explicitly configured yet.
- */
-if (!function_exists('is_module_enabled')) {
-    function is_module_enabled($pdo, $module_key) {
-        static $module_cache = [];
-        if (array_key_exists($module_key, $module_cache)) {
-            return $module_cache[$module_key];
-        }
-        try {
-            $stmt = $pdo->prepare("SELECT setting_value FROM site_settings WHERE setting_key = ?");
-            $stmt->execute(['module_' . $module_key . '_enabled']);
-            $val = $stmt->fetchColumn();
-            
-            // If user management is disabled, leaderboard/gamification is forced off as a dependency
-            if ($module_key === 'leaderboard') {
-                $users_enabled = is_module_enabled($pdo, 'users');
-                if (!$users_enabled) {
-                    return false;
-                }
-            }
-            
-            $enabled = ($val === false || $val === null) ? true : (intval($val) === 1);
-            $module_cache[$module_key] = $enabled;
-            return $enabled;
-        } catch (Exception $e) {
-            $module_cache[$module_key] = true;
-            return true;
-        }
-    }
-}

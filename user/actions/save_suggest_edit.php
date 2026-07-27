@@ -2,13 +2,6 @@
 // user/actions/save_suggest_edit.php - Handles edit suggestion submissions
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
-require_once '../../includes/functions.php';
-
-// Ensure the moderation module is enabled; otherwise block action execution
-if (!is_module_enabled($pdo, 'moderation')) {
-    http_response_code(403);
-    exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
-}
 
 // Enforce dynamic permission check replacing hardcoded roles (automatically registers 'access_suggest_edit' if new)
 if (session_status() === PHP_SESSION_NONE) {
