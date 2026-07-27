@@ -1,7 +1,6 @@
 <?php
 // register.php - User registration view
 session_start();
-require_once '../db/auth_helpers.php';
 
 $message = $_SESSION['message'] ?? '';
 $error = $_SESSION['error'] ?? '';
@@ -21,7 +20,6 @@ unset($_SESSION['message'], $_SESSION['error']);
         <?php endif; ?>
         
         <form method="POST" action="actions/save_register.php">
-            <?php echo csrf_field(); ?>
             <label for="username">Username:</label><br>
             <input type="text" id="username" name="username" required class="register-input"><br>
 

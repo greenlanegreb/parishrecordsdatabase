@@ -1,7 +1,6 @@
 <?php
 // verify_2fa.php - View for 2FA login challenge
 session_start();
-require_once '../db/auth_helpers.php';
 
 if (!isset($_SESSION['pending_2fa_user_id'])) {
     http_response_code(403);
@@ -25,7 +24,6 @@ unset($_SESSION['error']);
         <?php endif; ?>
 
         <form method="POST" action="actions/save_verify_2fa.php">
-            <?php echo csrf_field(); ?>
             <label for="code" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Verification Code / Backup Code:</label>
             <input type="text" id="code" name="code" required autofocus class="verify-2fa-input" aria-label="Enter authenticator or backup code">
             <button type="submit" class="btn" style="width: 100%;">Verify & Log In</button>

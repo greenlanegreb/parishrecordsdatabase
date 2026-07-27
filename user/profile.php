@@ -2,16 +2,11 @@
 // profile.php - User profile and security settings view
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
 session_start();
 
-// Enforce dynamic permission check for profile access (automatically registers 'access_profile' if new)
-require_permission($pdo, 'access_profile', 'Allows viewing and managing personal user profile and security settings');
+// Enforce standard user/moderator/admin authentication via central helper
+require_role($pdo, ['user', 'moderator', 'admin']);
 $current_user = get_current_user_data($pdo);
-
-// Pull dynamic system name from database with a clean fallback
-$system_name = (function_exists('get_system_name') && isset($pdo)) ? get_system_name($pdo) : "Parish Records Directory (PRD)";
-$system_slug = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $system_name));
 
 $message = $_SESSION['message'] ?? '';
 $error = $_SESSION['error'] ?? '';
@@ -24,9 +19,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
         unset($_SESSION['new_raw_backup_codes']);
         
         header('Content-Type: text/plain; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $system_slug . '-backup-codes.txt"');
-        echo strtoupper($system_name) . " - NEW EMERGENCY BACKUP CODES\n";
-        echo str_repeat("=", strlen($system_name) + 33) . "\n\n";
+        header('Content-Disposition: attachment; filename="cakebread-database-backup-codes.txt"');
+        echo "CAKEBREAD DATABASE - NEW EMERGENCY BACKUP CODES\n";
+        echo "================================================\n\n";
         echo "Keep these codes in a secure place. Each code can only be used once:\n\n";
         foreach ($codes_to_download as $code) {
             echo " - " . $code . "\n";
@@ -52,7 +47,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
         <div style="margin-bottom: 2rem;">
             <h4>Personal Details</h4>
             <form method="POST" action="actions/save_profile.php">
-                <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="update_personal_details">
                 
                 <label for="first_name">First Name:</label><br>
@@ -80,6 +74,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                     
                     // Keep UTC prominent at the very top
                     echo '<option value="UTC" ' . ($current_tz === 'UTC' ? 'selected' : '') . '>UTC (Coordinated Universal Time)</option>';
+
                     // Loop through each global region and populate option groups alphabetically
                     foreach ($grouped_timezones as $region => $zones) {
                         asort($zones);
@@ -146,7 +141,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                <?php endif; ?>
             </p>
             <form method="POST" action="actions/save_profile.php">
-                <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="update_email">
                 <label for="email">Change Email Address:</label><br>
                 <input type="email" id="email" name="email" required autocomplete="email" class="profile-input" aria-label="New email address"><br>
@@ -160,7 +154,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
         <div style="margin-bottom: 2rem;">
             <h4>Change Password</h4>
             <form method="POST" action="actions/save_profile.php">
-                <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="update_password">
                 <input type="text" name="username" value="<?php echo htmlspecialchars($current_user['username']); ?>" autocomplete="username" style="display: none;" aria-hidden="true">
                 
@@ -197,12 +190,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
             
             <?php if (!$current_user['two_fa_enabled']): ?>
                 <form method="POST" action="actions/save_profile.php">
-                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="setup_2fa">
                     <button type="submit" class="btn">Set Up Google Authenticator</button>
                 </form>
             <?php else: ?>
                 <p style="font-size: 0.9rem; color: #666;">2FA is actively protecting your account login.</p>
+
                 <?php if (!empty($_SESSION['new_raw_backup_codes'])): ?>
                     <div class="backup-codes-box">
                         <h5 style="margin-top: 0; color: var(--danger-color);">Your New Backup Codes</h5>
@@ -214,8 +207,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                         <a href="profile.php?action=download_new_codes" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; display: inline-block;">Download New Codes as .txt</a>
                     </div>
                 <?php endif; ?>
+
                 <form method="POST" action="actions/save_profile.php" style="margin-top: 1rem;">
-                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="generate_backup_codes">
                     <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure? This will invalidate any existing backup codes.');">Generate New Backup Codes</button>
                 </form>

@@ -2,55 +2,24 @@
 // admin/actions/save_settings.php - Processes global site settings updates
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
-
 session_start();
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit('Method Not Allowed');
-}
+// Enforce admin-only access
+require_role($pdo, ['admin']);
 
-verify_csrf_token();
-$current_user = require_permission($pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $system_name = trim($_POST['system_name'] ?? '');
 
-$system_name     = trim($_POST['system_name'] ?? '');
-$mail_domain     = trim($_POST['mail_domain'] ?? '');
-$mail_driver     = trim($_POST['mail_driver'] ?? 'mail');
-$smtp_host       = trim($_POST['smtp_host'] ?? '');
-$smtp_port       = intval($_POST['smtp_port'] ?? 587);
-$smtp_user       = trim($_POST['smtp_user'] ?? '');
-$smtp_pass       = $_POST['smtp_pass'] ?? ''; // Kept raw to preserve special characters
-$smtp_encryption = trim($_POST['smtp_encryption'] ?? 'tls');
+    if (!empty($system_name)) {
+        $stmt = $pdo->prepare("INSERT INTO site_settings (setting_key, setting_value) VALUES ('system_name', ?) ON DUPLICATE KEY UPDATE setting_value = ?");
+        $stmt->execute([$system_name, $system_name]);
 
-if (!empty($system_name)) {
-    $stmt = $pdo->prepare("INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
-    
-    // Save core settings
-    $stmt->execute(['system_name', $system_name, $system_name]);
-    
-    if (!empty($mail_domain)) {
-        $stmt->execute(['mail_domain', $mail_domain, $mail_domain]);
+        $_SESSION['message'] = "Site settings updated successfully.";
+    } else {
+        $_SESSION['error'] = "System name cannot be empty.";
     }
-    
-    // Save mail driver & SMTP parameters
-    $stmt->execute(['mail_driver', $mail_driver, $mail_driver]);
-    $stmt->execute(['smtp_host', $smtp_host, $smtp_host]);
-    $stmt->execute(['smtp_port', $smtp_port, $smtp_port]);
-    $stmt->execute(['smtp_user', $smtp_user, $smtp_user]);
-    
-    // Only update SMTP password if a new one has been typed in
-    if (!empty($smtp_pass)) {
-        $stmt->execute(['smtp_pass', $smtp_pass, $smtp_pass]);
-    }
-    
-    $stmt->execute(['smtp_encryption', $smtp_encryption, $smtp_encryption]);
-    $_SESSION['message'] = "Global site settings and mail configurations updated successfully.";
-
-    $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE_SETTINGS', ?, ?)");
-    $audit->execute([$current_user['id'], "Updated global site settings and mail driver configuration", $_SERVER['REMOTE_ADDR']]);
-} else {
-    $_SESSION['error'] = "System name cannot be empty.";
 }
 
 header('Location: ../settings.php');
 exit;
+?>

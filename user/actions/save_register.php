@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insert = $pdo->prepare("INSERT INTO users (username, email, password_hash, verification_token, token_expires_at, is_active) VALUES (?, ?, ?, ?, ?, 1)");
             
             if ($insert->execute([$username, $email, $password_hash, $token, $expires_at])) {
-                // Dispatch using mail_helper with $pdo as the first argument
-                if (send_user_invitation($pdo, $email, $token)) {
+                // Dispatch using mail_helper
+                if (send_user_invitation($email, $token)) {
                     $_SESSION['message'] = "Registration successful! Please check your email to verify your account.";
                 } else {
                     $_SESSION['message'] = "Registration successful, but failed to send verification email.";

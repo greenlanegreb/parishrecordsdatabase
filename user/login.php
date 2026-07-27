@@ -1,11 +1,9 @@
 <?php
 // login.php - Secure Login View
 session_start();
-require_once '../db/auth_helpers.php';
 
 $error = $_SESSION['error'] ?? '';
-$message = $_SESSION['message'] ?? '';
-unset($_SESSION['error'], $_SESSION['message']);
+unset($_SESSION['error']);
 ?>
 
     <?php require_once '../partials/header.php'; ?>
@@ -14,24 +12,17 @@ unset($_SESSION['error'], $_SESSION['message']);
         <h3>User Login</h3>
         
         <?php if (!empty($error)): ?>
-            <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
-        <?php endif; ?>
-        <?php if (!empty($message)): ?>
-            <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
+            <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
         <?php endif; ?>
 
         <form method="POST" action="actions/authenticate.php">
-            <?php echo csrf_field(); ?>
             <label for="username">Username or Email:</label><br>
-            <input type="text" id="username" name="username" required class="login-input" style="margin-bottom: 1rem;"><br>
+            <input type="text" id="username" name="username" required class="login-input"><br>
 
             <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required class="login-input" style="margin-bottom: 1.5rem;"><br>
+            <input type="password" id="password" name="password" required class="login-input"><br>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <button type="submit" class="btn">Log In</button>
-                <a href="forgot_password.php" style="font-size: 0.9rem; color: var(--primary-color, #007bff); text-decoration: underline;">Forgot Password?</a>
-            </div>
+            <button type="submit" class="btn">Log In</button>
         </form>
     </div>
 

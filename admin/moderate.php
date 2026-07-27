@@ -1,87 +1,99 @@
 <?php
-// admin/moderate.php - Moderator and Admin moderation queue view (Table-Scoped Granular Moderation)
+// admin/moderate.php - Moderator and Admin moderation queue view
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
+// Enforce moderator or admin privileges via central helper
+require_role($pdo, ['admin', 'moderator']);
 $current_user = get_current_user_data($pdo);
+
+// Determine user timezone, date format, and clock format settings
 $user_timezone = $current_user['timezone'] ?? 'UTC';
-$full_format_str = get_user_datetime_format($current_user);
+$user_date_format = $current_user['date_format'] ?? 'd/m/Y';
+$user_time_format = $current_user['time_format'] ?? '24';
+
+// Dynamically compile the format string
+if ($user_time_format === '12') {
+    $full_format_str = $user_date_format . ' h:i A';
+} elseif ($user_time_format === '24') {
+    $full_format_str = $user_date_format . ' H:i';
+} else {
+    $full_format_str = $user_date_format; // Date only
+}
+
+// Helper function to format timestamps
+function format_user_time($utc_timestamp, $timezone_str, $format_str) {
+    if (empty($utc_timestamp)) return 'N/A';
+    try {
+        $dt = new DateTime($utc_timestamp, new DateTimeZone('UTC'));
+        $dt->setTimezone(new DateTimeZone($timezone_str));
+        return $dt->format($format_str);
+    } catch (Exception $e) {
+        return $utc_timestamp;
+    }
+}
+
+// Helper function to format stored ISO dates (YYYY-MM-DD) into user's preferred format
+function format_display_date($date_str, $format_pref) {
+    if (empty($date_str)) return '';
+    $dt = DateTime::createFromFormat('Y-m-d', $date_str);
+    if ($dt !== false) {
+        $php_format = str_replace(['d', 'm', 'Y'], ['d', 'm', 'Y'], $format_pref);
+        return $dt->format($php_format);
+    }
+    return $date_str;
+}
+
 $message = $_SESSION['message'] ?? '';
 $error = $_SESSION['error'] ?? '';
 unset($_SESSION['message'], $_SESSION['error']);
 
-// Fetch pending suggestions and join with records to discover their parent table_id
+// Fetch pending suggestions along with the current live value from record_values and required column status, data type, and display format
 $pending_stmt = $pdo->query("
-    SELECT es.*, r.table_id, dt.table_name, u.username as suggestor_name, rv.value_content as current_live_value, tc.is_required, tc.data_type, tc.boolean_display_format
+    SELECT es.*, u.username as suggestor_name, rv.value_content as current_live_value, tc.is_required, tc.data_type, tc.boolean_display_format
     FROM edit_suggestions es
-    JOIN records r ON es.record_id = r.id
-    JOIN dynamic_tables dt ON r.table_id = dt.id
     LEFT JOIN users u ON es.suggested_by = u.id
-    LEFT JOIN table_columns tc ON es.column_name = tc.column_name AND tc.table_id = r.table_id
+    LEFT JOIN table_columns tc ON es.column_name = tc.column_name
     LEFT JOIN record_values rv ON es.record_id = rv.record_id AND tc.id = rv.column_id
     WHERE es.status = 'pending'
     ORDER BY es.created_at ASC
 ");
-$all_pending = $pending_stmt->fetchAll();
-
-// Filter suggestions based on table-specific moderation permissions (e.g., moderate_table_X)
-$pending_suggestions = [];
-foreach ($all_pending as $s) {
-    $t_id = intval($s['table_id']);
-    $mod_perm_key = 'moderate_table_' . $t_id;
-    
-    // Fallback support for Table 1 or general admin/moderator capability checks
-    if (is_admin($pdo) || ($t_id === 1 && has_permission($pdo, 'moderate_table_1', 'Allows moderating Table 1 records')) || has_permission($pdo, $mod_perm_key, 'Allows moderating records in table: ' . $s['table_name'])) {
-        $pending_suggestions[] = $s;
-    }
-}
-
-// If the user has zero moderation permissions across any table, block access with 403
-$has_any_mod_perm = is_admin($pdo);
-if (!$has_any_mod_perm) {
-    $tables_chk = $pdo->query("SELECT id FROM dynamic_tables")->fetchAll(PDO::FETCH_COLUMN);
-    foreach ($tables_chk as $t_id) {
-        if (has_permission($pdo, 'moderate_table_' . $t_id)) {
-            $has_any_mod_perm = true;
-            break;
-        }
-    }
-}
-if (!$has_any_mod_perm) {
-    require_once __DIR__ . '/../403.php';
-    exit;
-}
+$pending_suggestions = $pending_stmt->fetchAll();
 ?>
+
     <?php require_once '../partials/header.php'; ?>
+
     <?php if (!empty($error)): ?>
-        <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
+        <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
     <?php if (!empty($message)): ?>
-        <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
+        <p class="alert-success"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
-    
+
     <h3>Pending Suggestions Review</h3>
-    <p>Compare user-proposed changes against live records across your permitted tables. Approve proposals, override values, or decline suggestions.</p>
+    <p>Compare user-proposed changes against live records. You can accept the proposal as-is, edit/override the value(s) before approval, or decline the suggestion entirely.</p>
     
+    <!-- Prominent Shortcut Hint Box -->
     <div style="background: rgba(0, 123, 255, 0.05); border-left: 4px solid var(--primary-color, #007bff); padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 4px;">
         <p style="margin: 0; font-size: 0.9rem; color: #333;">
-            ⚡ <strong>Keyboard Shortcut Tip:</strong> Press <strong>Ctrl + Enter</strong> to quickly approve, or <strong>Esc</strong> to clear the override box!
+            ⚡ <strong>Keyboard Shortcut Tip:</strong> When reviewing any row, you can press <strong>Ctrl + Enter</strong> to quickly approve the changes, or press <strong>Esc</strong> while focused on the override box to clear it instantly!
         </p>
     </div>
+
     <table class="data-table" role="table" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
                 <th scope="col">ID / Date</th>
-                <th scope="col">Table, Record & Column</th>
+                <th scope="col">Record & Column</th>
                 <th scope="col">Comparison (Live vs Proposed)</th>
                 <th scope="col">Moderator Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($pending_suggestions)): ?>
-                <tr><td colspan="4">No pending suggestions found for your permitted moderation tables.</td></tr>
+                <tr><td colspan="4">No pending suggestions to review.</td></tr>
             <?php else: ?>
                 <?php foreach ($pending_suggestions as $s): ?>
                     <?php 
@@ -93,8 +105,8 @@ if (!$has_any_mod_perm) {
                             $live_display = format_boolean_value($s['current_live_value'], $fmt);
                             $prop_display = format_boolean_value($s['proposed_value'], $fmt);
                         } elseif (($s['data_type'] ?? '') === 'DATE') {
-                            $live_display = format_display_date($s['current_live_value'], $current_user['date_format'] ?? 'd/m/Y');
-                            $prop_display = format_display_date($s['proposed_value'], $current_user['date_format'] ?? 'd/m/Y');
+                            $live_display = format_display_date($s['current_live_value'], $user_date_format);
+                            $prop_display = format_display_date($s['proposed_value'], $user_date_format);
                         }
                     ?>
                     <tr>
@@ -104,11 +116,10 @@ if (!$has_any_mod_perm) {
                             <small style="color: #666;">By: <?php echo htmlspecialchars($s['suggestor_name'] ?? 'Viewer/Guest'); ?></small>
                         </td>
                         <td>
-                            <span style="background: #e9ecef; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.8rem; font-weight: bold;"><?php echo htmlspecialchars($s['table_name']); ?></span><br>
                             <strong>Record ID:</strong> #<?php echo $s['record_id']; ?><br>
                             <strong>Column:</strong> <?php echo htmlspecialchars($s['column_name']); ?>
                             <?php if (!empty($s['is_required'])): ?>
-                                <br><span style="color: var(--danger-color); font-size: 0.8rem; font-weight: bold;">(Required)</span>
+                                <br><span style="color: var(--danger-color); font-size: 0.8rem; font-weight: bold;">(Required Field)</span>
                             <?php endif; ?>
                         </td>
                         <td>
@@ -125,18 +136,26 @@ if (!$has_any_mod_perm) {
                         </td>
                         <td>
                             <form method="POST" action="actions/save_moderation.php" class="moderation-form">
-                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="suggestion_id" value="<?php echo $s['id']; ?>">
+                                <input type="hidden" name="column_id" value="<?php echo $s['column_name']; ?>">
                                 
-                                <label for="final_value_<?php echo $s['id']; ?>" style="font-size: 0.85rem; font-weight: bold;">Override Value:</label><br>
+                                <label for="final_value_<?php echo $s['id']; ?>" style="font-size: 0.85rem; font-weight: bold;">Override Value (if needed):</label><br>
                                 
                                 <?php if (($s['data_type'] ?? '') === 'BOOLEAN'): ?>
                                     <?php 
                                         $display_format = $s['boolean_display_format'] ?? 'yes_no';
-                                        $opt1_text = 'Yes / True'; $opt2_text = 'No / False';
-                                        if ($display_format === 'male_female') { $opt1_text = 'Male'; $opt2_text = 'Female'; }
-                                        elseif ($display_format === 'true_false') { $opt1_text = 'True'; $opt2_text = 'False'; }
-                                        elseif ($display_format === 'tick_cross') { $opt1_text = '✔ (Tick)'; $opt2_text = '✘ (Cross)'; }
+                                        $opt1_text = 'Yes / True';
+                                        $opt2_text = 'No / False';
+                                        if ($display_format === 'male_female') {
+                                            $opt1_text = 'Male';
+                                            $opt2_text = 'Female';
+                                        } elseif ($display_format === 'true_false') {
+                                            $opt1_text = 'True';
+                                            $opt2_text = 'False';
+                                        } elseif ($display_format === 'tick_cross') {
+                                            $opt1_text = '✔ (Tick)';
+                                            $opt2_text = '✘ (Cross)';
+                                        }
                                     ?>
                                     <select id="final_value_<?php echo $s['id']; ?>" name="final_value" style="width: 100%; padding: 0.3rem; margin-bottom: 0.5rem;" <?php echo (!empty($s['is_required'])) ? 'required' : ''; ?>>
                                         <option value="">-- Select --</option>
@@ -146,7 +165,7 @@ if (!$has_any_mod_perm) {
                                 <?php else: ?>
                                     <input type="text" id="final_value_<?php echo $s['id']; ?>" name="final_value" value="<?php echo htmlspecialchars($s['proposed_value']); ?>" <?php echo (!empty($s['is_required'])) ? 'required' : ''; ?> style="width: 100%; padding: 0.3rem; margin-bottom: 0.5rem;"><br>
                                 <?php endif; ?>
-                                
+
                                 <div style="display: flex; gap: 0.5rem;">
                                     <button type="submit" name="action" value="approve" class="btn btn-success approve-btn" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('Approve and apply this value?');">Approve</button>
                                     <button type="submit" name="action" value="reject" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('Decline and reject this suggestion?');">Decline</button>
@@ -158,10 +177,13 @@ if (!$has_any_mod_perm) {
             <?php endif; ?>
         </tbody>
     </table>
+
     <script>
+    // Keyboard shortcuts for the moderation queue
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.moderation-form').forEach(form => {
             form.addEventListener('keydown', (e) => {
+                // Ctrl + Enter triggers approval
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                     e.preventDefault();
                     const approveBtn = form.querySelector('.approve-btn');
@@ -174,6 +196,8 @@ if (!$has_any_mod_perm) {
                         form.submit();
                     }
                 }
+                
+                // Escape key clears text inputs
                 if (e.key === 'Escape' && e.target.tagName === 'INPUT' && e.target.type === 'text') {
                     e.preventDefault();
                     e.target.value = '';
@@ -182,4 +206,5 @@ if (!$has_any_mod_perm) {
         });
     });
     </script>
+
     <?php require_once '../partials/footer.php'; ?>

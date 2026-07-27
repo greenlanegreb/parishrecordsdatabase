@@ -4,8 +4,8 @@ require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 session_start();
 
-// Enforce dynamic permission check for 2FA setup (automatically registers 'setup_2fa' if new)
-require_permission($pdo, 'setup_2fa', 'Allows setting up and configuring Google Authenticator 2FA');
+// Enforce standard user/moderator/admin authentication via central helper
+require_role($pdo, ['user', 'moderator', 'admin']);
 $user = get_current_user_data($pdo);
 
 if ($user['two_fa_enabled']) {
@@ -101,7 +101,6 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" . 
         </div>
 
         <form method="POST" action="actions/save_setup_2fa.php">
-            <?php echo csrf_field(); ?>
             <label for="code" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Enter 6-digit Code from App to Confirm & Activate:</label>
             <input type="text" id="code" name="code" pattern="[0-9]{6}" maxlength="6" required autofocus class="setup-2fa-input" aria-label="6-digit authentication code">
             <button type="submit" class="btn" style="width: 100%;">Verify and Enable 2FA</button>

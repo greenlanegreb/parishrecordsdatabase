@@ -1,7 +1,6 @@
 <?php
 // set_password.php - View for setting new password via secure token
 require_once '../db/db.php';
-require_once '../db/auth_helpers.php';
 session_start();
 
 $token = $_GET['token'] ?? '';
@@ -35,7 +34,6 @@ unset($_SESSION['message'], $_SESSION['error']);
         <div class="search-box-container password-setup-container" role="region" aria-label="Password Setup">
             <h3>Define Your New Password for <?php echo htmlspecialchars($user['username']); ?></h3>
             <form method="POST" action="actions/save_password.php">
-                <?php echo csrf_field(); ?>
                 <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                 
                 <label for="password">New Password (minimum 8 characters):</label><br>

@@ -1,14 +1,6 @@
 <?php
 // db.php - Database connection with structured JSON error handling & logging
 
-// Define dynamic base path for portable redirects, links, and asset paths
-if (!defined('BASE_PATH')) {
-    $doc_root = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/');
-    $project_root = rtrim(str_replace('\\', '/', dirname(__DIR__)), '/');
-    $base_path = str_replace($doc_root, '', $project_root);
-    define('BASE_PATH', $base_path);
-}
-
 $host = '127.0.0.1';
 $db   = 'c21cakebreaddb';
 $user = 'c21cakebreaddb';
@@ -56,7 +48,7 @@ set_exception_handler(function ($exception) use ($log_dir) {
     <head>
         <meta charset="UTF-8">
         <title>System Error</title>
-        <link rel="stylesheet" href="<?php echo BASE_PATH; ?>/assets/css/style.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
     </head>
     <body id="page-body">
         <div class="search-box-container error-container" role="alert">
@@ -66,7 +58,7 @@ set_exception_handler(function ($exception) use ($log_dir) {
             
             <pre class="error-pre"><code><?php echo htmlspecialchars(json_encode($error_data, JSON_PRETTY_PRINT)); ?></code></pre>
             
-            <p class="error-footer-link"><a href="<?php echo BASE_PATH; ?>/index.php" class="btn">Return to Public Home</a></p>
+            <p class="error-footer-link"><a href="/index.php" class="btn">Return to Public Home</a></p>
         </div>
     </body>
     </html>
@@ -103,7 +95,7 @@ register_shutdown_function(function () use ($log_dir) {
             <head>
                 <meta charset="UTF-8">
                 <title>System Error</title>
-                <link rel="stylesheet" href="<?php echo BASE_PATH; ?>/assets/css/style.css">
+                <link rel="stylesheet" href="/assets/css/style.css">
             </head>
             <body id="page-body">
                 <div class="search-box-container error-container" role="alert">
@@ -113,7 +105,7 @@ register_shutdown_function(function () use ($log_dir) {
                     
                     <pre class="error-pre"><code><?php echo htmlspecialchars(json_encode($error_data, JSON_PRETTY_PRINT)); ?></code></pre>
                     
-                    <p class="error-footer-link"><a href="<?php echo BASE_PATH; ?>/index.php" class="btn">Return to Public Home</a></p>
+                    <p class="error-footer-link"><a href="/index.php" class="btn">Return to Public Home</a></p>
                 </div>
             </body>
             </html>

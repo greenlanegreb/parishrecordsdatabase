@@ -1,38 +1,21 @@
 <?php
-// user/actions/save_data_entry.php - Handles record insertions and duplicate confirmations with multi-table support
+// user/actions/save_data_entry.php - Handles record insertions and duplicate confirmations with validation & text sanitization
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
+session_start();
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// Enforce standard user/moderator/admin authentication via central helper
+require_role($pdo, ['user', 'moderator', 'admin']);
+$current_user = get_current_user_data($pdo);
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit('Method Not Allowed');
-}
-
-verify_csrf_token();
-$current_user = require_permission($pdo, 'access_data_entry', 'Allows accessing the core data entry workstation and creating records');
-
-$table_id = intval($_POST['table_id'] ?? 1);
-
-// Enforce table-specific permission check
-$perm_key = 'view_table_' . $table_id;
-if ($table_id !== 1 && !has_permission($pdo, $perm_key)) {
-    http_response_code(403);
-    exit('Unauthorized table access.');
-}
-
-if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'insert_record') {
     $input_filters = $_POST['filters'] ?? [];
     $confirmed_duplicate = isset($_POST['confirm_duplicate']) && $_POST['confirm_duplicate'] === '1';
 
-    // Fetch column metadata specifically for this table
+    // Fetch column metadata for required field rules
     $cols_map = [];
-    $stmt_cols = $pdo->prepare("SELECT id, column_name, is_required FROM table_columns WHERE table_id = ?");
-    $stmt_cols->execute([$table_id]);
+    $stmt_cols = $pdo->query("SELECT id, column_name, is_required FROM table_columns");
     while ($col = $stmt_cols->fetch()) {
         $cols_map[$col['id']] = $col;
     }
@@ -42,10 +25,11 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
     foreach ($input_filters as $cid => $val) {
         $clean_val = sanitize_incoming_text($val);
         $sanitized_inputs[$cid] = $clean_val;
+
         if (isset($cols_map[$cid]) && !empty($cols_map[$cid]['is_required'])) {
             if ($clean_val === '') {
                 $_SESSION['error'] = "The required field '{$cols_map[$cid]['column_name']}' cannot be left blank.";
-                header('Location: ../data_entry.php?table_id=' . $table_id);
+                header('Location: ../data_entry.php');
                 exit;
             }
         }
@@ -68,34 +52,37 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
         }
 
         try {
+            // Begin a database transaction to lock the sequence and prevent race conditions
             $pdo->beginTransaction();
 
-            // Check for duplicates within the same table if not confirmed
+            // Check for duplicates if not already confirmed, using a locking read
             if (!$confirmed_duplicate && !empty($first_col_val)) {
                 $check_stmt = $pdo->prepare("
                     SELECT r.id, rv.value_content, u.username 
                     FROM record_values rv
                     JOIN records r ON rv.record_id = r.id
-                    LEFT JOIN users u ON r.created_by = u.id
-                    WHERE r.table_id = ? AND rv.column_id = ? AND rv.value_content = ?
+                    JOIN users u ON r.created_by = u.id
+                    WHERE rv.column_id = ? AND rv.value_content = ?
                     FOR UPDATE
                 ");
-                $check_stmt->execute([$table_id, $first_col_id, $first_col_val]);
+                $check_stmt->execute([$first_col_id, $first_col_val]);
                 $existing_matches = $check_stmt->fetchAll();
 
                 if (count($existing_matches) > 0) {
+                    // Rollback transaction lock before redirecting to the modal view
                     $pdo->rollBack();
+
                     $_SESSION['duplicate_warning'] = true;
                     $_SESSION['duplicate_matches'] = $existing_matches;
                     $_SESSION['submitted_filters'] = $sanitized_inputs;
-                    header('Location: ../data_entry.php?table_id=' . $table_id);
+                    header('Location: ../data_entry.php');
                     exit;
                 }
             }
 
-            // Proceed with insertion bound to the active table ID
-            $rec_stmt = $pdo->prepare("INSERT INTO records (table_id, created_by) VALUES (?, ?)");
-            $rec_stmt->execute([$table_id, $current_user['id']]);
+            // Proceed with insertion
+            $rec_stmt = $pdo->prepare("INSERT INTO records (created_by) VALUES (?)");
+            $rec_stmt->execute([$current_user['id']]);
             $record_id = $pdo->lastInsertId();
 
             foreach ($sanitized_inputs as $column_id => $value_content) {
@@ -110,12 +97,16 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
             $points_stmt->execute([$current_user['id']]);
 
             // Audit log
-            $audit_stmt = $pdo->prepare("INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, ?, ?, ?, ?)");
-            $audit_stmt->execute([$current_user['id'], 'INSERT', $record_id, "Added record entry in table ID {$table_id} with sanitization", $_SERVER['REMOTE_ADDR']]);
+            $audit_stmt = $pdo->prepare("INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, 'INSERT', ?, ?, ?)");
+            $audit_stmt->execute([$current_user['id'], $record_id, "Added record entry via data entry with sanitization", $_SERVER['REMOTE_ADDR']]);
 
+            // Commit the transaction successfully
             $pdo->commit();
+
             $_SESSION['message'] = "Record successfully added!";
+
         } catch (Exception $e) {
+            // If any error or collision occurs, safely roll back changes
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
             }
@@ -124,6 +115,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
     }
 }
 
+// Clear duplicate states if completed or cancelled
 unset($_SESSION['duplicate_warning'], $_SESSION['duplicate_matches'], $_SESSION['submitted_filters']);
-header('Location: ../data_entry.php?table_id=' . $table_id);
+header('Location: ../data_entry.php');
 exit;

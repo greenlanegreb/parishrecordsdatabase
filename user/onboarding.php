@@ -4,8 +4,7 @@ require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 session_start();
 
-// Enforce dynamic permission check for onboarding access (automatically registers 'access_onboarding' if new)
-require_permission($pdo, 'access_onboarding', 'Allows accessing the first-time user onboarding setup wizard');
+require_role($pdo, ['user', 'moderator', 'admin']);
 $current_user = get_current_user_data($pdo);
 
 // If they are no longer marked as a new user, redirect them away from the wizard
@@ -36,7 +35,6 @@ unset($_SESSION['error']);
         <?php endif; ?>
 
         <form method="POST" action="actions/save_onboarding.php">
-            <?php echo csrf_field(); ?>
             <div style="margin-bottom: 1rem;">
                 <label for="first_name"><strong>First Name:</strong></label><br>
                 <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($current_user['first_name'] ?? ''); ?>" required autocomplete="given-name" class="profile-input" style="width:100%; padding: 0.4rem;">

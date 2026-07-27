@@ -17,31 +17,27 @@ function check_maintenance_mode($pdo) {
     $is_offline = isset($settings['maintenance_mode']) && $settings['maintenance_mode'] === '1';
 
     if ($is_offline) {
-        // Check if user has permission to manage settings/bypass maintenance mode
-        $can_bypass = false;
+        // Check if user is logged in and has administrator privileges to bypass
+        $is_admin = false;
         if (isset($_SESSION['user_id'])) {
-            // Ensure auth helpers are available for permission checking
-            if (!function_exists('has_permission') && file_exists(__DIR__ . '/auth_helpers.php')) {
-                require_once __DIR__ . '/auth_helpers.php';
-            }
-            if (function_exists('has_permission')) {
-                $can_bypass = has_permission($pdo, 'manage_settings', 'Manage global site settings and bypass maintenance mode');
+            $user_stmt = $pdo->prepare("SELECT role FROM users WHERE id = ?");
+            $user_stmt->execute([$_SESSION['user_id']]);
+            $user = $user_stmt->fetch();
+            if ($user && $user['role'] === 'admin') {
+                $is_admin = true;
             }
         }
 
-        // Allow authorized administrators, admin panel scripts, or login/auth pages to bypass
+        // Allow administrators, admin panel scripts, or login/auth pages to bypass
         $request_uri = $_SERVER['REQUEST_URI'] ?? '';
         $current_script = basename($_SERVER['PHP_SELF']);
         
         $is_admin_area = (strpos($request_uri, '/admin/') !== false);
         $allowed_scripts = ['login.php', 'logout.php', 'authenticate.php'];
         
-        if (!$can_bypass && !$is_admin_area && !in_array($current_script, $allowed_scripts)) {
+        if (!$is_admin && !$is_admin_area && !in_array($current_script, $allowed_scripts)) {
             $reason = $settings['maintenance_reason'] ?? 'System maintenance is currently underway.';
             $eta = $settings['maintenance_eta'] ?? 'Shortly';
-            
-            // Use dynamic BASE_PATH constant defined in db.php
-            $base_path = defined('BASE_PATH') ? BASE_PATH : '';
             
             // Render a clean maintenance page with a 503 HTTP status code
             http_response_code(503);
@@ -51,7 +47,7 @@ function check_maintenance_mode($pdo) {
             <head>
                 <meta charset="UTF-8">
                 <title>Site Under Maintenance</title>
-                <link rel="stylesheet" href="<?php echo $base_path; ?>/assets/css/style.css">
+                <link rel="stylesheet" href="/projects/cakebread-database/assets/css/style.css">
             </head>
             <body style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #f8f9fa; font-family: sans-serif; margin: 0;">
                 <div style="background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 500px; text-align: center;">

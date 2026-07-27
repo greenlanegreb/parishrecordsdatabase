@@ -1,4 +1,6 @@
 Options -Indexes
 
-ErrorDocument 403 403.php
-ErrorDocument 404 404.php
+ErrorDocument 403 /projects/cakebread-database/403.php
+ErrorDocument 404 /projects/cakebread-database/404.php
+ErrorDocument 403 /403.php
+ErrorDocument 404 /404.php

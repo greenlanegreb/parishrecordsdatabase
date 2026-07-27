@@ -4,22 +4,12 @@ require_once 'db/db.php';
 require_once 'db/auth_helpers.php';
 session_start();
 
-// Enforce dynamic permission check (automatically registers 'view_leaderboard' if new)
-require_permission($pdo, 'view_leaderboard', 'Allows viewing community contribution leaderboards');
-
 // Optional user session lookup for public page (won't block guests)
 $current_user = (function_exists('get_current_user_data') && isset($pdo)) ? get_current_user_data($pdo) : null;
 $is_logged_in = ($current_user !== null || isset($_SESSION['user_id']));
 
-// Fetch all active users with their dynamic role names ordered by points descending
-$stmt = $pdo->prepare("
-    SELECT u.username, u.first_name, u.surname, u.points, r.role_name AS role, u.leaderboard_display_mode 
-    FROM users u 
-    LEFT JOIN roles r ON u.role_id = r.id 
-    WHERE u.is_active = 1 
-    ORDER BY u.points DESC, u.username ASC 
-    LIMIT 50
-");
+// Fetch all active users ordered by points descending
+$stmt = $pdo->prepare("SELECT username, first_name, surname, points, role, leaderboard_display_mode FROM users WHERE is_active = 1 ORDER BY points DESC, username ASC LIMIT 50");
 $stmt->execute();
 $all_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -100,7 +90,7 @@ foreach ($all_users as $u) {
                                     <span style="font-size: 0.8rem; color: var(--primary-color, #007bff); margin-left: 0.5rem;">(You)</span>
                                 <?php endif; ?>
                             </td>
-                            <td style="padding: 0.75rem; text-transform: capitalize;"><?php echo htmlspecialchars($u['role'] ?? 'User'); ?></td>
+                            <td style="padding: 0.75rem; text-transform: capitalize;"><?php echo htmlspecialchars($u['role']); ?></td>
                             <td style="padding: 0.75rem; text-align: right;">⭐ <?php echo intval($u['points']); ?></td>
                         </tr>
                     <?php $rank++; endforeach; ?>

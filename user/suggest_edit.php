@@ -1,7 +1,6 @@
 <?php
 // suggest_edit.php - View for suggesting column edits securely
 require_once '../db/db.php';
-require_once '../db/auth_helpers.php';
 session_start();
 
 $record_id = $_GET['record_id'] ?? null;
@@ -52,7 +51,6 @@ unset($_SESSION['message'], $_SESSION['error']);
 
         <h3>Submit New Proposed Value</h3>
         <form method="POST" action="actions/save_suggest_edit.php" onsubmit="return confirm('Are you sure you are ready to submit this edit suggestion for admin review?');">
-            <?php echo csrf_field(); ?>
             <input type="hidden" name="record_id" value="<?php echo htmlspecialchars($record_id); ?>">
 
             <label for="column_id">Select Column to Edit:</label><br>

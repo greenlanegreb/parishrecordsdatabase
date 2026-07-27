@@ -2,17 +2,37 @@
 // admin/feedback_dashboard.php - Admin feedback management view
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
-require_once '../includes/functions.php';
 session_start();
 
-// Enforce dynamic permission check (automatically registers 'manage_feedback' if new)
-require_permission($pdo, 'manage_feedback', 'Manage and moderate public feedback and submissions');
-
+// Enforce strict administrator privileges via central helper
+require_role($pdo, 'admin');
 $current_user = get_current_user_data($pdo);
 
-// Determine user timezone and dynamically compile the date/time format string using the central helper
+// Determine user timezone, date format, and clock format settings
 $user_timezone = $current_user['timezone'] ?? 'UTC';
-$full_format_str = get_user_datetime_format($current_user);
+$user_date_format = $current_user['date_format'] ?? 'd/m/Y';
+$user_time_format = $current_user['time_format'] ?? '24';
+
+// Dynamically compile the format string
+if ($user_time_format === '12') {
+    $full_format_str = $user_date_format . ' h:i A';
+} elseif ($user_time_format === '24') {
+    $full_format_str = $user_date_format . ' H:i';
+} else {
+    $full_format_str = $user_date_format; // Date only
+}
+
+// Helper function to format timestamps
+function format_user_time($utc_timestamp, $timezone_str, $format_str) {
+    if (empty($utc_timestamp)) return 'N/A';
+    try {
+        $dt = new DateTime($utc_timestamp, new DateTimeZone('UTC'));
+        $dt->setTimezone(new DateTimeZone($timezone_str));
+        return $dt->format($format_str);
+    } catch (Exception $e) {
+        return $utc_timestamp;
+    }
+}
 
 // Dynamic system name for mail subjects
 $system_name = (function_exists('get_system_name') && isset($pdo)) ? get_system_name($pdo) : "Parish Records Directory (PRD)";
@@ -31,10 +51,10 @@ $feedbacks = $feedback_stmt->fetchAll();
     <p>Review feedback, update status workflow, log reasons/notes, and communicate with submitters.</p>
 
     <?php if (!empty($message)): ?>
-        <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
+        <p class="alert-success"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
     <?php if (!empty($error)): ?>
-        <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
+        <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
 
     <table class="data-table" role="table">
@@ -67,7 +87,6 @@ $feedbacks = $feedback_stmt->fetchAll();
                         <td><?php echo nl2br(htmlspecialchars($fb['message'])); ?></td>
                         <td>
                             <form method="POST" action="actions/save_feedback.php" class="feedback-form-group">
-                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="update_feedback">
                                 <input type="hidden" name="feedback_id" value="<?php echo $fb['id']; ?>">
                                 
@@ -89,7 +108,6 @@ $feedbacks = $feedback_stmt->fetchAll();
                             <a href="mailto:<?php echo htmlspecialchars($fb['email']); ?>?subject=<?php echo $mail_subject; ?>" class="btn btn-secondary feedback-email-btn">Email User</a>
                             
                             <form method="POST" action="actions/save_feedback.php" onsubmit="return confirm('Are you sure you want to delete this feedback entry?');">
-                                <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="delete_feedback">
                                 <input type="hidden" name="feedback_id" value="<?php echo $fb['id']; ?>">
                                 <button type="submit" class="btn btn-danger" style="width: 100%;">Delete</button>
