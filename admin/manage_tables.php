@@ -9,6 +9,9 @@ $current_user = require_admin_page($pdo, 'manage_tables', 'Manage dynamic databa
 $message = $GLOBALS['message'] ?? '';
 $error   = $GLOBALS['error']   ?? '';
 
+// Include SortableJS CDN for drag-and-drop support
+echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>';
+
 // User timezone + datetime format
 [$user_timezone, $full_format_str] = get_user_time_prefs($current_user);
 
@@ -48,7 +51,7 @@ if (isset($_GET['edit_column'])) {
     }
 }
 
-// Fetch columns for the currently active table ordered by sort_order first, then column name
+// Fetch columns for the currently active table ordered by custom sort_order first, then default alphabetical fallback
 $columns_stmt = $pdo->prepare("SELECT tc.*, u.username FROM table_columns tc JOIN users u ON tc.created_by = u.id WHERE tc.table_id = ? ORDER BY tc.sort_order ASC, tc.column_name ASC");
 $columns_stmt->execute([$active_table_id]);
 $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,7 +69,8 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
         <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
 
-    <!-- Table Selector Bar & Quick Management -->
+    <!-- Table Selector Bar & Quick Management (Hidden gracefully if no tables exist on fresh install) -->
+    <?php if (!empty($tables)): ?>
     <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <div>
             <label for="table_switcher" style="font-size: 0.85rem; font-weight: bold;">Select Active Table Schema:</label><br>
@@ -93,6 +97,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endif; ?>
     </div>
+    <?php endif; ?>
 
     <!-- Create New Table / Edit Table Collapsible Section -->
     <details id="table-form-details" style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 2rem; padding: 1rem 1.25rem;" <?php echo $edit_table ? 'open' : ''; ?>>
@@ -177,11 +182,9 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                         </select>
                     </div>
 
-                    <label for="max_length">Max Size / Length (Optional limit):</label><br>
-                    <input type="number" id="max_length" name="max_length" value="<?php echo $edit_col ? htmlspecialchars($edit_col['max_length'] ?? '') : ''; ?>" placeholder="e.g. 255" class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-bottom: 1rem;"><br>
-
-                    <label for="sort_order">Display Sort Order (Number):</label><br>
-                    <input type="number" id="sort_order" name="sort_order" value="<?php echo $edit_col ? intval($edit_col['sort_order']) : 0; ?>" class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-bottom: 1rem;"><br>
+                    <!-- Explicit Character Limit Specification -->
+                    <label for="max_length">Max Size / Length (Optional character limit):</label><br>
+                    <input type="number" id="max_length" name="max_length" value="<?php echo $edit_col ? htmlspecialchars($edit_col['max_length'] ?? '') : ''; ?>" placeholder="e.g. 255 characters" class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-bottom: 1rem;"><br>
 
                     <!-- Required Field Toggle Option -->
                     <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
@@ -219,84 +222,134 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
             <h3 style="margin: 0;">Existing Columns for "<?php echo htmlspecialchars($active_table_info['table_name']); ?>"</h3>
         </div>
 
-        <!-- Single Batch Form wrapping the table for sort order updates -->
-        <form method="POST" action="actions/save_manage_tables.php">
-            <?php echo csrf_field(); ?>
-            <input type="hidden" name="action" value="update_order_batch">
-            <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
-            <div style="overflow-x: auto;">
-                <table border="1" cellpadding="8" cellspacing="0" role="table" class="data-table" style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="border-bottom: 2px solid var(--border-color);">
-                            <th scope="col">Sort Order</th>
-                            <th scope="col">Column Name</th>
-                            <th scope="col">Data Type</th>
-                            <th scope="col">Required?</th>
-                            <th scope="col">Public Search?</th>
-                            <th scope="col">Display Format</th>
-                            <th scope="col">Max Length</th>
-                            <th scope="col">Created By</th>
-                            <th scope="col">Date Created</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($columns)): ?>
-                            <tr><td colspan="10" style="text-align: center; color: #666; padding: 1rem;">No dynamic columns defined for this table yet.</td></tr>
-                        <?php else: ?>
-                            <?php foreach ($columns as $col): ?>
-                                <tr style="border-bottom: 1px solid var(--border-color);">
-                                    <td>
-                                        <input type="number" name="sort_orders[<?php echo $col['id']; ?>]" value="<?php echo intval($col['sort_order']); ?>" aria-label="Sort order for <?php echo htmlspecialchars($col['column_name']); ?>" style="width: 60px; padding: 0.3rem;">
-                                    </td>
-                                    <td><strong><?php echo htmlspecialchars($col['column_name']); ?></strong></td>
-                                    <td><code style="font-family: monospace;"><?php echo htmlspecialchars($col['data_type']); ?></code></td>
-                                    <td>
-                                        <?php if (!empty($col['is_required'])): ?>
-                                            <span style="color: green; font-weight: bold;">Yes</span>
-                                        <?php else: ?>
-                                            <span style="color: gray;">No</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php if (empty($col['exclude_from_public_search'])): ?>
-                                            <span style="color: green; font-weight: bold;">Yes</span>
-                                        <?php else: ?>
-                                            <span style="color: var(--danger-color, #dc3545); font-weight: bold;">Hidden</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php
-                                            if ($col['data_type'] === 'BOOLEAN') {
-                                                echo htmlspecialchars($col['boolean_display_format'] ?? 'yes_no');
-                                            } elseif ($col['data_type'] === 'DATE') {
-                                                echo htmlspecialchars($col['date_search_behavior'] ?? 'manual_only');
-                                            } else {
-                                                echo 'N/A';
-                                            }
-                                        ?>
-                                    </td>
-                                    <td><?php echo $col['max_length'] ?? 'N/A'; ?></td>
-                                    <td><?php echo htmlspecialchars($col['username'] ?? 'System'); ?></td>
-                                    <td><?php echo format_user_time($col['created_at'], $user_timezone, $full_format_str); ?></td>
-                                    <td style="white-space: nowrap;">
-                                        <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>&edit_column=<?php echo $col['id']; ?>#create-column-details" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem; text-decoration: none; margin-right: 4px;">Edit</a>
-                                      
-                                        <button type="submit" name="action" value="delete" formaction="actions/save_manage_tables.php" onclick="document.getElementById('delete_col_id').value='<?php echo $col['id']; ?>'; return confirm('WARNING: Deleting this column will also remove all associated cell data across all records. Are you sure?');" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" formnovalidate>Delete</button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-            <input type="hidden" name="column_id" id="delete_col_id" value="">
-            <?php if (!empty($columns)): ?>
-                <div style="margin-top: 1rem;">
-                    <button type="submit" class="btn">Save All Sort Orders</button>
-                </div>
-            <?php endif; ?>
-        </form>
+        <!-- Drag-and-Drop Table Wrapping Container -->
+        <div style="overflow-x: auto;">
+            <table border="1" cellpadding="8" cellspacing="0" role="table" class="data-table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-color);">
+                        <th scope="col" style="width: 50px; text-align: center;">Move</th>
+                        <th scope="col">Column Name</th>
+                        <th scope="col">Data Type</th>
+                        <th scope="col">Required?</th>
+                        <th scope="col">Public Search?</th>
+                        <th scope="col">Display Format</th>
+                        <th scope="col">Max Length</th>
+                        <th scope="col">Created By</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sortable-columns-body">
+                    <?php if (empty($columns)): ?>
+                        <tr><td colspan="10" style="text-align: center; color: #666; padding: 1rem;">No dynamic columns defined for this table yet.</td></tr>
+                    <?php else: ?>
+                        <?php foreach ($columns as $col): ?>
+                            <tr data-column-id="<?php echo $col['id']; ?>" style="border-bottom: 1px solid var(--border-color); background: #fff; cursor: grab;">
+                                <td style="text-align: center; color: #888; font-size: 1.2rem;" title="Drag to reorder">
+                                    ☰
+                                </td>
+                                <td><strong><?php echo htmlspecialchars($col['column_name']); ?></strong></td>
+                                <td><code style="font-family: monospace;"><?php echo htmlspecialchars($col['data_type']); ?></code></td>
+                                <td>
+                                    <?php if (!empty($col['is_required'])): ?>
+                                        <span style="color: green; font-weight: bold;">Yes</span>
+                                    <?php else: ?>
+                                        <span style="color: gray;">No</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if (empty($col['exclude_from_public_search'])): ?>
+                                        <span style="color: green; font-weight: bold;">Yes</span>
+                                    <?php else: ?>
+                                        <span style="color: var(--danger-color, #dc3545); font-weight: bold;">Hidden</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php
+                                        if ($col['data_type'] === 'BOOLEAN') {
+                                            echo htmlspecialchars($col['boolean_display_format'] ?? 'yes_no');
+                                        } elseif ($col['data_type'] === 'DATE') {
+                                            echo htmlspecialchars($col['date_search_behavior'] ?? 'manual_only');
+                                        } else {
+                                            echo 'N/A';
+                                        }
+                                    ?>
+                                </td>
+                                <td><?php echo $col['max_length'] ?? 'N/A'; ?></td>
+                                <td><?php echo htmlspecialchars($col['username'] ?? 'System'); ?></td>
+                                <td><?php echo format_user_time($col['created_at'], $user_timezone, $full_format_str); ?></td>
+                                <td style="white-space: nowrap;">
+                                    <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>&edit_column=<?php echo $col['id']; ?>#create-column-details" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem; text-decoration: none; margin-right: 4px;">Edit</a>
+                                  
+                                    <form method="POST" action="actions/save_manage_tables.php" style="display:inline;" onsubmit="return confirm('WARNING: Deleting this column will also remove all associated cell data across all records. Are you sure?');">
+                                        <?php echo csrf_field(); ?>
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="column_id" value="<?php echo $col['id']; ?>">
+                                        <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
+                                        <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" formnovalidate>Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- AJAX Sortable Initialization Script -->
+        <?php if (!empty($columns)): ?>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var tbody = document.getElementById('sortable-columns-body');
+            if (tbody) {
+                Sortable.create(tbody, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function () {
+                        var rows = tbody.querySelectorAll('tr[data-column-id]');
+                        var sortOrders = {};
+                        
+                        rows.forEach(function (row, index) {
+                            var colId = row.getAttribute('data-column-id');
+                            sortOrders[colId] = index + 1;
+                        });
+
+                        var formData = new URLSearchParams();
+                        formData.append('action', 'update_order_batch');
+                        formData.append('table_id', '<?php echo $active_table_id; ?>');
+                        formData.append('csrf_token', '<?php echo $_SESSION['csrf_token'] ?? ''; ?>');
+                        
+                        for (var colId in sortOrders) {
+                            formData.append('sort_orders[' + colId + ']', sortOrders[colId]);
+                        }
+
+                        fetch('actions/save_manage_tables.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: formData
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                console.error('Failed to sync sort order via AJAX.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('AJAX error:', error);
+                        });
+                    }
+                });
+            }
+        });
+        </script>
+        <style>
+            .sortable-ghost {
+                opacity: 0.4;
+                background: #f0f0f0 !important;
+            }
+        </style>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 
