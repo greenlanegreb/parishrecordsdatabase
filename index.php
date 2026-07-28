@@ -1,4 +1,11 @@
 <?php
+
+// Only send people to the installer when nothing is configured yet
+if (!is_file(__DIR__ . '/db/db.php') && !is_file(__DIR__ . '/config.local.php')) {
+    header('Location: install/');
+    exit;
+}
+
 // index.php - Public View-Only Multi-Table Directory Interface
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
