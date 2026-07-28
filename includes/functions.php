@@ -319,3 +319,24 @@ if (!function_exists('set_language')) {
         $_SESSION['lang'] = preg_replace('/[^a-z_]/', '', strtolower($code)) ?: 'en';
     }
 }
+
+/**
+ * Schema version helpers (site_settings.schema_version)
+ */
+if (!function_exists('get_schema_version')) {
+    function get_schema_version(PDO $pdo): int {
+        $val = get_setting($pdo, 'schema_version', '0');
+        return max(0, (int) $val);
+    }
+}
+
+if (!function_exists('set_schema_version')) {
+    function set_schema_version(PDO $pdo, int $version): void {
+        $version = max(0, $version);
+        $stmt = $pdo->prepare(
+            "INSERT INTO site_settings (setting_key, setting_value) VALUES ('schema_version', ?)
+             ON DUPLICATE KEY UPDATE setting_value = ?"
+        );
+        $stmt->execute([(string) $version, (string) $version]);
+    }
+}

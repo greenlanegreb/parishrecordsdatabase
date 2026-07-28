@@ -2,3 +2,8 @@ logs/
 *.log
 .DS_Store
 db/db.php
+/vendor/
+composer.phar
+.phpunit.result.cache
+.phpunit.cache
+tests/db.php

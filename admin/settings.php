@@ -19,7 +19,6 @@ try {
         $view_desc = 'Allows viewing and searching records in table: ' . $t_name;
         $mod_key   = 'moderate_table_' . $t_id;
         $mod_desc  = 'Allows reviewing and moderating suggestions in table: ' . $t_name;
-
         $ins_p = $pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)");
         $ins_p->execute([$view_key, $view_desc]);
         $ins_p->execute([$mod_key, $mod_desc]);
@@ -66,6 +65,19 @@ if (!in_array('en', $available_languages, true)) {
     array_unshift($available_languages, 'en');
 }
 
+// Schema version status for update UI
+$schema_current = function_exists('get_schema_version') ? get_schema_version($pdo) : 0;
+$schema_latest  = $schema_current;
+$migrations_dir = __DIR__ . '/../db/migrations';
+if (is_dir($migrations_dir)) {
+    foreach (glob($migrations_dir . '/*.php') as $mig_file) {
+        if (preg_match('/(\d+)_/', basename($mig_file), $m)) {
+            $schema_latest = max($schema_latest, (int) $m[1]);
+        }
+    }
+}
+$schema_needs_update = ($schema_current < $schema_latest);
+
 // Module toggles state
 $mod_moderation_val  = $get_setting_val($pdo, 'module_moderation_enabled', '1');
 $mod_volunteers_val  = $get_setting_val($pdo, 'module_volunteers_enabled', '1');
@@ -107,6 +119,38 @@ if (isset($_GET['edit_role'])) {
 
     <!-- TAB 1: Core & Mail Settings -->
     <div role="tabpanel" id="panel-core" aria-labelledby="tab-core" class="tab-panel">
+
+        <!-- Database backup + schema updates -->
+        <div style="margin-bottom: 2rem; padding: 1.25rem; border: 1px solid var(--border-color); border-radius: 6px; background: rgba(0,0,0,0.02);">
+            <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">Database updates</h4>
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                Current schema version: <strong><?php echo (int) $schema_current; ?></strong>
+                &nbsp;·&nbsp;
+                Latest available: <strong><?php echo (int) $schema_latest; ?></strong>
+            </p>
+
+            <form method="POST" action="actions/download_database_backup.php" style="margin: 0.75rem 0;">
+                <?php echo csrf_field(); ?>
+                <button type="submit" class="btn btn-secondary">Download database backup</button>
+            </form>
+            <p style="font-size: 0.9rem; color: #555; margin: 0 0 1rem;">
+                Saves a full .sql file to your computer. Keep it somewhere safe before running updates.
+            </p>
+
+            <?php if ($schema_needs_update): ?>
+                <p style="font-size: 0.95rem; color: #856404; background: #fff3cd; padding: 0.75rem; border-radius: 4px;">
+                    A database update is available. Please download a backup above before continuing.
+                </p>
+                <form method="POST" action="actions/run_migrations.php" style="margin-top: 0.75rem;"
+                      onsubmit="return confirm('Have you downloaded a database backup? This will apply pending schema updates.');">
+                    <?php echo csrf_field(); ?>
+                    <button type="submit" class="btn">Update database</button>
+                </form>
+            <?php else: ?>
+                <p style="margin: 0.5rem 0; font-size: 0.95rem; color: #155724;">Database is up to date.</p>
+            <?php endif; ?>
+        </div>
+
         <form method="POST" action="actions/save_settings.php">
             <?php echo csrf_field(); ?>
             <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">Core System Settings</h4>
@@ -188,7 +232,6 @@ if (isset($_GET['edit_role'])) {
             <?php echo csrf_field(); ?>
             <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">Application Module Toggles & Efficiency Controls</h4>
             <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Enable or disable features to optimize application execution efficiency and adapt PRD to your specific deployment needs.</p>
-
             <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                 <div style="background: rgba(0,0,0,0.02); padding: 1.25rem; border: 1px solid var(--border-color); border-radius: 6px;">
                     <label style="cursor: pointer; font-weight: bold; font-size: 1.05rem; display: flex; align-items: center; gap: 0.75rem;">
@@ -344,7 +387,6 @@ if (isset($_GET['edit_role'])) {
                         <summary style="cursor: pointer; font-weight: bold; color: #007bff; font-size: 1.1rem; outline: none; display: flex; justify-content: space-between; align-items: center;">
                             <span><?php echo htmlspecialchars($category_name); ?> <span style="font-weight: normal; color: #666; font-size: 0.85rem;">(<?php echo count($cat_perms); ?> permissions)</span></span>
                         </summary>
-
                         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e9ecef; overflow-x: auto;">
                             <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left; background: #fff;">
                                 <thead>
