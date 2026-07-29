@@ -13,7 +13,7 @@ if (!is_module_enabled($pdo, 'users')) {
 // Standard admin bootstrap (permission + flash messages)
 $current_user = require_admin_page($pdo, 'manage_users', 'Manage user accounts, roles, and status');
 $message = $GLOBALS['message'] ?? '';
-$error   = $GLOBALS['error']   ?? '';
+$error   = $GLOBALS['error']    ?? '';
 
 // Determine the first admin user ID dynamically (the earliest created user with the 'admin' role, fallback to ID 1)
 $first_admin_id = 1;
@@ -91,6 +91,7 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                     </span>
                                 <?php else: ?>
                                     <form method="POST" action="actions/save_user_management.php" style="display: flex; gap: 0.3rem; align-items: center;">
+                                        <?php echo csrf_field(); ?>
                                         <input type="hidden" name="action" value="change_role">
                                         <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
                                         <select name="new_role_id" style="padding: 0.2rem; font-size: 0.85rem;" aria-label="Role for <?php echo htmlspecialchars($u['username']); ?>">
@@ -114,9 +115,10 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                             </td>
                             <td><?php echo $u['two_fa_enabled'] ? '<span class="user-2fa-enabled">Enabled</span>' : 'Disabled'; ?></td>
                             <td style="display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem;">
-                               
+                                
                                 <!-- Points Override Form -->
                                 <form method="POST" action="actions/save_user_management.php" style="display: flex; gap: 0.3rem; align-items: center;">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="override_points">
                                     <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
                                     <input type="number" name="new_points" value="<?php echo intval($u['points']); ?>" style="width: 70px; padding: 0.2rem;" aria-label="Points for <?php echo htmlspecialchars($u['username']); ?>">
@@ -127,12 +129,14 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                     <?php if ($u['id'] !== $current_user['id'] && !$is_first_admin): ?>
                                         <?php if ($u['is_active']): ?>
                                             <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Suspend user and block access for cheating/violation?');" style="display:inline;">
+                                                <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="action" value="suspend">
                                                 <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
                                                 <button type="submit" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Suspend <?php echo htmlspecialchars($u['username']); ?>">Suspend</button>
                                             </form>
                                         <?php else: ?>
                                             <form method="POST" action="actions/save_user_management.php" style="display:inline;">
+                                                <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="action" value="unsuspend">
                                                 <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
                                                 <button type="submit" class="btn btn-reactivate" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Reactivate <?php echo htmlspecialchars($u['username']); ?>">Reactivate</button>
@@ -142,6 +146,7 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                     <!-- 2FA Reset Button -->
                                     <?php if ($u['two_fa_enabled']): ?>
                                         <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Reset 2FA for this user?');" style="display:inline;">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="action" value="reset_2fa">
                                             <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
                                             <button type="submit" class="btn btn-reset-2fa" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Reset 2FA for <?php echo htmlspecialchars($u['username']); ?>">Reset 2FA</button>
