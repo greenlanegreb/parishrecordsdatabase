@@ -10,7 +10,6 @@ if (!is_module_enabled($pdo, 'moderation')) {
     exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
 }
 
-// Enforce dynamic permission check replacing hardcoded roles (automatically registers 'access_suggest_edit' if new)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -23,6 +22,8 @@ $current_user = require_permission($pdo, 'access_suggest_edit', 'Allows submitti
 $user_id = $current_user['id'];
 
 $record_id = $_POST['record_id'] ?? null;
+$return_url = $_POST['return_url'] ?? '../index.php';
+
 if (!$record_id) {
     http_response_code(403);
     exit("No record specified.");
@@ -30,6 +31,7 @@ if (!$record_id) {
 
 $column_id = $_POST['column_id'] ?? '';
 $proposed_value = trim($_POST['proposed_value'] ?? '');
+$reasoning = trim($_POST['reasoning'] ?? '');
 
 if (empty($proposed_value) || empty($column_id)) {
     $_SESSION['error'] = "Proposed value cannot be empty.";
@@ -39,18 +41,24 @@ if (empty($proposed_value) || empty($column_id)) {
     $col_info = $col_stmt->fetch();
 
     if ($col_info) {
-        $ins = $pdo->prepare("INSERT INTO edit_suggestions (record_id, suggested_by, column_name, proposed_value, status) VALUES (?, ?, ?, ?, 'pending')");
+        $ins = $pdo->prepare("INSERT INTO edit_suggestions (record_id, suggested_by, column_name, proposed_value, reasoning, status) VALUES (?, ?, ?, ?, ?, 'pending')");
         
-        if ($ins->execute([$record_id, $user_id, $col_info['column_name'], $proposed_value])) {
+        if ($ins->execute([$record_id, $user_id, $col_info['column_name'], $proposed_value, $reasoning])) {
             $_SESSION['message'] = "Your edit suggestion has been successfully submitted to the admin queue for review.";
             
+            // Updated audit log details to capture the user's rationale/evidence
+            $audit_details = "Suggested edit for column: {$col_info['column_name']}.";
+            if ($reasoning !== '') {
+                $audit_details .= " Reasoning/Evidence: " . $reasoning;
+            }
+
             $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, ?, ?, ?, ?)");
-            $audit->execute([$user_id, 'EDIT_SUGGESTION', $record_id, "Suggested edit for column: {$col_info['column_name']}", $_SERVER['REMOTE_ADDR']]);
+            $audit->execute([$user_id, 'EDIT_SUGGESTION', $record_id, $audit_details, $_SERVER['REMOTE_ADDR']]);
         } else {
             $_SESSION['error'] = "Failed to submit suggestion.";
         }
     }
 }
 
-header("Location: ../suggest_edit.php?record_id=" . urlencode($record_id));
+header("Location: ../suggest_edit.php?record_id=" . urlencode($record_id) . "&return=" . urlencode($return_url));
 exit;

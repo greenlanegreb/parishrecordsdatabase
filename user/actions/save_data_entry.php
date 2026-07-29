@@ -31,17 +31,29 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
 
     // Fetch column metadata specifically for this table
     $cols_map = [];
-    $stmt_cols = $pdo->prepare("SELECT id, column_name, is_required FROM table_columns WHERE table_id = ?");
+    $stmt_cols = $pdo->prepare("SELECT id, column_name, is_required, data_type FROM table_columns WHERE table_id = ?");
     $stmt_cols->execute([$table_id]);
     while ($col = $stmt_cols->fetch()) {
         $cols_map[$col['id']] = $col;
     }
 
+    // Save submitted filters to session so form fields persist if validation fails or duplicate warning triggers
+    $_SESSION['submitted_filters'] = $input_filters;
+
     // Server-side required field check & text sanitization prep
     $sanitized_inputs = [];
     foreach ($input_filters as $cid => $val) {
-        $clean_val = sanitize_incoming_text($val);
+        $is_bool = (isset($cols_map[$cid]) && ($cols_map[$cid]['data_type'] ?? '') === 'BOOLEAN');
+        
+        // Handle boolean "0" properly without treating it as empty
+        if ($is_bool) {
+            $clean_val = ($val !== '' && $val !== null) ? trim((string)$val) : '';
+        } else {
+            $clean_val = sanitize_incoming_text($val);
+        }
+
         $sanitized_inputs[$cid] = $clean_val;
+
         if (isset($cols_map[$cid]) && !empty($cols_map[$cid]['is_required'])) {
             if ($clean_val === '') {
                 $_SESSION['error'] = "The required field '{$cols_map[$cid]['column_name']}' cannot be left blank.";
@@ -53,14 +65,14 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
 
     $has_content = false;
     foreach ($sanitized_inputs as $val) {
-        if (!empty($val)) { $has_content = true; break; }
+        if ($val !== '') { $has_content = true; break; }
     }
 
     if ($has_content) {
         $first_col_val = '';
         $first_col_id = 0;
         foreach ($sanitized_inputs as $cid => $cval) {
-            if (!empty($cval)) {
+            if ($cval !== '') {
                 $first_col_id = $cid;
                 $first_col_val = $cval;
                 break;
@@ -71,7 +83,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
             $pdo->beginTransaction();
 
             // Check for duplicates within the same table if not confirmed
-            if (!$confirmed_duplicate && !empty($first_col_val)) {
+            if (!$confirmed_duplicate && $first_col_val !== '') {
                 $check_stmt = $pdo->prepare("
                     SELECT r.id, rv.value_content, u.username 
                     FROM record_values rv
@@ -87,7 +99,6 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
                     $pdo->rollBack();
                     $_SESSION['duplicate_warning'] = true;
                     $_SESSION['duplicate_matches'] = $existing_matches;
-                    $_SESSION['submitted_filters'] = $sanitized_inputs;
                     header('Location: ../data_entry.php?table_id=' . $table_id);
                     exit;
                 }
@@ -98,10 +109,18 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
             $rec_stmt->execute([$table_id, $current_user['id']]);
             $record_id = $pdo->lastInsertId();
 
+            $audit_details_parts = ["Created record entry in table ID {$table_id}."];
+
             foreach ($sanitized_inputs as $column_id => $value_content) {
-                if (!empty($value_content)) {
+                if ($value_content !== '') {
                     $val_stmt = $pdo->prepare("INSERT INTO record_values (record_id, column_id, value_content) VALUES (?, ?, ?)");
                     $val_stmt->execute([$record_id, $column_id, $value_content]);
+
+                    // Build readable summary for audit details
+                    if (isset($cols_map[$column_id])) {
+                        $col_name = $cols_map[$column_id]['column_name'];
+                        $audit_details_parts[] = "{$col_name}: {$value_content}";
+                    }
                 }
             }
 
@@ -109,11 +128,14 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
             $points_stmt = $pdo->prepare("UPDATE users SET points = points + 1 WHERE id = ?");
             $points_stmt->execute([$current_user['id']]);
 
-            // Audit log
+            // Enhanced Audit log with initial field values
+            $audit_details = implode(' | ', $audit_details_parts);
             $audit_stmt = $pdo->prepare("INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, ?, ?, ?, ?)");
-            $audit_stmt->execute([$current_user['id'], 'INSERT', $record_id, "Added record entry in table ID {$table_id} with sanitization", $_SERVER['REMOTE_ADDR']]);
+            $audit_stmt->execute([$current_user['id'], 'INSERT', $record_id, $audit_details, $_SERVER['REMOTE_ADDR']]);
 
             $pdo->commit();
+            // Clear submitted filters on successful save so the form resets for the next entry
+            unset($_SESSION['submitted_filters']);
             $_SESSION['message'] = "Record successfully added!";
         } catch (Exception $e) {
             if ($pdo->inTransaction()) {
@@ -124,6 +146,6 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
     }
 }
 
-unset($_SESSION['duplicate_warning'], $_SESSION['duplicate_matches'], $_SESSION['submitted_filters']);
+unset($_SESSION['duplicate_warning'], $_SESSION['duplicate_matches']);
 header('Location: ../data_entry.php?table_id=' . $table_id);
 exit;

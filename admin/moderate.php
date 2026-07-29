@@ -92,7 +92,7 @@ if (!$has_any_mod_perm) {
         <tr>
             <th scope="col">ID / Date</th>
             <th scope="col">Table, Record & Column</th>
-            <th scope="col">Comparison (Live vs Proposed)</th>
+            <th scope="col">Comparison (Live vs Proposed) & Evidence</th>
             <th scope="col">Moderator Actions</th>
         </tr>
     </thead>
@@ -129,7 +129,7 @@ if (!$has_any_mod_perm) {
                         <?php endif; ?>
                     </td>
                     <td>
-                        <div style="display: flex; gap: 1rem; background: rgba(0,0,0,0.02); padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; gap: 1rem; background: rgba(0,0,0,0.02); padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); margin-bottom: 0.5rem;">
                             <div style="flex: 1; border-right: 1px solid var(--border-color); padding-right: 0.5rem;">
                                 <span style="font-size: 0.75rem; text-transform: uppercase; color: #666; font-weight: bold;">Current Live Value:</span>
                                 <div style="word-break: break-word; color: #444;"><?php echo htmlspecialchars($live_display !== '' ? $live_display : '[Empty]'); ?></div>
@@ -139,6 +139,14 @@ if (!$has_any_mod_perm) {
                                 <div style="word-break: break-word; color: green; font-weight: 500;"><?php echo htmlspecialchars($prop_display); ?></div>
                             </div>
                         </div>
+                        <?php if (!empty($s['reasoning'])): ?>
+                            <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.9rem; color: #856404;">
+                                <strong>Evidence / Reasoning:</strong><br>
+                                <div style="word-break: break-word; margin-top: 0.2rem;"><?php echo nl2br(htmlspecialchars($s['reasoning'])); ?></div>
+                            </div>
+                        <?php else: ?>
+                            <small style="color: #888; font-style: italic;">No evidence/reasoning provided.</small>
+                        <?php endif; ?>
                     </td>
                     <td>
                         <form method="POST" action="actions/save_moderation.php" class="moderation-form">

@@ -104,7 +104,15 @@ if (empty($paginated_records)) {
         }
         echo '<td>' . htmlspecialchars(obscure_name_ajax($rec['username'] ?? '')) . '</td>';
         echo '<td>' . date('Y-m-d H:i', strtotime($rec['created_at'])) . '</td>';
-        echo '<td><button type="button" class="btn btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.8rem;" onclick="openSuggestModal(' . $rec['id'] . ')">Suggest Edit</button></td>';
+        
+        // Actions Column: History button + Suggest Edit button (if module enabled)
+        echo '<td>';
+        echo '<a href="record_history.php?record_id=' . (int)$rec['id'] . '" class="btn btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.8rem;text-decoration:none;margin-right:4px;">History</a>';
+        if (is_module_enabled($pdo, 'moderation')) {
+            echo '<button type="button" class="btn" style="padding:0.2rem 0.4rem;font-size:0.8rem;" onclick="openSuggestModal(' . $rec['id'] . ')">Suggest Edit</button>';
+        }
+        echo '</td>';
+        
         echo '</tr>';
     }
 }

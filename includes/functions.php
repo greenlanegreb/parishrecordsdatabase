@@ -112,13 +112,46 @@ if (!function_exists('generate_csv_export')) {
             }
             if ($match && !empty($date_filters)) {
                 foreach ($date_filters as $col_id => $range) {
-                    $from = trim($range['from'] ?? '');
-                    $to = trim($range['to'] ?? '');
-                    $cell_val = $record_values[$rec['id']][$col_id] ?? '';
+                    $from_input = trim($range['from'] ?? '');
+                    $to_input = trim($range['to'] ?? '');
+                    $cell_val = trim($record_values[$rec['id']][$col_id] ?? '');
                     if (!empty($cell_val)) {
-                        if (!empty($from) && $cell_val < $from) { $match = false; break; }
-                        if (!empty($to) && $cell_val > $to) { $match = false; break; }
-                    } elseif (!empty($from) || !empty($to)) {
+                        $cell_ts = strtotime($cell_val);
+                        if (!empty($from_input)) {
+                            $from_ts = false;
+                            if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $from_input, $m)) {
+                                $from_ts = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
+                            } else {
+                                $from_ts = strtotime($from_input);
+                            }
+                            if ($from_ts && $cell_ts) {
+                                if ($cell_ts < $from_ts) { $match = false; break; }
+                            } else {
+                                $clean_from = str_replace(['/', '-'], '', $from_input);
+                                $clean_cell = str_replace('-', '', $cell_val);
+                                if (stripos($cell_val, $from_input) === false && stripos($clean_cell, $clean_from) === false) {
+                                    $match = false; break;
+                                }
+                            }
+                        }
+                        if (!empty($to_input)) {
+                            $to_ts = false;
+                            if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $to_input, $m)) {
+                                $to_ts = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
+                            } else {
+                                $to_ts = strtotime($to_input);
+                            }
+                            if ($to_ts && $cell_ts) {
+                                if ($cell_ts > $to_ts) { $match = false; break; }
+                            } else {
+                                $clean_to = str_replace(['/', '-'], '', $to_input);
+                                $clean_cell = str_replace('-', '', $cell_val);
+                                if (stripos($cell_val, $to_input) === false && stripos($clean_cell, $clean_to) === false) {
+                                    $match = false; break;
+                                }
+                            }
+                        }
+                    } elseif (!empty($from_input) || !empty($to_input)) {
                         $match = false;
                         break;
                     }
@@ -186,15 +219,55 @@ if (!function_exists('record_matches_filters')) {
       
         if (!empty($date_filters)) {
             foreach ($date_filters as $col_id => $range) {
-                $from = trim($range['from'] ?? '');
-                $to = trim($range['to'] ?? '');
-                $cell_val = $record_values_map[$record_id][$col_id] ?? '';
+                $from_input = trim($range['from'] ?? '');
+                $to_input = trim($range['to'] ?? '');
+                $cell_val = trim($record_values_map[$record_id][$col_id] ?? '');
               
-                if (!empty($cell_val)) {
-                    if (!empty($from) && $cell_val < $from) { return false; }
-                    if (!empty($to) && $cell_val > $to) { return false; }
-                } elseif (!empty($from) || !empty($to)) {
-                    return false;
+                if (empty($cell_val)) {
+                    if (!empty($from_input) || !empty($to_input)) return false;
+                    continue;
+                }
+
+                $cell_ts = strtotime($cell_val);
+
+                // Parse 'From' date input
+                if (!empty($from_input)) {
+                    $from_ts = false;
+                    if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $from_input, $m)) {
+                        $from_ts = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
+                    } else {
+                        $from_ts = strtotime($from_input);
+                    }
+
+                    if ($from_ts && $cell_ts) {
+                        if ($cell_ts < $from_ts) return false;
+                    } else {
+                        $clean_from = str_replace(['/', '-'], '', $from_input);
+                        $clean_cell = str_replace('-', '', $cell_val);
+                        if (stripos($cell_val, $from_input) === false && stripos($clean_cell, $clean_from) === false) {
+                            return false;
+                        }
+                    }
+                }
+
+                // Parse 'To' date input
+                if (!empty($to_input)) {
+                    $to_ts = false;
+                    if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $to_input, $m)) {
+                        $to_ts = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
+                    } else {
+                        $to_ts = strtotime($to_input);
+                    }
+
+                    if ($to_ts && $cell_ts) {
+                        if ($cell_ts > $to_ts) return false;
+                    } else {
+                        $clean_to = str_replace(['/', '-'], '', $to_input);
+                        $clean_cell = str_replace('-', '', $cell_val);
+                        if (stripos($cell_val, $to_input) === false && stripos($clean_cell, $clean_to) === false) {
+                            return false;
+                        }
+                    }
                 }
             }
         }

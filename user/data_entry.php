@@ -32,13 +32,13 @@ if ($active_table_id !== 1 && !has_permission($pdo, $active_perm)) {
     exit;
 }
 
-// Pull user date format preference for displaying stored ISO dates cleanly and generating smart placeholders
+// Pull user date format preference for displaying stored ISO dates cleanly and generating smart placeholders supporting partial historical entries
 $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
-$date_placeholder = 'YYYY-MM-DD';
+$date_placeholder = 'YYYY-MM-DD (or partial year)';
 if ($user_date_format === 'd/m/Y') {
-    $date_placeholder = 'DD/MM/YYYY';
+    $date_placeholder = 'DD/MM/YYYY (or partial year)';
 } elseif ($user_date_format === 'm/d/Y') {
-    $date_placeholder = 'MM/DD/YYYY';
+    $date_placeholder = 'MM/DD/YYYY (or partial year)';
 }
 
 // Fetch dynamic table columns for the active table ordered by sort_order
@@ -64,6 +64,17 @@ $per_page = 10;
 $offset = ($page - 1) * $per_page;
 $search_filters = $_GET['filters'] ?? [];
 $date_filters = $_GET['date_filters'] ?? [];
+
+// Determine if search filters are currently active (for record filtering only)
+$has_active_search = false;
+foreach ($search_filters as $val) {
+    if ($val !== '' && $val !== null) { $has_active_search = true; break; }
+}
+if (!$has_active_search) {
+    foreach ($date_filters as $df) {
+        if (!empty($df['from']) || !empty($df['to'])) { $has_active_search = true; break; }
+    }
+}
 
 // Fetch records restricted to the active table ID
 $records_stmt = $pdo->prepare("SELECT r.id, r.created_at, u.username FROM records r LEFT JOIN users u ON r.created_by = u.id WHERE r.table_id = ? ORDER BY r.id DESC");
@@ -110,38 +121,76 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </div>
     <?php endif; ?>
 
-    <!-- COLLAPSIBLE SEARCH & FILTER SECTION -->
-    <details class="search-box-container" style="margin-bottom: 2rem;">
-        <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
-            🔍 Search & Filter Existing Records (Click to expand)
-        </summary>
-        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
-            <form method="GET">
-                <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
-                <div class="dashboard-grid">
-                    <?php foreach ($columns as $col): ?>
-                        <div>
-                            <label for="search_<?php echo $col['id']; ?>"><strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong></label><br>
-                            <?php if (($col['data_type'] ?? '') === 'DATE'): ?>
-                                <div style="display: flex; gap: 0.25rem; align-items: center; max-width: 100%;">
-                                    <input type="text" name="date_filters[<?php echo $col['id']; ?>][from]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['from'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="width: 100%; min-width: 0; padding: 0.3rem;">
-                                    <span style="font-size: 0.85rem; color: #666;">to</span>
-                                    <input type="text" name="date_filters[<?php echo $col['id']; ?>][to]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['to'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="width: 100%; min-width: 0; padding: 0.3rem;">
-                                </div>
-                            <?php else: ?>
-                                <input type="text" id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($search_filters[$col['id']] ?? ''); ?>" placeholder="Filter..." class="dashboard-input">
-                            <?php endif; ?>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="dashboard-actions-flex" style="margin-top: 1rem;">
-                    <button type="submit" class="btn">Apply Search Filters</button>
-                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="text-decoration: none;">Reset Filter</a>
-                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>&export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" style="text-decoration: none;">Download Results as CSV</a>
-                </div>
-            </form>
-        </div>
-    </details>
+    <!-- COLLAPSIBLE ADD NEW DATA ENTRY FORM -->
+    <?php if (!$duplicate_warning): ?>
+        <details id="add-entry-details" class="search-box-container" style="margin-bottom: 2rem;" open>
+            <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
+                ➕ Add New Data Entry (Click to expand/collapse)
+            </summary>
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <form method="POST" action="actions/save_data_entry.php" id="data-entry-form">
+                    <?php echo csrf_field(); ?>
+                    <input type="hidden" name="action" value="insert_record">
+                    <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
+                    <div class="dashboard-grid">
+                        <?php foreach ($columns as $col): 
+                            $saved_val = $submitted_data[$col['id']] ?? '';
+                        ?>
+                            <div>
+                                <label for="col_<?php echo $col['id']; ?>">
+                                    <strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong>
+                                    <?php if (!empty($col['is_required'])): ?>
+                                        <span style="color: var(--danger-color); font-weight: bold;">*</span>
+                                    <?php endif; ?>
+                                </label><br>
+                                
+                                <?php if (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
+                                    <?php 
+                                        $display_format = $col['boolean_display_format'] ?? 'yes_no';
+                                        $opt1_text = 'Yes / True';
+                                        $opt2_text = 'No / False';
+                                        if ($display_format === 'male_female') { $opt1_text = 'Male'; $opt2_text = 'Female'; }
+                                        elseif ($display_format === 'true_false') { $opt1_text = 'True'; $opt2_text = 'False'; }
+                                        elseif ($display_format === 'tick_cross') { $opt1_text = '✔ (Tick)'; $opt2_text = '✘ (Cross)'; }
+                                    ?>
+                                    <select id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
+                                        <option value="">-- Select --</option>
+                                        <option value="1" <?php echo ($saved_val === '1') ? 'selected' : ''; ?>><?php echo $opt1_text; ?></option>
+                                        <option value="0" <?php echo ($saved_val === '0') ? 'selected' : ''; ?>><?php echo $opt2_text; ?></option>
+                                    </select>
+                                <?php elseif (($col['data_type'] ?? '') === 'DATE'): ?>
+                                    <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($saved_val); ?>" placeholder="<?php echo $date_placeholder; ?>" class="dashboard-input" title="Accepts full or partial dates (e.g. 1842 or 1842-05)" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
+                                <?php else: ?>
+                                    <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($saved_val); ?>" placeholder="Enter value..." class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <button type="submit" class="btn">Submit Data</button>
+                        <span style="font-size: 0.85rem; color: #666;">💡 Tips: Press <strong>Ctrl + Enter</strong> to submit, or <strong>Esc</strong> to clear the current field.</span>
+                    </div>
+                </form>
+            </div>
+        </details>
+        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('data-entry-form');
+            if (form) {
+                form.addEventListener('keydown', (e) => {
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                        e.preventDefault();
+                        form.submit();
+                    }
+                    if (e.key === 'Escape' && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) {
+                        e.preventDefault();
+                        e.target.value = '';
+                    }
+                });
+            }
+        });
+        </script>
+    <?php endif; ?>
 
     <!-- DUPLICATE WARNING MODAL -->
     <?php if ($duplicate_warning): ?>
@@ -168,25 +217,29 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </div>
     <?php endif; ?>
 
-    <!-- DATA ENTRY FORM -->
-    <?php if (!$duplicate_warning): ?>
-        <div class="search-box-container" style="margin-bottom: 2rem;">
-            <h3>Add New Data Entry</h3>
-            <form method="POST" action="actions/save_data_entry.php" id="data-entry-form">
-                <?php echo csrf_field(); ?>
-                <input type="hidden" name="action" value="insert_record">
+    <!-- COLLAPSIBLE SEARCH & FILTER SECTION -->
+    <details id="search-filter-details" class="search-box-container" style="margin-bottom: 2rem;" <?php echo $has_active_search ? 'open' : ''; ?>>
+        <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
+            🔍 Search & Filter Existing Records (Click to expand/collapse)
+        </summary>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <form method="GET" action="data_entry.php" id="search-form">
                 <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
+                <input type="hidden" name="scroll_pos" id="scroll_pos_input" value="0">
+                <input type="hidden" name="focus_id" id="focus_id_input" value="">
+                <input type="hidden" name="search_open" id="search_open_input" value="<?php echo $has_active_search ? '1' : '0'; ?>">
+
                 <div class="dashboard-grid">
                     <?php foreach ($columns as $col): ?>
-                        <div>
-                            <label for="col_<?php echo $col['id']; ?>">
-                                <strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong>
-                                <?php if (!empty($col['is_required'])): ?>
-                                    <span style="color: var(--danger-color); font-weight: bold;">*</span>
-                                <?php endif; ?>
-                            </label><br>
-                            
-                            <?php if (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
+                        <div <?php echo (($col['data_type'] ?? '') === 'DATE') ? 'style="grid-column: span 2;"' : ''; ?>>
+                            <label for="search_<?php echo $col['id']; ?>"><strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong></label><br>
+                            <?php if (($col['data_type'] ?? '') === 'DATE'): ?>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; width: 100%;">
+                                    <input type="text" id="search_date_from_<?php echo $col['id']; ?>" name="date_filters[<?php echo $col['id']; ?>][from]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['from'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="flex: 1 1 0; min-width: 0; padding: 0.3rem;" title="Supports partial dates like 1842">
+                                    <span style="font-size: 0.85rem; color: #666; white-space: nowrap;">to</span>
+                                    <input type="text" id="search_date_to_<?php echo $col['id']; ?>" name="date_filters[<?php echo $col['id']; ?>][to]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['to'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="flex: 1 1 0; min-width: 0; padding: 0.3rem;" title="Supports partial dates like 1842">
+                                </div>
+                            <?php elseif (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
                                 <?php 
                                     $display_format = $col['boolean_display_format'] ?? 'yes_no';
                                     $opt1_text = 'Yes / True';
@@ -194,44 +247,105 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
                                     if ($display_format === 'male_female') { $opt1_text = 'Male'; $opt2_text = 'Female'; }
                                     elseif ($display_format === 'true_false') { $opt1_text = 'True'; $opt2_text = 'False'; }
                                     elseif ($display_format === 'tick_cross') { $opt1_text = '✔ (Tick)'; $opt2_text = '✘ (Cross)'; }
+                                    
+                                    $search_val = $search_filters[$col['id']] ?? '';
                                 ?>
-                                <select id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
-                                    <option value="">-- Select --</option>
-                                    <option value="1"><?php echo $opt1_text; ?></option>
-                                    <option value="0"><?php echo $opt2_text; ?></option>
+                                <select id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" class="dashboard-input">
+                                    <option value="">-- All --</option>
+                                    <option value="1" <?php echo ($search_val === '1') ? 'selected' : ''; ?>><?php echo $opt1_text; ?></option>
+                                    <option value="0" <?php echo ($search_val === '0') ? 'selected' : ''; ?>><?php echo $opt2_text; ?></option>
                                 </select>
-                            <?php elseif (($col['data_type'] ?? '') === 'DATE'): ?>
-                                <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" placeholder="<?php echo $date_placeholder; ?>" class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
                             <?php else: ?>
-                                <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" placeholder="Enter value..." class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
+                                <input type="text" id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($search_filters[$col['id']] ?? ''); ?>" placeholder="Filter..." class="dashboard-input">
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <div style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                    <button type="submit" class="btn">Submit Data</button>
-                    <span style="font-size: 0.85rem; color: #666;">💡 Tips: Press <strong>Ctrl + Enter</strong> to submit, or <strong>Esc</strong> to clear the current field.</span>
+                <div class="dashboard-actions-flex" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn" id="apply-search-btn">Apply Search Filters</button>
+                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" id="reset-filter-btn" style="text-decoration: none;">Reset Filter</a>
+                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>&export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" style="text-decoration: none;">Download Results as CSV</a>
                 </div>
             </form>
         </div>
-        <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('data-entry-form');
-            if (form) {
-                form.addEventListener('keydown', (e) => {
-                    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                        e.preventDefault();
-                        form.submit();
-                    }
-                    if (e.key === 'Escape' && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) {
-                        e.preventDefault();
-                        e.target.value = '';
-                    }
-                });
+    </details>
+
+    <!-- Reliable Manual Search Script with Position Preservation -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const addEntry = document.getElementById('add-entry-details');
+        const searchFilter = document.getElementById('search-filter-details');
+        const searchForm = document.getElementById('search-form');
+        const scrollInput = document.getElementById('scroll_pos_input');
+        const focusInput = document.getElementById('focus_id_input');
+        const searchOpenInput = document.getElementById('search_open_input');
+        const applyBtn = document.getElementById('apply-search-btn');
+        const resetBtn = document.getElementById('reset-filter-btn');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const savedScroll = urlParams.get('scroll_pos');
+        const savedFocusId = urlParams.get('focus_id');
+        const savedSearchOpen = urlParams.get('search_open');
+
+        if (savedSearchOpen === '1' && searchFilter) {
+            searchFilter.open = true;
+            if (addEntry) addEntry.open = false;
+        }
+
+        if (addEntry && searchFilter) {
+            addEntry.addEventListener('toggle', () => {
+                if (addEntry.open) {
+                    searchFilter.open = false;
+                    if (searchOpenInput) searchOpenInput.value = '0';
+                }
+            });
+            searchFilter.addEventListener('toggle', () => {
+                if (searchFilter.open) {
+                    addEntry.open = false;
+                    if (searchOpenInput) searchOpenInput.value = '1';
+                }
+            });
+        }
+
+        if (savedScroll) {
+            window.scrollTo(0, parseInt(savedScroll, 10));
+        }
+        if (savedFocusId) {
+            const elToFocus = document.getElementById(savedFocusId);
+            if (elToFocus) {
+                elToFocus.focus();
+                if (elToFocus.tagName === 'INPUT' && elToFocus.type === 'text') {
+                    const val = elToFocus.value;
+                    elToFocus.value = '';
+                    elToFocus.value = val;
+                }
             }
-        });
-        </script>
-    <?php endif; ?>
+        }
+
+        if (searchForm && applyBtn) {
+            // Track which input was focused when clicking search
+            const allInputs = searchForm.querySelectorAll('input, select');
+            allInputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    if (focusInput) focusInput.value = input.id;
+                });
+            });
+
+            applyBtn.addEventListener('click', () => {
+                if (scrollInput) scrollInput.value = window.scrollY;
+                if (searchOpenInput && searchFilter) searchOpenInput.value = searchFilter.open ? '1' : '0';
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const currentScroll = window.scrollY;
+                location.href = `data_entry.php?table_id=<?php echo $active_table_id; ?>&scroll_pos=${currentScroll}&search_open=1`;
+            });
+        }
+    });
+    </script>
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
@@ -240,7 +354,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
     <table class="data-table" role="table">
         <thead>
             <tr>
-                <th scope="col">ID</th>
                 <?php foreach ($columns as $col): ?>
                     <th scope="col"><?php echo htmlspecialchars($col['column_name']); ?></th>
                 <?php endforeach; ?>
@@ -251,17 +364,22 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </thead>
         <tbody>
             <?php if (empty($paginated_records)): ?>
-                <tr><td colspan="<?php echo count($columns) + 4; ?>">No records found.</td></tr>
+                <tr><td colspan="<?php echo count($columns) + 3; ?>">No records found.</td></tr>
             <?php else: ?>
                 <?php foreach ($paginated_records as $rec): ?>
                     <tr>
-                        <td>#<?php echo $rec['id']; ?></td>
                         <?php foreach ($columns as $col): ?>
                             <td>
                                 <?php 
                                     $raw_val = $record_values[$rec['id']][$col['id']] ?? '';
                                     if (($col['data_type'] ?? '') === 'BOOLEAN') {
-                                        echo htmlspecialchars(format_boolean_value($raw_val, $col['boolean_display_format'] ?? 'yes_no'));
+                                        $fmt = $col['boolean_display_format'] ?? 'yes_no';
+                                        if ($fmt === 'male_female') {
+                                            $is_true = filter_var($raw_val, FILTER_VALIDATE_BOOLEAN);
+                                            echo ($raw_val !== '' && $raw_val !== null) ? ($is_true ? 'Male' : 'Female') : 'N/A';
+                                        } else {
+                                            echo htmlspecialchars(format_boolean_value($raw_val, $fmt));
+                                        }
                                     } elseif (($col['data_type'] ?? '') === 'DATE') {
                                         echo htmlspecialchars(format_display_date($raw_val, $user_date_format));
                                     } else {
@@ -273,7 +391,10 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
                         <td><em><?php echo htmlspecialchars($rec['username'] ?? 'User_Anon'); ?></em></td>
                         <td><?php echo $rec['created_at']; ?></td>
                         <td>
-                            <a href="suggest_edit.php?record_id=<?php echo $rec['id']; ?>" class="suggest-link">Suggest Edit</a>
+                            <a href="../record_history.php?record_id=<?php echo $rec['id']; ?>" class="btn btn-secondary" style="padding: 0.2rem 0.4rem; font-size: 0.8rem; text-decoration: none; margin-right: 4px; display: inline-block;">History</a>
+                            <?php if (is_module_enabled($pdo, 'moderation')): ?>
+                                <a href="suggest_edit.php?record_id=<?php echo $rec['id']; ?>" class="btn" style="padding: 0.2rem 0.4rem; font-size: 0.8rem; text-decoration: none; display: inline-block;">Suggest Edit</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

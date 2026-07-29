@@ -52,7 +52,8 @@ $feedbacks = $feedback_stmt->fetchAll();
         <?php else: ?>
             <?php foreach ($feedbacks as $fb): ?>
                 <?php
-                    $mail_subject = urlencode("Regarding your Feedback - " . $system_name);
+                    // Use rawurlencode so spaces convert to %20 instead of + for clean mailto subject lines
+                    $mail_subject = rawurlencode("Regarding your Feedback - " . $system_name);
                 ?>
                 <tr>
                     <td>
@@ -69,7 +70,7 @@ $feedbacks = $feedback_stmt->fetchAll();
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="action" value="update_feedback">
                             <input type="hidden" name="feedback_id" value="<?php echo $fb['id']; ?>">
-                          
+                            
                             <label class="feedback-label">Status:</label>
                             <select name="status" class="feedback-select">
                                 <option value="Pending" <?php echo ($fb['status'] === 'Pending') ? 'selected' : ''; ?>>Pending</option>
@@ -78,18 +79,18 @@ $feedbacks = $feedback_stmt->fetchAll();
                                 <option value="Rejected" <?php echo ($fb['status'] === 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
                             </select>
                             <label class="feedback-label">Reasons / Notes:</label>
-                            <textarea name="admin_notes" rows="2" placeholder="Add rationale or notes..." class="feedback-textarea"><?php echo htmlspecialchars($fb['admin_notes'] ?? ''); ?></textarea>
+                            <textarea name="admin_notes" rows="2" placeholder="Add rationale or notes..." class="feedback-textarea" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"><?php echo htmlspecialchars($fb['admin_notes'] ?? ''); ?></textarea>
                             <button type="submit" class="btn feedback-btn-save">Save Status/Notes</button>
                         </form>
                     </td>
                     <td class="feedback-actions-cell">
-                        <a href="mailto:<?php echo htmlspecialchars($fb['email']); ?>?subject=<?php echo $mail_subject; ?>" class="btn btn-secondary feedback-email-btn">Email User</a>
-                      
-                        <form method="POST" action="actions/save_feedback.php" onsubmit="return confirm('Are you sure you want to delete this feedback entry?');">
+                        <a href="mailto:<?php echo htmlspecialchars($fb['email']); ?>?subject=<?php echo $mail_subject; ?>" class="btn btn-secondary feedback-email-btn" style="display: block; text-align: center; margin-bottom: 8px; width: 100%; box-sizing: border-box; text-decoration: none;">Email User</a>
+                        
+                        <form method="POST" action="actions/save_feedback.php" onsubmit="return confirm('Are you sure you want to delete this feedback entry?');" style="margin: 0;">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="action" value="delete_feedback">
                             <input type="hidden" name="feedback_id" value="<?php echo $fb['id']; ?>">
-                            <button type="submit" class="btn btn-danger" style="width: 100%;">Delete</button>
+                            <button type="submit" class="btn btn-danger" style="width: 100%; box-sizing: border-box;">Delete</button>
                         </form>
                     </td>
                 </tr>

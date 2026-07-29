@@ -52,7 +52,8 @@ if (empty($username) || empty($email)) {
         $token = bin2hex(random_bytes(32));
         $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
-        $ins = $pdo->prepare("INSERT INTO users (username, email, password_hash, role_id, reset_token, reset_expires) VALUES (?, ?, ?, ?, ?, ?)");
+        // Updated to use the correct database columns: verification_token and token_expires_at
+        $ins = $pdo->prepare("INSERT INTO users (username, email, password_hash, role_id, verification_token, token_expires_at) VALUES (?, ?, ?, ?, ?, ?)");
         
         if ($ins->execute([$username, $email, '', $role_id, $token, $expires])) {
             if (send_user_invitation($pdo, $email, $token)) {

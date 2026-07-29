@@ -87,6 +87,20 @@ $mod_leaderboard_val = $get_setting_val($pdo, 'module_leaderboard_enabled', '1')
 
 $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, id DESC")->fetchAll(PDO::FETCH_ASSOC);
 
+// Audit log data fetching
+$audit_logs = $pdo->query("
+    SELECT al.*, u.username 
+    FROM audit_logs al 
+    LEFT JOIN users u ON al.user_id = u.id 
+    ORDER BY al.created_at DESC 
+    LIMIT 250
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$distinct_actions = $pdo->query("SELECT DISTINCT action FROM audit_logs ORDER BY action ASC")->fetchAll(PDO::FETCH_COLUMN);
+
+$user_timezone = $current_user['timezone'] ?? 'UTC';
+$full_format_str = get_user_datetime_format($current_user);
+
 $edit_role = null;
 if (isset($_GET['edit_role'])) {
     $edit_role_id = intval($_GET['edit_role']);
@@ -115,6 +129,7 @@ if (isset($_GET['edit_role'])) {
         <button role="tab" aria-selected="false" aria-controls="panel-maintenance" id="tab-maintenance" onclick="switchTab('maintenance')" class="tab-btn" style="padding: 0.75rem 1.25rem; cursor: pointer; border: none; background: none; font-size: 1.05rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; margin-bottom: -2px;">Maintenance</button>
         <button role="tab" aria-selected="false" aria-controls="panel-notices" id="tab-notices" onclick="switchTab('notices')" class="tab-btn" style="padding: 0.75rem 1.25rem; cursor: pointer; border: none; background: none; font-size: 1.05rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; margin-bottom: -2px;">Site Notices</button>
         <button role="tab" aria-selected="false" aria-controls="panel-permissions" id="tab-permissions" onclick="switchTab('permissions')" class="tab-btn" style="padding: 0.75rem 1.25rem; cursor: pointer; border: none; background: none; font-size: 1.05rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; margin-bottom: -2px;">Roles & Permissions</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-audit" id="tab-audit" onclick="switchTab('audit')" class="tab-btn" style="padding: 0.75rem 1.25rem; cursor: pointer; border: none; background: none; font-size: 1.05rem; font-weight: bold; color: #555; border-bottom: 3px solid transparent; margin-bottom: -2px;">Audit Log</button>
     </div>
 
     <!-- TAB 1: Core & Mail Settings -->
@@ -195,7 +210,7 @@ if (isset($_GET['edit_role'])) {
                     </div>
                     <div style="flex: 1;">
                         <label for="smtp_encryption" style="font-size: 0.95rem;">Encryption:</label><br>
-                        <select id="smtp_encryption" name="smtp_encryption" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;">
+                        <select id="smtp_encryption" name="smtp_encryption" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;" onchange="updateSmtpPort(this.value)">
                             <option value="tls" <?php echo ($current_smtp_encryption === 'tls') ? 'selected' : ''; ?>>TLS (Port 587)</option>
                             <option value="ssl" <?php echo ($current_smtp_encryption === 'ssl') ? 'selected' : ''; ?>>SSL (Port 465)</option>
                         </select>
@@ -424,6 +439,70 @@ if (isset($_GET['edit_role'])) {
             </div>
         </form>
     </div>
+
+    <!-- TAB 6: Audit Log -->
+    <div role="tabpanel" id="panel-audit" aria-labelledby="tab-audit" class="tab-panel" style="display: none;">
+        <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;">System Audit Log Explorer</h4>
+        <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Review recorded security, data entry, and moderation actions. Use maintenance options below to clear logs if required.</p>
+
+        <!-- Audit Maintenance Actions -->
+        <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 6px; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+            <form method="POST" action="actions/purge_audit_logs.php" onsubmit="return confirm('⚠️ WARNING: This will permanently delete the ENTIRE system audit log. Are you sure you want to proceed?');">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="purge_type" value="all">
+                <button type="submit" class="btn btn-danger" style="font-size: 0.9rem; padding: 0.5rem 1rem;">Clear Entire Audit Log</button>
+            </form>
+
+            <form method="POST" action="actions/purge_audit_logs.php" onsubmit="return confirm('Are you sure you want to clear all records-related audit entries?');">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="purge_type" value="records_only">
+                <button type="submit" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">Clear Records Log Only</button>
+            </form>
+
+            <?php foreach ($distinct_actions as $act): ?>
+                <form method="POST" action="actions/purge_audit_logs.php" onsubmit="return confirm('Clear all audit logs matching action type: <?php echo htmlspecialchars($act); ?>?');">
+                    <?php echo csrf_field(); ?>
+                    <input type="hidden" name="purge_type" value="<?php echo htmlspecialchars($act); ?>">
+                    <button type="submit" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">Clear '<?php echo htmlspecialchars($act); ?>' Logs</button>
+                </form>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Full Audit Log Table View -->
+        <div style="max-height: 600px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 6px;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left; background: #fff; font-size: 0.9rem;">
+                <thead style="position: sticky; top: 0; background: #f8f9fa; z-index: 1;">
+                    <tr style="border-bottom: 2px solid var(--border-color);">
+                        <th style="padding: 0.75rem;">ID</th>
+                        <th style="padding: 0.75rem;">Timestamp</th>
+                        <th style="padding: 0.75rem;">Actor</th>
+                        <th style="padding: 0.75rem;">Action</th>
+                        <th style="padding: 0.75rem;">Record ID</th>
+                        <th style="padding: 0.75rem;">Details</th>
+                        <th style="padding: 0.75rem;">IP Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($audit_logs)): ?>
+                        <tr><td colspan="7" style="padding: 1.5rem; text-align: center; color: #666;">No audit log entries found.</td></tr>
+                    <?php else: ?>
+                        <?php foreach ($audit_logs as $al): ?>
+                            <tr style="border-bottom: 1px solid var(--border-color);">
+                                <td style="padding: 0.75rem; font-weight: bold;"><?php echo $al['id']; ?></td>
+                                <td style="padding: 0.75rem; white-space: nowrap;"><?php echo format_user_time($al['created_at'], $user_timezone, $full_format_str); ?></td>
+                                <td style="padding: 0.75rem;"><?php echo htmlspecialchars($al['username'] ?? 'System / Guest'); ?></td>
+                                <td style="padding: 0.75rem;"><span style="background: #e9ecef; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: bold; font-size: 0.8rem;"><?php echo htmlspecialchars($al['action']); ?></span></td>
+                                <td style="padding: 0.75rem;"><?php echo $al['record_id'] ? '#' . $al['record_id'] : '—'; ?></td>
+                                <td style="padding: 0.75rem; word-break: break-word;"><?php echo htmlspecialchars($al['details']); ?></td>
+                                <td style="padding: 0.75rem; font-family: monospace; font-size: 0.85rem;"><?php echo htmlspecialchars($al['ip_address'] ?? 'N/A'); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+        <p style="font-size: 0.85rem; color: #666; margin-top: 0.75rem;">Showing the most recent 250 audit log entries.</p>
+    </div>
 </div>
 
 <script>
@@ -443,6 +522,14 @@ function switchTab(tabId) {
 function toggleSmtpFields(val) {
     document.getElementById('smtp_settings_block').style.display = (val === 'smtp') ? 'block' : 'none';
 }
+function updateSmtpPort(encryptionType) {
+    const portInput = document.getElementById('smtp_port');
+    if (encryptionType === 'tls') {
+        portInput.value = '587';
+    } else if (encryptionType === 'ssl') {
+        portInput.value = '465';
+    }
+}
 function handleUserManagementToggle(checkbox) {
     const leaderboardBox = document.getElementById('module_leaderboard_enabled');
     const note = document.getElementById('leaderboard_dependency_note');
@@ -461,6 +548,8 @@ document.addEventListener('DOMContentLoaded', () => {
         switchTab('permissions');
     } else if (window.location.hash === '#tab-modules') {
         switchTab('modules');
+    } else if (window.location.hash === '#tab-audit') {
+        switchTab('audit');
     }
 });
 </script>

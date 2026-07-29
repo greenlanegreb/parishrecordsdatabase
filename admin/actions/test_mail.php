@@ -38,14 +38,11 @@ try {
 $from_email = "no-reply@" . $mail_domain;
 $message_body = "Hello,\n\n" .
                 "This is a diagnostic test email sent from the " . $system_name . " settings panel.\n" .
-                "If you are reading this, your mail configuration (" . strtoupper(get_current_mail_driver($pdo)) . ") is working successfully!\n\n" .
+                "If you are reading this, your mail configuration (" . strtoupper(function_exists('get_current_mail_driver') ? get_current_mail_driver($pdo) : 'MAIL') . ") is working successfully!\n\n" .
                 "Timestamp: " . date('Y-m-d H:i:s') . "\n";
 
-// Execute send using a test wrapper or direct function logic
 $success = false;
 
-// We can leverage a dedicated test sender or reuse mail helper logic
-// To keep it clean and robust, we will run the underlying mail dispatch logic directly:
 try {
     // Check which driver is active
     $mail_driver = 'mail';

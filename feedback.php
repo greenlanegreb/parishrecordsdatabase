@@ -52,14 +52,14 @@ unset($_SESSION['message'], $_SESSION['error']);
             <input type="text" id="website_url" name="website_url" value="" autocomplete="off" tabindex="-1">
         </div>
 
-        <label for="name">Your Name:</label><br>
-        <input type="text" id="name" name="name" required class="feedback-input" aria-label="Your Name"><br>
+        <label for="name">Your Name: <span style="color: var(--danger-color, red);" aria-hidden="true">*</span></label><br>
+        <input type="text" id="name" name="name" required aria-required="true" class="feedback-input" aria-label="Your Name"><br>
 
-        <label for="email">Your Email Address:</label><br>
-        <input type="email" id="email" name="email" required class="feedback-input" aria-label="Your Email Address"><br>
+        <label for="email">Your Email Address: <span style="color: var(--danger-color, red);" aria-hidden="true">*</span></label><br>
+        <input type="email" id="email" name="email" required aria-required="true" class="feedback-input" aria-label="Your Email Address"><br>
 
-        <label for="message">Your Message / Feedback:</label><br>
-        <textarea id="message" name="message" rows="5" required class="feedback-textarea" aria-label="Your Message"></textarea><br>
+        <label for="message">Your Message / Feedback: <span style="color: var(--danger-color, red);" aria-hidden="true">*</span></label><br>
+        <textarea id="message" name="message" rows="5" required aria-required="true" class="feedback-textarea" aria-label="Your Message"></textarea><br>
 
         <button type="submit" class="btn">Submit Feedback</button>
     </form>
