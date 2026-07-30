@@ -19,7 +19,45 @@ verify_csrf_token();
 
 $suggestion_id = $_POST['suggestion_id'] ?? null;
 $action = $_POST['action'] ?? '';
-$final_value = sanitize_incoming_text($_POST['final_value'] ?? '');
+
+// Safely preserve boolean/numeric zero values instead of treating them as empty strings
+$raw_final = $_POST['final_value'] ?? '';
+$final_value = ($raw_final === '0' || $raw_final === 0) ? '0' : sanitize_incoming_text($raw_final);
+
+// Normalize date strings typed by moderator back to ISO YYYY-MM-DD format
+if ($suggestion_id && !empty($final_value)) {
+    $type_chk = $pdo->prepare("
+        SELECT tc.data_type 
+        FROM edit_suggestions es
+        JOIN records r ON es.record_id = r.id
+        JOIN table_columns tc ON es.column_name = tc.column_name AND tc.table_id = r.table_id
+        WHERE es.id = ?
+    ");
+    $type_chk->execute([$suggestion_id]);
+    $col_data_type = $type_chk->fetchColumn();
+
+    if ($col_data_type === 'DATE') {
+        $normalized = $final_value;
+        $current_user = get_current_user_data($pdo);
+        
+        // Match UK/European slash (DD/MM/YYYY or DD/MM/YY)
+        if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/', $final_value, $m)) {
+            $year = strlen($m[3]) === 2 ? (intval($m[3]) > 50 ? '19' . $m[3] : '20' . $m[3]) : $m[3];
+            $normalized = sprintf('%04d-%02d-%02d', $year, $m[2], $m[1]);
+        }
+        // Match dot notation (DD.MM.YYYY)
+        elseif (preg_match('/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/', $final_value, $m)) {
+            $year = strlen($m[3]) === 2 ? (intval($m[3]) > 50 ? '19' . $m[3] : '20' . $m[3]) : $m[3];
+            $normalized = sprintf('%04d-%02d-%02d', $year, $m[2], $m[1]);
+        }
+        // Match US style slash (MM/DD/YYYY)
+        elseif (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $final_value, $m) && ($current_user['date_format'] ?? '') === 'm/d/Y') {
+            $normalized = sprintf('%04d-%02d-%02d', $m[3], $m[1], $m[2]);
+        }
+        
+        $final_value = $normalized;
+    }
+}
 
 if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
     // Fetch suggestion joined with record table info
@@ -49,7 +87,7 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
             $c_stmt->execute([$suggestion['column_name'], $table_id]);
             $col = $c_stmt->fetch();
             if ($col) {
-                if (!empty($col['is_required']) && $final_value === '') {
+                if (!empty($col['is_required']) && $final_value === '' && $final_value !== '0') {
                     $_SESSION['error'] = "Cannot approve: This column is marked as required and cannot be left blank.";
                     header('Location: ../moderate.php');
                     exit;

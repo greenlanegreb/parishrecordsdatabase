@@ -33,21 +33,27 @@ $column_id = $_POST['column_id'] ?? '';
 $proposed_value = trim($_POST['proposed_value'] ?? '');
 $reasoning = trim($_POST['reasoning'] ?? '');
 
-if (empty($proposed_value) || empty($column_id)) {
+// Check if proposed value is empty (allowing string '0' for boolean false)
+if (($proposed_value === '' && $proposed_value !== '0') || empty($column_id)) {
     $_SESSION['error'] = "Proposed value cannot be empty.";
 } else {
-    $col_stmt = $pdo->prepare("SELECT column_name FROM table_columns WHERE id = ?");
+    $col_stmt = $pdo->prepare("SELECT column_name, data_type, boolean_display_format FROM table_columns WHERE id = ?");
     $col_stmt->execute([$column_id]);
     $col_info = $col_stmt->fetch();
 
     if ($col_info) {
+        $display_val = $proposed_value;
+        if ($col_info['data_type'] === 'BOOLEAN') {
+            $fmt = $col_info['boolean_display_format'] ?? 'yes_no';
+            $display_val = format_boolean_value($proposed_value, $fmt);
+        }
+
         $ins = $pdo->prepare("INSERT INTO edit_suggestions (record_id, suggested_by, column_name, proposed_value, reasoning, status) VALUES (?, ?, ?, ?, ?, 'pending')");
         
         if ($ins->execute([$record_id, $user_id, $col_info['column_name'], $proposed_value, $reasoning])) {
             $_SESSION['message'] = "Your edit suggestion has been successfully submitted to the admin queue for review.";
             
-            // Updated audit log details to capture the user's rationale/evidence
-            $audit_details = "Suggested edit for column: {$col_info['column_name']}.";
+            $audit_details = "Suggested edit for column: {$col_info['column_name']} (Proposed: {$display_val}).";
             if ($reasoning !== '') {
                 $audit_details .= " Reasoning/Evidence: " . $reasoning;
             }

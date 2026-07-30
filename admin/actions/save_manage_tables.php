@@ -23,55 +23,61 @@ if ($action === 'create_table') {
         $stmt = $pdo->prepare("INSERT INTO dynamic_tables (table_name, description, created_by) VALUES (?, ?, ?)");
         if ($stmt->execute([$table_name, $description, $current_user['id']])) {
             $new_table_id = $pdo->lastInsertId();
-          
+            
             // Automatically register granular viewing and moderation permissions for this new table
             $view_perm_key = 'view_table_' . $new_table_id;
             $view_perm_desc = 'Allows viewing and searching records in table: ' . $table_name;
-          
+            
             $mod_perm_key = 'moderate_table_' . $new_table_id;
             $mod_perm_desc = 'Allows reviewing and moderating suggestions in table: ' . $table_name;
-          
+            
             try {
                 // Register view permission
                 $p_stmt = $pdo->prepare("INSERT INTO permissions (permission_key, description) VALUES (?, ?) ON DUPLICATE KEY UPDATE description = COALESCE(VALUES(description), description)");
                 $p_stmt->execute([$view_perm_key, $view_perm_desc]);
-              
+                
                 // Register moderation permission
                 $p_stmt->execute([$mod_perm_key, $mod_perm_desc]);
-              
+                
                 // Fetch permission IDs
                 $get_p = $pdo->prepare("SELECT id FROM permissions WHERE permission_key IN (?, ?)");
                 $get_p->execute([$view_perm_key, $mod_perm_key]);
                 $perms = $get_p->fetchAll(PDO::FETCH_ASSOC);
-              
-                // Dynamically assign permissions based on existing matrix rules (no hardcoded roles)
+                
+                // Dynamically assign permissions based on comprehensive role capabilities and patterns
                 foreach ($perms as $p) {
                     $p_id = $p['id'];
                     $p_key = $p['permission_key'];
-                  
+                    
                     if (strpos($p_key, 'view_table_') === 0) {
-                        // Automatically grant table view access to any role that already has general 'view_public' capability
+                        // Automatically grant table view access to roles with 'view_public', primary admin, or any global admin capability
                         $r_stmt = $pdo->prepare("
                             SELECT DISTINCT r.id 
                             FROM roles r
-                            JOIN role_permissions rp ON r.id = rp.role_id
-                            JOIN permissions perm ON rp.permission_id = perm.id
-                            WHERE perm.permission_key = 'view_public'
+                            LEFT JOIN role_permissions rp ON r.id = rp.role_id
+                            LEFT JOIN permissions perm ON rp.permission_id = perm.id
+                            WHERE perm.permission_key = 'view_public' 
+                                OR r.id = 1
+                                OR perm.permission_key = 'manage_settings'
                         ");
                     } else {
-                        // Automatically grant table moderation to roles with general moderation capability or admin roles
+                        // Automatically grant table moderation to roles with general moderation, or any admin/moderator capability or naming pattern
                         $r_stmt = $pdo->prepare("
                             SELECT DISTINCT r.id 
                             FROM roles r
                             LEFT JOIN role_permissions rp ON r.id = rp.role_id
                             LEFT JOIN permissions perm ON rp.permission_id = perm.id
                             WHERE perm.permission_key = 'moderate_suggestions' 
-                                OR LOWER(r.role_name) = 'admin'
+                                OR r.id = 1 
+                                OR perm.permission_key = 'manage_settings'
+                                OR perm.permission_key = 'manage_users'
+                                OR LOWER(r.role_name) LIKE '%admin%' 
+                                OR LOWER(r.role_name) LIKE '%moderator%'
                         ");
                     }
                     $r_stmt->execute();
                     $roles = $r_stmt->fetchAll(PDO::FETCH_COLUMN);
-                  
+                    
                     $map_stmt = $pdo->prepare("INSERT IGNORE INTO role_permissions (role_id, permission_id) VALUES (?, ?)");
                     foreach ($roles as $r_id) {
                         $map_stmt->execute([$r_id, $p_id]);
@@ -81,10 +87,10 @@ if ($action === 'create_table') {
                 // Non-blocking auto-registration fallback
             }
             $_SESSION['message'] = "Custom table '{$table_name}' successfully created with table-scoped view and moderation permissions!";
-          
+            
             $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'CREATE_TABLE', ?, ?)");
             $audit->execute([$current_user['id'], "Created table: {$table_name}", $_SERVER['REMOTE_ADDR']]);
-          
+            
             header('Location: ../manage_tables.php?table_id=' . $new_table_id);
             exit;
         } else {
@@ -96,7 +102,7 @@ if ($action === 'create_table') {
 elseif ($action === 'update_table') {
     $table_name = trim($_POST['table_name'] ?? '');
     $description = trim($_POST['description'] ?? '');
-  
+    
     if ($table_id <= 0) {
         $_SESSION['error'] = "Invalid table selected for editing.";
     } elseif (empty($table_name)) {
@@ -105,7 +111,7 @@ elseif ($action === 'update_table') {
         $stmt = $pdo->prepare("UPDATE dynamic_tables SET table_name = ?, description = ? WHERE id = ?");
         if ($stmt->execute([$table_name, $description, $table_id])) {
             $_SESSION['message'] = "Table metadata successfully updated!";
-          
+            
             $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE_TABLE', ?, ?)");
             $audit->execute([$current_user['id'], "Updated table ID {$table_id} metadata to: {$table_name}", $_SERVER['REMOTE_ADDR']]);
         } else {
@@ -158,7 +164,7 @@ elseif ($action === 'create' || $action === 'update') {
     $max_length = !empty($_POST['max_length']) ? intval($_POST['max_length']) : null;
     $is_required = isset($_POST['is_required']) ? 1 : 0;
     $exclude_from_public_search = isset($_POST['exclude_from_public_search']) ? 1 : 0;
-  
+    
     $boolean_display_format = ($data_type === 'BOOLEAN') ? trim($_POST['boolean_display_format'] ?? 'yes_no') : null;
     $date_search_behavior = ($data_type === 'DATE') ? trim($_POST['date_search_behavior'] ?? 'manual_only') : null;
     if (empty($column_name)) {
@@ -173,7 +179,7 @@ elseif ($action === 'create' || $action === 'update') {
             $stmt = $pdo->prepare("INSERT INTO table_columns (table_id, column_name, data_type, max_length, boolean_display_format, date_search_behavior, sort_order, is_required, exclude_from_public_search, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             if ($stmt->execute([$table_id, $column_name, $data_type, $max_length, $boolean_display_format, $date_search_behavior, $next_sort_order, $is_required, $exclude_from_public_search, $current_user['id']])) {
                 $_SESSION['message'] = "Dynamic column '{$column_name}' successfully created!";
-              
+                
                 $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'CREATE_COLUMN', ?, ?)");
                 $audit->execute([$current_user['id'], "Created column '{$column_name}' in table ID {$table_id}", $_SERVER['REMOTE_ADDR']]);
             } else {
@@ -186,7 +192,7 @@ elseif ($action === 'create' || $action === 'update') {
                 $stmt = $pdo->prepare("UPDATE table_columns SET column_name = ?, data_type = ?, max_length = ?, boolean_display_format = ?, date_search_behavior = ?, is_required = ?, exclude_from_public_search = ? WHERE id = ?");
                 if ($stmt->execute([$column_name, $data_type, $max_length, $boolean_display_format, $date_search_behavior, $is_required, $exclude_from_public_search, $column_id])) {
                     $_SESSION['message'] = "Dynamic column '{$column_name}' successfully updated!";
-                  
+                    
                     $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE_COLUMN', ?, ?)");
                     $audit->execute([$current_user['id'], "Updated column ID {$column_id}: {$column_name}", $_SERVER['REMOTE_ADDR']]);
                 } else {

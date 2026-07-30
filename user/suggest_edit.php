@@ -21,13 +21,15 @@ if (!$record_id) {
     exit("No record specified.");
 }
 
-// Fetch ALL columns belonging to this record's table, LEFT JOINing any existing values
+// Fetch ALL columns belonging to this record's table, including data type and formatting details
 $stmt = $pdo->prepare("
     SELECT 
         r.id AS record_id,
         r.table_id,
         tc.id AS column_id,
         tc.column_name,
+        tc.data_type,
+        tc.boolean_display_format,
         COALESCE(rv.value_content, '') AS value_content
     FROM records r
     JOIN table_columns tc ON tc.table_id = r.table_id
@@ -67,7 +69,11 @@ unset($_SESSION['message'], $_SESSION['error']);
             <li>
                 <strong><?php echo htmlspecialchars($data['column_name']); ?>:</strong> 
                 <?php if ($data['value_content'] !== ''): ?>
-                    <?php echo htmlspecialchars($data['value_content']); ?>
+                    <?php if (($data['data_type'] ?? '') === 'BOOLEAN'): ?>
+                        <?php echo htmlspecialchars(format_boolean_value($data['value_content'], $data['boolean_display_format'] ?? 'yes_no')); ?>
+                    <?php else: ?>
+                        <?php echo htmlspecialchars($data['value_content']); ?>
+                    <?php endif; ?>
                 <?php else: ?>
                     <em style="color: #888;">(empty)</em>
                 <?php endif; ?>
@@ -84,38 +90,82 @@ unset($_SESSION['message'], $_SESSION['error']);
         <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($return_url); ?>">
 
         <label for="column_id">Select Column to Edit:</label><br>
-        <select id="column_id" name="column_id" required class="suggest-edit-select" onchange="updateProposedValueDefault()">
+        <select id="column_id" name="column_id" required class="suggest-edit-select" onchange="renderInputType()">
             <?php foreach ($record_data as $data): ?>
-                <option value="<?php echo $data['column_id']; ?>"><?php echo htmlspecialchars($data['column_name']); ?></option>
+                <option value="<?php echo $data['column_id']; ?>">
+                    <?php echo htmlspecialchars($data['column_name']); ?>
+                </option>
             <?php endforeach; ?>
         </select><br>
 
-        <label for="proposed_value">Proposed New Value:</label><br>
-        <textarea id="proposed_value" name="proposed_value" rows="3" required class="suggest-edit-textarea" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"></textarea><br>
+        <div id="input-container" style="margin-top: 1rem;">
+            <!-- Dynamic input field rendered via JavaScript depending on column type -->
+        </div>
 
-        <label for="reasoning">Evidence / Reasoning / Source Notes:</label><br>
+        <label for="reasoning" style="margin-top: 1rem;">Evidence / Reasoning / Source Notes:</label><br>
         <textarea id="reasoning" name="reasoning" rows="3" placeholder="Provide context, source citations, or rationale for this change..." class="suggest-edit-textarea" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"></textarea><br>
 
-        <button type="submit" class="btn">Submit Suggestion for Review</button>
+        <button type="submit" class="btn" style="margin-top: 1rem;">Submit Suggestion for Review</button>
     </form>
 </div>
 
 <script>
-const columnValues = <?php echo json_encode(array_column($record_data, 'value_content', 'column_id')); ?>;
+const columnMeta = <?php echo json_encode($record_data); ?>;
 
-function updateProposedValueDefault() {
+function renderInputType() {
     const select = document.getElementById('column_id');
-    const textarea = document.getElementById('proposed_value');
+    const container = document.getElementById('input-container');
     const selectedColId = select.value;
-    if (columnValues.hasOwnProperty(selectedColId)) {
-        textarea.value = columnValues[selectedColId];
-        textarea.style.height = '';
-        textarea.style.height = textarea.scrollHeight + 'px';
+    
+    const col = columnMeta.find(c => c.column_id == selectedColId);
+    if (!col) return;
+
+    container.innerHTML = '';
+
+    if (col.data_type === 'BOOLEAN') {
+        let fmt = col.boolean_display_format || 'yes_no';
+        let opt1Text = 'Yes / True';
+        let opt2Text = 'No / False';
+        
+        if (fmt === 'male_female') { opt1Text = 'Male'; opt2Text = 'Female'; }
+        else if (fmt === 'true_false') { opt1Text = 'True'; opt2Text = 'False'; }
+        else if (fmt === 'tick_cross') { opt1Text = '✔ (Tick)'; opt2Text = '✘ (Cross)'; }
+
+        let currentValue = col.value_content;
+
+        container.innerHTML = `
+            <label for="proposed_value">Proposed New Value:</label><br>
+            <select id="proposed_value" name="proposed_value" required class="suggest-edit-select" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
+                <option value="">-- Select --</option>
+                <option value="1" ${currentValue === '1' ? 'selected' : ''}>${opt1Text}</option>
+                <option value="0" ${currentValue === '0' ? 'selected' : ''}>${opt2Text}</option>
+            </select>
+        `;
+    } else {
+        let currentValue = col.value_content;
+        container.innerHTML = `
+            <label for="proposed_value">Proposed New Value:</label><br>
+            <textarea id="proposed_value" name="proposed_value" rows="3" required class="suggest-edit-textarea" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden; width: 100%;">${escapeHtml(currentValue)}</textarea>
+        `;
+        const textarea = document.getElementById('proposed_value');
+        if (textarea) {
+            textarea.style.height = '';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
     }
 }
 
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    updateProposedValueDefault();
+    renderInputType();
 });
 </script>
 
