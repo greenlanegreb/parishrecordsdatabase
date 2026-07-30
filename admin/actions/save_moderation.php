@@ -80,12 +80,20 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
             $c_stmt = $pdo->prepare("SELECT id, is_required, data_type FROM table_columns WHERE column_name = ? AND table_id = ?");
             $c_stmt->execute([$suggestion['column_name'], $table_id]);
             $col = $c_stmt->fetch();
+            
+            $original_creator_id = null;
             if ($col) {
                 if (!empty($col['is_required']) && $final_value === '' && $final_value !== '0') {
                     $_SESSION['error'] = "Cannot approve: This column is marked as required and cannot be left blank.";
                     header('Location: ../moderate.php');
                     exit;
                 }
+
+                // Identify the original creator of the record before updating values
+                $creator_stmt = $pdo->prepare("SELECT created_by FROM records WHERE id = ?");
+                $creator_stmt->execute([$suggestion['record_id']]);
+                $original_creator_id = $creator_stmt->fetchColumn();
+
                 $check_val = $pdo->prepare("SELECT id FROM record_values WHERE record_id = ? AND column_id = ?");
                 $check_val->execute([$suggestion['record_id'], $col['id']]);
                 
@@ -102,7 +110,7 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
             $status_stmt = $pdo->prepare("UPDATE edit_suggestions SET status = 'approved', points_awarded = 1 WHERE id = ?");
             $status_stmt->execute([$suggestion_id]);
 
-            // Award points only if not previously processed
+            // Award points and apply penalties only if not previously processed
             if (!$already_processed) {
                 // 1. Reward Moderator (+1)
                 adjust_user_points($pdo, $current_user['id'], 1);
@@ -111,6 +119,11 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
                 if ($suggestor_id) {
                     adjust_user_points($pdo, $suggestor_id, 1);
                 }
+
+                // 3. Penalize Original Creator (-1) for entering incorrect data
+                if ($original_creator_id) {
+                    adjust_user_points($pdo, intval($original_creator_id), -1);
+                }
             }
 
             $_SESSION['message'] = "Suggestion #{$suggestion_id} approved and applied.";
@@ -118,7 +131,7 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
             $status_stmt = $pdo->prepare("UPDATE edit_suggestions SET status = 'rejected', points_awarded = 1 WHERE id = ?");
             $status_stmt->execute([$suggestion_id]);
 
-            // Apply anti-gaming penalty if not previously processed
+            // Apply anti-gaming penalty to suggestor if not previously processed
             if (!$already_processed && $suggestor_id) {
                 adjust_user_points($pdo, $suggestor_id, -1);
             }
