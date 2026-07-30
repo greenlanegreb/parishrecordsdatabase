@@ -179,6 +179,8 @@ function install_bootstrap_permissions(PDO $pdo): void {
         ['moderate_submissions', 'Review and moderate pending user submissions'],
         ['access_profile', 'Allows viewing and managing personal user profile and security settings'],
         ['access_onboarding', 'Allows accessing the first-time user onboarding setup wizard'],
+        ['purge_audit_entry', 'Allows purging individual audit log entries from record history'],
+        ['manage_audit_logs', 'Allows viewing and managing the global system-wide audit log trail'],
     ];
 
     $insPerm = $pdo->prepare(
@@ -357,7 +359,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $roleId = 1;
 
             try {
-                // Set is_new_user = 1 so the admin goes through onboarding wizard on first login
                 $stmt = $pdo->prepare("
                     INSERT INTO users (username, email, password_hash, role_id, email_verified, is_active, is_new_user)
                     VALUES (?, ?, ?, ?, 1, 1, 1)
