@@ -1,5 +1,5 @@
 <?php
-// user/data_entry.php - Main view for data entry, multi-table selection, collapsible search, pagination, and CSV export
+// user/data_entry.php - Main view for data entry, multi-table selection, collapsible search, pagination, and data export
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
@@ -292,10 +292,13 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <div class="dashboard-actions-flex" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button type="submit" class="btn" id="apply-search-btn">Apply Search Filters</button>
-                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" id="reset-filter-btn" style="text-decoration: none;">Reset Filter</a>
-                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>&export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" style="text-decoration: none;">Download Results as CSV</a>
+                    <!-- Unified Sizing & Dynamic Label Action Bar -->
+                    <div class="dashboard-actions-flex" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                        <button type="submit" class="btn" id="apply-search-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;">Apply Search Filters</button>
+                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" id="reset-filter-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle; background-color: #6c757d; color: #fff;">Reset Filter</a>
+                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>&export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" id="export-csv-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle;">Download Entire CSV</a>
+                        <a href="../api/export_json.php?table_id=<?php echo $active_table_id; ?>&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" id="export-json-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle;">Download Entire JSON</a>
+                        <button type="button" id="copy-clipboard-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;">Copy Entire Table</button>
                     </div>
                 </form>
             </div>
@@ -352,12 +355,34 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                 }
             }
 
+            // Function to check if any filters are active and update button labels accordingly
+            function updateActionButtonsState() {
+                if (!searchForm) return;
+                let hasActiveFilter = false;
+                searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
+                    // Ignore non-filter hidden inputs
+                    if (input.name && input.name !== 'table_id' && input.value.trim() !== '') {
+                        hasActiveFilter = true;
+                    }
+                });
+
+                const csvBtn = document.getElementById('export-csv-btn');
+                const jsonBtn = document.getElementById('export-json-btn');
+                const copyBtn = document.getElementById('copy-clipboard-btn');
+
+                if (csvBtn) csvBtn.textContent = hasActiveFilter ? 'Download Filtered CSV' : 'Download Entire CSV';
+                if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? 'Download Filtered JSON' : 'Download Entire JSON';
+                if (copyBtn) copyBtn.textContent = hasActiveFilter ? 'Copy Filtered Table' : 'Copy Entire Table';
+            }
+
             if (searchForm && applyBtn) {
                 const allInputs = searchForm.querySelectorAll('input, select');
                 allInputs.forEach(input => {
                     input.addEventListener('focus', () => {
                         if (focusInput) focusInput.value = input.id;
                     });
+                    input.addEventListener('input', updateActionButtonsState);
+                    input.addEventListener('change', updateActionButtonsState);
                 });
 
                 applyBtn.addEventListener('click', () => {
@@ -373,6 +398,29 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                     location.href = `data_entry.php?table_id=<?php echo $active_table_id; ?>&scroll_pos=${currentScroll}&search_open=1`;
                 });
             }
+
+            document.getElementById('copy-clipboard-btn')?.addEventListener('click', () => {
+                const table = document.querySelector('.data-table');
+                if (!table) return;
+
+                let textContent = '';
+                table.querySelectorAll('tr').forEach(row => {
+                    let rowData = [];
+                    row.querySelectorAll('th, td').forEach(cell => {
+                        rowData.push(cell.innerText.trim());
+                    });
+                    textContent += rowData.join('\t') + '\n';
+                });
+
+                navigator.clipboard.writeText(textContent).then(() => {
+                    alert('Table data copied to clipboard! You can paste it directly into Excel or Google Sheets.');
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // Initialize button states on page load
+            updateActionButtonsState();
         });
         </script>
 

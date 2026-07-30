@@ -210,9 +210,12 @@ unset($_SESSION['message'], $_SESSION['error']);
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                <button type="button" id="clear-search" class="btn" style="background-color:#6c757d;">Reset Search</button>
-                <a href="#" id="export-csv-btn" class="btn btn-secondary" style="text-decoration:none;">Download Filtered Results as CSV</a>
+            <!-- Unified Sizing & Dynamic Label Action Bar -->
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                <button type="button" id="clear-search" class="btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle; background-color:#6c757d; color:#fff;">Reset Search</button>
+                <a href="#" id="export-csv-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration:none; vertical-align: middle;">Download Entire CSV</a>
+                <a href="#" id="export-json-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration:none; vertical-align: middle;">Download Entire JSON</a>
+                <button type="button" id="copy-clipboard-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;">Copy Entire Table</button>
             </div>
         </form>
     </section>
@@ -306,8 +309,10 @@ unset($_SESSION['message'], $_SESSION['error']);
             if (input.value.trim() !== '') formData.append(input.name, input.value.trim());
         });
 
-        const exportBtn = document.getElementById('export-csv-btn');
-        if (exportBtn) exportBtn.href = 'api/export.php?' + formData.toString();
+        const exportCsvBtn = document.getElementById('export-csv-btn');
+        const exportJsonBtn = document.getElementById('export-json-btn');
+        if (exportCsvBtn) exportCsvBtn.href = 'api/export.php?' + formData.toString();
+        if (exportJsonBtn) exportJsonBtn.href = 'api/export_json.php?' + formData.toString();
 
         fetch('api/search.php?' + formData.toString())
             .then(r => {
@@ -373,10 +378,35 @@ unset($_SESSION['message'], $_SESSION['error']);
         });
     });
 
+    // Dynamic label toggle function for filter state
+    function updateActionButtonsState() {
+        if (!searchForm) return;
+        let hasActiveFilter = false;
+        searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
+            if (input.name && input.name !== 'table_id' && input.value.trim() !== '') {
+                hasActiveFilter = true;
+            }
+        });
+
+        const csvBtn = document.getElementById('export-csv-btn');
+        const jsonBtn = document.getElementById('export-json-btn');
+        const copyBtn = document.getElementById('copy-clipboard-btn');
+
+        if (csvBtn) csvBtn.textContent = hasActiveFilter ? 'Download Filtered CSV' : 'Download Entire CSV';
+        if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? 'Download Filtered JSON' : 'Download Entire JSON';
+        if (copyBtn) copyBtn.textContent = hasActiveFilter ? 'Copy Filtered Table' : 'Copy Entire Table';
+    }
+
     if (searchForm) {
         searchForm.querySelectorAll('input, select').forEach(el => {
-            el.addEventListener('input',  () => fetchFilteredData(1));
-            el.addEventListener('change', () => fetchFilteredData(1));
+            el.addEventListener('input',  () => {
+                updateActionButtonsState();
+                fetchFilteredData(1);
+            });
+            el.addEventListener('change', () => {
+                updateActionButtonsState();
+                fetchFilteredData(1);
+            });
         });
     }
 
@@ -392,10 +422,33 @@ unset($_SESSION['message'], $_SESSION['error']);
             document.querySelectorAll('th.sortable').forEach(h => {
                 h.textContent = h.textContent.replace(/ [▲▼↕]/g, '') + ' ↕';
             });
+            updateActionButtonsState();
             fetchFilteredData(1);
         });
     }
 
+    document.getElementById('copy-clipboard-btn')?.addEventListener('click', () => {
+        const table = document.getElementById('data-table');
+        if (!table) return;
+
+        let textContent = '';
+        table.querySelectorAll('tr').forEach(row => {
+            let rowData = [];
+            row.querySelectorAll('th, td').forEach(cell => {
+                rowData.push(cell.innerText.trim());
+            });
+            textContent += rowData.join('\t') + '\n';
+        });
+
+        navigator.clipboard.writeText(textContent).then(() => {
+            alert('Table data copied to clipboard! You can paste it directly into Excel or Google Sheets.');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    });
+
+    // Initialize button states on load
+    updateActionButtonsState();
     fetchFilteredData(1);
     </script>
 
