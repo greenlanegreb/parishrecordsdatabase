@@ -11,11 +11,17 @@ if (!is_module_enabled($pdo, 'users')) {
     exit('403 Forbidden: The User Management module is currently disabled.');
 }
 
-// Enforce dynamic permission check for onboarding access (automatically registers 'access_onboarding' if new)
-require_permission($pdo, 'access_onboarding', 'Allows accessing the first-time user onboarding setup wizard');
+// Require user authentication (redirects to login if not logged in)
+require_login();
 $current_user = get_current_user_data($pdo);
 
-// If they are no longer marked as a new user, redirect them away from the wizard
+// Ensure 'access_onboarding' permission exists in schema for role management UI
+try {
+    $p_check = $pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES ('access_onboarding', 'Allows accessing the first-time user onboarding setup wizard')");
+    $p_check->execute();
+} catch (Exception $e) {}
+
+// If they are no longer marked as a new user, redirect them to main entry/dashboard
 if (empty($current_user['is_new_user'])) {
     header('Location: data_entry.php');
     exit;
@@ -35,7 +41,7 @@ unset($_SESSION['error']);
     <div class="search-box-container" style="width: 100%; max-width: 550px; background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
         <h2 style="margin-top: 0; color: var(--primary-color, #007bff);">Welcome to the Team! 🎉</h2>
         <p style="color: #666; font-size: 0.95rem; margin-bottom: 1.5rem;">
-            Before you start entering records, please take a moment to configure your regional display settings and privacy preferences. You can always update these later in your profile.
+            Before you start, please take a moment to configure your regional display settings and privacy preferences. You can always update these later in your profile.
         </p>
 
         <?php if (!empty($error)): ?>
@@ -123,7 +129,7 @@ unset($_SESSION['error']);
                 </select>
             </div>
 
-            <button type="submit" class="btn" style="width: 100%; padding: 0.75rem; font-size: 1rem;">Save Preferences & Enter Dashboard</button>
+            <button type="submit" class="btn" style="width: 100%; padding: 0.75rem; font-size: 1rem;">Save Preferences & Continue</button>
         </form>
     </div>
 </body>

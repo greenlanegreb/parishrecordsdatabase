@@ -178,6 +178,7 @@ function install_bootstrap_permissions(PDO $pdo): void {
         ['manage_moderation', 'Manage and review user correction suggestions and moderation queues'],
         ['moderate_submissions', 'Review and moderate pending user submissions'],
         ['access_profile', 'Allows viewing and managing personal user profile and security settings'],
+        ['access_onboarding', 'Allows accessing the first-time user onboarding setup wizard'],
     ];
 
     $insPerm = $pdo->prepare(
@@ -356,9 +357,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $roleId = 1;
 
             try {
+                // Set is_new_user = 1 so the admin goes through onboarding wizard on first login
                 $stmt = $pdo->prepare("
                     INSERT INTO users (username, email, password_hash, role_id, email_verified, is_active, is_new_user)
-                    VALUES (?, ?, ?, ?, 1, 1, 0)
+                    VALUES (?, ?, ?, ?, 1, 1, 1)
                 ");
                 $stmt->execute([$username, $email, $hash, $roleId]);
             } catch (PDOException $e) {
@@ -393,7 +395,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = $e->getMessage();
         if ($step === 3 && is_file($configLocal) && empty($_SESSION['install_db_ok'])) {
             @unlink($configLocal);
-            // leave loader if present; harmless without config
         }
         if ($step === 4) {
             $step = 4;
