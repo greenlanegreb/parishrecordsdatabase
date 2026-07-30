@@ -112,6 +112,22 @@ if (isset($_GET['edit_role'])) {
 ?>
 <?php require_once '../partials/header.php'; ?>
 
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.spinner-icon {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-top: 2px solid #000;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+}
+</style>
+
 <div class="search-box-container" role="region" aria-label="Site Settings Form" style="max-width: 1100px; margin: 0 auto; font-size: 1rem;">
     <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Global Site Settings, Modules & Permissions</h3>
     <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Manage core configurations, mail drivers, feature modules, maintenance mode, site announcements, and role capabilities.</p>
@@ -236,15 +252,19 @@ if (isset($_GET['edit_role'])) {
 
         <hr style="border: 0.0625rem solid var(--border-color); margin: 2rem 0;">
 
-        <h4 style="margin-bottom: 0.75rem; color: #333; font-size: 1.2rem;">Test Mail Configuration</h4>
-        <form method="POST" action="actions/test_mail.php">
-            <?php echo csrf_field(); ?>
-            <label for="test_email" style="font-size: 0.95rem;"><strong>Recipient Email Address:</strong></label><br>
-            <div style="display: flex; gap: 0.75rem; margin-top: 0.4rem;">
-                <input type="email" id="test_email" name="test_email" placeholder="admin@example.com" required class="volunteer-input" style="flex: 1; padding: 0.6rem; font-size: 1rem;">
-                <button type="submit" class="btn btn-secondary" style="white-space: nowrap; padding: 0.6rem 1.2rem; font-size: 1rem;">Send Test Email</button>
-            </div>
-        </form>
+        <div id="test-mail-section">
+            <h4 style="margin-bottom: 0.75rem; color: #333; font-size: 1.2rem;">Test Mail Configuration</h4>
+            <form method="POST" action="actions/test_mail.php#test-mail-section" onsubmit="handleTestMailSubmit(this);">
+                <?php echo csrf_field(); ?>
+                <label for="test_email" style="font-size: 0.95rem;"><strong>Recipient Email Address:</strong></label><br>
+                <div style="display: flex; gap: 0.75rem; margin-top: 0.4rem;">
+                    <input type="email" id="test_email" name="test_email" placeholder="admin@example.com" required class="volunteer-input" style="flex: 1; padding: 0.6rem; font-size: 1rem;">
+                    <button type="submit" id="test-mail-btn" class="btn btn-secondary" style="white-space: nowrap; padding: 0.6rem 1.2rem; font-size: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <span>Send Test Email</span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- TAB 2: Modules Management -->
@@ -548,9 +568,19 @@ function handleUserManagementToggle(checkbox) {
         note.style.display = 'none';
     }
 }
+function handleTestMailSubmit(form) {
+    const btn = document.getElementById('test-mail-btn');
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.style.cursor = 'wait';
+    btn.innerHTML = '<span class="spinner-icon"></span> Sending Test Email...';
+}
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('edit_role') || window.location.hash === '#tab-permissions') {
+    if (window.location.hash === '#test-mail-section') {
+        switchTab('core');
+        document.getElementById('test-mail-section').scrollIntoView({ behavior: 'smooth' });
+    } else if (urlParams.has('edit_role') || window.location.hash === '#tab-permissions') {
         switchTab('permissions');
     } else if (window.location.hash === '#tab-modules') {
         switchTab('modules');

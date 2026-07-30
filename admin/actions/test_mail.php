@@ -26,19 +26,23 @@ if (!filter_var($test_email, FILTER_VALIDATE_EMAIL)) {
 $system_name = get_system_name($pdo);
 $subject = $system_name . " - Configuration Test Email";
 
-// Fetch mail domain for building the payload
-$mail_domain = 'deballiolsociety.org.uk';
+// Fetch mail settings cleanly from site_settings
+$mail_domain = '';
+$mail_from = '';
 try {
-    $stmt = $pdo->prepare("SELECT setting_value FROM site_settings WHERE setting_key = 'mail_domain'");
-    $stmt->execute();
-    $val = $stmt->fetchColumn();
-    if ($val) { $mail_domain = trim($val); }
+    $stmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings WHERE setting_key IN ('mail_domain', 'mail_from')");
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['setting_key'] === 'mail_domain') { $mail_domain = trim($row['setting_value']); }
+        if ($row['setting_key'] === 'mail_from') { $mail_from = trim($row['setting_value']); }
+    }
 } catch (Exception $e) {}
 
-$from_email = "no-reply@" . $mail_domain;
+// Use configured mail_from, falling back to mail_domain if available
+$from_email = !empty($mail_from) ? $mail_from : (!empty($mail_domain) ? ("no-reply@" . $mail_domain) : 'webmaster@localhost');
+
 $message_body = "Hello,\n\n" .
                 "This is a diagnostic test email sent from the " . $system_name . " settings panel.\n" .
-                "If you are reading this, your mail configuration (" . strtoupper(function_exists('get_current_mail_driver') ? get_current_mail_driver($pdo) : 'MAIL') . ") is working successfully!\n\n" .
+                "If you are reading this, your mail configuration is working successfully!\n\n" .
                 "Timestamp: " . date('Y-m-d H:i:s') . "\n";
 
 $success = false;
@@ -62,6 +66,13 @@ try {
         
         // Fetch SMTP configs
         $smtp = [];
+        $stmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings WHERE setting_key LIKE 'smtp_%'");
+        $stmt->fetch(PDO::FETCH_ASSOC); // clear pointer if needed
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $smtp[$row['setting_key']] = $row['setting_value'];
+        }
+
+        // Re-query cleanly to avoid missing first row
         $stmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings WHERE setting_key LIKE 'smtp_%'");
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $smtp[$row['setting_key']] = $row['setting_value'];

@@ -41,11 +41,11 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
         // Fallbacks apply if table columns are missing
     }
 
-    // 2. Determine the 'From' address (prioritize explicit mail_from, fallback to admin-configured mail_domain)
-    $from_email = !empty($mail_from) ? $mail_from : (!empty($mail_domain) ? ("webmaster@" . $mail_domain) : '');
+    // 2. Strict From Address resolution (No hidden hardcoded fallbacks)
+    $from_email = !empty($mail_from) ? $mail_from : (!empty($mail_domain) ? ("no-reply@" . $mail_domain) : '');
 
     if (empty($from_email)) {
-        error_log("Mail Error: No sender 'From' address or mail domain configured in site settings.");
+        error_log("Mail Error: No 'From' email or mail domain configured in site settings.");
         return false;
     }
     
@@ -56,7 +56,7 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
     
     $setup_link = $protocol . $host . $base_path . "/user/set_password.php?token=" . $reset_token;
     
-    // 4. Determine subject and body (use defaults if custom ones aren't provided)
+    // 4. Determine subject and body
     $subject = $custom_subject ?? ($system_name . " - Account Invitation");
     
     if ($custom_body !== null) {
@@ -98,12 +98,11 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
 
             return $mail->send();
         } catch (Exception $e) {
-            // Fall back gracefully to native mail if SMTP connection fails
             error_log("PHPMailer Error: {$mail->ErrorInfo}. Falling back to Postfix mail().");
         }
     }
 
-    // 6. Default Native Mail / Postfix Relay approach (Zero-config fallback)
+    // 6. Default Native Mail / Postfix Relay approach
     $headers = "From: " . $from_email . "\r\n" .
                "Reply-To: " . $from_email . "\r\n" .
                "X-Mailer: PHP/" . phpversion();
@@ -112,4 +111,3 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
 
     return mail($to_email, $subject, $message_body, $headers, $envelope_sender);
 }
-?>
