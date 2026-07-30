@@ -16,6 +16,7 @@ $current_user = require_permission($pdo, 'manage_settings', 'Manage global site 
 $system_name       = trim($_POST['system_name'] ?? '');
 $default_language  = preg_replace('/[^a-z_]/', '', strtolower(trim($_POST['default_language'] ?? 'en'))) ?: 'en';
 $mail_domain       = trim($_POST['mail_domain'] ?? '');
+$mail_from         = trim($_POST['mail_from'] ?? '');
 $mail_driver       = trim($_POST['mail_driver'] ?? 'mail');
 $smtp_host         = trim($_POST['smtp_host'] ?? '');
 $smtp_port         = intval($_POST['smtp_port'] ?? 587);
@@ -35,9 +36,8 @@ if (!empty($system_name)) {
     $stmt->execute(['system_name', $system_name, $system_name]);
     $stmt->execute(['default_language', $default_language, $default_language]);
 
-    if (!empty($mail_domain)) {
-        $stmt->execute(['mail_domain', $mail_domain, $mail_domain]);
-    }
+    $stmt->execute(['mail_domain', $mail_domain, $mail_domain]);
+    $stmt->execute(['mail_from', $mail_from, $mail_from]);
 
     $stmt->execute(['mail_driver', $mail_driver, $mail_driver]);
     $stmt->execute(['smtp_host', $smtp_host, $smtp_host]);

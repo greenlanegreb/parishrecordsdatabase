@@ -38,7 +38,8 @@ $get_setting_val = function($pdo, $key, $default) {
     }
 };
 
-$current_mail_domain      = $get_setting_val($pdo, 'mail_domain', 'deballiolsociety.org.uk');
+$current_mail_domain      = $get_setting_val($pdo, 'mail_domain', '');
+$current_mail_from        = $get_setting_val($pdo, 'mail_from', '');
 $current_mail_driver      = $get_setting_val($pdo, 'mail_driver', 'mail');
 $current_smtp_host        = $get_setting_val($pdo, 'smtp_host', '');
 $current_smtp_port        = $get_setting_val($pdo, 'smtp_port', '587');
@@ -187,8 +188,13 @@ if (isset($_GET['edit_role'])) {
 
             <h4 style="margin-top: 2rem; color: #333; font-size: 1.2rem;">Mail Delivery Configuration</h4>
             <div style="margin-bottom: 1.25rem;">
-                <label for="mail_domain" style="font-size: 1rem;"><strong>System Mail Domain (From Address / Envelope):</strong></label><br>
-                <input type="text" id="mail_domain" name="mail_domain" value="<?php echo htmlspecialchars($current_mail_domain); ?>" placeholder="e.g. deballiolsociety.org.uk" required class="volunteer-input" style="width: 100%; padding: 0.6rem; font-size: 1rem; margin-top: 0.4rem;">
+                <label for="mail_domain" style="font-size: 1rem;"><strong>System Mail Domain (Fallback Envelope):</strong></label><br>
+                <input type="text" id="mail_domain" name="mail_domain" value="<?php echo htmlspecialchars($current_mail_domain); ?>" placeholder="e.g. example.com" class="volunteer-input" style="width: 100%; padding: 0.6rem; font-size: 1rem; margin-top: 0.4rem;">
+            </div>
+            <div style="margin-bottom: 1.25rem;">
+                <label for="mail_from" style="font-size: 1rem;"><strong>Custom 'From' Email Address:</strong></label><br>
+                <input type="email" id="mail_from" name="mail_from" value="<?php echo htmlspecialchars($current_mail_from); ?>" placeholder="e.g. notifications@example.com" class="volunteer-input" style="width: 100%; padding: 0.6rem; font-size: 1rem; margin-top: 0.4rem;">
+                <p style="margin: 0.4rem 0 0; font-size: 0.9rem; color: #555;">Explicit address used as the sender for outgoing emails.</p>
             </div>
             <div style="margin-bottom: 1.25rem;">
                 <label for="mail_driver" style="font-size: 1rem;"><strong>Mail Driver / Engine:</strong></label><br>

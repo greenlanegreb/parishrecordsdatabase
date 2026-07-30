@@ -13,9 +13,10 @@ use PHPMailer\PHPMailer\Exception;
 function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = null, $custom_body = null) {
     $system_name = get_system_name($pdo);
     
-    // 1. Fetch configured mail settings from site_settings with safe fallbacks
+    // 1. Fetch configured mail settings from site_settings
     $mail_driver = 'mail'; // Default to native mail (Postfix)
-    $mail_domain = 'deballiolsociety.org.uk';
+    $mail_domain = '';
+    $mail_from   = '';
     $smtp_host = '';
     $smtp_port = 587;
     $smtp_user = '';
@@ -23,11 +24,12 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
     $smtp_encryption = 'tls';
 
     try {
-        $stmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings WHERE setting_key IN ('mail_driver', 'mail_domain', 'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass', 'smtp_encryption')");
+        $stmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings WHERE setting_key IN ('mail_driver', 'mail_domain', 'mail_from', 'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass', 'smtp_encryption')");
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             switch ($row['setting_key']) {
                 case 'mail_driver': $mail_driver = trim($row['setting_value']); break;
                 case 'mail_domain': $mail_domain = trim($row['setting_value']); break;
+                case 'mail_from': $mail_from = trim($row['setting_value']); break;
                 case 'smtp_host': $smtp_host = trim($row['setting_value']); break;
                 case 'smtp_port': $smtp_port = intval($row['setting_value']); break;
                 case 'smtp_user': $smtp_user = trim($row['setting_value']); break;
@@ -38,15 +40,23 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
     } catch (Exception $e) {
         // Fallbacks apply if table columns are missing
     }
+
+    // 2. Determine the 'From' address (prioritize explicit mail_from, fallback to admin-configured mail_domain)
+    $from_email = !empty($mail_from) ? $mail_from : (!empty($mail_domain) ? ("webmaster@" . $mail_domain) : '');
+
+    if (empty($from_email)) {
+        error_log("Mail Error: No sender 'From' address or mail domain configured in site settings.");
+        return false;
+    }
     
-    // 2. Link URL configuration using dynamic BASE_PATH
-    $host = $_SERVER['HTTP_HOST'] ?? $mail_domain;
+    // 3. Link URL configuration using dynamic BASE_PATH
+    $host = $_SERVER['HTTP_HOST'] ?? ($mail_domain ?: 'localhost');
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "https://";
     $base_path = defined('BASE_PATH') ? BASE_PATH : '';
     
     $setup_link = $protocol . $host . $base_path . "/user/set_password.php?token=" . $reset_token;
     
-    // 3. Determine subject and body (use defaults if custom ones aren't provided)
+    // 4. Determine subject and body (use defaults if custom ones aren't provided)
     $subject = $custom_subject ?? ($system_name . " - Account Invitation");
     
     if ($custom_body !== null) {
@@ -60,9 +70,7 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
                         "If you did not expect this invitation, please contact the site administrator.\n";
     }
 
-    $from_email = "no-reply@" . $mail_domain;
-
-    // 4. Handle PHPMailer SMTP Client if selected by admin
+    // 5. Handle PHPMailer SMTP Client if selected by admin
     if ($mail_driver === 'smtp' && !empty($smtp_host)) {
         try {
             $mail = new PHPMailer(true);
@@ -95,7 +103,7 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
         }
     }
 
-    // 5. Default Native Mail / Postfix Relay approach (Zero-config fallback)
+    // 6. Default Native Mail / Postfix Relay approach (Zero-config fallback)
     $headers = "From: " . $from_email . "\r\n" .
                "Reply-To: " . $from_email . "\r\n" .
                "X-Mailer: PHP/" . phpversion();
