@@ -120,12 +120,18 @@ unset($_SESSION['error']);
             </div>
 
             <div style="margin-bottom: 1.5rem;">
-                <label for="leaderboard_display_mode"><strong>Leaderboard Display Preference:</strong></label><br>
-                <select id="leaderboard_display_mode" name="leaderboard_display_mode" class="profile-input" style="width:100%; padding: 0.4rem;">
-                    <?php $mode = !empty($current_user['leaderboard_display_mode']) ? $current_user['leaderboard_display_mode'] : 'initials_random'; ?>
-                    <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>>Anonymous (Initials & Random Number) - Recommended</option>
+                <label for="attribution_display_mode"><strong>Leaderboard & Attribution Display Preference:</strong></label><br>
+                <small style="color: #666; display: block; margin-bottom: 0.5rem; line-height: 1.4;">
+                    Controls how your name appears on the public leaderboard and record logs.<br>
+                    • <strong>Anonymous:</strong> Shows initials & random number to everyone.<br>
+                    • <strong>Public:</strong> Shows your full name to everyone.<br>
+                    • <strong>Volunteers Only:</strong> Shows initials to the public, but your full name to logged-in volunteers, moderators, and admins.
+                </small>
+                <select id="attribution_display_mode" name="attribution_display_mode" class="profile-input" style="width:100%; padding: 0.4rem;">
+                    <?php $mode = !empty($current_user['attribution_display_mode']) ? $current_user['attribution_display_mode'] : 'initials_random'; ?>
+                    <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>>Anonymous (Initials & Random Number)</option>
                     <option value="full_name" <?php echo ($mode === 'full_name') ? 'selected' : ''; ?>>Public (Show Full Name)</option>
-                    <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>>Volunteers Only (Hide from Public)</option>
+                    <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>>Volunteers Only</option>
                 </select>
             </div>
 

@@ -8,6 +8,79 @@ if (!function_exists('obscure_name_ajax')) {
         return substr($name, 0, 2) . str_repeat('*', max(1, $len - 2));
     }
 }
+
+if (!function_exists('format_user_display_name')) {
+    function format_user_display_name($pdo, $target_user, $viewer_user = null) {
+        if (!$target_user || !isset($target_user['id'])) {
+            return 'User_Anon';
+        }
+
+        // Check if viewer has explicit permission or role to view full names
+        $can_see_full_names = false;
+        if ($viewer_user) {
+            if (is_admin($pdo, $viewer_user['id']) || has_permission($pdo, 'view_user_full_names', $viewer_user['id'])) {
+                $can_see_full_names = true;
+            } else {
+                // Automatically allow built-in/active moderators to see full names when logged in
+                $tables_chk = $pdo->query("SELECT id FROM dynamic_tables")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($tables_chk as $t_id) {
+                    if (has_permission($pdo, 'moderate_table_' . $t_id, $viewer_user['id'])) {
+                        $can_see_full_names = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        $first = trim($target_user['first_name'] ?? '');
+        $surname = trim($target_user['surname'] ?? '');
+        $username = trim($target_user['username'] ?? 'User');
+        $mode = $target_user['attribution_display_mode'] ?? 'initials_random';
+
+        // If viewer has administrative/moderator full name privilege, show Full Name
+        if ($can_see_full_names) {
+            if ($first !== '' || $surname !== '') {
+                return trim("{$first} {$surname}") . " ({$username})";
+            }
+            return $username;
+        }
+
+        // Profile display preferences
+        if ($mode === 'full_name') {
+            if ($first !== '' || $surname !== '') {
+                return trim("{$first} {$surname}");
+            }
+            return $username;
+        } elseif ($mode === 'volunteers_only') {
+            // Volunteers only: Visible as full name to logged-in users, but anonymous initials to guests
+            if ($viewer_user !== null && !empty($viewer_user['id'])) {
+                if ($first !== '' || $surname !== '') {
+                    return trim("{$first} {$surname}");
+                }
+                return $username;
+            } else {
+                // Public guest view falls back to initials & random number
+                $initials = '';
+                if ($first !== '') $initials .= mb_substr($first, 0, 1);
+                if ($surname !== '') $initials .= mb_substr($surname, 0, 1);
+                if ($initials === '') $initials = mb_substr($username, 0, 2);
+                
+                $rand_num = (intval($target_user['id']) * 37) % 900 + 100; 
+                return strtoupper($initials) . '-' . $rand_num;
+            }
+        } else {
+            // Default: initials_random (Anonymous to everyone)
+            $initials = '';
+            if ($first !== '') $initials .= mb_substr($first, 0, 1);
+            if ($surname !== '') $initials .= mb_substr($surname, 0, 1);
+            if ($initials === '') $initials = mb_substr($username, 0, 2);
+            
+            $rand_num = (intval($target_user['id']) * 37) % 900 + 100; 
+            return strtoupper($initials) . '-' . $rand_num;
+        }
+    }
+}
+
 if (!function_exists('format_boolean_value')) {
     function format_boolean_value($val, $format) {
         if ($val === null || $val === '') return 'N/A';
@@ -24,6 +97,7 @@ if (!function_exists('format_boolean_value')) {
         }
     }
 }
+
 if (!function_exists('sanitize_incoming_text')) {
     function sanitize_incoming_text($text) {
         if (empty($text)) return '';
@@ -43,6 +117,7 @@ if (!function_exists('sanitize_incoming_text')) {
         return trim($text);
     }
 }
+
 if (!function_exists('format_user_time')) {
     function format_user_time($utc_timestamp, $timezone_str, $format_str) {
         if (empty($utc_timestamp)) return 'N/A';
@@ -55,6 +130,7 @@ if (!function_exists('format_user_time')) {
         }
     }
 }
+
 if (!function_exists('format_display_date')) {
     function format_display_date($date_str, $format_pref) {
         if (empty($date_str)) return '';
@@ -66,6 +142,7 @@ if (!function_exists('format_display_date')) {
         return $date_str;
     }
 }
+
 if (!function_exists('generate_csv_export')) {
     function generate_csv_export($pdo, $filename_prefix = 'psd-export') {
         $user_date_format = 'd/m/Y';
@@ -178,6 +255,7 @@ if (!function_exists('generate_csv_export')) {
         exit;
     }
 }
+
 if (!function_exists('get_setting')) {
     function get_setting($pdo, $key, $default = '') {
         try {
@@ -190,6 +268,7 @@ if (!function_exists('get_setting')) {
         }
     }
 }
+
 if (!function_exists('get_user_datetime_format')) {
     function get_user_datetime_format($current_user) {
         $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
@@ -204,6 +283,7 @@ if (!function_exists('get_user_datetime_format')) {
         }
     }
 }
+
 if (!function_exists('record_matches_filters')) {
     function record_matches_filters($record_id, $record_values_map, $search_filters, $date_filters) {
         if (!empty($search_filters)) {
@@ -230,7 +310,6 @@ if (!function_exists('record_matches_filters')) {
 
                 $cell_ts = strtotime($cell_val);
 
-                // Parse 'From' date input
                 if (!empty($from_input)) {
                     $from_ts = false;
                     if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $from_input, $m)) {
@@ -250,7 +329,6 @@ if (!function_exists('record_matches_filters')) {
                     }
                 }
 
-                // Parse 'To' date input
                 if (!empty($to_input)) {
                     $to_ts = false;
                     if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $to_input, $m)) {
@@ -275,6 +353,7 @@ if (!function_exists('record_matches_filters')) {
         return true;
     }
 }
+
 if (!function_exists('is_module_enabled')) {
     function is_module_enabled($pdo, $module_key) {
         static $module_cache = [];
@@ -302,10 +381,8 @@ if (!function_exists('is_module_enabled')) {
         }
     }
 }
+
 if (!function_exists('get_user_time_prefs')) {
-    /**
-     * Returns [timezone, full_datetime_format] for the current user.
-     */
     function get_user_time_prefs(array $current_user): array {
         return [
             $current_user['timezone'] ?? 'UTC',
@@ -314,10 +391,6 @@ if (!function_exists('get_user_time_prefs')) {
     }
 }
 
-/**
- * Resolve active language code.
- * Order: session → user preference (if column exists) → site default_language → en
- */
 if (!function_exists('get_active_language')) {
     function get_active_language(): string {
         if (session_status() === PHP_SESSION_NONE) {
@@ -348,11 +421,6 @@ if (!function_exists('get_active_language')) {
     }
 }
 
-/**
- * Simple translation helper.
- * Usage: __('nav.login') or __('hello_user', ['name' => $name])
- * Placeholders in strings use :name style.
- */
 if (!function_exists('__')) {
     function __(string $key, array $replace = []): string {
         static $catalogue = null;
@@ -393,9 +461,6 @@ if (!function_exists('set_language')) {
     }
 }
 
-/**
- * Schema version helpers (site_settings.schema_version)
- */
 if (!function_exists('get_schema_version')) {
     function get_schema_version(PDO $pdo): int {
         $val = get_setting($pdo, 'schema_version', '0');
@@ -411,5 +476,19 @@ if (!function_exists('set_schema_version')) {
              ON DUPLICATE KEY UPDATE setting_value = ?"
         );
         $stmt->execute([(string) $version, (string) $version]);
+    }
+}
+
+if (!function_exists('adjust_user_points')) {
+    function adjust_user_points(PDO $pdo, int $user_id, int $amount): void {
+        if ($user_id <= 0 || $amount === 0) return;
+        if ($amount > 0) {
+            $stmt = $pdo->prepare("UPDATE users SET points = points + ? WHERE id = ?");
+            $stmt->execute([$amount, $user_id]);
+        } else {
+            $abs_amount = abs($amount);
+            $stmt = $pdo->prepare("UPDATE users SET points = GREATEST(0, points - ?) WHERE id = ?");
+            $stmt->execute([$abs_amount, $user_id]);
+        }
     }
 }

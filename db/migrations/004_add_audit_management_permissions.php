@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version'     => 5,
+    'version'     => 4,
     'description' => 'Add audit trail management and purging permissions',
     'up'          => function (PDO $pdo) {
         // 1. Safely insert purge_audit_entry permission if it doesn't exist

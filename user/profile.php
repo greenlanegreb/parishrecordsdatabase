@@ -15,7 +15,6 @@ $message = $_SESSION['message'] ?? '';
 $error   = $_SESSION['error']   ?? '';
 unset($_SESSION['message'], $_SESSION['error']);
 
-// Available languages from lang/
 $profile_languages = [];
 $lang_dir = __DIR__ . '/../lang';
 if (is_dir($lang_dir)) {
@@ -32,7 +31,6 @@ if (!in_array('en', $profile_languages, true)) {
 }
 $user_language = $current_user['language'] ?? '';
 
-// Handle download of newly generated codes
 if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
     if (!empty($_SESSION['new_raw_backup_codes'])) {
         $codes_to_download = $_SESSION['new_raw_backup_codes'];
@@ -62,7 +60,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
         <p class="alert-success"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
 
-    <!-- Personal Details Section -->
     <div style="margin-bottom: 2rem;">
         <h4>Personal Details</h4>
         <form method="POST" action="actions/save_profile.php">
@@ -138,12 +135,18 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                 <option value="none" <?php echo ($current_time_fmt === 'none') ? 'selected' : ''; ?>>Date Only (Hide Time Completely)</option>
             </select><br>
 
-            <label for="leaderboard_display_mode">Leaderboard Display Preference:</label><br>
-            <select id="leaderboard_display_mode" name="leaderboard_display_mode" class="profile-input" style="margin-bottom: 1rem;">
-                <?php $mode = !empty($current_user['leaderboard_display_mode']) ? $current_user['leaderboard_display_mode'] : 'initials_random'; ?>
-                <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>>Anonymous (Initials & Random Number) - Recommended</option>
+            <label for="attribution_display_mode">Leaderboard & Attribution Display Preference:</label><br>
+            <small style="color: #666; display: block; margin-bottom: 0.5rem;">
+                Controls how your name appears on the public leaderboard and record logs.<br>
+                • <strong>Anonymous:</strong> Shows initials & random number to everyone.<br>
+                • <strong>Public:</strong> Shows your full name to everyone.<br>
+                • <strong>Volunteers Only:</strong> Shows initials to the public, but your full name to logged-in volunteers, moderators, and admins.
+            </small>
+            <select id="attribution_display_mode" name="attribution_display_mode" class="profile-input" style="margin-bottom: 1rem;">
+                <?php $mode = !empty($current_user['attribution_display_mode']) ? $current_user['attribution_display_mode'] : 'initials_random'; ?>
+                <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>>Anonymous (Initials & Random Number)</option>
                 <option value="full_name" <?php echo ($mode === 'full_name') ? 'selected' : ''; ?>>Public (Show Full Name)</option>
-                <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>>Volunteers Only (Hide from Public)</option>
+                <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>>Volunteers Only</option>
             </select><br>
 
             <button type="submit" class="btn" style="margin-top: 0.5rem;">Update Personal Details</button>
@@ -152,7 +155,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
-    <!-- Email Management Section -->
     <div style="margin-bottom: 2rem;">
         <h4>Email Address</h4>
         <p>Current Email: <strong><?php echo htmlspecialchars($current_user['email']); ?></strong>
@@ -173,7 +175,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
-    <!-- Password Change Section -->
     <div style="margin-bottom: 2rem;">
         <h4>Change Password</h4>
         <form method="POST" action="actions/save_profile.php">
@@ -202,7 +203,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
-    <!-- 2FA Management Section -->
     <div>
         <h4>Two-Factor Authentication (2FA)</h4>
         <p>Status: <strong><?php echo $current_user['two_fa_enabled'] ? '<span style="color: green;">Enabled</span>' : '<span style="color: gray;">Disabled</span>'; ?></strong></p>

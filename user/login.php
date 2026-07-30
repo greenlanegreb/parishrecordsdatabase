@@ -3,6 +3,12 @@
 session_start();
 require_once '../db/auth_helpers.php';
 
+// If the user is already authenticated, redirect them away from the login page
+if (isset($_SESSION['user_id'])) {
+    header('Location: ../data_entry.php'); // Matches where authenticate.php sends logged-in users
+    exit;
+}
+
 $error = $_SESSION['error'] ?? '';
 $message = $_SESSION['message'] ?? '';
 unset($_SESSION['error'], $_SESSION['message']);

@@ -5,15 +5,12 @@ require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
 session_start();
 
-// Enforce dynamic permission check for data entry workstation
 require_permission($pdo, 'access_data_entry', 'Allows accessing the core data entry workstation and creating records');
 $current_user = get_current_user_data($pdo);
 
-// Fetch all custom tables available in the system
 $tables_stmt = $pdo->query("SELECT id, table_name FROM dynamic_tables ORDER BY id ASC");
 $all_tables = $tables_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Filter tables based on user permissions or access
 $available_tables = [];
 foreach ($all_tables as $t) {
     $perm_key = 'view_table_' . $t['id'];
@@ -22,17 +19,14 @@ foreach ($all_tables as $t) {
     }
 }
 
-// Determine active table ID from query string or default to first available
 $active_table_id = isset($_GET['table_id']) ? intval($_GET['table_id']) : (!empty($available_tables) ? $available_tables[0]['id'] : 1);
 
-// Verify user permission for selected table
 $active_perm = 'view_table_' . $active_table_id;
 if ($active_table_id !== 1 && !has_permission($pdo, $active_perm)) {
     require_once __DIR__ . '/../403.php';
     exit;
 }
 
-// Pull user date format preference for displaying stored ISO dates cleanly and generating smart placeholders supporting partial historical entries
 $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
 $date_placeholder = 'YYYY-MM-DD (or partial year)';
 if ($user_date_format === 'd/m/Y') {
@@ -41,12 +35,10 @@ if ($user_date_format === 'd/m/Y') {
     $date_placeholder = 'MM/DD/YYYY (or partial year)';
 }
 
-// Fetch dynamic table columns for the active table ordered by sort_order
 $cols_stmt = $pdo->prepare("SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC");
 $cols_stmt->execute([$active_table_id]);
 $columns = $cols_stmt->fetchAll();
 
-// Handle CSV Export Request directly using the centralized helper
 if (isset($_GET['export_csv']) && $_GET['export_csv'] === '1') {
     generate_csv_export($pdo, 'data-entry-records-export');
 }
@@ -58,14 +50,12 @@ $matches = $_SESSION['duplicate_matches'] ?? [];
 $submitted_data = $_SESSION['submitted_filters'] ?? [];
 unset($_SESSION['message'], $_SESSION['error']);
 
-// Pagination and Filtering Setup
 $page = max(1, intval($_GET['page'] ?? 1));
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
 $search_filters = $_GET['filters'] ?? [];
 $date_filters = $_GET['date_filters'] ?? [];
 
-// Determine if search filters are currently active (for record filtering only)
 $has_active_search = false;
 foreach ($search_filters as $val) {
     if ($val !== '' && $val !== null) { $has_active_search = true; break; }
@@ -76,8 +66,13 @@ if (!$has_active_search) {
     }
 }
 
-// Fetch records restricted to the active table ID
-$records_stmt = $pdo->prepare("SELECT r.id, r.created_at, u.username FROM records r LEFT JOIN users u ON r.created_by = u.id WHERE r.table_id = ? ORDER BY r.id DESC");
+$records_stmt = $pdo->prepare("
+    SELECT r.id, r.created_at, u.id as user_id, u.username, u.first_name, u.surname, u.attribution_display_mode 
+    FROM records r 
+    LEFT JOIN users u ON r.created_by = u.id 
+    WHERE r.table_id = ? 
+    ORDER BY r.id DESC
+");
 $records_stmt->execute([$active_table_id]);
 $all_records = $records_stmt->fetchAll();
 
@@ -107,7 +102,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
 
-    <!-- TABLE SELECTOR BAR -->
     <?php if (count($available_tables) > 1): ?>
         <div style="background: rgba(0,0,0,0.02); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
             <label for="data_entry_table_selector" style="font-weight: bold;">Active Data Entry Table:</label>
@@ -121,7 +115,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </div>
     <?php endif; ?>
 
-    <!-- COLLAPSIBLE ADD NEW DATA ENTRY FORM -->
     <?php if (!$duplicate_warning): ?>
         <details id="add-entry-details" class="search-box-container" style="margin-bottom: 2rem;" open>
             <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
@@ -192,7 +185,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </script>
     <?php endif; ?>
 
-    <!-- DUPLICATE WARNING MODAL -->
     <?php if ($duplicate_warning): ?>
         <div class="modal-duplicate">
             <h3>⚠️ Potential Duplicate Warning</h3>
@@ -217,7 +209,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </div>
     <?php endif; ?>
 
-    <!-- COLLAPSIBLE SEARCH & FILTER SECTION -->
     <details id="search-filter-details" class="search-box-container" style="margin-bottom: 2rem;" <?php echo $has_active_search ? 'open' : ''; ?>>
         <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
             🔍 Search & Filter Existing Records (Click to expand/collapse)
@@ -270,7 +261,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </div>
     </details>
 
-    <!-- Reliable Manual Search Script with Position Preservation -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const addEntry = document.getElementById('add-entry-details');
@@ -323,7 +313,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         }
 
         if (searchForm && applyBtn) {
-            // Track which input was focused when clicking search
             const allInputs = searchForm.querySelectorAll('input, select');
             allInputs.forEach(input => {
                 input.addEventListener('focus', () => {
@@ -349,7 +338,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
-    <!-- EXISTING RECORDS TABLE -->
     <h3>Existing Records Table</h3>
     <table class="data-table" role="table">
         <thead>
@@ -388,7 +376,13 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
                                 ?>
                             </td>
                         <?php endforeach; ?>
-                        <td><em><?php echo htmlspecialchars($rec['username'] ?? 'User_Anon'); ?></em></td>
+                        <td><em><?php echo htmlspecialchars(format_user_display_name($pdo, [
+                            'id' => $rec['user_id'],
+                            'username' => $rec['username'] ?? 'User_Anon',
+                            'first_name' => $rec['first_name'] ?? '',
+                            'surname' => $rec['surname'] ?? '',
+                            'attribution_display_mode' => $rec['attribution_display_mode'] ?? 'initials_random'
+                        ], $current_user)); ?></em></td>
                         <td><?php echo $rec['created_at']; ?></td>
                         <td>
                             <a href="../record_history.php?record_id=<?php echo $rec['id']; ?>" class="btn btn-secondary" style="padding: 0.2rem 0.4rem; font-size: 0.8rem; text-decoration: none; margin-right: 4px; display: inline-block;">History</a>
@@ -402,7 +396,6 @@ $paginated_records = array_slice($filtered_records, $offset, $per_page);
         </tbody>
     </table>
 
-    <!-- PAGINATION LINKS -->
     <?php if ($total_pages > 1): ?>
         <div class="pagination-container">
             <span>Page:</span>

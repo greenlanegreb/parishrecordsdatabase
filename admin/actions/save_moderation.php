@@ -1,11 +1,10 @@
 <?php
-// admin/actions/save_moderation.php - Handles suggestion approvals and granular table-scoped security validation
+// admin/actions/save_moderation.php - Handles suggestion approvals, rejections, and secure audited scoring
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
 session_start();
 
-// Ensure the moderation module is enabled; otherwise block action execution
 if (!is_module_enabled($pdo, 'moderation')) {
     http_response_code(403);
     exit('403 Forbidden: The Moderation Workflow module is currently disabled.');
@@ -20,11 +19,9 @@ verify_csrf_token();
 $suggestion_id = $_POST['suggestion_id'] ?? null;
 $action = $_POST['action'] ?? '';
 
-// Safely preserve boolean/numeric zero values instead of treating them as empty strings
 $raw_final = $_POST['final_value'] ?? '';
 $final_value = ($raw_final === '0' || $raw_final === 0) ? '0' : sanitize_incoming_text($raw_final);
 
-// Normalize date strings typed by moderator back to ISO YYYY-MM-DD format
 if ($suggestion_id && !empty($final_value)) {
     $type_chk = $pdo->prepare("
         SELECT tc.data_type 
@@ -40,17 +37,14 @@ if ($suggestion_id && !empty($final_value)) {
         $normalized = $final_value;
         $current_user = get_current_user_data($pdo);
         
-        // Match UK/European slash (DD/MM/YYYY or DD/MM/YY)
         if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/', $final_value, $m)) {
             $year = strlen($m[3]) === 2 ? (intval($m[3]) > 50 ? '19' . $m[3] : '20' . $m[3]) : $m[3];
             $normalized = sprintf('%04d-%02d-%02d', $year, $m[2], $m[1]);
         }
-        // Match dot notation (DD.MM.YYYY)
         elseif (preg_match('/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/', $final_value, $m)) {
             $year = strlen($m[3]) === 2 ? (intval($m[3]) > 50 ? '19' . $m[3] : '20' . $m[3]) : $m[3];
             $normalized = sprintf('%04d-%02d-%02d', $year, $m[2], $m[1]);
         }
-        // Match US style slash (MM/DD/YYYY)
         elseif (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $final_value, $m) && ($current_user['date_format'] ?? '') === 'm/d/Y') {
             $normalized = sprintf('%04d-%02d-%02d', $m[3], $m[1], $m[2]);
         }
@@ -60,7 +54,6 @@ if ($suggestion_id && !empty($final_value)) {
 }
 
 if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
-    // Fetch suggestion joined with record table info
     $s_stmt = $pdo->prepare("
         SELECT es.*, r.table_id 
         FROM edit_suggestions es
@@ -74,15 +67,16 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
         $table_id = intval($suggestion['table_id']);
         $mod_perm_key = 'moderate_table_' . $table_id;
         
-        // Enforce granular table-scoped moderation permissions
         $current_user = get_current_user_data($pdo);
         if (!is_admin($pdo) && !has_permission($pdo, $mod_perm_key)) {
             http_response_code(403);
             exit('Unauthorized: You do not have moderation permission for this specific table.');
         }
 
+        $suggestor_id = $suggestion['suggested_by'];
+        $already_processed = intval($suggestion['points_awarded']) === 1;
+
         if ($action === 'approve') {
-            // Find column metadata including requirement rules for this specific table
             $c_stmt = $pdo->prepare("SELECT id, is_required, data_type FROM table_columns WHERE column_name = ? AND table_id = ?");
             $c_stmt->execute([$suggestion['column_name'], $table_id]);
             $col = $c_stmt->fetch();
@@ -103,12 +97,32 @@ if ($suggestion_id && in_array($action, ['approve', 'reject'])) {
                     $ins_stmt->execute([$suggestion['record_id'], $col['id'], $final_value]);
                 }
             }
-            $status_stmt = $pdo->prepare("UPDATE edit_suggestions SET status = 'approved' WHERE id = ?");
+
+            // Update status and mark points as audited/awarded
+            $status_stmt = $pdo->prepare("UPDATE edit_suggestions SET status = 'approved', points_awarded = 1 WHERE id = ?");
             $status_stmt->execute([$suggestion_id]);
+
+            // Award points only if not previously processed
+            if (!$already_processed) {
+                // 1. Reward Moderator (+1)
+                adjust_user_points($pdo, $current_user['id'], 1);
+
+                // 2. Reward Suggestor (+1)
+                if ($suggestor_id) {
+                    adjust_user_points($pdo, $suggestor_id, 1);
+                }
+            }
+
             $_SESSION['message'] = "Suggestion #{$suggestion_id} approved and applied.";
         } else {
-            $status_stmt = $pdo->prepare("UPDATE edit_suggestions SET status = 'rejected' WHERE id = ?");
+            $status_stmt = $pdo->prepare("UPDATE edit_suggestions SET status = 'rejected', points_awarded = 1 WHERE id = ?");
             $status_stmt->execute([$suggestion_id]);
+
+            // Apply anti-gaming penalty if not previously processed
+            if (!$already_processed && $suggestor_id) {
+                adjust_user_points($pdo, $suggestor_id, -1);
+            }
+
             $_SESSION['message'] = "Suggestion #{$suggestion_id} has been rejected.";
         }
         

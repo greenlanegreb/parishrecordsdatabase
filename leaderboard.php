@@ -5,19 +5,14 @@ require_once 'db/auth_helpers.php';
 require_once 'includes/functions.php';
 session_start();
 
-// Ensure the leaderboard module is enabled
 if (!is_module_enabled($pdo, 'leaderboard')) {
     http_response_code(403);
     exit('403 Forbidden: The Leaderboard module is currently disabled.');
 }
 
-// ------------------------------------------------------------------
-// Permission gate – only the guest role controls public access
-// ------------------------------------------------------------------
 $current_user = function_exists('get_current_user_data') ? get_current_user_data($pdo) : null;
 $is_logged_in = ($current_user !== null || isset($_SESSION['user_id']));
 
-// Only the guest role controls public (unauthenticated) access
 $has_public_permission = guest_has_permission($pdo, 'view_leaderboard');
 
 if (!$current_user && !$has_public_permission) {
@@ -26,11 +21,8 @@ if (!$current_user && !$has_public_permission) {
     exit;
 }
 
-// ------------------------------------------------------------------
-// Fetch and process leaderboard data
-// ------------------------------------------------------------------
 $stmt = $pdo->prepare("
-    SELECT u.username, u.first_name, u.surname, u.points, r.role_name AS role, u.leaderboard_display_mode
+    SELECT u.id, u.username, u.first_name, u.surname, u.points, r.role_name AS role, u.attribution_display_mode, u.is_active
     FROM users u
     LEFT JOIN roles r ON u.role_id = r.id
     WHERE u.is_active = 1
@@ -42,27 +34,16 @@ $all_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $leaderboard_users = [];
 foreach ($all_users as $u) {
-    $mode = $u['leaderboard_display_mode'] ?? '';
+    $mode = $u['attribution_display_mode'] ?? '';
     if (!in_array($mode, ['initials_random', 'full_name', 'volunteers_only'])) {
         $mode = 'initials_random';
     }
 
-    // Hide “volunteers_only” entries from pure guests
     if ($mode === 'volunteers_only' && !$is_logged_in) {
         continue;
     }
 
-    if ($mode === 'full_name') {
-        $parts = [];
-        if (!empty($u['first_name'])) $parts[] = $u['first_name'];
-        if (!empty($u['surname']))    $parts[] = $u['surname'];
-        $u['display_name'] = !empty($parts) ? implode(' ', $parts) : $u['username'];
-    } else {
-        $f_initial = !empty($u['first_name']) ? strtoupper(mb_substr($u['first_name'], 0, 1)) : strtoupper(mb_substr($u['username'], 0, 1));
-        $s_initial = !empty($u['surname'])    ? strtoupper(mb_substr($u['surname'], 0, 1))    : '';
-        $rand_num  = abs(crc32($u['username'])) % 9000 + 1000;
-        $u['display_name'] = "{$f_initial}{$s_initial}-{$rand_num}";
-    }
+    $u['display_name'] = format_user_display_name($pdo, $u, $current_user);
 
     $leaderboard_users[] = $u;
 }

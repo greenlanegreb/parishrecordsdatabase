@@ -124,9 +124,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
                 }
             }
 
-            // Increment points
-            $points_stmt = $pdo->prepare("UPDATE users SET points = points + 1 WHERE id = ?");
-            $points_stmt->execute([$current_user['id']]);
+            // Increment points securely via helper function
+            adjust_user_points($pdo, intval($current_user['id']), 1);
 
             // Enhanced Audit log with initial field values
             $audit_details = implode(' | ', $audit_details_parts);

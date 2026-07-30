@@ -11,15 +11,44 @@ function get_current_user_data($pdo) {
     if (!isset($_SESSION['user_id'])) {
         return null;
     }
-   
-    $stmt = $pdo->prepare("
-        SELECT u.id, u.username, u.first_name, u.surname, u.email, u.role_id, r.role_name as role, u.points, u.two_fa_enabled, u.email_verified, u.leaderboard_display_mode, u.timezone, u.date_format, u.time_format, u.language, u.is_new_user
-        FROM users u
-        LEFT JOIN roles r ON u.role_id = r.id
-        WHERE u.id = ?
-    ");
-    $stmt->execute([$_SESSION['user_id']]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    try {
+        $stmt = $pdo->prepare("
+            SELECT u.id, u.username, u.first_name, u.surname, u.email, u.role_id, r.role_name as role, u.points, u.two_fa_enabled, u.email_verified, u.attribution_display_mode, u.timezone, u.date_format, u.time_format, u.language, u.is_new_user
+            FROM users u
+            LEFT JOIN roles r ON u.role_id = r.id
+            WHERE u.id = ?
+        ");
+        $stmt->execute([$_SESSION['user_id']]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // SQLSTATE 42S22 = Unknown column, SQLSTATE 42S02 = Base table or view not found
+        if (in_array($e->getCode(), ['42S22', '42S02']) || str_contains($e->getMessage(), 'Unknown column') || str_contains($e->getMessage(), 'Base table or view not found')) {
+            
+            // Check if there are actual pending migrations waiting to be run
+            $schema_current = function_exists('get_schema_version') ? get_schema_version($pdo) : 0;
+            $schema_latest = $schema_current;
+            $migrations_dir = __DIR__ . '/migrations';
+            
+            if (is_dir($migrations_dir)) {
+                foreach (glob($migrations_dir . '/*.php') as $mig_file) {
+                    if (preg_match('/(\d+)_/', basename($mig_file), $m)) {
+                        $schema_latest = max($schema_latest, (int) $m[1]);
+                    }
+                }
+            }
+
+            // If a structural error occurred AND updates are waiting, route safely to the update gateway
+            if ($schema_current < $schema_latest) {
+                $base = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+                header('Location: ' . $base . '/update_database.php');
+                exit;
+            }
+        }
+        
+        // If it's a regular database bug or no updates are waiting, throw normally
+        throw $e;
+    }
 }
 
 /**
@@ -27,7 +56,6 @@ function get_current_user_data($pdo) {
  * and automatically register the permission in the database if it's new.
  */
 function has_permission($pdo, $permission_key, $description = null) {
-    // 1. Auto-register permission in the database so it appears in the admin matrix automatically
     try {
         static $registered_cache = [];
         if (!isset($registered_cache[$permission_key])) {
@@ -52,7 +80,7 @@ function has_permission($pdo, $permission_key, $description = null) {
     ");
     $stmt->execute([$role_id, $permission_key]);
     $has = ($stmt->fetchColumn() > 0);
-   
+    
     $permission_cache[$cache_key] = $has;
     return $has;
 }
@@ -109,19 +137,19 @@ function require_permission($pdo, $permission_key, $description = null) {
         header('Location: ' . BASE_PATH . '/user/login.php');
         exit;
     }
-   
+    
     if (!has_permission($pdo, $permission_key, $description)) {
         require_once __DIR__ . '/../403.php';
         exit;
     }
-   
+    
     $user = get_current_user_data($pdo);
     $current_script = basename($_SERVER['PHP_SELF']);
     if (!empty($user['is_new_user']) && $current_script !== 'onboarding.php' && $current_script !== 'save_onboarding.php') {
         header('Location: ' . BASE_PATH . '/user/onboarding.php');
         exit;
     }
-   
+    
     return $user;
 }
 
@@ -138,13 +166,13 @@ function require_role($pdo, $allowed_roles) {
         require_once __DIR__ . '/../403.php';
         exit;
     }
-   
+    
     $current_script = basename($_SERVER['PHP_SELF']);
     if (!empty($user['is_new_user']) && $current_script !== 'onboarding.php' && $current_script !== 'save_onboarding.php') {
         header('Location: ' . BASE_PATH . '/user/onboarding.php');
         exit;
     }
-   
+    
     return $user;
 }
 
@@ -225,7 +253,6 @@ function require_admin_page(PDO $pdo, string $permission_key, string $descriptio
 
     $current_user = require_permission($pdo, $permission_key, $description);
 
-    // Make flash messages available to the view
     $GLOBALS['message'] = $_SESSION['message'] ?? '';
     $GLOBALS['error']   = $_SESSION['error']   ?? '';
     unset($_SESSION['message'], $_SESSION['error']);

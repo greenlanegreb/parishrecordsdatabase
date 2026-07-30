@@ -8,7 +8,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Ensure the users module is enabled; otherwise block action execution
 if (!is_module_enabled($pdo, 'users')) {
     http_response_code(403);
     exit('403 Forbidden: The User Management module is currently disabled.');
@@ -26,12 +25,11 @@ $user_id = $current_user['id'];
 
 $first_name = trim($_POST['first_name'] ?? '');
 $surname = trim($_POST['surname'] ?? '');
-$display_mode = trim($_POST['leaderboard_display_mode'] ?? 'initials_random');
+$display_mode = trim($_POST['attribution_display_mode'] ?? 'initials_random');
 $timezone = trim($_POST['timezone'] ?? 'UTC');
 $date_format = trim($_POST['date_format'] ?? 'd/m/Y');
 $time_format = trim($_POST['time_format'] ?? '24');
 
-// Validation checks mirroring save_profile.php
 $allowed_modes = ['full_name', 'volunteers_only', 'initials_random'];
 if (!in_array($display_mode, $allowed_modes)) $display_mode = 'initials_random';
 
@@ -44,12 +42,10 @@ if (!in_array($date_format, $allowed_date_formats)) $date_format = 'd/m/Y';
 $allowed_time_formats = ['12', '24', 'none'];
 if (!in_array($time_format, $allowed_time_formats)) $time_format = '24';
 
-// Update preferences AND clear is_new_user flag (is_new_user = 0)
-$stmt = $pdo->prepare("UPDATE users SET first_name = ?, surname = ?, leaderboard_display_mode = ?, timezone = ?, date_format = ?, time_format = ?, is_new_user = 0 WHERE id = ?");
+$stmt = $pdo->prepare("UPDATE users SET first_name = ?, surname = ?, attribution_display_mode = ?, timezone = ?, date_format = ?, time_format = ?, is_new_user = 0 WHERE id = ?");
 if ($stmt->execute([$first_name, $surname, $display_mode, $timezone, $date_format, $time_format, $user_id])) {
     $_SESSION['message'] = "Welcome aboard! Your preferences have been saved.";
     
-    // Redirect admins to dashboard/settings or data_entry for normal users
     if (function_exists('has_permission') && has_permission($pdo, 'manage_settings')) {
         header('Location: ../../admin/settings.php');
     } else {

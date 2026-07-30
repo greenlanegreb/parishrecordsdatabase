@@ -1,5 +1,5 @@
 <?php
-// user/actions/save_suggest_edit.php - Handles edit suggestion submissions
+// user/actions/save_suggest_edit.php - Handles edit suggestion submissions securely without upfront points
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
@@ -48,7 +48,11 @@ if (($proposed_value === '' && $proposed_value !== '0') || empty($column_id)) {
             $display_val = format_boolean_value($proposed_value, $fmt);
         }
 
-        $ins = $pdo->prepare("INSERT INTO edit_suggestions (record_id, suggested_by, column_name, proposed_value, reasoning, status) VALUES (?, ?, ?, ?, ?, 'pending')");
+        // Insert suggestion as pending with points_awarded = 0 (no points in limbo)
+        $ins = $pdo->prepare("
+            INSERT INTO edit_suggestions (record_id, suggested_by, column_name, proposed_value, reasoning, status, points_awarded) 
+            VALUES (?, ?, ?, ?, ?, 'pending', 0)
+        ");
         
         if ($ins->execute([$record_id, $user_id, $col_info['column_name'], $proposed_value, $reasoning])) {
             $_SESSION['message'] = "Your edit suggestion has been successfully submitted to the admin queue for review.";

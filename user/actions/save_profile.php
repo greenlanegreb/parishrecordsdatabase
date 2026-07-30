@@ -23,7 +23,7 @@ $action  = $_POST['action'] ?? '';
 if ($action === 'update_personal_details') {
     $first_name   = trim($_POST['first_name'] ?? '');
     $surname      = trim($_POST['surname'] ?? '');
-    $display_mode = trim($_POST['leaderboard_display_mode'] ?? 'initials_random');
+    $display_mode = trim($_POST['attribution_display_mode'] ?? 'initials_random');
     $timezone     = trim($_POST['timezone'] ?? 'UTC');
     $date_format  = trim($_POST['date_format'] ?? 'd/m/Y');
     $time_format  = trim($_POST['time_format'] ?? '24');
@@ -49,7 +49,6 @@ if ($action === 'update_personal_details') {
         $time_format = '24';
     }
 
-    // Empty = site default; otherwise must have a lang file
     if ($language !== '') {
         $lang_file = __DIR__ . '/../../lang/' . $language . '.php';
         if (!is_file($lang_file)) {
@@ -58,7 +57,7 @@ if ($action === 'update_personal_details') {
     }
     $language_db = ($language === '') ? null : $language;
 
-    $upd_name = $pdo->prepare("UPDATE users SET first_name = ?, surname = ?, leaderboard_display_mode = ?, timezone = ?, date_format = ?, time_format = ?, language = ? WHERE id = ?");
+    $upd_name = $pdo->prepare("UPDATE users SET first_name = ?, surname = ?, attribution_display_mode = ?, timezone = ?, date_format = ?, time_format = ?, language = ? WHERE id = ?");
     if ($upd_name->execute([$first_name, $surname, $display_mode, $timezone, $date_format, $time_format, $language_db, $user_id])) {
         if ($language_db && function_exists('set_language')) {
             set_language($language_db);
@@ -112,7 +111,6 @@ elseif ($action === 'update_password') {
     $new_password     = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
-    // password_hash is not loaded by get_current_user_data — fetch it here
     $hash_stmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
     $hash_stmt->execute([$user_id]);
     $password_hash = $hash_stmt->fetchColumn();
