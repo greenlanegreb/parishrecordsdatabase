@@ -92,6 +92,10 @@ if (!is_dir(\$log_dir)) {
 
 try {
     \$pdo = new PDO(\$dsn, \$user, \$pass, \$options);
+
+    // Force MySQL session time zone to UTC (+00:00) to prevent the 1-hour drift
+    \$pdo->exec("SET time_zone = '+00:00';");
+
     if (is_file(__DIR__ . '/db/maintenance_guard.php')) {
         require_once __DIR__ . '/db/maintenance_guard.php';
         if (function_exists('check_maintenance_mode')) {
@@ -283,6 +287,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo = new PDO($dsn, $user, $pass, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             ]);
+
+            // Force MySQL session time zone to UTC (+00:00) during installation checks
+            $pdo->exec("SET time_zone = '+00:00';");
 
             if (!install_db_is_empty($pdo)) {
                 throw new RuntimeException(
