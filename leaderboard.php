@@ -51,15 +51,15 @@ foreach ($all_users as $u) {
 <?php require_once 'partials/header.php'; ?>
 
 <div class="search-box-container" role="region" aria-label="Leaderboard View">
-    <h3>Volunteer Contribution Leaderboard</h3>
-    <p>Recognizing the efforts of our community members helping compile and transcribe parish records.</p>
+    <h3>Community Contribution Leaderboard</h3>
+    <p>Recognizing the efforts of our community members helping compile, transcribe, and/or manage database records.</p>
 
     <div style="overflow-x:auto;margin-top:1.5rem;">
         <table class="data-table" style="width:100%;border-collapse:collapse;text-align:left;">
             <thead>
                 <tr style="border-bottom:2px solid var(--border-color);">
                     <th style="padding:0.75rem;">Rank</th>
-                    <th style="padding:0.75rem;">Volunteer</th>
+                    <th style="padding:0.75rem;">Contributor</th>
                     <th style="padding:0.75rem;">Role</th>
                     <th style="padding:0.75rem;text-align:right;">Score</th>
                 </tr>
@@ -78,9 +78,43 @@ foreach ($all_users as $u) {
                         <tr style="border-bottom:1px solid var(--border-color);<?php echo $row_style; ?>">
                             <td style="padding:0.75rem;">
                                 <?php
-                                    if ($rank === 1) echo '🥇 ';
-                                    elseif ($rank === 2) echo '🥈 ';
-                                    elseif ($rank === 3) echo '🥉 ';
+                                    $medal_label = '';
+                                    if ($rank === 1) { 
+                                        $medal_label = 'Gold Medal'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🥇 </span>'; 
+                                    } elseif ($rank === 2) { 
+                                        $medal_label = 'Silver Medal'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🥈 </span>'; 
+                                    } elseif ($rank === 3) { 
+                                        $medal_label = 'Bronze Medal'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🥉 </span>'; 
+                                    } elseif ($rank === 4) { 
+                                        $medal_label = 'Rank 4 Award Ribbon'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🎗️ </span>'; 
+                                    } elseif ($rank === 5) { 
+                                        $medal_label = 'Rank 5 Rosette'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🏵️ </span>'; 
+                                    } elseif ($rank === 6) { 
+                                        $medal_label = 'Rank 6 Trophy'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🏆 </span>'; 
+                                    } elseif ($rank === 7) { 
+                                        $medal_label = 'Rank 7 Star'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🌟 </span>'; 
+                                    } elseif ($rank === 8) { 
+                                        $medal_label = 'Rank 8 Military Medal'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">🏅 </span>'; 
+                                    } elseif ($rank === 9) { 
+                                        $medal_label = 'Rank 9 Glowing Star'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">✨ </span>'; 
+                                    } elseif ($rank === 10) { 
+                                        $medal_label = 'Rank 10 Crown'; 
+                                        echo '<span aria-hidden="true" title="' . $medal_label . '">👑 </span>'; 
+                                    }
+
+                                    if ($medal_label !== '') {
+                                        echo '<span class="sr-only" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;">' . $medal_label . ': </span>';
+                                    }
+
                                     echo $rank;
                                 ?>
                             </td>
