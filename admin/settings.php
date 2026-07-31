@@ -50,6 +50,15 @@ $maintenance_reason       = $get_setting_val($pdo, 'maintenance_reason', 'Schedu
 $maintenance_eta          = $get_setting_val($pdo, 'maintenance_eta', 'Shortly');
 $current_default_language = $get_setting_val($pdo, 'default_language', 'en');
 
+// CAPTCHA Configuration Settings
+$current_captcha_provider = $get_setting_val($pdo, 'captcha_provider', 'none');
+$current_turnstile_site   = $get_setting_val($pdo, 'turnstile_site_key', '');
+$current_turnstile_secret = $get_setting_val($pdo, 'turnstile_secret_key', '');
+$current_recaptcha_site   = $get_setting_val($pdo, 'recaptcha_site_key', '');
+$current_recaptcha_secret = $get_setting_val($pdo, 'recaptcha_secret_key', '');
+$current_hcaptcha_site    = $get_setting_val($pdo, 'hcaptcha_site_key', '');
+$current_hcaptcha_secret  = $get_setting_val($pdo, 'hcaptcha_secret_key', '');
+
 // Available language files in /lang
 $available_languages = [];
 $lang_dir = __DIR__ . '/../lang';
@@ -130,7 +139,7 @@ if (isset($_GET['edit_role'])) {
 
 <div class="search-box-container" role="region" aria-label="Site Settings Form" style="max-width: 1100px; margin: 0 auto; font-size: 1rem;">
     <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Global Site Settings, Modules & Permissions</h3>
-    <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Manage core configurations, mail drivers, feature modules, maintenance mode, site announcements, and role capabilities.</p>
+    <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;">Manage core configurations, mail drivers, security/CAPTCHA options, feature modules, maintenance mode, site announcements, and role capabilities.</p>
 
     <?php if (!empty($error)): ?>
         <p class="alert-danger" role="alert" style="font-size: 1rem;"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -200,6 +209,57 @@ if (isset($_GET['edit_role'])) {
                     <?php endforeach; ?>
                 </select>
                 <p style="margin: 0.4rem 0 0; font-size: 0.9rem; color: #555;">Used for guests and users who have not chosen a language. Add files under <code>lang/</code> (e.g. <code>cy.php</code>) to offer more options.</p>
+            </div>
+
+            <!-- CAPTCHA / Anti-Bot Security Configuration -->
+            <h4 style="margin-top: 2rem; color: #333; font-size: 1.2rem;">Security & CAPTCHA Configuration</h4>
+            <div style="margin-bottom: 1.25rem;">
+                <label for="captcha_provider" style="font-size: 1rem;"><strong>CAPTCHA Provider Engine:</strong></label><br>
+                <select id="captcha_provider" name="captcha_provider" class="volunteer-input" style="width: 100%; padding: 0.6rem; font-size: 1rem; margin-top: 0.4rem;" onchange="toggleCaptchaConfigs(this.value)">
+                    <option value="none" <?php echo ($current_captcha_provider === 'none') ? 'selected' : ''; ?>>Disabled (No CAPTCHA)</option>
+                    <option value="turnstile" <?php echo ($current_captcha_provider === 'turnstile') ? 'selected' : ''; ?>>Cloudflare Turnstile</option>
+                    <option value="recaptcha" <?php echo ($current_captcha_provider === 'recaptcha') ? 'selected' : ''; ?>>Google reCAPTCHA v2 / v3</option>
+                    <option value="hcaptcha" <?php echo ($current_captcha_provider === 'hcaptcha') ? 'selected' : ''; ?>>hCaptcha</option>
+                </select>
+            </div>
+
+            <!-- Turnstile Settings Block -->
+            <div id="captcha_turnstile_block" style="background: rgba(0,0,0,0.02); padding: 1.25rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 1.5rem; display: <?php echo ($current_captcha_provider === 'turnstile') ? 'block' : 'none'; ?>;">
+                <h4 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Cloudflare Turnstile Settings</h4>
+                <div style="margin-bottom: 1rem;">
+                    <label for="turnstile_site_key" style="font-size: 0.95rem;">Site Key (Public):</label><br>
+                    <input type="text" id="turnstile_site_key" name="turnstile_site_key" value="<?php echo htmlspecialchars($current_turnstile_site); ?>" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;">
+                </div>
+                <div>
+                    <label for="turnstile_secret_key" style="font-size: 0.95rem;">Secret Key (Private):</label><br>
+                    <input type="password" id="turnstile_secret_key" name="turnstile_secret_key" value="<?php echo htmlspecialchars($current_turnstile_secret); ?>" placeholder="••••••••" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;">
+                </div>
+            </div>
+
+            <!-- Google reCAPTCHA Settings Block -->
+            <div id="captcha_recaptcha_block" style="background: rgba(0,0,0,0.02); padding: 1.25rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 1.5rem; display: <?php echo ($current_captcha_provider === 'recaptcha') ? 'block' : 'none'; ?>;">
+                <h4 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Google reCAPTCHA Settings</h4>
+                <div style="margin-bottom: 1rem;">
+                    <label for="recaptcha_site_key" style="font-size: 0.95rem;">Site Key (Public):</label><br>
+                    <input type="text" id="recaptcha_site_key" name="recaptcha_site_key" value="<?php echo htmlspecialchars($current_recaptcha_site); ?>" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;">
+                </div>
+                <div>
+                    <label for="recaptcha_secret_key" style="font-size: 0.95rem;">Secret Key (Private):</label><br>
+                    <input type="password" id="recaptcha_secret_key" name="recaptcha_secret_key" value="<?php echo htmlspecialchars($current_recaptcha_secret); ?>" placeholder="••••••••" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;">
+                </div>
+            </div>
+
+            <!-- hCaptcha Settings Block -->
+            <div id="captcha_hcaptcha_block" style="background: rgba(0,0,0,0.02); padding: 1.25rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 1.5rem; display: <?php echo ($current_captcha_provider === 'hcaptcha') ? 'block' : 'none'; ?>;">
+                <h4 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">hCaptcha Settings</h4>
+                <div style="margin-bottom: 1rem;">
+                    <label for="hcaptcha_site_key" style="font-size: 0.95rem;">Site Key (Public):</label><br>
+                    <input type="text" id="hcaptcha_site_key" name="hcaptcha_site_key" value="<?php echo htmlspecialchars($current_hcaptcha_site); ?>" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;">
+                </div>
+                <div>
+                    <label for="hcaptcha_secret_key" style="font-size: 0.95rem;">Secret Key (Private):</label><br>
+                    <input type="password" id="hcaptcha_secret_key" name="hcaptcha_secret_key" value="<?php echo htmlspecialchars($current_hcaptcha_secret); ?>" placeholder="••••••••" class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem;">
+                </div>
             </div>
 
             <h4 style="margin-top: 2rem; color: #333; font-size: 1.2rem;">Mail Delivery Configuration</h4>
@@ -547,6 +607,11 @@ function switchTab(tabId) {
 }
 function toggleSmtpFields(val) {
     document.getElementById('smtp_settings_block').style.display = (val === 'smtp') ? 'block' : 'none';
+}
+function toggleCaptchaConfigs(provider) {
+    document.getElementById('captcha_turnstile_block').style.display = (provider === 'turnstile') ? 'block' : 'none';
+    document.getElementById('captcha_recaptcha_block').style.display = (provider === 'recaptcha') ? 'block' : 'none';
+    document.getElementById('captcha_hcaptcha_block').style.display = (provider === 'hcaptcha') ? 'block' : 'none';
 }
 function updateSmtpPort(encryptionType) {
     const portInput = document.getElementById('smtp_port');

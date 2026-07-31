@@ -12,6 +12,15 @@ if (!is_module_enabled($pdo, 'volunteers')) {
 $current_user = require_admin_page($pdo, 'manage_volunteers', 'Manage volunteer form schema definitions');
 [$user_timezone, $full_format_str] = get_user_time_prefs($current_user);
 
+// Fetch form title & intro settings
+$settings_stmt = $pdo->query("SELECT setting_key, setting_value FROM volunteer_form_settings");
+$form_settings = [];
+while ($row = $settings_stmt->fetch(PDO::FETCH_ASSOC)) {
+    $form_settings[$row['setting_key']] = $row['setting_value'];
+}
+$form_title = $form_settings['form_title'] ?? 'Volunteer for Data Entry';
+$form_intro = $form_settings['form_intro'] ?? 'Interested in helping transcribe and contribute? Let us know a little about yourself and any relevant experience.';
+
 $edit_col = null;
 if (isset($_GET['edit_column'])) {
     $c_stmt = $pdo->prepare("SELECT * FROM volunteer_columns WHERE id = ?");
@@ -27,11 +36,32 @@ $columns = $pdo->query("SELECT vc.*, u.username FROM volunteer_columns vc LEFT J
 
 <div class="search-box-container" style="max-width: 1100px; margin: 0 auto;">
     <h3>Volunteer Form Schema Management</h3>
-    <p>Configure custom fields, data types, sub-types, and options for the public volunteer application form.</p>
+    <p>Configure custom fields, data types, sub-types, options, and general form presentation settings.</p>
 
     <div style="margin-bottom: 1.5rem;">
         <a href="volunteer_dashboard.php" class="btn btn-secondary" style="text-decoration: none;">← Back to Volunteer Submissions</a>
     </div>
+
+    <!-- Form Title & Introduction Settings Box -->
+    <details class="search-box-container" style="margin-bottom: 2rem; background: rgba(0,0,0,0.01);">
+        <summary style="cursor: pointer; font-weight: bold; font-size: 1.15rem; color: #333; padding: 0.25rem 0;">
+            ✏️ Configure Form Title & Introduction Text
+        </summary>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <form method="POST" action="actions/save_volunteer_schema.php">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="action" value="update_settings">
+                
+                <label for="form_title">Form Title:</label><br>
+                <input type="text" id="form_title" name="form_title" value="<?php echo htmlspecialchars($form_title); ?>" class="volunteer-input" style="width: 100%; max-width: 600px; padding: 0.4rem; margin-bottom: 1rem;" required><br>
+
+                <label for="form_intro">Introduction Text / Description:</label><br>
+                <textarea id="form_intro" name="form_intro" rows="3" class="volunteer-input" style="width: 100%; max-width: 600px; padding: 0.4rem; margin-bottom: 1rem; resize: vertical;" required><?php echo htmlspecialchars($form_intro); ?></textarea><br>
+
+                <button type="submit" class="btn">Save Form Settings</button>
+            </form>
+        </div>
+    </details>
 
     <details class="search-box-container" id="create-column-details" <?php echo $edit_col ? 'open' : ''; ?> style="margin-bottom: 2rem; background: rgba(0,0,0,0.01);">
         <summary style="cursor: pointer; font-weight: bold; font-size: 1.15rem; color: #333; padding: 0.25rem 0;">

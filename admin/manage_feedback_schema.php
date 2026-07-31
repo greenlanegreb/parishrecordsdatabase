@@ -12,6 +12,15 @@ if (!is_module_enabled($pdo, 'feedback')) {
 $current_user = require_admin_page($pdo, 'manage_feedback', 'Manage feedback ticket schema definitions');
 [$user_timezone, $full_format_str] = get_user_time_prefs($current_user);
 
+// Fetch form title & intro settings
+$settings_stmt = $pdo->query("SELECT setting_key, setting_value FROM feedback_form_settings");
+$form_settings = [];
+while ($row = $settings_stmt->fetch(PDO::FETCH_ASSOC)) {
+    $form_settings[$row['setting_key']] = $row['setting_value'];
+}
+$form_title = $form_settings['form_title'] ?? 'Submit Support Ticket or Feedback';
+$form_intro = $form_settings['form_intro'] ?? 'Fill out the form below to open a ticket with our team.';
+
 $edit_col = null;
 if (isset($_GET['edit_column'])) {
     $c_stmt = $pdo->prepare("SELECT * FROM feedback_columns WHERE id = ?");
@@ -28,11 +37,32 @@ $columns = $pdo->query("SELECT fc.*, u.username FROM feedback_columns fc LEFT JO
 
 <div class="search-box-container" style="max-width: 1100px; margin: 0 auto;">
     <h3>Feedback Form Schema Management</h3>
-    <p>Configure custom fields, data types, character limits, sub-types, and options for incoming feedback tickets.</p>
+    <p>Configure custom fields, data types, character limits, sub-types, options, and general form presentation settings.</p>
 
     <div style="margin-bottom: 1.5rem;">
         <a href="feedback_dashboard.php" class="btn btn-secondary" style="text-decoration: none;">← Back to Feedback Tickets Dashboard</a>
     </div>
+
+    <!-- Form Title & Introduction Settings Box -->
+    <details class="search-box-container" style="margin-bottom: 2rem; background: rgba(0,0,0,0.01);">
+        <summary style="cursor: pointer; font-weight: bold; font-size: 1.15rem; color: #333; padding: 0.25rem 0;">
+            ✏️ Configure Form Title & Introduction Text
+        </summary>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <form method="POST" action="actions/save_feedback_schema.php">
+                <?php echo csrf_field(); ?>
+                <input type="hidden" name="action" value="update_settings">
+                
+                <label for="form_title">Form Title:</label><br>
+                <input type="text" id="form_title" name="form_title" value="<?php echo htmlspecialchars($form_title); ?>" class="volunteer-input" style="width: 100%; max-width: 600px; padding: 0.4rem; margin-bottom: 1rem;" required><br>
+
+                <label for="form_intro">Introduction Text / Description:</label><br>
+                <textarea id="form_intro" name="form_intro" rows="3" class="volunteer-input" style="width: 100%; max-width: 600px; padding: 0.4rem; margin-bottom: 1rem; resize: vertical;" required><?php echo htmlspecialchars($form_intro); ?></textarea><br>
+
+                <button type="submit" class="btn">Save Form Settings</button>
+            </form>
+        </div>
+    </details>
 
     <!-- Collapsible Column Form Container -->
     <details class="search-box-container" id="create-column-details" <?php echo $edit_col ? 'open' : ''; ?> style="margin-bottom: 2rem; background: rgba(0,0,0,0.01);">

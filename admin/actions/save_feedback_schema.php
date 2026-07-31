@@ -1,5 +1,5 @@
 <?php
-// admin/actions/save_feedback_schema.php - Handles ticket field schema updates and reordering
+// admin/actions/save_feedback_schema.php - Handles ticket field schema updates, reordering, and settings
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
@@ -61,6 +61,14 @@ if ($action === 'create' || $action === 'update') {
     }
     $pdo->commit();
     exit;
+} elseif ($action === 'update_settings') {
+    $form_title = trim($_POST['form_title'] ?? 'Submit Support Ticket or Feedback');
+    $form_intro = trim($_POST['form_intro'] ?? '');
+
+    $stmt = $pdo->prepare("INSERT INTO feedback_form_settings (setting_key, setting_value) VALUES ('form_title', ?), ('form_intro', ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)");
+    $stmt->execute([$form_title, $form_intro]);
+
+    $_SESSION['message'] = "Feedback form presentation settings updated successfully.";
 }
 
 header('Location: ../manage_feedback_schema.php');

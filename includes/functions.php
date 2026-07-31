@@ -492,3 +492,26 @@ if (!function_exists('adjust_user_points')) {
         }
     }
 }
+
+if (!function_exists('has_exceeded_username_check_limit')) {
+    function has_exceeded_username_check_limit(PDO $pdo) {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+        try {
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM audit_logs WHERE ip_address = ? AND action = 'USERNAME_CHECK_ATTEMPT' AND created_at >= (NOW() - INTERVAL 24 HOUR)");
+            $stmt->execute([$ip]);
+            return $stmt->fetchColumn() >= 3;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('log_username_check_attempt')) {
+    function log_username_check_attempt(PDO $pdo) {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+        try {
+            $stmt = $pdo->prepare("INSERT INTO audit_logs (action, details, ip_address) VALUES ('USERNAME_CHECK_ATTEMPT', 'Checked username availability during user invite', ?)");
+            $stmt->execute([$ip]);
+        } catch (Exception $e) {}
+    }
+}
