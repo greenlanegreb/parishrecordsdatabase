@@ -13,7 +13,7 @@ if (!is_module_enabled($pdo, 'users')) {
 // Standard admin bootstrap (permission + flash messages)
 $current_user = require_admin_page($pdo, 'manage_users', 'Manage user accounts, roles, and status');
 $message = $GLOBALS['message'] ?? '';
-$error   = $GLOBALS['error']    ?? '';
+$error   = $GLOBALS['error']   ?? '';
 
 // Determine the first admin user ID dynamically (the earliest created user with the 'admin' role, fallback to ID 1)
 $first_admin_id = 1;
@@ -48,8 +48,16 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
 <?php require_once '../partials/header.php'; ?>
 
 <div class="search-box-container" role="region" aria-label="Admin User Management" style="max-width: 100%;">
-    <h3>User Account Management & Leaderboard Moderation</h3>
-    <p>Inspect user statuses, assign roles, reset 2FA configurations, manage points overrides, or suspend cheating accounts.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h3>User Account Management & Leaderboard Moderation</h3>
+            <p>Inspect user statuses, assign roles, override emails, trigger password resets or invitations, reset 2FA, or suspend accounts.</p>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="manage_user_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ Manage Email Templates</a>
+            <a href="create_user.php" class="btn" style="text-decoration: none;">➕ Invite New User</a>
+        </div>
+    </div>
 
     <?php if (!empty($error)): ?>
         <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -64,7 +72,7 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Username</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Email & Override</th>
                     <th scope="col">Role Assignment</th>
                     <th scope="col">Score</th>
                     <th scope="col">Status</th>
@@ -81,7 +89,17 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                         <tr>
                             <td><?php echo $u['id']; ?></td>
                             <td><?php echo htmlspecialchars($u['username']); ?></td>
-                            <td><?php echo htmlspecialchars($u['email']); ?></td>
+                            <td>
+                                <!-- Email Display & Inline Override Form -->
+                                <form method="POST" action="actions/save_user_management.php" style="display: flex; gap: 0.3rem; align-items: center; margin-bottom: 0.3rem;">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="action" value="update_email">
+                                    <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
+                                    <input type="email" name="new_email" value="<?php echo htmlspecialchars($u['email']); ?>" style="padding: 0.2rem; font-size: 0.85rem; width: 160px;" required aria-label="Email for <?php echo htmlspecialchars($u['username']); ?>">
+                                    <button type="submit" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;" title="Save new email address">Save</button>
+                                </form>
+                                <small style="color: #666;">Verified: <?php echo $u['email_verified'] ? 'Yes' : 'No'; ?></small>
+                            </td>
                             <td>
                                 <!-- Role Change Form -->
                                 <?php if ($is_first_admin): ?>
@@ -124,9 +142,26 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                     <input type="number" name="new_points" value="<?php echo intval($u['points']); ?>" style="width: 70px; padding: 0.2rem;" aria-label="Points for <?php echo htmlspecialchars($u['username']); ?>">
                                     <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;">Set Score</button>
                                 </form>
+
                                 <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                                    <!-- Resend Invite Button -->
+                                    <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Resend account invitation email to this user?');" style="display:inline;">
+                                        <?php echo csrf_field(); ?>
+                                        <input type="hidden" name="action" value="resend_invite">
+                                        <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
+                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Resend invite to <?php echo htmlspecialchars($u['username']); ?>">Resend Invite</button>
+                                    </form>
+
+                                    <!-- Send Password Reset Link Button -->
+                                    <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Dispatch a password reset link to this user?');" style="display:inline;">
+                                        <?php echo csrf_field(); ?>
+                                        <input type="hidden" name="action" value="send_password_reset">
+                                        <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
+                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Send password reset to <?php echo htmlspecialchars($u['username']); ?>">Reset Password</button>
+                                    </form>
+
                                     <!-- Suspension Toggle Button (Prevent suspending the primary admin too) -->
-                                    <?php if ($u['id'] !== $current_user['id'] && !$is_first_admin): ?>
+                                    <?php if ($u['id'] !== intval($current_user['id']) && !$is_first_admin): ?>
                                         <?php if ($u['is_active']): ?>
                                             <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Suspend user and block access for cheating/violation?');" style="display:inline;">
                                                 <?php echo csrf_field(); ?>
@@ -143,9 +178,10 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                             </form>
                                         <?php endif; ?>
                                     <?php endif; ?>
-                                    <!-- 2FA Reset Button -->
+
+                                    <!-- 2FA Reset / Disable Button -->
                                     <?php if ($u['two_fa_enabled']): ?>
-                                        <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Reset 2FA for this user?');" style="display:inline;">
+                                        <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Reset and disable 2FA for this user?');" style="display:inline;">
                                             <?php echo csrf_field(); ?>
                                             <input type="hidden" name="action" value="reset_2fa">
                                             <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">

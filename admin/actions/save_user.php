@@ -104,7 +104,14 @@ $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
 $ins = $pdo->prepare("INSERT INTO users (username, first_name, surname, email, password_hash, role_id, verification_token, token_expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 if ($ins->execute([$username, $first_name, $surname, $email, '', $role_id, $token, $expires])) {
-    if (send_user_invitation($pdo, $email, $token)) {
+    $user_details = [
+        'first_name' => $first_name,
+        'surname'    => $surname,
+        'username'   => $username,
+        'role_name'  => ucwords($role_name)
+    ];
+
+    if (send_user_invitation($pdo, $email, $token, $user_details)) {
         if ($volunteer_id > 0) {
             $up_vol = $pdo->prepare("UPDATE volunteer_submissions SET status = 'Accepted' WHERE id = ?");
             $up_vol->execute([$volunteer_id]);

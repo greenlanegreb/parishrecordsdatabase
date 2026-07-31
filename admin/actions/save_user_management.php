@@ -1,7 +1,8 @@
 <?php
-// admin/actions/save_user_management.php - Handles user moderation, score overrides, and role changes
+// admin/actions/save_user_management.php - Handles user moderation, score overrides, role changes, email updates, and invitation/password resets
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
+require_once '../../db/mail_helper.php';
 require_once '../../includes/functions.php';
 session_start();
 
@@ -102,6 +103,62 @@ try {
             $audit->execute([$current_user['id'], "Overrode score for {$target_user['username']} to {$new_points}", $_SERVER['REMOTE_ADDR']]);
             break;
 
+        case 'update_email':
+            $new_email = trim($_POST['new_email'] ?? '');
+            if (empty($new_email) || !filter_var($new_email, FILTER_VALIDATE_EMAIL)) {
+                $_SESSION['error'] = "Invalid or empty email address format provided.";
+                break;
+            }
+
+            // Check collision
+            $chk = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+            $chk->execute([$new_email, $target_user_id]);
+            if ($chk->fetch()) {
+                $_SESSION['error'] = "That email address is already registered to another user account.";
+                break;
+            }
+
+            $upd = $pdo->prepare("UPDATE users SET email = ? WHERE id = ?");
+            $upd->execute([$new_email, $target_user_id]);
+
+            $_SESSION['message'] = "Email address for '{$target_user['username']}' updated to {$new_email}.";
+
+            $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'UPDATE_USER_EMAIL', ?, ?)");
+            $audit->execute([$current_user['id'], "Changed email address for {$target_user['username']} to {$new_email}", $_SERVER['REMOTE_ADDR']]);
+            break;
+
+        case 'send_password_reset':
+        case 'resend_invite':
+            $token = bin2hex(random_bytes(32));
+            $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
+            
+            $upd = $pdo->prepare("UPDATE users SET verification_token = ?, token_expires_at = ? WHERE id = ?");
+            $upd->execute([$token, $expires, $target_user_id]);
+
+            // Fetch target user email, username, and role details
+            $u_det = $pdo->prepare("SELECT u.email, u.username, r.role_name FROM users u LEFT JOIN roles r ON u.role_id = r.id WHERE u.id = ?");
+            $u_det->execute([$target_user_id]);
+            $u_data = $u_det->fetch(PDO::FETCH_ASSOC);
+
+            if ($u_data && !empty($u_data['email'])) {
+                // Pass 'password_reset' trigger event so it uses the distinct password reset template
+                send_user_invitation($pdo, $u_data['email'], $token, [
+                    'first_name' => $u_data['username'],
+                    'surname'    => '',
+                    'username'   => $u_data['username'],
+                    'role_name'  => $u_data['role_name'] ?? 'User'
+                ], 'password_reset');
+
+                $action_label = ($action === 'send_password_reset') ? 'Password reset link' : 'Invitation email';
+                $_SESSION['message'] = "{$action_label} successfully dispatched to '{$u_data['username']}'.";
+
+                $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, ?, ?, ?)");
+                $audit->execute([$current_user['id'], strtoupper($action), "Dispatched {$action} to user: {$u_data['username']}", $_SERVER['REMOTE_ADDR']]);
+            } else {
+                $_SESSION['error'] = "Could not find a valid email address for this user.";
+            }
+            break;
+
         case 'suspend':
             if ($target_user_id === intval($current_user['id'])) {
                 $_SESSION['error'] = "You cannot suspend your own administrative account.";
@@ -131,7 +188,7 @@ try {
             $upd = $pdo->prepare("UPDATE users SET two_fa_enabled = 0, two_fa_secret = NULL WHERE id = ?");
             $upd->execute([$target_user_id]);
 
-            $_SESSION['message'] = "Two-factor authentication has been reset for '{$target_user['username']}'$.";
+            $_SESSION['message'] = "Two-factor authentication has been reset for '{$target_user['username']}'.";
 
             $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'RESET_2FA', ?, ?)");
             $audit->execute([$current_user['id'], "Reset 2FA for user account: {$target_user['username']}", $_SERVER['REMOTE_ADDR']]);

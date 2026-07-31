@@ -1,5 +1,5 @@
 <?php
-// db/mail_helper.php - Hybrid mailer supporting local Postfix or PHPMailer SMTP
+// db/mail_helper.php - Hybrid mailer supporting local Postfix or PHPMailer SMTP with database email template parsing
 
 // Require the lightweight core PHPMailer files directly
 require_once __DIR__ . '/../includes/phpmailer/Exception.php';
@@ -10,10 +10,53 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = null, $custom_body = null) {
+function send_user_invitation($pdo, $to_email, $reset_token, array $user_details = [], string $trigger_event = 'user_invitation', $custom_subject = null, $custom_body = null) {
     $system_name = get_system_name($pdo);
     
-    // 1. Fetch configured mail settings from site_settings
+    // 1. Fetch template from database if custom ones aren't explicitly passed
+    $subject_tmpl = $custom_subject;
+    $body_tmpl = $custom_body;
+
+    if (empty($subject_tmpl) || empty($body_tmpl)) {
+        try {
+            $stmt = $pdo->prepare("SELECT subject, body FROM user_email_templates WHERE trigger_event = ?");
+            $stmt->execute([$trigger_event]);
+            $tmpl = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($tmpl) {
+                $subject_tmpl = $subject_tmpl ?: $tmpl['subject'];
+                $body_tmpl = $body_tmpl ?: $tmpl['body'];
+            }
+        } catch (Exception $e) {
+            // Fallback if table doesn't exist yet
+        }
+    }
+
+    // Fallbacks if database row is completely missing
+    $subject_tmpl = $subject_tmpl ?? ($system_name . " - Account Access");
+    $body_tmpl = $body_tmpl ?? "Hello {first_name},\n\nPlease use this link to access your account: {invite_link}";
+
+    // 2. Link URL configuration using dynamic BASE_PATH
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "https://";
+    $base_path = defined('BASE_PATH') ? BASE_PATH : '';
+    
+    $setup_link = $protocol . $host . $base_path . "/user/set_password.php?token=" . $reset_token;
+
+    // 3. Define placeholder replacements
+    $replacements = [
+        '{system_name}' => $system_name,
+        '{invite_link}' => $setup_link,
+        '{first_name}'  => $user_details['first_name'] ?? ($user_details['username'] ?? 'User'),
+        '{surname}'     => $user_details['surname'] ?? '',
+        '{username}'    => $user_details['username'] ?? 'User',
+        '{email}'       => $to_email,
+        '{role_name}'   => $user_details['role_name'] ?? 'User'
+    ];
+
+    $subject = str_replace(array_keys($replacements), array_values($replacements), $subject_tmpl);
+    $message_body = str_replace(array_keys($replacements), array_values($replacements), $body_tmpl);
+
+    // 4. Fetch configured mail settings from site_settings
     $mail_driver = 'mail'; // Default to native mail (Postfix)
     $mail_domain = '';
     $mail_from   = '';
@@ -37,40 +80,17 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
                 case 'smtp_encryption': $smtp_encryption = trim($row['setting_value']); break;
             }
         }
-    } catch (Exception $e) {
-        // Fallbacks apply if table columns are missing
-    }
+    } catch (Exception $e) {}
 
-    // 2. Strict From Address resolution (No hidden hardcoded fallbacks)
+    // 5. Strict From Address resolution
     $from_email = !empty($mail_from) ? $mail_from : (!empty($mail_domain) ? ("no-reply@" . $mail_domain) : '');
 
     if (empty($from_email)) {
         error_log("Mail Error: No 'From' email or mail domain configured in site settings.");
         return false;
     }
-    
-    // 3. Link URL configuration using dynamic BASE_PATH
-    $host = $_SERVER['HTTP_HOST'] ?? ($mail_domain ?: 'localhost');
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "https://";
-    $base_path = defined('BASE_PATH') ? BASE_PATH : '';
-    
-    $setup_link = $protocol . $host . $base_path . "/user/set_password.php?token=" . $reset_token;
-    
-    // 4. Determine subject and body
-    $subject = $custom_subject ?? ($system_name . " - Account Invitation");
-    
-    if ($custom_body !== null) {
-        $message_body = $custom_body;
-    } else {
-        $message_body = "Hello,\n\n" .
-                        "An account has been created for you on the " . $system_name . ".\n" .
-                        "Please click the link below to set your password and activate your account:\n\n" .
-                        $setup_link . "\n\n" .
-                        "This link is valid for 24 hours.\n\n" .
-                        "If you did not expect this invitation, please contact the site administrator.\n";
-    }
 
-    // 5. Handle PHPMailer SMTP Client if selected by admin
+    // 6. Handle PHPMailer SMTP Client if selected by admin
     if ($mail_driver === 'smtp' && !empty($smtp_host)) {
         try {
             $mail = new PHPMailer(true);
@@ -102,7 +122,7 @@ function send_user_invitation($pdo, $to_email, $reset_token, $custom_subject = n
         }
     }
 
-    // 6. Default Native Mail / Postfix Relay approach
+    // 7. Default Native Mail / Postfix Relay approach
     $headers = "From: " . $from_email . "\r\n" .
                "Reply-To: " . $from_email . "\r\n" .
                "X-Mailer: PHP/" . phpversion();
