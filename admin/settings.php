@@ -378,7 +378,7 @@ if (isset($_GET['edit_role'])) {
         </form>
     </div>
 
-    <!-- TAB 3: Maintenance Mode Settings -->
+    <!-- TAB 3: Maintenance Mode & Cron Settings -->
     <div role="tabpanel" id="panel-maintenance" aria-labelledby="tab-maintenance" class="tab-panel" style="display: none;">
         <form method="POST" action="actions/save_maintenance.php">
             <?php echo csrf_field(); ?>
@@ -397,8 +397,26 @@ if (isset($_GET['edit_role'])) {
                 <label for="maintenance_eta" style="font-size: 1rem;"><strong><?php echo htmlspecialchars(__('settings.maintenance_eta_label')); ?></strong></label><br>
                 <input type="text" id="maintenance_eta" name="maintenance_eta" value="<?php echo htmlspecialchars($maintenance_eta); ?>" class="volunteer-input" style="width: 100%; max-width: 350px; padding: 0.6rem; font-size: 1rem; margin-top: 0.4rem;" required>
             </div>
-            <button type="submit" class="btn btn-danger" style="padding: 0.6rem 1.2rem; font-size: 1rem;"><?php echo htmlspecialchars(__('settings.save_maintenance_btn')); ?></button>
+            <button type="submit" class="btn btn-danger" style="padding: 0.6rem 1.2rem; font-size: 1rem; margin-bottom: 2rem;"><?php echo htmlspecialchars(__('settings.save_maintenance_btn')); ?></button>
         </form>
+
+        <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
+
+        <!-- Intelligent Cron Discovery & Token Maintenance Tool -->
+        <h4 style="color: #333; font-size: 1.2rem;"><?php echo htmlspecialchars(__('settings.cron_maintenance_heading')); ?></h4>
+        <p style="font-size: 0.95rem; color: #555; margin-bottom: 1rem;"><?php echo htmlspecialchars(__('settings.cron_maintenance_desc')); ?></p>
+        
+        <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 6px; margin-bottom: 1.5rem;">
+            <label style="font-weight: bold; font-size: 0.95rem;"><?php echo htmlspecialchars(__('settings.cron_command_label')); ?></label>
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem; margin-bottom: 1rem;">
+                <input type="text" readonly value="<?php echo htmlspecialchars(PHP_BINARY); ?> <?php echo htmlspecialchars(realpath(__DIR__ . '/actions/cron_token_cleanup.php')); ?>" class="volunteer-input" style="flex: 1; padding: 0.5rem; font-family: monospace; font-size: 0.9rem; background: #fff;" onclick="this.select();">
+            </div>
+
+            <form method="POST" action="actions/cron_token_cleanup.php">
+                <?php echo csrf_field(); ?>
+                <button type="submit" class="btn btn-secondary" style="font-size: 0.95rem; padding: 0.5rem 1rem;"><?php echo htmlspecialchars(__('settings.run_token_cleanup_btn')); ?></button>
+            </form>
+        </div>
     </div>
 
     <!-- TAB 4: Site Notices -->
@@ -447,8 +465,7 @@ if (isset($_GET['edit_role'])) {
             $active_mappings[$m['role_id']][$m['permission_id']] = true;
         }
 
-        // Module states
-        $mod_users_active       = is_module_enabled($pdo, 'users');
+        $mod_users_active        = is_module_enabled($pdo, 'users');
         $mod_volunteers_active  = is_module_enabled($pdo, 'volunteers');
         $mod_feedback_active    = is_module_enabled($pdo, 'feedback');
         $mod_moderation_active  = is_module_enabled($pdo, 'moderation');
@@ -473,8 +490,6 @@ if (isset($_GET['edit_role'])) {
         $categorized_perms = [];
         foreach ($perms_list as $p) {
             $pkey = $p['permission_key'];
-
-            // Hide permissions if their corresponding module is disabled and they are otherwise unused externally
             if (($pkey === 'manage_users' || $pkey === 'invite_users' || $pkey === 'access_onboarding') && !$mod_users_active) continue;
             if (($pkey === 'manage_volunteers' || $pkey === 'submit_volunteer') && !$mod_volunteers_active) continue;
             if (($pkey === 'manage_feedback' || $pkey === 'submit_feedback') && !$mod_feedback_active) continue;
@@ -512,7 +527,6 @@ if (isset($_GET['edit_role'])) {
                                                     <?php foreach ($cat_perms as $p): ?>
                                                         <?php 
                                                             $is_checked = isset($active_mappings[$r['id']][$p['id']]);
-                                                            // Lock/disable checkboxes for the 'admin' role (ID 1) if active in DB to prevent accidental lockout
                                                             $is_locked_admin = ($r['id'] == 1 && $is_checked);
                                                         ?>
                                                         <label style="cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; background: #f1f3f5; padding: 0.3rem 0.6rem; border-radius: 4px;" title="<?php echo htmlspecialchars($p['description']); ?>">
@@ -523,7 +537,6 @@ if (isset($_GET['edit_role'])) {
                                                                    <?php echo $is_locked_admin ? 'disabled' : ''; ?>
                                                                    style="cursor: pointer; transform: scale(1.1);">
                                                             
-                                                            <!-- If disabled, pass its value through a hidden input so form submission doesn't drop locked permissions -->
                                                             <?php if ($is_locked_admin): ?>
                                                                 <input type="hidden" name="permissions[<?php echo $r['id']; ?>][<?php echo $p['id']; ?>]" value="1">
                                                             <?php endif; ?>
@@ -672,6 +685,8 @@ document.addEventListener('DOMContentLoaded', () => {
         switchTab('modules');
     } else if (window.location.hash === '#tab-audit') {
         switchTab('audit');
+    } else if (window.location.hash === '#tab-maintenance') {
+        switchTab('maintenance');
     }
 });
 </script>

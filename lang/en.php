@@ -417,6 +417,10 @@ return [
     'settings.no_audit_logs'            => 'No audit log entries found.',
     'settings.system_guest'             => 'System / Guest',
     'settings.audit_limit_note'         => 'Showing the most recent 250 audit log entries.',
+    'settings.cron_maintenance_heading' => 'Automated Token Maintenance & Cron Setup',
+    'settings.cron_maintenance_desc'    => 'Purge expired verification tokens and clean up dangling links from activated user accounts automatically or manually.',
+    'settings.cron_command_label'       => 'Suggested Server Cron Command (Run hourly/daily):',
+    'settings.run_token_cleanup_btn'    => 'Run Token Cleanup Now',
 
 // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
