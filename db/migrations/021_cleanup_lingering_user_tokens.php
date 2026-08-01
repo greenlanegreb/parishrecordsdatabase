@@ -25,11 +25,11 @@ return [
             $activatedStmt->execute();
             $activatedCount = $activatedStmt->rowCount();
 
-            // 3. Log this maintenance cleanup matching the exact audit_logs schema (action, details, ip address, created at)
+            // 3. Log this maintenance cleanup matching the exact audit_logs columns (action, details, ip_address, created_at)
             $tableCheck = $pdo->query("SHOW TABLES LIKE 'audit_logs'");
             if ($tableCheck->rowCount() > 0) {
                 $logStmt = $pdo->prepare("
-                    INSERT INTO audit_logs (`action`, `details`, `ip address`, `created at`) 
+                    INSERT INTO audit_logs (`action`, `details`, `ip_address`, `created_at`) 
                     VALUES (?, ?, ?, NOW())
                 ");
                 $logStmt->execute([
