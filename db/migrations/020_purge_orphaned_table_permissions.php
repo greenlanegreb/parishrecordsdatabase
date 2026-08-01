@@ -60,8 +60,8 @@ return [
                 $exportPermId = $pdo->lastInsertId();
             }
 
-            // 4. Map 'export_data' to default roles, respecting admin toggles stored in settings if applicable
-            $settingsStmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+            // 4. Map 'export_data' to default roles, respecting admin toggles stored in site_settings
+            $settingsStmt = $pdo->prepare("SELECT setting_value FROM site_settings WHERE setting_key = ?");
             
             $settingsStmt->execute(['allow_guest_export']);
             $guestExportSetting = $settingsStmt->fetchColumn();
