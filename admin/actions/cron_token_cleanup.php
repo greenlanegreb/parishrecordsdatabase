@@ -19,27 +19,38 @@ if (!$is_cli) {
 try {
     $pdo->beginTransaction();
 
-    // Purge expired tokens
-    $expiredStmt = $pdo->prepare("
+    // 1. Purge expired invitation tokens
+    $expiredInviteStmt = $pdo->prepare("
         UPDATE users 
-        SET verification_token = NULL, token_expires_at = NULL 
-        WHERE token_expires_at IS NOT NULL AND token_expires_at < NOW()
+        SET invite_token = NULL, invite_expires_at = NULL 
+        WHERE invite_expires_at IS NOT NULL AND invite_expires_at < NOW()
     ");
-    $expiredStmt->execute();
-    $expiredCount = $expiredStmt->rowCount();
+    $expiredInviteStmt->execute();
+    $expiredInviteCount = $expiredInviteStmt->rowCount();
 
-    // Purge tokens for already-activated users
+    // 2. Purge expired password reset tokens
+    $expiredResetStmt = $pdo->prepare("
+        UPDATE users 
+        SET reset_token = NULL, reset_expires_at = NULL 
+        WHERE reset_expires_at IS NOT NULL AND reset_expires_at < NOW()
+    ");
+    $expiredResetStmt->execute();
+    $expiredResetCount = $expiredResetStmt->rowCount();
+
+    // 3. Purge lingering tokens for already-activated users
     $activatedStmt = $pdo->prepare("
         UPDATE users 
-        SET verification_token = NULL, token_expires_at = NULL 
-        WHERE is_new_user = 0 AND verification_token IS NOT NULL
+        SET invite_token = NULL, invite_expires_at = NULL, 
+            reset_token = NULL, reset_expires_at = NULL 
+        WHERE is_new_user = 0 AND (invite_token IS NOT NULL OR reset_token IS NOT NULL)
     ");
     $activatedStmt->execute();
     $activatedCount = $activatedStmt->rowCount();
 
     $pdo->commit();
 
-    $details = sprintf('Token maintenance executed successfully. Purged %d expired tokens and %d lingering activated-user tokens.', $expiredCount, $activatedCount);
+    $totalExpired = $expiredInviteCount + $expiredResetCount;
+    $details = sprintf('Token maintenance executed successfully. Purged %d expired tokens (%d invite, %d reset) and %d lingering activated-user tokens.', $totalExpired, $expiredInviteCount, $expiredResetCount, $activatedCount);
     
     // Log to audit table
     $actor_id = $is_cli ? null : ($current_user['id'] ?? null);
