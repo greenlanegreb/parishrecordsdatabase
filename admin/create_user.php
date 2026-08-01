@@ -34,8 +34,8 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
 <?php endif; ?>
 
 <div class="search-box-container profile-container" style="max-width: 600px; margin: 2rem auto;">
-    <h3>New User Invitation Form</h3>
-    <p>This will generate a secure 24-hour setup link and email it directly to the user.</p>
+    <h3><?php echo htmlspecialchars(__('create_user.heading')); ?></h3>
+    <p><?php echo htmlspecialchars(__('create_user.subheading')); ?></p>
     <form method="POST" action="actions/save_user.php">
         <?php echo csrf_field(); ?>
         <?php if ($volunteer_id > 0): ?>
@@ -45,28 +45,28 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
         <!-- First Name & Surname -->
         <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
             <div style="flex: 1;">
-                <label for="first_name"><strong>First Name:</strong></label><br>
+                <label for="first_name"><strong><?php echo htmlspecialchars(__('create_user.first_name')); ?></strong></label><br>
                 <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($prefill_first); ?>" class="profile-input" style="width:100%; padding:0.4rem;">
             </div>
             <div style="flex: 1;">
-                <label for="surname"><strong>Surname:</strong></label><br>
+                <label for="surname"><strong><?php echo htmlspecialchars(__('create_user.surname')); ?></strong></label><br>
                 <input type="text" id="surname" name="surname" value="<?php echo htmlspecialchars($prefill_surname); ?>" class="profile-input" style="width:100%; padding:0.4rem;">
             </div>
         </div>
 
         <div style="margin-bottom: 1rem;">
-            <label for="username"><strong>Username (Optional):</strong></label><br>
-            <input type="text" id="username" name="username" placeholder="Leave blank to auto-generate" class="profile-input" style="width:100%; padding:0.4rem;">
-            <small style="color:#666;">If left blank, a unique username will be automatically generated from their name.</small>
+            <label for="username"><strong><?php echo htmlspecialchars(__('create_user.username_label')); ?></strong></label><br>
+            <input type="text" id="username" name="username" placeholder="<?php echo htmlspecialchars(__('create_user.username_placeholder')); ?>" class="profile-input" style="width:100%; padding:0.4rem;">
+            <small style="color:#666;"><?php echo htmlspecialchars(__('create_user.username_help')); ?></small>
         </div>
         
         <div style="margin-bottom: 1rem;">
-            <label for="email"><strong>Email Address:</strong> <span style="color:red;">*</span></label><br>
+            <label for="email"><strong><?php echo htmlspecialchars(__('create_user.email_label')); ?></strong> <span style="color:red;">*</span></label><br>
             <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($prefill_email); ?>" required class="profile-input" style="width:100%; padding:0.4rem;">
         </div>
         
         <div style="margin-bottom: 1.5rem;">
-            <label for="role_id"><strong>User Role:</strong></label><br>
+            <label for="role_id"><strong><?php echo htmlspecialchars(__('create_user.role_label')); ?></strong></label><br>
             <select id="role_id" name="role_id" class="profile-input suggest-edit-select" style="width:100%; padding:0.4rem;">
                 <?php foreach ($roles_list as $r): ?>
                     <option value="<?php echo $r['id']; ?>" <?php echo ($r['role_name'] === 'user') ? 'selected' : ''; ?>>
@@ -76,7 +76,7 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
             </select>
         </div>
         
-        <button type="submit" class="btn">Create User & Send Invite</button>
+        <button type="submit" class="btn"><?php echo htmlspecialchars(__('create_user.submit_btn')); ?></button>
     </form>
 </div>
 

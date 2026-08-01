@@ -36,12 +36,12 @@ foreach ($raw_values as $val) {
 
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
     <div>
-        <h3>Volunteer Submissions & Workflow</h3>
-        <p>Review applications, schedule volunteer chats, take interview notes, and accept candidates into the system.</p>
+        <h3><?php echo htmlspecialchars(__('volunteer_dashboard.heading')); ?></h3>
+        <p><?php echo htmlspecialchars(__('volunteer_dashboard.subheading')); ?></p>
     </div>
     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <a href="manage_volunteer_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ Manage Email Templates</a>
-        <a href="manage_volunteer_schema.php" class="btn btn-secondary" style="text-decoration: none;">⚙️ Manage Form Schema</a>
+        <a href="manage_volunteer_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ <?php echo htmlspecialchars(__('volunteer_dashboard.manage_emails_btn')); ?></a>
+        <a href="manage_volunteer_schema.php" class="btn btn-secondary" style="text-decoration: none;">⚙️ <?php echo htmlspecialchars(__('volunteer_dashboard.manage_schema_btn')); ?></a>
     </div>
 </div>
 
@@ -56,21 +56,21 @@ foreach ($raw_values as $val) {
     <table class="data-table" role="table" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Status</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
+                <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_id')); ?></th>
+                <th scope="col"><?php echo htmlspecialchars(__('volunteer_dashboard.th_status')); ?></th>
+                <th scope="col"><?php echo htmlspecialchars(__('volunteer_dashboard.th_name')); ?></th>
+                <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_email')); ?></th>
                 <?php foreach ($columns as $col): ?>
                     <th scope="col"><?php echo htmlspecialchars($col['column_name']); ?></th>
                 <?php endforeach; ?>
-                <th scope="col">Interview / Notes</th>
-                <th scope="col">Submitted</th>
-                <th scope="col" style="text-align: right;">Actions</th>
+                <th scope="col"><?php echo htmlspecialchars(__('volunteer_dashboard.th_interview_notes')); ?></th>
+                <th scope="col"><?php echo htmlspecialchars(__('manage_tables.th_date_created')); ?></th>
+                <th scope="col" style="text-align: right;"><?php echo htmlspecialchars(__('index.th_actions')); ?></th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($submissions)): ?>
-                <tr><td colspan="<?php echo count($columns) + 7; ?>" style="text-align: center; color: #666; padding: 1rem;">No volunteer submissions found.</td></tr>
+                <tr><td colspan="<?php echo count($columns) + 7; ?>" style="text-align: center; color: #666; padding: 1rem;"><?php echo htmlspecialchars(__('volunteer_dashboard.no_submissions')); ?></td></tr>
             <?php else: ?>
                 <?php foreach ($submissions as $sub): ?>
                     <?php 
@@ -78,7 +78,7 @@ foreach ($raw_values as $val) {
                         $first_name = $sub['first_name'] ?? '';
                         $surname = $sub['surname'] ?? '';
                         $full_name = trim("{$first_name} {$surname}");
-                        if ($full_name === '') $full_name = 'Volunteer #' . $sub['id'];
+                        if ($full_name === '') $full_name = __('volunteer_dashboard.volunteer_prefix') . ' #' . $sub['id'];
                     ?>
                     <tr>
                         <td>#<?php echo $sub['id']; ?></td>
@@ -112,32 +112,32 @@ foreach ($raw_values as $val) {
                         <?php endforeach; ?>
                         <td>
                             <?php if (!empty($sub['interview_date'])): ?>
-                                <small><strong>Chat:</strong> <?php echo format_user_time($sub['interview_date'], $user_timezone, $full_format_str); ?></small><br>
+                                <small><strong><?php echo htmlspecialchars(__('volunteer_dashboard.chat_label')); ?></strong> <?php echo format_user_time($sub['interview_date'], $user_timezone, $full_format_str); ?></small><br>
                             <?php endif; ?>
                             <?php if (!empty($sub['interview_notes'])): ?>
                                 <small style="color: #444; display: block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?php echo htmlspecialchars($sub['interview_notes']); ?>">
-                                    <strong>Notes:</strong> <?php echo htmlspecialchars($sub['interview_notes']); ?>
+                                    <strong><?php echo htmlspecialchars(__('volunteer_dashboard.notes_label')); ?></strong> <?php echo htmlspecialchars($sub['interview_notes']); ?>
                                 </small>
                             <?php else: ?>
-                                <small style="color: #888; font-style: italic;">No notes yet</small>
+                                <small style="color: #888; font-style: italic;"><?php echo htmlspecialchars(__('volunteer_dashboard.no_notes')); ?></small>
                             <?php endif; ?>
                         </td>
                         <td><?php echo format_user_time($sub['created_at'], $user_timezone, $full_format_str); ?></td>
                         <td style="white-space: nowrap; text-align: right;">
                             <!-- Trigger Interview Modal Button -->
-                            <button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="openInterviewModal(<?php echo $sub['id']; ?>, '<?php echo htmlspecialchars(addslashes($sub['status'] ?? 'Pending Review')); ?>', '<?php echo htmlspecialchars($sub['interview_date'] ?? ''); ?>', `<?php echo htmlspecialchars(addslashes($sub['interview_notes'] ?? '')); ?>`)">Chat & Notes</button>
+                            <button type="button" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="openInterviewModal(<?php echo $sub['id']; ?>, '<?php echo htmlspecialchars(addslashes($sub['status'] ?? 'Pending Review')); ?>', '<?php echo htmlspecialchars($sub['interview_date'] ?? ''); ?>', `<?php echo htmlspecialchars(addslashes($sub['interview_notes'] ?? '')); ?>`)"><?php echo htmlspecialchars(__('volunteer_dashboard.chat_notes_btn')); ?></button>
 
                             <!-- Accept & Invite Bridge Button -->
                             <?php if (!empty($sub_email)): ?>
-                                <a href="create_user.php?email=<?php echo urlencode($sub_email); ?>&first_name=<?php echo urlencode($first_name); ?>&surname=<?php echo urlencode($surname); ?>&volunteer_id=<?php echo $sub['id']; ?>" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.85rem; text-decoration: none; background: #28a745; color: white; margin-left: 4px;" title="Plug into user invite system">Accept & Invite</a>
+                                <a href="create_user.php?email=<?php echo urlencode($sub_email); ?>&first_name=<?php echo urlencode($first_name); ?>&surname=<?php echo urlencode($surname); ?>&volunteer_id=<?php echo $sub['id']; ?>" class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.85rem; text-decoration: none; background: #28a745; color: white; margin-left: 4px;" title="<?php echo htmlspecialchars(__('volunteer_dashboard.accept_title')); ?>"><?php echo htmlspecialchars(__('volunteer_dashboard.accept_invite_btn')); ?></a>
                             <?php endif; ?>
 
                             <!-- Delete Form Button -->
-                            <form method="POST" action="actions/save_volunteer.php" style="display: inline; margin-left: 4px;" onsubmit="return confirm('Delete this volunteer entry?');">
+                            <form method="POST" action="actions/save_volunteer.php" style="display: inline; margin-left: 4px;" onsubmit="return confirm('<?php echo htmlspecialchars(__('volunteer_dashboard.delete_confirm')); ?>');">
                                 <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="delete_volunteer">
                                 <input type="hidden" name="volunteer_id" value="<?php echo $sub['id']; ?>">
-                                <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;">Delete</button>
+                                <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;"><?php echo htmlspecialchars(__('btn.delete')); ?></button>
                             </form>
                         </td>
                     </tr>
@@ -150,29 +150,29 @@ foreach ($raw_values as $val) {
 <!-- Interview & Notes Modal -->
 <div id="interviewModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
     <div style="background: white; padding: 2rem; border-radius: 8px; width: 100%; max-width: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-        <h4 style="margin-top: 0;">Manage Interview & Candidate Notes</h4>
+        <h4 style="margin-top: 0;"><?php echo htmlspecialchars(__('volunteer_dashboard.modal_heading')); ?></h4>
         <form method="POST" action="actions/save_volunteer.php">
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="update_interview">
             <input type="hidden" name="volunteer_id" id="modal_volunteer_id">
 
-            <label for="modal_status">Application Status:</label><br>
+            <label for="modal_status"><?php echo htmlspecialchars(__('volunteer_dashboard.modal_status_label')); ?></label><br>
             <select id="modal_status" name="status" class="dashboard-input" style="width: 100%; padding: 0.4rem; margin-bottom: 1rem;">
-                <option value="Pending Review">Pending Review</option>
-                <option value="Chat Scheduled">Chat Scheduled</option>
-                <option value="Accepted">Accepted</option>
-                <option value="Rejected">Rejected</option>
+                <option value="Pending Review"><?php echo htmlspecialchars(__('volunteer_dashboard.status_pending')); ?></option>
+                <option value="Chat Scheduled"><?php echo htmlspecialchars(__('volunteer_dashboard.status_chat')); ?></option>
+                <option value="Accepted"><?php echo htmlspecialchars(__('volunteer_dashboard.status_accepted')); ?></option>
+                <option value="Rejected"><?php echo htmlspecialchars(__('volunteer_dashboard.status_rejected')); ?></option>
             </select><br>
 
-            <label for="modal_interview_date">Scheduled Chat / Interview Date & Time:</label><br>
+            <label for="modal_interview_date"><?php echo htmlspecialchars(__('volunteer_dashboard.modal_date_label')); ?></label><br>
             <input type="datetime-local" id="modal_interview_date" name="interview_date" class="dashboard-input" style="width: 100%; padding: 0.4rem; margin-bottom: 1rem;"><br>
 
-            <label for="modal_interview_notes">Interview / Meeting Notes:</label><br>
-            <textarea id="modal_interview_notes" name="interview_notes" rows="4" class="dashboard-input" placeholder="Record feedback from the chat here..." style="width: 100%; padding: 0.4rem; margin-bottom: 1rem; resize: vertical;"></textarea><br>
+            <label for="modal_interview_notes"><?php echo htmlspecialchars(__('volunteer_dashboard.modal_notes_label')); ?></label><br>
+            <textarea id="modal_interview_notes" name="interview_notes" rows="4" class="dashboard-input" placeholder="<?php echo htmlspecialchars(__('volunteer_dashboard.modal_notes_placeholder')); ?>" style="width: 100%; padding: 0.4rem; margin-bottom: 1rem; resize: vertical;"></textarea><br>
 
             <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
-                <button type="button" class="btn btn-secondary" onclick="closeInterviewModal()">Cancel</button>
-                <button type="submit" class="btn">Save Changes</button>
+                <button type="button" class="btn btn-secondary" onclick="closeInterviewModal()"><?php echo htmlspecialchars(__('btn.cancel')); ?></button>
+                <button type="submit" class="btn"><?php echo htmlspecialchars(__('volunteer_dashboard.save_changes_btn')); ?></button>
             </div>
         </form>
     </div>

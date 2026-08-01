@@ -50,8 +50,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
 ?>
 <?php require_once '../partials/header.php'; ?>
 
-<div class="search-box-container profile-container" role="region" aria-label="User Profile Management">
-    <h3>User Profile & Security</h3>
+<div class="search-box-container profile-container" role="region" aria-label="<?php echo htmlspecialchars(__('profile.aria_region')); ?>">
+    <h3><?php echo htmlspecialchars(__('profile.heading')); ?></h3>
 
     <?php if (!empty($error)): ?>
         <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -61,20 +61,20 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
     <?php endif; ?>
 
     <div style="margin-bottom: 2rem;">
-        <h4>Personal Details</h4>
+        <h4><?php echo htmlspecialchars(__('profile.personal_details_heading')); ?></h4>
         <form method="POST" action="actions/save_profile.php">
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="update_personal_details">
 
-            <label for="first_name">First Name:</label><br>
-            <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($current_user['first_name'] ?? ''); ?>" autocomplete="given-name" class="profile-input" aria-label="First Name"><br>
+            <label for="first_name"><?php echo htmlspecialchars(__('feedback.first_name_label')); ?></label><br>
+            <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($current_user['first_name'] ?? ''); ?>" autocomplete="given-name" class="profile-input" aria-label="<?php echo htmlspecialchars(__('feedback.first_name_label')); ?>"><br>
 
-            <label for="surname">Surname:</label><br>
-            <input type="text" id="surname" name="surname" value="<?php echo htmlspecialchars($current_user['surname'] ?? ''); ?>" autocomplete="family-name" class="profile-input" aria-label="Surname"><br>
+            <label for="surname"><?php echo htmlspecialchars(__('feedback.surname_label')); ?></label><br>
+            <input type="text" id="surname" name="surname" value="<?php echo htmlspecialchars($current_user['surname'] ?? ''); ?>" autocomplete="family-name" class="profile-input" aria-label="<?php echo htmlspecialchars(__('feedback.surname_label')); ?>"><br>
 
-            <label for="language">Preferred language:</label><br>
+            <label for="language"><?php echo htmlspecialchars(__('profile.language_label')); ?></label><br>
             <select id="language" name="language" class="profile-input" style="margin-bottom: 1rem;">
-                <option value="" <?php echo ($user_language === '' || $user_language === null) ? 'selected' : ''; ?>>Site default</option>
+                <option value="" <?php echo ($user_language === '' || $user_language === null) ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('profile.lang_site_default')); ?></option>
                 <?php foreach ($profile_languages as $code): ?>
                     <option value="<?php echo htmlspecialchars($code); ?>" <?php echo ($user_language === $code) ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars(strtoupper($code)); ?>
@@ -82,7 +82,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                 <?php endforeach; ?>
             </select><br>
 
-            <label for="timezone">Timezone / Region:</label><br>
+            <label for="timezone"><?php echo htmlspecialchars(__('onboarding.timezone_label')); ?></label><br>
             <select id="timezone" name="timezone" class="profile-input" style="margin-bottom: 1rem;">
                 <?php
                 $current_tz = $current_user['timezone'] ?? 'UTC';
@@ -109,7 +109,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                 ?>
             </select><br>
 
-            <label for="date_format">Date Display Format:</label><br>
+            <label for="date_format"><?php echo htmlspecialchars(__('onboarding.date_format_label')); ?></label><br>
             <select id="date_format" name="date_format" class="profile-input" style="margin-bottom: 1rem;">
                 <?php
                 $current_fmt = $current_user['date_format'] ?? 'd/m/Y';
@@ -127,67 +127,67 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                 ?>
             </select><br>
 
-            <label for="time_format">Clock Format (Time Display):</label><br>
+            <label for="time_format"><?php echo htmlspecialchars(__('onboarding.time_format_label')); ?></label><br>
             <select id="time_format" name="time_format" class="profile-input" style="margin-bottom: 1rem;">
                 <?php $current_time_fmt = $current_user['time_format'] ?? '24'; ?>
-                <option value="24" <?php echo ($current_time_fmt === '24') ? 'selected' : ''; ?>>24-Hour (e.g., 16:07)</option>
-                <option value="12" <?php echo ($current_time_fmt === '12') ? 'selected' : ''; ?>>12-Hour AM/PM (e.g., 04:07 PM)</option>
-                <option value="none" <?php echo ($current_time_fmt === 'none') ? 'selected' : ''; ?>>Date Only (Hide Time Completely)</option>
+                <option value="24" <?php echo ($current_time_fmt === '24') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.time_24')); ?></option>
+                <option value="12" <?php echo ($current_time_fmt === '12') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.time_12')); ?></option>
+                <option value="none" <?php echo ($current_time_fmt === 'none') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.time_none')); ?></option>
             </select><br>
 
-            <label for="attribution_display_mode">Leaderboard & Attribution Display Preference:</label><br>
+            <label for="attribution_display_mode"><?php echo htmlspecialchars(__('onboarding.attribution_label')); ?></label><br>
             <small style="color: #666; display: block; margin-bottom: 0.5rem;">
-                Controls how your name appears on the public leaderboard and record logs.<br>
-                • <strong>Anonymous:</strong> Shows initials & random number to everyone.<br>
-                • <strong>Public:</strong> Shows your full name to everyone.<br>
-                • <strong>Volunteers Only:</strong> Shows initials to the public, but your full name to logged-in volunteers, moderators, and admins.
+                <?php echo htmlspecialchars(__('onboarding.attribution_desc1')); ?><br>
+                • <strong><?php echo htmlspecialchars(__('onboarding.attr_anon_title')); ?></strong> <?php echo htmlspecialchars(__('onboarding.attr_anon_text')); ?><br>
+                • <strong><?php echo htmlspecialchars(__('onboarding.attr_public_title')); ?></strong> <?php echo htmlspecialchars(__('onboarding.attr_public_text')); ?><br>
+                • <strong><?php echo htmlspecialchars(__('onboarding.attr_vol_title')); ?></strong> <?php echo htmlspecialchars(__('onboarding.attr_vol_text')); ?>
             </small>
             <select id="attribution_display_mode" name="attribution_display_mode" class="profile-input" style="margin-bottom: 1rem;">
                 <?php $mode = !empty($current_user['attribution_display_mode']) ? $current_user['attribution_display_mode'] : 'initials_random'; ?>
-                <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>>Anonymous (Initials & Random Number)</option>
-                <option value="full_name" <?php echo ($mode === 'full_name') ? 'selected' : ''; ?>>Public (Show Full Name)</option>
-                <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>>Volunteers Only</option>
+                <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.attr_opt_anon')); ?></option>
+                <option value="full_name" <?php echo ($mode === 'full_name') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.attr_opt_public')); ?></option>
+                <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.attr_opt_vol')); ?></option>
             </select><br>
 
-            <button type="submit" class="btn" style="margin-top: 0.5rem;">Update Personal Details</button>
+            <button type="submit" class="btn" style="margin-top: 0.5rem;"><?php echo htmlspecialchars(__('profile.update_details_btn')); ?></button>
         </form>
     </div>
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
     <div style="margin-bottom: 2rem;">
-        <h4>Email Address</h4>
-        <p>Current Email: <strong><?php echo htmlspecialchars($current_user['email']); ?></strong>
+        <h4><?php echo htmlspecialchars(__('profile.email_heading')); ?></h4>
+        <p><?php echo htmlspecialchars(__('profile.current_email_label')); ?> <strong><?php echo htmlspecialchars($current_user['email']); ?></strong>
            <?php if ($current_user['email_verified']): ?>
-               <span style="color: green; font-weight: bold; font-size: 0.85rem;">(Verified)</span>
+               <span style="color: green; font-weight: bold; font-size: 0.85rem;"><?php echo htmlspecialchars(__('profile.email_verified')); ?></span>
            <?php else: ?>
-               <span style="color: orange; font-weight: bold; font-size: 0.85rem;">(Unverified - Check inbox)</span>
+               <span style="color: orange; font-weight: bold; font-size: 0.85rem;"><?php echo htmlspecialchars(__('profile.email_unverified')); ?></span>
            <?php endif; ?>
         </p>
         <form method="POST" action="actions/save_profile.php">
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="update_email">
-            <label for="email">Change Email Address:</label><br>
-            <input type="email" id="email" name="email" required autocomplete="email" class="profile-input" aria-label="New email address"><br>
-            <button type="submit" class="btn">Update Email & Verify</button>
+            <label for="email"><?php echo htmlspecialchars(__('profile.change_email_label')); ?></label><br>
+            <input type="email" id="email" name="email" required autocomplete="email" class="profile-input" aria-label="<?php echo htmlspecialchars(__('profile.aria_new_email')); ?>"><br>
+            <button type="submit" class="btn"><?php echo htmlspecialchars(__('profile.update_email_btn')); ?></button>
         </form>
     </div>
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
     <div style="margin-bottom: 2rem;">
-        <h4>Change Password</h4>
+        <h4><?php echo htmlspecialchars(__('profile.password_heading')); ?></h4>
         <form method="POST" action="actions/save_profile.php">
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="update_password">
             <input type="text" name="username" value="<?php echo htmlspecialchars($current_user['username']); ?>" autocomplete="username" style="display: none;" aria-hidden="true">
 
-            <label for="current_password">Current Password:</label><br>
-            <input type="password" id="current_password" name="current_password" autocomplete="current-password" required class="profile-input" aria-label="Current password"><br>
-            <label for="new_password">New Password (min 8 chars):</label><br>
-            <input type="password" id="new_password" name="new_password" autocomplete="new-password" required class="profile-input" aria-label="New password"><br>
-            <label for="confirm_password">Confirm New Password:</label><br>
-            <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required class="profile-input" aria-label="Confirm new password"><br>
+            <label for="current_password"><?php echo htmlspecialchars(__('profile.current_password_label')); ?></label><br>
+            <input type="password" id="current_password" name="current_password" autocomplete="current-password" required class="profile-input" aria-label="<?php echo htmlspecialchars(__('profile.current_password_label')); ?>"><br>
+            <label for="new_password"><?php echo htmlspecialchars(__('profile.new_password_label')); ?></label><br>
+            <input type="password" id="new_password" name="new_password" autocomplete="new-password" required class="profile-input" aria-label="<?php echo htmlspecialchars(__('profile.new_password_label')); ?>"><br>
+            <label for="confirm_password"><?php echo htmlspecialchars(__('profile.confirm_password_label')); ?></label><br>
+            <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required class="profile-input" aria-label="<?php echo htmlspecialchars(__('profile.confirm_password_label')); ?>"><br>
             <div style="margin: 0.75rem 0 1rem 0; display: flex; align-items: center; gap: 0.5rem;">
                 <input type="checkbox" id="show_passwords" onclick="
                     const type = this.checked ? 'text' : 'password';
@@ -195,41 +195,41 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_new_codes') {
                     document.getElementById('new_password').type = type;
                     document.getElementById('confirm_password').type = type;
                 " style="cursor: pointer;">
-                <label for="show_passwords" style="cursor: pointer; font-size: 0.9rem; font-weight: normal; margin-bottom: 0;">Show passwords in plain text</label>
+                <label for="show_passwords" style="cursor: pointer; font-size: 0.9rem; font-weight: normal; margin-bottom: 0;"><?php echo htmlspecialchars(__('profile.show_passwords_label')); ?></label>
             </div>
-            <button type="submit" class="btn">Update Password</button>
+            <button type="submit" class="btn"><?php echo htmlspecialchars(__('profile.update_password_btn')); ?></button>
         </form>
     </div>
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
     <div>
-        <h4>Two-Factor Authentication (2FA)</h4>
-        <p>Status: <strong><?php echo $current_user['two_fa_enabled'] ? '<span style="color: green;">Enabled</span>' : '<span style="color: gray;">Disabled</span>'; ?></strong></p>
+        <h4><?php echo htmlspecialchars(__('profile.tfa_heading')); ?></h4>
+        <p><?php echo htmlspecialchars(__('profile.tfa_status_label')); ?> <strong><?php echo $current_user['two_fa_enabled'] ? '<span style="color: green;">' . htmlspecialchars(__('profile.tfa_enabled')) . '</span>' : '<span style="color: gray;">' . htmlspecialchars(__('profile.tfa_disabled')) . '</span>'; ?></strong></p>
 
         <?php if (!$current_user['two_fa_enabled']): ?>
             <form method="POST" action="actions/save_profile.php">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="setup_2fa">
-                <button type="submit" class="btn">Set Up Google Authenticator</button>
+                <button type="submit" class="btn"><?php echo htmlspecialchars(__('profile.setup_tfa_btn')); ?></button>
             </form>
         <?php else: ?>
-            <p style="font-size: 0.9rem; color: #666;">2FA is actively protecting your account login.</p>
+            <p style="font-size: 0.9rem; color: #666;"><?php echo htmlspecialchars(__('profile.tfa_active_desc')); ?></p>
             <?php if (!empty($_SESSION['new_raw_backup_codes'])): ?>
                 <div class="backup-codes-box">
-                    <h5 style="margin-top: 0; color: var(--danger-color);">Your New Backup Codes</h5>
+                    <h5 style="margin-top: 0; color: var(--danger-color);"><?php echo htmlspecialchars(__('profile.backup_codes_heading')); ?></h5>
                     <ul class="backup-codes-list">
                         <?php foreach ($_SESSION['new_raw_backup_codes'] as $nrp): ?>
                             <li><?php echo htmlspecialchars($nrp); ?></li>
                         <?php endforeach; ?>
                     </ul>
-                    <a href="profile.php?action=download_new_codes" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; display: inline-block;">Download New Codes as .txt</a>
+                    <a href="profile.php?action=download_new_codes" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; display: inline-block;"><?php echo htmlspecialchars(__('profile.download_codes_btn')); ?></a>
                 </div>
             <?php endif; ?>
             <form method="POST" action="actions/save_profile.php" style="margin-top: 1rem;">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="action" value="generate_backup_codes">
-                <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure? This will invalidate any existing backup codes.');">Generate New Backup Codes</button>
+                <button type="submit" class="btn btn-secondary" onclick="return confirm('<?php echo htmlspecialchars(__('profile.generate_codes_confirm')); ?>');"><?php echo htmlspecialchars(__('profile.generate_codes_btn')); ?></button>
             </form>
         <?php endif; ?>
     </div>

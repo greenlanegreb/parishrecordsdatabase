@@ -1,7 +1,7 @@
 <footer class="site-footer" role="contentinfo">
-    <p>Parish records compiled from public-domain historical sources.</p>
+    <p><?php echo htmlspecialchars(__('footer.compiled_notice')); ?></p>
     <p>
-        Software platform open-source under the MIT License. 
-        &copy; <?php echo date('Y'); ?> Benjamin-Elijah Cakebread-Snow. All rights reserved.
+        <?php echo htmlspecialchars(__('footer.software_notice')); ?> 
+        &copy; <?php echo date('Y'); ?> Benjamin-Elijah Cakebread-Snow. <?php echo htmlspecialchars(__('footer.rights_reserved')); ?>
     </p>
 </footer>

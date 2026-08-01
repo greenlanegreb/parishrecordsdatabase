@@ -45,7 +45,7 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_volunteer_f
 ?>
 <?php require_once 'partials/header.php'; ?>
 
-<div class="search-box-container volunteer-container" role="region" aria-label="Volunteer Form" style="max-width: 600px; margin: 2rem auto;">
+<div class="search-box-container volunteer-container" role="region" aria-label="<?php echo htmlspecialchars(__('volunteer.aria_region')); ?>" style="max-width: 600px; margin: 2rem auto;">
     <h3><?php echo htmlspecialchars($form_title); ?></h3>
     <p><?php echo nl2br(htmlspecialchars($form_intro)); ?></p>
 
@@ -60,24 +60,24 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_volunteer_f
         <?php echo csrf_field(); ?>
         
         <div class="honeypot-field" aria-hidden="true" style="display:none;">
-            <label for="website_url">Leave this field blank:</label>
+            <label for="website_url"><?php echo htmlspecialchars(__('volunteer.honeypot_label')); ?></label>
             <input type="text" id="website_url" name="website_url" value="" autocomplete="off" tabindex="-1">
         </div>
 
         <!-- First Name & Surname Static Core Fields -->
         <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
             <div style="flex: 1;">
-                <label for="volunteer_first_name"><strong>First Name:</strong> <span style="color:red; font-weight:bold;">*</span></label><br>
+                <label for="volunteer_first_name"><strong><?php echo htmlspecialchars(__('feedback.first_name_label')); ?></strong> <span style="color:red; font-weight:bold;">*</span></label><br>
                 <input type="text" id="volunteer_first_name" name="volunteer_first_name" value="<?php echo htmlspecialchars($submitted_first); ?>" required class="volunteer-input" style="width:100%; padding:0.4rem;">
             </div>
             <div style="flex: 1;">
-                <label for="volunteer_surname"><strong>Surname:</strong> <span style="color:red; font-weight:bold;">*</span></label><br>
+                <label for="volunteer_surname"><strong><?php echo htmlspecialchars(__('feedback.surname_label')); ?></strong> <span style="color:red; font-weight:bold;">*</span></label><br>
                 <input type="text" id="volunteer_surname" name="volunteer_surname" value="<?php echo htmlspecialchars($submitted_surname); ?>" required class="volunteer-input" style="width:100%; padding:0.4rem;">
             </div>
         </div>
 
         <div style="margin-bottom: 1rem;">
-            <label for="volunteer_email"><strong>Email Address:</strong> <span style="color:red; font-weight:bold;">*</span></label><br>
+            <label for="volunteer_email"><strong><?php echo htmlspecialchars(__('forgot_password.email_label')); ?></strong> <span style="color:red; font-weight:bold;">*</span></label><br>
             <input type="email" id="volunteer_email" name="volunteer_email" value="<?php echo htmlspecialchars($submitted_email); ?>" required class="volunteer-input" style="width:100%; padding:0.4rem;">
         </div>
 
@@ -96,17 +96,17 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_volunteer_f
                 <div style="margin-bottom: 1rem;">
                     <label for="field_<?php echo $col['id']; ?>">
                         <strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong>
-                        <?php if (!empty($col['is_required'])): ?><span style="color:red; font-weight:bold;" title="Required Field">*</span><?php endif; ?>
+                        <?php if (!empty($col['is_required'])): ?><span style="color:red; font-weight:bold;" title="<?php echo htmlspecialchars(__('volunteer.required_field_title')); ?>">*</span><?php endif; ?>
                     </label><br>
 
                     <?php if (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
                         <?php 
                             $fmt = $col['boolean_display_format'] ?? 'yes_no';
-                            $opt1 = ($fmt === 'true_false') ? 'True' : 'Yes';
-                            $opt2 = ($fmt === 'true_false') ? 'False' : 'No';
+                            $opt1 = ($fmt === 'true_false') ? __('data_entry.bool_true') : __('data_entry.bool_yes_true');
+                            $opt2 = ($fmt === 'true_false') ? __('data_entry.bool_false') : __('data_entry.bool_no_false');
                         ?>
                         <select id="field_<?php echo $col['id']; ?>" name="fields[<?php echo $col['id']; ?>]" class="volunteer-input" style="width:100%; padding:0.4rem;" <?php echo $is_field_required ? 'required' : ''; ?>>
-                            <option value="">-- Select --</option>
+                            <option value=""><?php echo htmlspecialchars(__('feedback.select_placeholder')); ?></option>
                             <option value="1" <?php echo ($saved_val === '1') ? 'selected' : ''; ?>><?php echo $opt1; ?></option>
                             <option value="0" <?php echo ($saved_val === '0') ? 'selected' : ''; ?>><?php echo $opt2; ?></option>
                         </select>
@@ -126,12 +126,12 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_volunteer_f
                     <?php elseif ($subtype === 'select' || $subtype === 'dropdown'): ?>
                         <?php $selected_vals = $allow_multi ? (is_array($saved_val) ? $saved_val : explode(', ', $saved_val)) : [$saved_val]; ?>
                         <select id="field_<?php echo $col['id']; ?>" name="fields[<?php echo $col['id']; ?>]<?php echo $allow_multi ? '[]' : ''; ?>" class="volunteer-input" style="width:100%; padding:0.4rem;" <?php echo $allow_multi ? 'multiple size="4"' : ''; ?>>
-                            <?php if (!$allow_multi): ?><option value="">-- Select --</option><?php endif; ?>
+                            <?php if (!$allow_multi): ?><option value=""><?php echo htmlspecialchars(__('feedback.select_placeholder')); ?></option><?php endif; ?>
                             <?php foreach ($options as $opt): ?>
                                 <option value="<?php echo htmlspecialchars($opt); ?>" <?php echo in_array($opt, $selected_vals) ? 'selected' : ''; ?>><?php echo htmlspecialchars($opt); ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <?php if ($allow_multi): ?><small style="color:#666;">Hold Ctrl or Cmd to select multiple.</small><?php endif; ?>
+                        <?php if ($allow_multi): ?><small style="color:#666;"><?php echo htmlspecialchars(__('volunteer.multi_select_hint')); ?></small><?php endif; ?>
 
                     <?php elseif ($subtype === 'checkbox' || ($subtype === 'radio' && $allow_multi)): ?>
                         <?php $selected_vals = is_array($saved_val) ? $saved_val : explode(', ', $saved_val); ?>
@@ -162,7 +162,7 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_volunteer_f
         <!-- Dynamic CAPTCHA Widget -->
         <?php echo render_form_captcha_widget($pdo); ?>
 
-        <button type="submit" class="btn" style="margin-top: 1rem;">Submit Volunteer Interest</button>
+        <button type="submit" class="btn" style="margin-top: 1rem;"><?php echo htmlspecialchars(__('volunteer.submit_btn')); ?></button>
     </form>
 </div>
 

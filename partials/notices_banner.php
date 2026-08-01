@@ -45,7 +45,7 @@ foreach ($all_notices as $notice) {
     ?>
     <div class="site-notice-banner" data-notice-id="<?php echo $notice_id; ?>" style="background: #f8f9fa; border-left: 4px solid var(--primary-color, #007bff); padding: 1rem; margin-bottom: 1rem; border-radius: 4px; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
         <?php if ($notice['is_dismissible']): ?>
-            <a href="?dismiss_notice=<?php echo $notice_id; ?>" style="position: absolute; top: 0.5rem; right: 0.75rem; text-decoration: none; font-weight: bold; color: #6c757d; font-size: 1.1rem;" title="Close notice">&times;</a>
+            <a href="?dismiss_notice=<?php echo $notice_id; ?>" style="position: absolute; top: 0.5rem; right: 0.75rem; text-decoration: none; font-weight: bold; color: #6c757d; font-size: 1.1rem;" title="<?php echo htmlspecialchars(__('notices_banner.close_title')); ?>">&times;</a>
         <?php endif; ?>
         <h4 style="margin: 0 0 0.3rem 0; font-size: 1rem; color: #333;"><?php echo htmlspecialchars($notice['title']); ?></h4>
         <div style="font-size: 0.95rem; color: #555;"><?php echo nl2br($notice['content']); ?></div>

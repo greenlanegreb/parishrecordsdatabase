@@ -74,30 +74,30 @@ if (!$has_any_mod_perm) {
     <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
 <?php endif; ?>
 
-<h3>Pending Suggestions Review</h3>
-<p>Compare user-proposed changes against live records across your permitted tables. Approve proposals, override values, or decline suggestions.</p>
+<h3><?php echo htmlspecialchars(__('moderate.heading')); ?></h3>
+<p><?php echo htmlspecialchars(__('moderate.subheading')); ?></p>
 
 <div style="background: rgba(0, 123, 255, 0.05); border-left: 4px solid var(--primary-color, #007bff); padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 4px;">
     <p style="margin: 0; font-size: 0.9rem; color: #333;">
-        ⚡ <strong>Keyboard Shortcut Tip:</strong> Press <strong>Ctrl + Enter</strong> to quickly approve, or <strong>Esc</strong> to clear the override box!
+        ⚡ <strong><?php echo htmlspecialchars(__('moderate.shortcut_label')); ?></strong> <?php echo htmlspecialchars(__('moderate.shortcut_desc')); ?>
     </p>
 </div>
 
 <table class="data-table" role="table" style="width: 100%; border-collapse: collapse;">
     <thead>
         <tr>
-            <th scope="col">ID / Date</th>
-            <th scope="col">Table, Record & Column</th>
-            <th scope="col">Comparison (Live vs Proposed) & Evidence</th>
-            <th scope="col">Moderator Actions</th>
+            <th scope="col"><?php echo htmlspecialchars(__('moderate.th_id_date')); ?></th>
+            <th scope="col"><?php echo htmlspecialchars(__('moderate.th_table_record')); ?></th>
+            <th scope="col"><?php echo htmlspecialchars(__('moderate.th_comparison')); ?></th>
+            <th scope="col"><?php echo htmlspecialchars(__('moderate.th_actions')); ?></th>
         </tr>
     </thead>
     <tbody>
         <?php if (empty($pending_suggestions)): ?>
-            <tr><td colspan="4">No pending suggestions found for your permitted moderation tables.</td></tr>
+            <tr><td colspan="4"><?php echo htmlspecialchars(__('moderate.no_suggestions')); ?></td></tr>
         <?php else: ?>
             <?php foreach ($pending_suggestions as $s): ?>
-                <?php
+                <?php 
                     $live_display = $s['current_live_value'] ?? '';
                     $prop_display = $s['proposed_value'] ?? '';
                   
@@ -114,9 +114,9 @@ if (!$has_any_mod_perm) {
                     <td>
                         <strong>#<?php echo $s['id']; ?></strong><br>
                         <small><?php echo format_user_time($s['created_at'], $user_timezone, $full_format_str); ?></small><br>
-                        <small style="color: #666;">By: <?php echo htmlspecialchars(format_user_display_name($pdo, [
+                        <small style="color: #666;"><?php echo htmlspecialchars(__('moderate.by_label')); ?> <?php echo htmlspecialchars(format_user_display_name($pdo, [
                             'id' => $s['suggestor_id'],
-                            'username' => $s['suggestor_name'] ?? 'Viewer/Guest',
+                            'username' => $s['suggestor_name'] ?? __('moderate.guest_user'),
                             'first_name' => $s['suggestor_first'] ?? '',
                             'surname' => $s['suggestor_surname'] ?? '',
                             'attribution_display_mode' => $s['suggestor_mode'] ?? 'initials_random'
@@ -124,30 +124,30 @@ if (!$has_any_mod_perm) {
                     </td>
                     <td>
                         <span style="background: #e9ecef; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.8rem; font-weight: bold;"><?php echo htmlspecialchars($s['table_name']); ?></span><br>
-                        <strong>Record ID:</strong> #<?php echo $s['record_id']; ?><br>
-                        <strong>Column:</strong> <?php echo htmlspecialchars($s['column_name']); ?>
+                        <strong><?php echo htmlspecialchars(__('moderate.record_id_label')); ?></strong> #<?php echo $s['record_id']; ?><br>
+                        <strong><?php echo htmlspecialchars(__('moderate.column_label')); ?></strong> <?php echo htmlspecialchars($s['column_name']); ?>
                         <?php if (!empty($s['is_required'])): ?>
-                            <br><span style="color: var(--danger-color); font-size: 0.8rem; font-weight: bold;">(Required)</span>
+                            <br><span style="color: var(--danger-color); font-size: 0.8rem; font-weight: bold;">(<?php echo htmlspecialchars(__('moderate.required_badge')); ?>)</span>
                         <?php endif; ?>
                     </td>
                     <td>
                         <div style="display: flex; gap: 1rem; background: rgba(0,0,0,0.02); padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); margin-bottom: 0.5rem;">
                             <div style="flex: 1; border-right: 1px solid var(--border-color); padding-right: 0.5rem;">
-                                <span style="font-size: 0.75rem; text-transform: uppercase; color: #666; font-weight: bold;">Current Live Value:</span>
-                                <div style="word-break: break-word; color: #444;"><?php echo htmlspecialchars($live_display !== '' ? $live_display : '[Empty]'); ?></div>
+                                <span style="font-size: 0.75rem; text-transform: uppercase; color: #666; font-weight: bold;"><?php echo htmlspecialchars(__('moderate.live_value_label')); ?></span>
+                                <div style="word-break: break-word; color: #444;"><?php echo htmlspecialchars($live_display !== '' ? $live_display : __('moderate.empty_placeholder')); ?></div>
                             </div>
                             <div style="flex: 1;">
-                                <span style="font-size: 0.75rem; text-transform: uppercase; color: green; font-weight: bold;">Proposed Change:</span>
+                                <span style="font-size: 0.75rem; text-transform: uppercase; color: green; font-weight: bold;"><?php echo htmlspecialchars(__('moderate.proposed_value_label')); ?></span>
                                 <div style="word-break: break-word; color: green; font-weight: 500;"><?php echo htmlspecialchars($prop_display); ?></div>
                             </div>
                         </div>
                         <?php if (!empty($s['reasoning'])): ?>
                             <div style="background: #fff3cd; border: 1px solid #ffeeba; padding: 0.4rem 0.6rem; border-radius: 4px; font-size: 0.9rem; color: #856404;">
-                                <strong>Evidence / Reasoning:</strong><br>
+                                <strong><?php echo htmlspecialchars(__('moderate.evidence_label')); ?></strong><br>
                                 <div style="word-break: break-word; margin-top: 0.2rem;"><?php echo nl2br(htmlspecialchars($s['reasoning'])); ?></div>
                             </div>
                         <?php else: ?>
-                            <small style="color: #888; font-style: italic;">No evidence/reasoning provided.</small>
+                            <small style="color: #888; font-style: italic;"><?php echo htmlspecialchars(__('moderate.no_evidence')); ?></small>
                         <?php endif; ?>
                     </td>
                     <td>
@@ -155,20 +155,20 @@ if (!$has_any_mod_perm) {
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="suggestion_id" value="<?php echo $s['id']; ?>">
                           
-                            <label for="final_value_<?php echo $s['id']; ?>" style="font-size: 0.85rem; font-weight: bold;">Override Value:</label><br>
+                            <label for="final_value_<?php echo $s['id']; ?>" style="font-size: 0.85rem; font-weight: bold;"><?php echo htmlspecialchars(__('moderate.override_label')); ?></label><br>
                           
                             <?php if (($s['data_type'] ?? '') === 'BOOLEAN'): ?>
                                 <?php
                                     $display_format = $s['boolean_display_format'] ?? 'yes_no';
-                                    $opt1_text = 'Yes / True'; $opt2_text = 'No / False';
-                                    if ($display_format === 'male_female') { $opt1_text = 'Male'; $opt2_text = 'Female'; }
-                                    elseif ($display_format === 'true_false') { $opt1_text = 'True'; $opt2_text = 'False'; }
-                                    elseif ($display_format === 'tick_cross') { $opt1_text = '✔ (Tick)'; $opt2_text = '✘ (Cross)'; }
+                                    $opt1_text = __('index.opt_yes_true'); $opt2_text = __('index.opt_no_false');
+                                    if ($display_format === 'male_female') { $opt1_text = __('index.opt_male'); $opt2_text = __('index.opt_female'); }
+                                    elseif ($display_format === 'true_false') { $opt1_text = __('index.opt_true'); $opt2_text = __('index.opt_false'); }
+                                    elseif ($display_format === 'tick_cross') { $opt1_text = __('index.opt_tick'); $opt2_text = __('index.opt_cross'); }
                                 ?>
                                 <select id="final_value_<?php echo $s['id']; ?>" name="final_value" style="width: 100%; padding: 0.3rem; margin-bottom: 0.5rem;" <?php echo (!empty($s['is_required'])) ? 'required' : ''; ?>>
-                                    <option value="">-- Select --</option>
-                                    <option value="1" <?php echo ($s['proposed_value'] === '1') ? 'selected' : ''; ?>><?php echo $opt1_text; ?></option>
-                                    <option value="0" <?php echo ($s['proposed_value'] === '0') ? 'selected' : ''; ?>><?php echo $opt2_text; ?></option>
+                                    <option value=""><?php echo htmlspecialchars(__('moderate.select_placeholder')); ?></option>
+                                    <option value="1" <?php echo ($s['proposed_value'] === '1') ? 'selected' : ''; ?>><?php echo htmlspecialchars($opt1_text); ?></option>
+                                    <option value="0" <?php echo ($s['proposed_value'] === '0') ? 'selected' : ''; ?>><?php echo htmlspecialchars($opt2_text); ?></option>
                                 </select><br>
                             <?php elseif (($s['data_type'] ?? '') === 'DATE'): ?>
                                 <?php
@@ -178,14 +178,14 @@ if (!$has_any_mod_perm) {
                                     elseif ($user_fmt === 'd.m.Y') $placeholder = 'DD.MM.YYYY (e.g. 25.05.1500)';
                                     elseif ($user_fmt === 'm/d/Y') $placeholder = 'MM/DD/YYYY (e.g. 05/25/1500)';
                                 ?>
-                                <input type="text" id="final_value_<?php echo $s['id']; ?>" name="final_value" value="<?php echo htmlspecialchars($s['proposed_value']); ?>" placeholder="<?php echo $placeholder; ?>" <?php echo (!empty($s['is_required'])) ? 'required' : ''; ?> style="width: 100%; padding: 0.3rem; margin-bottom: 0.5rem;" title="Historical dates supported"><br>
+                                <input type="text" id="final_value_<?php echo $s['id']; ?>" name="final_value" value="<?php echo htmlspecialchars($s['proposed_value']); ?>" placeholder="<?php echo htmlspecialchars($placeholder); ?>" <?php echo (!empty($s['is_required'])) ? 'required' : ''; ?> style="width: 100%; padding: 0.3rem; margin-bottom: 0.5rem;" title="<?php echo htmlspecialchars(__('moderate.historical_dates_title')); ?>"><br>
                             <?php else: ?>
                                 <input type="text" id="final_value_<?php echo $s['id']; ?>" name="final_value" value="<?php echo htmlspecialchars($s['proposed_value']); ?>" <?php echo (!empty($s['is_required'])) ? 'required' : ''; ?> style="width: 100%; padding: 0.3rem; margin-bottom: 0.5rem;"><br>
                             <?php endif; ?>
                           
                             <div style="display: flex; gap: 0.5rem;">
-                                <button type="submit" name="action" value="approve" class="btn btn-success approve-btn" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('Approve and apply this value?');">Approve</button>
-                                <button type="submit" name="action" value="reject" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('Decline and reject this suggestion?');">Decline</button>
+                                <button type="submit" name="action" value="approve" class="btn btn-success approve-btn" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('<?php echo htmlspecialchars(__('moderate.approve_confirm')); ?>');"><?php echo htmlspecialchars(__('moderate.approve_btn')); ?></button>
+                                <button type="submit" name="action" value="reject" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" onclick="return confirm('<?php echo htmlspecialchars(__('moderate.decline_confirm')); ?>');"><?php echo htmlspecialchars(__('moderate.decline_btn')); ?></button>
                             </div>
                         </form>
                     </td>
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 e.preventDefault();
                 const approveBtn = form.querySelector('.approve-btn');
-                if (approveBtn && confirm('Approve and apply this value?')) {
+                if (approveBtn && confirm('<?php echo htmlspecialchars(__('moderate.approve_confirm')); ?>')) {
                     const actionInput = document.createElement('input');
                     actionInput.type = 'hidden';
                     actionInput.name = 'action';

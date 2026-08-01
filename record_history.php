@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $record_id = intval($_GET['record_id'] ?? 0);
 if (!$record_id) {
-    exit("No record specified.");
+    exit(__('record_history.exit_no_record'));
 }
 
 // Ensure record exists and find its table parent
@@ -19,7 +19,7 @@ $rec_stmt->execute([$record_id]);
 $record = $rec_stmt->fetch();
 
 if (!$record) {
-    exit("Record not found.");
+    exit(__('record_history.exit_not_found'));
 }
 
 $table_id = intval($record['table_id']);
@@ -86,31 +86,31 @@ $return_url = $_SERVER['HTTP_REFERER'] ?? 'index.php?table_id=' . $table_id;
     <?php endif; ?>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 style="margin: 0;">History & Audit Trail: Record #<?php echo $record_id; ?></h3>
-        <a href="<?php echo htmlspecialchars($return_url); ?>" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; padding: 0.4rem 0.8rem;">← Return</a>
+        <h3 style="margin: 0;"><?php echo htmlspecialchars(__('record_history.heading_prefix')); ?> #<?php echo $record_id; ?></h3>
+        <a href="<?php echo htmlspecialchars($return_url); ?>" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; padding: 0.4rem 0.8rem;">← <?php echo htmlspecialchars(__('record_history.return_btn')); ?></a>
     </div>
     
     <p style="color: #666; font-size: 0.95rem;">
-        Directory Table: <strong><?php echo htmlspecialchars($record['table_name']); ?></strong><br>
-        Showing the chronological lifecycle of changes, suggestions, and rationales associated with this exact record.
+        <?php echo htmlspecialchars(__('record_history.directory_table_label')); ?> <strong><?php echo htmlspecialchars($record['table_name']); ?></strong><br>
+        <?php echo htmlspecialchars(__('record_history.subheading_lifecycle')); ?>
     </p>
 
     <!-- Current State Snapshot Preview -->
     <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
-        <h4 style="margin-top: 0; font-size: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;">Current Live Values Snapshot</h4>
+        <h4 style="margin-top: 0; font-size: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.4rem;"><?php echo htmlspecialchars(__('record_history.snapshot_heading')); ?></h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
             <?php foreach ($current_values as $cv): ?>
                 <div>
                     <span style="font-size: 0.75rem; text-transform: uppercase; color: #666; font-weight: bold;"><?php echo htmlspecialchars($cv['column_name']); ?>:</span>
-                    <div style="color: #333; word-break: break-word;"><?php echo htmlspecialchars($cv['value_content'] !== '' ? $cv['value_content'] : '[Empty]'); ?></div>
+                    <div style="color: #333; word-break: break-word;"><?php echo htmlspecialchars($cv['value_content'] !== '' ? $cv['value_content'] : __('record_history.empty_value')); ?></div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
 
-    <h4>Lifecycle & Activity Timeline</h4>
+    <h4><?php echo htmlspecialchars(__('record_history.timeline_heading')); ?></h4>
     <?php if (empty($history_logs)): ?>
-        <p style="font-style: italic; color: #777;">No historical audit events logged specifically for this record yet.</p>
+        <p style="font-style: italic; color: #777;"><?php echo htmlspecialchars(__('record_history.no_history')); ?></p>
     <?php else: ?>
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             <?php foreach ($history_logs as $log): ?>
@@ -118,11 +118,11 @@ $return_url = $_SERVER['HTTP_REFERER'] ?? 'index.php?table_id=' . $table_id;
                     
                     <!-- Purge Individual Audit Log Entry Button (Gated via self-discovery permission) -->
                     <?php if ($can_purge_audit): ?>
-                        <form action="user/actions/purge_audit_entry.php" method="POST" onsubmit="return confirm('Purge this specific audit log entry?');" style="position: absolute; top: 0.75rem; right: 1rem; margin: 0;">
+                        <form action="user/actions/purge_audit_entry.php" method="POST" onsubmit="return confirm('<?php echo htmlspecialchars(__('record_history.purge_confirm')); ?>');" style="position: absolute; top: 0.75rem; right: 1rem; margin: 0;">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="audit_id" value="<?php echo $log['id']; ?>">
                             <input type="hidden" name="record_id" value="<?php echo $record_id; ?>">
-                            <button type="submit" class="btn btn-danger" style="padding: 0.15rem 0.4rem; font-size: 0.7rem;">Purge Log</button>
+                            <button type="submit" class="btn btn-danger" style="padding: 0.15rem 0.4rem; font-size: 0.7rem;"><?php echo htmlspecialchars(__('record_history.purge_btn')); ?></button>
                         </form>
                     <?php endif; ?>
 
@@ -133,7 +133,7 @@ $return_url = $_SERVER['HTTP_REFERER'] ?? 'index.php?table_id=' . $table_id;
                         <small style="color: #666;"><?php echo format_user_time($log['created_at'], $user_timezone, $full_format_str); ?></small>
                     </div>
                     <div style="font-size: 0.9rem; color: #444; margin-bottom: 0.3rem;">
-                        <strong>Actor:</strong> <?php echo htmlspecialchars($log['username'] ?? 'System / Guest'); ?>
+                        <strong><?php echo htmlspecialchars(__('record_history.actor_label')); ?></strong> <?php echo htmlspecialchars($log['username'] ?? __('record_history.system_guest')); ?>
                     </div>
                     <div style="font-size: 0.9rem; color: #222; background: rgba(0,0,0,0.01); padding: 0.4rem; border-radius: 3px; word-break: break-word; margin-bottom: 0.4rem;">
                         <?php echo nl2br(htmlspecialchars($log['details'])); ?>
@@ -141,10 +141,10 @@ $return_url = $_SERVER['HTTP_REFERER'] ?? 'index.php?table_id=' . $table_id;
 
                     <?php if (!empty($log['sug_column']) || !empty($log['sug_value'])): ?>
                         <div style="background: rgba(0,123,255,0.04); border: 1px dashed rgba(0,123,255,0.2); padding: 0.5rem; border-radius: 4px; font-size: 0.85rem;">
-                            <div><strong>Target Column:</strong> <?php echo htmlspecialchars($log['sug_column']); ?></div>
-                            <div><strong>Proposed Value:</strong> <span style="color: #0056b3; font-weight: bold;"><?php echo htmlspecialchars($log['sug_value']); ?></span></div>
+                            <div><strong><?php echo htmlspecialchars(__('record_history.target_column')); ?></strong> <?php echo htmlspecialchars($log['sug_column']); ?></div>
+                            <div><strong><?php echo htmlspecialchars(__('record_history.proposed_value')); ?></strong> <span style="color: #0056b3; font-weight: bold;"><?php echo htmlspecialchars($log['sug_value']); ?></span></div>
                             <?php if (!empty($log['sug_reasoning'])): ?>
-                                <div><strong>Reasoning / Evidence:</strong> <?php echo htmlspecialchars($log['sug_reasoning']); ?></div>
+                                <div><strong><?php echo htmlspecialchars(__('record_history.reasoning_evidence')); ?></strong> <?php echo htmlspecialchars($log['sug_reasoning']); ?></div>
                             <?php endif; ?>
                         </div>
                     <?php endif; ?>

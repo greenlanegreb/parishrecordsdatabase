@@ -50,12 +50,12 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
 <div class="search-box-container" role="region" aria-label="Admin User Management" style="max-width: 100%;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-            <h3>User Account Management & Leaderboard Moderation</h3>
-            <p>Inspect user statuses, assign roles, override emails, trigger password resets or invitations, reset 2FA, or suspend accounts.</p>
+            <h3><?php echo htmlspecialchars(__('admin_users.heading')); ?></h3>
+            <p><?php echo htmlspecialchars(__('admin_users.subheading')); ?></p>
         </div>
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <a href="manage_user_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ Manage Email Templates</a>
-            <a href="create_user.php" class="btn" style="text-decoration: none;">➕ Invite New User</a>
+            <a href="manage_user_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ <?php echo htmlspecialchars(__('admin_users.manage_templates_btn')); ?></a>
+            <a href="create_user.php" class="btn" style="text-decoration: none;">➕ <?php echo htmlspecialchars(__('admin_users.invite_user_btn')); ?></a>
         </div>
     </div>
 
@@ -70,19 +70,19 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
         <table class="data-table" role="table" style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email & Override</th>
-                    <th scope="col">Role Assignment</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">2FA</th>
-                    <th scope="col">Actions & Moderation</th>
+                    <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_id')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('admin_users.th_username')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('admin_users.th_email_override')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('admin_users.th_role_assignment')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('admin_users.th_score')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('admin_users.th_status')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('admin_users.th_2fa')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('admin_users.th_actions')); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($users)): ?>
-                    <tr><td colspan="8" style="text-align: center; padding: 1rem;">No users found.</td></tr>
+                    <tr><td colspan="8" style="text-align: center; padding: 1rem;"><?php echo htmlspecialchars(__('admin_users.no_users')); ?></td></tr>
                 <?php else: ?>
                     <?php foreach ($users as $u): ?>
                         <?php $is_first_admin = (intval($u['id']) === $first_admin_id); ?>
@@ -96,16 +96,16 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                     <input type="hidden" name="action" value="update_email">
                                     <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
                                     <input type="email" name="new_email" value="<?php echo htmlspecialchars($u['email']); ?>" style="padding: 0.2rem; font-size: 0.85rem; width: 160px;" required aria-label="Email for <?php echo htmlspecialchars($u['username']); ?>">
-                                    <button type="submit" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;" title="Save new email address">Save</button>
+                                    <button type="submit" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;" title="<?php echo htmlspecialchars(__('admin_users.save_email_title')); ?>"><?php echo htmlspecialchars(__('btn.save')); ?></button>
                                 </form>
-                                <small style="color: #666;">Verified: <?php echo $u['email_verified'] ? 'Yes' : 'No'; ?></small>
+                                <small style="color: #666;"><?php echo htmlspecialchars(__('admin_users.verified_label')); ?> <?php echo $u['email_verified'] ? htmlspecialchars(__('admin_users.yes')) : htmlspecialchars(__('admin_users.no')); ?></small>
                             </td>
                             <td>
                                 <!-- Role Change Form -->
                                 <?php if ($is_first_admin): ?>
                                     <span style="font-size: 0.85rem; color: #666; font-style: italic;">
                                         <?php echo htmlspecialchars(ucwords($u['role_name'] ?? 'Admin')); ?><br>
-                                        <small>(Protected Primary Admin)</small>
+                                        <small>(<?php echo htmlspecialchars(__('admin_users.protected_admin')); ?>)</small>
                                     </span>
                                 <?php else: ?>
                                     <form method="POST" action="actions/save_user_management.php" style="display: flex; gap: 0.3rem; align-items: center;">
@@ -119,19 +119,19 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
-                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;">Update</button>
+                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.2rem 0.4rem;"><?php echo htmlspecialchars(__('admin_users.update_btn')); ?></button>
                                     </form>
                                 <?php endif; ?>
                             </td>
                             <td><strong>⭐ <?php echo intval($u['points']); ?></strong></td>
                             <td>
                                 <?php if ($u['is_active']): ?>
-                                    <span class="user-status-active">Active</span>
+                                    <span class="user-status-active"><?php echo htmlspecialchars(__('admin_users.status_active')); ?></span>
                                 <?php else: ?>
-                                    <span class="user-status-suspended">Suspended</span>
+                                    <span class="user-status-suspended"><?php echo htmlspecialchars(__('admin_users.status_suspended')); ?></span>
                                 <?php endif; ?>
                             </td>
-                            <td><?php echo $u['two_fa_enabled'] ? '<span class="user-2fa-enabled">Enabled</span>' : 'Disabled'; ?></td>
+                            <td><?php echo $u['two_fa_enabled'] ? '<span class="user-2fa-enabled">' . htmlspecialchars(__('admin_users.enabled')) . '</span>' : htmlspecialchars(__('admin_users.disabled')); ?></td>
                             <td style="display: flex; flex-direction: column; gap: 0.5rem; padding: 0.75rem;">
                                 
                                 <!-- Points Override Form -->
@@ -140,52 +140,52 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                     <input type="hidden" name="action" value="override_points">
                                     <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
                                     <input type="number" name="new_points" value="<?php echo intval($u['points']); ?>" style="width: 70px; padding: 0.2rem;" aria-label="Points for <?php echo htmlspecialchars($u['username']); ?>">
-                                    <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;">Set Score</button>
+                                    <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;"><?php echo htmlspecialchars(__('admin_users.set_score_btn')); ?></button>
                                 </form>
 
                                 <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
                                     <!-- Resend Invite Button -->
-                                    <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Resend account invitation email to this user?');" style="display:inline;">
+                                    <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('<?php echo htmlspecialchars(__('admin_users.resend_invite_confirm')); ?>');" style="display:inline;">
                                         <?php echo csrf_field(); ?>
                                         <input type="hidden" name="action" value="resend_invite">
                                         <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
-                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Resend invite to <?php echo htmlspecialchars($u['username']); ?>">Resend Invite</button>
+                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Resend invite to <?php echo htmlspecialchars($u['username']); ?>"><?php echo htmlspecialchars(__('admin_users.resend_invite_btn')); ?></button>
                                     </form>
 
                                     <!-- Send Password Reset Link Button -->
-                                    <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Dispatch a password reset link to this user?');" style="display:inline;">
+                                    <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('<?php echo htmlspecialchars(__('admin_users.reset_pwd_confirm')); ?>');" style="display:inline;">
                                         <?php echo csrf_field(); ?>
                                         <input type="hidden" name="action" value="send_password_reset">
                                         <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
-                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Send password reset to <?php echo htmlspecialchars($u['username']); ?>">Reset Password</button>
+                                        <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Send password reset to <?php echo htmlspecialchars($u['username']); ?>"><?php echo htmlspecialchars(__('admin_users.reset_password_btn')); ?></button>
                                     </form>
 
                                     <!-- Suspension Toggle Button (Prevent suspending the primary admin too) -->
                                     <?php if ($u['id'] !== intval($current_user['id']) && !$is_first_admin): ?>
                                         <?php if ($u['is_active']): ?>
-                                            <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Suspend user and block access for cheating/violation?');" style="display:inline;">
+                                            <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('<?php echo htmlspecialchars(__('admin_users.suspend_confirm')); ?>');" style="display:inline;">
                                                 <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="action" value="suspend">
                                                 <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
-                                                <button type="submit" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Suspend <?php echo htmlspecialchars($u['username']); ?>">Suspend</button>
+                                                <button type="submit" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Suspend <?php echo htmlspecialchars($u['username']); ?>"><?php echo htmlspecialchars(__('admin_users.suspend_btn')); ?></button>
                                             </form>
                                         <?php else: ?>
                                             <form method="POST" action="actions/save_user_management.php" style="display:inline;">
                                                 <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="action" value="unsuspend">
                                                 <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
-                                                <button type="submit" class="btn btn-reactivate" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Reactivate <?php echo htmlspecialchars($u['username']); ?>">Reactivate</button>
+                                                <button type="submit" class="btn btn-reactivate" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Reactivate <?php echo htmlspecialchars($u['username']); ?>"><?php echo htmlspecialchars(__('admin_users.reactivate_btn')); ?></button>
                                             </form>
                                         <?php endif; ?>
                                     <?php endif; ?>
 
                                     <!-- 2FA Reset / Disable Button -->
                                     <?php if ($u['two_fa_enabled']): ?>
-                                        <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Reset and disable 2FA for this user?');" style="display:inline;">
+                                        <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('<?php echo htmlspecialchars(__('admin_users.reset_2fa_confirm')); ?>');" style="display:inline;">
                                             <?php echo csrf_field(); ?>
                                             <input type="hidden" name="action" value="reset_2fa">
                                             <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
-                                            <button type="submit" class="btn btn-reset-2fa" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Reset 2FA for <?php echo htmlspecialchars($u['username']); ?>">Reset 2FA</button>
+                                            <button type="submit" class="btn btn-reset-2fa" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Reset 2FA for <?php echo htmlspecialchars($u['username']); ?>"><?php echo htmlspecialchars(__('admin_users.reset_2fa_btn')); ?></button>
                                         </form>
                                     <?php endif; ?>
                                 </div>

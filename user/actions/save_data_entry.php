@@ -56,7 +56,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
 
         if (isset($cols_map[$cid]) && !empty($cols_map[$cid]['is_required'])) {
             if ($clean_val === '') {
-                $_SESSION['error'] = "The required field '{$cols_map[$cid]['column_name']}' cannot be left blank.";
+                $_SESSION['error'] = sprintf(__('save_data_entry.err_required_field'), $cols_map[$cid]['column_name']);
                 header('Location: ../data_entry.php?table_id=' . $table_id);
                 exit;
             }
@@ -109,7 +109,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
             $rec_stmt->execute([$table_id, $current_user['id']]);
             $record_id = $pdo->lastInsertId();
 
-            $audit_details_parts = ["Created record entry in table ID {$table_id}."];
+            $audit_details_parts = [sprintf(__('save_data_entry.audit_created_prefix'), $table_id)];
 
             foreach ($sanitized_inputs as $column_id => $value_content) {
                 if ($value_content !== '') {
@@ -135,7 +135,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'insert_record') {
             $pdo->commit();
             // Clear submitted filters on successful save so the form resets for the next entry
             unset($_SESSION['submitted_filters']);
-            $_SESSION['message'] = "Record successfully added!";
+            $_SESSION['message'] = __('save_data_entry.msg_success');
         } catch (Exception $e) {
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();

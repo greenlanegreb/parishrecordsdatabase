@@ -16,8 +16,8 @@ unset($_SESSION['error'], $_SESSION['message']);
 
     <?php require_once '../partials/header.php'; ?>
 
-    <div class="search-box-container login-container" role="region" aria-label="User Login">
-        <h3>User Login</h3>
+    <div class="search-box-container login-container" role="region" aria-label="<?php echo htmlspecialchars(__('login.aria_region')); ?>">
+        <h3><?php echo htmlspecialchars(__('login.heading')); ?></h3>
         
         <?php if (!empty($error)): ?>
             <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -28,15 +28,15 @@ unset($_SESSION['error'], $_SESSION['message']);
 
         <form method="POST" action="actions/authenticate.php">
             <?php echo csrf_field(); ?>
-            <label for="username">Username or Email:</label><br>
+            <label for="username"><?php echo htmlspecialchars(__('login.username_label')); ?></label><br>
             <input type="text" id="username" name="username" required class="login-input" style="margin-bottom: 1rem;"><br>
 
-            <label for="password">Password:</label><br>
+            <label for="password"><?php echo htmlspecialchars(__('login.password_label')); ?></label><br>
             <input type="password" id="password" name="password" required class="login-input" style="margin-bottom: 1.5rem;"><br>
 
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <button type="submit" class="btn">Log In</button>
-                <a href="forgot_password.php" style="font-size: 0.9rem; color: var(--primary-color, #007bff); text-decoration: underline;">Forgot Password?</a>
+                <button type="submit" class="btn"><?php echo htmlspecialchars(__('login.submit_btn')); ?></button>
+                <a href="forgot_password.php" style="font-size: 0.9rem; color: var(--primary-color, #007bff); text-decoration: underline;"><?php echo htmlspecialchars(__('login.forgot_password_link')); ?></a>
             </div>
         </form>
     </div>

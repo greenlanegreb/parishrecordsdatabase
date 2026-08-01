@@ -112,26 +112,26 @@ unset($_SESSION['message'], $_SESSION['error']);
 
 <?php if ($total_tables_count === 0): ?>
     <div class="search-box-container" style="background:#fff3cd;border:1px solid #ffeeba;padding:1.5rem;border-radius:6px;margin-bottom:2rem;color:#856404;">
-        <h3>⚠️ No Database Tables Found</h3>
-        <p>The system currently does not have any active database tables configured.</p>
+        <h3>⚠️ <?php echo htmlspecialchars(__('index.no_tables_heading')); ?></h3>
+        <p><?php echo htmlspecialchars(__('index.no_tables_desc')); ?></p>
         <?php if ($current_user && is_admin($pdo)): ?>
-            <p>As an administrator, please go to the <strong>Manage Tables</strong> menu option to create a table, and then add at least one column to that table before records can be viewed or entered.</p>
-            <a href="admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;">Go to Manage Tables</a>
-        <?php elseif ($current_user): ?>
-            <p>Please contact an administrator to set up database tables and columns.</p>
+            <p><?php echo __('index.admin_create_table_guide', ['link' => 'admin/manage_tables.php']); ?></p>
+            <a href="admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;"><?php echo htmlspecialchars(__('index.go_to_manage_tables')); ?></a>
+        <?elseif ($current_user): ?>
+            <p><?php echo htmlspecialchars(__('index.contact_admin_tables')); ?></p>
         <?php else: ?>
-            <p>Please <a href="user/login.php">log in</a> as an administrator, go to the <strong>Manage Tables</strong> section to create a table, and then add at least one column.</p>
+            <p><?php echo __('index.guest_login_tables_guide', ['login_link' => 'user/login.php']); ?></p>
         <?php endif; ?>
     </div>
 <?php elseif ($total_columns_count === 0): ?>
     <div class="search-box-container" style="background:#fff3cd;border:1px solid #ffeeba;padding:1.5rem;border-radius:6px;margin-bottom:2rem;color:#856404;">
-        <h3>⚠️ No Columns Configured</h3>
-        <p>Tables exist in the system, but no data columns have been defined for the active table.</p>
+        <h3>⚠️ <?php echo htmlspecialchars(__('index.no_columns_heading')); ?></h3>
+        <p><?php echo htmlspecialchars(__('index.no_columns_desc')); ?></p>
         <?php if ($current_user && is_admin($pdo)): ?>
-            <p>As an administrator, please go to the <strong>Manage Tables</strong> menu option to add at least one column to your table.</p>
-            <a href="admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;">Go to Manage Tables</a>
+            <p><?php echo htmlspecialchars(__('index.admin_add_columns_guide')); ?></p>
+            <a href="admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;"><?php echo htmlspecialchars(__('index.go_to_manage_tables')); ?></a>
         <?php else: ?>
-            <p>Please contact an administrator to configure columns for this table.</p>
+            <p><?php echo htmlspecialchars(__('index.contact_admin_columns')); ?></p>
         <?php endif; ?>
     </div>
 <?php else: ?>
@@ -139,7 +139,7 @@ unset($_SESSION['message'], $_SESSION['error']);
     <!-- TABLE SELECTOR (only when more than one table is available) -->
     <?php if (count($available_tables) > 1): ?>
         <div style="background:rgba(0,0,0,0.02);padding:1rem;border-radius:6px;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
-            <label for="public_table_selector" style="font-weight:bold;">Select Directory Database:</label>
+            <label for="public_table_selector" style="font-weight:bold;"><?php echo htmlspecialchars(__('index.select_directory_database')); ?></label>
             <select id="public_table_selector" class="profile-input" style="padding:0.4rem;min-width:250px;"
                     onchange="location.href='index.php?table_id='+this.value;">
                 <?php foreach ($available_tables as $at): ?>
@@ -154,7 +154,7 @@ unset($_SESSION['message'], $_SESSION['error']);
 
     <!-- SEARCH & EXPORT -->
     <section class="search-box-container" aria-label="Advanced Search Section">
-        <h3>Multi-Column Search Filters</h3>
+        <h3><?php echo htmlspecialchars(__('search.heading')); ?></h3>
         <form id="search-form">
             <input type="hidden" name="table_id" value="<?php echo (int)$active_table_id; ?>">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1rem;">
@@ -168,18 +168,18 @@ unset($_SESSION['message'], $_SESSION['error']);
                         <?php if (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
                             <?php
                                 $fmt = $col['boolean_display_format'] ?? 'yes_no';
-                                $opt1 = 'Yes / True'; $opt2 = 'No / False';
-                                if ($fmt === 'male_female') { $opt1 = 'Male'; $opt2 = 'Female'; }
-                                elseif ($fmt === 'true_false') { $opt1 = 'True'; $opt2 = 'False'; }
-                                elseif ($fmt === 'tick_cross') { $opt1 = '✔ (Tick)'; $opt2 = '✘ (Cross)'; }
+                                $opt1 = __('index.opt_yes_true'); $opt2 = __('index.opt_no_false');
+                                if ($fmt === 'male_female') { $opt1 = __('index.opt_male'); $opt2 = __('index.opt_female'); }
+                                elseif ($fmt === 'true_false') { $opt1 = __('index.opt_true'); $opt2 = __('index.opt_false'); }
+                                elseif ($fmt === 'tick_cross') { $opt1 = __('index.opt_tick'); $opt2 = __('index.opt_cross'); }
                             ?>
                             <select id="filter_<?php echo (int)$col['id']; ?>"
                                     name="filters[<?php echo (int)$col['id']; ?>]"
                                     style="width:100%;padding:0.4rem;box-sizing:border-box;"
                                     aria-label="Search filter for <?php echo htmlspecialchars($col['column_name']); ?>">
-                                <option value="">-- All --</option>
-                                <option value="1"><?php echo $opt1; ?></option>
-                                <option value="0"><?php echo $opt2; ?></option>
+                                <option value=""><?php echo htmlspecialchars(__('index.option_all')); ?></option>
+                                <option value="1"><?php echo htmlspecialchars($opt1); ?></option>
+                                <option value="0"><?php echo htmlspecialchars($opt2); ?></option>
                             </select>
 
                         <?php elseif (($col['data_type'] ?? '') === 'DATE'): ?>
@@ -190,7 +190,7 @@ unset($_SESSION['message'], $_SESSION['error']);
                                        title="From Date (<?php echo htmlspecialchars($date_placeholder); ?>)"
                                        style="width:100%;min-width:0;padding:0.3rem;"
                                        aria-label="From date filter for <?php echo htmlspecialchars($col['column_name']); ?>">
-                                <span style="font-size:0.85rem;color:#666;">to</span>
+                                <span style="font-size:0.85rem;color:#666;"><?php echo htmlspecialchars(__('index.date_to_label')); ?></span>
                                 <input type="text"
                                        name="date_filters[<?php echo (int)$col['id']; ?>][to]"
                                        placeholder="<?php echo htmlspecialchars($date_placeholder); ?>"
@@ -203,7 +203,7 @@ unset($_SESSION['message'], $_SESSION['error']);
                             <input type="text"
                                    id="filter_<?php echo (int)$col['id']; ?>"
                                    name="filters[<?php echo (int)$col['id']; ?>]"
-                                   placeholder="Search..."
+                                   placeholder="<?php echo htmlspecialchars(__('index.search_placeholder')); ?>"
                                    style="width:100%;padding:0.4rem;box-sizing:border-box;"
                                    aria-label="Search filter for <?php echo htmlspecialchars($col['column_name']); ?>">
                         <?php endif; ?>
@@ -212,10 +212,10 @@ unset($_SESSION['message'], $_SESSION['error']);
             </div>
             <!-- Unified Sizing & Dynamic Label Action Bar -->
             <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-                <button type="button" id="clear-search" class="btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle; background-color:#6c757d; color:#fff;">Reset Search</button>
-                <a href="#" id="export-csv-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration:none; vertical-align: middle;">Download Entire CSV</a>
-                <a href="#" id="export-json-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration:none; vertical-align: middle;">Download Entire JSON</a>
-                <button type="button" id="copy-clipboard-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;">Copy Entire Table</button>
+                <button type="button" id="clear-search" class="btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle; background-color:#6c757d; color:#fff;"><?php echo htmlspecialchars(__('search.reset')); ?></button>
+                <a href="#" id="export-csv-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration:none; vertical-align: middle;"><?php echo htmlspecialchars(__('index.download_entire_csv')); ?></a>
+                <a href="#" id="export-json-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration:none; vertical-align: middle;"><?php echo htmlspecialchars(__('index.download_entire_json')); ?></a>
+                <button type="button" id="copy-clipboard-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;"><?php echo htmlspecialchars(__('index.copy_entire_table')); ?></button>
             </div>
         </form>
     </section>
@@ -225,15 +225,15 @@ unset($_SESSION['message'], $_SESSION['error']);
         <table id="data-table" role="table" style="width:100%;border-collapse:collapse;">
             <thead>
                 <tr>
-                    <th class="sortable" data-sort="id" scope="col">Record ID ▼</th>
+                    <th class="sortable" data-sort="id" scope="col"><?php echo htmlspecialchars(__('index.th_record_id')); ?> ▼</th>
                     <?php foreach ($columns as $col): ?>
                         <th class="sortable" data-sort="col_<?php echo (int)$col['id']; ?>" scope="col">
                             <?php echo htmlspecialchars($col['column_name']); ?> ↕
                         </th>
                     <?php endforeach; ?>
-                    <th scope="col">Created By</th>
-                    <th class="sortable" data-sort="date" scope="col">Date Added ↕</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col"><?php echo htmlspecialchars(__('index.th_created_by')); ?></th>
+                    <th class="sortable" data-sort="date" scope="col"><?php echo htmlspecialchars(__('index.th_date_added')); ?> ↕</th>
+                    <th scope="col"><?php echo htmlspecialchars(__('index.th_actions')); ?></th>
                 </tr>
             </thead>
             <tbody id="table-body">
@@ -248,9 +248,9 @@ unset($_SESSION['message'], $_SESSION['error']);
     <!-- PUBLIC SUGGESTION MODAL -->
     <div id="suggestModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
         <div style="background:white;padding:2rem;border-radius:6px;width:100%;max-width:450px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-            <h3>Suggest Record Correction</h3>
+            <h3><?php echo htmlspecialchars(__('index.modal_heading')); ?></h3>
             <p style="font-size:0.9rem;color:#666;margin-bottom:1rem;">
-                Submit a correction or counter-information for this record. It will be reviewed by our moderation team.
+                <?php echo htmlspecialchars(__('index.modal_desc')); ?>
             </p>
             <form method="POST" action="user/actions/save_public_suggestion.php">
                 <?php echo function_exists('csrf_field') ? csrf_field() : ''; ?>
@@ -263,7 +263,7 @@ unset($_SESSION['message'], $_SESSION['error']);
                 </div>
 
                 <div style="margin-bottom:1rem;">
-                    <label for="modal_column_name"><strong>Target Column:</strong></label><br>
+                    <label for="modal_column_name"><strong><?php echo htmlspecialchars(__('index.modal_target_column')); ?></strong></label><br>
                     <select name="column_name" id="modal_column_name" style="width:100%;padding:0.4rem;" required>
                         <?php foreach ($columns as $col): ?>
                             <option value="<?php echo htmlspecialchars($col['column_name']); ?>">
@@ -274,15 +274,15 @@ unset($_SESSION['message'], $_SESSION['error']);
                 </div>
 
                 <div style="margin-bottom:1rem;">
-                    <label for="modal_proposed_value"><strong>Proposed Correction / Value:</strong></label><br>
+                    <label for="modal_proposed_value"><strong><?php echo htmlspecialchars(__('index.modal_proposed_value')); ?></strong></label><br>
                     <input type="text" name="proposed_value" id="modal_proposed_value"
-                           placeholder="Enter updated information..."
+                           placeholder="<?php echo htmlspecialchars(__('index.modal_input_placeholder')); ?>"
                            style="width:100%;padding:0.4rem;box-sizing:border-box;" required>
                 </div>
 
                 <div style="display:flex;gap:10px;">
-                    <button type="submit" class="btn">Submit Suggestion</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeSuggestModal()">Cancel</button>
+                    <button type="submit" class="btn"><?php echo htmlspecialchars(__('index.modal_submit_btn')); ?></button>
+                    <button type="button" class="btn btn-secondary" onclick="closeSuggestModal()"><?php echo htmlspecialchars(__('btn.cancel')); ?></button>
                 </div>
             </form>
         </div>
@@ -327,7 +327,7 @@ unset($_SESSION['message'], $_SESSION['error']);
             .catch(() => {
                 const tableBody = document.getElementById('table-body');
                 if (tableBody) {
-                    tableBody.innerHTML = '<tr><td colspan="99">Unable to load results. Please try again.</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="99"><?php echo htmlspecialchars(__('search.load_error')); ?></td></tr>';
                 }
             });
     }
@@ -392,9 +392,9 @@ unset($_SESSION['message'], $_SESSION['error']);
         const jsonBtn = document.getElementById('export-json-btn');
         const copyBtn = document.getElementById('copy-clipboard-btn');
 
-        if (csvBtn) csvBtn.textContent = hasActiveFilter ? 'Download Filtered CSV' : 'Download Entire CSV';
-        if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? 'Download Filtered JSON' : 'Download Entire JSON';
-        if (copyBtn) copyBtn.textContent = hasActiveFilter ? 'Copy Filtered Table' : 'Copy Entire Table';
+        if (csvBtn) csvBtn.textContent = hasActiveFilter ? '<?php echo __('index.download_filtered_csv'); ?>' : '<?php echo __('index.download_entire_csv'); ?>';
+        if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? '<?php echo __('index.download_filtered_json'); ?>' : '<?php echo __('index.download_entire_json'); ?>';
+        if (copyBtn) copyBtn.textContent = hasActiveFilter ? '<?php echo __('index.copy_filtered_table'); ?>' : '<?php echo __('index.copy_entire_table'); ?>';
     }
 
     if (searchForm) {
@@ -441,7 +441,7 @@ unset($_SESSION['message'], $_SESSION['error']);
         });
 
         navigator.clipboard.writeText(textContent).then(() => {
-            alert('Table data copied to clipboard! You can paste it directly into Excel or Google Sheets.');
+            alert('<?php echo __('index.clipboard_success'); ?>');
         }).catch(err => {
             console.error('Failed to copy text: ', err);
         });

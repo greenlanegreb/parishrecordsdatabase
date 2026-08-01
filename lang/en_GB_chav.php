@@ -1,0 +1,913 @@
+<?php
+// lang/en_GB_chav.php - British Chav / Street Slang Localisation
+return [
+
+    // ------------------------------------------------------------------
+    // Navigation
+    // ------------------------------------------------------------------
+    'nav.login'                  => 'Log In (Innit)',
+    'nav.logout'                 => 'Bunk Off / Log Out',
+    'nav.feedback'               => 'Have Your Say / Beef',
+    'nav.volunteer'              => 'Step Up / Graft',
+    'nav.leaderboard'            => 'Top Boy Board',
+    'nav.search'                 => 'Have a Butcher’s',
+    'nav.settings'               => 'System Settings (Bare Tech)',
+    'nav.high_contrast'          => 'Blinding Bright',
+    'nav.low_contrast'           => 'Dim / Low Key',
+    'nav.welcome'                => 'Alright family,',
+    'nav.data_entry'             => 'Type Up the Patter',
+    'nav.moderation'             => 'Guv’nor / Security',
+    'nav.invite_user'            => 'Roll Call / Add Mate',
+    'nav.manage_users'           => 'Manage the Crew',
+    'nav.manage_tables'          => 'Sort the Setup',
+    'nav.volunteer_dashboard'    => 'Graft Dashboard',
+    'nav.feedback_dashboard'     => 'Beef & Complaints Deck',
+    'nav.leaderboard_score'      => 'Rep / Street Cred Score',
+
+    // ------------------------------------------------------------------
+    // Public search (index)
+    // ------------------------------------------------------------------
+    'search.heading'             => 'Proper Heavy Duty Search Filter',
+    'search.reset'               => 'Wipe It Clean',
+    'search.export_csv'          => 'Send Loot to CSV (Spreadsheet ting)',
+    'search.no_records'          => 'Absolute tumbleweeds round here bruv, fuck all found.',
+    'search.load_error'          => 'Kit’s fucked, couldn’t load that. Try again.',
+
+    // ------------------------------------------------------------------
+    // Common buttons
+    // ------------------------------------------------------------------
+    'btn.submit'                 => 'Send It Fam',
+    'btn.cancel'                 => 'Nah Forget It',
+    'btn.save'                   => 'Lock It In',
+    'btn.delete'                 => 'Chuck It In the Bin',
+
+    // actions/save_feedback.php & feedback.php Strings
+    'feedback.success_message'    => 'Safe bruv! Your message has dropped straight through.',
+    'feedback.error_all_fields'   => 'Fill out the whole lot you weapon.',
+    'feedback.error_invalid_email'=> 'Put a proper email in, that one’s bent.',
+    'feedback.error_save_failed'  => 'Glitch in the matrix fam, didn’t save. Try again.',
+
+    // ------------------------------------------------------------------
+    // Index / Public Directory Page
+    // ------------------------------------------------------------------
+    'index.no_tables_heading'          => 'Fck All Tables Round Here',
+    'index.no_tables_desc'             => 'Ain’t got no active database tables wired up yet mate.',
+    'index.admin_create_table_guide'   => 'As the big boss, get down to <strong>Manage Tables</strong> to build a rack and slap a column in before you start noseying about.',
+    'index.go_to_manage_tables'        => 'Sort the Tables Out',
+    'index.contact_admin_tables'       => 'Go holler at the main man to wire up the tables.',
+    'index.guest_login_tables_guide'   => 'Oi, <a href=":login_link">log in</a> or go badger the admin to set up the tables.',
+    'index.no_columns_heading'         => 'No Columns In Sight',
+    'index.no_columns_desc'            => 'Tables are there, but nobody’s built any data slots for this one yet.',
+    'index.admin_add_columns_guide'    => 'Boss man, get over to <strong>Manage Tables</strong> and punch at least one column in.',
+    'index.contact_admin_columns'      => 'Give the gaffer a shout to sort out the columns for this bit.',
+    'index.select_directory_database'  => 'Pick your turf database:',
+    'index.opt_yes_true'               => 'Yeah / Legit',
+    'index.opt_no_false'               => 'Nah / Bullshit',
+    'index.opt_male'                   => 'Lad',
+    'index.opt_female'                 => 'Lass / Bird',
+    'index.opt_true'                   => 'Legit',
+    'index.opt_false'                  => 'Cap',
+    'index.opt_tick'                   => '✔ (Sorted)',
+    'index.opt_cross'                  => '✘ (Crossed Out)',
+    'index.option_all'                 => '-- The Whole Lot --',
+    'index.date_to_label'              => 'till',
+    'index.search_placeholder'         => 'Search for gaffs, names...',
+    'index.download_entire_csv'        => 'Grab Whole CSV',
+    'index.download_entire_json'       => 'Grab Whole JSON',
+    'index.copy_entire_table'          => 'Copy Whole Lot',
+    'index.download_filtered_csv'      => 'Grab Filtered CSV',
+    'index.download_filtered_json'     => 'Grab Filtered JSON',
+    'index.copy_filtered_table'        => 'Copy Filtered Lot',
+    'index.th_record_id'               => 'Tag ID',
+    'index.th_created_by'              => 'Planted By',
+    'index.th_date_added'              => 'Dropped On',
+    'index.th_actions'                 => 'Moves',
+    'index.modal_heading'              => 'Spot a Blunder? Fix It Up',
+    'index.modal_desc'                 => 'Give us the straight gen or a better shout for this record. The security crew will size it up.',
+    'index.modal_target_column'        => 'Target Slot:',
+    'index.modal_proposed_value'       => 'Proper Value / Correction:',
+    'index.modal_input_placeholder'    => 'Drop the updated gen here...',
+    'index.modal_submit_btn'           => 'Send Word',
+    'index.clipboard_success'          => 'Coped that straight to your clipboard geezer! Paste it into Excel or Google Sheets.',
+
+    // ------------------------------------------------------------------
+    // Admin: Create User / Invite Form
+    // ------------------------------------------------------------------
+    'create_user.heading'              => 'New Recruit Call-Up Form',
+    'create_user.subheading'           => 'This is gonna spin up a lockdown link good for 24 hours straight to their burner inbox.',
+    'create_user.first_name'           => 'Christian Name / Moniker:',
+    'create_user.surname'              => 'Family Name / Surname:',
+    'create_user.username_label'       => 'Tag / Alias (Optional):',
+    'create_user.username_placeholder' => 'Leave blank if you want a random gen',
+    'create_user.username_help'        => 'Leave this empty and we’ll spit out a proper unique tag based on your name.',
+    'create_user.email_label'          => 'In Box / Email Addy:',
+    'create_user.role_label'           => 'Rank / Position:',
+    'create_user.submit_btn'           => 'Bring ‘Em In & Fire Invites',
+
+    // ------------------------------------------------------------------
+    // Admin: Feedback / Support Tickets Dashboard
+    // ------------------------------------------------------------------
+    'feedback_dash.heading'              => 'Beef & Support Ticket Deck',
+    'feedback_dash.subheading'           => 'Handle the public complaints, flip statuses, and chat back in the trenches.',
+    'feedback_dash.manage_emails'        => 'Sort Email Slang Templates',
+    'feedback_dash.manage_schema'        => 'Sort Ticket Form Blueprint',
+    'feedback_dash.th_ticket_date'       => 'Ticket ID / When',
+    'feedback_dash.th_submitter'         => 'Whistleblower',
+    'feedback_dash.th_subject_info'      => 'The Issue / Core Details',
+    'feedback_dash.th_status'            => 'Vibe / Status',
+    'feedback_dash.no_tickets'           => 'No beef or tickets found fam.',
+    'feedback_dash.anonymous'            => 'Ghost / Anon',
+    'feedback_dash.default_subject'      => 'Random Chinwag',
+    'feedback_dash.open_ticket_btn'      => 'Open Up & Have a Parley',
+    'feedback_dash.delete_confirm'       => 'Wipe this ticket and all the back-and-forth for good?',
+    'feedback_dash.msg_deleted'          => 'Ticket #:id got binned proper.',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Email Templates
+    // ------------------------------------------------------------------
+    'feedback_emails.heading'            => 'Ticket Email Templates (Auto-Chat)',
+    'feedback_emails.subheading'         => 'Customise the automated emails sent out when handling beef. Wrap your dynamic tags in curly brackets.',
+    'feedback_emails.back_to_dashboard' => 'Back to Beef Deck',
+    'feedback_emails.email_subject'      => 'Email Subject / Title:',
+    'feedback_emails.email_body'         => 'Message Blueprint:',
+    'feedback_emails.save_template_btn' => 'Lock In Template',
+    'feedback_emails.placeholders_heading' => 'Tags You Can Slap In',
+    'feedback_emails.placeholders_desc' => 'Use these anywhere in the subject or body to drop custom details:',
+    'feedback_emails.fixed_tags'         => 'Standard Fixed Tags:',
+    'feedback_emails.custom_tags'        => 'Custom Form Tags:',
+    'feedback_emails.custom_tags_desc'   => 'Pulled straight from your ticket form builder:',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Ticket Schema & Fields
+    // ------------------------------------------------------------------
+    'feedback_schema.heading'                => 'Sort Ticket Form Blueprint',
+    'feedback_schema.subheading'             => 'Set up custom fields, data types, character ceilings, subtypes, options, and how they look.',
+    'feedback_schema.settings_summary'       => 'Sort Form Title & Disclaimer Small Print',
+    'feedback_schema.form_title_label'       => 'Form Title:',
+    'feedback_schema.form_intro_label'       => 'Intro / Hook Text:',
+    'feedback_schema.save_settings_btn'      => 'Save Form Setup',
+    'feedback_schema.edit_field_title'       => 'Twist Ticket Field:',
+    'feedback_schema.add_field_title'        => '+ Slap a New Field Into Ticket Form',
+    'feedback_schema.field_name_label'       => 'Field Tag / Title:',
+    'feedback_schema.data_type_label'        => 'Data Flavor:',
+    'feedback_schema.type_varchar'           => 'VARCHAR (Short Text)',
+    'feedback_schema.type_text'              => 'TEXT (Long Essay / Rant)',
+    'feedback_schema.type_int'               => 'INT (Whole Number)',
+    'feedback_schema.type_boolean'           => 'BOOLEAN (Yeah/Nah Flag)',
+    'feedback_schema.type_date'              => 'DATE (Calendar Day)',
+    'feedback_schema.subtype_label'          => 'Field Subtype / Input Style:',
+    'feedback_schema.subtype_standard'       => '-- Basic --',
+    'feedback_schema.subtype_standard_lower'=> 'basic',
+    'feedback_schema.options_label'          => 'Choices (Comma-separated or stack ‘em per line):',
+    'feedback_schema.options_help'           => 'Separate options with commas or drop them on separate lines.',
+    'feedback_schema.allow_multiple'         => 'Let them pick loads (Multi-select)',
+    'feedback_schema.boolean_format'         => 'Yes/No Display Style:',
+    'feedback_schema.max_length_label'       => 'Max Length / Character Limit (Optional):',
+    'feedback_schema.is_required_label'      => 'Mandatory field (Can’t skip this)',
+    'feedback_schema.save_field_btn'         => 'Save Field Tweaks',
+    'feedback_schema.create_field_btn'       => 'Build Ticket Field',
+    'feedback_schema.sub_email'              => 'Email',
+    'feedback_schema.sub_url'                => 'URL Link',
+    'feedback_schema.sub_select'             => 'Drop-down Menu',
+    'feedback_schema.sub_radio'              => 'Radio Button Stack',
+    'feedback_schema.sub_checkbox'           => 'Tick Box',
+    'feedback_schema.sub_textarea'           => 'Big Rant Box (Textarea)',
+    'feedback_schema.sub_number'             => 'Number Pad',
+    'feedback_schema.existing_fields_heading'=> 'Already Built Ticket Fields',
+    'feedback_schema.th_move'                => 'Shift',
+    'feedback_schema.th_field_name'          => 'Field Name',
+    'feedback_schema.th_data_type'           => 'Data Type',
+    'feedback_schema.th_subtype'             => 'Subtype',
+    'feedback_schema.th_required'            => 'Must Have?',
+    'feedback_schema.th_max_length'          => 'Max Size',
+    'feedback_schema.th_created_by'          . 'Made By',
+    'feedback_schema.no_fields'              => 'No custom ticket fields set up yet fam.',
+    'feedback_schema.system_user'            => 'The System',
+    'feedback_schema.edit_btn'               => 'Twist',
+    'feedback_schema.delete_confirm'         => 'Wipe this field and all data tied to it?',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Tables & Column Schemas
+    // ------------------------------------------------------------------
+    'manage_tables.heading'              => 'Sort Tables & Schemas',
+    'manage_tables.subheading'           => 'Safely build, inspect, tweak, or bin dynamic database tables and column blueprints.',
+    'manage_tables.switcher_label'       => 'Pick active table blueprint:',
+    'manage_tables.edit_metadata_btn'    => 'Edit Table Info',
+    'manage_tables.delete_table_confirm'=> 'WARNING: Binned tables drop every single column and saved record forever. Are you absolutely certain geezer?',
+    'manage_tables.delete_table_btn'     => 'Bin This Table',
+    'manage_tables.edit_table_summary'   => 'Twist Table Specs:',
+    'manage_tables.create_table_summary'=> '+ Build Fresh Dynamic Table',
+    'manage_tables.table_name_label'     => 'Street Name for Table:',
+    'manage_tables.table_desc_label'     => 'What’s it for / Description:',
+    'manage_tables.save_table_btn'       => 'Save Table Changes',
+    'manage_tables.create_table_btn'     => 'Build Table Blueprint',
+    'manage_tables.edit_col_summary'     => 'Twist Column:',
+    'manage_tables.add_col_summary_prefix' => '+ Slap new column into',
+    'manage_tables.col_name_label'       => 'Column Title:',
+    'manage_tables.type_text_long'       => 'TEXT (Proper Long Paragraph)',
+    'manage_tables.date_behavior_label' => 'Date Search Vibe:',
+    'manage_tables.date_bhv_manual'      => 'Database date (manual punching only)',
+    'manage_tables.date_bhv_admin'       => 'Boss dates only',
+    'manage_tables.date_bhv_all'         => 'All dates including boss inputs',
+    'manage_tables.req_toggle_label'     => 'Lock this column down (Mandatory data entry)',
+    'manage_tables.exclude_search_label'=> 'Keep this column out of public search (index.php)',
+    'manage_tables.create_col_btn'       => 'Build Column',
+    'manage_tables.existing_cols_heading_prefix' => 'Current columns for',
+    'manage_tables.th_public_search'     => 'Public Search?',
+    'manage_tables.th_display_format'    => 'Display Style',
+    'manage_tables.th_date_created'      => 'Created When',
+    'manage_tables.no_columns_found'     => 'No dynamic columns set up for this table yet.',
+    'manage_tables.status_hidden'        => 'Undercover / Hidden',
+    'manage_tables.delete_col_confirm'   => 'WARNING: Trashing this column deletes every single cell of data tied to it across all records. Sure?',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage User Notification Email Templates
+    // ------------------------------------------------------------------
+    'user_emails.heading'                => 'Sort User Notice Email Templates',
+    'user_emails.subheading'             => 'Customise email layouts sent out when bringing new mates on board or firing out password resets.',
+    'user_emails.select_template_label'=> 'Pick template to twist:',
+    'user_emails.opt_invitation'         => 'New Mate Account Invite Template',
+    'user_emails.opt_reset'              => 'Password Reset / Secret Entry Link Template',
+    'currently_editing'                  => 'Working on:',
+    'user_emails.desc_invitation'        => 'Fired out automatically when an admin invites a brand new recruit.',
+    'user_emails.desc_reset'             => 'Fired out when someone triggers a password reset or re-requests a link.',
+    'user_emails.email_body_label'       => 'Email Content:',
+    'user_emails.back_to_creation'       => 'Back to Recruitment',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Email Templates
+    // ------------------------------------------------------------------
+    'volunteer_emails.heading'           => 'Graft / Volunteer Email Templates',
+    'volunteer_emails.subheading'        => 'Set up automatic replies for graft workers at different stages. Use curly brackets for dynamic details.',
+    'volunteer_emails.back_to_dashboard'=> 'Back to Graft Submissions',
+    'volunteer_emails.custom_tags_desc'  => 'Pulled automatically from form builder fields:',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Form Schema & Fields
+    // ------------------------------------------------------------------
+    'volunteer_schema.heading'           => 'Sort Graft / Volunteer Form Blueprint',
+    'volunteer_schema.subheading'        => 'Configure custom fields, data types, subtypes, choices, and general display styles for the form.',
+    'volunteer_schema.back_to_dashboard'=> 'Back to Graft Submissions',
+    'volunteer_schema.settings_summary'  => 'Sort Form Title & Small Print',
+    'volunteer_schema.edit_field_title'  => 'Twist Field:',
+    'volunteer_schema.add_field_title'   => '+ Slap New Field Into Volunteer Form',
+    'volunteer_schema.create_field_btn'  => 'Build Field',
+    'volunteer_schema.existing_fields_heading' => 'Current Volunteer Form Fields',
+    'volunteer_schema.no_fields'         => 'No custom volunteer fields set up yet.',
+    'volunteer_schema.delete_confirm'    => 'Wipe this field and all response values tied to it?',
+
+    // ------------------------------------------------------------------
+    // Admin: Moderation Queue & Suggestions Review
+    // ------------------------------------------------------------------
+    'moderate.heading'                   => 'Security Queue & Edits Review',
+    'moderate.subheading'                => 'Compare user-suggested edits against live records in your approved tables. Stamp ‘em, override ‘em, or chuck ‘em out.',
+    'moderate.shortcut_label'            => 'Keyboard Cheat Sheet:',
+    'moderate.shortcut_desc'             => 'Press Ctrl + Enter to sign off instantly or Esc to clear the override box!',
+    'moderate.th_id_date'                => 'ID / When',
+    'moderate.th_table_record'           => 'Table, Record & Column',
+    'moderate.th_comparison'             => 'Side-by-Side (Live vs Proposed) & Proof',
+    'moderate.th_actions'                => 'Guv’nor Moves',
+    'moderate.no_suggestions'            => 'No pending suggestions sitting in your authorized security queues.',
+    'moderate.by_label'                  => 'Who:',
+    'moderate.guest_user'                => 'Random / Passerby',
+    'moderate.record_id_label'           => 'Record ID:',
+    'moderate.column_label'              => 'Column:',
+    'moderate.required_badge'            => 'Must Have',
+    'moderate.live_value_label'          => 'Current Live Gen:',
+    'moderate.empty_placeholder'         => '[Fck All / Blank]',
+    'moderate.proposed_value_label'      => 'Proposed Twist:',
+    'moderate.evidence_label'            => 'The Proof / Backstory:',
+    'moderate.no_evidence'               => 'No proof or backstory given.',
+    'moderate.override_label'            => 'Override Value:',
+    'moderate.select_placeholder'        => '-- Pick One --',
+    'moderate.historical_dates_title'    => 'Old-school historical dates supported',
+    'moderate.approve_confirm'           => 'Stamp it and push this value live?',
+    'moderate.decline_confirm'           => 'Bin this suggestion and scrap it?',
+    'moderate.approve_btn'               => 'Approve (Stamp)',
+    'moderate.decline_btn'               => 'Decline (Scrap)',
+
+    // ------------------------------------------------------------------
+    // Admin: Notices & Announcements Manager
+    // ------------------------------------------------------------------
+    'notices.heading'                    => 'Banners & Site Alerts Manager',
+    'notices.subheading'                 => 'Slap up dynamic alerts, welcome banners, or targetted announcements for specific user ranks.',
+    'notices.error_blank'                => 'Title and content can’t be left blank mate.',
+    'notices.msg_created'                => 'Alert successfully published!',
+    'notices.msg_deleted'                => 'Alert binned.',
+    'notices.create_heading'             => 'Build New Alert',
+    'notices.title_label'                => 'Alert Title / Header:',
+    'notices.content_label'              => 'Alert Content (HTML/text sorted):',
+    'notices.target_roles_label'         => 'Target Crew (Pick roles or everyone):',
+    'notices.role_everyone'              => 'The Whole Lot',
+    'notices.role_public'                => 'Public Walk-ins (Guests)',
+    'notices.role_users'                 => 'Registered Lads (Users)',
+    'notices.role_moderators'            => 'Security Crew (Moderators)',
+    'notices.role_admins'                => 'Main Bosses (Administrators)',
+    'notices.dismissible_label'          => "Can be dismissed (Slaps an 'X' close button on it)",
+    'notices.display_order_label'        => 'Display Order:',
+    'notices.publish_btn'                => 'Publish Alert',
+    'notices.existing_heading'           => 'Active & Existing Banners',
+    'notices.th_order'                   => 'Order',
+    'notices.th_title'                   => 'Title',
+    'notices.th_target_roles'            => 'Target Ranks',
+    'notices.th_dismissible'             => 'Dismissible',
+    'notices.no_notices'                 => 'No alerts made yet.',
+    'notices.yes'                        => 'Yeah',
+    'notices.no_sticky'                  => 'Nah (Sticky / Clinging on)',
+    'notices.delete_confirm'             => 'Bin this alert?',
+
+    // ------------------------------------------------------------------
+    // Admin: Global Site Settings, Modules & Permissions
+    // ------------------------------------------------------------------
+    'settings.heading'                   => 'Global Site Settings, Modules & Permissions',
+    'settings.subheading'                => 'Manage core settings, mail drivers, security/CAPTCHA options, feature modules, lockdown mode, site alerts, and permissions matrix.',
+    'settings.tab_core'                  => 'Core & Mail',
+    'settings.tab_modules'               => 'Modules',
+    'settings.tab_maintenance'           => 'Lockdown Mode',
+    'settings.tab_notices'               => 'Site Alerts',
+    'settings.tab_permissions'           => 'Ranks & Permissions',
+    'settings.tab_audit'                 => 'Audit Log (CCTV)',
+    'settings.db_updates_heading'        => 'Database Upgrades',
+    'settings.schema_current'            => 'Current schema version:',
+    'settings.schema_latest'             => 'Latest available build:',
+    'settings.download_backup_btn'       => 'Download Database Backup (SQL)',
+    'settings.download_backup_desc'      => 'Saves a full .sql snapshot to your rig. Stash it safely before running updates.',
+    'settings.schema_update_notice'      => 'Database updates are ready to roll. Grab a backup above before you touch anything.',
+    'settings.migration_confirm'         => 'Did you grab a database backup first? This is gonna apply pending schema upgrades.',
+    'settings.update_db_btn'             => 'Upgrade Database Now',
+    'settings.schema_uptodate'           => 'Database is fully up to date.',
+    'settings.core_sys_heading'          => 'Core System Setup',
+    'settings.sys_name_label'            => 'System / App Name:',
+    'settings.default_lang_label'        => 'Default Site Slang / Language:',
+    'settings.default_lang_desc'         => 'Used for random guests and users without a preset language. Drop files into lang/ (e.g., en_GB_chav.php) for more.',
+    'settings.captcha_heading'           => 'Security & CAPTCHA Setup',
+    'settings.captcha_provider_label'    => 'CAPTCHA Bot Blocker:',
+    'settings.captcha_none'              => 'Off (No Bot Blocker)',
+    'settings.captcha_turnstile'         => 'Cloudflare Turnstile',
+    'settings.captcha_recaptcha'         => 'Google reCAPTCHA v2 / v3',
+    'settings.captcha_hcaptcha'          => 'hCaptcha',
+    'settings.turnstile_heading'         => 'Cloudflare Turnstile Setup',
+    'settings.recaptcha_heading'         => 'Google reCAPTCHA Setup',
+    'settings.hcaptcha_heading'          => 'hCaptcha Setup',
+    'settings.site_key_label'            => 'Site Key (Public):',
+    'settings.secret_key_label'          => 'Secret Key (Private):',
+    'settings.mail_heading'              => 'Mail Delivery Setup',
+    'settings.mail_domain_label'         => 'System Mail Domain (Fallback):',
+    'settings.mail_from_label'           => "Custom 'From' Email Addy:",
+    'settings.mail_from_desc'            => 'A dedicated address flashed as the sender for outgoing mail.',
+    'settings.mail_driver_label'         => 'Mail Engine:',
+    'settings.driver_native'             => 'Native Mail (Local Postfix Relay)',
+    'settings.driver_smtp'               => 'Authenticated SMTP (PHPMailer)',
+    'settings.smtp_heading'              => 'SMTP Server Setup',
+    'settings.smtp_host_label'           => 'SMTP Host:',
+    'settings.smtp_port_label'           => 'Port:',
+    'settings.smtp_encryption_label'     => 'Encryption:',
+    'settings.enc_tls'                   => 'TLS (Port 587)',
+    'settings.enc_ssl'                   => 'SSL (Port 465)',
+    'settings.smtp_user_label'           => 'SMTP Username:',
+    'settings.smtp_pass_label'           => 'SMTP Password (leave blank to keep current):',
+    'settings.save_core_mail_btn'        => 'Save Core & Mail Setup',
+    'settings.test_mail_heading'         => 'Test Email Delivery',
+    'settings.test_email_label'          => 'Recipient Email Addy:',
+    'settings.send_test_btn'             => 'Fire Test Email',
+    'settings.modules_heading'           => 'App Module Switches & Performance Control',
+    'settings.modules_subheading'        => 'Flip features on or off to speed up performance and trim down what you don’t need.',
+    'settings.mod_users'                 => 'User Management & Multi-User Access',
+    'settings.mod_users_desc'            => 'Enables signups, user tracking, and multi-user authentication.',
+    'settings.mod_leaderboard'           => 'Leaderboard & Gamification',
+    'settings.mod_leaderboard_desc'      => 'Tracks transcription work and hands out star ratings and rep points.',
+    'settings.mod_leaderboard_note'      => '(Needs User Management & Multi-User Access turned on)',
+    'settings.mod_moderation'            => 'Moderation Workflow',
+    'settings.mod_moderation_desc'       => 'Enables edit suggestion reviews and the security queue.',
+    'settings.mod_volunteers'            => 'Graft Portal & Applications',
+    'settings.mod_volunteers_desc'       => 'Enables public volunteer intent form and admin dashboard.',
+    'settings.mod_feedback'              => 'Feedback Submission',
+    'settings.mod_feedback_desc'         => 'Enables public feedback form and corresponding admin dashboard.',
+    'settings.save_modules_btn'          => 'Save Module Setup',
+    'settings.maintenance_heading'       => 'System Lockdown Mode',
+    'settings.maintenance_toggle'        => 'Enable Lockdown Mode (Take site offline for everyone)',
+    'settings.maintenance_reason_label'  => 'Reason / Message for Visitors:',
+    'settings.maintenance_eta_label'     => 'Estimated Back Up Time (ETA):',
+    'settings.save_maintenance_btn'      => 'Save Lockdown Setup',
+    'settings.notices_heading'           => 'Site Notices & Banners',
+    'settings.add_notice_btn'            => '+ Add New Alert',
+    'settings.no_notices'                => 'No alerts configured.',
+    'settings.status_active'             => 'Active',
+    'settings.status_inactive'           => 'Dormant',
+    'settings.notice_content_label'      => 'Content:',
+    'settings.save_notice_btn'           => 'Save Alert',
+    'settings.permissions_heading'       => 'Dynamic Ranks & Permissions Matrix',
+    'settings.permissions_subheading'    => 'Permissions are grouped by system capabilities. Expand boxes to tweak what each rank can do and save below.',
+    'settings.th_role'                   => 'Rank',
+    'settings.th_capabilities'           => 'Powers Assigned to This Crew',
+    'settings.save_permissions_btn'      => 'Save Permissions Matrix',
+    'settings.audit_heading'             => 'CCTV Audit Log Browser',
+    'settings.audit_subheading'          => 'Check logged security actions, data inputs, and moderation moves. Use maintenance options below to hose down logs if needed.',
+    'settings.purge_all_confirm'         => '⚠️ WARNING: This will WIPE EVERY SINGLE SYSTEM AUDIT LOG FOREVER. Are you sure?',
+    'settings.clear_all_audit_btn'       => 'Hose Down All Audit Logs',
+    'settings.purge_records_confirm'     => 'Sure you want to wipe all audit logs tied to records?',
+    'settings.clear_records_audit_btn'   => 'Hose Record Audits Only',
+    'settings.th_id'                     => 'ID',
+    'settings.th_timestamp'              => 'Timestamp',
+    'settings.th_actor'                  => 'Who Did It',
+    'settings.th_action'                 => 'Action',
+    'settings.th_record_id'              => 'Record ID',
+    'settings.th_details'                => 'Details',
+    'settings.th_ip'                     => 'IP Address',
+    'settings.no_audit_logs'             => 'No audit logs found on CCTV.',
+    'settings.system_guest'              => 'System / Random Guest',
+    'settings.audit_limit_note'          => 'Showing the last 250 CCTV audit log entries.',
+
+    // ------------------------------------------------------------------
+    // Admin: User Account Management & Leaderboard Moderation
+    // ------------------------------------------------------------------
+    'admin_users.heading'                => 'User Account Management & Rep Moderation',
+    'admin_users.subheading'             => 'Check user status, switch roles, override emails, trigger password resets or re-invites, clear 2FA, or freeze accounts.',
+    'admin_users.manage_templates_btn'   => 'Sort Email Slang Templates',
+    'admin_users.invite_user_btn'        => 'Invite New Mate',
+    'admin_users.th_username'            => 'Username',
+    'admin_users.th_email_override'      => 'Email & Override',
+    'admin_users.th_role_assignment'     => 'Assign Rank',
+    'admin_users.th_score'               => 'Rep Score',
+    'admin_users.th_status'              => 'Status',
+    'admin_users.th_2fa'                 => '2FA Lock',
+    'admin_users.th_actions'             => 'Actions & Security',
+    'admin_users.no_users'               => 'No users found.',
+    'admin_users.save_email_title'       => 'Save New Email Addy',
+    'admin_users.verified_label'         => 'Verified:',
+    'admin_users.yes'                    => 'Yeah',
+    'admin_users.no'                     => 'Nah',
+    'admin_users.protected_admin'        => 'Protected Top Boss',
+    'admin_users.update_btn'             => 'Update',
+    'admin_users.status_active'          => 'Active',
+    'admin_users.status_suspended'       => 'Frozen / Banned',
+    'admin_users.enabled'                => 'On',
+    'admin_users.disabled'               => 'Off',
+    'admin_users.set_score_btn'          => 'Set Rep Score',
+    'admin_users.resend_invite_confirm' => 'Re-send account invite email to this user?',
+    'admin_users.resend_invite_btn'      => 'Re-send Invite',
+    'admin_users.reset_pwd_confirm'      => 'Fire a password reset link to this user?',
+    'admin_users.reset_password_btn'     => 'Reset Password',
+    'admin_users.suspend_confirm'        => 'Freeze user and lock them out due to messing about?',
+    'admin_users.suspend_btn'            => 'Freeze Account',
+    'admin_users.reactivate_btn'         => 'Unfreeze',
+    'admin_users.reset_2fa_confirm'      => 'Nuke and turn off 2FA for this user?',
+    'admin_users.reset_2fa_btn'          => 'Nuke 2FA',
+
+    // ------------------------------------------------------------------
+    // Admin: View Ticket & Threaded Dialogue
+    // ------------------------------------------------------------------
+    'view_ticket.back_to_dashboard'    => 'Return to Beef Deck',
+    'view_ticket.ticket_heading_prefix'=> 'Ticket',
+    'view_ticket.support_request'      => 'Support Issue',
+    'view_ticket.submitted_by'         => 'Dropped by:',
+    'view_ticket.on_date'              => 'on',
+    'view_ticket.submitted_fields'     => 'Submitted Form Bits:',
+    'view_ticket.ticket_status_label'  => 'Ticket Status:',
+    'view_ticket.status_pending'       => 'Pending',
+    'view_ticket.status_progress'      => 'In Progress (Working it)',
+    'view_ticket.status_completed'     => 'Sorted / Done',
+    'view_ticket.status_rejected'      => 'Scrapped',
+    'view_ticket.dialogue_heading'     => 'Back-and-Forth Thread',
+    'view_ticket.no_replies'           => 'No replies logged yet.',
+    'view_ticket.admin_label'          => 'Top Boss',
+    'view_ticket.staff'                => 'Crew Member',
+    'view_ticket.post_reply_heading'   => 'Drop Reply & Email Whistleblower',
+    'view_ticket.reply_placeholder'    => 'Type your reply here bruv...',
+    'view_ticket.send_reply_btn'       => 'Send Reply & Email Submitter',
+
+    // ------------------------------------------------------------------
+    // Admin: Volunteer Submissions & Workflow Dashboard
+    // ------------------------------------------------------------------
+    'volunteer_dashboard.heading'            => 'Graft Submissions & Workflow',
+    'volunteer_dashboard.subheading'         => 'Review graft apps, set up chats, record interview notes, and sign off candidates into the system.',
+    'volunteer_dashboard.manage_emails_btn' => 'Sort Email Slang Templates',
+    'volunteer_dashboard.manage_schema_btn' => 'Sort Form Blueprint',
+    'volunteer_dashboard.th_status'          => 'Status',
+    'volunteer_dashboard.th_name'            => 'Name',
+    'volunteer_dashboard.th_interview_notes'=> 'Interview / Notes',
+    'volunteer_dashboard.no_submissions'     => 'No graft apps found.',
+    'volunteer_dashboard.volunteer_prefix'   => 'Graft Worker',
+    'volunteer_dashboard.chat_label'         => 'Chat:',
+    'volunteer_dashboard.notes_label'        => 'Notes:',
+    'volunteer_dashboard.no_notes'           => 'No notes yet',
+    'volunteer_dashboard.chat_notes_btn'     => 'Chat & Notes',
+    'volunteer_dashboard.accept_title'       => 'Approve via Recruitment Invite System',
+    'volunteer_dashboard.accept_invite_btn'  => 'Approve & Fire Invite',
+    'volunteer_dashboard.delete_confirm'     => 'Wipe this graft record?',
+    'volunteer_dashboard.modal_heading'      => 'Manage Candidate Interview & Notes',
+    'volunteer_dashboard.modal_status_label'=> 'App Status:',
+    'volunteer_dashboard.status_pending'     => 'Pending Review',
+    'volunteer_dashboard.status_chat'        => 'Chat Booked In',
+    'volunteer_dashboard.status_accepted'    => 'Approved',
+    'volunteer_dashboard.status_rejected'    => 'Scrapped',
+    'volunteer_dashboard.modal_date_label'   => 'Booked Chat Date & Time:',
+    'volunteer_dashboard.modal_notes_label'  => 'Interview / Meet Notes:',
+    'volunteer_dashboard.modal_notes_placeholder' => 'Jot down how the chat went here...',
+    'volunteer_dashboard.save_changes_btn'   => 'Save Tweaks',
+
+    // ------------------------------------------------------------------
+    // API: AJAX Search & Filtering
+    // ------------------------------------------------------------------
+    'api_search.error_public_forbidden' => '403 Blocked: Public noseying is turned off.',
+    'api_search.error_unauthorized_table' => 'Unauthorized table access. Jog on.',
+    'api_search.no_records'              => 'No records found in this directory.',
+    'api_search.history_btn'             => 'CCTV History',
+    'api_search.suggest_edit_btn'        => 'Suggest Twist',
+
+    // ------------------------------------------------------------------
+    // Errors & HTTP Templates
+    // ------------------------------------------------------------------
+    'error_template.return_home_btn' => 'Get Back to Public Yard',
+
+    // ------------------------------------------------------------------
+    // Public: Ticket Intake & Feedback Portal
+    // ------------------------------------------------------------------
+    'feedback.hp_label'              => 'Leave this empty you mug',
+    'feedback.first_name_label'      => 'First Name:',
+    'feedback.surname_label'         => 'Last Name:',
+    'feedback.email_label'           => 'Email Addy:',
+    'feedback.subject_label'         => 'Subject / Issue Title:',
+    'feedback.required_title'        => 'Must Have Field',
+    'feedback.select_placeholder'    => '-- Pick One --',
+    'feedback.multi_select_hint'     => 'Hold Ctrl or Cmd down to grab multiple.',
+    'feedback.submit_btn'            => 'Fire Off Ticket',
+
+    // ------------------------------------------------------------------
+    // Security Engine & Firewall
+    // ------------------------------------------------------------------
+    'security_engine.err_suspicious_agent' => 'Security Alarm: Sketchy client signature detected.',
+    'security_engine.err_access_denied'    => 'Security Alarm: Access denied, jog on.',
+    'security_engine.err_rate_limit'       => 'Too many clicks from your IP address bruv. Wind your neck in and try later.',
+    'security_engine.err_excessive_links'  => 'Submission blocked because it’s jammed full of spammy links.',
+    'security_engine.err_complete_captcha' => 'Complete the bot blocker check first geezer.',
+    'security_engine.err_captcha_failed'   => 'Bot check failed. Try again.',
+
+    // ------------------------------------------------------------------
+    // Installer Wizard
+    // ------------------------------------------------------------------
+    'install.complete_title'             => 'Setup Done & Dusted',
+    'install.complete_heading'           => 'Setup Done & Dusted',
+    'install.complete_desc'              => 'This site is already fully configured. The installer’s been locked down so nobody messes with it.',
+    'install.login_link'                 => 'Log In',
+    'install.home_link'                  => 'Go to Yard',
+    'install.delete_folder_hint'         => 'For extra security, you should delete or rename the <code>install</code> folder.',
+    'install.msg_db_ready'               => 'Database is locked and loaded. Set up your main boss account to finish up.',
+    'install.err_config_load'            => 'Couldn’t load current config:',
+    'install.err_write_permission'       => 'PHP can’t write files in this project folder. Fix your permissions.',
+    'install.detail_prefix'              => 'Detail:',
+    'install.err_db_required'            => 'Database name and username are mandatory.',
+    'install.err_db_not_empty'           => 'This database isn’t empty mate. Hook up a fresh empty database (or wipe all tables) and try again.',
+    'install.msg_schema_imported'        => 'Database wired up and schema pulled in. Now make your boss account.',
+    'install.err_complete_db_first'      => 'Finish the database setup step first.',
+    'install.err_admin_required'         => 'All administrator fields are required.',
+    'install.err_invalid_email'          => 'Bent email address.',
+    'install.err_password_length'        => 'Password needs to be at least 8 characters long.',
+    'install.err_passwords_match'        => 'Passwords don’t match up.',
+    'install.err_admin_save_failed'      => 'Failed to save admin user. Check your users table setup.',
+    'install.msg_installation_complete' => 'Setup complete.',
+    'install.page_title'                 => 'Setup — Parish Records Directory',
+    'install.heading'                    => 'Setup Wizard',
+    'install.subheading'                 => 'Initial configuration <strong>for this app folder only</strong>. Hook it up to an empty MySQL database.',
+    'install.done_heading'               => 'Done',
+    'install.done_message'               => 'Setup is complete. The installer is now locked down tight.',
+    'install.admin_heading'              => 'Main Boss Site Account',
+    'install.admin_subheading'           => 'These are your sign-in details for <strong>this site</strong> (not a database account).',
+    'install.admin_username_label'       => 'Boss Username',
+    'install.admin_email_label'          => 'Boss Email',
+    'install.admin_password_label'       => 'Boss Password (min. 8 characters)',
+    'install.admin_confirm_password_label' => 'Confirm Boss Password',
+    'install.finish_btn'                 => 'Finish Setup',
+    'install.db_heading'                 => 'Database Hookup',
+    'install.db_hint'                    => 'Grab MySQL details from your <strong>hosting control panel</strong>. This is not your site login.',
+    'install.db_host_label'              => 'Database Host',
+    'install.db_name_label'              => 'Database Name',
+    'install.db_user_label'              => 'Database Username',
+    'install.db_pass_label'              => 'Database Password',
+    'install.db_submit_btn'              => 'Build Tables & Keep Going',
+    'install.req_heading'                => '1. Requirements Check',
+    'install.req_php'                    => 'PHP 8.0+ (detected %s)',
+    'install.req_pdo'                    => 'PDO MySQL Extension',
+    'install.req_logs'                   => 'Writable logs folder (or project folder)',
+    'install.req_probe'                  => 'Permission to write files in this project folder',
+    'install.continue_btn'               => 'Keep Going',
+    'install.req_fail_msg'               => 'Fix the broken checks above and refresh this page.',
+
+    // ------------------------------------------------------------------
+    // Leaderboard
+    // ------------------------------------------------------------------
+    'leaderboard.aria_region'     => 'Top Boy Leaderboard View',
+    'leaderboard.heading'         => 'Community Graft & Rep Leaderboard',
+    'leaderboard.subheading'      => 'Bigging up the crew members who help log, transcribe, or sort out database records.',
+    'leaderboard.th_rank'         => 'Rank',
+    'leaderboard.th_contributor'  => 'Top Boy / Contributor',
+    'leaderboard.th_role'         => 'Rank',
+    'leaderboard.th_score'        => 'Rep Score',
+    'leaderboard.no_users'        => 'No active legends on the leaderboard yet.',
+    'leaderboard.medal_gold'      => 'Gold Bling',
+    'leaderboard.medal_silver'    => 'Silver Bling',
+    'leaderboard.medal_bronze'    => 'Bronze Bling',
+    'leaderboard.medal_ribbon'    => 'Level 4 Ribbon',
+    'leaderboard.medal_rosette'   => 'Level 5 Rosette',
+    'leaderboard.medal_trophy'    => 'Level 6 Trophy',
+    'leaderboard.medal_star'      => 'Level 7 Star',
+    'leaderboard.medal_military'  => 'Level 8 Military Medal',
+    'leaderboard.medal_glowing'   => 'Level 9 Glowing Star',
+    'leaderboard.medal_crown'     => 'Level 10 Crown (The Don)',
+    'leaderboard.you_badge'       => '(That’s You)',
+    'leaderboard.default_role'    => 'Mate',
+
+    // ------------------------------------------------------------------
+    // Site Footer
+    // ------------------------------------------------------------------
+    'footer.compiled_notice'  => 'Parish records pulled together from public domain history books.',
+    'footer.software_notice'  => 'Open source software platform under MIT license.',
+    'footer.rights_reserved'  => 'All rights reserved bruv.',
+
+    // ------------------------------------------------------------------
+    // Site Header & Head
+    // ------------------------------------------------------------------
+    'header.default_title' => 'Parish Records Database',
+
+    // ------------------------------------------------------------------
+    // Notices Banner Module
+    // ------------------------------------------------------------------
+    'notices_banner.close_title' => 'Shut notice',
+
+    // ------------------------------------------------------------------
+    // Record History & Audit Trail
+    // ------------------------------------------------------------------
+    'record_history.exit_no_record'        => 'No record specified.',
+    'record_history.exit_not_found'        => 'Record not found anywhere.',
+    'record_history.heading_prefix'        => 'CCTV History & Trail: Record',
+    'record_history.return_btn'            => 'Go Back',
+    'record_history.directory_table_label'=> 'Directory Table:',
+    'record_history.subheading_lifecycle' => 'Shows the background story of tweaks, suggestions, and proof tied to this record.',
+    'record_history.snapshot_heading'      => 'Snapshot of Current Live Gen',
+    'record_history.empty_value'           => '[Blank]',
+    'record_history.timeline_heading'      => 'Timeline of Moves & Activity',
+    'record_history.no_history'            => 'No CCTV history events logged for this record yet.',
+    'record_history.purge_confirm'         => 'Wipe this specific CCTV log entry?',
+    'record_history.purge_btn'             => 'Wipe Log',
+    'record_history.actor_label'           => 'Who Did It:',
+    'record_history.system_guest'          => 'System / Random Guest',
+    'record_history.target_column'         => 'Target Column:',
+    'record_history.proposed_value'        => 'Proposed Value:',
+    'record_history.reasoning_evidence'    => 'The Backstory / Proof:',
+
+    // ------------------------------------------------------------------
+    // Standalone Update Database Gateway
+    // ------------------------------------------------------------------
+    'update_database.msg_success'      => 'Database upgraded proper! Ran %d migrations.',
+    'update_database.msg_uptodate'     => 'Database is already fully up to date.',
+    'update_database.err_failed'       => 'Migration completely tanked:',
+    'update_database.page_title'       => 'System Upgrade Required — Parish Records',
+    'update_database.heading'          => '⚠️ System Upgrade Required',
+    'update_database.subheading'       => 'The database schema is outdated and needs an upgrade before the site can function normally.',
+    'update_database.current_version'  => 'Current schema version:',
+    'update_database.latest_version'   => 'Latest available build:',
+    'update_database.proceed_login'    => 'Head to Log In Page',
+    'update_database.confirm_prompt'   => 'Did you back up your database? Hit OK to apply pending schema upgrades.',
+    'update_database.update_btn'       => 'Upgrade Database Now',
+
+    // ------------------------------------------------------------------
+    // User Authentication Action
+    // ------------------------------------------------------------------
+    'authenticate.err_invalid_credentials' => 'Bad credentials or your account is locked down.',
+
+    // ------------------------------------------------------------------
+    // Save Data Entry Action
+    // ------------------------------------------------------------------
+    'save_data_entry.err_required_field'    => 'Mandatory field \'%s\' cannot be left blank.',
+    'save_data_entry.audit_created_prefix' => 'Record planted in table with ID %d.',
+    'save_data_entry.msg_success'          => 'Record successfully logged!',
+
+    // ------------------------------------------------------------------
+    // Save Public Suggestion Action
+    // ------------------------------------------------------------------
+    'save_public_suggestion.err_spam_detected'  => 'Spam detected. Submission tossed out.',
+    'save_public_suggestion.err_field_required' => 'This field is mandatory and can’t be blank.',
+    'save_public_suggestion.msg_success'        => 'Your edit suggestion has been fired straight to the security queue. Safe geezer!',
+    'save_public_suggestion.err_failed_submit'  => 'Failed to log edit suggestion. Try again.',
+    'save_public_suggestion.err_invalid_column' => 'Bent column specified.',
+    'save_public_suggestion.err_invalid_params' => 'Bent record submission parameters.',
+
+    // ------------------------------------------------------------------
+    // Data Entry Workstation
+    // ------------------------------------------------------------------
+    'data_entry.date_placeholder_ymd' => 'YYYY-MM-DD (or rough year)',
+    'data_entry.date_placeholder_dmy' => 'DD/MM/YYYY (or rough year)',
+    'data_entry.date_placeholder_mdy' => 'MM/DD/YYYY (or rough year)',
+    'data_entry.no_tables_heading'    => '⚠️ No Database Tables Found',
+    'data_entry.no_tables_desc'       => 'There are currently no active tables set up for data entry.',
+    'data_entry.admin_tables_prompt'  => 'As the boss, head over to <strong>Manage Tables</strong> to build a table and add a column before logging records.',
+    'data_entry.go_manage_tables'     => 'Go to Manage Tables',
+    'data_entry.contact_admin_tables' => 'Contact an administrator to sort out tables and columns.',
+    'data_entry.no_cols_heading'      => '⚠️ No Columns Configured',
+    'data_entry.no_cols_desc'         => 'Tables exist, but no data columns have been defined for the active table.',
+    'data_entry.admin_cols_prompt'    => 'As the boss, head over to <strong>Manage Tables</strong> to add at least one column.',
+    'data_entry.contact_admin_cols'   => 'Contact an administrator to configure columns for this table.',
+    'data_entry.active_table_label'   => 'Active data entry table:',
+    'data_entry.add_entry_summary'    => '➕ Log New Data Entry (Click to expand/collapse)',
+    'data_entry.bool_yes_true'        => 'Yeah / True',
+    'data_entry.bool_no_false'        => 'Nah / False',
+    'data_entry.bool_male'            => 'Lad',
+    'data_entry.bool_female'          => 'Lass / Bird',
+    'data_entry.bool_true'            => 'Legit',
+    'data_entry.bool_false'           => 'Cap',
+    'data_entry.bool_tick'            => '✔ (Sorted)',
+    'data_entry.bool_cross'           => '✘ (Crossed Out)',
+    'data_entry.date_title_hint'      => 'Takes full or rough dates (e.g. 1842 or 1842-05)',
+    'data_entry.enter_value_placeholder' => 'Punch value in...',
+    'data_entry.submit_data_btn'      => 'Submit Data',
+    'data_entry.shortcuts_tip'        => '💡 Tip: Hit <strong>Ctrl + Enter</strong> to submit or <strong>Esc</strong> to wipe the current field.',
+    'data_entry.dup_heading'          => '⚠️ Potential Duplicate Alert',
+    'data_entry.dup_desc'             => 'We found similar records already sitting in the system:',
+    'data_entry.dup_item_format'      => 'Record ID: %d — Value: %s',
+    'data_entry.dup_prompt'           => 'Want to push ahead and save this duplicate record anyway?',
+    'data_entry.dup_confirm_btn'      => 'Yeah, Confirm & Save Duplicate',
+    'data_entry.search_summary'       => '🔍 Search & Filter Existing Records (Click to expand/collapse)',
+    'data_entry.date_to_label'        => 'till',
+    'data_entry.filter_all_option'    => '-- All --',
+    'data_entry.filter_placeholder'   => 'Filter...',
+    'data_entry.apply_filters_btn'    => 'Apply Filters',
+    'data_entry.reset_filter_btn'     => 'Wipe Filter',
+    'data_entry.csv_entire_btn'       => 'Download Entire CSV',
+    'data_entry.json_entire_btn'      => 'Download Entire JSON',
+    'data_entry.copy_entire_btn'      => 'Copy Entire Table',
+    'data_entry.csv_filtered_btn'     => 'Download Filtered CSV',
+    'data_entry.json_filtered_btn'     => 'Download Filtered JSON',
+    'data_entry.copy_filtered_btn'    => 'Copy Filtered Table',
+    'data_entry.clipboard_alert'      => 'Table data copied to clipboard! Paste it straight into Excel or Google Sheets.',
+    'data_entry.existing_records_heading' => 'Existing Records Table',
+    'data_entry.th_added_by'          => 'Added By',
+    'data_entry.th_date_created'      => 'Created When',
+    'data_entry.no_records'           => 'No records found.',
+    'data_entry.na_value'             => 'N/A',
+    'data_entry.page_label'           => 'Page:',
+
+    // ------------------------------------------------------------------
+    // Forgot Password
+    // ------------------------------------------------------------------
+    'forgot_password.aria_region'     => 'Password Recovery',
+    'forgot_password.heading'         => 'Reset Your Password',
+    'forgot_password.subheading'      => 'Drop your account email address below and we’ll fire a secure password reset link straight to your inbox.',
+    'forgot_password.email_label'     => 'Email Addy:',
+    'forgot_password.submit_btn'      => 'Send Reset Link',
+    'forgot_password.back_login_link' => 'Back to Log In',
+
+    // ------------------------------------------------------------------
+    // User Login
+    // ------------------------------------------------------------------
+    'login.aria_region'          => 'User Log In',
+    'login.heading'              => 'Log In to Account',
+    'login.username_label'       => 'Username or Email:',
+    'login.password_label'       => 'Password:',
+    'login.submit_btn'           => 'Log In',
+    'login.forgot_password_link' => 'Forgot Password?',
+
+    // ------------------------------------------------------------------
+    // User Onboarding Setup Wizard
+    // ------------------------------------------------------------------
+    'onboarding.page_title'        => 'Welcome — Account Setup Wizard',
+    'onboarding.heading'           => 'Welcome to the Crew!',
+    'onboarding.subheading'        => 'Before you start graft, take a second to set up your regional display and privacy choices. You can twist these in your profile anytime.',
+    'onboarding.timezone_label'    => 'Timezone / Turf:',
+    'onboarding.date_format_label' => 'Date Display Style:',
+    'onboarding.time_format_label' => 'Clock Format:',
+    'onboarding.time_24'          => '24-hour (e.g. 16:07)',
+    'onboarding.time_12'          => '12-hour AM/PM (e.g. 04:07 PM)',
+    'onboarding.time_none'        => 'Date only (hide time completely)',
+    'onboarding.attribution_label' => 'Leaderboard Display Choice:',
+    'onboarding.attribution_desc1' => 'Controls how your name flashes on the public leaderboard and records.',
+    'onboarding.attr_anon_title'   => 'Ghost / Anon:',
+    'onboarding.attr_anon_text'    => 'Shows initials and a random number to everyone.',
+    'onboarding.attr_public_title' => 'Public:',
+    'onboarding.attr_public_text'  => 'Shows your full name to everyone.',
+    'onboarding.attr_vol_title'    => 'Crew Only:',
+    'onboarding.attr_vol_text'     => 'Shows initials publicly, but your full name to logged-in crew, security, and bosses.',
+    'onboarding.attr_opt_anon'     => 'Anon (Initials & random number)',
+    'onboarding.attr_opt_public'   => 'Public (Show full name)',
+    'onboarding.attr_opt_vol'      => 'Crew only',
+    'onboarding.submit_btn'        => 'Save Choices & Keep Going',
+
+    // ------------------------------------------------------------------
+    // User Profile & Security Settings
+    // ------------------------------------------------------------------
+    'profile.aria_region'          => 'User Profile Management',
+    'profile.heading'              => 'User Profile & Security',
+    'profile.personal_details_heading' => 'Personal Details',
+    'profile.language_label'       => 'Preferred Slang / Language:',
+    'profile.lang_site_default'    => 'Site Default',
+    'profile.update_details_btn'   => 'Update Personal Details',
+    'profile.email_heading'        => 'Email Address',
+    'profile.current_email_label'  => 'Current Email:',
+    'profile.email_verified'       => '(Verified)',
+    'profile.email_unverified'     => '(Unverified - Check your inbox)',
+    'profile.change_email_label'   => 'Change Email Addy:',
+    'profile.aria_new_email'       => 'New Email Addy',
+    'profile.update_email_btn'     => 'Update Email & Verify',
+    'profile.password_heading'     => 'Change Password',
+    'profile.current_password_label' => 'Current Password:',
+    'profile.new_password_label'   => 'New Password (min. 8 characters):',
+    'profile.confirm_password_label' => 'Confirm New Password:',
+    'profile.show_passwords_label' => 'Show passwords in plain text',
+    'profile.update_password_btn'  => 'Update Password',
+    'profile.tfa_heading'          => 'Two-Factor Authentication (2FA Lock)',
+    'profile.tfa_status_label'     => 'Status:',
+    'profile.tfa_enabled'          => 'Locked On',
+    'profile.tfa_disabled'         => 'Unlocked Off',
+    'profile.setup_tfa_btn'        => 'Setup Google Authenticator',
+    'profile.tfa_active_desc'      => '2FA lock is actively protecting your account log-in.',
+    'profile.backup_codes_heading' => 'Your New Security Backup Codes',
+    'profile.download_codes_btn'   => 'Download New Codes as .txt',
+    'profile.generate_codes_confirm' => 'Are you sure? This nukes any existing backup codes.',
+    'profile.generate_codes_btn'   => 'Generate New Backup Codes',
+
+    // ------------------------------------------------------------------
+    // User Registration
+    // ------------------------------------------------------------------
+    'register.aria_region'    => 'User Registration',
+    'register.heading'        => 'Register New Account',
+    'register.username_label' => 'Username:',
+    'register.submit_btn'     => 'Sign Up',
+
+    // ------------------------------------------------------------------
+    // Set Password via Secure Token
+    // ------------------------------------------------------------------
+    'set_password.exit_invalid_token'        => 'Setup token is bent or missing.',
+    'set_password.exit_expired_token'        => 'This password link has gone out of date or expired.',
+    'set_password.proceed_login_btn'         => 'Head to Log In Page',
+    'set_password.aria_region'               => 'Set Password',
+    'set_password.heading_format'            => 'Set Password for %s',
+    'set_password.subheading_format'         => 'Welcome to your new account, %s! Pick your password below.',
+    'set_password.new_password_label'        => 'New Password (min. 8 characters):',
+    'set_password.confirm_password_label'    => 'Confirm Password:',
+    'set_password.show_password_label'       => 'Show Password',
+    'set_password.save_password_btn'         => 'Save Password',
+
+    // ------------------------------------------------------------------
+    // Setup 2FA Wizard
+    // ------------------------------------------------------------------
+    'setup_2fa.aria_region'      => '2FA Setup Wizard',
+    'setup_2fa.heading'          => 'Setup Google Authenticator',
+    'setup_2fa.subheading'       => 'Scan the QR code below with your authenticator app.',
+    'setup_2fa.qr_alt'           => 'QR code for 2FA setup',
+    'setup_2fa.manual_prompt'    => 'Or punch this secret key in manually:',
+    'setup_2fa.backup_heading'   => 'Emergency Recovery Codes',
+    'setup_2fa.backup_desc'      => 'Stash these backup codes somewhere safe. Each code can be used <strong>only once</strong> if you lose your phone:',
+    'setup_2fa.download_btn'     => 'Download Codes as .txt',
+    'setup_2fa.code_label'       => 'Enter the 6-digit code from the app to verify and lock it down:',
+    'setup_2fa.aria_code_input'  => '6-digit verification code',
+    'setup_2fa.submit_btn'       => 'Verify & Lock 2FA',
+    'setup_2fa.cancel_link'      => 'Cancel & Return to Profile',
+
+    // ------------------------------------------------------------------
+    // Suggest Edit View
+    // ------------------------------------------------------------------
+    'suggest_edit.aria_region'          => 'Suggest Edit',
+    'suggest_edit.heading_prefix'       => 'Suggest Edit for Record',
+    'suggest_edit.return_btn'           => 'Back to Record',
+    'suggest_edit.success_msg_suffix'   => 'You can fire another edit below or use the return link above when you’re done.',
+    'suggest_edit.current_values_heading' => 'Current Values:',
+    'suggest_edit.empty_label'          => '(blank)',
+    'suggest_edit.submit_heading'       => 'Submit New Proposed Value & Proof',
+    'suggest_edit.confirm_prompt'       => 'Sure you want to fire this edit suggestion in for admin review?',
+    'suggest_edit.select_column_label'  => 'Select column to twist:',
+    'suggest_edit.reasoning_label'      => 'Proof / Backstory / Source Notes:',
+    'suggest_edit.reasoning_placeholder'=> 'Give context, source citation, or reason for this change...',
+    'suggest_edit.submit_btn'           => 'Submit Suggestion for Review',
+    'suggest_edit.proposed_value_label' => 'Proposed New Value:',
+
+    // ------------------------------------------------------------------
+    // Verify 2FA Login Challenge
+    // ------------------------------------------------------------------
+    'verify_2fa.aria_region'     => '2FA Verification',
+    'verify_2fa.heading'         => 'Two-Factor Authentication Check',
+    'verify_2fa.subheading'      => 'Enter the 6-digit code from your authenticator app or a security backup code.',
+    'verify_2fa.code_label'      => 'Verification Code / Backup Code:',
+    'verify_2fa.aria_code_input' => 'Enter verification code or security code',
+    'verify_2fa.submit_btn'      => 'Verify & Log In',
+
+    // ------------------------------------------------------------------
+    // Verify Email
+    // ------------------------------------------------------------------
+    'verify_email.err_no_token'         => 'No verification token provided.',
+    'verify_email.err_invalid_token'    => 'Bent verification token.',
+    'verify_email.msg_already_verified' => 'Your email is already verified bruv. Go log in.',
+    'verify_email.err_expired_token'    => 'This verification link has expired (24-hour limit exceeded). Sign up again or ask for a new link.',
+    'verify_email.msg_success'          => 'Email verified proper! Your account is active. Head over to log in.',
+    'verify_email.err_update_failed'    => 'An error happened while verifying your email. Try again.',
+    'verify_email.aria_region'          => 'Email Verification Status',
+    'verify_email.heading'              => 'Email Verification Status',
+    'verify_email.login_btn'            => 'Click Here to Log In',
+
+    // ------------------------------------------------------------------
+    // Volunteer Form View
+    // ------------------------------------------------------------------
+    'volunteer.aria_region'          => 'Graft Application Form',
+    'volunteer.honeypot_label'       => 'Leave this field blank you mug:',
+    'volunteer.required_field_title'=> 'Must Have Field',
+    'volunteer.multi_select_hint'    => 'Hold Ctrl or Cmd to select multiple.',
+    'volunteer.submit_btn'           => 'Submit Graft App',
+];

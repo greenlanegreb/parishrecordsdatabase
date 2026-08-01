@@ -46,12 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $schema_current = $result['current'];
         
         if (!empty($applied_list)) {
-            $message = "Database successfully updated! " . count($applied_list) . " migration(s) applied.";
+            $message = sprintf(__('update_database.msg_success'), count($applied_list));
         } else {
-            $message = "Database is already up to date.";
+            $message = __('update_database.msg_uptodate');
         }
     } catch (Exception $e) {
-        $error = "Migration failed: " . $e->getMessage();
+        $error = __('update_database.err_failed') . ' ' . $e->getMessage();
     }
 }
 ?>
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>System Update Required - Parish Records Directory</title>
+    <title><?php echo htmlspecialchars(__('update_database.page_title')); ?></title>
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .update-card { background: #fff; border: 1px solid #dee2e6; border-radius: 8px; padding: 2rem; max-width: 500px; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
@@ -67,18 +67,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn { background: #007bff; color: #fff; border: none; padding: 0.75rem 1.5rem; font-size: 1rem; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 1rem; }
         .btn:hover { background: #0056b3; }
         .alert-success { background: #d4edda; color: #155724; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
-        .alert-danger { background: #f8d7da; color: #721c24; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
+        .alert-danger { background: #f8f9fa; color: #721c24; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
         .meta { font-size: 0.9rem; color: #666; margin: 1rem 0; }
     </style>
 </head>
 <body>
     <div class="update-card">
-        <h2>⚠️ System Update Required</h2>
-        <p>The application database structure is out of date and requires a schema update before normal operation can resume.</p>
+        <h2><?php echo htmlspecialchars(__('update_database.heading')); ?></h2>
+        <p><?php echo __('update_database.subheading'); ?></p>
         
         <div class="meta">
-            Current Schema Version: <strong><?php echo (int) $schema_current; ?></strong><br>
-            Latest Available Version: <strong><?php echo (int) $schema_latest; ?></strong>
+            <?php echo htmlspecialchars(__('update_database.current_version')); ?> <strong><?php echo (int) $schema_current; ?></strong><br>
+            <?php echo htmlspecialchars(__('update_database.latest_version')); ?> <strong><?php echo (int) $schema_latest; ?></strong>
         </div>
 
         <?php if (!empty($error)): ?>
@@ -89,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="alert-success">
                 <?php echo htmlspecialchars($message); ?>
                 <?php if ($schema_current >= $schema_latest): ?>
-                    <br><br><a href="user/login.php" style="color: #155724; font-weight: bold;">Proceed to Login &rarr;</a>
+                    <br><br><a href="user/login.php" style="color: #155724; font-weight: bold;"><?php echo htmlspecialchars(__('update_database.proceed_login')); ?> &rarr;</a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
 
         <?php if ($schema_current < $schema_latest): ?>
-            <form method="POST" onsubmit="return confirm('Have you backed up your database? Click OK to apply pending schema updates.');">
-                <button type="submit" class="btn">Update Database Now</button>
+            <form method="POST" onsubmit="return confirm('<?php echo htmlspecialchars(__('update_database.confirm_prompt')); ?>');">
+                <button type="submit" class="btn"><?php echo htmlspecialchars(__('update_database.update_btn')); ?></button>
             </form>
         <?php endif; ?>
     </div>

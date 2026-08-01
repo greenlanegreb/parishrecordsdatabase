@@ -8,7 +8,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1. Honeypot Anti-Spam Check: If the hidden trap field is filled out, it's a bot. Silently drop or reject.
     if (!empty($_POST['website_hp'])) {
-        $_SESSION['error'] = "Spam detection triggered. Submission rejected.";
+        $_SESSION['error'] = __('save_public_suggestion.err_spam_detected');
         header('Location: ../../index.php');
         exit;
     }
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($col) {
             // Enforce required field rules on suggestions if left blank
             if (!empty($col['is_required']) && $proposed_value === '') {
-                $_SESSION['error'] = "This field is required and cannot be submitted blank.";
+                $_SESSION['error'] = __('save_public_suggestion.err_field_required');
                 header('Location: ../../index.php');
                 exit;
             }
@@ -40,15 +40,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES (?, ?, ?, ?, 'pending', NOW())
             ");
             if ($stmt->execute([$record_id, $column_name, $proposed_value, $suggested_by])) {
-                $_SESSION['message'] = "Your edit suggestion has been successfully submitted and sent to the moderation queue for review. Thank you!";
+                $_SESSION['message'] = __('save_public_suggestion.msg_success');
             } else {
-                $_SESSION['error'] = "Failed to submit edit suggestion. Please try again.";
+                $_SESSION['error'] = __('save_public_suggestion.err_failed_submit');
             }
         } else {
-            $_SESSION['error'] = "Invalid column specified.";
+            $_SESSION['error'] = __('save_public_suggestion.err_invalid_column');
         }
     } else {
-        $_SESSION['error'] = "Invalid record submission parameters.";
+        $_SESSION['error'] = __('save_public_suggestion.err_invalid_params');
     }
 }
 

@@ -10,9 +10,9 @@ unset($_SESSION['error'], $_SESSION['message']);
 
     <?php require_once '../partials/header.php'; ?>
 
-    <div class="search-box-container login-container" role="region" aria-label="Password Recovery">
-        <h3>Reset Your Password</h3>
-        <p style="font-size: 0.95rem; color: #666; margin-bottom: 1.5rem;">Enter your account email address below, and we will send you a secure link to reset your password.</p>
+    <div class="search-box-container login-container" role="region" aria-label="<?php echo htmlspecialchars(__('forgot_password.aria_region')); ?>">
+        <h3><?php echo htmlspecialchars(__('forgot_password.heading')); ?></h3>
+        <p style="font-size: 0.95rem; color: #666; margin-bottom: 1.5rem;"><?php echo htmlspecialchars(__('forgot_password.subheading')); ?></p>
 
         <?php if (!empty($error)): ?>
             <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -23,13 +23,13 @@ unset($_SESSION['error'], $_SESSION['message']);
 
         <form method="POST" action="actions/save_forgot_password.php">
             <?php echo csrf_field(); ?>
-            <label for="email">Email Address:</label><br>
+            <label for="email"><?php echo htmlspecialchars(__('forgot_password.email_label')); ?></label><br>
             <input type="email" id="email" name="email" required class="login-input" autocomplete="email"><br>
 
-            <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem;">Send Password Reset Link</button>
+            <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem;"><?php echo htmlspecialchars(__('forgot_password.submit_btn')); ?></button>
         </form>
 
-        <p style="text-align: center; margin-top: 1.5rem;"><a href="login.php" style="color: var(--text-color); text-decoration: underline; font-size: 0.9rem;">Back to Login</a></p>
+        <p style="text-align: center; margin-top: 1.5rem;"><a href="login.php" style="color: var(--text-color); text-decoration: underline; font-size: 0.9rem;"><?php echo htmlspecialchars(__('forgot_password.back_login_link')); ?></a></p>
     </div>
 
     <?php require_once '../partials/footer.php'; ?>

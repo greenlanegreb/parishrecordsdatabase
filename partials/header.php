@@ -12,7 +12,7 @@ if (!function_exists('get_system_name') && file_exists(__DIR__ . '/../db/auth_he
     include_once __DIR__ . '/../db/auth_helpers.php';
 }
 
-$page_title = function_exists('get_system_name') && isset($pdo) ? get_system_name($pdo) : 'Parish Records Database';
+$page_title = function_exists('get_system_name') && isset($pdo) ? get_system_name($pdo) : __('header.default_title');
 
 // Use dynamic BASE_PATH constant defined in db.php (defaulting to empty string if root-hosted)
 $base_url = defined('BASE_PATH') ? BASE_PATH : '';

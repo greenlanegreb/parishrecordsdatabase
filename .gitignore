@@ -9,3 +9,5 @@ composer.phar
 tests/db.php
 db/INSTALL_LOCK
 config.local.php
+scan_keys.php
+missing_keys_report.txt

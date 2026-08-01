@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delet
         $pdo->prepare("DELETE FROM feedback_ticket_values WHERE ticket_id = ?")->execute([$ticket_id]);
         $pdo->prepare("DELETE FROM feedback_ticket_replies WHERE ticket_id = ?")->execute([$ticket_id]);
         $pdo->prepare("DELETE FROM feedback_tickets WHERE id = ?")->execute([$ticket_id]);
-        $_SESSION['message'] = "Ticket #{$ticket_id} deleted successfully.";
+        $_SESSION['message'] = __('feedback_dash.msg_deleted', ['id' => $ticket_id]);
         header('Location: feedback_dashboard.php');
         exit;
     }
@@ -37,12 +37,12 @@ unset($_SESSION['message'], $_SESSION['error']);
 
 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
     <div>
-        <h3>Support Tickets & Feedback Dashboard</h3>
-        <p style="margin: 0;">Manage public support requests, update statuses, and participate in direct dialogue.</p>
+        <h3><?php echo htmlspecialchars(__('feedback_dash.heading')); ?></h3>
+        <p style="margin: 0;"><?php echo htmlspecialchars(__('feedback_dash.subheading')); ?></p>
     </div>
     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <a href="manage_feedback_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ Manage Email Templates</a>
-        <a href="manage_feedback_schema.php" class="btn btn-secondary" style="text-decoration: none;">⚙️ Manage Ticket Form Schema</a>
+        <a href="manage_feedback_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ <?php echo htmlspecialchars(__('feedback_dash.manage_emails')); ?></a>
+        <a href="manage_feedback_schema.php" class="btn btn-secondary" style="text-decoration: none;">⚙️ <?php echo htmlspecialchars(__('feedback_dash.manage_schema')); ?></a>
     </div>
 </div>
 
@@ -56,21 +56,21 @@ unset($_SESSION['message'], $_SESSION['error']);
 <table class="data-table" role="table">
     <thead>
         <tr>
-            <th scope="col">Ticket ID / Date</th>
-            <th scope="col">Submitter</th>
-            <th scope="col">Subject / Initial Info</th>
-            <th scope="col">Status</th>
-            <th scope="col" style="text-align: right;">Actions</th>
+            <th scope="col"><?php echo htmlspecialchars(__('feedback_dash.th_ticket_date')); ?></th>
+            <th scope="col"><?php echo htmlspecialchars(__('feedback_dash.th_submitter')); ?></th>
+            <th scope="col"><?php echo htmlspecialchars(__('feedback_dash.th_subject_info')); ?></th>
+            <th scope="col"><?php echo htmlspecialchars(__('feedback_dash.th_status')); ?></th>
+            <th scope="col" style="text-align: right;"><?php echo htmlspecialchars(__('index.th_actions')); ?></th>
         </tr>
     </thead>
     <tbody>
         <?php if (empty($tickets)): ?>
-            <tr><td colspan="5" style="text-align: center; padding: 1.5rem;">No feedback tickets found.</td></tr>
+            <tr><td colspan="5" style="text-align: center; padding: 1.5rem;"><?php echo htmlspecialchars(__('feedback_dash.no_tickets')); ?></td></tr>
         <?php else: ?>
             <?php foreach ($tickets as $t): ?>
                 <?php 
                     $full_name = trim(($t['first_name'] ?? '') . ' ' . ($t['surname'] ?? ''));
-                    if ($full_name === '') $full_name = 'Anonymous';
+                    if ($full_name === '') $full_name = __('feedback_dash.anonymous');
                 ?>
                 <tr>
                     <td>
@@ -81,21 +81,21 @@ unset($_SESSION['message'], $_SESSION['error']);
                         <strong><?php echo htmlspecialchars($full_name); ?></strong><br>
                         <a href="mailto:<?php echo htmlspecialchars($t['email']); ?>"><?php echo htmlspecialchars($t['email']); ?></a>
                     </td>
-                    <td><?php echo htmlspecialchars(substr($t['subject'] ?? 'General Inquiry', 0, 60)); ?>...</td>
+                    <td><?php echo htmlspecialchars(substr($t['subject'] ?? __('feedback_dash.default_subject'), 0, 60)); ?>...</td>
                     <td>
                         <span style="font-weight: bold; color: <?php echo $t['status'] === 'Completed' ? 'green' : ($t['status'] === 'Rejected' ? 'red' : 'orange'); ?>;">
                             <?php echo htmlspecialchars($t['status']); ?>
                         </span>
                     </td>
                     <td style="white-space: nowrap; text-align: right;">
-                        <a href="view_ticket.php?id=<?php echo $t['id']; ?>" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; text-decoration: none; display: inline-block;">Open Ticket & Dialogue</a>
+                        <a href="view_ticket.php?id=<?php echo $t['id']; ?>" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.85rem; text-decoration: none; display: inline-block;"><?php echo htmlspecialchars(__('feedback_dash.open_ticket_btn')); ?></a>
                         
                         <!-- Delete Ticket Form Button -->
-                        <form method="POST" action="feedback_dashboard.php" style="display: inline; margin-left: 4px;" onsubmit="return confirm('Delete this support ticket and all its replies?');">
+                        <form method="POST" action="feedback_dashboard.php" style="display: inline; margin-left: 4px;" onsubmit="return confirm('<?php echo htmlspecialchars(__('feedback_dash.delete_confirm')); ?>');">
                             <?php echo csrf_field(); ?>
                             <input type="hidden" name="action" value="delete_ticket">
                             <input type="hidden" name="ticket_id" value="<?php echo $t['id']; ?>">
-                            <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;">Delete</button>
+                            <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;"><?php echo htmlspecialchars(__('btn.delete')); ?></button>
                         </form>
                     </td>
                 </tr>

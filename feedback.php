@@ -55,29 +55,29 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_feedback_fi
         
         <!-- Honeypot -->
         <div style="display:none;" aria-hidden="true">
-            <label for="website_hp">Leave blank</label>
+            <label for="website_hp"><?php echo htmlspecialchars(__('feedback.hp_label')); ?></label>
             <input type="text" id="website_hp" name="website_hp" tabindex="-1" autocomplete="off">
         </div>
 
         <!-- Core Static Identity Fields -->
         <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
             <div style="flex: 1;">
-                <label for="feedback_first_name"><strong>First Name:</strong> <span style="color:red; font-weight:bold;">*</span></label><br>
+                <label for="feedback_first_name"><strong><?php echo htmlspecialchars(__('feedback.first_name_label')); ?></strong> <span style="color:red; font-weight:bold;">*</span></label><br>
                 <input type="text" id="feedback_first_name" name="feedback_first_name" value="<?php echo htmlspecialchars($submitted_first); ?>" required class="dashboard-input" style="width:100%; padding:0.4rem;">
             </div>
             <div style="flex: 1;">
-                <label for="feedback_surname"><strong>Surname:</strong> <span style="color:red; font-weight:bold;">*</span></label><br>
+                <label for="feedback_surname"><strong><?php echo htmlspecialchars(__('feedback.surname_label')); ?></strong> <span style="color:red; font-weight:bold;">*</span></label><br>
                 <input type="text" id="feedback_surname" name="feedback_surname" value="<?php echo htmlspecialchars($submitted_surname); ?>" required class="dashboard-input" style="width:100%; padding:0.4rem;">
             </div>
         </div>
 
         <div style="margin-bottom: 1rem;">
-            <label for="feedback_email"><strong>Email Address:</strong> <span style="color:red; font-weight:bold;">*</span></label><br>
+            <label for="feedback_email"><strong><?php echo htmlspecialchars(__('feedback.email_label')); ?></strong> <span style="color:red; font-weight:bold;">*</span></label><br>
             <input type="email" id="feedback_email" name="feedback_email" value="<?php echo htmlspecialchars($submitted_email); ?>" required class="dashboard-input" style="width:100%; padding:0.4rem;">
         </div>
 
         <div style="margin-bottom: 1rem;">
-            <label for="feedback_subject"><strong>Subject / Inquiry Title:</strong> <span style="color:red; font-weight:bold;">*</span></label><br>
+            <label for="feedback_subject"><strong><?php echo htmlspecialchars(__('feedback.subject_label')); ?></strong> <span style="color:red; font-weight:bold;">*</span></label><br>
             <input type="text" id="feedback_subject" name="feedback_subject" value="<?php echo htmlspecialchars($submitted_subject); ?>" required class="dashboard-input" style="width:100%; padding:0.4rem;">
         </div>
 
@@ -96,7 +96,7 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_feedback_fi
                 <div style="margin-bottom: 1rem;">
                     <label for="field_<?php echo $col['id']; ?>">
                         <strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong>
-                        <?php if (!empty($col['is_required'])): ?><span style="color:red; font-weight:bold;" title="Required Field">*</span><?php endif; ?>
+                        <?php if (!empty($col['is_required'])): ?><span style="color:red; font-weight:bold;" title="<?php echo htmlspecialchars(__('feedback.required_title')); ?>">*</span><?php endif; ?>
                     </label><br>
 
                     <?php if (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
@@ -106,7 +106,7 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_feedback_fi
                             $opt2 = ($fmt === 'true_false') ? 'False' : 'No';
                         ?>
                         <select id="field_<?php echo $col['id']; ?>" name="fields[<?php echo $col['id']; ?>]" class="dashboard-input" style="width:100%; padding:0.4rem;" <?php echo $is_field_required ? 'required' : ''; ?>>
-                            <option value="">-- Select --</option>
+                            <option value=""><?php echo htmlspecialchars(__('feedback.select_placeholder')); ?></option>
                             <option value="1" <?php echo ($saved_val === '1') ? 'selected' : ''; ?>><?php echo $opt1; ?></option>
                             <option value="0" <?php echo ($saved_val === '0') ? 'selected' : ''; ?>><?php echo $opt2; ?></option>
                         </select>
@@ -126,12 +126,12 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_feedback_fi
                     <?php elseif ($subtype === 'select' || $subtype === 'dropdown'): ?>
                         <?php $selected_vals = $allow_multi ? (is_array($saved_val) ? $saved_val : explode(', ', $saved_val)) : [$saved_val]; ?>
                         <select id="field_<?php echo $col['id']; ?>" name="fields[<?php echo $col['id']; ?>]<?php echo $allow_multi ? '[]' : ''; ?>" class="dashboard-input" style="width:100%; padding:0.4rem;" <?php echo $allow_multi ? 'multiple size="4"' : ''; ?>>
-                            <?php if (!$allow_multi): ?><option value="">-- Select --</option><?php endif; ?>
+                            <?php if (!$allow_multi): ?><option value=""><?php echo htmlspecialchars(__('feedback.select_placeholder')); ?></option><?php endif; ?>
                             <?php foreach ($options as $opt): ?>
                                 <option value="<?php echo htmlspecialchars($opt); ?>" <?php echo in_array($opt, $selected_vals) ? 'selected' : ''; ?>><?php echo htmlspecialchars($opt); ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <?php if ($allow_multi): ?><small style="color:#666;">Hold Ctrl or Cmd to select multiple.</small><?php endif; ?>
+                        <?php if ($allow_multi): ?><small style="color:#666;"><?php echo htmlspecialchars(__('feedback.multi_select_hint')); ?></small><?php endif; ?>
 
                     <?php elseif ($subtype === 'checkbox' || ($subtype === 'radio' && $allow_multi)): ?>
                         <?php $selected_vals = is_array($saved_val) ? $saved_val : explode(', ', $saved_val); ?>
@@ -162,7 +162,7 @@ unset($_SESSION['message'], $_SESSION['error'], $_SESSION['submitted_feedback_fi
         <!-- Dynamic CAPTCHA Widget -->
         <?php echo render_form_captcha_widget($pdo); ?>
 
-        <button type="submit" class="btn" style="margin-top: 1rem;">Submit Ticket</button>
+        <button type="submit" class="btn" style="margin-top: 1rem;"><?php echo htmlspecialchars(__('feedback.submit_btn')); ?></button>
     </form>
 </div>
 

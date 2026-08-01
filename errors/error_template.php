@@ -20,7 +20,7 @@ function render_http_error($code, $title, $message) {
             <h2 class="error-heading" style="color: #dc3545; margin-top: 0;"><?php echo htmlspecialchars($code . ' — ' . $title); ?></h2>
             <p style="color: #555; line-height: 1.5; font-size: 1rem;"><?php echo htmlspecialchars($message); ?></p>
             <p class="error-footer-link" style="margin-top: 1.5rem;">
-                <a href="<?php echo $base_path; ?>/index.php" class="btn">Return to Public Home</a>
+                <a href="<?php echo $base_path; ?>/index.php" class="btn"><?php echo htmlspecialchars(__('error_template.return_home_btn')); ?></a>
             </p>
         </div>
     </body>

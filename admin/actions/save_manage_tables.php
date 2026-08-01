@@ -39,40 +39,32 @@ if ($action === 'create_table') {
                 // Register moderation permission
                 $p_stmt->execute([$mod_perm_key, $mod_perm_desc]);
                 
-                // Fetch permission IDs
-                $get_p = $pdo->prepare("SELECT id FROM permissions WHERE permission_key IN (?, ?)");
+                // Fetch newly created permission IDs
+                $get_p = $pdo->prepare("SELECT id, permission_key FROM permissions WHERE permission_key IN (?, ?)");
                 $get_p->execute([$view_perm_key, $mod_perm_key]);
                 $perms = $get_p->fetchAll(PDO::FETCH_ASSOC);
                 
-                // Dynamically assign permissions based on comprehensive role capabilities and patterns
+                // Centralized role mapping lookup: Assign table permissions strictly via defined role names ('admin', 'moderator')
                 foreach ($perms as $p) {
                     $p_id = $p['id'];
                     $p_key = $p['permission_key'];
                     
                     if (strpos($p_key, 'view_table_') === 0) {
-                        // Automatically grant table view access to roles with 'view_public', primary admin, or any global admin capability
+                        // View permission goes to Admin and Moderator roles by default (plus any role mapped to view_public)
                         $r_stmt = $pdo->prepare("
                             SELECT DISTINCT r.id 
                             FROM roles r
                             LEFT JOIN role_permissions rp ON r.id = rp.role_id
                             LEFT JOIN permissions perm ON rp.permission_id = perm.id
-                            WHERE perm.permission_key = 'view_public' 
-                                OR r.id = 1
-                                OR perm.permission_key = 'manage_settings'
+                            WHERE LOWER(r.role_name) IN ('admin', 'moderator')
+                                OR perm.permission_key = 'view_public'
                         ");
                     } else {
-                        // Automatically grant table moderation to roles with general moderation, or any admin/moderator capability or naming pattern
+                        // Moderation permission goes strictly to Admin and Moderator roles
                         $r_stmt = $pdo->prepare("
                             SELECT DISTINCT r.id 
                             FROM roles r
-                            LEFT JOIN role_permissions rp ON r.id = rp.role_id
-                            LEFT JOIN permissions perm ON rp.permission_id = perm.id
-                            WHERE perm.permission_key = 'moderate_suggestions' 
-                                OR r.id = 1 
-                                OR perm.permission_key = 'manage_settings'
-                                OR perm.permission_key = 'manage_users'
-                                OR LOWER(r.role_name) LIKE '%admin%' 
-                                OR LOWER(r.role_name) LIKE '%moderator%'
+                            WHERE LOWER(r.role_name) IN ('admin', 'moderator')
                         ");
                     }
                     $r_stmt->execute();
@@ -141,11 +133,33 @@ elseif ($action === 'delete_table') {
                 // Delete associated columns
                 $del_cols = $pdo->prepare("DELETE FROM table_columns WHERE table_id = ?");
                 $del_cols->execute([$table_id]);
+
+                // Clean up auto-generated permissions and role mappings for this specific table
+                $view_perm_key = 'view_table_' . $table_id;
+                $mod_perm_key = 'moderate_table_' . $table_id;
+
+                $p_sel = $pdo->prepare("SELECT id FROM permissions WHERE permission_key IN (?, ?)");
+                $p_sel->execute([$view_perm_key, $mod_perm_key]);
+                $p_ids = $p_sel->fetchAll(PDO::FETCH_COLUMN);
+
+                if (!empty($p_ids)) {
+                    $placeholders = implode(',', array_fill(0, count($p_ids), '?'));
+                    
+                    // Clear role mappings first to satisfy foreign keys
+                    $del_rp = $pdo->prepare("DELETE FROM role_permissions WHERE permission_id IN ({$placeholders})");
+                    $del_rp->execute($p_ids);
+                    
+                    // Clear the table-scoped permissions themselves
+                    $del_p = $pdo->prepare("DELETE FROM permissions WHERE id IN ({$placeholders})");
+                    $del_p->execute($p_ids);
+                }
+
                 // Delete the table itself
                 $del_tbl = $pdo->prepare("DELETE FROM dynamic_tables WHERE id = ?");
                 $del_tbl->execute([$table_id]);
+                
                 $pdo->commit();
-                $_SESSION['message'] = "Table '{$table_info['table_name']}' and all its data were successfully deleted.";
+                $_SESSION['message'] = "Table '{$table_info['table_name']}' and all its associated data and permissions were successfully deleted.";
                 $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'DELETE_TABLE', ?, ?)");
                 $audit->execute([$current_user['id'], "Deleted table ID {$table_id}: {$table_info['table_name']}", $_SERVER['REMOTE_ADDR']]);
             } catch (Exception $e) {
@@ -222,7 +236,6 @@ elseif ($action === 'update_order_batch') {
         $_SESSION['error'] = "No sort order data received.";
     }
 
-    // Explicit exit/redirect added here to prevent fall-through execution into delete block and connection errors
     header('Location: ../manage_tables.php?table_id=' . $table_id);
     exit;
 } 
@@ -237,7 +250,7 @@ elseif ($action === 'delete') {
             $del_vals = $pdo->prepare("DELETE FROM record_values WHERE column_id = ?");
             $del_vals->execute([$column_id]);
             $del_col = $pdo->prepare("DELETE FROM table_columns WHERE id = ?");
-            $del_col->execute([$column_id]);
+            $del_col.execute([$column_id]);
             $_SESSION['message'] = "Column '{$col_info['column_name']}' and its associated data entries were successfully deleted.";
             $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'DELETE_COLUMN', ?, ?)");
             $audit->execute([$current_user['id'], "Deleted column ID {$column_id}: {$col_info['column_name']}", $_SERVER['REMOTE_ADDR']]);

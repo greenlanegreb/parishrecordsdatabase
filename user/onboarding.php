@@ -34,14 +34,14 @@ unset($_SESSION['error']);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome - Account Setup Wizard</title>
+    <title><?php echo htmlspecialchars(__('onboarding.page_title')); ?></title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f4f7f6;">
     <div class="search-box-container" style="width: 100%; max-width: 550px; background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-        <h2 style="margin-top: 0; color: var(--primary-color, #007bff);">Welcome to the Team! 🎉</h2>
+        <h2 style="margin-top: 0; color: var(--primary-color, #007bff);"><?php echo htmlspecialchars(__('onboarding.heading')); ?> 🎉</h2>
         <p style="color: #666; font-size: 0.95rem; margin-bottom: 1.5rem;">
-            Before you start, please take a moment to configure your regional display settings and privacy preferences. You can always update these later in your profile.
+            <?php echo htmlspecialchars(__('onboarding.subheading')); ?>
         </p>
 
         <?php if (!empty($error)): ?>
@@ -51,17 +51,17 @@ unset($_SESSION['error']);
         <form method="POST" action="actions/save_onboarding.php">
             <?php echo csrf_field(); ?>
             <div style="margin-bottom: 1rem;">
-                <label for="first_name"><strong>First Name:</strong></label><br>
+                <label for="first_name"><strong><?php echo htmlspecialchars(__('feedback.first_name_label')); ?></strong></label><br>
                 <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($current_user['first_name'] ?? ''); ?>" required autocomplete="given-name" class="profile-input" style="width:100%; padding: 0.4rem;">
             </div>
 
             <div style="margin-bottom: 1rem;">
-                <label for="surname"><strong>Surname:</strong></label><br>
+                <label for="surname"><strong><?php echo htmlspecialchars(__('feedback.surname_label')); ?></strong></label><br>
                 <input type="text" id="surname" name="surname" value="<?php echo htmlspecialchars($current_user['surname'] ?? ''); ?>" required autocomplete="family-name" class="profile-input" style="width:100%; padding: 0.4rem;">
             </div>
 
             <div style="margin-bottom: 1rem;">
-                <label for="timezone"><strong>Timezone / Region:</strong></label><br>
+                <label for="timezone"><strong><?php echo htmlspecialchars(__('onboarding.timezone_label')); ?></strong></label><br>
                 <select id="timezone" name="timezone" class="profile-input" style="width:100%; padding: 0.4rem;">
                     <?php 
                     $current_tz = $current_user['timezone'] ?? 'UTC';
@@ -90,7 +90,7 @@ unset($_SESSION['error']);
             </div>
 
             <div style="margin-bottom: 1rem;">
-                <label for="date_format"><strong>Date Display Format:</strong></label><br>
+                <label for="date_format"><strong><?php echo htmlspecialchars(__('onboarding.date_format_label')); ?></strong></label><br>
                 <select id="date_format" name="date_format" class="profile-input" style="width:100%; padding: 0.4rem;">
                     <?php 
                     $current_fmt = $current_user['date_format'] ?? 'd/m/Y';
@@ -110,32 +110,32 @@ unset($_SESSION['error']);
             </div>
 
             <div style="margin-bottom: 1rem;">
-                <label for="time_format"><strong>Clock Format (Time Display):</strong></label><br>
+                <label for="time_format"><strong><?php echo htmlspecialchars(__('onboarding.time_format_label')); ?></strong></label><br>
                 <select id="time_format" name="time_format" class="profile-input" style="width:100%; padding: 0.4rem;">
                     <?php $current_time_fmt = $current_user['time_format'] ?? '24'; ?>
-                    <option value="24" <?php echo ($current_time_fmt === '24') ? 'selected' : ''; ?>>24-Hour (e.g., 16:07)</option>
-                    <option value="12" <?php echo ($current_time_fmt === '12') ? 'selected' : ''; ?>>12-Hour AM/PM (e.g., 04:07 PM)</option>
-                    <option value="none" <?php echo ($current_time_fmt === 'none') ? 'selected' : ''; ?>>Date Only (Hide Time Completely)</option>
+                    <option value="24" <?php echo ($current_time_fmt === '24') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.time_24')); ?></option>
+                    <option value="12" <?php echo ($current_time_fmt === '12') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.time_12')); ?></option>
+                    <option value="none" <?php echo ($current_time_fmt === 'none') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.time_none')); ?></option>
                 </select>
             </div>
 
             <div style="margin-bottom: 1.5rem;">
-                <label for="attribution_display_mode"><strong>Leaderboard & Attribution Display Preference:</strong></label><br>
+                <label for="attribution_display_mode"><strong><?php echo htmlspecialchars(__('onboarding.attribution_label')); ?></strong></label><br>
                 <small style="color: #666; display: block; margin-bottom: 0.5rem; line-height: 1.4;">
-                    Controls how your name appears on the public leaderboard and record logs.<br>
-                    • <strong>Anonymous:</strong> Shows initials & random number to everyone.<br>
-                    • <strong>Public:</strong> Shows your full name to everyone.<br>
-                    • <strong>Volunteers Only:</strong> Shows initials to the public, but your full name to logged-in volunteers, moderators, and admins.
+                    <?php echo htmlspecialchars(__('onboarding.attribution_desc1')); ?><br>
+                    • <strong><?php echo htmlspecialchars(__('onboarding.attr_anon_title')); ?></strong> <?php echo htmlspecialchars(__('onboarding.attr_anon_text')); ?><br>
+                    • <strong><?php echo htmlspecialchars(__('onboarding.attr_public_title')); ?></strong> <?php echo htmlspecialchars(__('onboarding.attr_public_text')); ?><br>
+                    • <strong><?php echo htmlspecialchars(__('onboarding.attr_vol_title')); ?></strong> <?php echo htmlspecialchars(__('onboarding.attr_vol_text')); ?>
                 </small>
                 <select id="attribution_display_mode" name="attribution_display_mode" class="profile-input" style="width:100%; padding: 0.4rem;">
                     <?php $mode = !empty($current_user['attribution_display_mode']) ? $current_user['attribution_display_mode'] : 'initials_random'; ?>
-                    <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>>Anonymous (Initials & Random Number)</option>
-                    <option value="full_name" <?php echo ($mode === 'full_name') ? 'selected' : ''; ?>>Public (Show Full Name)</option>
-                    <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>>Volunteers Only</option>
+                    <option value="initials_random" <?php echo ($mode === 'initials_random') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.attr_opt_anon')); ?></option>
+                    <option value="full_name" <?php echo ($mode === 'full_name') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.attr_opt_public')); ?></option>
+                    <option value="volunteers_only" <?php echo ($mode === 'volunteers_only') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('onboarding.attr_opt_vol')); ?></option>
                 </select>
             </div>
 
-            <button type="submit" class="btn" style="width: 100%; padding: 0.75rem; font-size: 1rem;">Save Preferences & Continue</button>
+            <button type="submit" class="btn" style="width: 100%; padding: 0.75rem; font-size: 1rem;"><?php echo htmlspecialchars(__('onboarding.submit_btn')); ?></button>
         </form>
     </div>
 </body>

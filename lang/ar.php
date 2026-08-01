@@ -1,0 +1,913 @@
+<?php
+// lang/ar.php - Arabic
+return [
+
+    // ------------------------------------------------------------------
+    // Navigation
+    // ------------------------------------------------------------------
+    'nav.login'                  => 'تسجيل الدخول',
+    'nav.logout'                 => 'تسجيل الخروج',
+    'nav.feedback'               => 'التعليقات والملاحظات',
+    'nav.volunteer'              => 'متطوع',
+    'nav.leaderboard'            => 'لوحة المتصدرين',
+    'nav.search'                 => 'بحث',
+    'nav.settings'               => 'إعدادات الموقع',
+    'nav.high_contrast'          => 'تباين عالي',
+    'nav.low_contrast'           => 'تباين منخفض',
+    'nav.welcome'                => 'مرحباً،',
+    'nav.data_entry'             => 'إدخال البيانات',
+    'nav.moderation'             => 'الإشراف',
+    'nav.invite_user'            => 'دعوة مستخدم',
+    'nav.manage_users'           => 'إدارة المستخدمين',
+    'nav.manage_tables'          => 'إدارة الجداول',
+    'nav.volunteer_dashboard'    => 'لوحة تحكم المتطوعين',
+    'nav.feedback_dashboard'     => 'لوحة تحكم التعليقات',
+    'nav.leaderboard_score'      => 'نقاط لوحة المتصدرين',
+
+    // ------------------------------------------------------------------
+    // Public search (index)
+    // ------------------------------------------------------------------
+    'search.heading'             => 'مرشحات البحث متعددة الأعمدة',
+    'search.reset'               => 'إعادة تعيين البحث',
+    'search.export_csv'          => 'تنزيل النتائج المفلترة كملف CSV',
+    'search.no_records'          => 'لم يتم العثور على سجلات في هذا الجدول.',
+    'search.load_error'          => 'تعذر تحميل النتائج. يرجى المحاولة مرة أخرى.',
+
+    // ------------------------------------------------------------------
+    // Common buttons
+    // ------------------------------------------------------------------
+    'btn.submit'                 => 'إرسال',
+    'btn.cancel'                 => 'إلغاء',
+    'btn.save'                   => 'حفظ',
+    'btn.delete'                 => 'حذف',
+
+    // actions/save_feedback.php & feedback.php Strings
+    'feedback.success_message'    => 'شكراً لك! تم إرسال ملاحظاتك بنجاح.',
+    'feedback.error_all_fields'   => 'جميع الحقول مطلوبة.',
+    'feedback.error_invalid_email'=> 'يرجى تقديم عنوان بريد إلكتروني صالح.',
+    'feedback.error_save_failed'  => 'حدث خطأ أثناء حفظ ملاحظاتك. يرجى المحاولة مرة أخرى.',
+
+    // ------------------------------------------------------------------
+    // Index / Public Directory Page
+    // ------------------------------------------------------------------
+    'index.no_tables_heading'          => 'لم يتم العثور على جداول في قاعدة البيانات',
+    'index.no_tables_desc'             => 'النظام لا يحتوي حالياً على أي جداول قاعدة بيانات نشطة مُكوّنة.',
+    'index.admin_create_table_guide'   => 'بصفتك مسؤولاً، يرجى الانتقال إلى خيار قائمة <strong>إدارة الجداول</strong> لإنشاء جدول، ثم إضافة عمود واحد على الأقل إلى هذا الجدول قبل أن يتم عرض السجلات أو إدخالها.',
+    'index.go_to_manage_tables'        => 'الانتقال إلى إدارة الجداول',
+    'index.contact_admin_tables'       => 'يرجى الاتصال بالمسؤول لإعداد جداول وأعمدة قاعدة البيانات.',
+    'index.guest_login_tables_guide'   => 'يرجى <a href=":login_link">تسجيل الدخول</a> مسؤولاً، والانتقال إلى قسم <strong>إدارة الجداول</strong> لإنشاء جدول، ثم إضافة عمود واحد على الأقل.',
+    'index.no_columns_heading'         => 'لا توجد أعمدة مُكوّنة',
+    'index.no_columns_desc'            => 'الجداول موجودة في النظام، ولكن لم يتم تعريف أي أعمدة بيانات للجدول النشط.',
+    'index.admin_add_columns_guide'    => 'بصفتك مسؤولاً، يرجى الانتقال إلى خيار قائمة <strong>إدارة الجداول</strong> لإضافة عمود واحد على الأقل إلى جدولك.',
+    'index.contact_admin_columns'      => 'يرجى الاتصال بالمسؤول لتكوين الأعمدة لهذا الجدول.',
+    'index.select_directory_database'  => 'تحديد قاعدة بيانات الدليل:',
+    'index.opt_yes_true'               => 'نعم / صحيح',
+    'index.opt_no_false'               => 'لا / خطأ',
+    'index.opt_male'                   => 'ذكر',
+    'index.opt_female'                 => 'أنثى',
+    'index.opt_true'                   => 'صحيح',
+    'index.opt_false'                  => 'خطأ',
+    'index.opt_tick'                   => '✔ (علامة صح)',
+    'index.opt_cross'                  => '✘ (علامة خطأ)',
+    'index.option_all'                 => '-- الكل --',
+    'index.date_to_label'              => 'إلى',
+    'index.search_placeholder'         => 'بحث...',
+    'index.download_entire_csv'        => 'تنزيل ملف CSV بالكامل',
+    'index.download_entire_json'       => 'تنزيل ملف JSON بالكامل',
+    'index.copy_entire_table'          => 'نسخ الجدول بالكامل',
+    'index.download_filtered_csv'      => 'تنزيل ملف CSV المفلتر',
+    'index.download_filtered_json'     => 'تنزيل ملف JSON المفلتر',
+    'index.copy_filtered_table'        => 'نسخ الجدول المفلتر',
+    'index.th_record_id'               => 'معرف السجل',
+    'index.th_created_by'              => 'أنشئ بواسطة',
+    'index.th_date_added'              => 'تاريخ الإضافة',
+    'index.th_actions'                 => 'الإجراءات',
+    'index.modal_heading'              => 'اقتراح تصحيح للسجل',
+    'index.modal_desc'                 => 'أرسل تصحيحاً أو معلومات بديلة لهذا الجدول. سيتم مراجعته من قبل فريق الإشراف لدينا.',
+    'index.modal_target_column'        => 'العمود المستهدف:',
+    'index.modal_proposed_value'       => 'التصحيح / القيمة المقترحة:',
+    'index.modal_input_placeholder'    => 'أدخل المعلومات المحدثة...',
+    'index.modal_submit_btn'           => 'إرسال الاقتراح',
+    'index.clipboard_success'          => 'تم نسخ بيانات الجدول إلى الحافظة! يمكنك لصقها مباشرة في إكسل أو جداول بيانات جوجل.',
+
+    // ------------------------------------------------------------------
+    // Admin: Create User / Invite Form
+    // ------------------------------------------------------------------
+    'create_user.heading'              => 'نموذج دعوة مستخدم جديد',
+    'create_user.subheading'           => 'سيؤدي هذا إلى إنشاء رابط إعداد آمن لمدة 24 ساعة وإرساله عبر البريد الإلكتروني مباشرة إلى المستخدم.',
+    'create_user.first_name'           => 'الاسم الأول:',
+    'create_user.surname'              => 'اسم العائلة:',
+    'create_user.username_label'       => 'اسم المستخدم (اختياري):',
+    'create_user.username_placeholder' => 'اتركه فارغاً للتوليد التلقائي',
+    'create_user.username_help'        => 'إذا ترك فارغاً، سيتم توليد اسم مستخدم فريد تلقائياً من اسمه.',
+    'create_user.email_label'          => 'عنوان البريد الإلكتروني:',
+    'create_user.role_label'           => 'دور المستخدم:',
+    'create_user.submit_btn'           => 'إنشاء مستخدم وإرسال الدعوة',
+
+    // ------------------------------------------------------------------
+    // Admin: Feedback / Support Tickets Dashboard
+    // ------------------------------------------------------------------
+    'feedback_dash.heading'              => 'لوحة تحكم تذاكر الدعم والتعليقات',
+    'feedback_dash.subheading'           => 'إدارة طلبات الدعم العامة، تحديث الحالات، والمشاركة في الحوار المباشر.',
+    'feedback_dash.manage_emails'        => 'إدارة قوالب البريد الإلكتروني',
+    'feedback_dash.manage_schema'        => 'إدارة مخطط نموذج التذاكر',
+    'feedback_dash.th_ticket_date'       => 'معرف / تاريخ التذكرة',
+    'feedback_dash.th_submitter'         => 'المُرسِل',
+    'feedback_dash.th_subject_info'      => 'الموضوع / المعلومات الأولية',
+    'feedback_dash.th_status'            => 'الحالة',
+    'feedback_dash.no_tickets'           => 'لم يتم العثور على تذاكر تعليقات.',
+    'feedback_dash.anonymous'            => 'مجهول',
+    'feedback_dash.default_subject'      => 'استفسار عام',
+    'feedback_dash.open_ticket_btn'      => 'فتح التذكرة والحوار',
+    'feedback_dash.delete_confirm'       => 'حذف تذكرة الدعم هذه وجميع الردود الخاصة بها؟',
+    'feedback_dash.msg_deleted'          => 'تم حذف التذكرة #:id بنجاح.',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Email Templates
+    // ------------------------------------------------------------------
+    'feedback_emails.heading'            => 'قوالب وإشعارات البريد الإلكتروني لتذاكر الدعم',
+    'feedback_emails.subheading'         => 'تخصيص إشعارات البريد الإلكتروني التلقائية المرسلة أثناء دورات حياة التذاكر. استخدم الأقواس المعقوفة للعناصر النائبة الديناميكية.',
+    'feedback_emails.back_to_dashboard' => 'العودة إلى لوحة تحكم تذاكر التعليقات',
+    'feedback_emails.email_subject'      => 'موضوع البريد الإلكتروني:',
+    'feedback_emails.email_body'         => 'قالب محتوى البريد الإلكتروني:',
+    'feedback_emails.save_template_btn' => 'حفظ القالب',
+    'feedback_emails.placeholders_heading' => 'العناصر النائبة المتاحة',
+    'feedback_emails.placeholders_desc' => 'يمكنك استخدام هذه العلامات في أي مكان في قوالب الموضوع أو المحتوى:',
+    'feedback_emails.fixed_tags'         => 'العلامات الأساسية الثابتة:',
+    'feedback_emails.custom_tags'        => 'علامات المخطط المخصصة:',
+    'feedback_emails.custom_tags_desc'   => 'تم توليدها تلقائياً من حقول منشئ نموذج التذاكر الخاص بك:',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Ticket Schema & Fields
+    // ------------------------------------------------------------------
+    'feedback_schema.heading'                => 'إدارة مخطط نموذج التعليقات',
+    'feedback_schema.subheading'             => 'تكوين الحقول المخصصة، أنواع البيانات، حدود الأحرف، الأنواع الفرعية، الخيارات، وإعدادات عرض النموذج العامة.',
+    'feedback_schema.settings_summary'       => 'تكوين عنوان النموذج ونص المقدمة',
+    'feedback_schema.form_title_label'       => 'عنوان النموذج:',
+    'feedback_schema.form_intro_label'       => 'نص المقدمة / الوصف:',
+    'feedback_schema.save_settings_btn'      => 'حفظ إعدادات النموذج',
+    'feedback_schema.edit_field_title'       => 'تعديل حقل التذكرة:',
+    'feedback_schema.add_field_title'        => '+ إضافة حقل نموذج تذكرة جديد',
+    'feedback_schema.field_name_label'       => 'تسمية / اسم الحقل:',
+    'feedback_schema.data_type_label'        => 'نوع البيانات:',
+    'feedback_schema.type_varchar'           => 'VARCHAR (نص قصير)',
+    'feedback_schema.type_text'              => 'TEXT (فقرة طويلة / رسالة)',
+    'feedback_schema.type_int'               => 'INT (رقم صحيح)',
+    'feedback_schema.type_boolean'           => 'BOOLEAN (علم نعم/لا)',
+    'feedback_schema.type_date'              => 'DATE (تاريخ تقويمي)',
+    'feedback_schema.subtype_label'          => 'النوع الفرعي للحقل / نمط عرض الإدخال:',
+    'feedback_schema.subtype_standard'       => '-- قياسي --',
+    'feedback_schema.subtype_standard_lower'=> 'قياسي',
+    'feedback_schema.options_label'          => 'الخيارات (مفصولة بفواصل أو خيار واحد في كل سطر):',
+    'feedback_schema.options_help'           => 'قم بتوفير الخيارات مفصولة بفواصل أو فواصل أسطر.',
+    'feedback_schema.allow_multiple'         => 'السماح بتحديد خيارات متعددة (اختيار متعدد)',
+    'feedback_schema.boolean_format'         => 'تنسيق عرض القيمة المنطقية:',
+    'feedback_schema.max_length_label'       => 'الحجم الأقصى / الطول (حد أقصى للأحرف اختياري):',
+    'feedback_schema.is_required_label'      => 'اجعل هذا الحقل إجبارياً للمُرسِلين',
+    'feedback_schema.save_field_btn'         => 'حفظ تغييرات الحقل',
+    'feedback_schema.create_field_btn'       => 'إنشاء حقل التذكرة',
+    'feedback_schema.sub_email'              => 'البريد الإلكتروني',
+    'feedback_schema.sub_url'                => 'رابط URL',
+    'feedback_schema.sub_select'             => 'قائمة منسدلة',
+    'feedback_schema.sub_radio'              => 'مجموعة أزرار راديو',
+    'feedback_schema.sub_checkbox'           => 'خانات اختيار',
+    'feedback_schema.sub_textarea'           => 'صندوق فقرة',
+    'feedback_schema.sub_number'             => 'إدخال رقم',
+    'feedback_schema.existing_fields_heading'=> 'حقول التذاكر الحالية',
+    'feedback_schema.th_move'                => 'نقل',
+    'feedback_schema.th_field_name'          => 'اسم الحقل',
+    'feedback_schema.th_data_type'           => 'نوع البيانات',
+    'feedback_schema.th_subtype'             => 'النوع الفرعي',
+    'feedback_schema.th_required'            => 'مطلوب؟',
+    'feedback_schema.th_max_length'          => 'الحد الأقصى للطول',
+    'feedback_schema.th_created_by'          => 'أُنشئ بواسطة',
+    'feedback_schema.no_fields'              => 'لم يتم تحديد حقول تذاكر مخصصة بعد.',
+    'feedback_schema.system_user'            => 'النظام',
+    'feedback_schema.edit_btn'               => 'تعديل',
+    'feedback_schema.delete_confirm'         => 'حذف هذا الحقل وجميع قيم الاستجابة المرتبطة به؟',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Tables & Column Schemas
+    // ------------------------------------------------------------------
+    'manage_tables.heading'              => 'إدارة الجداول والمخططات الديناميكية',
+    'manage_tables.subheading'           => 'إنشاء أو فحص أو تعديل أو إلغاء تفعيل جداول التطبيق الديناميكية ومخططات أعمدتها الأساسية بأمان.',
+    'manage_tables.switcher_label'       => 'تحديد مخطط الجدول النشط:',
+    'manage_tables.edit_metadata_btn'    => 'تعديل وصف الجدول',
+    'manage_tables.delete_table_confirm'=> 'تحذير: سيؤدي حذف هذا الجدول إلى حذف جميع أعمده ومحتوياته المسجلة نهائياً. هل أنت متأكد تماماً؟',
+    'manage_tables.delete_table_btn'     => 'حذف الجدول',
+    'manage_tables.edit_table_summary'   => 'تعديل تعريف الجدول:',
+    'manage_tables.create_table_summary'=> '+ إنشاء جدول ديناميكي جديد',
+    'manage_tables.table_name_label'     => 'اسم الجدول اللطيف:',
+    'manage_tables.table_desc_label'     => 'الوصف / الغرض:',
+    'manage_tables.save_table_btn'       => 'حفظ تغييرات الجدول',
+    'manage_tables.create_table_btn'     => 'إنشاء مخطط الجدول',
+    'manage_tables.edit_col_summary'     => 'تعديل العمود الديناميكي:',
+    'manage_tables.add_col_summary_prefix' => '+ إضافة عمود جدول جديد لـ',
+    'manage_tables.col_name_label'       => 'اسم العمود:',
+    'manage_tables.type_text_long'       => 'TEXT (فقرة طويلة)',
+    'manage_tables.date_behavior_label' => 'سلوك البحث عن التواريخ:',
+    'manage_tables.date_bhv_manual'      => 'التواريخ في قاعدة البيانات (إدخال يدوي فقط)',
+    'manage_tables.date_bhv_admin'       => 'التواريخ الإدارية فقط',
+    'manage_tables.date_bhv_all'         => 'جميع التواريخ بما في ذلك الإدارية',
+    'manage_tables.req_toggle_label'     => 'اجعل هذا العمود مطلوباً (إدخال بيانات إجباري)',
+    'manage_tables.exclude_search_label'=> 'استبعاد هذا العمود من البحث العام (index.php)',
+    'manage_tables.create_col_btn'       => 'إنشاء العمود',
+    'manage_tables.existing_cols_heading_prefix' => 'الأعمدة الحالية لـ',
+    'manage_tables.th_public_search'     => 'بحث عام؟',
+    'manage_tables.th_display_format'    => 'تنسيق العرض',
+    'manage_tables.th_date_created'      => 'تاريخ الإنشاء',
+    'manage_tables.no_columns_found'     => 'لم يتم تعريف أي أعمدة ديناميكية لهذا الجدول بعد.',
+    'manage_tables.status_hidden'        => 'مخفي',
+    'manage_tables.delete_col_confirm'   => 'تحذير: سيؤدي حذف هذا العمود أيضاً إلى إزالة جميع بيانات الخلايا المرتبطة عبر كافة السجلات. هل أنت متأكد؟',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage User Notification Email Templates
+    // ------------------------------------------------------------------
+    'user_emails.heading'                => 'إدارة قوالب البريد الإلكتروني لإشعارات المستخدمين',
+    'user_emails.subheading'             => 'تخصيص تخطيطات البريد الإلكتروني المرسلة عند دعوة المستخدمين أو إرسال روابط إعادة تعيين كلمة المرور.',
+    'user_emails.select_template_label'=> 'تحديد القالب للتعديل:',
+    'user_emails.opt_invitation'         => 'قالب دعوة حساب المستخدم',
+    'user_emails.opt_reset'              => 'قالب إعادة تعيين كلمة المرور / رابط الوصول',
+    'user_emails.currently_editing'      => 'جاري التعديل حالياً:',
+    'user_emails.desc_invitation'        => 'يتم إرساله تلقائياً عندما يقوم المسؤول بإنشاء أو دعوة حساب مستخدم جديد.',
+    'user_emails.desc_reset'             => 'يتم إرساله عندما يطلق المسؤول عملية إعادة تعيين كلمة المرور أو إعادة إرسال رابط الوصول.',
+    'user_emails.email_body_label'       => 'محتوى نص البريد الإلكتروني:',
+    'user_emails.back_to_creation'       => 'العودة إلى إنشاء المستخدم',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Email Templates
+    // ------------------------------------------------------------------
+    'volunteer_emails.heading'           => 'قوالب وإشعارات البريد الإلكتروني للمتطوعين',
+    'volunteer_emails.subheading'        => 'تخصيص الردود البريدية التلقائية المرسلة إلى المتطوعين خلال مراحل سير العمل المختلفة. استخدم الأقواس المعقوفة للعناصر النائبة الديناميكية.',
+    'volunteer_emails.back_to_dashboard'=> 'العودة إلى طلبات المتطوعين',
+    'volunteer_emails.custom_tags_desc'  => 'تم توليدها تلقائياً من حقول منشئ النموذج الخاص بك:',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Form Schema & Fields
+    // ------------------------------------------------------------------
+    'volunteer_schema.heading'           => 'إدارة مخطط نموذج المتطوعين',
+    'volunteer_schema.subheading'        => 'تكوين الحقول المخصصة، أنواع البيانات، الأنواع الفرعية، الخيارات، وإعدادات عرض النموذج العامة.',
+    'volunteer_schema.back_to_dashboard'=> 'العودة إلى طلبات المتطوعين',
+    'volunteer_schema.settings_summary'  => 'تكوين عنوان النموذج ونص المقدمة',
+    'volunteer_schema.edit_field_title'  => 'تعديل الحقل:',
+    'volunteer_schema.add_field_title'   => '+ إضافة حقل نموذج متطوع جديد',
+    'volunteer_schema.create_field_btn'  => 'إنشاء الحقل',
+    'volunteer_schema.existing_fields_heading' => 'حقول نموذج المتطوعين الحالية',
+    'volunteer_schema.no_fields'         => 'لم يتم تحديد حقول متطوعين مخصصة بعد.',
+    'volunteer_schema.delete_confirm'    => 'حذف هذا الحقل وجميع قيم الاستجابة المرتبطة به؟',
+
+    // ------------------------------------------------------------------
+    // Admin: Moderation Queue & Suggestions Review
+    // ------------------------------------------------------------------
+    'moderate.heading'                   => 'مراجعة المقترحات المعلقة',
+    'moderate.subheading'                => 'مقارنة التغييرات المقترحة من قِبل المستخدمين بالسجلات الحية عبر الجداول المصرح بها. الموافقة على المقترحات، تجاوز القيم، أو رفض المقترحات.',
+    'moderate.shortcut_label'            => 'نصيحة اختصار لوحة المفاتيح:',
+    'moderate.shortcut_desc'             => 'اضغط على مفتاحي Ctrl + Enter للموافقة السريعة، أو Esc لمسح صندوق التجاوز!',
+    'moderate.th_id_date'                => 'المعرف / التاريخ',
+    'moderate.th_table_record'           => 'الجدول والسجل والعمود',
+    'moderate.th_comparison'             => 'المقارنة (الحالي مقابل المقترح) والأدلة',
+    'moderate.th_actions'                => 'إجراءات المشرف',
+    'moderate.no_suggestions'            => 'لم يتم العثور على مقترحات معلقة لجداول الإشراف المصرح بها.',
+    'moderate.by_label'                  => 'بواسطة:',
+    'moderate.guest_user'                => 'مشاهد / ضيف',
+    'moderate.record_id_label'           => 'معرف السجل:',
+    'moderate.column_label'              => 'العمود:',
+    'moderate.required_badge'            => 'مطلوب',
+    'moderate.live_value_label'          => 'القيمة الحالية المباشرة:',
+    'moderate.empty_placeholder'         => '[فارغ]',
+    'moderate.proposed_value_label'      => 'التغيير المقترح:',
+    'moderate.evidence_label'            => 'الأدلة / التبرير:',
+    'moderate.no_evidence'               => 'لم يتم تقديم أدلة أو تبريرات.',
+    'moderate.override_label'            => 'تجاوز القيمة:',
+    'moderate.select_placeholder'        => '-- تحديد --',
+    'moderate.historical_dates_title'    => 'التواريخ التاريخية مدعومة',
+    'moderate.approve_confirm'           => 'الموافقة على هذه القيمة وتطبيقها؟',
+    'moderate.decline_confirm'           => 'رفض هذا المقترح واستبعاده؟',
+    'moderate.approve_btn'               => 'موافقة',
+    'moderate.decline_btn'               => 'رفض',
+
+    // ------------------------------------------------------------------
+    // Admin: Notices & Announcements Manager
+    // ------------------------------------------------------------------
+    'notices.heading'                    => 'إدارة إشعارات وإعلانات الموقع',
+    'notices.subheading'                 => 'إنشاء تنبيهات ديناميكية، أو لافتات ترحيب، أو إشعارات مستهدفة لأدوار مستخدمين محددة.',
+    'notices.error_blank'                => 'لا يمكن ترك العنوان والمحتوى فارغين.',
+    'notices.msg_created'                => 'تم إنشاء الإشعار بنجاح!',
+    'notices.msg_deleted'                => 'تم حذف الإشعار.',
+    'notices.create_heading'             => 'إنشاء إشعار جديد',
+    'notices.title_label'                => 'عنوان / عنوان فرعي للإشعار:',
+    'notices.content_label'              => 'محتوى الإشعار (يُسمح باستخدام HTML/النصوص):',
+    'notices.target_roles_label'         => 'الجمهور المستهدف (تحديد الأدوار أو الجميع):',
+    'notices.role_everyone'              => 'الجميع',
+    'notices.role_public'                => 'العموم (الضيوف)',
+    'notices.role_users'                 => 'المستخدمون',
+    'notices.role_moderators'            => 'المشرفون',
+    'notices.role_admins'                => 'المسؤولون',
+    'notices.dismissible_label'          => "قابل للإغلاق (يتضمن زر إغلاق 'X')",
+    'notices.display_order_label'        => 'ترتيب العرض:',
+    'notices.publish_btn'                => 'نشر الإشعار',
+    'notices.existing_heading'           => 'الإشعارات النشطة والحالية',
+    'notices.th_order'                   => 'الترتيب',
+    'notices.th_title'                   => 'العنوان',
+    'notices.th_target_roles'            => 'الأدوار المستهدفة',
+    'notices.th_dismissible'             => 'قابل للإغلاق',
+    'notices.no_notices'                 => 'لم يتم إنشاء إشعارات بعد.',
+    'notices.yes'                        => 'نعم',
+    'notices.no_sticky'                  => 'لا (ثابت)',
+    'notices.delete_confirm'             => 'حذف هذا الإشعار؟',
+
+    // ------------------------------------------------------------------
+    // Admin: Global Site Settings, Modules & Permissions
+    // ------------------------------------------------------------------
+    'settings.heading'                   => 'إعدادات الموقع العامة، الوحدات والصلاحيات',
+    'settings.subheading'                => 'إدارة التكوينات الأساسية، محركات البريد، خيارات الأمان/CAPTCHA، وحدات الميزات، وضع الصيانة، إعلانات الموقع، وصلاحيات الأدوار.',
+    'settings.tab_core'                  => 'الأساسيات والبريد',
+    'settings.tab_modules'               => 'الوحدات',
+    'settings.tab_maintenance'           => 'الصيانة',
+    'settings.tab_notices'               => 'إشعارات الموقع',
+    'settings.tab_permissions'           => 'الأدوار والصلاحيات',
+    'settings.tab_audit'                 => 'سجل التدقيق',
+    'settings.db_updates_heading'        => 'تحديثات قاعدة البيانات',
+    'settings.schema_current'            => 'إصدار المخطط الحالي:',
+    'settings.schema_latest'             => 'الأحدث المتاح:',
+    'settings.download_backup_btn'       => 'تنزيل نسخة احتياطية لقاعدة البيانات',
+    'settings.download_backup_desc'      => 'يحفظ ملف .sql كاملاً على جهازك. احتفظ به في مكان آمن قبل تشغيل التحديثات.',
+    'settings.schema_update_notice'      => 'تتوفر تحديثات لقاعدة البيانات. يرجى تنزيل نسخة احتياطية أعلاه قبل المتابعة.',
+    'settings.migration_confirm'         => 'هل قمت بتنزيل نسخة احتياطية لقاعدة البيانات؟ سيؤدي هذا إلى تطبيق تحديثات المخطط المعلقة.',
+    'settings.update_db_btn'             => 'تحديث قاعدة البيانات',
+    'settings.schema_uptodate'           => 'قاعدة البيانات محدثة.',
+    'settings.core_sys_heading'          => 'إعدادات النظام الأساسية',
+    'settings.sys_name_label'            => 'اسم النظام / التطبيق:',
+    'settings.default_lang_label'        => 'لغة الموقع الافتراضية:',
+    'settings.default_lang_desc'         => 'تستخدم للضيوف والمستخدمين الذين لم يختاروا لغة. أضف ملفات تحت lang/ (مثل cy.php) لتوفير خيارات أكثر.',
+    'settings.captcha_heading'           => 'تكوين الأمان و CAPTCHA',
+    'settings.captcha_provider_label'    => 'محرك مزود CAPTCHA:',
+    'settings.captcha_none'              => 'معطل (بدون CAPTCHA)',
+    'settings.captcha_turnstile'         => 'Cloudflare Turnstile',
+    'settings.captcha_recaptcha'         => 'Google reCAPTCHA v2 / v3',
+    'settings.captcha_hcaptcha'          => 'hCaptcha',
+    'settings.turnstile_heading'         => 'إعدادات Cloudflare Turnstile',
+    'settings.recaptcha_heading'         => 'إعدادات Google reCAPTCHA',
+    'settings.hcaptcha_heading'          => 'إعدادات hCaptcha',
+    'settings.site_key_label'            => 'مفتاح الموقع (عام):',
+    'settings.secret_key_label'          => 'المفتاح السري (خاص):',
+    'settings.mail_heading'              => 'تكوين تسليم البريد',
+    'settings.mail_domain_label'         => 'نطاق بريد النظام (الملاذ الاحتياطي):',
+    'settings.mail_from_label'           => "عنوان بريد 'من' المخصص:",
+    'settings.mail_from_desc'            => 'عنوان صريح يُستخدم كمرسل للرسائل الصادرة.',
+    'settings.mail_driver_label'         => 'محرك / نظام البريد:',
+    'settings.driver_native'             => 'البريد الأصلي (رحلات بريد Postfix المحلية)',
+    'settings.driver_smtp'               => 'SMTP موثق (PHPMailer)',
+    'settings.smtp_heading'              => 'تكوينات خادم SMTP',
+    'settings.smtp_host_label'           => 'مضيف SMTP:',
+    'settings.smtp_port_label'           => 'المنفذ:',
+    'settings.smtp_encryption_label'     => 'التشفير:',
+    'settings.enc_tls'                   => 'TLS (المنفذ 587)',
+    'settings.enc_ssl'                   => 'SSL (المنفذ 465)',
+    'settings.smtp_user_label'           => 'اسم مستخدم SMTP:',
+    'settings.smtp_pass_label'           => 'كلمة مرور SMTP (اتركها فارغة للاحتفاظ بالحالية):',
+    'settings.save_core_mail_btn'        => 'حفظ إعدادات الأساسيات والبريد',
+    'settings.test_mail_heading'         => 'اختبار تكوين البريد',
+    'settings.test_email_label'          => 'عنوان بريد المُستلِم:',
+    'settings.send_test_btn'             => 'إرسال بريد تجريبي',
+    'settings.modules_heading'           => 'مفاتيح وحدات التطبيق وعناصر كفاءة التشغيل',
+    'settings.modules_subheading'        => 'تمكين أو تعطيل الميزات لتحسين كفاءة تنفيذ التطبيق وملاءمة المتطلبات مع احتياجات النشر الخاصة بك.',
+    'settings.mod_users'                 => 'إدارة المستخدمين وإمكانية الوصول لعدة مستخدمين',
+    'settings.mod_users_desc'            => 'يمكّن التسجيل وإدارة المستخدمين والمصادقة لعدة مستخدمين. (يظل الوصول إلى الملف الشخصي متاحاً لأمن المستخدم الواحد).',
+    'settings.mod_leaderboard'           => 'لوحة المتصدرين والتلعيب',
+    'settings.mod_leaderboard_desc'      => 'يعترف بجهود النسخ ونتائج النجوم.',
+    'settings.mod_leaderboard_note'      => '(يتطلب إدارة المستخدمين والوصول المتعدد)',
+    'settings.mod_moderation'            => 'سير عمل الإشراف',
+    'settings.mod_moderation_desc'       => 'يمكّن مراجعة مقترحات التعديل وقائمة انتظار الإشراف.',
+    'settings.mod_volunteers'            => 'بوابة المتطوعين والطلبات',
+    'settings.mod_volunteers_desc'       => 'يمكّن نموذج اهتمام المتطوعين العام وdashboard إدارة المشرفين.',
+    'settings.mod_feedback'              => 'طلبات التعليقات',
+    'settings.mod_feedback_desc'         => 'يمكّن نموذج التعليقات العام وdashboard تتبع المشرفين.',
+    'settings.save_modules_btn'          => 'حفظ تكوينات الوحدات',
+    'settings.maintenance_heading'       => 'وضع صيانة النظام',
+    'settings.maintenance_toggle'        => 'تمكين وضع الصيانة (وضع الموقع دون اتصال)',
+    'settings.maintenance_reason_label'  => 'السبب / الرسالة للمستخدمين:',
+    'settings.maintenance_eta_label'     => 'وقت العودة المتوقع (ETA):',
+    'settings.save_maintenance_btn'      => 'حفظ إعدادات الصيانة',
+    'settings.notices_heading'           => 'إشعارات وإعلانات الموقع',
+    'settings.add_notice_btn'            => '+ إضافة إشعار جديد',
+    'settings.no_notices'                => 'لم يتم تكوين إشعارات بعد.',
+    'settings.status_active'             => 'نشط',
+    'settings.status_inactive'           => 'غير نشط',
+    'settings.notice_content_label'      => 'المحتوى:',
+    'settings.save_notice_btn'           => 'حفظ الإشعار',
+    'settings.permissions_heading'       => 'مصفوفة الأدوار والصلاحيات الديناميكية',
+    'settings.permissions_subheading'    => 'تُجمع الصلاحيات حسب وظائف النظام. قم بتوسيع الأقسام لتكوين القدرات، ثم احفظ تحديثاتك في الأسفل.',
+    'settings.th_role'                   => 'الدور',
+    'settings.th_capabilities'           => 'القدرات المعينة في هذه المجموعة',
+    'settings.save_permissions_btn'      => 'حفظ مصفوفة الصلاحيات',
+    'settings.audit_heading'             => 'مستكشف سجل تدقيق النظام',
+    'settings.audit_subheading'          => 'مراجعة إجراءات الأمان المسجلة وإدخال البيانات والإشراف. استخدم خيارات الصيانة أدناه لمسح السجلات إذا لزم الأمر.',
+    'settings.purge_all_confirm'         => '⚠️ تحذير: سيؤدي هذا إلى حذف سجل تدقيق النظام بأكمله نهائياً. هل أنت متأكد من رغبتك في المتابعة؟',
+    'settings.clear_all_audit_btn'       => 'مسح سجل التدقيق بالكامل',
+    'settings.purge_records_confirm'     => 'هل أنت متأكد من رغبتك في مسح جميع إدخالات التدقيق المتعلقة بالسجلات؟',
+    'settings.clear_records_audit_btn'   => 'مسح سجل السجلات فقط',
+    'settings.th_id'                     => 'المعرف',
+    'settings.th_timestamp'              => 'الطابع الزمني',
+    'settings.th_actor'                  => 'الفاعل',
+    'settings.th_action'                 => 'الإجراء',
+    'settings.th_record_id'              => 'معرف السجل',
+    'settings.th_details'                => 'التفاصيل',
+    'settings.th_ip'                     => 'عنوان IP',
+    'settings.no_audit_logs'             => 'لم يتم العثور على إدخالات في سجل التدقيق.',
+    'settings.system_guest'              => 'النظام / ضيف',
+    'settings.audit_limit_note'          => 'عرض أحدث 250 إدخالاً في سجل التدقيق.',
+
+    // ------------------------------------------------------------------
+    // Admin: User Account Management & Leaderboard Moderation
+    // ------------------------------------------------------------------
+    'admin_users.heading'                => 'إدارة حسابات المستخدمين وإشراف لوحة المتصدرين',
+    'admin_users.subheading'             => 'فحص حالات المستخدمين، تعيين الأدوار، تجاوز رسائل البريد الإلكتروني، إطلاق إعادة تعيين كلمات المرور أو الدعوات، إعادة تعيين المصادقة الثنائية (2FA)، أو تعليق الحسابات.',
+    'admin_users.manage_templates_btn'   => 'إدارة قوالب البريد الإلكتروني',
+    'admin_users.invite_user_btn'        => 'دعوة مستخدم جديد',
+    'admin_users.th_username'            => 'اسم المستخدم',
+    'admin_users.th_email_override'      => 'البريد الإلكتروني والتجاوز',
+    'admin_users.th_role_assignment'     => 'تعيين الدور',
+    'admin_users.th_score'               => 'النقاط',
+    'admin_users.th_status'              => 'الحالة',
+    'admin_users.th_2fa'                 => 'المصادقة الثنائية (2FA)',
+    'admin_users.th_actions'             => 'الإجراءات والإشراف',
+    'admin_users.no_users'               => 'لم يتم العثور على مستخدمين.',
+    'admin_users.save_email_title'       => 'حفظ عنوان البريد الإلكتروني الجديد',
+    'admin_users.verified_label'         => 'متحقق منه:',
+    'admin_users.yes'                    => 'نعم',
+    'admin_users.no'                     => 'لا',
+    'admin_users.protected_admin'        => 'المسؤول الأساسي المحمي',
+    'admin_users.update_btn'             => 'تحديث',
+    'admin_users.status_active'          => 'نشط',
+    'admin_users.status_suspended'       => 'معلق',
+    'admin_users.enabled'                => 'مُمكّن',
+    'admin_users.disabled'               => 'معطل',
+    'admin_users.set_score_btn'          => 'تعيين النقاط',
+    'admin_users.resend_invite_confirm' => 'إعادة إرسال بريد دعوة الحساب إلى هذا المستخدم؟',
+    'admin_users.resend_invite_btn'      => 'إعادة إرسال الدعوة',
+    'admin_users.reset_pwd_confirm'      => 'إرسال رابط إعادة تعيين كلمة المرور إلى هذا المستخدم؟',
+    'admin_users.reset_password_btn'     => 'إعادة تعيين كلمة المرور',
+    'admin_users.suspend_confirm'        => 'تعليق المستخدم وحظر الوصول بسبب الغش/المخالفة؟',
+    'admin_users.suspend_btn'            => 'تعليق',
+    'admin_users.reactivate_btn'         => 'إعادة تفعيل',
+    'admin_users.reset_2fa_confirm'      => 'إعادة تعيين وتعطيل المصادقة الثنائية لهذا المستخدم؟',
+    'admin_users.reset_2fa_btn'          => 'إعادة تعيين 2FA',
+
+    // ------------------------------------------------------------------
+    // Admin: View Ticket & Threaded Dialogue
+    // ------------------------------------------------------------------
+    'view_ticket.back_to_dashboard'    => 'العودة إلى لوحة التذاكر',
+    'view_ticket.ticket_heading_prefix'=> 'التذكرة',
+    'view_ticket.support_request'      => 'طلب الدعم',
+    'view_ticket.submitted_by'         => 'أُرسلت بواسطة:',
+    'view_ticket.on_date'              => 'في تاريخ',
+    'view_ticket.submitted_fields'     => 'حقول النموذج المُرسَلة:',
+    'view_ticket.ticket_status_label'  => 'حالة التذكرة:',
+    'view_ticket.status_pending'       => 'قيد الانتظار',
+    'view_ticket.status_progress'      => 'قيد التنفيذ',
+    'view_ticket.status_completed'     => 'مكتملة',
+    'view_ticket.status_rejected'      => 'مرفوضة',
+    'view_ticket.dialogue_heading'     => 'موضوع الحوار',
+    'view_ticket.no_replies'           => 'لم يتم تسجيل ردود بعد.',
+    'view_ticket.admin_label'          => 'مسؤول',
+    'view_ticket.staff'                => 'طاقم العمل',
+    'view_ticket.post_reply_heading'   => 'نشر رد وإبلاغ المُرسِل',
+    'view_ticket.reply_placeholder'    => 'اكتب استجابتك هنا...',
+    'view_ticket.send_reply_btn'       => 'إرسال الرد وإبلاغ المُرسِل بريدياً',
+
+    // ------------------------------------------------------------------
+    // Admin: Volunteer Submissions & Workflow Dashboard
+    // ------------------------------------------------------------------
+    'volunteer_dashboard.heading'            => 'طلبات المتطوعين وسير العمل',
+    'volunteer_dashboard.subheading'         => 'مراجعة الطلبات، جدول محادثات المتطوعين، تدوين ملاحظات المقابلات، وقبول المرشحين في النظام.',
+    'volunteer_dashboard.manage_emails_btn' => 'إدارة قوالب البريد الإلكتروني',
+    'volunteer_dashboard.manage_schema_btn' => 'إدارة مخطط النموذج',
+    'volunteer_dashboard.th_status'          => 'الحالة',
+    'volunteer_dashboard.th_name'            => 'الاسم',
+    'volunteer_dashboard.th_interview_notes'=> 'المقابلة / الملاحظات',
+    'volunteer_dashboard.no_submissions'     => 'لم يتم العثور على طلبات تطوع.',
+    'volunteer_dashboard.volunteer_prefix'   => 'متطوع',
+    'volunteer_dashboard.chat_label'         => 'المحادثة:',
+    'volunteer_dashboard.notes_label'        => 'الملاحظات:',
+    'volunteer_dashboard.no_notes'           => 'لا توجد ملاحظات بعد',
+    'volunteer_dashboard.chat_notes_btn'     => 'المحادثة والملاحظات',
+    'volunteer_dashboard.accept_title'       => 'الإدراج في نظام دعوة المستخدمين',
+    'volunteer_dashboard.accept_invite_btn'  => 'قبول ودعوة',
+    'volunteer_dashboard.delete_confirm'     => 'حذف سجل المتطوع هذا؟',
+    'volunteer_dashboard.modal_heading'      => 'إدارة المقابلات وملاحظات المرشحين',
+    'volunteer_dashboard.modal_status_label'=> 'حالة الطلب:',
+    'volunteer_dashboard.status_pending'     => 'قيد المراجعة',
+    'volunteer_dashboard.status_chat'        => 'تم جدولته للمحادثة',
+    'volunteer_dashboard.status_accepted'    => 'مقبول',
+    'volunteer_dashboard.status_rejected'    => 'مرفوض',
+    'volunteer_dashboard.modal_date_label'   => 'تاريخ ووقت المحادثة / المقابلة المجدولة:',
+    'volunteer_dashboard.modal_notes_label'  => 'ملاحظات المقابلة / الاجتماع:',
+    'volunteer_dashboard.modal_notes_placeholder' => 'سجل ملاحظات المحادثة هنا...',
+    'volunteer_dashboard.save_changes_btn'   => 'حفظ التغييرات',
+
+    // ------------------------------------------------------------------
+    // API: AJAX Search & Filtering
+    // ------------------------------------------------------------------
+    'api_search.error_public_forbidden' => '403 محظور: العرض العام غير مُمكن.',
+    'api_search.error_unauthorized_table' => 'الوصول إلى الجدول غير مصرح به.',
+    'api_search.no_records'              => 'لم يتم العثور على سجلات في هذا الجدول.',
+    'api_search.history_btn'             => 'السجل',
+    'api_search.suggest_edit_btn'        => 'اقتراح تعديل',
+
+    // ------------------------------------------------------------------
+    // Errors & HTTP Templates
+    // ------------------------------------------------------------------
+    'error_template.return_home_btn' => 'العودة إلى الصفحة الرئيسية العامة',
+
+    // ------------------------------------------------------------------
+    // Public: Ticket Intake & Feedback Portal
+    // ------------------------------------------------------------------
+    'feedback.hp_label'              => 'اتركه فارغاً',
+    'feedback.first_name_label'      => 'الاسم الأول:',
+    'feedback.surname_label'         => 'اسم العائلة:',
+    'feedback.email_label'           => 'عنوان البريد الإلكتروني:',
+    'feedback.subject_label'         => 'الموضوع / عنوان الاستفسار:',
+    'feedback.required_title'        => 'حقل مطلوب',
+    'feedback.select_placeholder'    => '-- تحديد --',
+    'feedback.multi_select_hint'     => 'اضغط مع الاستمرار على Ctrl أو Cmd لتحديد خيارات متعددة.',
+    'feedback.submit_btn'            => 'إرسال التذكرة',
+
+    // ------------------------------------------------------------------
+    // Security Engine & Firewall
+    // ------------------------------------------------------------------
+    'security_engine.err_suspicious_agent' => 'فشل فحص الأمان: توقيع العميل مريب.',
+    'security_engine.err_access_denied'    => 'فشل فحص الأمان: تم رفض الوصول.',
+    'security_engine.err_rate_limit'       => 'عدد كبير جداً من الإرسالات من عنوان IP هذا. يرجى المحاولة لاحقاً.',
+    'security_engine.err_excessive_links'  => 'تم رفض الإرسال لوجود روابط مفرطة.',
+    'security_engine.err_complete_captcha' => 'يرجى إكمال تحدي التحقق CAPTCHA.',
+    'security_engine.err_captcha_failed'   => 'فشل تحقق CAPTCHA. يرجى المحاولة مرة أخرى.',
+
+    // ------------------------------------------------------------------
+    // Installer Wizard
+    // ------------------------------------------------------------------
+    'install.complete_title'             => 'اكتمل الإعداد',
+    'install.complete_heading'           => 'اكتمل الإعداد',
+    'install.complete_desc'              => 'هذا الموقع مُعد مسبقاً. تم قفل المثبت حتى لا يمكن تشغيله مرة أخرى عن طريق الخطأ.',
+    'install.login_link'                 => 'تسجيل الدخول',
+    'install.home_link'                  => 'الانتقال إلى الموقع',
+    'install.delete_folder_hint'         => 'يمكنك حذف أو إعادة تسمية مجلد <code>install</code> لمزيد من الأمان.',
+    'install.msg_db_ready'               => 'قاعدة البيانات جاهزة. أنشئ حساب المشرف لإنهاء الإعداد.',
+    'install.err_config_load'            => 'تعذر استخدام التكوين الحالي:',
+    'install.err_write_permission'       => 'لا يمكن لـ PHP إنشاء ملفات في مجلد المشروع هذا.',
+    'install.detail_prefix'              => 'التفاصيل:',
+    'install.err_db_required'            => 'اسم قاعدة البيانات واسم مستخدم قاعدة البيانات مطلوبان.',
+    'install.err_db_not_empty'           => 'قاعدة البيانات هذه ليست فارغة. استخدم قاعدة بيانات جديدة فارغة (أو احذف الجداول) وحاول مرة أخرى.',
+    'install.msg_schema_imported'        => 'تم الاتصال بقاعدة البيانات واستيراد المخطط. أنشئ حساب المشرف الخاص بك.',
+    'install.err_complete_db_first'      => 'أكمل خطوة قاعدة البيانات أولاً.',
+    'install.err_admin_required'         => 'جميع حقول المشرف مطلوبة.',
+    'install.err_invalid_email'          => 'عنوان البريد الإلكتروني غير صالح.',
+    'install.err_password_length'        => 'يجب أن تكون كلمة المرور 8 أحرف على الأقل.',
+    'install.err_passwords_match'        => 'كلمات المرور غير متطابقة.',
+    'install.err_admin_save_failed'      => 'لم يتم حفظ حساب المشرف. تحقق من هيكل جدول المستخدمين.',
+    'install.msg_installation_complete' => 'اكتمل التثبيت.',
+    'install.page_title'                 => 'التثبيت — دليل سجلات الرعية',
+    'install.heading'                    => 'تثبيت',
+    'install.subheading'                 => 'إعداد لأول مرة <strong>لمجلد هذا التطبيق فقط</strong>. استخدم قاعدة بيانات MySQL فارغة.',
+    'install.done_heading'               => 'تم',
+    'install.done_message'               => 'اكتمل التثبيت. تم قفل برنامج التثبيت الآن.',
+    'install.admin_heading'              => 'حساب مشغل الموقع',
+    'install.admin_subheading'           => 'هذا هو تسجيل الدخول <strong>لهذا الموقع الإلكتروني</strong> (ليس قاعدة البيانات).',
+    'install.admin_username_label'       => 'اسم مستخدم المشرف',
+    'install.admin_email_label'          => 'بريد المشرف',
+    'install.admin_password_label'       => 'كلمة مرور المشرف (8 أحرف كحد أدنى)',
+    'install.admin_confirm_password_label' => 'تأكيد كلمة مرور المشرف',
+    'install.finish_btn'                 => 'إنهاء التثبيت',
+    'install.db_heading'                 => 'اتصال قاعدة البيانات',
+    'install.db_hint'                    => 'استخدم تفاصيل MySQL من <strong>لوحة تحكم الاستضافة</strong>. هذا ليس تسجيل دخول مسؤول الموقع (الذي يليه).',
+    'install.db_host_label'              => 'مضيف قاعدة البيانات',
+    'install.db_name_label'              => 'اسم قاعدة البيانات',
+    'install.db_user_label'              => 'اسم مستخدم قاعدة البيانات',
+    'install.db_pass_label'              => 'كلمة مرور قاعدة البيانات',
+    'install.db_submit_btn'              => 'إنشاء الجداول واستمرار &amp;',
+    'install.req_heading'                => '1. المتطلبات',
+    'install.req_php'                    => 'PHP 8.0+ (تم العثور على %s)',
+    'install.req_pdo'                    => 'امتداد PDO MySQL',
+    'install.req_logs'                   => 'مجلد سجلات قابل للكتابة (أو مجلد المشروع)',
+    'install.req_probe'                  => 'يمكن إنشاء ملفات في مجلد المشروع هذا',
+    'install.continue_btn'               => 'متابعة',
+    'install.req_fail_msg'               => 'أصلح الفحوصات الفاشلة، ثم قم بتحديث هذه الصفحة.',
+
+    // ------------------------------------------------------------------
+    // Leaderboard
+    // ------------------------------------------------------------------
+    'leaderboard.aria_region'     => 'عرض لوحة المتصدرين',
+    'leaderboard.heading'         => 'لوحة متصدرين مساهمات المجتمع',
+    'leaderboard.subheading'      => 'تقدير جهود أفراد مجتمعنا الذين يساعدون في تجميع أو نسخ أو/و إدارة سجلات قاعدة البيانات.',
+    'leaderboard.th_rank'         => 'المرتبة',
+    'leaderboard.th_contributor'  => 'المساهم',
+    'leaderboard.th_role'         => 'الدور',
+    'leaderboard.th_score'        => 'النقاط',
+    'leaderboard.no_users'        => 'لم يتم العثور على مستخدمين نشطين في لوحة المتصدرين بعد.',
+    'leaderboard.medal_gold'      => 'ميدالية ذهبية',
+    'leaderboard.medal_silver'    => 'ميدالية فضية',
+    'leaderboard.medal_bronze'    => 'ميدالية برونزية',
+    'leaderboard.medal_ribbon'    => 'شريط جائزة المرتبة 4',
+    'leaderboard.medal_rosette'   => 'وردة تقديرية المرتبة 5',
+    'leaderboard.medal_trophy'    => 'كأس المرتبة 6',
+    'leaderboard.medal_star'      => 'نجمة المرتبة 7',
+    'leaderboard.medal_military'  => 'ميدالية عسكرية المرتبة 8',
+    'leaderboard.medal_glowing'   => 'نجمة متوهجة المرتبة 9',
+    'leaderboard.medal_crown'     => 'تاج المرتبة 10',
+    'leaderboard.you_badge'       => '(أنت)',
+    'leaderboard.default_role'    => 'مستخدم',
+
+    // ------------------------------------------------------------------
+    // Site Footer
+    // ------------------------------------------------------------------
+    'footer.compiled_notice'  => 'سجلات الرعية مجمعة من مصادر تاريخية عامة النطاق.',
+    'footer.software_notice'  => 'منصة البرمجيات مفتوحة المصدر بموجب ترخيص MIT.',
+    'footer.rights_reserved'  => 'جميع الحقوق محفوظة.',
+
+    // ------------------------------------------------------------------
+    // Site Header & Head
+    // ------------------------------------------------------------------
+    'header.default_title' => 'قاعدة بيانات سجلات الرعية',
+
+    // ------------------------------------------------------------------
+    // Notices Banner Module
+    // ------------------------------------------------------------------
+    'notices_banner.close_title' => 'إغلاق الإشعار',
+
+    // ------------------------------------------------------------------
+    // Record History & Audit Trail
+    // ------------------------------------------------------------------
+    'record_history.exit_no_record'        => 'لم يتم تحديد سجل.',
+    'record_history.exit_not_found'        => 'السجل غير موجود.',
+    'record_history.heading_prefix'        => 'السجل ومسار التدقيق: سجل',
+    'record_history.return_btn'            => 'عودة',
+    'record_history.directory_table_label'=> 'جدول الدليل:',
+    'record_history.subheading_lifecycle' => 'عرض دورة الحياة الزمنية للتغييرات والمقترحات والمسوغات المرتبطة بهذا السجل بدقة.',
+    'record_history.snapshot_heading'      => 'لقطة القيم الحالية المباشرة',
+    'record_history.empty_value'           => '[فارغ]',
+    'record_history.timeline_heading'      => 'دورة الحياة والجدول الزمني للنشاط',
+    'record_history.no_history'            => 'لم يتم تسجيل أحداث تدقيق تاريخية لهذا السجل على وجه التحديد بعد.',
+    'record_history.purge_confirm'         => 'مسح إدخال سجل التدقيق المخصص هذا؟',
+    'record_history.purge_btn'             => 'مسح السجل',
+    'record_history.actor_label'           => 'الفاعل:',
+    'record_history.system_guest'          => 'النظام / ضيف',
+    'record_history.target_column'         => 'العمود المستهدف:',
+    'record_history.proposed_value'        => 'القيمة المقترحة:',
+    'record_history.reasoning_evidence'    => 'التبرير / الأدلة:',
+
+    // ------------------------------------------------------------------
+    // Standalone Update Database Gateway
+    // ------------------------------------------------------------------
+    'update_database.msg_success'      => 'تم تحديث قاعدة البيانات بنجاح! تم تطبيق %d عملية هجرة (migrations).',
+    'update_database.msg_uptodate'     => 'قاعدة البيانات محدثة بالفعل.',
+    'update_database.err_failed'       => 'فشلت الهجرة:',
+    'update_database.page_title'       => 'تحديث النظام مطلوب — دليل سجلات الرعية',
+    'update_database.heading'          => '⚠️ تحديث النظام مطلوب',
+    'update_database.subheading'       => 'هيكل قاعدة بيانات التطبيق قديم ويتطلب تحديثاً للمخطط قبل استئناف التشغيل العادي.',
+    'update_database.current_version'  => 'إصدار المخطط الحالي:',
+    'update_database.latest_version'   => 'أحدث إصدار متوفر:',
+    'update_database.proceed_login'    => 'الانتقال إلى تسجيل الدخول',
+    'update_database.confirm_prompt'   => 'هل قمت بعمل نسخة احتياطية لقاعدة بياناتك؟ انقر فوق موافق لتطبيق تحديثات المخطط المعلقة.',
+    'update_database.update_btn'       => 'تحديث قاعدة البيانات الآن',
+
+    // ------------------------------------------------------------------
+    // User Authentication Action
+    // ------------------------------------------------------------------
+    'authenticate.err_invalid_credentials' => 'بيانات الاعتماد غير صالحة أو الوصول إلى الحساب مقيد.',
+
+    // ------------------------------------------------------------------
+    // Save Data Entry Action
+    // ------------------------------------------------------------------
+    'save_data_entry.err_required_field'    => 'الحقل المطلوب \'%s\' لا يمكن تركُه فارغاً.',
+    'save_data_entry.audit_created_prefix' => 'أُنشئ إدخال سجل في جدول بمعرف %d.',
+    'save_data_entry.msg_success'          => 'تمت إضافة السجل بنجاح!',
+
+    // ------------------------------------------------------------------
+    // Save Public Suggestion Action
+    // ------------------------------------------------------------------
+    'save_public_suggestion.err_spam_detected'  => 'تم رصد محتوى مزعج (Spam). تم رفض الإرسال.',
+    'save_public_suggestion.err_field_required' => 'هذا الحقل مطلوب ولا يمكن إرساله فارغاً.',
+    'save_public_suggestion.msg_success'        => 'تم إرسال اقتراح التعديل الخاص بك بنجاح وإرساله إلى طابور الإشراف للمراجعة. شكراً لك!',
+    'save_public_suggestion.err_failed_submit'  => 'فشل إرسال اقتراح التعديل. يرجى المحاولة مرة أخرى.',
+    'save_public_suggestion.err_invalid_column' => 'تم تحديد عمود غير صالح.',
+    'save_public_suggestion.err_invalid_params' => 'معلمات إرسال السجل غير صالحة.',
+
+    // ------------------------------------------------------------------
+    // Data Entry Workstation
+    // ------------------------------------------------------------------
+    'data_entry.date_placeholder_ymd' => 'YYYY-MM-DD (أو سنة جزئية)',
+    'data_entry.date_placeholder_dmy' => 'DD/MM/YYYY (أو سنة جزئية)',
+    'data_entry.date_placeholder_mdy' => 'MM/DD/YYYY (أو سنة جزئية)',
+    'data_entry.no_tables_heading'    => '⚠️ لم يتم العثور على جداول في قاعدة البيانات',
+    'data_entry.no_tables_desc'       => 'النظام لا يحتوي حالياً على أي جداول قاعدة بيانات نشطة مُكوّنة لإدخال البيانات.',
+    'data_entry.admin_tables_prompt'  => 'بصفتك مسؤولاً، يرجى الانتقال إلى خيار قائمة <strong>إدارة الجداول</strong> لإنشاء جدول، ثم إضافة عمود واحد على الأقل قبل إدخال السجلات.',
+    'data_entry.go_manage_tables'     => 'الانتقال إلى إدارة الجداول',
+    'data_entry.contact_admin_tables' => 'يرجى الاتصال بالمسؤول لإعداد جداول وأعمدة قاعدة البيانات.',
+    'data_entry.no_cols_heading'      => '⚠️ لا توجد أعمدة مُكوّنة',
+    'data_entry.no_cols_desc'         => 'الجداول موجودة في النظام، ولكن لم يتم تعريف أي أعمدة بيانات للجدول النشط.',
+    'data_entry.admin_cols_prompt'    => 'بصفتك مسؤولاً، يرجى الانتقال إلى خيار قائمة <strong>إدارة الجداول</strong> لإضافة عمود واحد على الأقل إلى جدولك.',
+    'data_entry.contact_admin_cols'   => 'يرجى الاتصال بالمسؤول لتكوين الأعمدة لهذا الجدول.',
+    'data_entry.active_table_label'   => 'جدول إدخال البيانات النشط:',
+    'data_entry.add_entry_summary'    => '➕ إضافة إدخال بيانات جديد (انقر للتوسيع/الطي)',
+    'data_entry.bool_yes_true'        => 'نعم / صحيح',
+    'data_entry.bool_no_false'        => 'لا / خطأ',
+    'data_entry.bool_male'            => 'ذكر',
+    'data_entry.bool_female'          => 'أنثى',
+    'data_entry.bool_true'            => 'صحيح',
+    'data_entry.bool_false'           => 'خطأ',
+    'data_entry.bool_tick'            => '✔ (علامة صح)',
+    'data_entry.bool_cross'           => '✘ (علامة خطأ)',
+    'data_entry.date_title_hint'      => 'يقبل تواريخ كاملة أو جزئية (مثل 1842 أو 1842-05)',
+    'data_entry.enter_value_placeholder' => 'أدخل القيمة...',
+    'data_entry.submit_data_btn'      => 'إرسال البيانات',
+    'data_entry.shortcuts_tip'        => '💡 نصائح: اضغط على <strong>Ctrl + Enter</strong> للإرسال، أو <strong>Esc</strong> لمسح الحقل الحالي.',
+    'data_entry.dup_heading'          => '⚠️ تحذير وجود إدخال مكرر محتمل',
+    'data_entry.dup_desc'             => 'وجدت إدخالات مطابقة موجودة بالفعل في النظام:',
+    'data_entry.dup_item_format'      => 'معرف السجل: %d — القيمة: %s',
+    'data_entry.dup_prompt'           => 'هل لا تزال ترغب في المتابعة وحفظ هذا الإدخال المكرر؟',
+    'data_entry.dup_confirm_btn'      => 'نعم، قم بالتأكيد وحفظ الإدخال المكرر',
+    'data_entry.search_summary'       => '🔍 البحث وتصفية السجلات الحالية (انقر للتوسيع/الطي)',
+    'data_entry.date_to_label'        => 'إلى',
+    'data_entry.filter_all_option'    => '-- الكل --',
+    'data_entry.filter_placeholder'   => 'تصفية...',
+    'data_entry.apply_filters_btn'    => 'تطبيق مرشحات البحث',
+    'data_entry.reset_filter_btn'     => 'إعادة تعيين المرشح',
+    'data_entry.csv_entire_btn'       => 'تنزيل ملف CSV بالكامل',
+    'data_entry.json_entire_btn'      => 'تنزيل ملف JSON بالكامل',
+    'data_entry.copy_entire_btn'      => 'نسخ الجدول بالكامل',
+    'data_entry.csv_filtered_btn'     => 'تنزيل ملف CSV المفلتر',
+    'data_entry.json_filtered_btn'    => 'تنزيل ملف JSON المفلتر',
+    'data_entry.copy_filtered_btn'    => 'نسخ الجدول المفلتر',
+    'data_entry.clipboard_alert'      => 'تم نسخ بيانات الجدول إلى الحافظة! يمكنك لصقها مباشرة في إكسل أو جداول بيانات جوجل.',
+    'data_entry.existing_records_heading' => 'جدول السجلات الحالية',
+    'data_entry.th_added_by'          => 'أُضيف بواسطة',
+    'data_entry.th_date_created'      => 'تاريخ الإنشاء',
+    'data_entry.no_records'           => 'لم يتم العثور على سجلات.',
+    'data_entry.na_value'             => 'غير متاح',
+    'data_entry.page_label'           => 'الصفحة:',
+
+    // ------------------------------------------------------------------
+    // Forgot Password
+    // ------------------------------------------------------------------
+    'forgot_password.aria_region'     => 'استعادة كلمة المرور',
+    'forgot_password.heading'         => 'إعادة تعيين كلمة المرور الخاصة بك',
+    'forgot_password.subheading'      => 'أدخل عنوان بريد إلكتروني للحساب أدناه، وسنرسل لك رابطاً آمناً لإعادة تعيين كلمة المرور.',
+    'forgot_password.email_label'     => 'عنوان البريد الإلكتروني:',
+    'forgot_password.submit_btn'      => 'إرسال رابط إعادة تعيين كلمة المرور',
+    'forgot_password.back_login_link' => 'العودة لتسجيل الدخول',
+
+    // ------------------------------------------------------------------
+    // User Login
+    // ------------------------------------------------------------------
+    'login.aria_region'          => 'تسجيل دخول المستخدم',
+    'login.heading'              => 'تسجيل دخول المستخدم',
+    'login.username_label'       => 'اسم المستخدم أو البريد الإلكتروني:',
+    'login.password_label'       => 'كلمة المرور:',
+    'login.submit_btn'           => 'تسجيل الدخول',
+    'login.forgot_password_link' => 'نسيت كلمة المرور؟',
+
+    // ------------------------------------------------------------------
+    // User Onboarding Setup Wizard
+    // ------------------------------------------------------------------
+    'onboarding.page_title'        => 'مرحباً - معالج إعداد الحساب',
+    'onboarding.heading'           => 'مرحباً بك في الفريق!',
+    'onboarding.subheading'        => 'قبل أن تبدأ، يرجى تخصيص لحظة لتكوين إعدادات العرض الإقليمية وتفضيلات الخصوصية الخاصة بك. يمكنك دائماً تحديث هذه لاحقاً في ملفك الشخصي.',
+    'onboarding.timezone_label'    => 'المنطقة الزمنية / الإقليم:',
+    'onboarding.date_format_label' => 'تنسيق عرض التاريخ:',
+    'onboarding.time_format_label' => 'تنسيق الساعة (عرض الوقت):',
+    'onboarding.time_24'          => '24 ساعة (مثل 16:07)',
+    'onboarding.time_12'          => '12 ساعة صباحاً/مساءً (مثل 04:07 م)',
+    'onboarding.time_none'        => 'التاريخ فقط (إخفاء الوقت تماماً)',
+    'onboarding.attribution_label' => 'تفضيل عرض لوحة المتصدرين ونِسب الإسهام:',
+    'onboarding.attribution_desc1' => 'يتحكم في كيفية ظهور اسمك على لوحة المتصدرين العامة وسجلات السجلات.',
+    'onboarding.attr_anon_title'   => 'مجهول:',
+    'onboarding.attr_anon_text'    => 'يعرض الأحرف الأولى ورقماً عشوائياً للجميع.',
+    'onboarding.attr_public_title' => 'عام:',
+    'onboarding.attr_public_text'  => 'يعرض اسمك الكامل للجميع.',
+    'onboarding.attr_vol_title'   => 'للمتطوعين فقط:',
+    'onboarding.attr_vol_text'     => 'يعرض الأحرف الأولى للعموم، ولكنه يعرض اسمك الكامل للمتطوعين والمشرفين والمسؤولين المسجلين.',
+    'onboarding.attr_opt_anon'     => 'مجهول (الأحرف الأولى ورقم عشوائي)',
+    'onboarding.attr_opt_public'   => 'عام (إظهار الاسم الكامل)',
+    'onboarding.attr_opt_vol'      => 'المتطوعون فقط',
+    'onboarding.submit_btn'        => 'حفظ التفضيلات والمتابعة',
+
+    // ------------------------------------------------------------------
+    // User Profile & Security Settings
+    // ------------------------------------------------------------------
+    'profile.aria_region'          => 'إدارة الملف الشخصي للمستخدم',
+    'profile.heading'              => 'الملف الشخصي للمستخدم والأمان',
+    'profile.personal_details_heading' => 'التفاصيل الشخصية',
+    'profile.language_label'       => 'اللغة المفضلة:',
+    'profile.lang_site_default'    => 'لغة الموقع الافتراضية',
+    'profile.update_details_btn'   => 'تحديث التفاصيل الشخصية',
+    'profile.email_heading'        => 'عنوان البريد الإلكتروني',
+    'profile.current_email_label'  => 'البريد الإلكتروني الحالي:',
+    'profile.email_verified'       => '(متحقق منه)',
+    'profile.email_unverified'     => '(غير متحقق منه - تحقق من صندوق الوارد)',
+    'profile.change_email_label'   => 'تغيير عنوان البريد الإلكتروني:',
+    'profile.aria_new_email'       => 'عنوان البريد الإلكتروني الجديد',
+    'profile.update_email_btn'     => 'تحديث البريد والتحقق',
+    'profile.password_heading'     => 'تغيير كلمة المرور',
+    'profile.current_password_label' => 'كلمة المرور الحالية:',
+    'profile.new_password_label'   => 'كلمة المرور الجديدة (8 أحرف كحد أدنى):',
+    'profile.confirm_password_label' => 'تأكيد كلمة المرور الجديدة:',
+    'profile.show_passwords_label' => 'إظهار كلمات المرور بنص واضح',
+    'profile.update_password_btn'  => 'تحديث كلمة المرور',
+    'profile.tfa_heading'          => 'المصادقة الثنائية (2FA)',
+    'profile.tfa_status_label'     => 'الحالة:',
+    'profile.tfa_enabled'          => 'مُمكّن',
+    'profile.tfa_disabled'         => 'معطل',
+    'profile.setup_tfa_btn'        => 'إعداد تطبيق Google Authenticator',
+    'profile.tfa_active_desc'      => 'المصادقة الثنائية تحمي تسجيل دخول حسابك بنشاط.',
+    'profile.backup_codes_heading' => 'رموز النسخ الاحتياطي الجديدة الخاصة بك',
+    'profile.download_codes_btn'   => 'تنزيل الرموز الجديدة كملف .txt',
+    'profile.generate_codes_confirm' => 'هل أنت متأكد؟ سيؤدي هذا إلى إبطال أي رموز نسخ احتياطي موجودة.',
+    'profile.generate_codes_btn'   => 'توليد رموز نسخ احتياطي جديدة',
+
+    // ------------------------------------------------------------------
+    // User Registration
+    // ------------------------------------------------------------------
+    'register.aria_region'    => 'تسجيل مستخدم جديد',
+    'register.heading'        => 'تسجيل حساب جديد',
+    'register.username_label' => 'اسم المستخدم:',
+    'register.submit_btn'     => 'تسجيل',
+
+    // ------------------------------------------------------------------
+    // Set Password via Secure Token
+    // ------------------------------------------------------------------
+    'set_password.exit_invalid_token'        => 'رمز إعداد غير صالح أو مفقود.',
+    'set_password.exit_expired_token'        => 'رابط إعداد كلمة المرور هذه غير صالح أو انتهت صلاحيته.',
+    'set_password.proceed_login_btn'         => 'الانتقال إلى تسجيل الدخول',
+    'set_password.aria_region'               => 'إعداد كلمة المرور',
+    'set_password.heading_format'            => 'يرجى تعيين كلمة المرور الخاصة بك لـ %s',
+    'set_password.subheading_format'         => 'مرحباً بك في حسابك الجديد، %s! يرجى اختيار كلمة المرور الخاصة بك أدناه.',
+    'set_password.new_password_label'        => 'كلمة المرور الجديدة (8 أحرف كحد أدنى):',
+    'set_password.confirm_password_label'    => 'تأكيد كلمة المرور:',
+    'set_password.show_password_label'       => 'إظهار كلمة المرور',
+    'set_password.save_password_btn'         => 'حفظ كلمة المرور',
+
+    // ------------------------------------------------------------------
+    // Setup 2FA Wizard
+    // ------------------------------------------------------------------
+    'setup_2fa.aria_region'      => 'معالج إعداد المصادقة الثنائية',
+    'setup_2fa.heading'          => 'إعداد تطبيق Google Authenticator',
+    'setup_2fa.subheading'       => 'امسح رمز الاستجابة السريعة (QR) أدناه باستخدام تطبيق المصادقة الخاص بك.',
+    'setup_2fa.qr_alt'           => 'رمز QR لإعداد المصادقة الثنائية',
+    'setup_2fa.manual_prompt'    => 'أو أدخل هذا المفتاح السري يدوياً:',
+    'setup_2fa.backup_heading'   => 'رموز الاسترداد الاحتياطية الطارئة',
+    'setup_2fa.backup_desc'      => 'احفظ رموز النسخ الاحتياطي هذه في مكان آمن. يمكن استخدام كل رمز <strong>مرة واحدة</strong> إذا فقدت الوصول إلى تطبيق المصادقة الخاص بك:',
+    'setup_2fa.download_btn'     => 'تنزيل الرموز كملف .txt',
+    'setup_2fa.code_label'       => 'أدخل الرمز المكون من 6 أرقام من التطبيق للتأكيد والتفعيل:',
+    'setup_2fa.aria_code_input'  => 'رمز المصادقة المكون من 6 أرقام',
+    'setup_2fa.submit_btn'       => 'التحقق وتمكين المصادقة الثنائية',
+    'setup_2fa.cancel_link'      => 'إلغاء والعودة إلى الملف الشخصي',
+
+    // ------------------------------------------------------------------
+    // Suggest Edit View
+    // ------------------------------------------------------------------
+    'suggest_edit.aria_region'          => 'اقتراح تعديل',
+    'suggest_edit.heading_prefix'       => 'اقتراح تعديل للسجل',
+    'suggest_edit.return_btn'           => 'العودة إلى السجل',
+    'suggest_edit.success_msg_suffix'   => 'لا تتردد في إرسال تغيير آخر أدناه، أو استخدم رابط العودة أعلاه عند الانتهاء.',
+    'suggest_edit.current_values_heading' => 'القيم الحالية:',
+    'suggest_edit.empty_label'          => '(فارغ)',
+    'suggest_edit.submit_heading'       => 'إرسال قيمة مقترحة جديدة وأدلة',
+    'suggest_edit.confirm_prompt'       => 'هل أنت متأكد من أنك مستعد لإرسال اقتراح التعديل هذا لمراجعة المسؤول؟',
+    'suggest_edit.select_column_label'  => 'تحديد العمود للتعديل:',
+    'suggest_edit.reasoning_label'      => 'الأدلة / التبرير / ملاحظات المصدر:',
+    'suggest_edit.reasoning_placeholder'=> 'قدم سياقاً أو اقتباسات مصادر أو مبررات لهذا التغيير...',
+    'suggest_edit.submit_btn'           => 'إرسال الاقتراح للمراجعة',
+    'suggest_edit.proposed_value_label' => 'القيمة الجديدة المقترحة:',
+
+    // ------------------------------------------------------------------
+    // Verify 2FA Login Challenge
+    // ------------------------------------------------------------------
+    'verify_2fa.aria_region'     => 'التحقق من المصادقة الثنائية',
+    'verify_2fa.heading'         => 'المصادقة الثنائية',
+    'verify_2fa.subheading'      => 'أدخل الرمز المكون من 6 أرقام من تطبيق المصادقة الخاص بك، أو استخدم رمز استرداد النسخ الاحتياطي الطارئ.',
+    'verify_2fa.code_label'      => 'رمز التحقق / رمز النسخ الاحتياطي:',
+    'verify_2fa.aria_code_input' => 'أدخل رمز المصادقة أو النسخ الاحتياطي',
+    'verify_2fa.submit_btn'      => 'التحقق وتسجيل الدخول',
+
+    // ------------------------------------------------------------------
+    // Verify Email
+    // ------------------------------------------------------------------
+    'verify_email.err_no_token'         => 'لم يتم توفير رمز تحقق.',
+    'verify_email.err_invalid_token'    => 'رمز التحقق غير صالح.',
+    'verify_email.msg_already_verified' => 'تم التحقق من بريدك الإلكتروني بالفعل. يمكنك تسجيل الدخول.',
+    'verify_email.err_expired_token'    => 'انتهت صلاحية رابط التحقق هذا (تجاوز نافذة الـ 24 ساعة). يرجى التسجيل مرة أخرى أو طلب رابط جديد.',
+    'verify_email.msg_success'          => 'تم التحقق من البريد الإلكتروني بنجاح! حسابك نشط الآن. يمكنك متابعة تسجيل الدخول.',
+    'verify_email.err_update_failed'    => 'حدث خطأ أثناء التحقق من بريدك الإلكتروني. يرجى المحاولة مرة أخرى.',
+    'verify_email.aria_region'          => 'حالة التحقق من البريد الإلكتروني',
+    'verify_email.heading'              => 'حالة التحقق من البريد الإلكتروني',
+    'verify_email.login_btn'            => 'انقر هنا لتسجيل الدخول',
+
+    // ------------------------------------------------------------------
+    // Volunteer Form View
+    // ------------------------------------------------------------------
+    'volunteer.aria_region'          => 'نموذج التطوع',
+    'volunteer.honeypot_label'       => 'اتركه فارغاً:',
+    'volunteer.required_field_title'=> 'حقل مطلوب',
+    'volunteer.multi_select_hint'    => 'اضغط مع الاستمرار على Ctrl أو Cmd لتحديد خيارات متعددة.',
+    'volunteer.submit_btn'           => 'إرسال الاهتمام بالتطوع',
+];

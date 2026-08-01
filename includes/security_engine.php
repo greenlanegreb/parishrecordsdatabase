@@ -11,7 +11,7 @@ function run_form_firewall_check(PDO $pdo) {
     // 1. Block empty or extremely suspicious User-Agents
     if (empty($user_agent) || strlen($user_agent) < 5) {
         error_log("Firewall blocked request: Empty or invalid User-Agent from IP {$ip}");
-        return "Security check failed: Suspous client signature.";
+        return __('security_engine.err_suspicious_agent');
     }
 
     // 2. Check for common malicious scraper bots in User-Agent string
@@ -19,7 +19,7 @@ function run_form_firewall_check(PDO $pdo) {
     foreach ($blocked_bots as $bot) {
         if (stripos($user_agent, $bot) !== false) {
             error_log("Firewall blocked malicious bot signature '{$bot}' from IP {$ip}");
-            return "Security check failed: Access denied.";
+            return __('security_engine.err_access_denied');
         }
     }
 
@@ -28,7 +28,7 @@ function run_form_firewall_check(PDO $pdo) {
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM audit_logs WHERE ip_address = ? AND created_at >= (NOW() - INTERVAL 10 MINUTE)");
         $stmt->execute([$ip]);
         if ($stmt->fetchColumn() > 15) {
-            return "Too many submissions from this IP address. Please try again later.";
+            return __('security_engine.err_rate_limit');
         }
     } catch (Exception $e) {
         // Fail open if audit_logs table isn't present
@@ -38,7 +38,7 @@ function run_form_firewall_check(PDO $pdo) {
     foreach ($_POST as $key => $val) {
         if (is_string($val)) {
             if (preg_match_all('/https?:\/\/[^\s]+/i', $val, $matches) > 4) {
-                return "Submission rejected due to excessive links detected.";
+                return __('security_engine.err_excessive_links');
             }
         }
     }
@@ -85,7 +85,7 @@ function verify_form_captcha(PDO $pdo) {
 
     $submitted_token = $_POST[$token_param_name] ?? '';
     if (empty($submitted_token)) {
-        return "Please complete the CAPTCHA verification challenge.";
+        return __('security_engine.err_complete_captcha');
     }
 
     $data = [
@@ -112,7 +112,7 @@ function verify_form_captcha(PDO $pdo) {
 
     $response_data = json_decode($result, true);
     if (empty($response_data['success'])) {
-        return "CAPTCHA verification failed. Please try again.";
+        return __('security_engine.err_captcha_failed');
     }
 
     return true;
@@ -135,7 +135,7 @@ function render_form_captcha_widget(PDO $pdo) {
             $site_key = get_setting($pdo, 'turnstile_site_key', '');
             if (!empty($site_key)) {
                 $widget_html = '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
-                             . '<div class="cf-turnstile" data-sitekey="' . htmlspecialchars($site_key) . '" style="margin-bottom: 1rem;"></div>';
+                           . '<div class="cf-turnstile" data-sitekey="' . htmlspecialchars($site_key) . '" style="margin-bottom: 1rem;"></div>';
             }
             break;
 
@@ -143,7 +143,7 @@ function render_form_captcha_widget(PDO $pdo) {
             $site_key = get_setting($pdo, 'recaptcha_site_key', '');
             if (!empty($site_key)) {
                 $widget_html = '<script src="https://www.google.com/recaptcha/api.js" async defer></script>'
-                             . '<div class="g-recaptcha" data-sitekey="' . htmlspecialchars($site_key) . '" style="margin-bottom: 1rem;"></div>';
+                           . '<div class="g-recaptcha" data-sitekey="' . htmlspecialchars($site_key) . '" style="margin-bottom: 1rem;"></div>';
             }
             break;
 
@@ -151,7 +151,7 @@ function render_form_captcha_widget(PDO $pdo) {
             $site_key = get_setting($pdo, 'hcaptcha_site_key', '');
             if (!empty($site_key)) {
                 $widget_html = '<script src="https://js.hcaptcha.com/1/api.js" async defer></script>'
-                             . '<div class="h-captcha" data-sitekey="' . htmlspecialchars($site_key) . '" style="margin-bottom: 1rem;"></div>';
+                           . '<div class="h-captcha" data-sitekey="' . htmlspecialchars($site_key) . '" style="margin-bottom: 1rem;"></div>';
             }
             break;
     }

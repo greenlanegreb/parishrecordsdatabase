@@ -22,11 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $display_order = intval($_POST['display_order'] ?? 0);
 
         if (empty($title) || empty($content)) {
-            $_SESSION['error'] = "Title and content cannot be blank.";
+            $_SESSION['error'] = __('notices.error_blank');
         } else {
             $stmt = $pdo->prepare("INSERT INTO site_notices (title, content, target_roles, is_dismissible, display_order) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$title, $content, $target_roles, $is_dismissible, $display_order]);
-            $_SESSION['message'] = "Notice created successfully!";
+            $_SESSION['message'] = __('notices.msg_created');
         }
         header('Location: notices.php');
         exit;
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = intval($_POST['notice_id'] ?? 0);
         $stmt = $pdo->prepare("DELETE FROM site_notices WHERE id = ?");
         $stmt->execute([$id]);
-        $_SESSION['message'] = "Notice deleted.";
+        $_SESSION['message'] = __('notices.msg_deleted');
         header('Location: notices.php');
         exit;
     }
@@ -45,8 +45,8 @@ $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, i
 <?php require_once '../partials/header.php'; ?>
 
 <div class="search-box-container" role="region" aria-label="Notices Management">
-    <h3>Site Notices & Announcements Manager</h3>
-    <p>Create dynamic alerts, welcome banners, or targeted notifications for specific user roles.</p>
+    <h3><?php echo htmlspecialchars(__('notices.heading')); ?></h3>
+    <p><?php echo htmlspecialchars(__('notices.subheading')); ?></p>
 
     <?php if (!empty($error)): ?>
         <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -57,68 +57,68 @@ $notices = $pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, i
 
     <!-- Create Notice Form -->
     <div style="background: rgba(0,0,0,0.02); padding: 1.5rem; border-radius: 6px; margin-bottom: 2rem;">
-        <h4>Create New Notice</h4>
+        <h4><?php echo htmlspecialchars(__('notices.create_heading')); ?></h4>
         <form method="POST">
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="create">
            
-            <label for="title">Notice Title / Heading:</label><br>
+            <label for="title"><?php echo htmlspecialchars(__('notices.title_label')); ?></label><br>
             <input type="text" id="title" name="title" required class="profile-input" style="width: 100%; margin-bottom: 1rem;"><br>
 
-            <label for="content">Notice Content (HTML/Text allowed):</label><br>
+            <label for="content"><?php echo htmlspecialchars(__('notices.content_label')); ?></label><br>
             <textarea id="content" name="content" rows="3" required class="profile-input" style="width: 100%; margin-bottom: 1rem;"></textarea><br>
 
-            <label>Target Audience (Select roles or everyone):</label><br>
+            <label><?php echo htmlspecialchars(__('notices.target_roles_label')); ?></label><br>
             <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                <label><input type="checkbox" name="target_roles[]" value="everyone" checked> Everyone</label>
-                <label><input type="checkbox" name="target_roles[]" value="public"> Public (Guests)</label>
-                <label><input type="checkbox" name="target_roles[]" value="user"> Users</label>
-                <label><input type="checkbox" name="target_roles[]" value="moderator"> Moderators</label>
-                <label><input type="checkbox" name="target_roles[]" value="admin"> Admins</label>
+                <label><input type="checkbox" name="target_roles[]" value="everyone" checked> <?php echo htmlspecialchars(__('notices.role_everyone')); ?></label>
+                <label><input type="checkbox" name="target_roles[]" value="public"> <?php echo htmlspecialchars(__('notices.role_public')); ?></label>
+                <label><input type="checkbox" name="target_roles[]" value="user"> <?php echo htmlspecialchars(__('notices.role_users')); ?></label>
+                <label><input type="checkbox" name="target_roles[]" value="moderator"> <?php echo htmlspecialchars(__('notices.role_moderators')); ?></label>
+                <label><input type="checkbox" name="target_roles[]" value="admin"> <?php echo htmlspecialchars(__('notices.role_admins')); ?></label>
             </div>
 
             <div style="display: flex; gap: 2rem; margin-bottom: 1rem; align-items: center;">
                 <label>
-                    <input type="checkbox" name="is_dismissible" value="1" checked> Make Dismissible (Includes close 'X' button)
+                    <input type="checkbox" name="is_dismissible" value="1" checked> <?php echo htmlspecialchars(__('notices.dismissible_label')); ?>
                 </label>
                 <div>
-                    <label for="display_order">Display Order:</label>
+                    <label for="display_order"><?php echo htmlspecialchars(__('notices.display_order_label')); ?></label>
                     <input type="number" id="display_order" name="display_order" value="0" style="width: 70px; padding: 0.2rem;">
                 </div>
             </div>
 
-            <button type="submit" class="btn">Publish Notice</button>
+            <button type="submit" class="btn"><?php echo htmlspecialchars(__('notices.publish_btn')); ?></button>
         </form>
     </div>
 
     <!-- Existing Notices Table -->
-    <h4>Active & Existing Notices</h4>
+    <h4><?php echo htmlspecialchars(__('notices.existing_heading')); ?></h4>
     <table class="data-table" style="width: 100%; border-collapse: collapse;">
         <thead>
             <tr>
-                <th>Order</th>
-                <th>Title</th>
-                <th>Target Roles</th>
-                <th>Dismissible</th>
-                <th>Actions</th>
+                <th><?php echo htmlspecialchars(__('notices.th_order')); ?></th>
+                <th><?php echo htmlspecialchars(__('notices.th_title')); ?></th>
+                <th><?php echo htmlspecialchars(__('notices.th_target_roles')); ?></th>
+                <th><?php echo htmlspecialchars(__('notices.th_dismissible')); ?></th>
+                <th><?php echo htmlspecialchars(__('index.th_actions')); ?></th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($notices)): ?>
-                <tr><td colspan="5" style="text-align: center; padding: 1rem;">No notices created yet.</td></tr>
+                <tr><td colspan="5" style="text-align: center; padding: 1rem;"><?php echo htmlspecialchars(__('notices.no_notices')); ?></td></tr>
             <?php else: ?>
                 <?php foreach ($notices as $n): ?>
                     <tr>
                         <td><?php echo $n['display_order']; ?></td>
                         <td><strong><?php echo htmlspecialchars($n['title']); ?></strong><br><small><?php echo htmlspecialchars(substr($n['content'], 0, 80)); ?>...</small></td>
                         <td><?php echo htmlspecialchars($n['target_roles']); ?></td>
-                        <td><?php echo $n['is_dismissible'] ? 'Yes' : 'No (Sticky)'; ?></td>
+                        <td><?php echo $n['is_dismissible'] ? htmlspecialchars(__('notices.yes')) : htmlspecialchars(__('notices.no_sticky')); ?></td>
                         <td>
-                            <form method="POST" onsubmit="return confirm('Delete this notice?');" style="display:inline;">
+                            <form method="POST" onsubmit="return confirm('<?php echo htmlspecialchars(__('notices.delete_confirm')); ?>');" style="display:inline;">
                                 <?php echo csrf_field(); ?>
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="notice_id" value="<?php echo $n['id']; ?>">
-                                <button type="submit" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;">Delete</button>
+                                <button type="submit" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;"><?php echo htmlspecialchars(__('btn.delete')); ?></button>
                             </form>
                         </td>
                     </tr>

@@ -31,8 +31,8 @@ $template_name = $template['template_name'] ?? 'User Template';
 <?php require_once '../partials/header.php'; ?>
 
 <div class="search-box-container" style="max-width: 800px; margin: 2rem auto;">
-    <h3>Manage User Notification Email Templates</h3>
-    <p>Customize the email layouts dispatched when inviting users or sending password reset links.</p>
+    <h3><?php echo htmlspecialchars(__('user_emails.heading')); ?></h3>
+    <p><?php echo htmlspecialchars(__('user_emails.subheading')); ?></p>
 
     <?php if (!empty($message)): ?>
         <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
@@ -43,30 +43,30 @@ $template_name = $template['template_name'] ?? 'User Template';
 
     <!-- Template Selector Form -->
     <form method="GET" action="manage_user_emails.php" style="margin-bottom: 1.5rem; background: rgba(0,0,0,0.02); padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-        <label for="trigger_event"><strong>Select Template to Edit:</strong></label><br>
+        <label for="trigger_event"><strong><?php echo htmlspecialchars(__('user_emails.select_template_label')); ?></strong></label><br>
         <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
             <select id="trigger_event" name="trigger_event" class="volunteer-input" style="flex: 1; padding: 0.4rem;" onchange="this.form.submit()">
-                <option value="user_invitation" <?php echo ($trigger_event === 'user_invitation') ? 'selected' : ''; ?>>User Account Invitation Template</option>
-                <option value="password_reset" <?php echo ($trigger_event === 'password_reset') ? 'selected' : ''; ?>>Password Reset / Access Link Template</option>
+                <option value="user_invitation" <?php echo ($trigger_event === 'user_invitation') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('user_emails.opt_invitation')); ?></option>
+                <option value="password_reset" <?php echo ($trigger_event === 'password_reset') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('user_emails.opt_reset')); ?></option>
             </select>
         </div>
     </form>
 
     <!-- Clear visual indicator banner showing active template -->
     <div style="background: #eef2f7; border-left: 4px solid var(--btn-bg, #007bff); padding: 0.75rem 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
-        <span style="font-size: 0.85rem; color: #555; text-transform: uppercase; letter-spacing: 0.5px; display: block; font-weight: bold;">Currently Editing:</span>
+        <span style="font-size: 0.85rem; color: #555; text-transform: uppercase; letter-spacing: 0.5px; display: block; font-weight: bold;"><?php echo htmlspecialchars(__('user_emails.currently_editing')); ?></span>
         <strong style="font-size: 1.1rem; color: #222;"><?php echo htmlspecialchars($template_name); ?></strong>
         <span style="display: block; font-size: 0.85rem; color: #666; margin-top: 0.2rem;">
             <?php if ($trigger_event === 'user_invitation'): ?>
-                Dispatched automatically when an administrator creates or invites a new user account.
+                <?php echo htmlspecialchars(__('user_emails.desc_invitation')); ?>
             <?php else: ?>
-                Dispatched when an administrator triggers a password reset or resends an access link.
+                <?php echo htmlspecialchars(__('user_emails.desc_reset')); ?>
             <?php endif; ?>
         </span>
     </div>
 
     <div style="background: rgba(0,0,0,0.02); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid var(--border-color);">
-        <strong style="display: block; margin-bottom: 0.5rem;">Available Placeholders:</strong>
+        <strong style="display: block; margin-bottom: 0.5rem;"><?php echo htmlspecialchars(__('feedback_emails.placeholders_heading')); ?></strong>
         <code style="background: #fff; padding: 0.2rem 0.4rem; border: 1px solid #ddd; margin-right: 0.5rem;">{first_name}</code>
         <code style="background: #fff; padding: 0.2rem 0.4rem; border: 1px solid #ddd; margin-right: 0.5rem;">{surname}</code>
         <code style="background: #fff; padding: 0.2rem 0.4rem; border: 1px solid #ddd; margin-right: 0.5rem;">{username}</code>
@@ -81,17 +81,17 @@ $template_name = $template['template_name'] ?? 'User Template';
         <input type="hidden" name="trigger_event" value="<?php echo htmlspecialchars($trigger_event); ?>">
         
         <div style="margin-bottom: 1.25rem;">
-            <label for="subject"><strong>Email Subject:</strong></label><br>
+            <label for="subject"><strong><?php echo htmlspecialchars(__('feedback_emails.email_subject')); ?></strong></label><br>
             <input type="text" id="subject" name="subject" value="<?php echo htmlspecialchars($subject); ?>" required class="volunteer-input" style="width: 100%; padding: 0.5rem;">
         </div>
 
         <div style="margin-bottom: 1.5rem;">
-            <label for="body"><strong>Email Body Content:</strong></label><br>
+            <label for="body"><strong><?php echo htmlspecialchars(__('user_emails.email_body_label')); ?></strong></label><br>
             <textarea id="body" name="body" rows="8" required class="volunteer-input" style="width: 100%; padding: 0.5rem; resize: vertical;"><?php echo htmlspecialchars($body); ?></textarea>
         </div>
 
-        <button type="submit" class="btn">Save Template</button>
-        <a href="create_user.php" class="btn btn-secondary" style="text-decoration: none; margin-left: 0.5rem;">Back to User Creation</a>
+        <button type="submit" class="btn"><?php echo htmlspecialchars(__('feedback_emails.save_template_btn')); ?></button>
+        <a href="create_user.php" class="btn btn-secondary" style="text-decoration: none; margin-left: 0.5rem;"><?php echo htmlspecialchars(__('user_emails.back_to_creation')); ?></a>
     </form>
 </div>
 

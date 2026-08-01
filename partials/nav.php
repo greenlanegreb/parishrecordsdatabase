@@ -42,7 +42,7 @@ $lang_dir = __DIR__ . '/../lang';
 if (is_dir($lang_dir)) {
     foreach (glob($lang_dir . '/*.php') as $file) {
         $code = basename($file, '.php');
-        if (preg_match('/^[a-z_]+$/', $code)) {
+        if (preg_match('/^[a-zA-Z_\-]+$/', $code)) {
             $nav_languages[] = $code;
         }
     }

@@ -42,17 +42,17 @@ $thread = $replies->fetchAll(PDO::FETCH_ASSOC);
 
 <div style="max-width: 800px; margin: 0 auto;">
     <div style="margin-bottom: 1rem;">
-        <a href="feedback_dashboard.php" class="btn btn-secondary" style="text-decoration: none;">← Back to Tickets Dashboard</a>
+        <a href="feedback_dashboard.php" class="btn btn-secondary" style="text-decoration: none;">← <?php echo htmlspecialchars(__('view_ticket.back_to_dashboard')); ?></a>
     </div>
 
     <div class="search-box-container" style="margin-bottom: 2rem;">
-        <h3>Ticket #<?php echo $ticket['id']; ?>: <?php echo htmlspecialchars($ticket['subject'] ?? 'Support Request'); ?></h3>
-        <p><strong>Submitted by:</strong> <?php echo htmlspecialchars($ticket['name']); ?> (<a href="mailto:<?php echo htmlspecialchars($ticket['email']); ?>"><?php echo htmlspecialchars($ticket['email']); ?></a>) on <?php echo format_user_time($ticket['created_at'], $user_timezone, $full_format_str); ?></p>
+        <h3><?php echo htmlspecialchars(__('view_ticket.ticket_heading_prefix')); ?> #<?php echo $ticket['id']; ?>: <?php echo htmlspecialchars($ticket['subject'] ?? __('view_ticket.support_request')); ?></h3>
+        <p><strong><?php echo htmlspecialchars(__('view_ticket.submitted_by')); ?></strong> <?php echo htmlspecialchars($ticket['name']); ?> (<a href="mailto:<?php echo htmlspecialchars($ticket['email']); ?>"><?php echo htmlspecialchars($ticket['email']); ?></a>) <?php echo htmlspecialchars(__('view_ticket.on_date')); ?> <?php echo format_user_time($ticket['created_at'], $user_timezone, $full_format_str); ?></p>
         
         <!-- Custom Schema Fields Response Data -->
         <?php if (!empty($dyn_values)): ?>
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
-                <h5 style="margin-bottom: 0.5rem; color: #333;">Submitted Form Fields:</h5>
+                <h5 style="margin-bottom: 0.5rem; color: #333;"><?php echo htmlspecialchars(__('view_ticket.submitted_fields')); ?></h5>
                 <ul style="margin: 0; padding-left: 1.2rem;">
                     <?php foreach ($dyn_values as $dv): ?>
                         <li style="margin-bottom: 0.3rem;"><strong><?php echo htmlspecialchars($dv['column_name']); ?>:</strong> <?php echo nl2br(htmlspecialchars($dv['value_content'])); ?></li>
@@ -65,24 +65,24 @@ $thread = $replies->fetchAll(PDO::FETCH_ASSOC);
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="update_status">
             <input type="hidden" name="ticket_id" value="<?php echo $ticket['id']; ?>">
-            <label><strong>Ticket Status:</strong></label>
+            <label><strong><?php echo htmlspecialchars(__('view_ticket.ticket_status_label')); ?></strong></label>
             <select name="status" class="volunteer-input" style="padding: 0.3rem;" onchange="this.form.submit()">
-                <option value="Pending" <?php echo $ticket['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
-                <option value="In Progress" <?php echo $ticket['status'] === 'In Progress' ? 'selected' : ''; ?>>In Progress</option>
-                <option value="Completed" <?php echo $ticket['status'] === 'Completed' ? 'selected' : ''; ?>>Completed</option>
-                <option value="Rejected" <?php echo $ticket['status'] === 'Rejected' ? 'selected' : ''; ?>>Rejected</option>
+                <option value="Pending" <?php echo $ticket['status'] === 'Pending' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('view_ticket.status_pending')); ?></option>
+                <option value="In Progress" <?php echo $ticket['status'] === 'In Progress' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('view_ticket.status_progress')); ?></option>
+                <option value="Completed" <?php echo $ticket['status'] === 'Completed' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('view_ticket.status_completed')); ?></option>
+                <option value="Rejected" <?php echo $ticket['status'] === 'Rejected' ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('view_ticket.status_rejected')); ?></option>
             </select>
         </form>
     </div>
 
-    <h4>Dialogue Thread</h4>
+    <h4><?php echo htmlspecialchars(__('view_ticket.dialogue_heading')); ?></h4>
     <?php if (empty($thread)): ?>
-        <p style="color: #666;">No replies recorded yet.</p>
+        <p style="color: #666;"><?php echo htmlspecialchars(__('view_ticket.no_replies')); ?></p>
     <?php else: ?>
         <?php foreach ($thread as $rep): ?>
             <div style="background: <?php echo $rep['is_admin_reply'] ? '#f8f9fa' : '#e9ecef'; ?>; border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
                 <p style="margin: 0 0 0.5rem 0; font-size: 0.85rem; color: #555;">
-                    <strong><?php echo $rep['is_admin_reply'] ? '🛡️ Admin (' . htmlspecialchars($rep['username'] ?? 'Staff') . ')' : htmlspecialchars($ticket['name']); ?></strong> — 
+                    <strong><?php echo $rep['is_admin_reply'] ? '🛡️ ' . htmlspecialchars(__('view_ticket.admin_label')) . ' (' . htmlspecialchars($rep['username'] ?? __('view_ticket.staff')) . ')' : htmlspecialchars($ticket['name']); ?></strong> — 
                     <em><?php echo format_user_time($rep['created_at'], $user_timezone, $full_format_str); ?></em>
                 </p>
                 <div style="white-space: pre-wrap;"><?php echo htmlspecialchars($rep['message']); ?></div>
@@ -92,16 +92,16 @@ $thread = $replies->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Reply Box -->
     <div class="search-box-container" style="margin-top: 2rem;">
-        <h4>Post Reply & Notify Submitter</h4>
+        <h4><?php echo htmlspecialchars(__('view_ticket.post_reply_heading')); ?></h4>
         <form method="POST" action="actions/save_ticket_reply.php">
             <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="post_reply">
             <input type="hidden" name="ticket_id" value="<?php echo $ticket['id']; ?>">
             
-            <textarea name="reply_message" rows="4" placeholder="Type your response here..." class="volunteer-input" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required></textarea>
+            <textarea name="reply_message" rows="4" placeholder="<?php echo htmlspecialchars(__('view_ticket.reply_placeholder')); ?>" class="volunteer-input" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;" required></textarea>
             
             <div style="display: flex; gap: 10px; align-items: center;">
-                <button type="submit" class="btn">Send Reply & Email Submitter</button>
+                <button type="submit" class="btn"><?php echo htmlspecialchars(__('view_ticket.send_reply_btn')); ?></button>
             </div>
         </form>
     </div>

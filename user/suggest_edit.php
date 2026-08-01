@@ -18,7 +18,7 @@ $record_id = $_GET['record_id'] ?? null;
 $return_url = $_GET['return'] ?? $_SERVER['HTTP_REFERER'] ?? '../index.php';
 
 if (!$record_id) {
-    exit("No record specified.");
+    exit(__('record_history.exit_no_record'));
 }
 
 // Fetch ALL columns belonging to this record's table, including data type and formatting details
@@ -41,7 +41,7 @@ $stmt->execute([$record_id]);
 $record_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (!$record_data) {
-    exit("Record not found.");
+    exit(__('record_history.exit_not_found'));
 }
 
 $message = $_SESSION['message'] ?? '';
@@ -50,20 +50,20 @@ unset($_SESSION['message'], $_SESSION['error']);
 ?>
 <?php require_once '../partials/header.php'; ?>
 
-<div class="search-box-container suggest-edit-container" role="region" aria-label="Suggest Edit">
+<div class="search-box-container suggest-edit-container" role="region" aria-label="<?php echo htmlspecialchars(__('suggest_edit.aria_region')); ?>">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 style="margin: 0;">Suggest an Edit for Record #<?php echo htmlspecialchars($record_id); ?></h3>
-        <a href="<?php echo htmlspecialchars($return_url); ?>" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; padding: 0.4rem 0.8rem;">← Return to Record</a>
+        <h3 style="margin: 0;"><?php echo htmlspecialchars(__('suggest_edit.heading_prefix')); ?> #<?php echo htmlspecialchars($record_id); ?></h3>
+        <a href="<?php echo htmlspecialchars($return_url); ?>" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; padding: 0.4rem 0.8rem;">← <?php echo htmlspecialchars(__('suggest_edit.return_btn')); ?></a>
     </div>
 
     <?php if (!empty($error)): ?>
         <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
     <?php if (!empty($message)): ?>
-        <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong> Feel free to submit another change below, or use the return link above when finished.</p>
+        <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong> <?php echo htmlspecialchars(__('suggest_edit.success_msg_suffix')); ?></p>
     <?php endif; ?>
 
-    <h4>Current Values:</h4>
+    <h4><?php echo htmlspecialchars(__('suggest_edit.current_values_heading')); ?></h4>
     <ul class="suggest-edit-list">
         <?php foreach ($record_data as $data): ?>
             <li>
@@ -75,7 +75,7 @@ unset($_SESSION['message'], $_SESSION['error']);
                         <?php echo htmlspecialchars($data['value_content']); ?>
                     <?php endif; ?>
                 <?php else: ?>
-                    <em style="color: #888;">(empty)</em>
+                    <em style="color: #888;"><?php echo htmlspecialchars(__('suggest_edit.empty_label')); ?></em>
                 <?php endif; ?>
             </li>
         <?php endforeach; ?>
@@ -83,13 +83,13 @@ unset($_SESSION['message'], $_SESSION['error']);
 
     <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
-    <h3>Submit New Proposed Value & Evidence</h3>
-    <form method="POST" action="actions/save_suggest_edit.php" onsubmit="return confirm('Are you sure you are ready to submit this edit suggestion for admin review?');">
+    <h3><?php echo htmlspecialchars(__('suggest_edit.submit_heading')); ?></h3>
+    <form method="POST" action="actions/save_suggest_edit.php" onsubmit="return confirm('<?php echo htmlspecialchars(__('suggest_edit.confirm_prompt')); ?>');">
         <?php echo csrf_field(); ?>
         <input type="hidden" name="record_id" value="<?php echo htmlspecialchars($record_id); ?>">
         <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($return_url); ?>">
 
-        <label for="column_id">Select Column to Edit:</label><br>
+        <label for="column_id"><?php echo htmlspecialchars(__('suggest_edit.select_column_label')); ?></label><br>
         <select id="column_id" name="column_id" required class="suggest-edit-select" onchange="renderInputType()">
             <?php foreach ($record_data as $data): ?>
                 <option value="<?php echo $data['column_id']; ?>">
@@ -102,15 +102,25 @@ unset($_SESSION['message'], $_SESSION['error']);
             <!-- Dynamic input field rendered via JavaScript depending on column type -->
         </div>
 
-        <label for="reasoning" style="margin-top: 1rem;">Evidence / Reasoning / Source Notes:</label><br>
-        <textarea id="reasoning" name="reasoning" rows="3" placeholder="Provide context, source citations, or rationale for this change..." class="suggest-edit-textarea" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"></textarea><br>
+        <label for="reasoning" style="margin-top: 1rem;"><?php echo htmlspecialchars(__('suggest_edit.reasoning_label')); ?></label><br>
+        <textarea id="reasoning" name="reasoning" rows="3" placeholder="<?php echo htmlspecialchars(__('suggest_edit.reasoning_placeholder')); ?>" class="suggest-edit-textarea" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"></textarea><br>
 
-        <button type="submit" class="btn" style="margin-top: 1rem;">Submit Suggestion for Review</button>
+        <button type="submit" class="btn" style="margin-top: 1rem;"><?php echo htmlspecialchars(__('suggest_edit.submit_btn')); ?></button>
     </form>
 </div>
 
 <script>
 const columnMeta = <?php echo json_encode($record_data); ?>;
+const optYesTrueText = '<?php echo htmlspecialchars(__('data_entry.bool_yes_true')); ?>';
+const optNoFalseText = '<?php echo htmlspecialchars(__('data_entry.bool_no_false')); ?>';
+const optMaleText = '<?php echo htmlspecialchars(__('data_entry.bool_male')); ?>';
+const optFemaleText = '<?php echo htmlspecialchars(__('data_entry.bool_female')); ?>';
+const optTrueText = '<?php echo htmlspecialchars(__('data_entry.bool_true')); ?>';
+const optFalseText = '<?php echo htmlspecialchars(__('data_entry.bool_false')); ?>';
+const optTickText = '<?php echo htmlspecialchars(__('data_entry.bool_tick')); ?>';
+const optCrossText = '<?php echo htmlspecialchars(__('data_entry.bool_cross')); ?>';
+const selectPlaceholder = '<?php echo htmlspecialchars(__('feedback.select_placeholder')); ?>';
+const proposedValueLabel = '<?php echo htmlspecialchars(__('suggest_edit.proposed_value_label')); ?>';
 
 function renderInputType() {
     const select = document.getElementById('column_id');
@@ -124,19 +134,19 @@ function renderInputType() {
 
     if (col.data_type === 'BOOLEAN') {
         let fmt = col.boolean_display_format || 'yes_no';
-        let opt1Text = 'Yes / True';
-        let opt2Text = 'No / False';
+        let opt1Text = optYesTrueText;
+        let opt2Text = optNoFalseText;
         
-        if (fmt === 'male_female') { opt1Text = 'Male'; opt2Text = 'Female'; }
-        else if (fmt === 'true_false') { opt1Text = 'True'; opt2Text = 'False'; }
-        else if (fmt === 'tick_cross') { opt1Text = '✔ (Tick)'; opt2Text = '✘ (Cross)'; }
+        if (fmt === 'male_female') { opt1Text = optMaleText; opt2Text = optFemaleText; }
+        else if (fmt === 'true_false') { opt1Text = optTrueText; opt2Text = optFalseText; }
+        else if (fmt === 'tick_cross') { opt1Text = optTickText; opt2Text = optCrossText; }
 
         let currentValue = col.value_content;
 
         container.innerHTML = `
-            <label for="proposed_value">Proposed New Value:</label><br>
+            <label for="proposed_value">${proposedValueLabel}</label><br>
             <select id="proposed_value" name="proposed_value" required class="suggest-edit-select" style="width: 100%; padding: 0.5rem; margin-top: 0.25rem;">
-                <option value="">-- Select --</option>
+                <option value="">${selectPlaceholder}</option>
                 <option value="1" ${currentValue === '1' ? 'selected' : ''}>${opt1Text}</option>
                 <option value="0" ${currentValue === '0' ? 'selected' : ''}>${opt2Text}</option>
             </select>
@@ -144,7 +154,7 @@ function renderInputType() {
     } else {
         let currentValue = col.value_content;
         container.innerHTML = `
-            <label for="proposed_value">Proposed New Value:</label><br>
+            <label for="proposed_value">${proposedValueLabel}</label><br>
             <textarea id="proposed_value" name="proposed_value" rows="3" required class="suggest-edit-textarea" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden; width: 100%;">${escapeHtml(currentValue)}</textarea>
         `;
         const textarea = document.getElementById('proposed_value');

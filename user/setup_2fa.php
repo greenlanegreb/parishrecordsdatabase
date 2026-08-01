@@ -67,9 +67,9 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" . 
 
     <?php require_once '../partials/header.php'; ?>
 
-    <div class="search-box-container setup-2fa-container" role="region" aria-label="2FA Setup Wizard">
-        <h3 style="text-align: center;">Set Up Google Authenticator</h3>
-        <p style="text-align: center;">Scan the QR code below with your authenticator app.</p>
+    <div class="search-box-container setup-2fa-container" role="region" aria-label="<?php echo htmlspecialchars(__('setup_2fa.aria_region')); ?>">
+        <h3 style="text-align: center;"><?php echo htmlspecialchars(__('setup_2fa.heading')); ?></h3>
+        <p style="text-align: center;"><?php echo htmlspecialchars(__('setup_2fa.subheading')); ?></p>
 
         <?php if (!empty($error)): ?>
             <p class="alert-danger" style="text-align: center; margin: 1rem 0;"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -78,10 +78,10 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" . 
         <!-- QR Code Display -->
         <div class="setup-2fa-qr-wrapper">
             <div class="setup-2fa-qr-inner">
-                <img src="<?php echo htmlspecialchars($qrCodeUrl); ?>" alt="QR Code for 2FA Setup" width="200" height="200">
+                <img src="<?php echo htmlspecialchars($qrCodeUrl); ?>" alt="<?php echo htmlspecialchars(__('setup_2fa.qr_alt')); ?>" width="200" height="200">
             </div>
             <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-                Or enter this secret key manually: <br>
+                <?php echo htmlspecialchars(__('setup_2fa.manual_prompt')); ?><br>
                 <code class="setup-2fa-secret-code"><?php echo htmlspecialchars($secret); ?></code>
             </p>
         </div>
@@ -90,24 +90,24 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" . 
 
         <!-- Backup Recovery Codes Box -->
         <div class="backup-codes-box">
-            <h4 style="margin-top: 0; color: var(--danger-color);">Emergency Backup Recovery Codes</h4>
-            <p style="font-size: 0.9rem;">Save these backup codes in a secure place. Each code can be used <strong>once</strong> if you lose access to your authenticator app:</p>
+            <h4 style="margin-top: 0; color: var(--danger-color);"><?php echo htmlspecialchars(__('setup_2fa.backup_heading')); ?></h4>
+            <p style="font-size: 0.9rem;"><?php echo __('setup_2fa.backup_desc'); ?></p>
             <ul class="backup-codes-list">
                 <?php foreach ($raw_backup_codes as $rc): ?>
                     <li><?php echo htmlspecialchars($rc); ?></li>
                 <?php endforeach; ?>
             </ul>
-            <a href="setup_2fa.php?action=download_codes" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; display: inline-block;">Download Codes as .txt</a>
+            <a href="setup_2fa.php?action=download_codes" class="btn btn-secondary" style="font-size: 0.9rem; text-decoration: none; display: inline-block;"><?php echo htmlspecialchars(__('setup_2fa.download_btn')); ?></a>
         </div>
 
         <form method="POST" action="actions/save_setup_2fa.php">
             <?php echo csrf_field(); ?>
-            <label for="code" style="display: block; font-weight: bold; margin-bottom: 0.5rem;">Enter 6-digit Code from App to Confirm & Activate:</label>
-            <input type="text" id="code" name="code" pattern="[0-9]{6}" maxlength="6" required autofocus class="setup-2fa-input" aria-label="6-digit authentication code">
-            <button type="submit" class="btn" style="width: 100%;">Verify and Enable 2FA</button>
+            <label for="code" style="display: block; font-weight: bold; margin-bottom: 0.5rem;"><?php echo htmlspecialchars(__('setup_2fa.code_label')); ?></label>
+            <input type="text" id="code" name="code" pattern="[0-9]{6}" maxlength="6" required autofocus class="setup-2fa-input" aria-label="<?php echo htmlspecialchars(__('setup_2fa.aria_code_input')); ?>">
+            <button type="submit" class="btn" style="width: 100%;"><?php echo htmlspecialchars(__('setup_2fa.submit_btn')); ?></button>
         </form>
         
-        <p style="text-align: center; margin-top: 1.5rem;"><a href="profile.php" style="color: var(--text-color); text-decoration: underline;">Cancel and Return to Profile</a></p>
+        <p style="text-align: center; margin-top: 1.5rem;"><a href="profile.php" style="color: var(--text-color); text-decoration: underline;"><?php echo htmlspecialchars(__('setup_2fa.cancel_link')); ?></a></p>
     </div>
 
     <?php require_once '../partials/footer.php'; ?>

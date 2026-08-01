@@ -16,7 +16,7 @@ $has_public_permission = guest_has_permission($pdo, 'view_public');
 
 if (!$current_user && !$has_public_permission) {
     http_response_code(403);
-    echo json_encode(['error' => '403 Forbidden: Public viewing is not enabled.']);
+    echo json_encode(['error' => __('api_search.error_public_forbidden')]);
     exit;
 }
 
@@ -27,7 +27,7 @@ $table_id = intval($_GET['table_id'] ?? 1);
 $perm_key = 'view_table_' . $table_id;
 if ($table_id !== 1 && $current_user && !has_permission($pdo, $perm_key)) {
     http_response_code(403);
-    echo json_encode(['error' => 'Unauthorized table access.']);
+    echo json_encode(['error' => __('api_search.error_unauthorized_table')]);
     exit;
 }
 
@@ -86,7 +86,7 @@ $paginated_records = array_slice($matched_records, $offset, $per_page);
 // Build HTML rows
 ob_start();
 if (empty($paginated_records)) {
-    echo '<tr><td colspan="' . (count($columns) + 4) . '">No records found in this table.</td></tr>';
+    echo '<tr><td colspan="' . (count($columns) + 4) . '">' . htmlspecialchars(__('api_search.no_records')) . '</td></tr>';
 } else {
     foreach ($paginated_records as $rec) {
         echo '<tr>';
@@ -107,9 +107,9 @@ if (empty($paginated_records)) {
         
         // Actions Column: History button + Suggest Edit button (if module enabled)
         echo '<td>';
-        echo '<a href="record_history.php?record_id=' . (int)$rec['id'] . '" class="btn btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.8rem;text-decoration:none;margin-right:4px;">History</a>';
+        echo '<a href="record_history.php?record_id=' . (int)$rec['id'] . '" class="btn btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.8rem;text-decoration:none;margin-right:4px;">' . htmlspecialchars(__('api_search.history_btn')) . '</a>';
         if (is_module_enabled($pdo, 'moderation')) {
-            echo '<button type="button" class="btn" style="padding:0.2rem 0.4rem;font-size:0.8rem;" onclick="openSuggestModal(' . $rec['id'] . ')">Suggest Edit</button>';
+            echo '<button type="button" class="btn" style="padding:0.2rem 0.4rem;font-size:0.8rem;" onclick="openSuggestModal(' . $rec['id'] . ')">' . htmlspecialchars(__('api_search.suggest_edit_btn')) . '</button>';
         }
         echo '</td>';
         

@@ -160,55 +160,52 @@ PHP;
 }
 
 function install_bootstrap_permissions(PDO $pdo): void {
-    $core_permissions = [
-        ['manage_settings', 'Manage global site settings, mail drivers, and maintenance mode'],
-        ['manage_users', 'Manage user accounts'],
-        ['invite_users', 'Create and invite new users'],
-        ['manage_tables', 'Manage dynamic database tables and column schema definitions'],
-        ['manage_columns', 'Configure table columns'],
-        ['edit_records', 'Add, edit, and transcribe records into the system'],
-        ['access_data_entry', 'Allows accessing the core data entry workstation and creating records'],
-        ['view_public', 'View and search records'],
-        ['view_leaderboard', 'Allows viewing community contribution leaderboards'],
-        ['manage_feedback', 'Manage feedback'],
-        ['submit_feedback', 'Allows submitting public feedback and inquiries'],
-        ['manage_volunteers', 'Manage volunteers'],
-        ['submit_volunteer', 'Allows submitting volunteer interest and transcription applications'],
-        ['moderate_suggestions', 'Approve, reject, or override user edit suggestions'],
-        ['manage_moderation', 'Manage and review user correction suggestions and moderation queues'],
-        ['moderate_submissions', 'Review and moderate pending user submissions'],
-        ['access_profile', 'Allows viewing and managing personal user profile and security settings'],
-        ['access_onboarding', 'Allows accessing the first-time user onboarding setup wizard'],
-        ['purge_audit_entry', 'Allows purging individual audit log entries from record history'],
-        ['manage_audit_logs', 'Allows viewing and managing the global system-wide audit log trail'],
-    ];
+    $registryPath = dirname(__DIR__) . '/db/permissions_registry.php';
+    if (!is_file($registryPath)) {
+        throw new RuntimeException("Missing permissions registry: {$registryPath}");
+    }
+    
+    $registry = include $registryPath;
+    $permissions = $registry['permissions'] ?? [];
+    $defaultRoles = $registry['default_roles'] ?? [];
 
+    // 1. Insert all master permissions from registry
     $insPerm = $pdo->prepare(
         'INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)'
     );
-    foreach ($core_permissions as [$key, $desc]) {
+    foreach ($permissions as $key => $desc) {
         $insPerm->execute([$key, $desc]);
     }
 
-    $pdo->exec("
-        INSERT IGNORE INTO role_permissions (role_id, permission_id)
-        SELECT 1, id FROM permissions
-    ");
+    // 2. Map default permissions to core roles dynamically from the registry
+    foreach ($defaultRoles as $roleName => $permKeys) {
+        $stmt = $pdo->prepare("SELECT id FROM roles WHERE role_name = ?");
+        $stmt->execute([$roleName]);
+        $roleId = $stmt->fetchColumn();
 
-    $pdo->exec("
-        INSERT IGNORE INTO role_permissions (role_id, permission_id)
-        SELECT 4, id FROM permissions WHERE permission_key = 'view_public'
-    ");
+        if ($roleId) {
+            foreach ($permKeys as $key) {
+                $pStmt = $pdo->prepare("SELECT id FROM permissions WHERE permission_key = ?");
+                $pStmt->execute([$key]);
+                $permId = $pStmt->fetchColumn();
+
+                if ($permId) {
+                    $mapStmt = $pdo->prepare("INSERT IGNORE INTO role_permissions (role_id, permission_id) VALUES (?, ?)");
+                    $mapStmt->execute([$roleId, $permId]);
+                }
+            }
+        }
+    }
 }
 
 function install_show_complete_page(): void {
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">';
-    echo '<title>Setup complete</title>';
+    echo '<title>' . htmlspecialchars(__('install.complete_title')) . '</title>';
     echo '<style>body{font-family:system-ui,sans-serif;max-width:40rem;margin:2rem auto;padding:0 1rem;line-height:1.5}</style></head><body>';
-    echo '<h1>Setup complete</h1>';
-    echo '<p>This site is already set up. The installer is closed so it cannot be run again by mistake.</p>';
-    echo '<p><a href="../user/login.php">Log in</a> · <a href="../index.php">Go to the site</a></p>';
-    echo '<p style="font-size:0.9rem;color:#555">You can delete or rename the <code>install</code> folder for extra safety.</p>';
+    echo '<h1>' . htmlspecialchars(__('install.complete_heading')) . '</h1>';
+    echo '<p>' . htmlspecialchars(__('install.complete_desc')) . '</p>';
+    echo '<p><a href="../user/login.php">' . htmlspecialchars(__('install.login_link')) . '</a> · <a href="../index.php">' . htmlspecialchars(__('install.home_link')) . '</a></p>';
+    echo '<p style="font-size:0.9rem;color:#555">' . __('install.delete_folder_hint') . '</p>';
     echo '</body></html>';
     exit;
 }
@@ -258,9 +255,9 @@ if (is_file($configLocal) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
         }
         $_SESSION['install_db_ok'] = true;
         $step = 4;
-        $message = 'Database is ready. Create your admin account to finish setup.';
+        $message = __('install.msg_db_ready');
     } catch (Throwable $e) {
-        $error = 'Could not use existing config: ' . $e->getMessage();
+        $error = __('install.err_config_load') . ' ' . $e->getMessage();
     }
 }
 
@@ -272,8 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($step === 3) {
             if (!$probeOk) {
                 throw new RuntimeException(
-                    'PHP cannot create files in this project folder. '
-                    . ($probeError !== '' ? 'Detail: ' . $probeError : '')
+                    __('install.err_write_permission') . ' ' . ($probeError !== '' ? __('install.detail_prefix') . ' ' . $probeError : '')
                 );
             }
 
@@ -283,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pass = $_POST['db_pass'] ?? '';
 
             if ($name === '' || $user === '') {
-                throw new RuntimeException('Database name and database username are required.');
+                throw new RuntimeException(__('install.err_db_required'));
             }
 
             $dsn = "mysql:host={$host};dbname={$name};charset=utf8mb4";
@@ -295,9 +291,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->exec("SET time_zone = '+00:00';");
 
             if (!install_db_is_empty($pdo)) {
-                throw new RuntimeException(
-                    'This database is not empty. Use a new empty database (or drop all tables) and try again.'
-                );
+                throw new RuntimeException(__('install.err_db_not_empty'));
             }
 
             install_write_config_local($configLocal, $host, $name, $user, $pass);
@@ -329,10 +323,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_SESSION['install_db_ok'] = true;
             $step = 4;
-            $message = 'Database connected and schema imported. Create your admin account.';
+            $message = __('install.msg_schema_imported');
         } elseif ($step === 4) {
             if (empty($_SESSION['install_db_ok']) || !is_file($configLocal)) {
-                throw new RuntimeException('Complete the database step first.');
+                throw new RuntimeException(__('install.err_complete_db_first'));
             }
 
             $pdo = install_load_pdo_from_config($configLocal);
@@ -343,16 +337,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $confirm  = $_POST['admin_password_confirm'] ?? '';
 
             if ($username === '' || $email === '' || $password === '') {
-                throw new RuntimeException('All admin fields are required.');
+                throw new RuntimeException(__('install.err_admin_required'));
             }
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                throw new RuntimeException('Invalid email address.');
+                throw new RuntimeException(__('install.err_invalid_email'));
             }
             if (strlen($password) < 8) {
-                throw new RuntimeException('Password must be at least 8 characters.');
+                throw new RuntimeException(__('install.err_password_length'));
             }
             if ($password !== $confirm) {
-                throw new RuntimeException('Passwords do not match.');
+                throw new RuntimeException(__('install.err_passwords_match'));
             }
 
             $hash = password_hash($password, PASSWORD_DEFAULT);
@@ -375,7 +369,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $check = $pdo->prepare('SELECT COUNT(*) FROM users WHERE username = ?');
             $check->execute([$username]);
             if ((int) $check->fetchColumn() < 1) {
-                throw new RuntimeException('Admin user was not saved. Check the users table structure.');
+                throw new RuntimeException(__('install.err_admin_save_failed'));
             }
 
             install_bootstrap_permissions($pdo);
@@ -390,7 +384,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             file_put_contents($lockFile, 'Installed ' . gmdate('c') . "\n");
             unset($_SESSION['install_db_ok']);
             $step = 5;
-            $message = 'Installation complete.';
+            $message = __('install.msg_installation_complete');
         }
     } catch (Throwable $e) {
         $error = $e->getMessage();
@@ -418,7 +412,7 @@ $showDbForm = ($step === 3) || ($step < 4 && empty($_SESSION['install_db_ok']) &
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Install — Parish Records Directory</title>
+    <title><?php echo htmlspecialchars(__('install.page_title')); ?></title>
     <style>
         body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
         .err { background: #f8d7da; color: #721c24; padding: 0.75rem; border-radius: 4px; }
@@ -433,8 +427,8 @@ $showDbForm = ($step === 3) || ($step < 4 && empty($_SESSION['install_db_ok']) &
     </style>
 </head>
 <body>
-    <h1>Install</h1>
-    <p>First-time setup for <strong>this application folder only</strong>. Use an empty MySQL database.</p>
+    <h1><?php echo htmlspecialchars(__('install.heading')); ?></h1>
+    <p><?php echo __('install.subheading'); ?></p>
 
     <?php if ($error): ?>
         <p class="err"><?php echo htmlspecialchars($error); ?></p>
@@ -444,50 +438,50 @@ $showDbForm = ($step === 3) || ($step < 4 && empty($_SESSION['install_db_ok']) &
     <?php endif; ?>
 
     <?php if ($step === 5): ?>
-        <h2>Done</h2>
-        <p class="ok">Installation complete. The installer is now locked.</p>
-        <p><a href="../user/login.php">Log in</a> · <a href="../index.php">Go to the site</a></p>
+        <h2><?php echo htmlspecialchars(__('install.done_heading')); ?></h2>
+        <p class="ok"><?php echo htmlspecialchars(__('install.done_message')); ?></p>
+        <p><a href="../user/login.php"><?php echo htmlspecialchars(__('install.login_link')); ?></a> · <a href="../index.php"><?php echo htmlspecialchars(__('install.home_link')); ?></a></p>
 
     <?php elseif ($step === 4): ?>
-        <h2>Site administrator account</h2>
-        <p>This is the login for <strong>this website</strong> (not the database).</p>
+        <h2><?php echo htmlspecialchars(__('install.admin_heading')); ?></h2>
+        <p><?php echo __('install.admin_subheading'); ?></p>
         <form method="post">
             <input type="hidden" name="step" value="4">
-            <label for="admin_username">Admin username</label>
+            <label for="admin_username"><?php echo htmlspecialchars(__('install.admin_username_label')); ?></label>
             <input id="admin_username" name="admin_username" required autocomplete="username">
-            <label for="admin_email">Admin email</label>
+            <label for="admin_email"><?php echo htmlspecialchars(__('install.admin_email_label')); ?></label>
             <input id="admin_email" name="admin_email" type="email" required autocomplete="email">
-            <label for="admin_password">Admin password (min 8 characters)</label>
+            <label for="admin_password"><?php echo htmlspecialchars(__('install.admin_password_label')); ?></label>
             <input id="admin_password" name="admin_password" type="password" required autocomplete="new-password">
-            <label for="admin_password_confirm">Confirm admin password</label>
+            <label for="admin_password_confirm"><?php echo htmlspecialchars(__('install.admin_confirm_password_label')); ?></label>
             <input id="admin_password_confirm" name="admin_password_confirm" type="password" required autocomplete="new-password">
-            <button type="submit">Finish installation</button>
+            <button type="submit"><?php echo htmlspecialchars(__('install.finish_btn')); ?></button>
         </form>
 
     <?php elseif ($showDbForm): ?>
-        <h2>Database connection</h2>
-        <p class="hint">Use the MySQL details from your <strong>hosting control panel</strong>. This is not the website admin login (that comes next).</p>
+        <h2><?php echo htmlspecialchars(__('install.db_heading')); ?></h2>
+        <p class="hint"><?php echo __('install.db_hint'); ?></p>
         <form method="post">
             <input type="hidden" name="step" value="3">
-            <label for="db_host">Database host</label>
+            <label for="db_host"><?php echo htmlspecialchars(__('install.db_host_label')); ?></label>
             <input id="db_host" name="db_host" value="127.0.0.1" required>
-            <label for="db_name">Database name</label>
+            <label for="db_name"><?php echo htmlspecialchars(__('install.db_name_label')); ?></label>
             <input id="db_name" name="db_name" required>
-            <label for="db_user">Database username</label>
+            <label for="db_user"><?php echo htmlspecialchars(__('install.db_user_label')); ?></label>
             <input id="db_user" name="db_user" required autocomplete="off">
-            <label for="db_pass">Database password</label>
+            <label for="db_pass"><?php echo htmlspecialchars(__('install.db_pass_label')); ?></label>
             <input id="db_pass" name="db_pass" type="password" autocomplete="new-password">
-            <button type="submit">Create tables &amp; continue</button>
+            <button type="submit"><?php echo htmlspecialchars(__('install.db_submit_btn')); ?></button>
         </form>
 
     <?php else: ?>
-        <h2>1. Requirements</h2>
+        <h2><?php echo htmlspecialchars(__('install.req_heading')); ?></h2>
         <ul>
-            <li class="<?php echo $phpOk ? 'pass' : 'fail'; ?>">PHP 8.0+ (found <?php echo htmlspecialchars(PHP_VERSION); ?>)</li>
-            <li class="<?php echo $pdoOk ? 'pass' : 'fail'; ?>">PDO MySQL extension</li>
-            <li class="<?php echo $logsOk ? 'pass' : 'fail'; ?>">Writable logs folder (or project folder)</li>
+            <li class="<?php echo $phpOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(sprintf(__('install.req_php'), PHP_VERSION)); ?></li>
+            <li class="<?php echo $pdoOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(__('install.req_pdo')); ?></li>
+            <li class="<?php echo $logsOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(__('install.req_logs')); ?></li>
             <li class="<?php echo $probeOk ? 'pass' : 'fail'; ?>">
-                Can create files in this project folder
+                <?php echo htmlspecialchars(__('install.req_probe')); ?>
                 <?php if (!$probeOk && $probeError): ?>
                     <br><span class="hint"><?php echo htmlspecialchars($probeError); ?></span>
                 <?php endif; ?>
@@ -496,10 +490,10 @@ $showDbForm = ($step === 3) || ($step < 4 && empty($_SESSION['install_db_ok']) &
         <?php if ($reqsOk): ?>
             <form method="post">
                 <input type="hidden" name="step" value="2">
-                <button type="submit">Continue</button>
+                <button type="submit"><?php echo htmlspecialchars(__('install.continue_btn')); ?></button>
             </form>
         <?php else: ?>
-            <p class="err">Fix the failed checks, then reload this page.</p>
+            <p class="err"><?php echo htmlspecialchars(__('install.req_fail_msg')); ?></p>
         <?php endif; ?>
     <?php endif; ?>
 </body>

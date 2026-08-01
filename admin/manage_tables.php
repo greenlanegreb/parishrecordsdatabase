@@ -59,8 +59,8 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php require_once '../partials/header.php'; ?>
 
 <div class="search-box-container" role="region" aria-label="Dynamic Table Management" style="max-width: 1100px; margin: 0 auto;">
-    <h3>Dynamic Table & Schema Management</h3>
-    <p>Create, inspect, modify, or safely decommission dynamic application tables and their underlying column schemas.</p>
+    <h3><?php echo htmlspecialchars(__('manage_tables.heading')); ?></h3>
+    <p><?php echo htmlspecialchars(__('manage_tables.subheading')); ?></p>
 
     <?php if (!empty($error)): ?>
         <p class="alert-danger" role="alert"><strong><?php echo htmlspecialchars($error); ?></strong></p>
@@ -73,7 +73,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php if (!empty($tables)): ?>
     <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.02); padding: 1rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-            <label for="table_switcher" style="font-size: 0.85rem; font-weight: bold;">Select Active Table Schema:</label><br>
+            <label for="table_switcher" style="font-size: 0.85rem; font-weight: bold;"><?php echo htmlspecialchars(__('manage_tables.switcher_label')); ?></label><br>
             <select id="table_switcher" class="volunteer-input" style="padding: 0.4rem; margin-top: 0.3rem; min-width: 250px;" onchange="if(this.value) window.location.href='manage_tables.php?table_id=' + this.value;">
                 <?php foreach ($tables as $t): ?>
                     <option value="<?php echo $t['id']; ?>" <?php echo ($t['id'] === $active_table_id) ? 'selected' : ''; ?>>
@@ -85,13 +85,13 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
       
         <?php if ($active_table_info): ?>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
-                <a href="manage_tables.php?edit_table=<?php echo $active_table_info['id']; ?>&table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="font-size: 0.85rem; text-decoration: none; padding: 0.4rem 0.8rem;">Edit Table Metadata</a>
+                <a href="manage_tables.php?edit_table=<?php echo $active_table_info['id']; ?>&table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="font-size: 0.85rem; text-decoration: none; padding: 0.4rem 0.8rem;"><?php echo htmlspecialchars(__('manage_tables.edit_metadata_btn')); ?></a>
                 <?php if ($active_table_info['id'] > 1): ?>
-                    <form method="POST" action="actions/save_manage_tables.php" style="display: inline;" onsubmit="return confirm('WARNING: Deleting table \'<?php echo htmlspecialchars($active_table_info['table_name']); ?>\' will permanently delete all its columns and recorded contents. Are you absolutely sure?');">
+                    <form method="POST" action="actions/save_manage_tables.php" style="display: inline;" onsubmit="return confirm('<?php echo htmlspecialchars(__('manage_tables.delete_table_confirm')); ?>');">
                         <?php echo csrf_field(); ?>
                         <input type="hidden" name="action" value="delete_table">
                         <input type="hidden" name="table_id" value="<?php echo $active_table_info['id']; ?>">
-                        <button type="submit" class="btn btn-danger" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">Delete Table</button>
+                        <button type="submit" class="btn btn-danger" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;"><?php echo htmlspecialchars(__('manage_tables.delete_table_btn')); ?></button>
                     </form>
                 <?php endif; ?>
             </div>
@@ -102,7 +102,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Create New Table / Edit Table Collapsible Section -->
     <details id="table-form-details" style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 2rem; padding: 1rem 1.25rem;" <?php echo $edit_table ? 'open' : ''; ?>>
         <summary style="cursor: pointer; font-weight: bold; color: #333; outline: none;">
-            <?php echo $edit_table ? 'Edit Table Definition: ' . htmlspecialchars($edit_table['table_name']) : '+ Create New Dynamic Table'; ?>
+            <?php echo $edit_table ? htmlspecialchars(__('manage_tables.edit_table_summary')) . ' ' . htmlspecialchars($edit_table['table_name']) : htmlspecialchars(__('manage_tables.create_table_summary')); ?>
         </summary>
       
         <div style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
@@ -114,17 +114,17 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                     <input type="hidden" name="table_id" value="<?php echo $edit_table['id']; ?>">
                 <?php endif; ?>
                 <div style="margin-bottom: 1rem;">
-                    <label for="table_name"><strong>Friendly Table Name:</strong> <span style="color: red;">*</span></label><br>
+                    <label for="table_name"><strong><?php echo htmlspecialchars(__('manage_tables.table_name_label')); ?></strong> <span style="color: red;">*</span></label><br>
                     <input type="text" id="table_name" name="table_name" value="<?php echo $edit_table ? htmlspecialchars($edit_table['table_name']) : ''; ?>" placeholder="e.g. Parish Records" required class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-top: 0.3rem;">
                 </div>
                 <div style="margin-bottom: 1rem;">
-                    <label for="table_description"><strong>Description / Purpose:</strong></label><br>
+                    <label for="table_description"><strong><?php echo htmlspecialchars(__('manage_tables.table_desc_label')); ?></strong></label><br>
                     <textarea id="table_description" name="description" rows="2" placeholder="Brief summary of records stored in this table..." class="volunteer-input" style="width: 100%; max-width: 500px; padding: 0.4rem; margin-top: 0.3rem;"><?php echo $edit_table ? htmlspecialchars($edit_table['description'] ?? '') : ''; ?></textarea>
                 </div>
                 <div>
-                    <button type="submit" class="btn"><?php echo $edit_table ? 'Save Table Changes' : 'Create Table Schema'; ?></button>
+                    <button type="submit" class="btn"><?php echo $edit_table ? htmlspecialchars(__('manage_tables.save_table_btn')) : htmlspecialchars(__('manage_tables.create_table_btn')); ?></button>
                     <?php if ($edit_table): ?>
-                        <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="margin-left: 0.5rem; text-decoration: none; padding: 0.35rem 0.7rem; font-size: 0.9rem;">Cancel</a>
+                        <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="margin-left: 0.5rem; text-decoration: none; padding: 0.35rem 0.7rem; font-size: 0.9rem;"><?php echo htmlspecialchars(__('btn.cancel')); ?></a>
                     <?php endif; ?>
                 </div>
             </form>
@@ -137,7 +137,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- Collapsible Column Form Container -->
         <details class="search-box-container" id="create-column-details" <?php echo $edit_col ? 'open' : ''; ?> style="margin-bottom: 2rem; background: rgba(0,0,0,0.01);">
             <summary style="cursor: pointer; font-weight: bold; font-size: 1.15rem; color: #333; padding: 0.25rem 0;">
-                <?php echo $edit_col ? 'Edit Dynamic Column: ' . htmlspecialchars($edit_col['column_name']) : '+ Add New Table Column for "' . htmlspecialchars($active_table_info['table_name']) . '"'; ?>
+                <?php echo $edit_col ? htmlspecialchars(__('manage_tables.edit_col_summary')) . ' ' . htmlspecialchars($edit_col['column_name']) : htmlspecialchars(__('manage_tables.add_col_summary_prefix')) . ' "' . htmlspecialchars($active_table_info['table_name']) . '"'; ?>
             </summary>
           
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color, #ccc);">
@@ -149,58 +149,58 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                         <input type="hidden" name="column_id" value="<?php echo $edit_col['id']; ?>">
                     <?php endif; ?>
                   
-                    <label for="column_name">Column Name: <span style="color: red;">*</span></label><br>
+                    <label for="column_name"><?php echo htmlspecialchars(__('manage_tables.col_name_label')); ?> <span style="color: red;">*</span></label><br>
                     <input type="text" id="column_name" name="column_name" value="<?php echo $edit_col ? htmlspecialchars($edit_col['column_name']) : ''; ?>" required class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-bottom: 1rem;"><br>
 
-                    <label for="data_type">Data Type:</label><br>
+                    <label for="data_type"><?php echo htmlspecialchars(__('feedback_schema.data_type_label')); ?></label><br>
                     <select id="data_type" name="data_type" class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-bottom: 1rem;" onchange="toggleFieldOptions(this.value)">
-                        <option value="VARCHAR" <?php echo ($edit_col && $edit_col['data_type'] === 'VARCHAR') ? 'selected' : ''; ?>>VARCHAR (Short Text)</option>
-                        <option value="TEXT" <?php echo ($edit_col && $edit_col['data_type'] === 'TEXT') ? 'selected' : ''; ?>>TEXT (Long Paragraph)</option>
-                        <option value="INT" <?php echo ($edit_col && $edit_col['data_type'] === 'INT') ? 'selected' : ''; ?>>INT (Whole Number)</option>
-                        <option value="BOOLEAN" <?php echo ($edit_col && $edit_col['data_type'] === 'BOOLEAN') ? 'selected' : ''; ?>>BOOLEAN (Yes/No Flag)</option>
-                        <option value="DATE" <?php echo ($edit_col && $edit_col['data_type'] === 'DATE') ? 'selected' : ''; ?>>DATE (Calendar Date)</option>
+                        <option value="VARCHAR" <?php echo ($edit_col && $edit_col['data_type'] === 'VARCHAR') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('feedback_schema.type_varchar')); ?></option>
+                        <option value="TEXT" <?php echo ($edit_col && $edit_col['data_type'] === 'TEXT') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('manage_tables.type_text_long')); ?></option>
+                        <option value="INT" <?php echo ($edit_col && $edit_col['data_type'] === 'INT') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('feedback_schema.type_int')); ?></option>
+                        <option value="BOOLEAN" <?php echo ($edit_col && $edit_col['data_type'] === 'BOOLEAN') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('feedback_schema.type_boolean')); ?></option>
+                        <option value="DATE" <?php echo ($edit_col && $edit_col['data_type'] === 'DATE') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('feedback_schema.type_date')); ?></option>
                     </select><br>
 
                     <!-- Dynamic Boolean Display Style Option -->
                     <div id="boolean_options_wrapper" style="display: <?php echo ($edit_col && $edit_col['data_type'] === 'BOOLEAN') ? 'block' : 'none'; ?>; margin-bottom: 1rem;">
-                        <label for="boolean_display_format">Boolean Display Format:</label><br>
+                        <label for="boolean_display_format"><?php echo htmlspecialchars(__('feedback_schema.boolean_format')); ?></label><br>
                         <select id="boolean_display_format" name="boolean_display_format" class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem;">
-                            <option value="yes_no" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'yes_no') ? 'selected' : ''; ?>>Yes / No</option>
-                            <option value="true_false" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'true_false') ? 'selected' : ''; ?>>True / False</option>
-                            <option value="tick_cross" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'tick_cross') ? 'selected' : ''; ?>>Tick / Cross (✔ / ✘)</option>
-                            <option value="male_female" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'male_female') ? 'selected' : ''; ?>>Male / Female</option>
+                            <option value="yes_no" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'yes_no') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('index.opt_yes_true')); ?></option>
+                            <option value="true_false" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'true_false') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('index.opt_true')); ?></option>
+                            <option value="tick_cross" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'tick_cross') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('index.opt_tick')); ?></option>
+                            <option value="male_female" <?php echo ($edit_col && ($edit_col['boolean_display_format'] ?? '') === 'male_female') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('index.opt_male')); ?> / <?php echo htmlspecialchars(__('index.opt_female')); ?></option>
                         </select>
                     </div>
 
                     <!-- Dynamic Date Search Behavior Option -->
                     <div id="date_options_wrapper" style="display: <?php echo ($edit_col && $edit_col['data_type'] === 'DATE') ? 'block' : 'none'; ?>; margin-bottom: 1rem;">
-                        <label for="date_search_behavior">Date Search Behavior:</label><br>
+                        <label for="date_search_behavior"><?php echo htmlspecialchars(__('manage_tables.date_behavior_label')); ?></label><br>
                         <select id="date_search_behavior" name="date_search_behavior" class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem;">
-                            <option value="manual_only" <?php echo ($edit_col && ($edit_col['date_search_behavior'] ?? '') === 'manual_only') ? 'selected' : ''; ?>>Dates in database (manual entry only)</option>
-                            <option value="admin_only" <?php echo ($edit_col && ($edit_col['date_search_behavior'] ?? '') === 'admin_only') ? 'selected' : ''; ?>>Administrative dates only</option>
-                            <option value="all_dates" <?php echo ($edit_col && ($edit_col['date_search_behavior'] ?? '') === 'all_dates') ? 'selected' : ''; ?>>All dates including administrative</option>
+                            <option value="manual_only" <?php echo ($edit_col && ($edit_col['date_search_behavior'] ?? '') === 'manual_only') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('manage_tables.date_bhv_manual')); ?></option>
+                            <option value="admin_only" <?php echo ($edit_col && ($edit_col['date_search_behavior'] ?? '') === 'admin_only') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('manage_tables.date_bhv_admin')); ?></option>
+                            <option value="all_dates" <?php echo ($edit_col && ($edit_col['date_search_behavior'] ?? '') === 'all_dates') ? 'selected' : ''; ?>><?php echo htmlspecialchars(__('manage_tables.date_bhv_all')); ?></option>
                         </select>
                     </div>
 
                     <!-- Explicit Character Limit Specification -->
-                    <label for="max_length">Max Size / Length (Optional character limit):</label><br>
+                    <label for="max_length"><?php echo htmlspecialchars(__('feedback_schema.max_length_label')); ?></label><br>
                     <input type="number" id="max_length" name="max_length" value="<?php echo $edit_col ? htmlspecialchars($edit_col['max_length'] ?? '') : ''; ?>" placeholder="e.g. 255 characters" class="volunteer-input" style="width: 100%; max-width: 400px; padding: 0.4rem; margin-bottom: 1rem;"><br>
 
                     <!-- Required Field Toggle Option -->
                     <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                         <input type="checkbox" id="is_required" name="is_required" value="1" <?php echo ($edit_col && !empty($edit_col['is_required'])) ? 'checked' : ''; ?> style="cursor: pointer;">
-                        <label for="is_required" style="cursor: pointer; font-weight: normal; margin-bottom: 0;">Make this column required (mandatory data entry)</label>
+                        <label for="is_required" style="cursor: pointer; font-weight: normal; margin-bottom: 0;"><?php echo htmlspecialchars(__('manage_tables.req_toggle_label')); ?></label>
                     </div>
 
                     <!-- Exclude from Public Search Toggle Option -->
                     <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
                         <input type="checkbox" id="exclude_from_public_search" name="exclude_from_public_search" value="1" <?php echo ($edit_col && !empty($edit_col['exclude_from_public_search'])) ? 'checked' : ''; ?> style="cursor: pointer;">
-                        <label for="exclude_from_public_search" style="cursor: pointer; font-weight: normal; margin-bottom: 0;">Exclude this column from public search (index.php)</label>
+                        <label for="exclude_from_public_search" style="cursor: pointer; font-weight: normal; margin-bottom: 0;"><?php echo htmlspecialchars(__('manage_tables.exclude_search_label')); ?></label>
                     </div>
 
-                    <button type="submit" class="btn"><?php echo $edit_col ? 'Save Changes' : 'Create Column'; ?></button>
+                    <button type="submit" class="btn"><?php echo $edit_col ? htmlspecialchars(__('feedback_schema.save_field_btn')) : htmlspecialchars(__('manage_tables.create_col_btn')); ?></button>
                     <?php if ($edit_col): ?>
-                        <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="margin-left: 0.5rem; text-decoration: none;">Cancel</a>
+                        <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="margin-left: 0.5rem; text-decoration: none;"><?php echo htmlspecialchars(__('btn.cancel')); ?></a>
                     <?php endif; ?>
                 </form>
             </div>
@@ -219,7 +219,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
         <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <h3 style="margin: 0;">Existing Columns for "<?php echo htmlspecialchars($active_table_info['table_name']); ?>"</h3>
+            <h3 style="margin: 0;"><?php echo htmlspecialchars(__('manage_tables.existing_cols_heading_prefix')); ?> "<?php echo htmlspecialchars($active_table_info['table_name']); ?>"</h3>
         </div>
 
         <!-- Drag-and-Drop Table Wrapping Container -->
@@ -227,21 +227,21 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
             <table border="1" cellpadding="8" cellspacing="0" role="table" class="data-table" style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="border-bottom: 2px solid var(--border-color);">
-                        <th scope="col" style="width: 50px; text-align: center;">Move</th>
-                        <th scope="col">Column Name</th>
-                        <th scope="col">Data Type</th>
-                        <th scope="col">Required?</th>
-                        <th scope="col">Public Search?</th>
-                        <th scope="col">Display Format</th>
-                        <th scope="col">Max Length</th>
-                        <th scope="col">Created By</th>
-                        <th scope="col">Date Created</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" style="width: 50px; text-align: center;"><?php echo htmlspecialchars(__('feedback_schema.th_move')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_field_name')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_data_type')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_required')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('manage_tables.th_public_search')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('manage_tables.th_display_format')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_max_length')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('feedback_schema.th_created_by')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('manage_tables.th_date_created')); ?></th>
+                        <th scope="col"><?php echo htmlspecialchars(__('index.th_actions')); ?></th>
                     </tr>
                 </thead>
                 <tbody id="sortable-columns-body">
                     <?php if (empty($columns)): ?>
-                        <tr><td colspan="10" style="text-align: center; color: #666; padding: 1rem;">No dynamic columns defined for this table yet.</td></tr>
+                        <tr><td colspan="10" style="text-align: center; color: #666; padding: 1rem;"><?php echo htmlspecialchars(__('manage_tables.no_columns_found')); ?></td></tr>
                     <?php else: ?>
                         <?php foreach ($columns as $col): ?>
                             <tr data-column-id="<?php echo $col['id']; ?>" style="border-bottom: 1px solid var(--border-color); background: #fff; cursor: grab;">
@@ -261,7 +261,7 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php if (empty($col['exclude_from_public_search'])): ?>
                                         <span style="color: green; font-weight: bold;">Yes</span>
                                     <?php else: ?>
-                                        <span style="color: var(--danger-color, #dc3545); font-weight: bold;">Hidden</span>
+                                        <span style="color: var(--danger-color, #dc3545); font-weight: bold;"><?php echo htmlspecialchars(__('manage_tables.status_hidden')); ?></span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -276,17 +276,17 @@ $columns = $columns_stmt->fetchAll(PDO::FETCH_ASSOC);
                                     ?>
                                 </td>
                                 <td><?php echo $col['max_length'] ?? 'N/A'; ?></td>
-                                <td><?php echo htmlspecialchars($col['username'] ?? 'System'); ?></td>
+                                <td><?php echo htmlspecialchars($col['username'] ?? __('feedback_schema.system_user')); ?></td>
                                 <td><?php echo format_user_time($col['created_at'], $user_timezone, $full_format_str); ?></td>
                                 <td style="white-space: nowrap;">
-                                    <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>&edit_column=<?php echo $col['id']; ?>#create-column-details" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem; text-decoration: none; margin-right: 4px;">Edit</a>
+                                    <a href="manage_tables.php?table_id=<?php echo $active_table_id; ?>&edit_column=<?php echo $col['id']; ?>#create-column-details" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.85rem; text-decoration: none; margin-right: 4px;"><?php echo htmlspecialchars(__('feedback_schema.edit_btn')); ?></a>
                                   
-                                    <form method="POST" action="actions/save_manage_tables.php" style="display:inline;" onsubmit="return confirm('WARNING: Deleting this column will also remove all associated cell data across all records. Are you sure?');">
+                                    <form method="POST" action="actions/save_manage_tables.php" style="display:inline;" onsubmit="return confirm('<?php echo htmlspecialchars(__('manage_tables.delete_col_confirm')); ?>');">
                                         <?php echo csrf_field(); ?>
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="column_id" value="<?php echo $col['id']; ?>">
                                         <input type="hidden" name="table_id" value="<?php echo $active_table_id; ?>">
-                                        <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" formnovalidate>Delete</button>
+                                        <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.85rem;" formnovalidate><?php echo htmlspecialchars(__('btn.delete')); ?></button>
                                     </form>
                                 </td>
                             </tr>

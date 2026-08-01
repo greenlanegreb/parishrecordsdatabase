@@ -1,6 +1,7 @@
 <?php
 // user/actions/authenticate.php - Handles user credential verification and 2FA routing
 require_once '../../db/db.php';
+require_once '../../includes/functions.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -61,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         error_log("Failed login attempt for user: '{$username}' from IP: " . $_SERVER['REMOTE_ADDR']);
         http_response_code(403);
-        $_SESSION['error'] = "Invalid credentials or account access restricted.";
+        $_SESSION['error'] = __('authenticate.err_invalid_credentials');
         header('Location: ../login.php');
         exit;
     }

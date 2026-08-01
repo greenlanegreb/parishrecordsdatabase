@@ -38,11 +38,11 @@ if ($active_table_id !== 1 && !has_permission($pdo, $active_perm)) {
 }
 
 $user_date_format = $current_user['date_format'] ?? 'd/m/Y';
-$date_placeholder = 'YYYY-MM-DD (or partial year)';
+$date_placeholder = __('data_entry.date_placeholder_ymd');
 if ($user_date_format === 'd/m/Y') {
-    $date_placeholder = 'DD/MM/YYYY (or partial year)';
+    $date_placeholder = __('data_entry.date_placeholder_dmy');
 } elseif ($user_date_format === 'm/d/Y') {
-    $date_placeholder = 'MM/DD/YYYY (or partial year)';
+    $date_placeholder = __('data_entry.date_placeholder_mdy');
 }
 
 $cols_stmt = $pdo->prepare("SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC");
@@ -120,31 +120,31 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
 
     <?php if ($total_tables_count === 0): ?>
         <div class="search-box-container" style="background:#fff3cd;border:1px solid #ffeeba;padding:1.5rem;border-radius:6px;margin-bottom:2rem;color:#856404;">
-            <h3>⚠️ No Database Tables Found</h3>
-            <p>The system currently does not have any active database tables configured for data entry.</p>
+            <h3><?php echo htmlspecialchars(__('data_entry.no_tables_heading')); ?></h3>
+            <p><?php echo htmlspecialchars(__('data_entry.no_tables_desc')); ?></p>
             <?php if (is_admin($pdo)): ?>
-                <p>As an administrator, please go to the <strong>Manage Tables</strong> menu option to create a table, and then add at least one column before entering records.</p>
-                <a href="../admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;">Go to Manage Tables</a>
+                <p><?php echo __('data_entry.admin_tables_prompt'); ?></p>
+                <a href="../admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;"><?php echo htmlspecialchars(__('data_entry.go_manage_tables')); ?></a>
             <?php else: ?>
-                <p>Please contact an administrator to set up database tables and columns.</p>
+                <p><?php echo htmlspecialchars(__('data_entry.contact_admin_tables')); ?></p>
             <?php endif; ?>
         </div>
     <?php elseif ($total_columns_count === 0): ?>
         <div class="search-box-container" style="background:#fff3cd;border:1px solid #ffeeba;padding:1.5rem;border-radius:6px;margin-bottom:2rem;color:#856404;">
-            <h3>⚠️ No Columns Configured</h3>
-            <p>Tables exist in the system, but no data columns have been defined for the active table.</p>
+            <h3><?php echo htmlspecialchars(__('data_entry.no_cols_heading')); ?></h3>
+            <p><?php echo htmlspecialchars(__('data_entry.no_cols_desc')); ?></p>
             <?php if (is_admin($pdo)): ?>
-                <p>As an administrator, please go to the <strong>Manage Tables</strong> menu option to add at least one column to your table.</p>
-                <a href="../admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;">Go to Manage Tables</a>
+                <p><?php echo __('data_entry.admin_cols_prompt'); ?></p>
+                <a href="../admin/manage_tables.php" class="btn" style="margin-top:0.5rem;text-decoration:none;"><?php echo htmlspecialchars(__('data_entry.go_manage_tables')); ?></a>
             <?php else: ?>
-                <p>Please contact an administrator to configure columns for this table.</p>
+                <p><?php echo htmlspecialchars(__('data_entry.contact_admin_cols')); ?></p>
             <?php endif; ?>
         </div>
     <?php else: ?>
 
         <?php if (count($available_tables) > 1): ?>
             <div style="background: rgba(0,0,0,0.02); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <label for="data_entry_table_selector" style="font-weight: bold;">Active Data Entry Table:</label>
+                <label for="data_entry_table_selector" style="font-weight: bold;"><?php echo htmlspecialchars(__('data_entry.active_table_label')); ?></label>
                 <select id="data_entry_table_selector" class="profile-input" style="padding: 0.4rem; min-width: 250px;" onchange="location.href='data_entry.php?table_id=' + this.value;">
                     <?php foreach ($available_tables as $at): ?>
                         <option value="<?php echo $at['id']; ?>" <?php echo ($at['id'] === $active_table_id) ? 'selected' : ''; ?>>
@@ -158,7 +158,7 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
         <?php if (!$duplicate_warning): ?>
             <details id="add-entry-details" class="search-box-container" style="margin-bottom: 2rem;" open>
                 <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
-                    ➕ Add New Data Entry (Click to expand/collapse)
+                    <?php echo htmlspecialchars(__('data_entry.add_entry_summary')); ?>
                 </summary>
                 <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
                     <form method="POST" action="actions/save_data_entry.php" id="data-entry-form">
@@ -180,28 +180,28 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                                     <?php if (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
                                         <?php 
                                             $display_format = $col['boolean_display_format'] ?? 'yes_no';
-                                            $opt1_text = 'Yes / True';
-                                            $opt2_text = 'No / False';
-                                            if ($display_format === 'male_female') { $opt1_text = 'Male'; $opt2_text = 'Female'; }
-                                            elseif ($display_format === 'true_false') { $opt1_text = 'True'; $opt2_text = 'False'; }
-                                            elseif ($display_format === 'tick_cross') { $opt1_text = '✔ (Tick)'; $opt2_text = '✘ (Cross)'; }
+                                            $opt1_text = __('data_entry.bool_yes_true');
+                                            $opt2_text = __('data_entry.bool_no_false');
+                                            if ($display_format === 'male_female') { $opt1_text = __('data_entry.bool_male'); $opt2_text = __('data_entry.bool_female'); }
+                                            elseif ($display_format === 'true_false') { $opt1_text = __('data_entry.bool_true'); $opt2_text = __('data_entry.bool_false'); }
+                                            elseif ($display_format === 'tick_cross') { $opt1_text = __('data_entry.bool_tick'); $opt2_text = __('data_entry.bool_cross'); }
                                         ?>
                                         <select id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
-                                            <option value="">-- Select --</option>
+                                            <option value=""><?php echo htmlspecialchars(__('feedback.select_placeholder')); ?></option>
                                             <option value="1" <?php echo ($saved_val === '1') ? 'selected' : ''; ?>><?php echo $opt1_text; ?></option>
                                             <option value="0" <?php echo ($saved_val === '0') ? 'selected' : ''; ?>><?php echo $opt2_text; ?></option>
                                         </select>
                                     <?php elseif (($col['data_type'] ?? '') === 'DATE'): ?>
-                                        <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($saved_val); ?>" placeholder="<?php echo $date_placeholder; ?>" class="dashboard-input" title="Accepts full or partial dates (e.g. 1842 or 1842-05)" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
+                                        <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($saved_val); ?>" placeholder="<?php echo $date_placeholder; ?>" class="dashboard-input" title="<?php echo htmlspecialchars(__('data_entry.date_title_hint')); ?>" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
                                     <?php else: ?>
-                                        <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($saved_val); ?>" placeholder="Enter value..." class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
+                                        <input type="text" id="col_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($saved_val); ?>" placeholder="<?php echo htmlspecialchars(__('data_entry.enter_value_placeholder')); ?>" class="dashboard-input" <?php echo (!empty($col['is_required'])) ? 'required' : ''; ?>>
                                     <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
                         <div style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                            <button type="submit" class="btn">Submit Data</button>
-                            <span style="font-size: 0.85rem; color: #666;">💡 Tips: Press <strong>Ctrl + Enter</strong> to submit, or <strong>Esc</strong> to clear the current field.</span>
+                            <button type="submit" class="btn"><?php echo htmlspecialchars(__('data_entry.submit_data_btn')); ?></button>
+                            <span style="font-size: 0.85rem; color: #666;"><?php echo __('data_entry.shortcuts_tip'); ?></span>
                         </div>
                     </form>
                 </div>
@@ -227,14 +227,14 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
 
         <?php if ($duplicate_warning): ?>
             <div class="modal-duplicate">
-                <h3>⚠️ Potential Duplicate Warning</h3>
-                <p>We found matching entries already in the system:</p>
+                <h3><?php echo htmlspecialchars(__('data_entry.dup_heading')); ?></h3>
+                <p><?php echo htmlspecialchars(__('data_entry.dup_desc')); ?></p>
                 <ul>
                     <?php foreach ($matches as $match): ?>
-                        <li>Record ID: <?php echo $match['id']; ?> — Value: <?php echo htmlspecialchars($match['value_content']); ?></li>
+                        <li><?php echo htmlspecialchars(sprintf(__('data_entry.dup_item_format'), $match['id'], $match['value_content'])); ?></li>
                     <?php endforeach; ?>
                 </ul>
-                <p>Do you still wish to proceed and save this duplicate entry?</p>
+                <p><?php echo htmlspecialchars(__('data_entry.dup_prompt')); ?></p>
                 <form method="POST" action="actions/save_data_entry.php">
                     <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="insert_record">
@@ -243,15 +243,15 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                         <input type="hidden" name="filters[<?php echo $cid; ?>]" value="<?php echo htmlspecialchars($cval); ?>">
                     <?php endforeach; ?>
                     <input type="hidden" name="confirm_duplicate" value="1">
-                    <button type="submit" class="btn btn-danger">Yes, Confirm and Save Duplicate</button>
-                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="margin-left: 10px; text-decoration: none;">Cancel</a>
+                    <button type="submit" class="btn btn-danger"><?php echo htmlspecialchars(__('data_entry.dup_confirm_btn')); ?></button>
+                    <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" style="margin-left: 10px; text-decoration: none;"><?php echo htmlspecialchars(__('btn.cancel')); ?></a>
                 </form>
             </div>
         <?php endif; ?>
 
         <details id="search-filter-details" class="search-box-container" style="margin-bottom: 2rem;" <?php echo $has_active_search ? 'open' : ''; ?>>
             <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #333;">
-                🔍 Search & Filter Existing Records (Click to expand/collapse)
+                <?php echo htmlspecialchars(__('data_entry.search_summary')); ?>
             </summary>
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
                 <form method="GET" action="data_entry.php" id="search-form">
@@ -266,39 +266,39 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                                 <label for="search_<?php echo $col['id']; ?>"><strong><?php echo htmlspecialchars($col['column_name']); ?>:</strong></label><br>
                                 <?php if (($col['data_type'] ?? '') === 'DATE'): ?>
                                     <div style="display: flex; gap: 0.5rem; align-items: center; width: 100%;">
-                                        <input type="text" id="search_date_from_<?php echo $col['id']; ?>" name="date_filters[<?php echo $col['id']; ?>][from]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['from'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="flex: 1 1 0; min-width: 0; padding: 0.3rem;" title="Supports partial dates like 1842">
-                                        <span style="font-size: 0.85rem; color: #666; white-space: nowrap;">to</span>
-                                        <input type="text" id="search_date_to_<?php echo $col['id']; ?>" name="date_filters[<?php echo $col['id']; ?>][to]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['to'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="flex: 1 1 0; min-width: 0; padding: 0.3rem;" title="Supports partial dates like 1842">
+                                        <input type="text" id="search_date_from_<?php echo $col['id']; ?>" name="date_filters[<?php echo $col['id']; ?>][from]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['from'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="flex: 1 1 0; min-width: 0; padding: 0.3rem;" title="<?php echo htmlspecialchars(__('data_entry.date_title_hint')); ?>">
+                                        <span style="font-size: 0.85rem; color: #666; white-space: nowrap;"><?php echo htmlspecialchars(__('data_entry.date_to_label')); ?></span>
+                                        <input type="text" id="search_date_to_<?php echo $col['id']; ?>" name="date_filters[<?php echo $col['id']; ?>][to]" value="<?php echo htmlspecialchars($date_filters[$col['id']]['to'] ?? ''); ?>" class="dashboard-input" placeholder="<?php echo $date_placeholder; ?>" style="flex: 1 1 0; min-width: 0; padding: 0.3rem;" title="<?php echo htmlspecialchars(__('data_entry.date_title_hint')); ?>">
                                     </div>
                                 <?php elseif (($col['data_type'] ?? '') === 'BOOLEAN'): ?>
                                     <?php 
                                         $display_format = $col['boolean_display_format'] ?? 'yes_no';
-                                        $opt1_text = 'Yes / True';
-                                        $opt2_text = 'No / False';
-                                        if ($display_format === 'male_female') { $opt1_text = 'Male'; $opt2_text = 'Female'; }
-                                        elseif ($display_format === 'true_false') { $opt1_text = 'True'; $opt2_text = 'False'; }
-                                        elseif ($display_format === 'tick_cross') { $opt1_text = '✔ (Tick)'; $opt2_text = '✘ (Cross)'; }
+                                        $opt1_text = __('data_entry.bool_yes_true');
+                                        $opt2_text = __('data_entry.bool_no_false');
+                                        if ($display_format === 'male_female') { $opt1_text = __('data_entry.bool_male'); $opt2_text = __('data_entry.bool_female'); }
+                                        elseif ($display_format === 'true_false') { $opt1_text = __('data_entry.bool_true'); $opt2_text = __('data_entry.bool_false'); }
+                                        elseif ($display_format === 'tick_cross') { $opt1_text = __('data_entry.bool_tick'); $opt2_text = __('data_entry.bool_cross'); }
                                         
                                         $search_val = $search_filters[$col['id']] ?? '';
                                     ?>
                                     <select id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" class="dashboard-input">
-                                        <option value="">-- All --</option>
+                                        <option value=""><?php echo htmlspecialchars(__('data_entry.filter_all_option')); ?></option>
                                         <option value="1" <?php echo ($search_val === '1') ? 'selected' : ''; ?>><?php echo $opt1_text; ?></option>
                                         <option value="0" <?php echo ($search_val === '0') ? 'selected' : ''; ?>><?php echo $opt2_text; ?></option>
                                     </select>
                                 <?php else: ?>
-                                    <input type="text" id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($search_filters[$col['id']] ?? ''); ?>" placeholder="Filter..." class="dashboard-input">
+                                    <input type="text" id="search_<?php echo $col['id']; ?>" name="filters[<?php echo $col['id']; ?>]" value="<?php echo htmlspecialchars($search_filters[$col['id']] ?? ''); ?>" placeholder="<?php echo htmlspecialchars(__('data_entry.filter_placeholder')); ?>" class="dashboard-input">
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
                     <!-- Unified Sizing & Dynamic Label Action Bar -->
                     <div class="dashboard-actions-flex" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-                        <button type="submit" class="btn" id="apply-search-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;">Apply Search Filters</button>
-                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" id="reset-filter-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle; background-color: #6c757d; color: #fff;">Reset Filter</a>
-                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>&export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" id="export-csv-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle;">Download Entire CSV</a>
-                        <a href="../api/export_json.php?table_id=<?php echo $active_table_id; ?>&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" id="export-json-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle;">Download Entire JSON</a>
-                        <button type="button" id="copy-clipboard-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;">Copy Entire Table</button>
+                        <button type="submit" class="btn" id="apply-search-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;"><?php echo htmlspecialchars(__('data_entry.apply_filters_btn')); ?></button>
+                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>" class="btn btn-secondary" id="reset-filter-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle; background-color: #6c757d; color: #fff;"><?php echo htmlspecialchars(__('data_entry.reset_filter_btn')); ?></a>
+                        <a href="data_entry.php?table_id=<?php echo $active_table_id; ?>&export_csv=1&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" id="export-csv-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle;"><?php echo htmlspecialchars(__('data_entry.csv_entire_btn')); ?></a>
+                        <a href="../api/export_json.php?table_id=<?php echo $active_table_id; ?>&<?php echo htmlspecialchars(http_build_query(['filters' => $search_filters, 'date_filters' => $date_filters])); ?>" class="btn btn-secondary" id="export-json-btn" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; text-decoration: none; vertical-align: middle;"><?php echo htmlspecialchars(__('data_entry.json_entire_btn')); ?></a>
+                        <button type="button" id="copy-clipboard-btn" class="btn btn-secondary" style="box-sizing: border-box; height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; line-height: normal; padding: 0.375rem 0.755rem; vertical-align: middle;"><?php echo htmlspecialchars(__('data_entry.copy_entire_btn')); ?></button>
                     </div>
                 </form>
             </div>
@@ -370,9 +370,9 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                 const jsonBtn = document.getElementById('export-json-btn');
                 const copyBtn = document.getElementById('copy-clipboard-btn');
 
-                if (csvBtn) csvBtn.textContent = hasActiveFilter ? 'Download Filtered CSV' : 'Download Entire CSV';
-                if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? 'Download Filtered JSON' : 'Download Entire JSON';
-                if (copyBtn) copyBtn.textContent = hasActiveFilter ? 'Copy Filtered Table' : 'Copy Entire Table';
+                if (csvBtn) csvBtn.textContent = hasActiveFilter ? '<?php echo htmlspecialchars(__('data_entry.csv_filtered_btn')); ?>' : '<?php echo htmlspecialchars(__('data_entry.csv_entire_btn')); ?>';
+                if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? '<?php echo htmlspecialchars(__('data_entry.json_filtered_btn')); ?>' : '<?php echo htmlspecialchars(__('data_entry.json_entire_btn')); ?>';
+                if (copyBtn) copyBtn.textContent = hasActiveFilter ? '<?php echo htmlspecialchars(__('data_entry.copy_filtered_btn')); ?>' : '<?php echo htmlspecialchars(__('data_entry.copy_entire_btn')); ?>';
             }
 
             if (searchForm && applyBtn) {
@@ -413,7 +413,7 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                 });
 
                 navigator.clipboard.writeText(textContent).then(() => {
-                    alert('Table data copied to clipboard! You can paste it directly into Excel or Google Sheets.');
+                    alert('<?php echo htmlspecialchars(__('data_entry.clipboard_alert')); ?>');
                 }).catch(err => {
                     console.error('Failed to copy text: ', err);
                 });
@@ -426,21 +426,21 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
 
         <hr style="border: 0.0625rem solid var(--border-color); margin: 1.5rem 0;">
 
-        <h3>Existing Records Table</h3>
+        <h3><?php echo htmlspecialchars(__('data_entry.existing_records_heading')); ?></h3>
         <table class="data-table" role="table">
             <thead>
                 <tr>
                     <?php foreach ($columns as $col): ?>
                         <th scope="col"><?php echo htmlspecialchars($col['column_name']); ?></th>
                     <?php endforeach; ?>
-                    <th scope="col">Added By</th>
-                    <th scope="col">Date Created</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col"><?php echo htmlspecialchars(__('data_entry.th_added_by')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('data_entry.th_date_created')); ?></th>
+                    <th scope="col"><?php echo htmlspecialchars(__('index.th_actions')); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($paginated_records)): ?>
-                    <tr><td colspan="<?php echo count($columns) + 3; ?>">No records found.</td></tr>
+                    <tr><td colspan="<?php echo count($columns) + 3; ?>"><?php echo htmlspecialchars(__('data_entry.no_records')); ?></td></tr>
                 <?php else: ?>
                     <?php foreach ($paginated_records as $rec): ?>
                         <tr>
@@ -452,7 +452,7 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                                             $fmt = $col['boolean_display_format'] ?? 'yes_no';
                                             if ($fmt === 'male_female') {
                                                 $is_true = filter_var($raw_val, FILTER_VALIDATE_BOOLEAN);
-                                                echo ($raw_val !== '' && $raw_val !== null) ? ($is_true ? 'Male' : 'Female') : 'N/A';
+                                                echo ($raw_val !== '' && $raw_val !== null) ? ($is_true ? __('data_entry.bool_male') : __('data_entry.bool_female')) : __('data_entry.na_value');
                                             } else {
                                                 echo htmlspecialchars(format_boolean_value($raw_val, $fmt));
                                             }
@@ -473,9 +473,9 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
                             ], $current_user)); ?></em></td>
                             <td><?php echo $rec['created_at']; ?></td>
                             <td>
-                                <a href="../record_history.php?record_id=<?php echo $rec['id']; ?>" class="btn btn-secondary" style="padding: 0.2rem 0.4rem; font-size: 0.8rem; text-decoration: none; margin-right: 4px; display: inline-block;">History</a>
+                                <a href="../record_history.php?record_id=<?php echo $rec['id']; ?>" class="btn btn-secondary" style="padding: 0.2rem 0.4rem; font-size: 0.8rem; text-decoration: none; margin-right: 4px; display: inline-block;"><?php echo htmlspecialchars(__('api_search.history_btn')); ?></a>
                                 <?php if (is_module_enabled($pdo, 'moderation')): ?>
-                                    <a href="suggest_edit.php?record_id=<?php echo $rec['id']; ?>" class="btn" style="padding: 0.2rem 0.4rem; font-size: 0.8rem; text-decoration: none; display: inline-block;">Suggest Edit</a>
+                                    <a href="suggest_edit.php?record_id=<?php echo $rec['id']; ?>" class="btn" style="padding: 0.2rem 0.4rem; font-size: 0.8rem; text-decoration: none; display: inline-block;"><?php echo htmlspecialchars(__('api_search.suggest_edit_btn')); ?></a>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -486,7 +486,7 @@ if ($total_tables_count > 0 && $total_columns_count > 0) {
 
         <?php if ($total_pages > 1): ?>
             <div class="pagination-container">
-                <span>Page:</span>
+                <span><?php echo htmlspecialchars(__('data_entry.page_label')); ?></span>
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                     <?php 
                         $query_params = $_GET;

@@ -1,0 +1,913 @@
+<?php
+// lang/zh_CN.php - Simplified Chinese (简体中文)
+return [
+
+    // ------------------------------------------------------------------
+    // Navigation
+    // ------------------------------------------------------------------
+    'nav.login'                  => '登录',
+    'nav.logout'                 => '登出',
+    'nav.feedback'               => '意见反馈',
+    'nav.volunteer'              => '加入志愿者',
+    'nav.leaderboard'            => '排行榜',
+    'nav.search'                 => '搜索',
+    'nav.settings'               => '系统设置',
+    'nav.high_contrast'          => '高对比度',
+    'nav.low_contrast'           => '低对比度',
+    'nav.welcome'                => '欢迎，',
+    'nav.data_entry'             => '数据录入',
+    'nav.moderation'             => '内容审核',
+    'nav.invite_user'            => '邀请用户',
+    'nav.manage_users'           => '用户管理',
+    'nav.manage_tables'          => '数据表管理',
+    'nav.volunteer_dashboard'    => '志愿者面板',
+    'nav.feedback_dashboard'     => '反馈面板',
+    'nav.leaderboard_score'      => '排行榜积分',
+
+    // ------------------------------------------------------------------
+    // Public search (index)
+    // ------------------------------------------------------------------
+    'search.heading'             => '多列组合搜索',
+    'search.reset'               => '重置搜索',
+    'search.export_csv'          => '将筛选结果导出为 CSV',
+    'search.no_records'          => '该表中未找到任何记录。',
+    'search.load_error'          => '无法加载结果，请重试。',
+
+    // ------------------------------------------------------------------
+    // Common buttons
+    // ------------------------------------------------------------------
+    'btn.submit'                 => '提交',
+    'btn.cancel'                 => '取消',
+    'btn.save'                   => '保存',
+    'btn.delete'                 => '删除',
+
+    // actions/save_feedback.php & feedback.php Strings
+    'feedback.success_message'    => '谢谢！您的反馈已成功提交。',
+    'feedback.error_all_fields'   => '所有字段均为必填项。',
+    'feedback.error_invalid_email'=> '请输入有效的电子邮箱地址。',
+    'feedback.error_save_failed'  => '保存反馈时出错，请重试。',
+
+    // ------------------------------------------------------------------
+    // Index / Public Directory Page
+    // ------------------------------------------------------------------
+    'index.no_tables_heading'          => '未找到数据库表',
+    'index.no_tables_desc'             => '当前系统未配置任何活动的数据库表。',
+    'index.admin_create_table_guide'   => '作为管理员，请前往<strong>数据表管理</strong>创建一个表，并至少添加一个列，然后才能显示或录入记录。',
+    'index.go_to_manage_tables'        => '前往数据表管理',
+    'index.contact_admin_tables'       => '请联系管理员配置数据库表和列。',
+    'index.guest_login_tables_guide'   => '请<a href=":login_link">登录</a>或联系管理员以设置表和列。',
+    'index.no_columns_heading'         => '未配置任何列',
+    'index.no_columns_desc'            => '系统中存在数据表，但当前活动表未定义任何数据列。',
+    'index.admin_add_columns_guide'    => '作为管理员，请前往<strong>数据表管理</strong>为您的表至少添加一个列。',
+    'index.contact_admin_columns'      => '请联系管理员配置该表的列。',
+    'index.select_directory_database'  => '选择目录数据库：',
+    'index.opt_yes_true'               => '是 / 真',
+    'index.opt_no_false'               => '否 / 假',
+    'index.opt_male'                   => '男',
+    'index.opt_female'                 => '女',
+    'index.opt_true'                   => '真',
+    'index.opt_false'                  => '假',
+    'index.opt_tick'                   => '✔ (勾选)',
+    'index.opt_cross'                  => '✘ (叉)',
+    'index.option_all'                 => '-- 全部 --',
+    'index.date_to_label'              => '至',
+    'index.search_placeholder'         => '搜索...',
+    'index.download_entire_csv'        => '下载完整 CSV',
+    'index.download_entire_json'       => '下载完整 JSON',
+    'index.copy_entire_table'          => '复制完整表格',
+    'index.download_filtered_csv'      => '下载筛选后的 CSV',
+    'index.download_filtered_json'     => '下载筛选后的 JSON',
+    'index.copy_filtered_table'        => '复制筛选后的表格',
+    'index.th_record_id'               => '记录 ID',
+    'index.th_created_by'              => '创建者',
+    'index.th_date_added'              => '添加日期',
+    'index.th_actions'                 => '操作',
+    'index.modal_heading'              => '建议修改记录',
+    'index.modal_desc'                 => '为此记录提供修正或替代信息。我们的审核团队将对其进行审查。',
+    'index.modal_target_column'        => '目标列：',
+    'index.modal_proposed_value'       => '修改/建议值：',
+    'index.modal_input_placeholder'    => '输入更新后的信息...',
+    'index.modal_submit_btn'           => '提交建议',
+    'index.clipboard_success'          => '表格数据已复制到剪贴板！您可以直接将其粘贴到 Excel 或 Google Sheets 中。',
+
+    // ------------------------------------------------------------------
+    // Admin: Create User / Invite Form
+    // ------------------------------------------------------------------
+    'create_user.heading'              => '新用户邀请表单',
+    'create_user.subheading'           => '这将生成一个有效期为 24 小时的安全设置链接，并通过电子邮件直接发送给用户。',
+    'create_user.first_name'           => '名：',
+    'create_user.surname'              => '姓：',
+    'create_user.username_label'       => '用户名（可选）：',
+    'create_user.username_placeholder' => '留空则自动生成',
+    'create_user.username_help'        => '如果留空，系统将根据姓名自动生成唯一的用户名。',
+    'create_user.email_label'          => '电子邮件地址：',
+    'create_user.role_label'           => '用户角色：',
+    'create_user.submit_btn'           => '创建用户并发送邀请',
+
+    // ------------------------------------------------------------------
+    // Admin: Feedback / Support Tickets Dashboard
+    // ------------------------------------------------------------------
+    'feedback_dash.heading'              => '支持工单与反馈面板',
+    'feedback_dash.subheading'           => '管理公共支持请求、更新状态并参与对话。',
+    'feedback_dash.manage_emails'        => '管理邮件模板',
+    'feedback_dash.manage_schema'        => '管理工单表单结构',
+    'feedback_dash.th_ticket_date'       => '工单 ID / 日期',
+    'feedback_dash.th_submitter'         => '提交人',
+    'feedback_dash.th_subject_info'      => '主题 / 基本信息',
+    'feedback_dash.th_status'            => '状态',
+    'feedback_dash.no_tickets'           => '未找到任何反馈工单。',
+    'feedback_dash.anonymous'            => '匿名',
+    'feedback_dash.default_subject'      => '一般咨询',
+    'feedback_dash.open_ticket_btn'      => '打开工单与对话',
+    'feedback_dash.delete_confirm'       => '确定要删除此支持工单及所有关联的回复吗？',
+    'feedback_dash.msg_deleted'          => '工单 #:id 已成功删除。',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Email Templates
+    // ------------------------------------------------------------------
+    'feedback_emails.heading'            => '支持工单邮件模板',
+    'feedback_emails.subheading'         => '自定义在工单流转期间自动发送的邮件通知。使用大括号包裹动态占位符。',
+    'feedback_emails.back_to_dashboard' => '返回反馈工单面板',
+    'feedback_emails.email_subject'      => '邮件主题：',
+    'feedback_emails.email_body'         => '邮件正文模板：',
+    'feedback_emails.save_template_btn' => '保存模板',
+    'feedback_emails.placeholders_heading' => '可用占位符',
+    'feedback_emails.placeholders_desc' => '您可以在主题或正文的任意位置使用这些标签：',
+    'feedback_emails.fixed_tags'         => '核心固定标签：',
+    'feedback_emails.custom_tags'        => '自定义结构标签：',
+    'feedback_emails.custom_tags_desc'   => '由工单表单构建器字段自动生成：',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Ticket Schema & Fields
+    // ------------------------------------------------------------------
+    'feedback_schema.heading'                => '反馈表单结构管理',
+    'feedback_schema.subheading'             => '配置自定义字段、数据类型、字符限制、子类型、选项和显示设置。',
+    'feedback_schema.settings_summary'       => '配置表单标题和免责声明文本',
+    'feedback_schema.form_title_label'       => '表单标题：',
+    'feedback_schema.form_intro_label'       => '简介/描述文本：',
+    'feedback_schema.save_settings_btn'      => '保存表单设置',
+    'feedback_schema.edit_field_title'       => '编辑工单字段：',
+    'feedback_schema.add_field_title'        => '+ 添加新的工单表单字段',
+    'feedback_schema.field_name_label'       => '标签 / 字段名：',
+    'feedback_schema.data_type_label'        => '数据类型：',
+    'feedback_schema.type_varchar'           => 'VARCHAR (短文本)',
+    'feedback_schema.type_text'              => 'TEXT (长段落 / 消息)',
+    'feedback_schema.type_int'               => 'INT (整数)',
+    'feedback_schema.type_boolean'           => 'BOOLEAN (是否标记)',
+    'feedback_schema.type_date'              => 'DATE (日历日期)',
+    'feedback_schema.subtype_label'          => '字段子类型 / 输入渲染样式：',
+    'feedback_schema.subtype_standard'       => '-- 标准 --',
+    'feedback_schema.subtype_standard_lower'=> '标准',
+    'feedback_schema.options_label'          => '选项（用逗号分隔或每行一个）：',
+    'feedback_schema.options_help'           => '提供用逗号或换行符分隔的选项。',
+    'feedback_schema.allow_multiple'         => '允许选择多个选项（多选）',
+    'feedback_schema.boolean_format'         => '布尔显示格式：',
+    'feedback_schema.max_length_label'       => '最大长度 / 字符限制（可选）：',
+    'feedback_schema.is_required_label'      => '将此字段设为提交者必填',
+    'feedback_schema.save_field_btn'         => '保存字段更改',
+    'feedback_schema.create_field_btn'       => '创建工单字段',
+    'feedback_schema.sub_email'              => '电子邮件',
+    'feedback_schema.sub_url'                => '网址 (URL)',
+    'feedback_schema.sub_select'             => '下拉菜单',
+    'feedback_schema.sub_radio'              => '单选按钮组',
+    'feedback_schema.sub_checkbox'           => '复选框',
+    'feedback_schema.sub_textarea'           => '多行文本框',
+    'feedback_schema.sub_number'             => '数字输入',
+    'feedback_schema.existing_fields_heading'=> '现有工单字段',
+    'feedback_schema.th_move'                => '移动',
+    'feedback_schema.th_field_name'          => '字段名',
+    'feedback_schema.th_data_type'           => '数据类型',
+    'feedback_schema.th_subtype'             => '子类型',
+    'feedback_schema.th_required'            => '必填？',
+    'feedback_schema.th_max_length'          => '最大长度',
+    'feedback_schema.th_created_by'          => '创建者',
+    'feedback_schema.no_fields'              => '尚未定义自定义工单字段。',
+    'feedback_schema.system_user'            => '系统',
+    'feedback_schema.edit_btn'               => '编辑',
+    'feedback_schema.delete_confirm'         => '确定要删除此字段及所有关联的回复值吗？',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Tables & Column Schemas
+    // ------------------------------------------------------------------
+    'manage_tables.heading'              => '动态表单与结构管理',
+    'manage_tables.subheading'           => '安全地创建、检查、修改或删除应用程序的动态表及其列结构。',
+    'manage_tables.switcher_label'       => '选择活动表结构：',
+    'manage_tables.edit_metadata_btn'    => '编辑表元数据',
+    'manage_tables.delete_table_confirm'=> '警告：删除此表将永久移除所有列和保存的内容。您绝对确定吗？',
+    'manage_tables.delete_table_btn'     => '删除表',
+    'manage_tables.edit_table_summary'   => '编辑表定义：',
+    'manage_tables.create_table_summary'=> '+ 创建新的动态表',
+    'manage_tables.table_name_label'     => '表的友好名称：',
+    'manage_tables.table_desc_label'     => '描述 / 用途：',
+    'manage_tables.save_table_btn'       => '保存表更改',
+    'manage_tables.create_table_btn'     => '创建表结构',
+    'manage_tables.edit_col_summary'     => '编辑动态列：',
+    'manage_tables.add_col_summary_prefix' => '+ 为以下对象添加新表列：',
+    'manage_tables.col_name_label'       => '列名：',
+    'manage_tables.type_text_long'       => 'TEXT (长段落)',
+    'manage_tables.date_behavior_label' => '日期搜索行为：',
+    'manage_tables.date_bhv_manual'      => '数据库中的日期（仅限手动输入）',
+    'manage_tables.date_bhv_admin'       => '仅限管理日期',
+    'manage_tables.date_bhv_all'         => '所有日期（包括管理日期）',
+    'manage_tables.req_toggle_label'     => '将此列设为必填（强制录入数据）',
+    'manage_tables.exclude_search_label'=> '从公开搜索中排除此列 (index.php)',
+    'manage_tables.create_col_btn'       => '创建列',
+    'manage_tables.existing_cols_heading_prefix' => '现有列：',
+    'manage_tables.th_public_search'     => '公开搜索？',
+    'manage_tables.th_display_format'    => '显示格式',
+    'manage_tables.th_date_created'      => '创建日期',
+    'manage_tables.no_columns_found'     => '此表尚未定义任何动态列。',
+    'manage_tables.status_hidden'        => '隐藏',
+    'manage_tables.delete_col_confirm'   => '警告：删除此列还将移除每个记录中所有相关的单元格数据。您确定吗？',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage User Notification Email Templates
+    // ------------------------------------------------------------------
+    'user_emails.heading'                => '管理用户通知邮件模板',
+    'user_emails.subheading'             => '自定义在邀请用户或发送密码重置链接时发送的电子邮件布局。',
+    'user_emails.select_template_label'=> '选择要编辑的模板：',
+    'user_emails.opt_invitation'         => '用户账号邀请模板',
+    'user_emails.opt_reset'              => '密码重置 / 访问链接模板',
+    'currently_editing'                  => '当前正在编辑：',
+    'user_emails.desc_invitation'        => '当管理员创建或邀请新用户时自动发送。',
+    'user_emails.desc_reset'             => '在触发密码重置或重新发送访问链接时发送。',
+    'user_emails.email_body_label'       => '邮件正文：',
+    'user_emails.back_to_creation'       => '返回用户创建',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Email Templates
+    // ------------------------------------------------------------------
+    'volunteer_emails.heading'           => '志愿者邮件模板与触发器',
+    'volunteer_emails.subheading'        => '自定义在工作流的不同阶段发送给志愿者的自动邮件回复。使用大括号包裹动态占位符。',
+    'volunteer_emails.back_to_dashboard'=> '返回志愿者申请面板',
+    'volunteer_emails.custom_tags_desc'  => '由您的表单构建器字段自动生成：',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Form Schema & Fields
+    // ------------------------------------------------------------------
+    'volunteer_schema.heading'           => '志愿者表单结构管理',
+    'volunteer_schema.subheading'        => '配置自定义字段、数据类型、子类型、选项和常规表单显示设置。',
+    'volunteer_schema.back_to_dashboard'=> '返回志愿者申请面板',
+    'volunteer_schema.settings_summary'  => '配置表单标题和免责声明文本',
+    'volunteer_schema.edit_field_title'  => '编辑字段：',
+    'volunteer_schema.add_field_title'   => '+ 添加新的志愿者表单字段',
+    'volunteer_schema.create_field_btn'  => '创建字段',
+    'volunteer_schema.existing_fields_heading' => '现有志愿者表单字段',
+    'volunteer_schema.no_fields'         => '尚未定义自定义志愿者字段。',
+    'volunteer_schema.delete_confirm'    => '确定要删除此字段及所有关联的回复值吗？',
+
+    // ------------------------------------------------------------------
+    // Admin: Moderation Queue & Suggestions Review
+    // ------------------------------------------------------------------
+    'moderate.heading'                   => '待处理建议审核',
+    'moderate.subheading'                => '将用户建议的更改与您已批准表中的活动记录进行比较。批准、覆盖或拒绝建议。',
+    'moderate.shortcut_label'            => '键盘快捷键提示：',
+    'moderate.shortcut_desc'             => '按 Ctrl + Enter 快速批准，或按 Esc 清空覆盖框！',
+    'moderate.th_id_date'                => 'ID / 日期',
+    'moderate.th_table_record'           => '表、记录与列',
+    'moderate.th_comparison'             => '比较（活动 vs 建议）及依据',
+    'moderate.th_actions'                => '审核员操作',
+    'moderate.no_suggestions'            => '在您批准的审核表中未找到待处理的建议。',
+    'moderate.by_label'                  => '由：',
+    'moderate.guest_user'                => '访客 / 游客',
+    'moderate.record_id_label'           => '记录 ID：',
+    'moderate.column_label'              => '列：',
+    'moderate.required_badge'            => '必填',
+    'moderate.live_value_label'          => '当前活动值：',
+    'moderate.empty_placeholder'         => '[空]',
+    'moderate.proposed_value_label'      => '建议更改：',
+    'moderate.evidence_label'            => '依据 / 理由：',
+    'moderate.no_evidence'               => '未提供依据或理由。',
+    'moderate.override_label'            => '覆盖值：',
+    'moderate.select_placeholder'        => '-- 请选择 --',
+    'moderate.historical_dates_title'    => '支持的历史日期',
+    'moderate.approve_confirm'           => '批准并应用此值？',
+    'moderate.decline_confirm'           => '拒绝并丢弃此建议？',
+    'moderate.approve_btn'               => '批准',
+    'moderate.decline_btn'               => '拒绝',
+
+    // ------------------------------------------------------------------
+    // Admin: Notices & Announcements Manager
+    // ------------------------------------------------------------------
+    'notices.heading'                    => '网站通知与公告管理器',
+    'notices.subheading'                 => '创建动态警报、欢迎横幅或针对特定用户角色的定向公告。',
+    'notices.error_blank'                => '标题和内容不能为空。',
+    'notices.msg_created'                => '通知创建成功！',
+    'notices.msg_deleted'                => '通知已删除。',
+    'notices.create_heading'             => '创建新通知',
+    'notices.title_label'                => '通知标题 / 标头：',
+    'notices.content_label'              => '通知内容（允许 HTML/文本）：',
+    'notices.target_roles_label'         => '目标受众（选择角色或全部）：',
+    'notices.role_everyone'              => '所有人',
+    'notices.role_public'                => '公开（访客）',
+    'notices.role_users'                 => '用户',
+    'notices.role_moderators'            => '审核员',
+    'notices.role_admins'                => '管理员',
+    'notices.dismissible_label'          => "可关闭（包含 'X' 关闭按钮）",
+    'notices.display_order_label'        => '显示顺序：',
+    'notices.publish_btn'                => '发布通知',
+    'notices.existing_heading'           => '活动与现有通知',
+    'notices.th_order'                   => '顺序',
+    'notices.th_title'                   => '标题',
+    'notices.th_target_roles'            => '目标角色',
+    'notices.th_dismissible'             => '可关闭',
+    'notices.no_notices'                 => '尚未创建任何通知。',
+    'notices.yes'                        => '是',
+    'notices.no_sticky'                  => '否（粘性 / Sticky）',
+    'notices.delete_confirm'             => '确定要删除此通知吗？',
+
+    // ------------------------------------------------------------------
+    // Admin: Global Site Settings, Modules & Permissions
+    // ------------------------------------------------------------------
+    'settings.heading'                   => '全局网站设置、模块与权限',
+    'settings.subheading'                => '管理核心配置、邮件驱动程序、安全/CAPTCHA 选项、功能模块、维护模式、网站通知和角色矩阵。',
+    'settings.tab_core'                  => '核心与邮件',
+    'settings.tab_modules'               => '模块',
+    'settings.tab_maintenance'           => '维护',
+    'settings.tab_notices'               => '网站通知',
+    'settings.tab_permissions'           => '角色与权限',
+    'settings.tab_audit'                 => '审计日志',
+    'settings.db_updates_heading'        => '数据库更新',
+    'settings.schema_current'            => '当前架构版本：',
+    'settings.schema_latest'             => '最新可用版本：',
+    'settings.download_backup_btn'       => '下载数据库备份',
+    'settings.download_backup_desc'      => '将完整的 .sql 文件保存到您的计算机。在运行更新之前请将其存放在安全的地方。',
+    'settings.schema_update_notice'      => '有可用的数据库更新。在继续之前，请先在上方下载备份。',
+    'settings.migration_confirm'         => '您已经下载了数据库备份吗？这将会应用待处理的架构更新。',
+    'settings.update_db_btn'             => '更新数据库',
+    'settings.schema_uptodate'           => '数据库已是最新。',
+    'settings.core_sys_heading'          => '系统核心设置',
+    'settings.sys_name_label'            => '系统 / 应用名称：',
+    'settings.default_lang_label'        => '网站默认语言：',
+    'settings.default_lang_desc'         => '用于访客以及未选择语言的用户。将文件放在 lang/ 目录中（例如 zh_CN.php）以提供更多选项。',
+    'settings.captcha_heading'           => '安全与 CAPTCHA 配置',
+    'settings.captcha_provider_label'    => 'CAPTCHA 提供商引擎：',
+    'settings.captcha_none'              => '已禁用（无 CAPTCHA）',
+    'settings.captcha_turnstile'         => 'Cloudflare Turnstile',
+    'settings.captcha_recaptcha'         => 'Google reCAPTCHA v2 / v3',
+    'settings.captcha_hcaptcha'          => 'hCaptcha',
+    'settings.turnstile_heading'         => 'Cloudflare Turnstile 设置',
+    'settings.recaptcha_heading'         => 'Google reCAPTCHA 设置',
+    'settings.hcaptcha_heading'          => 'hCaptcha 设置',
+    'settings.site_key_label'            => '网站密钥（公开）：',
+    'settings.secret_key_label'          => '密钥（私密）：',
+    'settings.mail_heading'              => '邮件投递配置',
+    'settings.mail_domain_label'         => '系统邮件域（回退）：',
+    'settings.mail_from_label'           => "自定义'发件人'邮箱地址：",
+    'settings.mail_from_desc'            => '用作外发邮件发件人的专用地址。',
+    'settings.mail_driver_label'         => '邮件驱动程序 / 引擎：',
+    'settings.driver_native'             => '本地邮件 (本地 Postfix 转发)',
+    'settings.driver_smtp'               => '已认证的 SMTP (PHPMailer)',
+    'settings.smtp_heading'              => 'SMTP 服务器设置',
+    'settings.smtp_host_label'           => 'SMTP 主机：',
+    'settings.smtp_port_label'           => '端口：',
+    'settings.smtp_encryption_label'     => '加密方式：',
+    'settings.enc_tls'                   => 'TLS (端口 587)',
+    'settings.enc_ssl'                   => 'SSL (端口 465)',
+    'settings.smtp_user_label'           => 'SMTP 用户名：',
+    'settings.smtp_pass_label'           => 'SMTP 密码（留空则保持当前密码）：',
+    'settings.save_core_mail_btn'        => '保存核心与邮件设置',
+    'settings.test_mail_heading'         => '测试邮件配置',
+    'settings.test_email_label'          => '收件人电子邮箱地址：',
+    'settings.send_test_btn'             => '发送测试邮件',
+    'settings.modules_heading'           => '应用程序模块开关与效率控制',
+    'settings.modules_subheading'        => '启用或禁用功能以优化应用程序的执行效率，并根据您的具体部署需求调整 PRD。',
+    'settings.mod_users'                 => '用户管理与多用户访问',
+    'settings.mod_users_desc'            => '启用注册、用户管理和多用户认证。（个人资料访问权限依然可用以保障单用户安全）。',
+    'settings.mod_leaderboard'           => '排行榜与游戏化',
+    'settings.mod_leaderboard_desc'      => '识别转录努力并提供星级积分。',
+    'settings.mod_leaderboard_note'      => '(需要用户管理和多用户访问)',
+    'settings.mod_moderation'            => '审核工作流',
+    'settings.mod_moderation_desc'       => '启用编辑建议审查和审核队列。',
+    'settings.mod_volunteers'            => '志愿者门户与申请',
+    'settings.mod_volunteers_desc'       => '启用公众志愿者意向表单及管理员管理面板。',
+    'settings.mod_feedback'              => '反馈提交',
+    'settings.mod_feedback_desc'         => '启用公开反馈表单及对应的管理面板。',
+    'settings.save_modules_btn'          => '保存模块配置',
+    'settings.maintenance_heading'       => '系统维护模式',
+    'settings.maintenance_toggle'        => '启用维护模式（使网站离线）',
+    'settings.maintenance_reason_label'  => '原因 / 给用户的信息：',
+    'settings.maintenance_eta_label'     => '预计恢复时间 (ETA)：',
+    'settings.save_maintenance_btn'      => '保存维护设置',
+    'settings.notices_heading'           => '网站通知与公告',
+    'settings.add_notice_btn'            => '+ 添加新通知',
+    'settings.no_notices'                => '未配置任何通知。',
+    'settings.status_active'             => '活动',
+    'settings.status_inactive'           => '未激活',
+    'settings.notice_content_label'      => '内容：',
+    'settings.save_notice_btn'           => '保存通知',
+    'settings.permissions_heading'       => '动态角色与权限矩阵',
+    'settings.permissions_subheading'    => '权限按系统功能分组。请展开各部分来配置权限，然后保存下方的更新。',
+    'settings.th_role'                   => '角色',
+    'settings.th_capabilities'           => '此组分配的功能权限',
+    'settings.save_permissions_btn'      => '保存权限矩阵',
+    'settings.audit_heading'             => '系统审计日志浏览器',
+    'settings.audit_subheading'          => '审查记录的安全操作、数据录入和审核。如有必要，可使用下方的维护选项清除日志。',
+    'settings.purge_all_confirm'         => '⚠️ 警告：这将会永久删除所有系统审计日志。您确定要继续吗？',
+    'settings.clear_all_audit_btn'       => '清除所有审计日志',
+    'settings.purge_records_confirm'     => '您确定要清除所有与记录相关的审计条目吗？',
+    'settings.clear_records_audit_btn'   => '仅清除记录审计',
+    'settings.th_id'                     => 'ID',
+    'settings.th_timestamp'              => '时间戳',
+    'settings.th_actor'                  => '操作者',
+    'settings.th_action'                 => '操作',
+    'settings.th_record_id'              => '记录 ID',
+    'settings.th_details'                => '详情',
+    'settings.th_ip'                     => 'IP 地址',
+    'settings.no_audit_logs'             => '未找到任何审计日志。',
+    'settings.system_guest'              => '系统 / 访客',
+    'settings.audit_limit_note'          => '显示最近 250 条审计日志。',
+
+    // ------------------------------------------------------------------
+    // Admin: User Account Management & Leaderboard Moderation
+    // ------------------------------------------------------------------
+    'admin_users.heading'                => '用户账号管理与排行榜审核',
+    'admin_users.subheading'             => '检查用户状态、分配角色、覆盖电子邮件、发起密码重置或邀请、重置 2FA 或暂停账号。',
+    'admin_users.manage_templates_btn'   => '管理邮件模板',
+    'admin_users.invite_user_btn'        => '邀请新用户',
+    'admin_users.th_username'            => '用户名',
+    'admin_users.th_email_override'      => '电子邮件与覆盖',
+    'admin_users.th_role_assignment'     => '角色分配',
+    'admin_users.th_score'               => '积分',
+    'admin_users.th_status'              => '状态',
+    'admin_users.th_2fa'                 => '2FA',
+    'admin_users.th_actions'             => '操作与审核',
+    'admin_users.no_users'               => '未找到任何用户。',
+    'admin_users.save_email_title'       => '保存新电子邮件地址',
+    'admin_users.verified_label'         => '已验证：',
+    'admin_users.yes'                    => '是',
+    'admin_users.no'                     => '否',
+    'admin_users.protected_admin'        => '受保护的主管理员',
+    'admin_users.update_btn'             => '更新',
+    'admin_users.status_active'          => '活动',
+    'admin_users.status_suspended'       => '已暂停',
+    'admin_users.enabled'                => '已启用',
+    'admin_users.disabled'               => '已禁用',
+    'admin_users.set_score_btn'          => '设置积分',
+    'admin_users.resend_invite_confirm' => '重新发送账号邀请邮件给该用户？',
+    'admin_users.resend_invite_btn'      => '重新发送邀请',
+    'admin_users.reset_pwd_confirm'      => '发送密码重置链接给该用户？',
+    'admin_users.reset_password_btn'     => '重置密码',
+    'admin_users.suspend_confirm'        => '由于滥用/违规暂停用户并吊销访问权限？',
+    'admin_users.suspend_btn'            => '暂停',
+    'admin_users.reactivate_btn'         => '重新激活',
+    'admin_users.reset_2fa_confirm'      => '重置并禁用该用户的 2FA？',
+    'admin_users.reset_2fa_btn'          => '重置 2FA',
+
+    // ------------------------------------------------------------------
+    // Admin: View Ticket & Threaded Dialogue
+    // ------------------------------------------------------------------
+    'view_ticket.back_to_dashboard'    => '返回工单面板',
+    'view_ticket.ticket_heading_prefix'=> '工单',
+    'view_ticket.support_request'      => '支持请求',
+    'view_ticket.submitted_by'         => '提交者：',
+    'view_ticket.on_date'              => '于',
+    'view_ticket.submitted_fields'     => '提交的表单字段：',
+    'view_ticket.ticket_status_label'  => '工单状态：',
+    'view_ticket.status_pending'       => '待处理',
+    'view_ticket.status_progress'      => '进行中',
+    'view_ticket.status_completed'     => '已完成',
+    'view_ticket.status_rejected'      => '已拒绝',
+    'view_ticket.dialogue_heading'     => '对话线程',
+    'view_ticket.no_replies'           => '暂无回复记录。',
+    'view_ticket.admin_label'          => '管理员',
+    'view_ticket.staff'                => '工作人员',
+    'view_ticket.post_reply_heading'   => '发布回复并通知提交人',
+    'view_ticket.reply_placeholder'    => '在此处编写您的回复...',
+    'view_ticket.send_reply_btn'       => '发送回复并通过邮件通知提交人',
+
+    // ------------------------------------------------------------------
+    // Admin: Volunteer Submissions & Workflow Dashboard
+    // ------------------------------------------------------------------
+    'volunteer_dashboard.heading'            => '志愿者申请与工作流',
+    'volunteer_dashboard.subheading'         => '审查申请、安排志愿者谈话、记录面试笔记并将候选人录用到系统中。',
+    'volunteer_dashboard.manage_emails_btn' => '管理邮件模板',
+    'volunteer_dashboard.manage_schema_btn' => '管理表单结构',
+    'volunteer_dashboard.th_status'          => '状态',
+    'volunteer_dashboard.th_name'            => '姓名',
+    'volunteer_dashboard.th_interview_notes'=> '面试 / 笔记',
+    'volunteer_dashboard.no_submissions'     => '未找到任何志愿者申请。',
+    'volunteer_dashboard.volunteer_prefix'   => '志愿者',
+    'volunteer_dashboard.chat_label'         => '谈话：',
+    'volunteer_dashboard.notes_label'        => '笔记：',
+    'volunteer_dashboard.no_notes'           => '暂无笔记',
+    'volunteer_dashboard.chat_notes_btn'     => '谈话与笔记',
+    'volunteer_dashboard.accept_title'       => '通过用户邀请系统接受',
+    'volunteer_dashboard.accept_invite_btn'  => '接受并发送邀请',
+    'volunteer_dashboard.delete_confirm'     => '删除此志愿者记录？',
+    'volunteer_dashboard.modal_heading'      => '管理候选人面试与笔记',
+    'volunteer_dashboard.modal_status_label'=> '申请状态：',
+    'volunteer_dashboard.status_pending'     => '等待审核',
+    'volunteer_dashboard.status_chat'        => '已安排谈话',
+    'volunteer_dashboard.status_accepted'    => '已接受',
+    'volunteer_dashboard.status_rejected'    => '已拒绝',
+    'volunteer_dashboard.modal_date_label'   => '安排的谈话 / 面试日期和时间：',
+    'volunteer_dashboard.modal_notes_label'  => '面试 / 会面笔记：',
+    'volunteer_dashboard.modal_notes_placeholder' => '在此记录谈话反馈...',
+    'volunteer_dashboard.save_changes_btn'   => '保存更改',
+
+    // ------------------------------------------------------------------
+    // API: AJAX Search & Filtering
+    // ------------------------------------------------------------------
+    'api_search.error_public_forbidden' => '403 禁止访问：公开查看未启用。',
+    'api_search.error_unauthorized_table' => '未经授权访问表。',
+    'api_search.no_records'              => '该表中未找到任何记录。',
+    'api_search.history_btn'             => '历史',
+    'api_search.suggest_edit_btn'        => '建议修改',
+
+    // ------------------------------------------------------------------
+    // Errors & HTTP Templates
+    // ------------------------------------------------------------------
+    'error_template.return_home_btn' => '返回公共首页',
+
+    // ------------------------------------------------------------------
+    // Public: Ticket Intake & Feedback Portal
+    // ------------------------------------------------------------------
+    'feedback.hp_label'              => '留空',
+    'feedback.first_name_label'      => '名：',
+    'feedback.surname_label'         => '姓：',
+    'feedback.email_label'           => '电子邮件地址：',
+    'feedback.subject_label'         => '主题 / 咨询标题：',
+    'feedback.required_title'        => '必填字段',
+    'feedback.select_placeholder'    => '-- 请选择 --',
+    'feedback.multi_select_hint'     => '按住 Ctrl 或 Cmd 键进行多选。',
+    'feedback.submit_btn'            => '提交工单',
+
+    // ------------------------------------------------------------------
+    // Security Engine & Firewall
+    // ---------------------------------------------------               -------
+    'security_engine.err_suspicious_agent' => '安全错误：可疑的客户端签名。',
+    'security_engine.err_access_denied'    => '安全错误：拒绝访问。',
+    'security_engine.err_rate_limit'       => '来自此 IP 地址的请求过多，请稍后重试。',
+    'security_engine.err_excessive_links'  => '检测到过多链接，提交被拒绝。',
+    'security_engine.err_complete_captcha' => '请完成 CAPTCHA 安全验证。',
+    'security_engine.err_captcha_failed'   => 'CAPTCHA 验证失败，请重试。',
+
+    // ------------------------------------------------------------------
+    // Installer Wizard
+    // ------------------------------------------------------------------
+    'install.complete_title'             => '安装已完成',
+    'install.complete_heading'           => '安装已完成',
+    'install.complete_desc'              => '本网站已完成配置。安装程序已被锁定，以防再次被误运行。',
+    'install.login_link'                 => '登录',
+    'install.home_link'                  => '前往网站',
+    'install.delete_folder_hint'         => '为了增强安全性，您可以删除或重命名 <code>install</code> 文件夹。',
+    'install.msg_db_ready'               => '数据库已准备就绪。创建您的管理员账号以完成安装。',
+    'install.err_config_load'            => '无法使用现有配置：',
+    'install.err_write_permission'       => 'PHP 无法在此项目文件夹中创建文件。',
+    'install.detail_prefix'              => '详情：',
+    'install.err_db_required'            => '数据库名称和数据库用户名均为必填项。',
+    'install.err_db_not_empty'           => '该数据库不为空。请使用新的空数据库（或清空所有表）后重试。',
+    'install.msg_schema_imported'        => '数据库已连接且架构已导入。请创建您的管理员账号。',
+    'install.err_complete_db_first'      => '请先完成数据库步骤。',
+    'install.err_admin_required'         => '所有管理员字段均为必填项。',
+    'install.err_invalid_email'          => '电子邮件地址无效。',
+    'install.err_password_length'        => '密码长度必须至少为 8 个字符。',
+    'install.err_passwords_match'        => '两次输入的密码不一致。',
+    'install.err_admin_save_failed'      => '管理员用户保存失败，请检查用户表结构。',
+    'install.msg_installation_complete' => '安装已完成。',
+    'install.page_title'                 => '安装 — 教区户籍记录目录',
+    'install.heading'                    => '安装',
+    'install.subheading'                 => '初始配置<strong>仅适用于此应用程序文件夹</strong>。请使用一个空的 MySQL 数据库。',
+    'install.done_heading'               => '完成',
+    'install.done_message'               => '安装已完成。安装程序现在已锁定。',
+    'install.admin_heading'              => '网站管理员账号',
+    'install.admin_subheading'           => '这是用于登录<strong>本网站</strong>的账号（并非数据库账号）。',
+    'install.admin_username_label'       => '管理员用户名',
+    'install.admin_email_label'          => '管理员邮箱',
+    'install.admin_password_label'       => '管理员密码（最少 8 个字符）',
+    'install.admin_confirm_password_label' => '确认管理员密码',
+    'install.finish_btn'                 => '完成安装',
+    'install.db_heading'                 => '数据库连接',
+    'install.db_hint'                    => '请使用您<strong>主机控制面板</strong>中的 MySQL 详细信息。这不是网站管理员登录账号。',
+    'install.db_host_label'              => '数据库主机',
+    'install.db_name_label'              => '数据库名称',
+    'install.db_user_label'              => '数据库用户名',
+    'install.db_pass_label'              => '数据库密码',
+    'install.db_submit_btn'              => '创建表并继续',
+    'install.req_heading'                => '1. 要求',
+    'install.req_php'                    => 'PHP 8.0+ (检测到 %s)',
+    'install.req_pdo'                    => 'PDO MySQL 扩展',
+    'install.req_logs'                   => '日志文件夹可写（或项目文件夹）',
+    'install.req_probe'                  => '能够在此项目文件夹中创建文件',
+    'install.continue_btn'               => '继续',
+    'install.req_fail_msg'               => '请修复未通过的检查，然后刷新此页面。',
+
+    // ------------------------------------------------------------------
+    // Leaderboard
+    // ------------------------------------------------------------------
+    'leaderboard.aria_region'     => '排行榜视图',
+    'leaderboard.heading'         => '社区参与排行榜',
+    'leaderboard.subheading'      => '表彰为收集、转录和/或管理数据库记录做出贡献的社区成员。',
+    'leaderboard.th_rank'         => '排名',
+    'leaderboard.th_contributor'  => '贡献者',
+    'leaderboard.th_role'         => '角色',
+    'leaderboard.th_score'        => '积分',
+    'leaderboard.no_users'        => '排行榜中尚未找到任何活动用户。',
+    'leaderboard.medal_gold'      => '金牌',
+    'leaderboard.medal_silver'    => '银牌',
+    'leaderboard.medal_bronze'    => '铜牌',
+    'leaderboard.medal_ribbon'    => '4级功绩绶带',
+    'leaderboard.medal_rosette'   => '5级玫瑰勋章',
+    'leaderboard.medal_trophy'    => '6级奖杯',
+    'leaderboard.medal_star'      => '7级之星',
+    'leaderboard.medal_military'  => '8级军事勋章',
+    'leaderboard.medal_glowing'   => '9级璀璨之星',
+    'leaderboard.medal_crown'     => '10级桂冠',
+    'leaderboard.you_badge'       => '(您)',
+    'leaderboard.default_role'    => '用户',
+
+    // ------------------------------------------------------------------
+    // Site Footer
+    // ------------------------------------------------------------------
+    'footer.compiled_notice'  => '教区户籍记录汇编自公共领域的历史资料。',
+    'footer.software_notice'  => '开源软件平台，基于 MIT 许可证发布。',
+    'footer.rights_reserved'  => '保留所有权利。',
+
+    // ------------------------------------------------------------------
+    // Site Header & Head
+    // ------------------------------------------------------------------
+    'header.default_title' => '教区户籍记录数据库',
+
+    // ------------------------------------------------------------------
+    // Notices Banner Module
+    // ------------------------------------------------------------------
+    'notices_banner.close_title' => '关闭通知',
+
+    // ------------------------------------------------------------------
+    // Record History & Audit Trail
+    // ------------------------------------------------------------------
+    'record_history.exit_no_record'        => '未指定任何记录。',
+    'record_history.exit_not_found'        => '未找到记录。',
+    'record_history.heading_prefix'        => '历史与审计跟踪：记录',
+    'record_history.return_btn'            => '返回',
+    'record_history.directory_table_label'=> '目录表：',
+    'record_history.subheading_lifecycle' => '展示与此记录直接相关的更改、建议和依据的社会生命周期。',
+    'record_history.snapshot_heading'      => '当前活动值的快照',
+    'record_history.empty_value'           => '[空]',
+    'record_history.timeline_heading'      => '事件与活动时间轴',
+    'record_history.no_history'            => '尚未为此记录记录特定的历史审计事件。',
+    'record_history.purge_confirm'         => '删除此特定的审计日志条目？',
+    'record_history.purge_btn'             => '清除日志',
+    'record_history.actor_label'           => '操作者：',
+    'record_history.system_guest'          => '系统 / 访客',
+    'record_history.target_column'         => '目标列：',
+    'record_history.proposed_value'        => '建议值：',
+    'record_history.reasoning_evidence'    => '依据 / 理由：',
+
+    // ------------------------------------------------------------------
+    // Standalone Update Database Gateway
+    // ------------------------------------------------------------------
+    'update_database.msg_success'      => '数据库更新成功！已应用 %d 个迁移。',
+    'update_database.msg_uptodate'     => '数据库已是最新。',
+    'update_database.err_failed'       => '迁移失败：',
+    'update_database.page_title'       => '需要系统更新 — 教区户籍记录目录',
+    'update_database.heading'          => '⚠️ 需要系统更新',
+    'update_database.subheading'       => '应用程序的数据库结构已过时，在恢复正常运行之前需要进行架构更新。',
+    'update_database.current_version'  => '当前架构版本：',
+    'update_database.latest_version'   => '最新可用版本：',
+    'update_database.proceed_login'    => '前往登录页面',
+    'update_database.confirm_prompt'   => '您是否已经创建了数据库备份？点击确定以应用待处理的架构更新。',
+    'update_database.update_btn'       => '立即更新数据库',
+
+    // ------------------------------------------------------------------
+    // User Authentication Action
+    // ------------------------------------------------------------------
+    'authenticate.err_invalid_credentials' => '凭据无效或账号访问受限。',
+
+    // ------------------------------------------------------------------
+    // Save Data Entry Action
+    // ------------------------------------------------------------------
+    'save_data_entry.err_required_field'    => '必填字段 \'%s\' 不能为空。',
+    'save_data_entry.audit_created_prefix' => '在 ID 为 %d 的表中创建了记录。',
+    'save_data_entry.msg_success'          => '记录添加成功！',
+
+    // ------------------------------------------------------------------
+    // Save Public Suggestion Action
+    // ---------------------------------------------------               -------
+    'save_public_suggestion.err_spam_detected'  => '检测到垃圾信息，提交被拒绝。',
+    'save_public_suggestion.err_field_required' => '此字段为必填项，不能为空。',
+    'save_public_suggestion.msg_success'        => '您的编辑建议已成功提交，并已发送至审核队列等待审查。谢谢！',
+    'save_public_suggestion.err_failed_submit'  => '提交编辑建议失败，请重试。',
+    'save_public_suggestion.err_invalid_column' => '指定的列无效。',
+    'save_public_suggestion.err_invalid_params' => '记录提交参数无效。',
+
+    // ------------------------------------------------------------------
+    // Data Entry Workstation
+    // ------------------------------------------------------------------
+    'data_entry.date_placeholder_ymd' => 'YYYY-MM-DD (或部分年份)',
+    'data_entry.date_placeholder_dmy' => 'DD/MM/YYYY (或部分年份)',
+    'data_entry.date_placeholder_mdy' => 'MM/DD/YYYY (或部分年份)',
+    'data_entry.no_tables_heading'    => '⚠️ 未找到数据库表',
+    'data_entry.no_tables_desc'       => '当前系统未配置任何用于数据录入的活动数据库表。',
+    'data_entry.admin_tables_prompt'  => '作为管理员，请前往<strong>数据表管理</strong>创建一个表，并至少添加一个列，然后才能录入记录。',
+    'data_entry.go_manage_tables'     => '前往数据表管理',
+    'data_entry.contact_admin_tables' => '请联系管理员配置数据库表和列。',
+    'data_entry.no_cols_heading'      => '⚠️ 未配置任何列',
+    'data_entry.no_cols_desc'         => '系统中存在数据表，但当前活动表未定义任何数据列。',
+    'data_entry.admin_cols_prompt'    => '作为管理员，请前往<strong>数据表管理</strong>为您的表至少添加一个列。',
+    'data_entry.contact_admin_cols'   => '请联系管理员配置此表的列。',
+    'data_entry.active_table_label'   => '活动数据录入表：',
+    'data_entry.add_entry_summary'    => '➕ 添加新数据录入（点击展开/折叠）',
+    'data_entry.bool_yes_true'        => '是 / 真',
+    'data_entry.bool_no_false'        => '否 / 假',
+    'data_entry.bool_male'            => '男',
+    'data_entry.bool_female'          => '女',
+    'data_entry.bool_true'            => '真',
+    'data_entry.bool_false'           => '假',
+    'data_entry.bool_tick'            => '✔ (勾选)',
+    'data_entry.bool_cross'           => '✘ (叉)',
+    'data_entry.date_title_hint'      => '接受完整或部分日期（例如 1842 或 1842-05）',
+    'data_entry.enter_value_placeholder' => '输入值...',
+    'data_entry.submit_data_btn'      => '提交数据',
+    'data_entry.shortcuts_tip'        => '💡 提示：按 <strong>Ctrl + Enter</strong> 提交，或按 <strong>Esc</strong> 清空当前字段。',
+    'data_entry.dup_heading'          => '⚠️ 可能重复警告',
+    'data_entry.dup_desc'             => '我们在系统中找到了匹配的条目：',
+    'data_entry.dup_item_format'      => '记录 ID: %d — 值: %s',
+    'data_entry.dup_prompt'           => '您是否仍要继续并保存此重复条目？',
+    'data_entry.dup_confirm_btn'      => '是的，确认并保存重复项',
+    'data_entry.search_summary'       => '🔍 搜索并筛选现有记录（点击展开/折叠）',
+    'data_entry.date_to_label'        => '至',
+    'data_entry.filter_all_option'    => '-- 全部 --',
+    'data_entry.filter_placeholder'   => '筛选...',
+    'data_entry.apply_filters_btn'    => '应用搜索筛选',
+    'data_entry.reset_filter_btn'     => '重置筛选',
+    'data_entry.csv_entire_btn'       => '下载完整 CSV',
+    'data_entry.json_entire_btn'      => '下载完整 JSON',
+    'data_entry.copy_entire_btn'      => '复制完整表格',
+    'data_entry.csv_filtered_btn'     => '下载筛选后的 CSV',
+    'data_entry.json_filtered_btn'     => '下载筛选后的 JSON',
+    'data_entry.copy_filtered_btn'    => '复制筛选后的表格',
+    'data_entry.clipboard_alert'      => '表格数据已复制到剪贴板！您可以将其粘贴到 Excel 或 Google Sheets 中。',
+    'data_entry.existing_records_heading' => '现有记录表',
+    'data_entry.th_added_by'          => '添加者',
+    'data_entry.th_date_created'      => '创建日期',
+    'data_entry.no_records'           => '未找到任何记录。',
+    'data_entry.na_value'             => '不适用',
+    'data_entry.page_label'           => '页码：',
+
+    // ------------------------------------------------------------------
+    // Forgot Password
+    // ------------------------------------------------------------------
+    'forgot_password.aria_region'     => '密码找回',
+    'forgot_password.heading'         => '重置您的密码',
+    'forgot_password.subheading'      => '在下方输入您账号的电子邮箱地址，我们将向您发送一个重置密码的安全链接。',
+    'forgot_password.email_label'     => '电子邮件地址：',
+    'forgot_password.submit_btn'      => '发送重置链接',
+    'forgot_password.back_login_link' => '返回登录页面',
+
+    // ------------------------------------------------------------------
+    // User Login
+    // ------------------------------------------------------------------
+    'login.aria_region'          => '用户登录',
+    'login.heading'              => '用户登录',
+    'login.username_label'       => '用户名或邮箱：',
+    'login.password_label'       => '密码：',
+    'login.submit_btn'           => '登录',
+    'login.forgot_password_link' => '忘记密码？',
+
+    // ------------------------------------------------------------------
+    // User Onboarding Setup Wizard
+    // ------------------------------------------------------------------
+    'onboarding.page_title'        => '欢迎 - 账号设置向导',
+    'onboarding.heading'           => '欢迎加入团队！',
+    'onboarding.subheading'        => '在开始之前，请花一点时间配置您的区域显示和隐私偏好。您随时可以在个人资料中进行更改。',
+    'onboarding.timezone_label'    => '时区 / 地区：',
+    'onboarding.date_format_label' => '日期显示格式：',
+    'onboarding.time_format_label' => '时钟格式（时间显示）：',
+    'onboarding.time_24'          => '24 小时制 (例如 16:07)',
+    'onboarding.time_12'          => '12 小时制 上午/下午 (例如 04:07 PM)',
+    'onboarding.time_none'        => '仅日期 (完全隐藏时间)',
+    'onboarding.attribution_label' => '排行榜与署名显示偏好：',
+    'onboarding.attribution_desc1' => '控制您的姓名在公开排行榜和记录中的显示方式。',
+    'onboarding.attr_anon_title'   => '匿名：',
+    'onboarding.attr_anon_text'    => '向所有人显示首字母和随机编号。',
+    'onboarding.attr_public_title' => '公开：',
+    'onboarding.attr_public_text'  => '向所有人显示您的真实姓名。',
+    'onboarding.attr_vol_title'    => '仅志愿者：',
+    'onboarding.attr_vol_text'     => '向公众显示首字母，但向已登录的志愿者、审核员和管理员显示您的真实姓名。',
+    'onboarding.attr_opt_anon'     => '匿名 (首字母和随机编号)',
+    'onboarding.attr_opt_public'   => '公开 (显示全名)',
+    'onboarding.attr_opt_vol'      => '仅志愿者',
+    'onboarding.submit_btn'        => '保存偏好并继续',
+
+    // ------------------------------------------------------------------
+    // User Profile & Security Settings
+    // ------------------------------------------------------------------
+    'profile.aria_region'          => '用户个人资料管理',
+    'profile.heading'              => '用户个人资料与安全',
+    'profile.personal_details_heading' => '个人详细信息',
+    'profile.language_label'       => '首选语言：',
+    'profile.lang_site_default'    => '网站默认',
+    'profile.update_details_btn'   => '更新个人详细信息',
+    'profile.email_heading'        => '电子邮件地址',
+    'profile.current_email_label'  => '当前邮箱：',
+    'profile.email_verified'       => '(已验证)',
+    'profile.email_unverified'     => '(未验证 - 请检查您的收件箱)',
+    'profile.change_email_label'   => '更改电子邮件地址：',
+    'profile.aria_new_email'       => '新电子邮件地址',
+    'profile.update_email_btn'     => '更新邮箱并验证',
+    'profile.password_heading'     => '更改密码',
+    'profile.current_password_label' => '当前密码：',
+    'profile.new_password_label'   => '新密码（最少 8 个字符）：',
+    'profile.confirm_password_label' => '确认新密码：',
+    'profile.show_passwords_label' => '以明文显示密码',
+    'profile.update_password_btn'  => '更新密码',
+    'profile.tfa_heading'          => '双重身份验证 (2FA)',
+    'profile.tfa_status_label'     => '状态：',
+    'profile.tfa_enabled'          => '已启用',
+    'profile.tfa_disabled'         => '已禁用',
+    'profile.setup_tfa_btn'        => '设置 Google Authenticator',
+    'profile.tfa_active_desc'      => '2FA 积极保护您的账号登录安全。',
+    'profile.backup_codes_heading' => '您的新安全备用代码',
+    'profile.download_codes_btn'   => '下载新代码为 .txt 文件',
+    'profile.generate_codes_confirm' => '您确定吗？这会使任何现有的备用代码失效。',
+    'profile.generate_codes_btn'   => '生成新备用代码',
+
+    // ------------------------------------------------------------------
+    // User Registration
+    // ------------------------------------------------------------------
+    'register.aria_region'    => '用户注册',
+    'register.heading'        => '注册新账号',
+    'register.username_label' => '用户名：',
+    'register.submit_btn'     => '注册',
+
+    // ------------------------------------------------------------------
+    // Set Password via Secure Token
+    // ------------------------------------------------------------------
+    'set_password.exit_invalid_token'        => '设置令牌无效或丢失。',
+    'set_password.exit_expired_token'        => '此密码设置链接无效或已过期。',
+    'set_password.proceed_login_btn'         => '前往登录页面',
+    'set_password.aria_region'               => '设置密码',
+    'set_password.heading_format'            => '为 %s 设置密码',
+    'set_password.subheading_format'         => '欢迎来到您的新账号，%s！请在下方选择您的密码。',
+    'set_password.new_password_label'        => '新密码（最少 8 个字符）：',
+    'set_password.confirm_password_label'    => '确认密码：',
+    'set_password.show_password_label'       => '显示密码',
+    'set_password.save_password_btn'         => '保存密码',
+
+    // ------------------------------------------------------------------
+    // Setup 2FA Wizard
+    // ------------------------------------------------------------------
+    'setup_2fa.aria_region'      => '2FA 设置向导',
+    'setup_2fa.heading'          => '设置 Google Authenticator',
+    'setup_2fa.subheading'       => '使用您的验证器应用扫描下方的二维码。',
+    'setup_2fa.qr_alt'           => '2FA 设置二维码',
+    'setup_2fa.manual_prompt'    => '或者手动输入此密钥：',
+    'setup_2fa.backup_heading'   => '紧急安全恢复代码',
+    'setup_2fa.backup_desc'      => '请将这些备用代码存放在安全的地方。如果您失去验证器应用的访问权限，每个代码可以<strong>仅使用一次</strong>：',
+    'setup_2fa.download_btn'     => '下载代码为 .txt 文件',
+    'setup_2fa.code_label'       => '输入应用中的 6 位数字代码以确认并启用：',
+    'setup_2fa.aria_code_input'  => '6 位身份验证代码',
+    'setup_2fa.submit_btn'       => '验证并启用 2FA',
+    'setup_2fa.cancel_link'      => '取消并返回个人资料',
+
+    // ------------------------------------------------------------------
+    // Suggest Edit View
+    // ------------------------------------------------------------------
+    'suggest_edit.aria_region'          => '建议编辑',
+    'suggest_edit.heading_prefix'       => '建议编辑记录',
+    'suggest_edit.return_btn'           => '返回记录',
+    'suggest_edit.success_msg_suffix'   => '您可以随时在下方提交其他编辑，或在完成后使用上方的返回链接。',
+    'suggest_edit.current_values_heading' => '当前值：',
+    'suggest_edit.empty_label'          => '(空)',
+    'suggest_edit.submit_heading'       => '提交新的建议值与依据',
+    'suggest_edit.confirm_prompt'       => '您确定要提交此编辑建议以供管理员审查吗？',
+    'suggest_edit.select_column_label'  => '选择要编辑的列：',
+    'suggest_edit.reasoning_label'      => '依据 / 理由 / 来源说明：',
+    'suggest_edit.reasoning_placeholder'=> '提供上下文、来源引用或进行此更改的理由...',
+    'suggest_edit.submit_btn'           => '提交建议以供审查',
+    'suggest_edit.proposed_value_label' => '建议的新值：',
+
+    // ------------------------------------------------------------------
+    // Verify 2FA Login Challenge
+    // ------------------------------------------------------------------
+    'verify_2fa.aria_region'     => '2FA 验证',
+    'verify_2fa.heading'         => '双重身份验证',
+    'verify_2fa.subheading'      => '请输入来自您的身份验证应用的 6 位数代码或安全备用代码。',
+    'verify_2fa.code_label'      => '验证代码 / 安全代码：',
+    'verify_2fa.aria_code_input' => '输入验证代码或安全代码',
+    'verify_2fa.submit_btn'      => '验证并登录',
+
+    // ------------------------------------------------------------------
+    // Verify Email
+    // ------------------------------------------------------------------
+    'verify_email.err_no_token'         => '未提供验证令牌。',
+    'verify_email.err_invalid_token'    => '验证令牌无效。',
+    'verify_email.msg_already_verified' => '您的邮箱已经验证过了，您可以直接登录。',
+    'verify_email.err_expired_token'    => '此验证链接已过期（已超过 24 小时限制）。请重新注册或请求新链接。',
+    'verify_email.msg_success'          => '邮箱验证成功！您的账号现已激活，您可以继续登录。',
+    'verify_email.err_update_failed'    => '验证邮箱时出错，请重试。',
+    'verify_email.aria_region'          => '邮箱验证状态',
+    'verify_email.heading'              => '邮箱验证状态',
+    'verify_email.login_btn'            => '点击此处登录',
+
+    // ------------------------------------------------------------------
+    // Volunteer Form View
+    // ------------------------------------------------------------------
+    'volunteer.aria_region'          => '志愿者表单',
+    'volunteer.honeypot_label'       => '请将此字段留空：',
+    'volunteer.required_field_title'=> '必填字段',
+    'volunteer.multi_select_hint'    => '按住 Ctrl 或 Cmd 键进行多选。',
+    'volunteer.submit_btn'           => '提交志愿者申请',
+];

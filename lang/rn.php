@@ -1,0 +1,913 @@
+<?php
+// lang/rn.php - Rundi / Kirundi (Ikirundi)
+return [
+
+    // ------------------------------------------------------------------
+    // Navigation
+    // ------------------------------------------------------------------
+    'nav.login'                  => 'Injira',
+    'nav.logout'                 => 'Sohoka',
+    'nav.feedback'               => 'Ivyiyumviro',
+    'nav.volunteer'              => 'Fasha',
+    'nav.leaderboard'            => 'Urutonde rw\'amanota',
+    'nav.search'                 => 'Shakisha',
+    'nav.settings'               => 'Igenamiterere y\'urubuga',
+    'nav.high_contrast'          => 'Ihinduramire ryohejuru',
+    'nav.low_contrast'           => 'Ihinduramire ryohepfo',
+    'nav.welcome'                => 'Murakaza neza,',
+    'nav.data_entry'             => 'Kwinjiza amakuru',
+    'nav.moderation'             => 'Ubugenzuzi',
+    'nav.invite_user'            => 'Tumira umukoresha',
+    'nav.manage_users'           => 'Gucunga abakoresha',
+    'nav.manage_tables'          => 'Gucunga amaame',
+    'nav.volunteer_dashboard'    => 'Ikibanza c\'abafasha',
+    'nav.feedback_dashboard'     => 'Ikibanza c\'ivyiyumviro',
+    'nav.leaderboard_score'      => 'Amanota y\'urutonde',
+
+    // ------------------------------------------------------------------
+    // Public search (index)
+    // ------------------------------------------------------------------
+    'search.heading'             => 'Ubugenzuzi bwo gushakisha n\'inkingi nyinshi',
+    'search.reset'               => 'Gusubizauko gushakisha',
+    'search.export_csv'          => 'Kurura ivyavuye mu gushakisha nka CSV',
+    'search.no_records'          => 'Nta nyandiko yabonitse muri iri tame.',
+    'search.load_error'          => 'Ntibyasobotse kuzana ivyavuye mu bushakashatsi. Ongera ugerageze.',
+
+    // ------------------------------------------------------------------
+    // Common buttons
+    // ------------------------------------------------------------------
+    'btn.submit'                 => 'Rungika',
+    'btn.cancel'                 => 'Hagarika',
+    'btn.save'                   => 'Bika',
+    'btn.delete'                 => 'Siba',
+
+    // actions/save_feedback.php & feedback.php Strings
+    'feedback.success_message'    => 'Murakoze cyane! Ivyiyumviro vyanyu vyarungitswe neza.',
+    'feedback.error_all_fields'   => 'Imyanya yose irakenewe.',
+    'feedback.error_invalid_email'=> 'Nyamuneka shyiramo aderesi ya imeli yubahirizwa.',
+    'feedback.error_save_failed'  => 'Havutse ikosa igihe wari uriko ubika ivyiyumviro vyawe. Ongera ugerageze.',
+
+    // ------------------------------------------------------------------
+    // Index / Public Directory Page
+    // ------------------------------------------------------------------
+    'index.no_tables_heading'          => 'Nta tame ry\'ububiko bw\'amakuru ryabonitse',
+    'index.no_tables_desc'             => 'Kuri ubu nta tame ry\'ububiko bw\'amakuru rigendezwa ryashizweho n\'uburyo.',
+    'index.admin_create_table_guide'   => 'Nk\'umuyobozi, nyamuneka genda kuri <strong>Gucunga amaame</strong> kugira ngo ukore itame, maze wongereho byibuze inkingi imwe imbere yuko inyandiko zerekanwa canke zinjizwa.',
+    'index.go_to_manage_tables'        => 'Genda ku gucunga amaame',
+    'index.contact_admin_tables'       => 'Vugana n\'umuyobozi kugira ngo ategure amaame n\'inkingi z\'ububiko bw\'amakuru.',
+    'index.guest_login_tables_guide'   => 'Nyamuneka, <a href=":login_link">injira</a> nk\'umuyobozi, genda ku gice c\'<strong>Gucunga amaame</strong> kugira ngo ukore itame, hanyuma wongereho byibuze inkingi imwe.',
+    'index.no_columns_heading'         => 'Nta nkingi ziteguye zihari',
+    'index.no_columns_desc'            => 'Hari amaame mu buryo, ariko nta nkingi z\'amakuru zatswe kuri iryo tame rikora.',
+    'index.admin_add_columns_guide'    => 'Nk\'umuyobozi, genda kuri <strong>Gucunga amaame</strong> kugira ngo wongereho byibuze inkingi imwe ku tame ryawe.',
+    'index.contact_admin_columns'      => 'Vugana n\'umuyobozi kugira ngo ategure inkingi kuri iri tame.',
+    'index.select_directory_database'  => 'Hitamo ububiko bw\'amakuru bw\'ububiko:',
+    'index.opt_yes_true'               => 'Ego / Ukuri',
+    'index.opt_no_false'               => 'Oya / Ikinyoma',
+    'index.opt_male'                   => 'Umugabo',
+    'index.opt_female'                 => 'Umugore',
+    'index.opt_true'                   => 'Ukuri',
+    'index.opt_false'                  => 'Ikinyoma',
+    'index.opt_tick'                   => '✔ (Akamenyetso)',
+    'index.opt_cross'                  => '✘ (Umusaraba)',
+    'index.option_all'                 => '-- Vyose --',
+    'index.date_to_label'              => 'gushika',
+    'index.search_placeholder'         => 'Shakisha...',
+    'index.download_entire_csv'        => 'Kurura CSV yose',
+    'index.download_entire_json'       => 'Kurura JSON yose',
+    'index.copy_entire_table'          => 'Koporora itame ryose',
+    'index.download_filtered_csv'      => 'Kurura CSV yatoranyijwe',
+    'index.download_filtered_json'     => 'Kurura JSON yatoranyijwe',
+    'index.copy_filtered_table'        => 'Koporora itame ryatoranyijwe',
+    'index.th_record_id'               => 'Indangamuntu y\'inyandiko',
+    'index.th_created_by'              => 'Yaremwe na',
+    'index.th_date_added'              => 'Itariki yongeweho',
+    'index.th_actions'                 => 'Ibikorwa',
+    'index.modal_heading'              => 'Tanga igitekerezo cyo kunonosora inyandiko',
+    'index.modal_desc'                 => 'Tanga igikosoro cyangwa amakuru asimbura kuri iyi nyandiko. Izasuzumwa n\'ishami ryacu ry\'ubugenzuzi.',
+    'index.modal_target_column'        => 'Inkingi yagenewe:',
+    'index.modal_proposed_value'       => 'Igikosoro / Agaciro kashizweho:',
+    'index.modal_input_placeholder'    => 'Shyiramo amakuru yahinduwe...',
+    'index.modal_submit_btn'           => 'Rungika igitekerezo',
+    'index.clipboard_success'          => 'Amakuru y\'itame yakoporowe mu bubiko bw\'agateganyo! Ushobora kuyashira ako kanya muri Excel cyangwa Google Sheets.',
+
+    // ------------------------------------------------------------------
+    // Admin: Create User / Invite Form
+    // ------------------------------------------------------------------
+    'create_user.heading'              => 'Urupapuro rwo gutumira umukoresha mushasha',
+    'create_user.subheading'           => 'Ibi bizatanga umurongo w\'igenamiterere wizewe w\'amasaha 24 kandi biherezwe umukoresha ku buryo butaziguye kuri imeli.',
+    'create_user.first_name'           => 'Izina ry\'ikirato:',
+    'create_user.surname'              => 'Izina ry\'iryubahiro:',
+    'create_user.username_label'       => 'Izina ry\'umukoresha (Bitari ngombwa):',
+    'create_user.username_placeholder' => 'Reka ubusa kugira ngo ryiremure ryonyine',
+    'create_user.username_help'        => 'Iyo bihejwe ubusa, izina ry\'umukoresha ryihariye riziremwa ryonyine rivuye ku zina ryiwe.',
+    'create_user.email_label'          => 'Aderesi ya imeli:',
+    'create_user.role_label'           => 'Uruhare rw\'umukoresha:',
+    'create_user.submit_btn'           => 'Kurema umukoresha no gutumira',
+
+    // ------------------------------------------------------------------
+    // Admin: Feedback / Support Tickets Dashboard
+    // ------------------------------------------------------------------
+    'feedback_dash.heading'              => 'Ikibanza c\'amatike yo gufasha n\'ivyiyumviro',
+    'feedback_dash.subheading'           => 'Cunga ubusabe bwo gufasha bw\'abantu bose, vugurura ibihe kandi wifatanye mu kiganiro.',
+    'feedback_dash.manage_emails'        => 'Cunga ingero za imeli',
+    'feedback_dash.manage_schema'        => 'Cunga imiterere y\'urupapuro rw\'amatike',
+    'feedback_dash.th_ticket_date'       => 'Indangamuntu y\'itike / Itariki',
+    'feedback_dash.th_submitter'         => 'Uwatanze',
+    'feedback_dash.th_subject_info'      => 'Insiguro / Amakuru shingiro',
+    'feedback_dash.th_status'            => 'Uko bimeze',
+    'feedback_dash.no_tickets'           => 'Nta tike ry\'ivyiyumviro ryabonitse.',
+    'feedback_dash.anonymous'            => 'Utazwi',
+    'feedback_dash.default_subject'      => 'Ikibazo rusangi',
+    'feedback_dash.open_ticket_btn'      => 'Fungura itike n\'ikiganiro',
+    'feedback_dash.delete_confirm'       => 'Gusiba iri tike ryo gufasha n\'ibisubizo vyose bijanye na ryo?',
+    'feedback_dash.msg_deleted'          => 'Itike #:id yasibwe neza.',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Email Templates
+    // ------------------------------------------------------------------
+    'feedback_emails.heading'            => 'Ingero za imeli z\'itike ryo gufasha',
+    'feedback_emails.subheading'         => 'Hindura uburyo bw\'amakuru ya imeli yoherezwa mu gihe c\'ibiganiro vy\'amatike. Koresha utubari tw\'imbete ku bimenyetso bihindagurika.',
+    'feedback_emails.back_to_dashboard' => 'Subira ku kibanza c\'amatike y\'ivyiyumviro',
+    'feedback_emails.email_subject'      => 'Insiguro ya imeli:',
+    'feedback_emails.email_body'         => 'Urugero rw\'umubiri wa imeli:',
+    'feedback_emails.save_template_btn' => 'Bika urugero',
+    'feedback_emails.placeholders_heading' => 'Ibimenyetso bihari',
+    'feedback_emails.placeholders_desc' => 'Ushobora gukoresha ibi bimenyetso aho ari ho hose mu ntego cyangwa mu mubiri:',
+    'feedback_emails.fixed_tags'         => 'Ibimenyetso shingirobihamye:',
+    'feedback_emails.custom_tags'        => 'Ibimenyetso byihariye by\'imiterere:',
+    'feedback_emails.custom_tags_desc'   => 'Byaremwe byonyine kuva mu myanya y\'uwubaka urupapuro rw\'amatike:',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Feedback Ticket Schema & Fields
+    // ------------------------------------------------------------------
+    'feedback_schema.heading'                => 'Gucunga imiterere y\'urupapuro rw\'ivyiyumviro',
+    'feedback_schema.subheading'             => 'Tegura imyanya yihariye, ubwoko bw\'amakuru, imipaka y\'inyuguti, ubwoko bw\'ikibereye, amahitamo n\'igenamiterere ryo kwerekana.',
+    'feedback_schema.settings_summary'       => 'Tegura umutwe w\'urupapuro n\'inyandiko y\'uburokero',
+    'feedback_schema.form_title_label'       => 'Umutwe w\'urupapuro:',
+    'feedback_schema.form_intro_label'       => 'Inyandiko y\'intangamarara / Ubusobanuro:',
+    'feedback_schema.save_settings_btn'      => 'Bika igenamiterere ry\'urupapuro',
+    'feedback_schema.edit_field_title'       => 'Hindura umwanya w\'itike:',
+    'feedback_schema.add_field_title'        => '+ Yongeraho umwanya mushasha w\'urupapuro rw\'itike',
+    'feedback_schema.field_name_label'       => 'Ikimenyetso / Izina ry\'umwanya:',
+    'feedback_schema.data_type_label'        => 'Ubwoko bw\'amakuru:',
+    'feedback_schema.type_varchar'           => 'VARCHAR (Inyandiko ngufi)',
+    'feedback_schema.type_text'              => 'TEXT (Paragarafu ndende / Ubutumwa)',
+    'feedback_schema.type_int'               => 'INT (Umubare wuzuye)',
+    'feedback_schema.type_boolean'           => 'BOOLEAN (Ikiranga Ego/Oya)',
+    'feedback_schema.type_date'              => 'DATE (Itariki y\'akarendari)',
+    'feedback_schema.subtype_label'          => 'Ubwoko bw\'umwanya / Uburyo bwo kwerekanawinjira:',
+    'feedback_schema.subtype_standard'       => '-- Bisanzwe --',
+    'feedback_schema.subtype_standard_lower'=> 'bisanzwe',
+    'feedback_schema.options_label'          => 'Amahitamo (atandukanyijwe na koma cyangwa rimwe ku murongo):',
+    'feedback_schema.options_help'           => 'Tanga amahitamo atandukanyijwe na koma cyangwa umurongo mushasha.',
+    'feedback_schema.allow_multiple'         => 'Emerera guhitamo amahitamo menshi (Guhitamo menshi)',
+    'feedback_schema.boolean_format'         => 'Uburyo bwo kwerekana boolean:',
+    'feedback_schema.max_length_label'       => 'Uburebure bwinshi / Uburebure (Umupaka w\'inyuguti utari ngombwa):',
+    'feedback_schema.is_required_label'      => 'Gira uyu mwanya ukenewe ku batanga ubutumwa',
+    'feedback_schema.save_field_btn'         => 'Bika impinduka z\'umwanya',
+    'feedback_schema.create_field_btn'       => 'Kurema umwanya w\'itike',
+    'feedback_schema.sub_email'              => 'Imeli',
+    'feedback_schema.sub_url'                => 'URL',
+    'feedback_schema.sub_select'             => 'Urutonde rumanuka',
+    'feedback_schema.sub_radio'              => 'Itsinda rya radio',
+    'feedback_schema.sub_checkbox'           => 'Aka agasanduku ko gushyirako akamenyetso',
+    'feedback_schema.sub_textarea'           => 'Agasanduku k\'inyandiko ndende',
+    'feedback_schema.sub_number'             => 'Umubare winjira',
+    'feedback_schema.existing_fields_heading'=> 'Imyanya y\'itike isanzwe iriho',
+    'feedback_schema.th_move'                => 'Kura aho',
+    'feedback_schema.th_field_name'          => 'Izina ry\'umwanya',
+    'feedback_schema.th_data_type'           => 'Ubwoko bw\'amakuru',
+    'feedback_schema.th_subtype'             => 'Ubwoko bw\'ikibereye',
+    'feedback_schema.th_required'            => 'Birakenewe?',
+    'feedback_schema.th_max_length'          => 'Uburebure bwinshi',
+    'feedback_schema.th_created_by'          => 'Yaremwe na',
+    'feedback_schema.no_fields'              => 'Nta mwanya wihariye w\'itike urasobanurwa.',
+    'feedback_schema.system_user'            => 'Uburyo',
+    'feedback_schema.edit_btn'               => 'Hindura',
+    'feedback_schema.delete_confirm'         => 'Siba uyu mwanya n\'agaciro kose k\'igisubizo gihuye na wo?',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Tables & Column Schemas
+    // ------------------------------------------------------------------
+    'manage_tables.heading'              => 'Gucunga amaame n\'imiterere mu buryo buhindagurika',
+    'manage_tables.subheading'           => 'Kurema, gusuzuma, guhindura cyangwa gusiba ku buryo bwizewe amaame ahindagurika y\'agace n\'inkingi zayo zishinzwe.',
+    'manage_tables.switcher_label'       => 'Hitamo imiterere y\'itame rikora:',
+    'manage_tables.edit_metadata_btn'    => 'Hindura amakuru y\'itame',
+    'manage_tables.delete_table_confirm'=> 'BURIYI: Gusiba iri tame bizakuraho burundu inkingi zose n\'ibiri mu bubiko bwabitswe. Woba wizeye neza?',
+    'manage_tables.delete_table_btn'     => 'Siba itame',
+    'manage_tables.edit_table_summary'   => 'Hindura ibisobanuro by\'itame:',
+    'manage_tables.create_table_summary'=> '+ Kurema itame rishasha rihindagurika',
+    'manage_tables.table_name_label'     => 'Izina ry\'itame ryoroheje:',
+    'manage_tables.table_desc_label'     => 'Ubusobanuro / Intego:',
+    'manage_tables.save_table_btn'       => 'Bika impinduka z\'itame',
+    'manage_tables.create_table_btn'     => 'Kurema imiterere y\'itame',
+    'manage_tables.edit_col_summary'     => 'Hindura inkingi ihindagurika:',
+    'manage_tables.add_col_summary_prefix' => '+ Yongeraho inkingi nshasha y\'itame kuri',
+    'manage_tables.col_name_label'       => 'Izina ry\'inkingi:',
+    'manage_tables.type_text_long'       => 'TEXT (Paragarafu ndende)',
+    'manage_tables.date_behavior_label' => 'Uburyo bwo gushakisha itariki:',
+    'manage_tables.date_bhv_manual'      => 'Amatariki mu bubiko bw\'amakuru (kwinjiza n\'intoke gusa)',
+    'manage_tables.date_bhv_admin'       => 'Amatariki y\'ubuyobozi gusa',
+    'manage_tables.date_bhv_all'         => 'Amatariki yose harimo n\'ay\'ubuyobozi',
+    'manage_tables.req_toggle_label'     => 'Gira iyi nkingi ikenewe (kwinjiza amakuru ngombwa)',
+    'manage_tables.exclude_search_label'=> 'Kuraho iyi nkingi mu gushakisha kw\'abantu bose (index.php)',
+    'manage_tables.create_col_btn'       => 'Kurema inkingi',
+    'manage_tables.existing_cols_heading_prefix' => 'Inkingi ziriho kuri',
+    'manage_tables.th_public_search'     => 'Gushakisha kw\'abantu bose?',
+    'manage_tables.th_display_format'    => 'Uburyo bwo kwerekana',
+    'manage_tables.th_date_created'      => 'Itariki yaremweho',
+    'manage_tables.no_columns_found'     => 'Nta nkingi zihindagurika zigenewe iri tame zirasobanurwa.',
+    'manage_tables.status_hidden'        => 'Yahishwe',
+    'manage_tables.delete_col_confirm'   => 'BURIYI: Gusiba iyi nkingi bizakuraho n\'amakuru yose y\'akarere afitaniye sango nayo muri buri nyandiko. Woba wizeye?',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage User Notification Email Templates
+    // ------------------------------------------------------------------
+    'user_emails.heading'                => 'Gucunga ingero za imeli z\'umenyo y\'abakoresha',
+    'user_emails.subheading'             => 'Hindura uburyo bwa imeli yoherezwa mu gihe co gutumira abakoresha cyangwa kohereza umurongo wo gusubiraho ijambo ry\'ibanga.',
+    'user_emails.select_template_label'=> 'Hitamo urugero rwo guhindura:',
+    'user_emails.opt_invitation'         => 'Urugero rwo gutumira kuri konti y\'umukoresha',
+    'user_emails.opt_reset'              => 'Urugero rwo gusubiraho ijambo ry\'ibanga / umurongo wo kwinjira',
+    'currently_editing'                  => 'Guhindura ubu:',
+    'user_emails.desc_invitation'        => 'Yoherezwa ku buryo butaziguye igihe umuyobozi aremye konti nshasha y\'umukoresha cyangwa amutumiriye.',
+    'user_emails.desc_reset'             => 'Yoherezwa igihe umuyobozi yatangije igikorwa cyo gusubiraho ijambo ry\'ibanga cyangwa yongeye kohereza umurongo wo kwinjira.',
+    'user_emails.email_body_label'       => 'Umubiri wa imeli:',
+    'user_emails.back_to_creation'       => 'Subira ku kurema abakoresha',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Email Templates
+    // ------------------------------------------------------------------
+    'volunteer_emails.heading'           => 'Ingero za imeli z\'abafasha n\'ibiranga',
+    'volunteer_emails.subheading'        => 'Hindura ibisubizo bya imeli byikora yoherezwa ku bafasha mu bihe bitandukanye vy\'akazi. Koresha utubari tw\'imbete ku bimenyetso bihindagurika.',
+    'volunteer_emails.back_to_dashboard'=> 'Subira ku busabe bw\'abafasha',
+    'volunteer_emails.custom_tags_desc'  => 'Byaremwe byonyine kuva mu myanya y\'uwubaka urupapuro rwawe:',
+
+    // ------------------------------------------------------------------
+    // Admin: Manage Volunteer Form Schema & Fields
+    // ------------------------------------------------------------------
+    'volunteer_schema.heading'           => 'Gucunga imiterere y\'urupapuro rw\'abafasha',
+    'volunteer_schema.subheading'        => 'Tegura imyanya yihariye, ubwoko bw\'amakuru, ubwoko bw\'ikibereye, amahitamo n\'igenamiterere ryo kwerekana urupapuro rusangi.',
+    'volunteer_schema.back_to_dashboard'=> 'Subira ku busabe bw\'abafasha',
+    'volunteer_schema.settings_summary'  => 'Tegura umutwe w\'urupapuro n\'inyandiko y\'uburokero',
+    'volunteer_schema.edit_field_title'  => 'Hindura umwanya:',
+    'volunteer_schema.add_field_title'   => '+ Yongeraho umwanya mushasha w\'urupapuro rw\'umufasha',
+    'volunteer_schema.create_field_btn'  => 'Kurema umwanya',
+    'volunteer_schema.existing_fields_heading' => 'Imyanya y\'urupapuro rw\'abafasha isanzwe iriho',
+    'volunteer_schema.no_fields'         => 'Nta mwanya wihariye w\'umufasha urasobanurwa.',
+    'volunteer_schema.delete_confirm'    => 'Siba uyu mwanya n\'agaciro kose k\'igisubizo gihuye na wo?',
+
+    // ------------------------------------------------------------------
+    // Admin: Moderation Queue & Suggestions Review
+    // ------------------------------------------------------------------
+    'moderate.heading'                   => 'Gusuzuma ibitekerezo biri mu mirongo yo gutegereza',
+    'moderate.subheading'                => 'Gereranya impinduka zashikirijwe n\'abakoresha n\'inyandiko ziriho mu maame yawe yemejwe. Emeza, hindura agaciro cyangwa uhakane ibitekerezo.',
+    'moderate.shortcut_label'            => 'Inama y\'inzira y\'ubusugire ya keyibodi:',
+    'moderate.shortcut_desc'             => 'Kanda Ctrl + Enter kugira ngo wemeze vuba cyangwa Esc kugira ngo usukure agasanduku k\'impinduka!',
+    'moderate.th_id_date'                => 'Indangamuntu / Itariki',
+    'moderate.th_table_record'           => 'Itame, inyandiko n\'inkingi',
+    'moderate.th_comparison'             => 'Ugereranya (Biriho vs Byatowe) & Ubuhamya',
+    'moderate.th_actions'                => 'Ibikorwa vy\'umugenzuzi',
+    'moderate.no_suggestions'            => 'Nta gitekerezo cyo gutegereza cyabonitse ku maame yawe yemejwe yo kugenzura.',
+    'moderate.by_label'                  => 'Na:',
+    'moderate.guest_user'                => 'Umusomyi / Umushyitsi',
+    'moderate.record_id_label'           => 'Indangamuntu y\'inyandiko:',
+    'moderate.column_label'              => 'Inkingi:',
+    'moderate.required_badge'            => 'Birakenewe',
+    'moderate.live_value_label'          => 'Agaciro gahari ubu:',
+    'moderate.empty_placeholder'         => '[Ubusa]',
+    'moderate.proposed_value_label'      => 'Impinduka zatowe:',
+    'moderate.evidence_label'            => 'Ubuhamya / Impamvu:',
+    'moderate.no_evidence'               => 'Nta buhamya cyangwa impamvu zatanzwe.',
+    'moderate.override_label'            => 'Hindura agaciro:',
+    'moderate.select_placeholder'        => '-- Hitamo --',
+    'moderate.historical_dates_title'    => 'Amatariki y\'amateka ashyigikiwe',
+    'moderate.approve_confirm'           => 'Emeza kandi ushyire mu ngiro ubu agaciro?',
+    'moderate.decline_confirm'           => 'hakana kandi ureke iki gitekerezo?',
+    'moderate.approve_btn'               => 'Emeza',
+    'moderate.decline_btn'               => 'Hakana',
+
+    // ------------------------------------------------------------------
+    // Admin: Notices & Announcements Manager
+    // ------------------------------------------------------------------
+    'notices.heading'                    => 'Umuyobozi w\'amatangazo n\'umenyo y\'urubuga',
+    'notices.subheading'                 => 'Kurema imiburo ihindagurika, amabendera yo kwakira cyangwa amatangazo yagenewe imirimo y\'abakoresha yihariye.',
+    'notices.error_blank'                => 'Umutwe n\'ibiri mu nyandiko ntibishobora kuba ubusa.',
+    'notices.msg_created'                => 'Itangazo ryaremwe neza!',
+    'notices.msg_deleted'                => 'Itangazo ryasibwe.',
+    'notices.create_heading'             => 'Kurema itangazo rishasha',
+    'notices.title_label'                => 'Umutwe / Umutwe w\'itangazo:',
+    'notices.content_label'              => 'Ibiri mu itangazo (HTML/Inyandiko yemewe):',
+    'notices.target_roles_label'         => 'Abagenewe (Hitamo imirimo cyangwa bose):',
+    'notices.role_everyone'              => 'Bose',
+    'notices.role_public'                => 'Abantu bose (Umushyitsi)',
+    'notices.role_users'                 => 'Abakoresha',
+    'notices.role_moderators'            => 'Abagenzuzi',
+    'notices.role_admins'                => 'Abayobozi',
+    'notices.dismissible_label'          => "Bishobora gukurwaho (Birimo agasanduku ko gufunga 'X')",
+    'notices.display_order_label'        => 'Urukurikirane rwo kwerekana:',
+    'notices.publish_btn'                => 'Tangaza itangazo',
+    'notices.existing_heading'           => 'Amatangazo akora kandi asanzwe ariho',
+    'notices.th_order'                   => 'Urukurikirane',
+    'notices.th_title'                   => 'Umutwe',
+    'notices.th_target_roles'            => 'Imirimo yagenewe',
+    'notices.th_dismissible'             => 'Bishobora gukurwaho',
+    'notices.no_notices'                 => 'Nta tangazo rirarema.',
+    'notices.yes'                        => 'Ego',
+    'notices.no_sticky'                  => 'Oya (Gufatika / Sticky)',
+    'notices.delete_confirm'             => 'Gusiba iri tangazo?',
+
+    // ------------------------------------------------------------------
+    // Admin: Global Site Settings, Modules & Permissions
+    // ------------------------------------------------------------------
+    'settings.heading'                   => 'Igenamiterere rusange ry\'urubuga, ibice n\'uburenganzira',
+    'settings.subheading'                => 'Cunga ibigenamiterere shingiro, abagenzuzi ba imeli, uburyo bw\'umutekano/CAPTCHA, ibice bigize urubuga, uburyo bwo gusuguta, amatangazo y\'urubuga n\'uruhare rw\'uburenganzira.',
+    'settings.tab_core'                  => 'Shingiro na Imeli',
+    'settings.tab_modules'               => 'Ibice bigize urubuga',
+    'settings.tab_maintenance'           => 'Gusuguta',
+    'settings.tab_notices'               => 'Amatangazo y\'urubuga',
+    'settings.tab_permissions'           => 'Imirimo n\'Uburenganzira',
+    'settings.tab_audit'                 => 'Ubugenzuzi bw\'ibikorwa',
+    'settings.db_updates_heading'        => 'Amavugurura y\'ububiko bw\'amakuru',
+    'settings.schema_current'            => 'Verisiyo y\'imiterere iriho ubu:',
+    'settings.schema_latest'             => 'Iheruka kuboneka:',
+    'settings.download_backup_btn'       => 'Kurura ububiko bw\'agateganyo bw\'ububiko bw\'amakuru',
+    'settings.download_backup_desc'      => 'Ibika dosiye .sql yuzuye kuri kompyuta yawe. Yibike ahantu hizewe imbere yuko utangura amavugurura.',
+    'settings.schema_update_notice'      => 'Hariho amavugurura y\'ububiko bw\'amakuru. Nyamuneka kurura ububiko bw\'agateganyo hejuru imbere yuko ukomeza.',
+    'settings.migration_confirm'         => 'Woba warakuruye ububiko bw\'agateganyo bw\'ububiko bw\'amakuru? Ibi bizashyira mu ngiro amavugurura y\'imiterere ategereje.',
+    'settings.update_db_btn'             => 'Vugurura ububiko bw\'amakuru',
+    'settings.schema_uptodate'           => 'Ububiko bw\'amakuru buragezweho.',
+    'settings.core_sys_heading'          => 'Igenamiterere shingiro ry\'uburyo',
+    'settings.sys_name_label'            => 'Izina ry\'uburyo / porogaramu:',
+    'settings.default_lang_label'        => 'Ururimi rusange rw\'urubuga:',
+    'settings.default_lang_desc'         => 'Bikoreshwa ku bashyitsi n\'abakoresha batatoranyije ururimi. Yongeraho dosiye muri lang/ (nk\'urugero rn.php) kugira ngo utange amahitamo yiyongereye.',
+    'settings.captcha_heading'           => 'Igenamiterere ry\'umutekano na CAPTCHA',
+    'settings.captcha_provider_label'    => 'Umuhanga utanga CAPTCHA:',
+    'settings.captcha_none'              => 'Ntibikorera (Nta CAPTCHA)',
+    'settings.captcha_turnstile'         => 'Cloudflare Turnstile',
+    'settings.captcha_recaptcha'         => 'Google reCAPTCHA v2 / v3',
+    'settings.captcha_hcaptcha'          => 'hCaptcha',
+    'settings.turnstile_heading'         => 'Igenamiterere rya Cloudflare Turnstile',
+    'settings.recaptcha_heading'         => 'Igenamiterere rya Google reCAPTCHA',
+    'settings.hcaptcha_heading'          => 'Igenamiterere rya hCaptcha',
+    'settings.site_key_label'            => 'Urufunguzo rw\'urubuga (Rusange):',
+    'settings.secret_key_label'          => 'Urufunguzo rwihishwa (Rwitege):',
+    'settings.mail_heading'              => 'Igenamiterere ryo gutanga imeli',
+    'settings.mail_domain_label'         => 'Domain ya imeli y\'uburyo (Fallback):',
+    'settings.mail_from_label'           => "Aderesi ya imeli yihariye 'Ituruka':",
+    'settings.mail_from_desc'            => 'Aderesi yihariye ikoreshwa nka uwatanze imeli zisohoka.',
+    'settings.mail_driver_label'         => 'Umuhuza / Umuhanga wa imeli:',
+    'settings.driver_native'             => 'Imeli isanzwe (Post-relay Postfix yo mu karere)',
+    'settings.driver_smtp'               => 'SMTP yemejwe (PHPMailer)',
+    'settings.smtp_heading'              => 'Igenamiterere rya seriveri ya SMTP',
+    'settings.smtp_host_label'           => 'Seriveri ya SMTP:',
+    'settings.smtp_port_label'           => 'Porti:',
+    'settings.smtp_encryption_label'     => 'Uburyo bwo guhisha amakuru:',
+    'settings.enc_tls'                   => 'TLS (Porti 587)',
+    'settings.enc_ssl'                   => 'SSL (Porti 465)',
+    'settings.smtp_user_label'           => 'Izina ry\'umukoresha wa SMTP:',
+    'settings.smtp_pass_label'           => 'Ijambo ry\'ibanga rya SMTP (Reka ubusa kugira ngo ugumane iryariho):',
+    'settings.save_core_mail_btn'        => 'Bika igenamiterere shingiro na imeli',
+    'settings.test_mail_heading'         => 'Gerageza igenamiterere rya imeli',
+    'settings.test_email_label'          => 'Aderesi ya imeli y\'uwakira:',
+    'settings.send_test_btn'             => 'Rungika imeli yo kugerageza',
+    'settings.modules_heading'           => 'Utubari tw\'ibice bigize porogaramu n\'igenzura ry\'imikorere myiza',
+    'settings.modules_subheading'        => 'Emeza cyangwa uhakane ibiranga kugira ngo uhengereze imikorere y\'uburyo kandi uhuza PRD n\'ibyo ukeneye mu gushira mu ngiro.',
+    'settings.mod_users'                 => 'Gucunga abakoresha n\'uburenganzira bw\'abantu benshi',
+    'settings.mod_users_desc'            => 'Gushira mu ngiro kwiyandikisha, gucunga abakoresha no kwemeza abakoresha benshi. (Kwinjira ku karangamirwa bigumaho ku mutekano w\'umukoresha umwe).',
+    'settings.mod_leaderboard'           => 'Urutonde rw\'amanota n\'imikino yo guhembwa',
+    'settings.mod_leaderboard_desc'      => 'Imenya imico yo kwandika n\'amanota y\'inyenyeri.',
+    'settings.mod_leaderboard_note'      => '(Bisaba gucunga abakoresha n\'uburenganzira bw\'abantu benshi)',
+    'settings.mod_moderation'            => 'Umuhora w\'akazi ko kugenzura',
+    'settings.mod_moderation_desc'       => 'Gushira mu ngiro isuzuma ry\'ibitekerezo no mu murongo wo kugenzura.',
+    'settings.mod_volunteers'            => 'Ikibanza cy\'abafasha n\'ubusabe',
+    'settings.mod_volunteers_desc'       => 'Gushira mu ngiro urupapuro rw\'abafasha rureba bose n\'ikibanza c\'umuyobozi.',
+    'settings.mod_feedback'              => 'Ivyiyumviro vyashikirijwe',
+    'settings.mod_feedback_desc'         => 'Gushira mu ngiro urupapuro rw\'ivyiyumviro rusange n\'ikibanza c\'umuyobozi.',
+    'settings.save_modules_btn'          => 'Bika igenamiterere ry\'ibice',
+    'settings.maintenance_heading'       => 'Uburyo bwo gusuguta uburyo',
+    'settings.maintenance_toggle'        => 'Emeza uburyo bwo gusuguta (Shira urubuga hanze y\'umurongo)',
+    'settings.maintenance_reason_label'  => 'Impamvu / Ubutumwa ku bakoresha:',
+    'settings.maintenance_eta_label'     => 'Igihe biteganijwe ko kugaruka (ETA):',
+    'settings.save_maintenance_btn'      => 'Bika igenamiterere ryo gusuguta',
+    'settings.notices_heading'           => 'Amatangazo n\'umenyo y\'urubuga',
+    'settings.add_notice_btn'            => '+ Yongeraho itangazo rishasha',
+    'settings.no_notices'                => 'Nta tangazo ryateguwe.',
+    'settings.status_active'             => 'Rirakora',
+    'settings.status_inactive'           => 'Ntiri gukora',
+    'settings.notice_content_label'      => 'Ibiri mu nyandiko:',
+    'settings.save_notice_btn'           => 'Bika itangazo',
+    'settings.permissions_heading'       => 'Imbonerahamwe yihariye y\'imirimo n\'uburenganzira',
+    'settings.permissions_subheading'    => 'Uburenganzira bwatswe mu mirimo y\'uburyo. Agura ibice kugira ngo utegure ubushobozi, hanyuma ubike impinduka zawe hepfo.',
+    'settings.th_role'                   => 'Uruhare',
+    'settings.th_capabilities'           => 'Ubushobozi bwatswe muri iri tsinda',
+    'settings.save_permissions_btn'      => 'Bika imbonerahamwe y\'uburenganzira',
+    'settings.audit_heading'             => 'Umuhigi w\'ubugenzuzi bw\'ibikorwa by\'uburyo',
+    'settings.audit_subheading'          => 'Gusuzuma ibikorwa vy\'umutekano byanditswe, kwinjiza amakuru no kugenzura. Koresha uburyo bwo gusuguta hepfo kugira ngo usukure raporo nimba bibaye ngombwa.',
+    'settings.purge_all_confirm'         => '⚠️ BURIYI: Ibi bizakuraho BURUNDU RAPORO ZO MU BUGENZUZI BW\'UBURYO ZOSE. Woba wizeye neza ko ushaka kubandanya?',
+    'settings.clear_all_audit_btn'       => 'Sukura raporo zose z\'ubugenzuzi',
+    'settings.purge_records_confirm'     => 'Woba wizeye neza ko ushaka gusukura ivyinjijwe vyose vyo mu bugenzuzi bijanye n\'inyandiko?',
+    'settings.clear_records_audit_btn'   => 'Sukura gusa raporo z\'inyandiko',
+    'settings.th_id'                     => 'Indangamuntu',
+    'settings.th_timestamp'              => 'Igihe n\'itariki',
+    'settings.th_actor'                  => 'Uwakoze',
+    'settings.th_action'                 => 'Igikorwa',
+    'settings.th_record_id'              => 'Indangamuntu y\'inyandiko',
+    'settings.th_details'                => 'Ibisingirijwe',
+    'settings.th_ip'                     => 'Aderesi ya IP',
+    'settings.no_audit_logs'             => 'Nta raporo y\'ubugenzuzi yabonitse.',
+    'settings.system_guest'              => 'Uburyo / Umushyitsi',
+    'settings.audit_limit_note'          => 'Kwerekana raporo 250 z\'ubugenzuzi zihereza.',
+
+    // ------------------------------------------------------------------
+    // Admin: User Account Management & Leaderboard Moderation
+    // ------------------------------------------------------------------
+    'admin_users.heading'                => 'Gucunga konti z\'abakoresha n\'ubugenzuzi bw\'urutonde rw\'amanota',
+    'admin_users.subheading'             => 'Suzuma uko abakoresha bameze, tanga imirimo, hindura imeli, tangiza isubiramo ry\'ijambo ry\'ibanga cyangwa amatumiro,subiramo 2FA cyangwa uhagarike konti.',
+    'admin_users.manage_templates_btn'   => 'Cunga ingero za imeli',
+    'admin_users.invite_user_btn'        => 'Tumira umukoresha mushasha',
+    'admin_users.th_username'            => 'Izina ry\'umukoresha',
+    'admin_users.th_email_override'      => 'Imeli n\'impinduka',
+    'admin_users.th_role_assignment'     => 'Gutanga uruhare',
+    'admin_users.th_score'               => 'Amanota',
+    'admin_users.th_status'              => 'Uko bimeze',
+    'admin_users.th_2fa'                 => '2FA',
+    'admin_users.th_actions'             => 'Ibikorwa n\'ubugenzuzi',
+    'admin_users.no_users'               => 'Nta mukoresha wabonetse.',
+    'admin_users.save_email_title'       => 'Bika aderesi ya imeli nshasha',
+    'admin_users.verified_label'         => 'Yemejwe:',
+    'admin_users.yes'                    => 'Ego',
+    'admin_users.no'                     => 'Oya',
+    'admin_users.protected_admin'        => 'Umuyobozi mukuru w\'ingenzi',
+    'admin_users.update_btn'             => 'Vugurura',
+    'admin_users.status_active'          => 'Rirakora',
+    'admin_users.status_suspended'       => 'Yarahagaritswe',
+    'admin_users.enabled'                => 'Byemejwe',
+    'admin_users.disabled'               => 'Ntibyemejwe',
+    'admin_users.set_score_btn'          => 'Shyiraho amanota',
+    'admin_users.resend_invite_confirm' => 'Ongera wohereze imeli yo gutumira kuri konti kuri uyu mukoresha?',
+    'admin_users.resend_invite_btn'      => 'Ongera wohereze itumiro',
+    'admin_users.reset_pwd_confirm'      => 'Rungika umurongo wo gusubiraho ijambo ry\'ibanga kuri uyu mukoresha?',
+    'admin_users.reset_password_btn'     => 'Subiraho ijambo ry\'ibanga',
+    'admin_users.suspend_confirm'        => 'Hagarika umukoresha kandi wime uburenganzira kubera ukutubahiriza amategeko?',
+    'admin_users.suspend_btn'            => 'Hagarika',
+    'admin_users.reactivate_btn'         => 'Subiza mu ngiro',
+    'admin_users.reset_2fa_confirm'      => 'Subiraho kandi uhagarike 2FA kuri uyu mukoresha?',
+    'admin_users.reset_2fa_btn'          => 'Subiraho 2FA',
+
+    // ------------------------------------------------------------------
+    // Admin: View Ticket & Threaded Dialogue
+    // ------------------------------------------------------------------
+    'view_ticket.back_to_dashboard'    => 'Subira ku kibanza c\'amatike',
+    'view_ticket.ticket_heading_prefix'=> 'Itike',
+    'view_ticket.support_request'      => 'Ubusabe bwo gufasha',
+    'view_ticket.submitted_by'         => 'Rungitswe na:',
+    'view_ticket.on_date'              => 'ku wa',
+    'view_ticket.submitted_fields'     => 'Imyanya y\'urupapuro rwayashikirijwe:',
+    'view_ticket.ticket_status_label'  => 'Uko itike yifashe:',
+    'view_ticket.status_pending'       => 'Itegereje',
+    'view_ticket.status_progress'      => 'Biriko birakorwa',
+    'view_ticket.status_completed'     => 'Byarangiye',
+    'view_ticket.status_rejected'      => 'Byarahakanywe',
+    'view_ticket.dialogue_heading'     => 'Ikiganiro',
+    'view_ticket.no_replies'           => 'Nta gisubizo kirandikwa.',
+    'view_ticket.admin_label'          => 'Umuyobozi',
+    'view_ticket.staff'                => 'Abakozi',
+    'view_ticket.post_reply_heading'   => 'Tanga igisubizo kandi umenyeshe uwabitumije',
+    'view_ticket.reply_placeholder'    => 'Andika igisubizo cawe hano...',
+    'view_ticket.send_reply_btn'       => 'Rungika igisubizo kandi umenyeshe uwabitumije kuri imeli',
+
+    // ------------------------------------------------------------------
+    // Admin: Volunteer Submissions & Workflow Dashboard
+    // ------------------------------------------------------------------
+    'volunteer_dashboard.heading'            => 'Ubusabe bw\'abafasha n\'umuhora w\'akazi',
+    'volunteer_dashboard.subheading'         => 'Suzuma ubusabe, tegura ibiganiro n\'abafasha, fata inyandiko z\'ibiganiro kandi wemere abasaba kwinjira mu buryo.',
+    'volunteer_dashboard.manage_emails_btn' => 'Cunga ingero za imeli',
+    'volunteer_dashboard.manage_schema_btn' => 'Cunga imiterere y\'urupapuro',
+    'volunteer_dashboard.th_status'          => 'Uko bimeze',
+    'volunteer_dashboard.th_name'            => 'Izina',
+    'volunteer_dashboard.th_interview_notes'=> 'Ikiganiro / Inyandiko',
+    'volunteer_dashboard.no_submissions'     => 'Nta busabe bw\'umufasha bwabonitse.',
+    'volunteer_dashboard.volunteer_prefix'   => 'Umufasha',
+    'volunteer_dashboard.chat_label'         => 'Ikiganiro:',
+    'volunteer_dashboard.notes_label'        => 'Inyandiko:',
+    'volunteer_dashboard.no_notes'           => 'Nta nyandiko iraboneka',
+    'volunteer_dashboard.chat_notes_btn'     => 'Ikiganiro n\'inyandiko',
+    'volunteer_dashboard.accept_title'       => 'Emeza mu buryo bwo gutumira abakoresha',
+    'volunteer_dashboard.accept_invite_btn'  => 'Emeza kandi utumire',
+    'volunteer_dashboard.delete_confirm'     => 'Siba iyi nyandiko y\'umufasha?',
+    'volunteer_dashboard.modal_heading'      => 'Cunga ikiganiro n\'inyandiko z\'uwusaba',
+    'volunteer_dashboard.modal_status_label'=> 'Uko ubusabe bwifashe:',
+    'volunteer_dashboard.status_pending'     => 'Gusuzuma kurategereje',
+    'volunteer_dashboard.status_chat'        => 'Ikiganiro cyateguwe',
+    'volunteer_dashboard.status_accepted'    => 'Byemejwe',
+    'volunteer_dashboard.status_rejected'    => 'Byarahakanywe',
+    'volunteer_dashboard.modal_date_label'   => 'Itariki n\'isaha y\'ikiganiro / ibiganiro byateguwe:',
+    'volunteer_dashboard.modal_notes_label'  => 'Inyandiko z\'ikiganiro / inama:',
+    'volunteer_dashboard.modal_notes_placeholder' => 'Andika ivyiyumviro bivuye mu kiganiro hano...',
+    'volunteer_dashboard.save_changes_btn'   => 'Bika impinduka',
+
+    // ------------------------------------------------------------------
+    // API: AJAX Search & Filtering
+    // ------------------------------------------------------------------
+    'api_search.error_public_forbidden' => '403 Birabujijwe: Kwerekana mu ruhanga ntibishobotse.',
+    'api_search.error_unauthorized_table' => 'Kugerira itame bitemewe.',
+    'api_search.no_records'              => 'Nta nyandiko yabonitse muri iri tame.',
+    'api_search.history_btn'             => 'Amateka',
+    'api_search.suggest_edit_btn'        => 'Tanga igitekerezo cyo guhindura',
+
+    // ------------------------------------------------------------------
+    // Errors & HTTP Templates
+    // ------------------------------------------------------------------
+    'error_template.return_home_btn' => 'Subira mu rugo rusange',
+
+    // ------------------------------------------------------------------
+    // Public: Ticket Intake & Feedback Portal
+    // ------------------------------------------------------------------
+    'feedback.hp_label'              => 'Reka ubusa',
+    'feedback.first_name_label'      => 'Izina ry\'ikirato:',
+    'feedback.surname_label'         => 'Izina ry\'iryubahiro:',
+    'feedback.email_label'           => 'Aderesi ya imeli:',
+    'feedback.subject_label'         => 'Insiguro / Umutwe w\'ikibazo:',
+    'feedback.required_title'        => 'Umwanya ukenewe',
+    'feedback.select_placeholder'    => '-- Hitamo --',
+    'feedback.multi_select_hint'     => 'Komeza gukanda Ctrl cyangwa Cmd kugira ngo uhitoreho menshi.',
+    'feedback.submit_btn'            => 'Rungika itike',
+
+    // ------------------------------------------------------------------
+    // Security Engine & Firewall
+    // ------------------------------------------------------------------
+    'security_engine.err_suspicious_agent' => 'Ikosa ry\'umutekano: Umukoresha afise ibimenyetso bikekwaho.',
+    'security_engine.err_access_denied'    => 'Ikosa ry\'umutekano: Kwinjira kwarahakanywe.',
+    'security_engine.err_rate_limit'       => 'Ubusabe bwinshi cyane buvuye kuri iyi aderesi ya IP. Ongera ugerageze hanyuma.',
+    'security_engine.err_excessive_links'  => 'Ubusabe bwarahakanywe kubera ko habonetse imirongo myinshi cyane.',
+    'security_engine.err_complete_captcha' => 'Nyamuneka rangiza igerageza ry\'umutekano rya CAPTCHA.',
+    'security_engine.err_captcha_failed'   => 'Kwemeza CAPTCHA ntibyakunze. Ongera ugerageze.',
+
+    // ------------------------------------------------------------------
+    // Installer Wizard
+    // ------------------------------------------------------------------
+    'install.complete_title'             => 'Iyubakwa ryrarangiye',
+    'install.complete_heading'           => 'Iyubakwa ryrarangiye',
+    'install.complete_desc'              => 'Urubuga rwaramaze gutegurwa. Umuhuza w\'iyubakwa yarakingiwe kugira ngo adashobora gukora ku bw\'impanuka.',
+    'install.login_link'                 => 'Injira',
+    'install.home_link'                  => 'Genda ku rubuga',
+    'install.delete_folder_hint'         => 'Ushobora gusiba cyangwa guhindura izina ry\'ububiko <code>install</code> ku bw\'umutekano wiyongereye.',
+    'install.msg_db_ready'               => 'Ububiko bw\'amakuru buriteguye. Kurema konti yawe y\'umuyobozi kugira ngo urangize iyubakwa.',
+    'install.err_config_load'            => 'Ntibyasobotse gukoresha igenamiterere risanzwe:',
+    'install.err_write_permission'       => 'PHP ntishobora kurema dosiye muri ubu bubiko bw\'umushinga.',
+    'install.detail_prefix'              => 'Ibisiririjwe:',
+    'install.err_db_required'            => 'Izina ry\'ububiko bw\'amakuru n\'izina ry\'umukoresha w\'ububiko bw\'amakuru birakenewe.',
+    'install.err_db_not_empty'           => 'Obubiko bw\'amakuru ntiburi ubusa. Koresha ububiko bw\'amakuru bushya buri ubusa (cyangwa siba amaame yose) hanyuma wongere ugerageze.',
+    'install.msg_schema_imported'        => 'Ububiko bw\'amakuru bwafatanije kandi imiterere yarazanywe. Kurema konti yawe y\'umuyobozi.',
+    'install.err_complete_db_first'      => 'Nyamuneka banza urangize igice cy\'ububiko bw\'amakuru.',
+    'install.err_admin_required'         => 'Imyanya yose y\'umuyobozi irakenewe.',
+    'install.err_invalid_email'          => 'Aderesi ya imeli idakwiye.',
+    'install.err_password_length'        => 'Ijambo ry\'ibanga rigomba kugira nibura inyuguti 8.',
+    'install.err_passwords_match'        => 'Amagambo y\'ibanga ntabwo ahura.',
+    'install.err_admin_save_failed'      => 'Umukoresha w\'umuyobozi ntabwo yabitswe. Suzuma imiterere y\'itame ry\'abakoresha.',
+    'install.msg_installation_complete' => 'Iyubakwa ryarangiye.',
+    'install.page_title'                 => 'Iyubakwa — Ububiko bw\'inyandiko zo muri paruwasi',
+    'install.heading'                    => 'Iyubakwa',
+    'install.subheading'                 => 'Igenamiterere rya mbere <strong>kuri ubu bubiko bwa porogaramu gusa</strong>. Koresha ububiko bw\'amakuru bwa MySQL buri ubusa.',
+    'install.done_heading'               => 'Byarangiye',
+    'install.done_message'               => 'Iyubakwa ryarangiye. Umuhuza w\'iyubakwa ubu arafunze.',
+    'install.admin_heading'              => 'Konti y\'umuyobozi w\'urubuga',
+    'install.admin_subheading'           => 'Ibi ni ibyo kwinjira kuri <strong>uru rubuga rwa interineti</strong> (atari ububiko bw\'amakuru).',
+    'install.admin_username_label'       => 'Izina ry\'umukoresha w\'umuyobozi',
+    'install.admin_email_label'          => 'Imeli y\'umuyobozi',
+    'install.admin_password_label'       => 'Ijambo ry\'ibanga ry\'umuyobozi (min. inyuguti 8)',
+    'install.admin_confirm_password_label' => 'Emeza ijambo ry\'ibanga ry\'umuyobozi',
+    'install.finish_btn'                 => 'Rangiza iyubakwa',
+    'install.db_heading'                 => 'Ihuza ry\'ububiko bw\'amakuru',
+    'install.db_hint'                    => 'Koresha amakuru ya MySQL ava mu <strong>bigenamiterere bya seriveri yawe</strong>. Ibi si ukwinjira k\'umuyobozi w\'urubuga rwa interineti (bizaza hanyuma).',
+    'install.db_host_label'              => 'Seriveri y\'ububiko bw\'amakuru',
+    'install.db_name_label'              => 'Izina ry\'ububiko bw\'amakuru',
+    'install.db_user_label'              => 'Izina ry\'umukoresha w\'ububiko bw\'amakuru',
+    'install.db_pass_label'              => 'Ijambo ry\'ibanga ryo mu bubiko bw\'amakuru',
+    'install.db_submit_btn'              => 'Kurema amaame &amp; komeza',
+    'install.req_heading'                => '1. Ibikenewe',
+    'install.req_php'                    => 'PHP 8.0+ (byabonetse %s)',
+    'install.req_pdo'                    => 'Umuhuza wa PDO MySQL',
+    'install.req_logs'                   => 'Ububiko bwa raporo bushobora kwandikwamo (cyangwa ububiko bw\'umushinga)',
+    'install.req_probe'                  => 'Birashoboka kurema dosiye muri ubu bubiko bw\'umushinga',
+    'install.continue_btn'               => 'Komeza',
+    'install.req_fail_msg'               => 'Nyamuneka kosora isuzuma ryapfuye hanyuma wongere urebe iyi paji.',
+
+    // ------------------------------------------------------------------
+    // Leaderboard
+    // ------------------------------------------------------------------
+    'leaderboard.aria_region'     => 'Kwerekana urutonde rw\'amanota',
+    'leaderboard.heading'         => 'Urutonde rw\'amanota rw\'uruhare rw\'abaturage',
+    'leaderboard.subheading'      => 'Gushima imihati y\'abanyamuryango bacu bafasha guteranya, kwandika cyangwa gucunga inyandiko zo mu bubiko bw\'amakuru.',
+    'leaderboard.th_rank'         => 'Umwanya',
+    'leaderboard.th_contributor'  => 'Uruhare',
+    'leaderboard.th_role'         => 'Uruhare',
+    'leaderboard.th_score'        => 'Amanota',
+    'leaderboard.no_users'        => 'Nta mukoresha ukora wabonetse ku rutonde rw\'amanota.',
+    'leaderboard.medal_gold'      => 'Umudari w\'ahabu',
+    'leaderboard.medal_silver'    => 'Umudari w\'ifeza',
+    'leaderboard.medal_bronze'    => 'Umudari w\'umuringa',
+    'leaderboard.medal_ribbon'    => 'Akabori k\'ishimwe ry\'Urwego rwa 4',
+    'leaderboard.medal_rosette'   => 'Ururabyo rw\'Urwego rwa 5',
+    'leaderboard.medal_trophy'    => 'Igikombe cy\'Urwego rwa 6',
+    'leaderboard.medal_star'      => 'Inyenyeri y\'Urwego rwa 7',
+    'leaderboard.medal_military'  => 'Umudari w\'igisirikare w\'Urwego rwa 8',
+    'leaderboard.medal_glowing'   => 'Inyenyeri irabagirana y\'Urwego rwa 9',
+    'leaderboard.medal_crown'     => 'Ikanzu y\'ubwami y\'Urwego rwa 10',
+    'leaderboard.you_badge'       => '(Wewe)',
+    'leaderboard.default_role'    => 'Umukoresha',
+
+    // ------------------------------------------------------------------
+    // Site Footer
+    // ------------------------------------------------------------------
+    'footer.compiled_notice'  => 'Inyandiko zo muri paruwasi zateranijwe kuva ku masoko y\'amateka yo mu ruhanga rusange.',
+    'footer.software_notice'  => 'Porogaramu ifunguye iri munsi y\'uruhusha rwa MIT.',
+    'footer.rights_reserved'  => 'Uburenganzira bwose burinzwe.',
+
+    // ------------------------------------------------------------------
+    // Site Header & Head
+    // ------------------------------------------------------------------
+    'header.default_title' => 'Ububiko bw\'inyandiko zo muri paruwasi',
+
+    // ------------------------------------------------------------------
+    // Notices Banner Module
+    // ------------------------------------------------------------------
+    'notices_banner.close_title' => 'Funga itangazo',
+
+    // ------------------------------------------------------------------
+    // Record History & Audit Trail
+    // ------------------------------------------------------------------
+    'record_history.exit_no_record'        => 'Nta nyandiko yagaragajwe.',
+    'record_history.exit_not_found'        => 'Inyandiko ntiyabonitse.',
+    'record_history.heading_prefix'        => 'Amateka n\'ubugenzuzi bw\'ibikorwa: Inyandiko',
+    'record_history.return_btn'            => 'Subira',
+    'record_history.directory_table_label'=> 'Itame ry\'ububiko:',
+    'record_history.subheading_lifecycle' => 'Iwerekana ubuzima bwo mu muryango bw\'impinduka, ibitekerezo n\'ubuhamya bifitaniye sango zitaziguye n\'iyi nyandiko.',
+    'record_history.snapshot_heading'      => 'Ifoto y\'igihe gito y\'agaciro gahari ubu',
+    'record_history.empty_value'           => '[Ubusa]',
+    'record_history.timeline_heading'      => 'Urukurikirane rw\'ibihe n\'ibikorwa',
+    'record_history.no_history'            => 'Nta gikorwa cy\'ubugenzuzi bw\'amateka cyanditswe kuri iyi nyandiko.',
+    'record_history.purge_confirm'         => 'Siba iyi raporo y\'ubugenzuzi yihariye?',
+    'record_history.purge_btn'             => 'Sukura raporo',
+    'record_history.actor_label'           => 'Uwakoze:',
+    'record_history.system_guest'          => 'Uburyo / Umushyitsi',
+    'record_history.target_column'         => 'Inkingi yagenewe:',
+    'record_history.proposed_value'        => 'Agaciro kashizweho:',
+    'record_history.reasoning_evidence'    => 'Impamvu / Ubuhamya:',
+
+    // ------------------------------------------------------------------
+    // Standalone Update Database Gateway
+    // ------------------------------------------------------------------
+    'update_database.msg_success'      => 'Ububiko bw\'amakuru bwavuguruwe neza! Imikorere %d yashizwe mu ngiro.',
+    'update_database.msg_uptodate'     => 'Ububiko bw\'amakuru buragezweho.',
+    'update_database.err_failed'       => 'Ikosa mu migirire:',
+    'update_database.page_title'       => 'Amavugurura y\'uburyo akenewe — Ububiko bw\'inyandiko zo muri paruwasi',
+    'update_database.heading'          => '⚠️ Amavugurura y\'uburyo akenewe',
+    'update_database.subheading'       => 'imiterere y\'ububiko bw\'amakuru bwa porogaramu irashaje kandi isaba amavugurura y\'imiterere imbere yuko imikorere isanzwe isubiranamo.',
+    'update_database.current_version'  => 'Verisiyo y\'imiterere iriho ubu:',
+    'update_database.latest_version'   => 'Iheruka kuboneka:',
+    'update_database.proceed_login'    => 'Komeza ujyane no kwinjira',
+    'update_database.confirm_prompt'   => 'Woba warateguye ububiko bw\'agateganyo bw\'ububiko bwawe bw\'amakuru? Kanda OK kugira ngo ushyire mu ngiro amavugurura y\'imiterere ategereje.',
+    'update_database.update_btn'       => 'Vugurura ububiko bw\'amakuru ubu',
+
+    // ------------------------------------------------------------------
+    // User Authentication Action
+    // ------------------------------------------------------------------
+    'authenticate.err_invalid_credentials' => 'Amakuru yo kwinjira si yo cyangwa uburenganzira bwa konti burafunze.',
+
+    // ------------------------------------------------------------------
+    // Save Data Entry Action
+    // ------------------------------------------------------------------
+    'save_data_entry.err_required_field'    => 'Umwanya ukenewe \'%s\' ntushobora gusigara ubusa.',
+    'save_data_entry.audit_created_prefix' => 'Inyandiko yaremwe mu tame rifite ID %d.',
+    'save_data_entry.msg_success'          => 'Inyandiko yongeweho neza!',
+
+    // ------------------------------------------------------------------
+    // Save Public Suggestion Action
+    // ------------------------------------------------------------------
+    'save_public_suggestion.err_spam_detected'  => 'Ubutumwa bwo kwiyamamaza bwabonitse. Ubusabe bwarahakanywe.',
+    'save_public_suggestion.err_field_required' => 'Uyu mwanya urakenewe kandi ntushobora gutangwa uri ubusa.',
+    'save_public_suggestion.msg_success'        => 'Igitekerezo cawe cyo guhindura cyarungitswe neza kandi cyoherejwe ku murongo wo kugenzura ngo gisuzumwe. Murakoze!',
+    'save_public_suggestion.err_failed_submit'  => 'Havutse ikosa mu kurungika igitekerezo cyo guhindura. Ongera ugerageze.',
+    'save_public_suggestion.err_invalid_column' => 'Inkingi yagenewe ntacyo imaze.',
+    'save_public_suggestion.err_invalid_params' => 'Ibipimo vyo gutanga inyandiko ntibikwiye.',
+
+    // ------------------------------------------------------------------
+    // Data Entry Workstation
+    // ------------------------------------------------------------------
+    'data_entry.date_placeholder_ymd' => 'YYYY-MM-DD (cyangwa umwaka w\'igice)',
+    'data_entry.date_placeholder_dmy' => 'DD/MM/YYYY (cyangwa umwaka w\'igice)',
+    'data_entry.date_placeholder_mdy' => 'MM/DD/YYYY (cyangwa umwaka w\'igice)',
+    'data_entry.no_tables_heading'    => '⚠️ Nta tame ry\'ububiko bw\'amakuru ryabonitse',
+    'data_entry.no_tables_desc'       => 'Nta tame ry\'ububiko bw\'amakuru rigendezwa ryashizweho n\'uburyo bwo kwinjiza amakuru.',
+    'data_entry.admin_tables_prompt'  => 'Nk\'umuyobozi, genda kuri <strong>Gucunga amaame</strong> kugira ngo ukore itame, hanyuma wongereho inkingi imwe imbere yo kwinjiza inyandiko.',
+    'data_entry.go_manage_tables'     => 'Genda ku gucunga amaame',
+    'data_entry.contact_admin_tables' => 'Vugana n\'umuyobozi kugira ngo ategure amaame n\'inkingi z\'ububiko bw\'amakuru.',
+    'data_entry.no_cols_heading'      => '⚠️ Nta nkingi ziteguye zihari',
+    'data_entry.no_cols_desc'         => 'Hari amaame mu buryo, ariko nta nkingi z\'amakuru zatswe kuri iryo tame rikora.',
+    'data_entry.admin_cols_prompt'    => 'Nk\'umuyobozi, genda kuri <strong>Gucunga amaame</strong> kugira ngo wongereho byibuze inkingi imwe ku tame ryawe.',
+    'data_entry.contact_admin_cols'   => 'Vugana n\'umuyobozi kugira ngo ategure inkingi kuri iri tame.',
+    'data_entry.active_table_label'   => 'Itame ryo kwinjiza amakuru rikora:',
+    'data_entry.add_entry_summary'    => '➕ Yongeraho amakuru mashasha yinjira (Kanda kugira ngo wagure cyangwa ukingire)',
+    'data_entry.bool_yes_true'        => 'Ego / Ukuri',
+    'data_entry.bool_no_false'        => 'Oya / Ikinyoma',
+    'data_entry.bool_male'            => 'Umugabo',
+    'data_entry.bool_female'          => 'Umugore',
+    'data_entry.bool_true'            => 'Ukuri',
+    'data_entry.bool_false'           => 'Ikinyoma',
+    'data_entry.bool_tick'            => '✔ (Akamenyetso)',
+    'data_entry.bool_cross'           => '✘ (Umusaraba)',
+    'data_entry.date_title_hint'      => 'Yemera amatariki yuzuye cyangwa y\'igice (nk\'urugero 1842 cyangwa 1842-05)',
+    'data_entry.enter_value_placeholder' => 'Shyiramo agaciro...',
+    'data_entry.submit_data_btn'      => 'Rungika amakuru',
+    'data_entry.shortcuts_tip'        => '💡 Inama: Kanda <strong>Ctrl + Enter</strong> kugira ngo urungike, cyangwa <strong>Esc</strong> kugira ngo usukure umwanya uriho.',
+    'data_entry.dup_heading'          => '⚠️ Imiburo y\'ibisigarira bishoboka ko bisa',
+    'data_entry.dup_desc'             => 'Twabonye ibihuje naryo mu buryo:',
+    'data_entry.dup_item_format'      => 'Indangamuntu y\'inyandiko: %d — Agaciro: %s',
+    'data_entry.dup_prompt'           => 'Woba ushaka kubandanya no kubika iyi nyandiko isa n\'indi?',
+    'data_entry.dup_confirm_btn'      => 'Ego, emeza kandi ubike ibisa',
+    'data_entry.search_summary'       => '🔍 Shakisha & genzura inyandiko zisanzwe zihari (Kanda kugira ngo wagure cyangwa ukingire)',
+    'data_entry.date_to_label'        => 'gushika',
+    'data_entry.filter_all_option'    => '-- Vyose --',
+    'data_entry.filter_placeholder'   => 'Genzura...',
+    'data_entry.apply_filters_btn'    => 'Shyira mu ngiro uburyo bwo gushakisha',
+    'data_entry.reset_filter_btn'     => 'Subiraho uburyo bwo kugenzura',
+    'data_entry.csv_entire_btn'       => 'Kurura CSV yose',
+    'data_entry.json_entire_btn'      => 'Kurura JSON yose',
+    'data_entry.copy_entire_btn'      => 'Koporora itame ryose',
+    'data_entry.csv_filtered_btn'     => 'Kurura CSV yatoranyijwe',
+    'data_entry.json_filtered_btn'     => 'Kurura JSON yatoranyijwe',
+    'data_entry.copy_filtered_btn'    => 'Koporora itame ryatoranyijwe',
+    'data_entry.clipboard_alert'      => 'Amakuru y\'itame yakoporowe mu bubiko bw\'agateganyo! Ushobora kuyashira muri Excel cyangwa Google Sheets.',
+    'data_entry.existing_records_heading' => 'Itame ry\'inyandiko zisanzwe zihari',
+    'data_entry.th_added_by'          => 'Yongeweho na',
+    'data_entry.th_date_created'      => 'Itariki yaremweho',
+    'data_entry.no_records'           => 'Nta nyandiko yabonitse.',
+    'data_entry.na_value'             => 'N/A',
+    'data_entry.page_label'           => 'Urupapuro:',
+
+    // ------------------------------------------------------------------
+    // Forgot Password
+    // ------------------------------------------------------------------
+    'forgot_password.aria_region'     => 'Gusubiza ijambo ry\'ibanga',
+    'forgot_password.heading'         => 'Subiraho ijambo ry\'ibanga ryawe',
+    'forgot_password.subheading'      => 'Shyiramo aderesi ya imeli ya konti yawe hepfo, tuzakurungikira umurongo wizewe wo gusubiraho ijambo ry\'ibanga.',
+    'forgot_password.email_label'     => 'Aderesi ya imeli:',
+    'forgot_password.submit_btn'      => 'Rungika umurongo wo gusubiraho',
+    'forgot_password.back_login_link' => 'Subira aho inyinjira iri',
+
+    // ------------------------------------------------------------------
+    // User Login
+    // ------------------------------------------------------------------
+    'login.aria_region'          => 'Kwinjira kw\'umukoresha',
+    'login.heading'              => 'Kwinjira kw\'umukoresha',
+    'login.username_label'       => 'Izina ry\'umukoresha cyangwa imeli:',
+    'login.password_label'       => 'Ijambo ry\'ibanga:',
+    'login.submit_btn'           => 'Injira',
+    'login.forgot_password_link' => 'Wibagiye ijambo ry\'ibanga ryawe?',
+
+    // ------------------------------------------------------------------
+    // User Onboarding Setup Wizard
+    // ------------------------------------------------------------------
+    'onboarding.page_title'        => 'Murakaza neza - Umuyobozi w\'igenamiterere rya konti',
+    'onboarding.heading'           => 'Murakaza neza mu murwi!',
+    'onboarding.subheading'        => 'Imbere yuko utangura, fatayo umwanya muto kugira ngo utegure uburyo bwawe bw\'akarere bwo kwerekana n\'ibanga. Ushobora kubivugurura igihe cose mu karangamirwa kawe.',
+    'onboarding.timezone_label'    => 'Isaha y\'akarere / Akarere:',
+    'onboarding.date_format_label' => 'Uburyo bwo kwerekana itariki:',
+    'onboarding.time_format_label' => 'Uburyo bw\'isaha (Kwerekana igihe):',
+    'onboarding.time_24'          => 'Amasaha 24 (nk\'urugero 16:07)',
+    'onboarding.time_12'          => 'Amasaha 12 AM/PM (nk\'urugero 04:07 PM)',
+    'onboarding.time_none'        => 'Itariki gusa (Hisha isaha burundu)',
+    'onboarding.attribution_label' => 'Uburyo bwo kwerekana ku rutonde rw\'amanota n\'uruhare:',
+    'onboarding.attribution_desc1' => 'Bigenzura uko izina ryawe ryerekanywa ku rutonde rw\'amanota rusange no mu nyandiko.',
+    'onboarding.attr_anon_title'   => 'Utazwi:',
+    'onboarding.attr_anon_text'    => 'Yerekana inyuguti z\'ibanza n\'umubare utazwi kuri bose.',
+    'onboarding.attr_public_title' => 'Rusange:',
+    'onboarding.attr_public_text'  => 'Yerekana izina ryawe ryuzuye kuri bose.',
+    'onboarding.attr_vol_title'    => 'Abafasha gusa:',
+    'onboarding.attr_vol_text'     => 'Yerekana inyuguti z\'ibanza ku bantu bose, ariko izina ryawe ryuzuye ku bafasha, abagenzuzi n\'abayobozi binjiye.',
+    'onboarding.attr_opt_anon'     => 'Utazwi (Inyuguti z\'ibanza n\'umubare utazwi)',
+    'onboarding.attr_opt_public'   => 'Rusange (Yerekana izina ryuzuye)',
+    'onboarding.attr_opt_vol'      => 'Abafasha gusa',
+    'onboarding.submit_btn'        => 'Bika uburyo bwifuzwa & komeza',
+
+    // ------------------------------------------------------------------
+    // User Profile & Security Settings
+    // ------------------------------------------------------------------
+    'profile.aria_region'          => 'Gucunga umwirondoro w\'umukoresha',
+    'profile.heading'              => 'Umwirondoro w\'umukoresha n\'Umutekano',
+    'profile.personal_details_heading' => 'Amakuru yiteze',
+    'profile.language_label'       => 'Ururimi ukunda:',
+    'profile.lang_site_default'    => 'Uko urubuga ruri',
+    'profile.update_details_btn'   => 'Vugurura amakuru yiteze',
+    'profile.email_heading'        => 'Aderesi ya imeli',
+    'profile.current_email_label'  => 'Imeli iriho ubu:',
+    'profile.email_verified'       => '(Yemejwe)',
+    'profile.email_unverified'     => '(ntiyemejwe - Reba mu gasanduku kawe k\'ubutumwa)',
+    'profile.change_email_label'   => 'Hindura aderesi ya imeli:',
+    'profile.aria_new_email'       => 'Aderesi ya imeli nshasha',
+    'profile.update_email_btn'     => 'Vugurura imeli & emeza',
+    'profile.password_heading'     => 'Hindura ijambo ry\'ibanga',
+    'profile.current_password_label' => 'Ijambo ry\'ibanga ririho ubu:',
+    'profile.new_password_label'   => 'Ijambo ry\'ibanga rishasha (min. inyuguti 8):',
+    'profile.confirm_password_label' => 'Emeza ijambo ry\'ibanga rishasha:',
+    'profile.show_passwords_label' => 'Kwerekana amagambo y\'ibanga mu nyandiko isanzwe',
+    'profile.update_password_btn'  => 'Vugurura ijambo ry\'ibanga',
+    'profile.tfa_heading'          => 'Kwemeza ubuziranenge mu buryo bubiri (2FA)',
+    'profile.tfa_status_label'     => 'Uko bimeze:',
+    'profile.tfa_enabled'          => 'Byemejwe',
+    'profile.tfa_disabled'         => 'Ntibyemejwe',
+    'profile.setup_tfa_btn'        => 'Tegura Google Authenticator',
+    'profile.tfa_active_desc'      => '2FA irinda kwinjira kuri konti yawe mu buryo bukomeye.',
+    'profile.backup_codes_heading' => 'Utubari twawe tw\'agateganyo tw\'umutekano dutoshye',
+    'profile.download_codes_btn'   => 'Kurura utubari dushya nka .txt',
+    'profile.generate_codes_confirm' => 'Woba wizeye? Ibi bizakuraho utubari twose tw\'umutekano twari dusanzweho.',
+    'profile.generate_codes_btn'   => 'Kurema utubari tw\'umutekano dutoshye',
+
+    // ------------------------------------------------------------------
+    // User Registration
+    // ------------------------------------------------------------------
+    'register.aria_region'    => 'Kwiyandikisha kw\'umukoresha',
+    'register.heading'        => 'Kwiyandikisha konti nshasha',
+    'register.username_label' => 'Izina ry\'umukoresha:',
+    'register.submit_btn'     => 'Iyandikishe',
+
+    // ------------------------------------------------------------------
+    // Set Password via Secure Token
+    // ------------------------------------------------------------------
+    'set_password.exit_invalid_token'        => 'Umurongo w\'igenamiterere ntiwemewe cyangwa warazimiye.',
+    'set_password.exit_expired_token'        => 'Uyu murongo wo gushiraho ijambo ry\'ibanga ntiwemewe cyangwa warangiye igihe.',
+    'set_password.proceed_login_btn'         => 'Komeza ujyane no kwinjira',
+    'set_password.aria_region'               => 'Shyiraho ijambo ry\'ibanga',
+    'set_password.heading_format'            => 'Shyiraho ijambo ry\'ibanga ryawe kuri %s',
+    'set_password.subheading_format'         => 'Murakaza neza kuri konti yawe nshasha, %s! Nyamuneka hitamo ijambo ry\'ibanga ryawe hepfo.',
+    'set_password.new_password_label'        => 'Ijambo ry\'ibanga rishasha (nibura inyuguti 8):',
+    'set_password.confirm_password_label'    => 'Emeza ijambo ry\'ibanga:',
+    'set_password.show_password_label'       => 'Kwerekana ijambo ry\'ibanga',
+    'set_password.save_password_btn'         => 'Bika ijambo ry\'ibanga',
+
+    // ------------------------------------------------------------------
+    // Setup 2FA Wizard
+    // ------------------------------------------------------------------
+    'setup_2fa.aria_region'      => 'Umuyobozi w\'igenamiterere rya 2FA',
+    'setup_2fa.heading'          => 'Tegura Google Authenticator',
+    'setup_2fa.subheading'       => 'Soma akazu ka QR hepfo n\'aplikasiyo yawe yo kwemeza.',
+    'setup_2fa.qr_alt'           => 'Akazu ka QR k\'igenamiterere rya 2FA',
+    'setup_2fa.manual_prompt'    => 'Cyangwa shyiramo uru rufu ngiro rwihishwa n\'intoke:',
+    'setup_2fa.backup_heading'   => 'Utubari tw\'agateganyo tw\'ubutabazi tw\'umutekano',
+    'setup_2fa.backup_desc'      => 'Bika utu tubari tw\'umutekano tw\'agateganyo ahantu hizewe. Buri kabari gashobora gukoreshwa <strong>rimwe gusa</strong> nimba wibagiye cyangwa watakaje uburyo bwawe bwo kwemeza:',
+    'setup_2fa.download_btn'     => 'Kurura utubari nka .txt',
+    'setup_2fa.code_label'       => 'Shyiramo imibare 6 ivuye muri aplikasiyo kugira ngo wemeze & wemeze:',
+    'setup_2fa.aria_code_input'  => 'Imibare 6 yo kwemeza ubuziranenge',
+    'setup_2fa.submit_btn'       => 'Genzura & emeza 2FA',
+    'setup_2fa.cancel_link'      => 'Hagarika & subira ku mwirondoro',
+
+    // ------------------------------------------------------------------
+    // Suggest Edit View
+    // ------------------------------------------------------------------
+    'suggest_edit.aria_region'          => 'Tanga igitekerezo cyo guhindura',
+    'suggest_edit.heading_prefix'       => 'Tanga igitekerezo cyo guhindura kuri iyi nyandiko',
+    'suggest_edit.return_btn'           => 'Subira ku nyandiko',
+    'suggest_edit.success_msg_suffix'   => 'Ushobora kurungika ubundi buhinduzi hepfo, cyangwa ukoreshe umurongo wo gusubira hejuru igihe urangije.',
+    'suggest_edit.current_values_heading' => 'Agaciro gahari ubu:',
+    'suggest_edit.empty_label'          => '(ubusa)',
+    'suggest_edit.submit_heading'       => 'Rungika agaciro gashasha kashizweho n\'ubuhamya',
+    'suggest_edit.confirm_prompt'       => 'Woba wizeye ko witeguye kurungika iki gitekerezo cyo guhindura ngo gisuzumwe n\'umuyobozi?',
+    'suggest_edit.select_column_label'  => 'Hitamo inkingi yo guhindura:',
+    'suggest_edit.reasoning_label'      => 'Ubuhamya / Impamvu / Inyandiko z\'isoko:',
+    'suggest_edit.reasoning_placeholder'=> 'Tanga ibisobanuro, imigani y\'amasoko cyangwa impamvu z\'iyi mpinduka...',
+    'suggest_edit.submit_btn'           => 'Rungika igitekerezo ngo gisuzumwe',
+    'suggest_edit.proposed_value_label' => 'Agaciro gashasha gashizweho:',
+
+    // ------------------------------------------------------------------
+    // Verify 2FA Login Challenge
+    // ------------------------------------------------------------------
+    'verify_2fa.aria_region'     => 'Genzura 2FA',
+    'verify_2fa.heading'         => 'Kwemeza ubuziranenge mu buryo bubiri',
+    'verify_2fa.subheading'      => 'Shyiramo imibare 6 ivuye muri aplikasiyo yawe yo kwemeza cyangwa ukoreshe akabari k\'agateganyo k\'umutekano.',
+    'verify_2fa.code_label'      => 'Imibare yo kwemeza / Akabari k\'umutekano:',
+    'verify_2fa.aria_code_input' => 'Shyiramo imibare yo kwemeza cyangwa y\'umutekano',
+    'verify_2fa.submit_btn'      => 'Genzura & Injira',
+
+    // ------------------------------------------------------------------
+    // Verify Email
+    // ------------------------------------------------------------------
+    'verify_email.err_no_token'         => 'Nta murongo wo kwemeza watanzwe.',
+    'verify_email.err_invalid_token'    => 'Umurongo wo kwemeza ntiwemewe.',
+    'verify_email.msg_already_verified' => 'Imeli yawe yaratohojwe kera. Ushobora kwinjira.',
+    'verify_email.err_expired_token'    => 'Uyu murongo wo kwemeza warangiye igihe (amasaha 24 yarenze). Nyamuneka wiyandikishe kandi cyangwa usabe umurongo mushasha.',
+    'verify_email.msg_success'          => 'Imeli yemejwe neza! Konti yawe irakora ubu. Ushobora gukomeza kwinjira.',
+    'verify_email.err_update_failed'    => 'Havutse ikosa mu kwemeza imeli yawe. Ongera ugerageze.',
+    'verify_email.aria_region'          => 'Uko kwemeza imeli kumeze',
+    'verify_email.heading'              => 'Uko kwemeza imeli kumeze',
+    'verify_email.login_btn'            => 'Kanda hano kugira winjire',
+
+    // ------------------------------------------------------------------
+    // Volunteer Form View
+    // ------------------------------------------------------------------
+    'volunteer.aria_region'          => 'Urupapuro rw\'umufasha',
+    'volunteer.honeypot_label'       => 'Reka uyu mwanya ube ubusa:',
+    'volunteer.required_field_title'=> 'Umwanya ukenewe',
+    'volunteer.multi_select_hint'    => 'Komeza gukanda Ctrl cyangwa Cmd kugira ngo uhitoreho menshi.',
+    'volunteer.submit_btn'           => 'Rungika ubusabe bw\'ubufasha',
+];

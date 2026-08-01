@@ -52,34 +52,29 @@ function get_current_user_data($pdo) {
 }
 
 /**
- * Check if the current user possesses a specific dynamic permission key,
- * and automatically register the permission in the database if it's new.
+ * Check if the current user possesses a specific dynamic permission key.
  */
 function has_permission($pdo, $permission_key, $description = null) {
-    try {
-        static $registered_cache = [];
-        if (!isset($registered_cache[$permission_key])) {
-            $stmt = $pdo->prepare("INSERT INTO permissions (permission_key, description) VALUES (?, ?) ON DUPLICATE KEY UPDATE description = COALESCE(VALUES(description), description)");
-            $stmt->execute([$permission_key, $description ?? ucwords(str_replace('_', ' ', $permission_key))]);
-            $registered_cache[$permission_key] = true;
-        }
-    } catch (Exception $e) {
-        // Fail silently if DB lacks table during early migrations
-    }
     $user = get_current_user_data($pdo);
     $role_id = ($user && !empty($user['role_id'])) ? $user['role_id'] : 4; // Fallback to guest (Role ID 4)
+    
     static $permission_cache = [];
     $cache_key = $role_id . '_' . $permission_key;
     if (isset($permission_cache[$cache_key])) {
         return $permission_cache[$cache_key];
     }
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*) FROM role_permissions rp
-        JOIN permissions p ON rp.permission_id = p.id
-        WHERE rp.role_id = ? AND p.permission_key = ?
-    ");
-    $stmt->execute([$role_id, $permission_key]);
-    $has = ($stmt->fetchColumn() > 0);
+
+    try {
+        $stmt = $pdo->prepare("
+            SELECT COUNT(*) FROM role_permissions rp
+            JOIN permissions p ON rp.permission_id = p.id
+            WHERE rp.role_id = ? AND p.permission_key = ?
+        ");
+        $stmt->execute([$role_id, $permission_key]);
+        $has = ($stmt->fetchColumn() > 0);
+    } catch (Exception $e) {
+        $has = false;
+    }
     
     $permission_cache[$cache_key] = $has;
     return $has;
@@ -130,7 +125,7 @@ function is_moderator($pdo) {
 }
 
 /**
- * Enforce a minimum permission requirement, auto-registering it and checking access.
+ * Enforce a minimum permission requirement.
  */
 function require_permission($pdo, $permission_key, $description = null) {
     if (!isset($_SESSION['user_id'])) {
