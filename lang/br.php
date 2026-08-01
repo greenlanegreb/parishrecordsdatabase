@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Postel',
     'feedback_schema.heading'                => 'Merkañ framm ar follennoù evezhiadennoù',
     'feedback_schema.subheading'             => 'Kefluniañ maeziennoù personelaet, seurtadoù roadennoù, harzoù arouezennoù, isseurtadoù ha dibabioù.',
     'feedback_schema.settings_summary'       => 'Kefluniañ titl ar follenn ha skrid an diogeladur',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Marilh gwiriañ ebet kavet.',
     'settings.system_guest'              => 'Reizhiad / Gweladenner',
     'settings.audit_limit_note'          => 'Diskouez ar 250 marilh gwiriañ diwezhañ.',
+    'settings.cron_maintenance_heading' => 'Trec\'hToken A emgefre & kefluniañ Cron',
+    'settings.cron_maintenance_desc'    => 'Dilamiñ an tokenioù gwiriañ aet d\'o zu ha naetaat al liammoù distag diouzh kontoù an implijerien oberiant a-zteol pe gant an dorn.',
+    'settings.cron_command_label'       => 'Urzhiad Cron Servijer kinniget (Redet bep eurvezh/deiz):',
+    'settings.run_token_cleanup_btn'    => 'Naetaat an Tokenioù Bremañ',
+    'settings.create_role_heading'      => 'Krouiñ ur Roll Nevez',
+    'settings.role_name_label'          => 'Anv ar Roll',
+    'settings.create_role_btn'          => 'Krouiñ ar Roll',
+    'settings.existing_roles_heading'   => 'Rolloù a zo & Merañ',
+    'settings.th_actions'               => 'Oberioù',
+    'settings.delete_role_confirm'      => 'Ha sur oc\'h e fell deoc\'h dilemel ar roll-mañ? An implijerien skoazellket dezhañ a vo adroet e roll skoueriek an implijer e mod sur.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

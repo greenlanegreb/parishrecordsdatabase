@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Електронна пошта',
     'feedback_schema.heading'                => 'Керування схемою форми зворотного зв’язку',
     'feedback_schema.subheading'             => 'Налаштуйте користувацькі поля, типи даних, обмеження довжини, підтипи, опції та відображення.',
     'feedback_schema.settings_summary'       => 'Налаштування заголовка форми та тексту відмови від відповідальності',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Журналів аудиту не знайдено.',
     'settings.system_guest'              => 'Система / Гість',
     'settings.audit_limit_note'          => 'Показано останні 250 записів журналу аудиту.',
+    'settings.cron_maintenance_heading' => 'Автоматичне обслуговування токенів та налаштування Cron',
+    'settings.cron_maintenance_desc'    => 'Видалення протермінованих токенів підтвердження та очищення завислих посилань у активованих облікових записах користувачів автоматично або вручну.',
+    'settings.cron_command_label'       => 'Рекомендована команда Cron для сервера (запускати щогодини/щодня):',
+    'settings.run_token_cleanup_btn'    => 'Запустити очищення токенів зараз',
+    'settings.create_role_heading'      => 'Створити нову роль',
+    'settings.role_name_label'          => 'Назва ролі',
+    'settings.create_role_btn'          => 'Створити роль',
+    'settings.existing_roles_heading'   => 'Існуючі ролі та керування',
+    'settings.th_actions'               => 'Дії',
+    'settings.delete_role_confirm'      => 'Ви впевнені, що хочете видалити цю роль? Користувачі, яким вона призначена, будуть безпечно переведені на роль користувача за замовчуванням.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

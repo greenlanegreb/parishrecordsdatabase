@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Ríomhphost',
     'feedback_schema.heading'                => 'Bainistíocht scéimre fhoirm an aiseolais',
     'feedback_schema.subheading'             => 'Cumraigh réimsí saincheaptha, cineálacha sonraí, teorainneacha karakter, fo-chineálacha, roghanna agus socruithe cur i láthair fhoirm ginearálta.',
     'feedback_schema.settings_summary'       => 'Cumraigh teideal na foirm & téacs an tséanaigh',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Níor friteadh aon iontráil logála iniúchta.',
     'settings.system_guest'              => 'Córas / Aoi',
     'settings.audit_limit_note'          => 'Ag taispeáint an 250 iontráil logála iniúchta deiridh.',
+    'settings.cron_maintenance_heading' => 'Cothabháil Chomharthaí Uathoibrithe & Socrú Cron',
+    'settings.cron_maintenance_desc'    => 'Glan comharthaí fíoraithe atá in éag agus glan naisc crochta ó chuntais úsáideora ghníomhachtaithe go huathoibríoch nó de láimh.',
+    'settings.cron_command_label'       => 'Buyúis Cron Freastalaí Molta (Rith gach uair/laethúil):',
+    'settings.run_token_cleanup_btn'    => 'Rith Glanadh Comharthaí Anois',
+    'settings.create_role_heading'      => 'Cruthaigh Ról Nua',
+    'settings.role_name_label'          => 'Ainm an Róil',
+    'settings.create_role_btn'          => 'Cruthaigh Ról',
+    'settings.existing_roles_heading'   => 'Róil Reatha & Bainistíocht',
+    'settings.th_actions'               => 'Gníomhartha',
+    'settings.delete_role_confirm'      => 'An bhfuil tú cinnte gur mian leat an ról seo a scriosadh? Athshannfar úsáideoirí a bhfuil sé sannta dóibh go sábháilte don ról úsáideora réamhshocraithe.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

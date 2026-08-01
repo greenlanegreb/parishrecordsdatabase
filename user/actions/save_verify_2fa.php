@@ -16,8 +16,14 @@ $user_id = $_SESSION['pending_2fa_user_id'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input_code = trim($_POST['code'] ?? '');
     
-    // Added is_new_user to the select query
-    $stmt = $pdo->prepare("SELECT id, username, role, google_2fa_secret, backup_codes, is_new_user FROM users WHERE id = ?");
+    // Fetch user data securely using the dynamic relational roles join + user preferences
+    $stmt = $pdo->prepare("
+        SELECT u.id, u.username, r.role_name AS role, u.google_2fa_secret, u.backup_codes, 
+               u.is_new_user, u.language, u.timezone, u.date_format, u.time_format 
+        FROM users u 
+        LEFT JOIN roles r ON u.role_id = r.id 
+        WHERE u.id = ?
+    ");
     $stmt->execute([$user_id]);
     $user = $stmt->fetch();
 
@@ -60,6 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
+        
+        // Optionally store language/preferences in session if your app uses them globally
+        if (!empty($user['language'])) {
+            $_SESSION['language'] = $user['language'];
+        }
 
         $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'LOGIN_SUCCESS_2FA', 'Completed 2FA login challenge', ?)");
         $audit->execute([$user['id'], $_SERVER['REMOTE_ADDR']]);

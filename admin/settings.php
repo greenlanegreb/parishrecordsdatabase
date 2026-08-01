@@ -7,7 +7,7 @@ require_once '../includes/functions.php';
 // Standard admin bootstrap (permission + flash messages)
 $current_user = require_admin_page($pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
 $message = $GLOBALS['message'] ?? '';
-$error   = $GLOBALS['error']    ?? '';
+$error   = $GLOBALS['error']   ?? '';
 
 // Auto-register table-scoped permissions for any existing dynamic tables
 try {
@@ -38,7 +38,7 @@ $get_setting_val = function($pdo, $key, $default) {
     }
 };
 
-$current_mail_domain      = $get_setting_val($pdo, 'mail_domain', '');
+$current_mail_domain     = $get_setting_val($pdo, 'mail_domain', '');
 $current_mail_from        = $get_setting_val($pdo, 'mail_from', '');
 $current_mail_driver      = $get_setting_val($pdo, 'mail_driver', 'mail');
 $current_smtp_host        = $get_setting_val($pdo, 'smtp_host', '');
@@ -456,6 +456,20 @@ if (isset($_GET['edit_role'])) {
     <div role="tabpanel" id="panel-permissions" aria-labelledby="tab-permissions" class="tab-panel" style="display: none;">
         <h4 style="margin-top: 0; color: #333; font-size: 1.2rem;"><?php echo htmlspecialchars(__('settings.permissions_heading')); ?></h4>
         <p style="font-size: 1rem; color: #555; margin-bottom: 1.5rem;"><?php echo htmlspecialchars(__('settings.permissions_subheading')); ?></p>
+
+        <!-- Role Creation Form Block -->
+        <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); padding: 1.25rem; border-radius: 6px; margin-bottom: 2rem;">
+            <h5 style="margin-top: 0; margin-bottom: 0.75rem; font-size: 1.05rem; color: #333;"><?php echo htmlspecialchars(__('settings.create_role_heading')); ?></h5>
+            <form method="POST" action="actions/save_role.php" style="display: flex; gap: 0.75rem; align-items: flex-end;">
+                <?php echo csrf_field(); ?>
+                <div style="flex: 1;">
+                    <label for="role_name" style="font-size: 0.9rem; font-weight: bold;"><?php echo htmlspecialchars(__('settings.role_name_label')); ?></label><br>
+                    <input type="text" id="role_name" name="role_name" placeholder="e.g. archivist" required class="volunteer-input" style="width: 100%; padding: 0.5rem; font-size: 0.95rem; margin-top: 0.3rem;">
+                </div>
+                <button type="submit" class="btn" style="padding: 0.5rem 1.2rem; font-size: 0.95rem; white-space: nowrap;"><?php echo htmlspecialchars(__('settings.create_role_btn')); ?></button>
+            </form>
+        </div>
+
         <?php
         $roles_list = $pdo->query("SELECT * FROM roles ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
         $perms_list = $pdo->query("SELECT * FROM permissions ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
@@ -466,10 +480,10 @@ if (isset($_GET['edit_role'])) {
         }
 
         $mod_users_active        = is_module_enabled($pdo, 'users');
-        $mod_volunteers_active  = is_module_enabled($pdo, 'volunteers');
-        $mod_feedback_active    = is_module_enabled($pdo, 'feedback');
-        $mod_moderation_active  = is_module_enabled($pdo, 'moderation');
-        $mod_leaderboard_active = is_module_enabled($pdo, 'leaderboard');
+        $mod_volunteers_active   = is_module_enabled($pdo, 'volunteers');
+        $mod_feedback_active     = is_module_enabled($pdo, 'feedback');
+        $mod_moderation_active   = is_module_enabled($pdo, 'moderation');
+        $mod_leaderboard_active  = is_module_enabled($pdo, 'leaderboard');
 
         function get_permission_category($pkey) {
             if (str_starts_with($pkey, 'view_table_') || str_starts_with($pkey, 'moderate_table_')) {
@@ -500,6 +514,8 @@ if (isset($_GET['edit_role'])) {
             $categorized_perms[$cat][] = $p;
         }
         ?>
+
+        <h5 style="margin-bottom: 0.75rem; font-size: 1.1rem; color: #333;"><?php echo htmlspecialchars(__('settings.permissions_heading')); ?></h5>
         <form method="POST" action="actions/save_permissions.php">
             <?php echo csrf_field(); ?>
             <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -520,7 +536,16 @@ if (isset($_GET['edit_role'])) {
                                     <?php foreach ($roles_list as $r): ?>
                                         <tr style="border-bottom: 1px solid var(--border-color);">
                                             <td style="padding: 0.85rem; font-weight: bold; text-transform: capitalize; vertical-align: top;">
-                                                <?php echo htmlspecialchars($r['role_name']); ?>
+                                                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                                                    <span><?php echo htmlspecialchars($r['role_name']); ?></span>
+                                                    <?php if ($r['id'] > 4): // Allow deleting custom roles safely ?>
+                                                        <form method="POST" action="actions/save_role.php" onsubmit="return confirm('<?php echo htmlspecialchars(__('settings.delete_role_confirm')); ?>');" style="display: inline;">
+                                                            <?php echo csrf_field(); ?>
+                                                            <input type="hidden" name="delete_role_id" value="<?php echo $r['id']; ?>">
+                                                            <button type="submit" class="btn btn-danger" style="font-size: 0.75rem; padding: 0.2rem 0.5rem; width: fit-content;">Delete</button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                </div>
                                             </td>
                                             <td style="padding: 0.85rem;">
                                                 <div style="display: flex; flex-wrap: wrap; gap: 1rem;">

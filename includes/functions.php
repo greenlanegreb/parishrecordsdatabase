@@ -398,7 +398,7 @@ if (!function_exists('get_active_language')) {
         }
 
         if (!empty($_SESSION['lang'])) {
-            return preg_replace('/[^a-z_]/', '', strtolower($_SESSION['lang']));
+            return preg_replace('/[^a-zA-Z_]/', '', $_SESSION['lang']);
         }
 
         $pdo = $GLOBALS['pdo'] ?? null;
@@ -406,14 +406,14 @@ if (!function_exists('get_active_language')) {
         if ($pdo instanceof PDO && function_exists('get_current_user_data')) {
             $user = get_current_user_data($pdo);
             if (!empty($user['language'])) {
-                return preg_replace('/[^a-z_]/', '', strtolower($user['language']));
+                return preg_replace('/[^a-zA-Z_]/', '', $user['language']);
             }
         }
 
         if ($pdo instanceof PDO && function_exists('get_setting')) {
             $site = get_setting($pdo, 'default_language', 'en');
             if (!empty($site)) {
-                return preg_replace('/[^a-z_]/', '', strtolower($site));
+                return preg_replace('/[^a-zA-Z_]/', '', $site);
             }
         }
 
@@ -429,17 +429,28 @@ if (!function_exists('__')) {
         $lang = get_active_language();
 
         if ($catalogue === null || $loaded_lang !== $lang) {
-            $safe = preg_replace('/[^a-z_]/', '', $lang) ?: 'en';
+            $safe = preg_replace('/[^a-zA-Z_]/', '', $lang) ?: 'en';
+            
+            // Look for exact file path match first (supports multi-underscore files like en_GB_chav)
             $path = __DIR__ . '/../lang/' . $safe . '.php';
+
+            if (!is_file($path)) {
+                // Fallback to base language code if compound file doesn't exist
+                $base_lang = explode('_', $safe)[0];
+                $path = __DIR__ . '/../lang/' . $base_lang . '.php';
+                $safe = $base_lang;
+            }
+
             if (!is_file($path)) {
                 $path = __DIR__ . '/../lang/en.php';
                 $safe = 'en';
             }
+
             $catalogue = is_file($path) ? include $path : [];
             if (!is_array($catalogue)) {
                 $catalogue = [];
             }
-            $loaded_lang = $safe;
+            $loaded_lang = $lang;
         }
 
         $text = $catalogue[$key] ?? $key;
@@ -457,7 +468,7 @@ if (!function_exists('set_language')) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        $_SESSION['lang'] = preg_replace('/[^a-z_]/', '', strtolower($code)) ?: 'en';
+        $_SESSION['lang'] = preg_replace('/[^a-zA-Z_]/', '', $code) ?: 'en';
     }
 }
 

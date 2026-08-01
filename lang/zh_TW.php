@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => '電子郵件',
     'feedback_schema.heading'                => '管理意見回饋表單綱要',
     'feedback_schema.subheading'             => '設定自訂欄位、資料類型、字數限制、子類型、選項與顯示樣式。',
     'feedback_schema.settings_summary'       => '設定表單標題與免責聲明文字',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => '找不到稽核記錄。',
     'settings.system_guest'              => '系統 / 訪客',
     'settings.audit_limit_note'          => '顯示最近 250 筆稽核記錄。',
+    'settings.cron_maintenance_heading' => '自動化權杖維護與 Cron 設定',
+    'settings.cron_maintenance_desc'    => '清理過期的驗證權杖，並自動或手動清除已啟用使用者帳號中的掛起連結。',
+    'settings.cron_command_label'       => '建議的伺服器 Cron 指令（每小時/每天執行）：',
+    'settings.run_token_cleanup_btn'    => '立即執行權杖清理',
+    'settings.create_role_heading'      => '建立新角色',
+    'settings.role_name_label'          => '角色名稱',
+    'settings.create_role_btn'          => '建立角色',
+    'settings.existing_roles_heading'   => '現有角色與管理',
+    'settings.th_actions'               => '動作',
+    'settings.delete_role_confirm'      => '確定要刪除此角色嗎？指派給該角色的使用者將被安全地重新指派到預設使用者角色。',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Email',
     'feedback_schema.heading'                => 'Gestion du schéma du formulaire de commentaires',
     'feedback_schema.subheading'             => 'Configurez les champs personnalisés, les types de données, les limites de caractères, les sous-types, les options et les paramètres généraux de présentation du formulaire.',
     'feedback_schema.settings_summary'       => 'Configurer le titre du formulaire et le texte d’introduction',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Aucune entrée de journal d’audit trouvée.',
     'settings.system_guest'              => 'Système / Invité',
     'settings.audit_limit_note'          => 'Affichage des 250 dernières entrées du journal d’audit.',
+    'settings.cron_maintenance_heading' => 'Maintenance automatisée des jetons et configuration Cron',
+    'settings.cron_maintenance_desc'    => 'Purgez les jetons de vérification expirés et nettoyez les liens pendants des comptes utilisateurs activés automatiquement ou manuellement.',
+    'settings.cron_command_label'       => 'Commande Cron serveur suggérée (À exécuter toutes les heures/quotidiennement) :',
+    'settings.run_token_cleanup_btn'    => 'Lancer le nettoyage des jetons maintenant',
+    'settings.create_role_heading'      => 'Créer un nouveau rôle',
+    'settings.role_name_label'          => 'Nom du rôle',
+    'settings.create_role_btn'          => 'Créer le rôle',
+    'settings.existing_roles_heading'   => 'Rôles existants et gestion',
+    'settings.th_actions'               => 'Actions',
+    'settings.delete_role_confirm'      => 'Êtes-vous sûr de vouloir supprimer ce rôle ? Les utilisateurs qui y sont associés seront réattribués en toute sécurité au rôle utilisateur par défaut.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

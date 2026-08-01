@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Iimayl',
     'feedback_schema.heading'                => 'Maareynta qaab-dhismeedka foomka jawaab-celinta',
     'feedback_schema.subheading'             => 'Habee beelaha gaarka ah, noocyada xogta, xadka xarfaha, hoos-noocyada, iyo xulashooyinka.',
     'feedback_schema.settings_summary'       => 'Habee cinwaanka foomka iyo qoraalka digtoonaanta',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Lama helin wax diiwaanka hubinta ah.',
     'settings.system_guest'              => 'Nidaamka / Marti',
     'settings.audit_limit_note'          => 'Waxaa la soo bandhigayaa 250-kii diiwaan hubin ee ugu dambeeyay.',
+    'settings.cron_maintenance_heading' => 'Dayactirka Calaamadaha Tooska ah iyo Habaynta Cron',
+    'settings.cron_maintenance_desc'    => 'Tiro calaamadaha xaqiijinta ee dhacay oo nadiifi xiriiriyeyaasha lala xiriiriyay akoonnada isticmaalayaasha ee la hawlgeliyay si toos ah ama gacanta ah.',
+    'settings.cron_command_label'       => 'Amarka Cron ee server-ka lagu taliyay (Maamul saacad/maalin kasta):',
+    'settings.run_token_cleanup_btn'    => 'Hadda fuliyo nadiifinta calaamadaha',
+    'settings.create_role_heading'      => 'Abuur door cusub',
+    'settings.role_name_label'          => 'Magaca doorka',
+    'settings.create_role_btn'          => 'Abuur door',
+    'settings.existing_roles_heading'   => 'Doorka jira iyo maamulka',
+    'settings.th_actions'               => 'Tallaabooyinka',
+    'settings.delete_role_confirm'      => 'Ma hubtaa inaad rabto inaad tirtirto doorkan? Isticmaalayaasha loo qoondeeyay waxaa loo celin doonaa si ammaan ah doorka caadiga ah ee isticmaalaha.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

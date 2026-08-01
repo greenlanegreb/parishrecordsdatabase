@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Imeli',
     'feedback_schema.heading'                => 'Gucunga imiterere y\'urupapuro rw\'ivyiyumviro',
     'feedback_schema.subheading'             => 'Tegura imyanya yihariye, ubwoko bw\'amakuru, imipaka y\'inyuguti, ubwoko bw\'ikibereye, amahitamo n\'igenamiterere ryo kwerekana.',
     'feedback_schema.settings_summary'       => 'Tegura umutwe w\'urupapuro n\'inyandiko y\'uburokero',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Nta raporo y\'ubugenzuzi yabonitse.',
     'settings.system_guest'              => 'Uburyo / Umushyitsi',
     'settings.audit_limit_note'          => 'Kwerekana raporo 250 z\'ubugenzuzi zihereza.',
+    'settings.cron_maintenance_heading' => 'Ukwita ku bimenyetso mu buryo bwikora na gahunda ya Cron',
+    'settings.cron_maintenance_desc'    => 'Siba ibimenyetso byo kwemeza byarengeje igihe kandi usukure imiyoboro isigaye ku konti z\'abakoresha zakozwe mu buryo bwikora cyangwa n\'intoki.',
+    'settings.cron_command_label'       => 'Tegeko rya Cron risabwe kuri seriveri (Gikora buri saha/buri munsi):',
+    'settings.run_token_cleanup_btn'    => 'Gukora isuku y\'ibimenyetso ubu',
+    'settings.create_role_heading'      => 'Kurema uruhare rushya',
+    'settings.role_name_label'          => 'Izina ry\'uruhare',
+    'settings.create_role_btn'          => 'Rema uruhare',
+    'settings.existing_roles_heading'   => 'Inshingano zihari n\'imiyoborere',
+    'settings.th_actions'               => 'Ibikorwa',
+    'settings.delete_role_confirm'      => 'Uremye ko ushaka gusiba uru ruhare? Abakoresha barugenewe bazasubizwa mu mutekano ku ruhare rusanzwe rw\'umukoresha.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

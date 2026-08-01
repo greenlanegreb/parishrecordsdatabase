@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Post-ell',
     'feedback_schema.heading'                => 'Reill Scamaill Foirm Co-choyrle',
     'feedback_schema.subheading'             => 'Reill cooleeyn, sorçhyn fysseree, lhiurid charactar, as reaghysyn foirm.',
     'feedback_schema.settings_summary'       => 'Reill enmys foirm as focklyn tooshiaght',
@@ -418,6 +420,16 @@ return [
     'settings.no_audit_logs'             => 'Cha row coontys inich feddynit.',
     'settings.system_guest'              => 'Corys / Easyr',
     'settings.audit_limit_note'          => 'Soilshaghey ny 250 coontys iniuch er y jerrey.',
+    'settings.cron_maintenance_heading' => 'Cynnal as Cadw Tokenyn Emshyragh & Arraghtyn Cron',
+    'settings.cron_maintenance_desc'    => 'Glan magh tokenyn shickylagh tennyn as glan kianglaghyn cruighagh veih coontysyn ymmydeyr er nyn gheddyn er laue ny er emshyr.',
+    'settings.cron_command_label'       => ' बाग Cron shirveishagh tคุymragh (Imnee dagh oor/laa):',
+    'settings.run_token_cleanup_btn'    => 'Imnee Glaney Tokenyn Nish',
+    'settings.create_role_heading'      => 'Cruthaaghey Paart Noa',
+    'settings.role_name_label'          => 'Ennym y Phaart',
+    'settings.create_role_btn'          => 'Cruthaaghey yn Paart',
+    'settings.existing_roles_heading'   => 'Paartyn t\'ayn & Stiurey',
+    'settings.th_actions'               => 'Ghweeyn',
+    'settings.delete_role_confirm'      => 'Vel shiu shickyr dy vel shiu geiyrt cur magh y phaart shoh? Hig dy shickyr ny ymmydeyrین t\'er nyn gheddyn da\'n phaart cadjin.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

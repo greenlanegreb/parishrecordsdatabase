@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'برېښنالیک',
     'feedback_schema.heading'                => 'د نظرونو د فورمې جوړښت مدیریت',
     'feedback_schema.subheading'             => 'ځانګړي برخې، د ډاټا ډولونه، د تورو حد، فرعي ډولونه، اختیارونه او ښودلو تنظیمات تنظیم کړئ.',
     'feedback_schema.settings_summary'       => 'د فورمې سرلیک او د معافیت متن تنظیم کړئ',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'هېڅ د پلټنې لاګ ونه موندل شو.',
     'settings.system_guest'              => 'سیستم / مېلمه',
     'settings.audit_limit_note'          => 'وروستي 250 د پلټنې لاګونه ښودل کیږي.',
+    'settings.cron_maintenance_heading' => 'د ټوکينونو اتوماتیک ساتنه او د کرون تنظیم',
+    'settings.cron_maintenance_desc'    => 'د اعتبار پای ته رسیدلي تایید ټوکينونه له منځه یوسي او د فعالو کاروونکو حسابونو څخه پاتې لینکونه په اتوماتیک یا لاسي ډول پاک کړئ.',
+    'settings.cron_command_label'       => 'د سرور وړاندیز شوی کرون کمانډ (په ه ساعت/ورځ کې اجرای کړئ):',
+    'settings.run_token_cleanup_btn'    => 'همدا اوس د ټوکينونو پاکول اجرا کړئ',
+    'settings.create_role_heading'      => 'نوی رول جوړول',
+    'settings.role_name_label'          => 'د رول نوم',
+    'settings.create_role_btn'          => 'رول جوړ کړئ',
+    'settings.existing_roles_heading'   => 'موجود رولونه او مدیریت',
+    'settings.th_actions'               => 'کړنې',
+    'settings.delete_role_confirm'      => 'آیا ډاډه یاست چې غواړئ دا رول ړنګ کړئ؟ هغه کاروونکي چې دې ته ټاکل شوي په خوندي توګه به د کاروونکي اصلي رول ته بیا وټاکل شي.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

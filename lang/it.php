@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Email',
     'feedback_schema.heading'                => 'Gestisci Schema Modulo Feedback',
     'feedback_schema.subheading'             => 'Configura campi personalizzati, tipi di dati, limiti di caratteri, sottotipi, opzioni e stile di visualizzazione.',
     'feedback_schema.settings_summary'       => 'Configura Titolo del Modulo e Testo di Disclaim',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Nessun registro di audit trovato.',
     'settings.system_guest'              => 'Sistema / Ospite',
     'settings.audit_limit_note'          => 'Visualizzazione degli ultimi 250 registri di audit.',
+    'settings.cron_maintenance_heading' => 'Manutenzione automatizzata dei token e configurazione Cron',
+    'settings.cron_maintenance_desc'    => 'Elimina i token di verifica scaduti e pulisci i collegamenti pendenti dagli account utente attivati automaticamente o manualmente.',
+    'settings.cron_command_label'       => 'Comando Cron del server suggerito (Esegui ogni ora/giornalmente):',
+    'settings.run_token_cleanup_btn'    => 'Esegui pulizia dei token adesso',
+    'settings.create_role_heading'      => 'Crea nuovo ruolo',
+    'settings.role_name_label'          => 'Nome del ruolo',
+    'settings.create_role_btn'          => 'Crea ruolo',
+    'settings.existing_roles_heading'   => 'Ruoli esistenti e gestione',
+    'settings.th_actions'               => 'Azioni',
+    'settings.delete_role_confirm'      => 'Sei sicuro di voler eliminare questo ruolo? Gli utenti ad esso assegnati verranno riassegnati in modo sicuro al ruolo utente predefinito.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

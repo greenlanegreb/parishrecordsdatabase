@@ -8,6 +8,24 @@ $root = dirname(__DIR__); // this project folder only
 $configLocal = $root . '/config.local.php';
 $lockFile = $root . '/db/INSTALL_LOCK';
 $loaderDb = $root . '/db/db.php';
+$functionsPath = $root . '/includes/functions.php';
+
+// Include functions early so we have access to language helper functions like __('...') and set_language()
+if (is_file($functionsPath)) {
+    require_once $functionsPath;
+}
+
+// Handle language selection submission right away if posted
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_lang'])) {
+    $chosenLang = preg_replace('/[^a-zA-Z_]/', '', $_POST['selected_lang']);
+    if ($chosenLang !== '') {
+        if (function_exists('set_language')) {
+            set_language($chosenLang);
+        } else {
+            $_SESSION['lang'] = $chosenLang;
+        }
+    }
+}
 
 $step = isset($_POST['step']) ? (int) $_POST['step'] : 1;
 $error = '';
@@ -169,7 +187,6 @@ function install_bootstrap_permissions(PDO $pdo): void {
     $permissions = $registry['permissions'] ?? [];
     $defaultRoles = $registry['default_roles'] ?? [];
 
-    // 1. Insert all master permissions from registry
     $insPerm = $pdo->prepare(
         'INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)'
     );
@@ -177,7 +194,6 @@ function install_bootstrap_permissions(PDO $pdo): void {
         $insPerm->execute([$key, $desc]);
     }
 
-    // 2. Map default permissions to core roles dynamically from the registry
     foreach ($defaultRoles as $roleName => $permKeys) {
         $stmt = $pdo->prepare("SELECT id FROM roles WHERE role_name = ?");
         $stmt->execute([$roleName]);
@@ -199,13 +215,20 @@ function install_bootstrap_permissions(PDO $pdo): void {
 }
 
 function install_show_complete_page(): void {
+    $completeTitle = function_exists('__') ? __('install.complete_title') : 'Installation Complete';
+    $completeHeading = function_exists('__') ? __('install.complete_heading') : 'All Done, Thank You!';
+    $completeDesc = function_exists('__') ? __('install.complete_desc') : 'Your application has been successfully installed and configured.';
+    $loginLink = function_exists('__') ? __('install.login_link') : 'Log in to your account';
+    $homeLink = function_exists('__') ? __('install.home_link') : 'Visit homepage';
+    $deleteHint = function_exists('__') ? __('install.delete_folder_hint') : 'Please remember to delete the install folder for security.';
+
     echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">';
-    echo '<title>' . htmlspecialchars(__('install.complete_title')) . '</title>';
+    echo '<title>' . htmlspecialchars($completeTitle) . '</title>';
     echo '<style>body{font-family:system-ui,sans-serif;max-width:40rem;margin:2rem auto;padding:0 1rem;line-height:1.5}</style></head><body>';
-    echo '<h1>' . htmlspecialchars(__('install.complete_heading')) . '</h1>';
-    echo '<p>' . htmlspecialchars(__('install.complete_desc')) . '</p>';
-    echo '<p><a href="../user/login.php">' . htmlspecialchars(__('install.login_link')) . '</a> · <a href="../index.php">' . htmlspecialchars(__('install.home_link')) . '</a></p>';
-    echo '<p style="font-size:0.9rem;color:#555">' . __('install.delete_folder_hint') . '</p>';
+    echo '<h1>' . htmlspecialchars($completeHeading) . '</h1>';
+    echo '<p>' . htmlspecialchars($completeDesc) . '</p>';
+    echo '<p><a href="../user/login.php">' . htmlspecialchars($loginLink) . '</a> · <a href="../index.php">' . htmlspecialchars($homeLink) . '</a></p>';
+    echo '<p style="font-size:0.9rem;color:#555">' . htmlspecialchars($deleteHint) . '</p>';
     echo '</body></html>';
     exit;
 }
@@ -254,7 +277,7 @@ if (is_file($configLocal) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
             install_show_complete_page();
         }
         $_SESSION['install_db_ok'] = true;
-        $step = 4;
+        $step = 5; // Step 5 now represents the admin user creation step
         $message = __('install.msg_db_ready');
     } catch (Throwable $e) {
         $error = __('install.err_config_load') . ' ' . $e->getMessage();
@@ -264,7 +287,11 @@ if (is_file($configLocal) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
 // ---------- POST ----------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        if ($step === 2) {
+        if ($step === 1) {
+            // Language selection completed, move to requirements check (Step 2)
+            $step = 2;
+        } elseif ($step === 2) {
+            // Requirements passed, move to database configuration (Step 3)
             $step = 3;
         } elseif ($step === 3) {
             if (!$probeOk) {
@@ -306,9 +333,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 install_import_sql($pdo, $root . '/db/seed_role_permissions.sql');
             }
 
-            $functions = $root . '/includes/functions.php';
-            if (is_file($functions)) {
-                require_once $functions;
+            if (is_file($functionsPath)) {
+                require_once $functionsPath;
             }
             $latest = install_latest_schema_version($root . '/db/migrations');
             if (function_exists('set_schema_version')) {
@@ -322,9 +348,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $_SESSION['install_db_ok'] = true;
-            $step = 4;
+            $step = 5; // Move to admin creation
             $message = __('install.msg_schema_imported');
-        } elseif ($step === 4) {
+        } elseif ($step === 5) {
             if (empty($_SESSION['install_db_ok']) || !is_file($configLocal)) {
                 throw new RuntimeException(__('install.err_complete_db_first'));
             }
@@ -383,7 +409,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             file_put_contents($lockFile, 'Installed ' . gmdate('c') . "\n");
             unset($_SESSION['install_db_ok']);
-            $step = 5;
+            $step = 6; // Final success view
             $message = __('install.msg_installation_complete');
         }
     } catch (Throwable $e) {
@@ -391,8 +417,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($step === 3 && is_file($configLocal) && empty($_SESSION['install_db_ok'])) {
             @unlink($configLocal);
         }
-        if ($step === 4) {
-            $step = 4;
+        if ($step === 5) {
+            $step = 5;
             $_SESSION['install_db_ok'] = true;
         }
     }
@@ -404,22 +430,38 @@ $logsDir = $root . '/logs';
 $logsOk = is_dir($logsDir) ? is_writable($logsDir) : is_writable($root);
 $reqsOk = $phpOk && $pdoOk && $logsOk && $probeOk;
 
-$showDbForm = ($step === 3) || ($step < 4 && empty($_SESSION['install_db_ok']) && !is_file($configLocal));
+$showDbForm = ($step === 4) || ($step === 3);
 
+// Get available languages dynamically from the lang directory
+$availableLanguages = [];
+$langDir = $root . '/lang';
+if (is_dir($langDir)) {
+    foreach (glob($langDir . '/*.php') as $langFile) {
+        $code = basename($langFile, '.php');
+        $availableLanguages[$code] = ucwords(str_replace(['_', '-'], ' ', $code));
+    }
+}
+if (empty($availableLanguages)) {
+    $availableLanguages = ['en' => 'English'];
+}
+asort($availableLanguages);
+
+$currentActiveLang = function_exists('get_active_language') ? get_active_language() : 'en';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo htmlspecialchars($currentActiveLang); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo htmlspecialchars(__('install.page_title')); ?></title>
+    <title><?php echo htmlspecialchars(__('install.page_title') ?: 'Welcome to the Installer'); ?></title>
     <style>
-        body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+        body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #333; }
         .err { background: #f8d7da; color: #721c24; padding: 0.75rem; border-radius: 4px; }
         .ok { background: #d4edda; color: #155724; padding: 0.75rem; border-radius: 4px; }
         label { display: block; margin-top: 0.75rem; font-weight: 600; }
-        input { width: 100%; padding: 0.5rem; box-sizing: border-box; margin-top: 0.25rem; }
-        button { margin-top: 1.25rem; padding: 0.6rem 1.2rem; cursor: pointer; }
+        input, select { width: 100%; padding: 0.5rem; box-sizing: border-box; margin-top: 0.25rem; }
+        button { margin-top: 1.25rem; padding: 0.6rem 1.2rem; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; font-weight: 600; }
+        button:hover { background: #0056b3; }
         ul { padding-left: 1.25rem; }
         .fail { color: #b00020; }
         .pass { color: #0a7a2f; }
@@ -427,61 +469,69 @@ $showDbForm = ($step === 3) || ($step < 4 && empty($_SESSION['install_db_ok']) &
     </style>
 </head>
 <body>
-    <h1><?php echo htmlspecialchars(__('install.heading')); ?></h1>
-    <p><?php echo __('install.subheading'); ?></p>
+    <h1><?php echo htmlspecialchars(__('install.heading') ?: 'Welcome Please!'); ?></h1>
+    <p><?php echo htmlspecialchars(__('install.subheading') ?: 'We are delighted to help you set everything up safely. Thank you for choosing our software!'); ?></p>
 
     <?php if ($error): ?>
         <p class="err"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
-    <?php if ($message && $step !== 5): ?>
+    <?php if ($message && $step !== 6): ?>
         <p class="ok"><?php echo htmlspecialchars($message); ?></p>
     <?php endif; ?>
 
-    <?php if ($step === 5): ?>
-        <h2><?php echo htmlspecialchars(__('install.done_heading')); ?></h2>
-        <p class="ok"><?php echo htmlspecialchars(__('install.done_message')); ?></p>
-        <p><a href="../user/login.php"><?php echo htmlspecialchars(__('install.login_link')); ?></a> · <a href="../index.php"><?php echo htmlspecialchars(__('install.home_link')); ?></a></p>
+    <?php if ($step === 6): ?>
+        <h2><?php echo htmlspecialchars(__('install.done_heading') ?: 'All Set Up, Thank You!'); ?></h2>
+        <p class="ok"><?php echo htmlspecialchars(__('install.done_message') ?: 'Your database and admin profile have been configured successfully.'); ?></p>
+        <p><a href="../user/login.php"><?php echo htmlspecialchars(__('install.login_link') ?: 'Please log in here'); ?></a> · <a href="../index.php"><?php echo htmlspecialchars(__('install.home_link') ?: 'Visit home page'); ?></a></p>
 
-    <?php elseif ($step === 4): ?>
-        <h2><?php echo htmlspecialchars(__('install.admin_heading')); ?></h2>
-        <p><?php echo __('install.admin_subheading'); ?></p>
+    <?php elseif ($step === 5): ?>
+        <h2><?php echo htmlspecialchars(__('install.admin_heading') ?: 'Create Administrator Account'); ?></h2>
+        <p><?php echo htmlspecialchars(__('install.admin_subheading') ?: 'Please provide details for your main administrator account below.'); ?></p>
         <form method="post">
-            <input type="hidden" name="step" value="4">
-            <label for="admin_username"><?php echo htmlspecialchars(__('install.admin_username_label')); ?></label>
+            <input type="hidden" name="step" value="5">
+            <label for="admin_username"><?php echo htmlspecialchars(__('install.admin_username_label') ?: 'Admin Username:'); ?></label>
             <input id="admin_username" name="admin_username" required autocomplete="username">
-            <label for="admin_email"><?php echo htmlspecialchars(__('install.admin_email_label')); ?></label>
+            
+            <label for="admin_email"><?php echo htmlspecialchars(__('install.admin_email_label') ?: 'Admin Email Address:'); ?></label>
             <input id="admin_email" name="admin_email" type="email" required autocomplete="email">
-            <label for="admin_password"><?php echo htmlspecialchars(__('install.admin_password_label')); ?></label>
+            
+            <label for="admin_password"><?php echo htmlspecialchars(__('install.admin_password_label') ?: 'Password (at least 8 characters please):'); ?></label>
             <input id="admin_password" name="admin_password" type="password" required autocomplete="new-password">
-            <label for="admin_password_confirm"><?php echo htmlspecialchars(__('install.admin_confirm_password_label')); ?></label>
+            
+            <label for="admin_password_confirm"><?php echo htmlspecialchars(__('install.admin_confirm_password_label') ?: 'Confirm Password please:'); ?></label>
             <input id="admin_password_confirm" name="admin_password_confirm" type="password" required autocomplete="new-password">
-            <button type="submit"><?php echo htmlspecialchars(__('install.finish_btn')); ?></button>
+            
+            <button type="submit"><?php echo htmlspecialchars(__('install.finish_btn') ?: 'Save and Complete Installation, Please'); ?></button>
         </form>
 
-    <?php elseif ($showDbForm): ?>
-        <h2><?php echo htmlspecialchars(__('install.db_heading')); ?></h2>
-        <p class="hint"><?php echo __('install.db_hint'); ?></p>
+    <?php elseif ($step === 3 || $showDbForm): ?>
+        <h2><?php echo htmlspecialchars(__('install.db_heading') ?: 'Database Connection Setup'); ?></h2>
+        <p class="hint"><?php echo htmlspecialchars(__('install.db_hint') ?: 'Please enter your MySQL database connection credentials below.'); ?></p>
         <form method="post">
             <input type="hidden" name="step" value="3">
-            <label for="db_host"><?php echo htmlspecialchars(__('install.db_host_label')); ?></label>
+            <label for="db_host"><?php echo htmlspecialchars(__('install.db_host_label') ?: 'Database Host:'); ?></label>
             <input id="db_host" name="db_host" value="127.0.0.1" required>
-            <label for="db_name"><?php echo htmlspecialchars(__('install.db_name_label')); ?></label>
+            
+            <label for="db_name"><?php echo htmlspecialchars(__('install.db_name_label') ?: 'Database Name:'); ?></label>
             <input id="db_name" name="db_name" required>
-            <label for="db_user"><?php echo htmlspecialchars(__('install.db_user_label')); ?></label>
+            
+            <label for="db_user"><?php echo htmlspecialchars(__('install.db_user_label') ?: 'Database Username:'); ?></label>
             <input id="db_user" name="db_user" required autocomplete="off">
-            <label for="db_pass"><?php echo htmlspecialchars(__('install.db_pass_label')); ?></label>
+            
+            <label for="db_pass"><?php echo htmlspecialchars(__('install.db_pass_label') ?: 'Database Password:'); ?></label>
             <input id="db_pass" name="db_pass" type="password" autocomplete="new-password">
-            <button type="submit"><?php echo htmlspecialchars(__('install.db_submit_btn')); ?></button>
+            
+            <button type="submit"><?php echo htmlspecialchars(__('install.db_submit_btn') ?: 'Test Connection and Proceed, Please'); ?></button>
         </form>
 
-    <?php else: ?>
-        <h2><?php echo htmlspecialchars(__('install.req_heading')); ?></h2>
+    <?php elseif ($step === 2): ?>
+        <h2><?php echo htmlspecialchars(__('install.req_heading') ?: 'System Requirements Check'); ?></h2>
         <ul>
-            <li class="<?php echo $phpOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(sprintf(__('install.req_php'), PHP_VERSION)); ?></li>
-            <li class="<?php echo $pdoOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(__('install.req_pdo')); ?></li>
-            <li class="<?php echo $logsOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(__('install.req_logs')); ?></li>
+            <li class="<?php echo $phpOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(sprintf(__('install.req_php') ?: 'PHP Version >= 8.0.0 (Yours is: %s)', PHP_VERSION)); ?></li>
+            <li class="<?php echo $pdoOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(__('install.req_pdo') ?: 'PDO MySQL Extension Enabled'); ?></li>
+            <li class="<?php echo $logsOk ? 'pass' : 'fail'; ?>"><?php echo htmlspecialchars(__('install.req_logs') ?: 'Logs Directory Writable'); ?></li>
             <li class="<?php echo $probeOk ? 'pass' : 'fail'; ?>">
-                <?php echo htmlspecialchars(__('install.req_probe')); ?>
+                <?php echo htmlspecialchars(__('install.req_probe') ?: 'Project Folder Write Permissions Checked'); ?>
                 <?php if (!$probeOk && $probeError): ?>
                     <br><span class="hint"><?php echo htmlspecialchars($probeError); ?></span>
                 <?php endif; ?>
@@ -490,11 +540,28 @@ $showDbForm = ($step === 3) || ($step < 4 && empty($_SESSION['install_db_ok']) &
         <?php if ($reqsOk): ?>
             <form method="post">
                 <input type="hidden" name="step" value="2">
-                <button type="submit"><?php echo htmlspecialchars(__('install.continue_btn')); ?></button>
+                <button type="submit"><?php echo htmlspecialchars(__('install.continue_btn') ?: 'Everything looks great, please continue'); ?></button>
             </form>
         <?php else: ?>
-            <p class="err"><?php echo htmlspecialchars(__('install.req_fail_msg')); ?></p>
+            <p class="err"><?php echo htmlspecialchars(__('install.req_fail_msg') ?: 'Please fix the requirements highlighted above before proceeding. Thank you!'); ?></p>
         <?php endif; ?>
+
+    <?php else: ?>
+        <!-- Step 1: Language Selection -->
+        <h2><?php echo htmlspecialchars(__('install.lang_heading') ?: 'Choose Your Preferred Language'); ?></h2>
+        <p class="hint"><?php echo htmlspecialchars(__('install.lang_hint') ?: 'Please select your preferred language for the installation process and application setup.'); ?></p>
+        <form method="post">
+            <input type="hidden" name="step" value="1">
+            <label for="selected_lang"><?php echo htmlspecialchars(__('install.lang_label') ?: 'Language Choice:'); ?></label>
+            <select id="selected_lang" name="selected_lang">
+                <?php foreach ($availableLanguages as $code => $label): ?>
+                    <option value="<?php echo htmlspecialchars($code); ?>" <?php echo ($code === $currentActiveLang) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($label); ?> (<?php echo htmlspecialchars($code); ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit"><?php echo htmlspecialchars(__('install.lang_submit_btn') ?: 'Confirm Language and Continue, Please'); ?></button>
+        </form>
     <?php endif; ?>
 </body>
 </html>

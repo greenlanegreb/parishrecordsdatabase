@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Email',
     'feedback_schema.heading'                => 'Kokambi fɔlɔ ya makanisi',
     'feedback_schema.subheading'             => 'Bongisa ba sango, lolenge ya sango, mipaka, mpe ndenge ya komonisa.',
     'feedback_schema.settings_summary'       => 'Bongisa motó ya fɔlɔ na liloba ya bosikisoki',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Logi ya bokenisi ezwama te.',
     'settings.system_guest'              => 'Ebongiseli / Migeni',
     'settings.audit_limit_note'          => 'Komonisa logi 250 ya nsuka.',
+    'settings.cron_maintenance_heading' => 'Bosikiseli ya ba Token ya Automatique & Ebongiseli ya Cron',
+    'settings.cron_maintenance_desc'    => 'Longola ba token ya botangi oyo ekɔtaki na ngambo mpe petola ba lien oyo ebatami na ba compte ya basaleli oyo basili kozwa boyokani na ndenge ya automatique to ya maboko.',
+    'settings.cron_command_label'       => 'Mitindo ya Cron ya Serveur oyo epesami na makanisi (Salela na ngonga nyonso/mokolo nyonso):',
+    'settings.run_token_cleanup_btn'    => 'Salela bopetoli ya ba Token sikoyo',
+    'settings.create_role_heading'      => 'Kela Role ya sika',
+    'settings.role_name_label'          => 'Nkombo ya Role',
+    'settings.create_role_btn'          => 'Kela Role',
+    'settings.existing_roles_heading'   => 'Ba Role oyo ezali & Bokambi',
+    'settings.th_actions'               => 'Misala',
+    'settings.delete_role_confirm'      => 'Ozali na bonbon ete olingi kolongola role oyo? Basaleli oyo bapesamaki yango bakozonga na bosikiseli na role ya mosaleli ya liboso na ndenge ya kimya.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

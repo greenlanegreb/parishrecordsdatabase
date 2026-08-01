@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Эл. почта',
     'feedback_schema.heading'                => 'Управление схемой формы обратной связи',
     'feedback_schema.subheading'             => 'Настройте пользовательские поля, типы данных, ограничения длины, подтипы, опции и отображение.',
     'feedback_schema.settings_summary'       => 'Настройка заголовка формы и текста дисклеймера',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Журналы аудита не найдены.',
     'settings.system_guest'              => 'Система / Гость',
     'settings.audit_limit_note'          => 'Показаны последние 250 записей журнала аудита.',
+    'settings.cron_maintenance_heading' => 'Автоматическое обслуживание токенов и настройка Cron',
+    'settings.cron_maintenance_desc'    => 'Удаление истекших токенов подтверждения и очистка зависших ссылок у активированных учетных записей пользователей автоматически или вручную.',
+    'settings.cron_command_label'       => 'Рекомендуемая команда Cron для сервера (запускать каждый час/ежедневно):',
+    'settings.run_token_cleanup_btn'    => 'Запустить очистку токенов сейчас',
+    'settings.create_role_heading'      => 'Создать новую роль',
+    'settings.role_name_label'          => 'Имя роли',
+    'settings.create_role_btn'          => 'Создать роль',
+    'settings.existing_roles_heading'   => 'Существующие роли и управление',
+    'settings.th_actions'               => 'Действия',
+    'settings.delete_role_confirm'      => 'Вы уверены, что хотите удалить эту роль? Пользователи, которым она назначена, будут безопасно переведены на роль пользователя по умолчанию.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

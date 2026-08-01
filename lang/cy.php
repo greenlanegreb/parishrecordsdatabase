@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'E-bost',
     'feedback_schema.heading'                => 'Rheoli Sgema Ffurflen Adborth',
     'feedback_schema.subheading'             => 'Ffurfweddu meysydd personol, mathau data, terfynau nodau, is-fathau, opsiynau, a gosodiadau cyffredinol cyflwyno ffurflenni.',
     'feedback_schema.settings_summary'       => 'Ffurfweddu Teitl y Ffurflen a Thestun Cyflwyno',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Heb ddod o hyd i gofnodion log archwilio.',
     'settings.system_guest'              => 'System / Gweste',
     'settings.audit_limit_note'          => 'Yn dangos y 250 cofnod log archwilio mwyaf diweddar.',
+    'settings.cron_maintenance_heading' => 'Cynnal a Cadw Tocynnau Awtomatig a Gosodiad Cron',
+    'settings.cron_maintenance_desc'    => 'Gwaredu tocynnau dilysu sy wedi dod i ben a glanhau cysylltiadau crog o gyfrifon defnyddwyr yn awtomatig neu â llaw.',
+    'settings.cron_command_label'       => 'Gorchymyn Cron Gweinydd Awgrymedig (Rhedeg bob awr/dydd):',
+    'settings.run_token_cleanup_btn'    => 'Glanhau Tocynnau Nawr',
+    'settings.create_role_heading'      => 'Creu Rôl Newydd',
+    'settings.role_name_label'          => 'Enw Rôl',
+    'settings.create_role_btn'          => 'Creu Rôl',
+    'settings.existing_roles_heading'   => 'Rolau Presennol a Rheolaeth',
+    'settings.th_actions'               => 'Gweithredoedd',
+    'settings.delete_role_confirm'      => 'Ydych chi\'n siŵr eich bod am ddileu\'r rôl hon? Bydd defnyddwyr sydd wedi\'u dynodi iddi yn cael eu hadleoli yn ddiogel i rôl ddiofyn y defnyddiwr.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Eメール',
     'feedback_schema.heading'                => 'フィードバックフォーム構造管理',
     'feedback_schema.subheading'             => 'カスタムフィールド、データ型、文字数制限、サブタイプ、オプション、および表示設定を設定します。',
     'feedback_schema.settings_summary'       => 'フォームのタイトルと免責事項テキストを設定',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => '監査ログが見つかりませんでした。',
     'settings.system_guest'              => 'システム / ゲスト',
     'settings.audit_limit_note'          => '直近の250件の監査ログを表示しています。',
+    'settings.cron_maintenance_heading' => '自動トークンメンテナンスとCron設定',
+    'settings.cron_maintenance_desc'    => '期限切れの確認トークンを削除し、有効化されたユーザーアカウントからぶら下がっているリンクを自動または手動でクリーンアップします。',
+    'settings.cron_command_label'       => '推奨されるサーバーCronコマンド（毎時/毎日実行）:',
+    'settings.run_token_cleanup_btn'    => '今すぐトークンをクリーンアップ',
+    'settings.create_role_heading'      => '新しい役割の作成',
+    'settings.role_name_label'          => '役割名',
+    'settings.create_role_btn'          => '役割を作成',
+    'settings.existing_roles_heading'   => '既存の役割と管理',
+    'settings.th_actions'               => 'アクション',
+    'settings.delete_role_confirm'      => 'この役割を削除してもよろしいですか？割り当てられているユーザーは、安全にデフォルトのユーザーロールに再割り当てされます。',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

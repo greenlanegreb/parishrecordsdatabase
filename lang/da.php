@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Email',
     'feedback_schema.heading'                => 'Administrer skema for feedbackformular',
     'feedback_schema.subheading'             => 'Konfigurer brugerdefinerede felter, datatyper, længdegrænser, undertyper, indstillinger og visningsstil.',
     'feedback_schema.settings_summary'       => 'Konfigurer formulartitel og ansvarsfraskrivelse',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Ingen aktivitetslogs fundet.',
     'settings.system_guest'              => 'System / Gæst',
     'settings.audit_limit_note'          => 'Viser de sidste 250 aktivitetslogposter.',
+    'settings.cron_maintenance_heading' => 'Automatisk token-vedligeholdelse og Cron-opsætning',
+    'settings.cron_maintenance_desc'    => 'Ryd ud i udløbne verifikationstokens og rens ufuldstændige links fra aktiverede brugerkonti automatisk eller manuelt.',
+    'settings.cron_command_label'       => 'Foreslået server Cron-kommando (Kør hver time/dag):',
+    'settings.run_token_cleanup_btn'    => 'Kør token-oprydning nu',
+    'settings.create_role_heading'      => 'Opret ny rolle',
+    'settings.role_name_label'          => 'Rollenavn',
+    'settings.create_role_btn'          => 'Opret rolle',
+    'settings.existing_roles_heading'   => 'Eksisterende roller og håndtering',
+    'settings.th_actions'               => 'Handlinger',
+    'settings.delete_role_confirm'      => 'Er du sikker på, at du vil slette denne rolle? Brugere, der er tildelt den, vil sikkert blive tildelt standardbrugerrollen igen.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

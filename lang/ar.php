@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'البريد الإلكتروني',
     'feedback_schema.heading'                => 'إدارة مخطط نموذج التعليقات',
     'feedback_schema.subheading'             => 'تكوين الحقول المخصصة، أنواع البيانات، حدود الأحرف، الأنواع الفرعية، الخيارات، وإعدادات عرض النموذج العامة.',
     'feedback_schema.settings_summary'       => 'تكوين عنوان النموذج ونص المقدمة',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'لم يتم العثور على إدخالات في سجل التدقيق.',
     'settings.system_guest'              => 'النظام / ضيف',
     'settings.audit_limit_note'          => 'عرض أحدث 250 إدخالاً في سجل التدقيق.',
+    'settings.cron_maintenance_heading' => 'صيانة الرموز التلقائية وإعداد Cron',
+    'settings.cron_maintenance_desc'    => 'حذف الرموز التلقائية منتهية الصلاحية وتنظيف الروابط المعلقة من حسابات المستخدمين النشطة تلقائياً أو يدوياً.',
+    'settings.cron_command_label'       => 'أمر Cron المقترح للخادم (يُشغّل كل ساعة أو يومياً):',
+    'settings.run_token_cleanup_btn'    => 'تشغيل تنظيف الرموز الآن',
+    'settings.create_role_heading'      => 'إنشاء دور جديد',
+    'settings.role_name_label'          => 'اسم الدور',
+    'settings.create_role_btn'          => 'إنشاء الدور',
+    'settings.existing_roles_heading'   => 'الأدوار الحالية والإدارة',
+    'settings.th_actions'               => 'الإجراءات',
+    'settings.delete_role_confirm'      => 'هل أنت متأكد من رغبتك في حذف هذا الدور؟ سيتم إعادة تعيين المستخدمين المعينين له بأمان إلى دور المستخدم الافتراضي.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

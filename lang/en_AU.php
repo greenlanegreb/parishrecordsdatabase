@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Email',
     'feedback_schema.heading'                => 'Manage Feedback Form Schema',
     'feedback_schema.subheading'             => 'Configure custom fields, data types, length limits, subtypes, options, and rendering style.',
     'feedback_schema.settings_summary'       => 'Configure Form Title & Disclaimer Text',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'No audit logs found.',
     'settings.system_guest'              => 'System / Guest',
     'settings.audit_limit_note'          => 'Showing last 250 audit log entries.',
+    'settings.cron_maintenance_heading' => 'Automated Token Maintenance & Cron Setup',
+    'settings.cron_maintenance_desc'    => 'Automatically or manually clean up expired verification tokens and clear pending links from activated user accounts.',
+    'settings.cron_command_label'       => 'Suggested Server Cron Command (Run hourly/daily):',
+    'settings.run_token_cleanup_btn'    => 'Run Token Cleanup Now',
+    'settings.create_role_heading'      => 'Create New Role',
+    'settings.role_name_label'          => 'Role Name',
+    'settings.create_role_btn'          => 'Create Role',
+    'settings.existing_roles_heading'   => 'Existing Roles & Management',
+    'settings.th_actions'               => 'Actions',
+    'settings.delete_role_confirm'      => 'Are you sure you want to delete this role? Users assigned to it will be safely reassigned to the default user role.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

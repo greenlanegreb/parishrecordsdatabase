@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Target string to look for and move
+TARGET_STRING="'feedback_schema.th_id'"
+
+# Loop through all php files in the current directory
+for file in *.php; do
+    if [ -f "$file" ]; then
+        # Check if the target string exists in the file
+        if grep -q "$TARGET_STRING" "$file"; then
+            echo "Processing: $file"
+
+            # 1. Remove all existing instances of this line to prevent duplicates
+            grep -v "$TARGET_STRING" "$file" > "$file.tmp"
+
+            # 2. Insert the string right at line 143
+            sed -i '143i \    '"$TARGET_STRING"' => '\''ID'\'',' "$file.tmp"
+
+            # 3. Replace the original file with the modified temp file
+            mv "$file.tmp" "$file"
+        fi
+    fi
+done
+
+echo "Done! All language files in this directory have been updated."

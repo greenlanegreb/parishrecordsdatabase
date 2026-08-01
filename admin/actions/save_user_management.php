@@ -1,5 +1,5 @@
 <?php
-// admin/actions/save_user_management.php - Handles user moderation, score overrides, role changes, email updates, and invitation/password resets
+// admin/actions/save_user_management.php - Handles user moderation, score overrides, role changes, email updates, invitation/password resets, and deletions
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../db/mail_helper.php';
@@ -58,11 +58,11 @@ try {
     // Fallback safely to ID 1
 }
 
-// Prevent modifying the protected primary admin account via actions
+// Prevent modifying or deleting the protected primary admin account server-side
 $is_target_first_admin = ($target_user_id === $first_admin_id);
-if ($is_target_first_admin && in_array($action, ['change_role', 'suspend'])) {
+if ($is_target_first_admin && in_array($action, ['change_role', 'suspend', 'delete'])) {
     http_response_code(403);
-    $_SESSION['error'] = "Security Error: The primary system administrator account cannot have its role changed or be suspended.";
+    $_SESSION['error'] = "Security Error: The primary system administrator account cannot be modified or deleted.";
     header('Location: ../users.php');
     exit;
 }
@@ -209,6 +209,21 @@ try {
 
             $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'REACTIVATE_USER', ?, ?)");
             $audit->execute([$current_user['id'], "Reactivated user account: {$target_user['username']}", $_SERVER['REMOTE_ADDR']]);
+            break;
+
+        case 'delete':
+            if ($target_user_id === intval($current_user['id'])) {
+                $_SESSION['error'] = "You cannot delete your own active administrative account.";
+                break;
+            }
+
+            $del = $pdo->prepare("DELETE FROM users WHERE id = ?");
+            $del->execute([$target_user_id]);
+
+            $_SESSION['message'] = "User '{$target_user['username']}' has been permanently deleted.";
+
+            $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'DELETE_USER', ?, ?)");
+            $audit->execute([$current_user['id'], "Permanently deleted user account: {$target_user['username']}", $_SERVER['REMOTE_ADDR']]);
             break;
 
         case 'reset_2fa':

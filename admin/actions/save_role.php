@@ -29,7 +29,7 @@ if (isset($_POST['delete_role_id'])) {
     } else {
         // Find default 'user' role ID to reassign orphaned users safely
         $default_r = $pdo->query("SELECT id FROM roles WHERE role_name = 'user' LIMIT 1")->fetch(PDO::FETCH_COLUMN);
-        $fallback_role_id = $default_r ? $default_r . id : 2; // Default fallback ID 2
+        $fallback_role_id = $default_r ? intval($default_r) : 2; // Default fallback ID 2
         
         $pdo->beginTransaction();
         try {

@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Email',
     'feedback_schema.heading'                => 'Sort Ticket Form Blueprint',
     'feedback_schema.subheading'             => 'Set up custom fields, data types, character ceilings, subtypes, options, and how they look.',
     'feedback_schema.settings_summary'       => 'Sort Form Title & Disclaimer Small Print',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'No audit logs found on CCTV.',
     'settings.system_guest'              => 'System / Random Guest',
     'settings.audit_limit_note'          => 'Showing the last 250 CCTV audit log entries.',
+    'settings.cron_maintenance_heading' => 'Proper Automated Token Maintins & Cron Setup, Safe G',
+    'settings.cron_maintenance_desc'    => 'Bin them expired verification tokens and sort out any pendin links from bare accounts that got activated by themselves or proper manually.',
+    'settings.cron_command_label'       => 'Proper Lex Buff Server Cron Command (Run every hour or daily, blud):',
+    'settings.run_token_cleanup_btn'    => 'Run Token Scrub Right Now',
+    'settings.create_role_heading'      => 'Drop a New Role',
+    'settings.role_name_label'          => 'Role Name Bruv',
+    'settings.create_role_btn'          => 'Make the Role',
+    'settings.existing_roles_heading'   => 'Current Roles & Management',
+    'settings.th_actions'               => 'Moves',
+    'settings.delete_role_confirm'      => 'You dead-ass sure you wanna scrap this role? Anyone stuck on it will get safely banged back over to the standard default user tier.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

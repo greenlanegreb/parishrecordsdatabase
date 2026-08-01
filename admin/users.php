@@ -1,5 +1,5 @@
 <?php
-// admin/users.php - Admin interface view for user account management
+// admin/users.php - Admin interface view for user account management and invitations
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
@@ -15,7 +15,13 @@ $current_user = require_admin_page($pdo, 'manage_users', 'Manage user accounts, 
 $message = $GLOBALS['message'] ?? '';
 $error   = $GLOBALS['error']   ?? '';
 
-// Determine the first admin user ID dynamically (the earliest created user with the 'admin' role, fallback to ID 1)
+// Catch pre-filled data from volunteer portal bridge if present
+$prefill_email = trim($_GET['email'] ?? '');
+$prefill_first = trim($_GET['first_name'] ?? '');
+$prefill_surname = trim($_GET['surname'] ?? '');
+$volunteer_id  = intval($_GET['volunteer_id'] ?? 0);
+
+// Determine the first admin user ID dynamically
 $first_admin_id = 1;
 try {
     $fa_stmt = $pdo->query("
@@ -29,9 +35,7 @@ try {
     if ($fa_id) {
         $first_admin_id = intval($fa_id);
     }
-} catch (Exception $e) {
-    // Fallback safely to ID 1 if query fails
-}
+} catch (Exception $e) {}
 
 // Fetch users with their dynamic role names
 $users_stmt = $pdo->query("
@@ -42,7 +46,7 @@ $users_stmt = $pdo->query("
 ");
 $users = $users_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch all available roles for the role-change dropdown
+// Fetch all available roles for dropdowns
 $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <?php require_once '../partials/header.php'; ?>
@@ -55,7 +59,6 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
         </div>
         <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
             <a href="manage_user_emails.php" class="btn btn-secondary" style="text-decoration: none;">✉️ <?php echo htmlspecialchars(__('admin_users.manage_templates_btn')); ?></a>
-            <a href="create_user.php" class="btn" style="text-decoration: none;">➕ <?php echo htmlspecialchars(__('admin_users.invite_user_btn')); ?></a>
         </div>
     </div>
 
@@ -65,6 +68,58 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
     <?php if (!empty($message)): ?>
         <p class="alert-success" role="status"><strong><?php echo htmlspecialchars($message); ?></strong></p>
     <?php endif; ?>
+
+    <!-- Integrated Inline Invite User Accordion -->
+    <details id="invite-user-section" style="background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem 1.25rem; margin-bottom: 2rem;" <?php echo ($volunteer_id > 0) ? 'open' : ''; ?>>
+        <summary style="cursor: pointer; font-weight: bold; color: #333; font-size: 1.1rem; outline: none;">
+            ➕ <?php echo htmlspecialchars(__('create_user.heading')); ?>
+        </summary>
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <p style="margin-top: 0; color: #555; font-size: 0.95rem;"><?php echo htmlspecialchars(__('create_user.subheading')); ?></p>
+            <form method="POST" action="actions/save_user.php" style="max-width: 600px;">
+                <?php echo csrf_field(); ?>
+                <?php if ($volunteer_id > 0): ?>
+                    <input type="hidden" name="volunteer_id" value="<?php echo $volunteer_id; ?>">
+                <?php endif; ?>
+
+                <!-- First Name & Surname -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="flex: 1;">
+                        <label for="first_name"><strong><?php echo htmlspecialchars(__('create_user.first_name')); ?></strong></label><br>
+                        <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($prefill_first); ?>" class="profile-input" style="width:100%; padding:0.4rem;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="surname"><strong><?php echo htmlspecialchars(__('create_user.surname')); ?></strong></label><br>
+                        <input type="text" id="surname" name="surname" value="<?php echo htmlspecialchars($prefill_surname); ?>" class="profile-input" style="width:100%; padding:0.4rem;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label for="username"><strong><?php echo htmlspecialchars(__('create_user.username_label')); ?></strong></label><br>
+                    <input type="text" id="username" name="username" placeholder="<?php echo htmlspecialchars(__('create_user.username_placeholder')); ?>" class="profile-input" style="width:100%; padding:0.4rem;">
+                    <small style="color:#666;"><?php echo htmlspecialchars(__('create_user.username_help')); ?></small>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label for="email"><strong><?php echo htmlspecialchars(__('create_user.email_label')); ?></strong> <span style="color:red;">*</span></label><br>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($prefill_email); ?>" required class="profile-input" style="width:100%; padding:0.4rem;">
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="role_id"><strong><?php echo htmlspecialchars(__('create_user.role_label')); ?></strong></label><br>
+                    <select id="role_id" name="role_id" class="profile-input suggest-edit-select" style="width:100%; padding:0.4rem;">
+                        <?php foreach ($roles_list as $r): ?>
+                            <option value="<?php echo $r['id']; ?>" <?php echo ($r['role_name'] === 'user') ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars(ucwords($r['role_name'])); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn"><?php echo htmlspecialchars(__('create_user.submit_btn')); ?></button>
+            </form>
+        </div>
+    </details>
 
     <div style="overflow-x: auto;">
         <table class="data-table" role="table" style="width: 100%; border-collapse: collapse;">
@@ -160,7 +215,7 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                         <button type="submit" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Send password reset to <?php echo htmlspecialchars($u['username']); ?>"><?php echo htmlspecialchars(__('admin_users.reset_password_btn')); ?></button>
                                     </form>
 
-                                    <!-- Suspension Toggle Button (Prevent suspending the primary admin too) -->
+                                    <!-- Suspension Toggle Button & Delete Button -->
                                     <?php if ($u['id'] !== intval($current_user['id']) && !$is_first_admin): ?>
                                         <?php if ($u['is_active']): ?>
                                             <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('<?php echo htmlspecialchars(__('admin_users.suspend_confirm')); ?>');" style="display:inline;">
@@ -177,6 +232,14 @@ $roles_list = $pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC")->fe
                                                 <button type="submit" class="btn btn-reactivate" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Reactivate <?php echo htmlspecialchars($u['username']); ?>"><?php echo htmlspecialchars(__('admin_users.reactivate_btn')); ?></button>
                                             </form>
                                         <?php endif; ?>
+
+                                        <!-- Permanent Clean Delete Button -->
+                                        <form method="POST" action="actions/save_user_management.php" onsubmit="return confirm('Are you sure you want to permanently delete user <?php echo htmlspecialchars($u['username']); ?>? This action cannot be undone.');" style="display:inline;">
+                                            <?php echo csrf_field(); ?>
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="target_user_id" value="<?php echo $u['id']; ?>">
+                                            <button type="submit" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;" aria-label="Delete <?php echo htmlspecialchars($u['username']); ?>">Delete</button>
+                                        </form>
                                     <?php endif; ?>
 
                                     <!-- 2FA Reset / Disable Button -->

@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => '电子邮件',
     'feedback_schema.heading'                => '反馈表单结构管理',
     'feedback_schema.subheading'             => '配置自定义字段、数据类型、字符限制、子类型、选项和显示设置。',
     'feedback_schema.settings_summary'       => '配置表单标题和免责声明文本',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => '未找到任何审计日志。',
     'settings.system_guest'              => '系统 / 访客',
     'settings.audit_limit_note'          => '显示最近 250 条审计日志。',
+    'settings.cron_maintenance_heading' => '自动化令牌维护与 Cron 设置',
+    'settings.cron_maintenance_desc'    => '清理过期的验证令牌，并自动或手动清除已激活用户账号中的挂起链接。',
+    'settings.cron_command_label'       => '建议的服务器 Cron 命令（每小时/每天运行）：',
+    'settings.run_token_cleanup_btn'    => '立即运行令牌清理',
+    'settings.create_role_heading'      => '创建新角色',
+    'settings.role_name_label'          => '角色名称',
+    'settings.create_role_btn'          => '创建角色',
+    'settings.existing_roles_heading'   => '现有角色与管理',
+    'settings.th_actions'               => '操作',
+    'settings.delete_role_confirm'      => '确定要删除此角色吗？分配给该角色的用户将被安全地重新分配到默认用户角色。',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

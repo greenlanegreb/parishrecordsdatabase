@@ -11,3 +11,5 @@ db/INSTALL_LOCK
 config.local.php
 scan_keys.php
 missing_keys_report.txt
+lang/fix_lang.sh
+lang.bk

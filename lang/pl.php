@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Email',
     'feedback_schema.heading'                => 'Zarządzaj schematem formularza opinii',
     'feedback_schema.subheading'             => 'Skonfiguruj pola niestandardowe, typy danych, limity długości, podtypy, opcje i styl wyświetlania.',
     'feedback_schema.settings_summary'       => 'Skonfiguruj tytuł formularza i tekst klauzuli wyłączenia odpowiedzialności',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Nie znaleziono dzienników audytu.',
     'settings.system_guest'              => 'System / Gość',
     'settings.audit_limit_note'          => 'Wyświetlanie ostatnich 250 wpisów dziennika audytu.',
+    'settings.cron_maintenance_heading' => 'Automatyczna konserwacja tokenów i konfiguracja Cron',
+    'settings.cron_maintenance_desc'    => 'Usuwaj wygasłe tokeny weryfikacyjne i czyść nieaktywne linki z aktywowanych kont użytkowników automatycznie lub ręcznie.',
+    'settings.cron_command_label'       => 'Sugerowane polecenie Cron serwera (Uruchamiaj co godzinę/codziennie):',
+    'settings.run_token_cleanup_btn'    => 'Uruchom czyszczenie tokenów teraz',
+    'settings.create_role_heading'      => 'Utwórz nową rolę',
+    'settings.role_name_label'          => 'Nazwa roli',
+    'settings.create_role_btn'          => 'Utwórz rolę',
+    'settings.existing_roles_heading'   => 'Istniejące role i zarządzanie',
+    'settings.th_actions'               => 'Akcje',
+    'settings.delete_role_confirm'      => 'Czy na pewno chcesz usunąć tę rolę? Przypisani do niej użytkownicy zostaną bezpiecznie przeniesieni do domyślnej roli użytkownika.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

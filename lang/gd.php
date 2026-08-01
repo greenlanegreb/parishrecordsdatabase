@@ -141,6 +141,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Post-d',
     'feedback_schema.heading'                => 'Stiùirich sgeama foirm fios air ais',
     'feedback_schema.subheading'             => 'Rèitich raointean gnàthaichte, seòrsaichean dàta, crìochan litrichean, fo-sheòrsaichean, roghainnean, agus taisbeanadh.',
     'feedback_schema.settings_summary'       => 'Rèitich tiotal a\' fhoirm agus teacsa àicheadh',
@@ -418,6 +420,16 @@ return [
     'settings.no_audit_logs'             => 'Cha deach log sgrùdaidh a lorg.',
     'settings.system_guest'              => 'Siostam / Aoigh',
     'settings.audit_limit_note'          => 'A\' sealltainn an 250 log sgrùdaidh mu dheireadh.',
+    'settings.cron_maintenance_heading' => 'Càradh Chomharran Fèin-obrachail & Suidheachadh Cron',
+    'settings.cron_maintenance_desc'    => 'Glan comharran dearbhaidh a dh’fhalbh an ùine agus cuir às do cheanglaichean crochte bho chunntasan luchd-cleachdaidh a chaidh an gnìomhachadh gu fèin-obrachail no le làimh.',
+    'settings.cron_command_label'       => 'Àithne Cron an Fhefrabhais a chaidh a mholadh (Ruith gach uair/làitheil):',
+    'settings.run_token_cleanup_btn'    => 'Ruith Glanadh nan Comharran An-dràsta',
+    'settings.create_role_heading'      => 'Cruthaich Dreuchd Ur',
+    'settings.role_name_label'          => 'Ainm na Dreuchd',
+    'settings.create_role_btn'          => 'Cruthaich an Dreuchd',
+    'settings.existing_roles_heading'   => 'Dreuchdan a tha ann & Stiùireadh',
+    'settings.th_actions'               => 'Gnìomhan',
+    'settings.delete_role_confirm'      => 'A bheil thu cinnte gu bheil thu airson an dreuchd seo a sguabadh às? Thèid luchd-cleachdaidh a chaidh an sònrachadh dhi ath-shònrachadh gu sàbhailte chun dreuchd cleachdaiche bunaiteach.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

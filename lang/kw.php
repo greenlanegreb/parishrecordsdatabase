@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'Postel elettronnek',
     'feedback_schema.heading'                => 'Skantlya Schema Form Notennow',
     'feedback_schema.subheading'             => 'Settya barrennow reys, sorasow data, fyttys karakter, ha reaghys form.',
     'feedback_schema.settings_summary'       => 'Settya hanow form & kynsa termyn',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'Nyns eus kontys iniuch kevys.',
     'settings.system_guest'              => 'Kevreyth / Gwest',
     'settings.audit_limit_note'          => 'Diskwedhes an 250 kontys iniuch diwettha.',
+    'settings.cron_maintenance_heading' => 'Gwithans Tokenow Emgekrys & Settyans Cron',
+    'settings.cron_maintenance_desc'    => 'Gwiria tokenow gwiriaseth re dhevedhys aga prys ha skwardya kevrennowk bit mysk kontsys devnydhoryon gweythys yn emgekrys po der an dorn.',
+    'settings.cron_command_label'       => '_arghadow Cron Servor Geryrys (Gweyth lowr pub eur/deyth):',
+    'settings.run_token_cleanup_btn'    => 'Gweyth Skwardya Tokenow Lemmyn',
+    'settings.create_role_heading'      => 'Gwruthyl Gonis Nowyth',
+    'settings.role_name_label'          => 'Hanow an Gonis',
+    'settings.create_role_btn'          => 'Gwruthyl Gonis',
+    'settings.existing_roles_heading'   => 'Gonisyow an Nor & Menystrans',
+    'settings.th_actions'               => 'Oberyow',
+    'settings.delete_role_confirm'      => 'A wscowgh hwi hwath a vynn distruj an gonis ma? Devnydhoryon re dhedhys dhe vos settys dhe gonis an devnydhyer usadow yn saw.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

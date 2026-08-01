@@ -34,12 +34,12 @@ $role_name = $valid_role ? $valid_role['role_name'] : 'user';
 
 if (empty($email)) {
     $_SESSION['error'] = "Email address is a required field.";
-    header('Location: ../create_user.php');
+    header('Location: ../users.php');
     exit;
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $_SESSION['error'] = "Invalid email format.";
-    header('Location: ../create_user.php');
+    header('Location: ../users.php');
     exit;
 }
 
@@ -47,7 +47,7 @@ $chk_email = $pdo->prepare("SELECT id FROM users WHERE email = ?");
 $chk_email->execute([$email]);
 if ($chk_email->fetch()) {
     $_SESSION['error'] = "A user account with that email address already exists.";
-    header('Location: ../create_user.php');
+    header('Location: ../users.php');
     exit;
 }
 
@@ -130,5 +130,5 @@ if ($ins->execute([$username, $first_name, $surname, $email, '', $role_id, $toke
     $_SESSION['error'] = "Database insertion failed.";
 }
 
-header('Location: ../create_user.php');
+header('Location: ../users.php');
 exit;

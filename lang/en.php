@@ -140,6 +140,8 @@ return [
 // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                 => 'ID',
+    'feedback_schema.th_email'              => 'Email',
     'feedback_schema.heading'               => 'Feedback Form Schema Management',
     'feedback_schema.subheading'            => 'Configure custom fields, data types, character limits, sub-types, options, and general form presentation settings.',
     'feedback_schema.settings_summary'      => 'Configure Form Title & Introduction Text',
@@ -421,6 +423,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Purge expired verification tokens and clean up dangling links from activated user accounts automatically or manually.',
     'settings.cron_command_label'       => 'Suggested Server Cron Command (Run hourly/daily):',
     'settings.run_token_cleanup_btn'    => 'Run Token Cleanup Now',
+    'settings.create_role_heading'      => 'Create New Role',
+    'settings.role_name_label'          => 'Role Name',
+    'settings.create_role_btn'          => 'Create Role',
+    'settings.existing_roles_heading'   => 'Existing Roles & Management',
+    'settings.th_actions'               => 'Actions',
+    'settings.delete_role_confirm'      => 'Are you sure you want to delete this role? Users assigned to it will be safely reassigned to the default user role.',
+
 
 // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation

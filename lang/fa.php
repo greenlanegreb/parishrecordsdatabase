@@ -140,6 +140,8 @@ return [
     // ------------------------------------------------------------------
     // Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
+    'feedback_schema.th_id'                  => 'ID',
+    'feedback_schema.th_email'               => 'ایمیل',
     'feedback_schema.heading'                => 'مدیریت طرح فرم بازخورد',
     'feedback_schema.subheading'             => 'پیکربندی فیلدهای سفارشی، انواع داده، محدودیت‌های کاراکتر، زیرنوع‌ها، گزینه‌ها و تنظیمات کلی نمایش فرم.',
     'feedback_schema.settings_summary'       => 'پیکربندی عنوان فرم و متن مقدمه',
@@ -417,6 +419,16 @@ return [
     'settings.no_audit_logs'             => 'هیچ ورودی گزارش حسابرسی یافت نشد.',
     'settings.system_guest'              => 'سیستم / مهمان',
     'settings.audit_limit_note'          => 'نمایش ۲۵۰ ورودی آخر گزارش حسابرسی.',
+    'settings.cron_maintenance_heading' => 'نگهداری خودکار توکن‌ها و تنظیمات کرون (Cron)',
+    'settings.cron_maintenance_desc'    => 'پاکسازی توکن‌های تأیید منقضی شده و حذف پیوندهای معلق از حساب‌های کاربری فعال به صورت خودکار یا دستی.',
+    'settings.cron_command_label'       => 'دستور پیشنهادی کرون سرور (اجرا به صورت ساعتی/روزانه):',
+    'settings.run_token_cleanup_btn'    => 'اجرای پاکسازی توکن‌ها اکنون',
+    'settings.create_role_heading'      => 'ایجاد نقش جدید',
+    'settings.role_name_label'          => 'نام نقش',
+    'settings.create_role_btn'          => 'ایجاد نقش',
+    'settings.existing_roles_heading'   => 'نقش‌های موجود و مدیریت',
+    'settings.th_actions'               => 'عملیات',
+    'settings.delete_role_confirm'      => 'آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟ کاربرانی که به آن اختصاص یافته‌اند، به طور ایمن به نقش پیش‌فرض کاربر بازگردانده خواهند شد.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
