@@ -21,13 +21,13 @@ $action  = $_POST['action'] ?? '';
 
 // 0. Handle Personal Details Update Request
 if ($action === 'update_personal_details') {
-    $first_name   = trim($_POST['first_name'] ?? '');
-    $surname      = trim($_POST['surname'] ?? '');
+    $first_name    = trim($_POST['first_name'] ?? '');
+    $surname       = trim($_POST['surname'] ?? '');
     $display_mode = trim($_POST['attribution_display_mode'] ?? 'initials_random');
-    $timezone     = trim($_POST['timezone'] ?? 'UTC');
+    $timezone      = trim($_POST['timezone'] ?? 'UTC');
     $date_format  = trim($_POST['date_format'] ?? 'd/m/Y');
     $time_format  = trim($_POST['time_format'] ?? '24');
-    $language     = preg_replace('/[^a-z_]/', '', strtolower(trim($_POST['language'] ?? '')));
+    $language      = preg_replace('/[^a-z_]/', '', strtolower(trim($_POST['language'] ?? '')));
 
     $allowed_modes = ['full_name', 'volunteers_only', 'initials_random'];
     if (!in_array($display_mode, $allowed_modes)) {
@@ -88,7 +88,7 @@ elseif ($action === 'update_email') {
         } else {
             $token = bin2hex(random_bytes(32));
             $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
-            $upd = $pdo->prepare("UPDATE users SET email = ?, email_verified = 0, verification_token = ?, token_expires_at = ? WHERE id = ?");
+            $upd = $pdo->prepare("UPDATE users SET email = ?, email_verified = 0, invite_token = ?, invite_expires_at = ? WHERE id = ?");
             if ($upd->execute([$new_email, $token, $expires, $user_id])) {
                 if (send_user_invitation($pdo, $new_email, $token)) {
                     $_SESSION['message'] = "Email updated successfully! A verification link has been sent to your new address.";

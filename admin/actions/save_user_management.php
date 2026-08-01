@@ -128,11 +128,11 @@ try {
             break;
 
         case 'send_password_reset':
-        case 'resend_invite':
             $token = bin2hex(random_bytes(32));
             $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
             
-            $upd = $pdo->prepare("UPDATE users SET verification_token = ?, token_expires_at = ? WHERE id = ?");
+            // Uses reset_token column for password reset requests
+            $upd = $pdo->prepare("UPDATE users SET reset_token = ?, reset_expires_at = ? WHERE id = ?");
             $upd->execute([$token, $expires, $target_user_id]);
 
             // Fetch target user email, username, and role details
@@ -141,7 +141,6 @@ try {
             $u_data = $u_det->fetch(PDO::FETCH_ASSOC);
 
             if ($u_data && !empty($u_data['email'])) {
-                // Pass 'password_reset' trigger event so it uses the distinct password reset template
                 send_user_invitation($pdo, $u_data['email'], $token, [
                     'first_name' => $u_data['username'],
                     'surname'    => '',
@@ -149,11 +148,39 @@ try {
                     'role_name'  => $u_data['role_name'] ?? 'User'
                 ], 'password_reset');
 
-                $action_label = ($action === 'send_password_reset') ? 'Password reset link' : 'Invitation email';
-                $_SESSION['message'] = "{$action_label} successfully dispatched to '{$u_data['username']}'.";
+                $_SESSION['message'] = "Password reset link successfully dispatched to '{$u_data['username']}'.";
 
-                $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, ?, ?, ?)");
-                $audit->execute([$current_user['id'], strtoupper($action), "Dispatched {$action} to user: {$u_data['username']}", $_SERVER['REMOTE_ADDR']]);
+                $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'SEND_PASSWORD_RESET', ?, ?)");
+                $audit->execute([$current_user['id'], "Dispatched password reset link to user: {$u_data['username']}", $_SERVER['REMOTE_ADDR']]);
+            } else {
+                $_SESSION['error'] = "Could not find a valid email address for this user.";
+            }
+            break;
+
+        case 'resend_invite':
+            $token = bin2hex(random_bytes(32));
+            $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
+            
+            // Uses invite_token column for invitations
+            $upd = $pdo->prepare("UPDATE users SET invite_token = ?, invite_expires_at = ? WHERE id = ?");
+            $upd->execute([$token, $expires, $target_user_id]);
+
+            $u_det = $pdo->prepare("SELECT u.email, u.username, r.role_name FROM users u LEFT JOIN roles r ON u.role_id = r.id WHERE u.id = ?");
+            $u_det->execute([$target_user_id]);
+            $u_data = $u_det->fetch(PDO::FETCH_ASSOC);
+
+            if ($u_data && !empty($u_data['email'])) {
+                send_user_invitation($pdo, $u_data['email'], $token, [
+                    'first_name' => $u_data['username'],
+                    'surname'    => '',
+                    'username'   => $u_data['username'],
+                    'role_name'  => $u_data['role_name'] ?? 'User'
+                ]);
+
+                $_SESSION['message'] = "Invitation email successfully dispatched to '{$u_data['username']}'.";
+
+                $audit = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'RESEND_INVITE', ?, ?)");
+                $audit->execute([$current_user['id'], "Dispatched invitation email to user: {$u_data['username']}", $_SERVER['REMOTE_ADDR']]);
             } else {
                 $_SESSION['error'] = "Could not find a valid email address for this user.";
             }
@@ -185,7 +212,7 @@ try {
             break;
 
         case 'reset_2fa':
-            $upd = $pdo->prepare("UPDATE users SET two_fa_enabled = 0, two_fa_secret = NULL WHERE id = ?");
+            $upd = $pdo->prepare("UPDATE users SET two_fa_enabled = 0, google_2fa_secret = NULL WHERE id = ?");
             $upd->execute([$target_user_id]);
 
             $_SESSION['message'] = "Two-factor authentication has been reset for '{$target_user['username']}'.";

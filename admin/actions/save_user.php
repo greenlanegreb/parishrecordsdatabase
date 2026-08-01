@@ -101,7 +101,7 @@ if (empty($username)) {
 $token = bin2hex(random_bytes(32));
 $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
-$ins = $pdo->prepare("INSERT INTO users (username, first_name, surname, email, password_hash, role_id, verification_token, token_expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$ins = $pdo->prepare("INSERT INTO users (username, first_name, surname, email, password_hash, role_id, invite_token, invite_expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 if ($ins->execute([$username, $first_name, $surname, $email, '', $role_id, $token, $expires])) {
     $user_details = [

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token = bin2hex(random_bytes(32));
             $expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
-            $insert = $pdo->prepare("INSERT INTO users (username, email, password_hash, verification_token, token_expires_at, is_active) VALUES (?, ?, ?, ?, ?, 1)");
+            $insert = $pdo->prepare("INSERT INTO users (username, email, password_hash, invite_token, invite_expires_at, is_active) VALUES (?, ?, ?, ?, ?, 1)");
             
             if ($insert->execute([$username, $email, $password_hash, $token, $expires_at])) {
                 // Dispatch using mail_helper with $pdo as the first argument

@@ -34,8 +34,8 @@ if ($password !== $confirm_password) {
     exit;
 }
 
-// 2. Verify token validity and expiration against the database
-$stmt = $pdo->prepare("SELECT id, username FROM users WHERE verification_token = ? AND token_expires_at > NOW()");
+// 2. Verify token validity and expiration against the database using reset_token columns
+$stmt = $pdo->prepare("SELECT id, username FROM users WHERE reset_token = ? AND reset_expires_at > NOW()");
 $stmt->execute([$token]);
 $user = $stmt->fetch();
 
@@ -44,14 +44,14 @@ if (!$user) {
     exit("This password setup link is invalid or has expired.");
 }
 
-// 3. Process success: Hash password, clear token atomically, and activate account
+// 3. Process success: Hash password, clear reset token atomically, and activate account
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
 $update = $pdo->prepare("
     UPDATE users 
     SET password_hash = ?, 
-        verification_token = NULL, 
-        token_expires_at = NULL, 
+        reset_token = NULL, 
+        reset_expires_at = NULL, 
         is_new_user = 0, 
         is_active = 1 
     WHERE id = ?

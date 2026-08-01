@@ -11,7 +11,7 @@ if (empty($token)) {
     exit(__('set_password.exit_invalid_token'));
 }
 
-$stmt = $pdo->prepare("SELECT id, username FROM users WHERE verification_token = ? AND token_expires_at > NOW()");
+$stmt = $pdo->prepare("SELECT id, username FROM users WHERE reset_token = ? AND reset_expires_at > NOW()");
 $stmt->execute([$token]);
 $user = $stmt->fetch();
 

@@ -11,7 +11,7 @@ $token = $_GET['token'] ?? '';
 if (empty($token)) {
     $error = __('verify_email.err_no_token');
 } else {
-    $stmt = $pdo->prepare("SELECT id, email_verified, token_expires_at FROM users WHERE verification_token = ?");
+    $stmt = $pdo->prepare("SELECT id, email_verified, invite_expires_at FROM users WHERE invite_token = ?");
     $stmt->execute([$token]);
     $user = $stmt->fetch();
 
@@ -22,10 +22,10 @@ if (empty($token)) {
     } else {
         $current_time = date('Y-m-d H:i:s');
         
-        if ($current_time > $user['token_expires_at']) {
+        if ($current_time > $user['invite_expires_at']) {
             $error = __('verify_email.err_expired_token');
         } else {
-            $update = $pdo->prepare("UPDATE users SET email_verified = 1, verification_token = NULL, token_expires_at = NULL WHERE id = ?");
+            $update = $pdo->prepare("UPDATE users SET email_verified = 1, invite_token = NULL, invite_expires_at = NULL WHERE id = ?");
             
             if ($update->execute([$user['id']])) {
                 $message = __('verify_email.msg_success');
