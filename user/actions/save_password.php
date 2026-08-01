@@ -34,9 +34,9 @@ if ($password !== $confirm_password) {
     exit;
 }
 
-// 2. Verify token validity and expiration against the database using reset_token columns
-$stmt = $pdo->prepare("SELECT id, username FROM users WHERE reset_token = ? AND reset_expires_at > NOW()");
-$stmt->execute([$token]);
+// 2. Verify token validity and expiration against the database using either invite or reset columns
+$stmt = $pdo->prepare("SELECT id, username FROM users WHERE (invite_token = ? AND invite_expires_at > NOW()) OR (reset_token = ? AND reset_expires_at > NOW())");
+$stmt->execute([$token, $token]);
 $user = $stmt->fetch();
 
 if (!$user) {
@@ -44,12 +44,14 @@ if (!$user) {
     exit("This password setup link is invalid or has expired.");
 }
 
-// 3. Process success: Hash password, clear reset token atomically, and activate account
+// 3. Process success: Hash password, clear both invite and reset tokens atomically, and activate account
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
 $update = $pdo->prepare("
     UPDATE users 
     SET password_hash = ?, 
+        invite_token = NULL, 
+        invite_expires_at = NULL, 
         reset_token = NULL, 
         reset_expires_at = NULL, 
         is_new_user = 0, 
