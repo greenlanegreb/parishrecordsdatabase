@@ -1,9 +1,9 @@
 <?php
 // user/actions/save_register.php - Handles user onboarding and email verification token generation
 require_once '../../db/db.php';
+require_once '../../db/auth_helpers.php';
 require_once '../../db/mail_helper.php';
 require_once '../../includes/functions.php';
-session_start();
 
 // Ensure the users module is enabled; otherwise block action execution
 if (!is_module_enabled($pdo, 'users')) {
@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
             $token = bin2hex(random_bytes(32));
+            
+            // PHP-generated timestamp to match application timezone consistency
             $expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
             $insert = $pdo->prepare("INSERT INTO users (username, email, password_hash, invite_token, invite_expires_at, is_active) VALUES (?, ?, ?, ?, ?, 1)");

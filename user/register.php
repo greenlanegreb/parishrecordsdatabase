@@ -1,6 +1,5 @@
 <?php
 // register.php - User registration view
-session_start();
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
@@ -33,7 +32,7 @@ unset($_SESSION['message'], $_SESSION['error']);
             <label for="username"><?php echo htmlspecialchars(__('register.username_label')); ?></label><br>
             <input type="text" id="username" name="username" required class="register-input"><br>
 
-            <label for="email"><?php echo htmlspecialchars(__('forgot_password.email_label')); ?></label><br>
+            <label for="email"><?php echo htmlspecialchars(__('register.email_label', 'Email Address')); ?></label><br>
             <input type="email" id="email" name="email" required class="register-input"><br>
 
             <label for="password"><?php echo htmlspecialchars(__('login.password_label')); ?></label><br>

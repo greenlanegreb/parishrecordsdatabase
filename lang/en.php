@@ -843,6 +843,7 @@ return [
     'register.aria_region'    => 'User Registration',
     'register.heading'        => 'Register New Account',
     'register.username_label' => 'Username:',
+    'register.email_label'    => 'Email Address',
     'register.submit_btn'     => 'Register',
 
 // ------------------------------------------------------------------
