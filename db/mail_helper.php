@@ -100,6 +100,14 @@ function send_user_invitation($pdo, $to_email, $reset_token, array $user_details
             $mail->Username   = $smtp_user;
             $mail->Password   = $smtp_pass;
             
+            // Timeout protection and IPv4 enforcement to prevent 30-second delays
+            $mail->Timeout    = 5; 
+            $mail->SMTPOptions = array(
+                'socket' => array(
+                    'bindto' => '0.0.0.0:0'
+                )
+            );
+            
             if ($smtp_encryption === 'ssl') {
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             } else {
