@@ -3,7 +3,6 @@
 require_once '../db/db.php';
 require_once '../db/auth_helpers.php';
 require_once '../includes/functions.php';
-session_start();
 
 $token = $_GET['token'] ?? '';
 
@@ -11,16 +10,23 @@ if (empty($token)) {
     exit(__('set_password.exit_invalid_token'));
 }
 
-$stmt = $pdo->prepare("SELECT id, username FROM users WHERE (invite_token = ? AND invite_expires_at > NOW()) OR (reset_token = ? AND reset_expires_at > NOW())");
-$stmt->execute([$token, $token]);
-$user = $stmt->fetch();
-
-if (!$user) {
-    exit(__('set_password.exit_expired_token'));
-}
-
 $message = $_SESSION['message'] ?? '';
 $error = $_SESSION['error'] ?? '';
+
+// If a success message is already set, the token was just consumed by save_password.php.
+// Skip the database token validation so we don't trigger a false expiration error.
+if (!empty($message)) {
+    $user = ['username' => 'User']; // Fallback placeholder for greeting
+} else {
+    $stmt = $pdo->prepare("SELECT id, username FROM users WHERE (invite_token = ? AND invite_expires_at > NOW()) OR (reset_token = ? AND reset_expires_at > NOW())");
+    $stmt->execute([$token, $token]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        exit(__('set_password.exit_expired_token'));
+    }
+}
+
 unset($_SESSION['message'], $_SESSION['error']);
 ?>
 
@@ -29,6 +35,7 @@ unset($_SESSION['message'], $_SESSION['error']);
     <?php if (!empty($error)): ?>
         <p class="alert-danger"><strong><?php echo htmlspecialchars($error); ?></strong></p>
     <?php endif; ?>
+    
     <?php if (!empty($message)): ?>
         <p class="alert-success"><strong><?php echo htmlspecialchars($message); ?></strong></p>
         <p><a href="login.php" class="btn"><?php echo htmlspecialchars(__('set_password.proceed_login_btn')); ?></a></p>

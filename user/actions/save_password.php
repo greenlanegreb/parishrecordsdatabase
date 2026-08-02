@@ -3,7 +3,6 @@
 require_once '../../db/db.php';
 require_once '../../db/auth_helpers.php';
 require_once '../../includes/functions.php';
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -34,8 +33,13 @@ if ($password !== $confirm_password) {
     exit;
 }
 
-// 2. Verify token validity and expiration against the database using either invite or reset columns
-$stmt = $pdo->prepare("SELECT id, username FROM users WHERE (invite_token = ? AND invite_expires_at > NOW()) OR (reset_token = ? AND reset_expires_at > NOW())");
+// 2. Verify token validity and expiration against the database using positional parameters
+$stmt = $pdo->prepare("
+    SELECT id, username FROM users 
+    WHERE (invite_token = ? AND invite_expires_at > NOW()) 
+       OR (reset_token = ? AND reset_expires_at > NOW())
+    LIMIT 1
+");
 $stmt->execute([$token, $token]);
 $user = $stmt->fetch();
 
