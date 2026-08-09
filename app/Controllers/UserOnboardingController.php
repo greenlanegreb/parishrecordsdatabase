@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/onboarding.php/user/actions/save_onboarding.php
  * Migrated Date: 2026-08-05 05:04:14
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class UserOnboardingController
 
     public function show(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Ensure the users module is enabled; otherwise block access to onboarding
         if (!is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
@@ -46,9 +42,11 @@ class UserOnboardingController
             // Suppress if table/permission already exists
         }
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
         // If they are no longer marked as a new user, redirect them to main entry/dashboard
         if (empty($currentUser['is_new_user'])) {
-            header('Location: /user/data_entry.php');
+            header('Location: ' . $basePath . '/data-entry');
             exit;
         }
 

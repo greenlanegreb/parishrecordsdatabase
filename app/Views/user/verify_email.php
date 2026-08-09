@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: user/verify_email.php
  * Migrated Date: 2026-08-05 05:34:58
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * MIGRATED FILE MAPPING
@@ -16,7 +17,8 @@
 /** @string $error */
 /** @string $message */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container d-flex justify-content-center align-items-center py-5" style="min-height: 80vh;" role="region" aria-label="<?= htmlspecialchars(__('verify_email.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -35,9 +37,9 @@ require_once __DIR__ . '/../partials/header.php';
                 <strong><?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?></strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <a href="/user/login.php" class="btn btn-primary w-100 text-decoration-none mt-3"><?= htmlspecialchars(__('verify_email.login_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+            <a href="<?= $basePath ?>/login" class="btn btn-primary w-100 text-decoration-none mt-3"><?= htmlspecialchars(__('verify_email.login_btn'), ENT_QUOTES, 'UTF-8') ?></a>
         <?php endif; ?>
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

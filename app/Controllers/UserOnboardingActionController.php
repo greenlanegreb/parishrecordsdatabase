@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/onboarding.php/user/actions/save_onboarding.php
  * Migrated Date: 2026-08-05 05:05:06
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserOnboardingActionController
 
     public function save(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         if (!is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
             exit('403 Forbidden: The User Management module is currently disabled.');
@@ -43,6 +39,7 @@ class UserOnboardingActionController
         $currentUser = get_current_user_data($this->pdo);
         $userId = $currentUser['id'];
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $firstName = isset($post['first_name']) && is_string($post['first_name']) ? trim($post['first_name']) : '';
         $surname = isset($post['surname']) && is_string($post['surname']) ? trim($post['surname']) : '';
@@ -76,14 +73,14 @@ class UserOnboardingActionController
             $_SESSION['message'] = "Welcome aboard! Your preferences have been saved.";
             
             if (function_exists('has_permission') && has_permission($this->pdo, 'manage_settings')) {
-                header('Location: /admin/settings.php');
+                header('Location: ' . $basePath . '/admin/settings');
             } else {
-                header('Location: /user/data_entry.php');
+                header('Location: ' . $basePath . '/data-entry');
             }
             exit;
         } else {
             $_SESSION['error'] = "Failed to save onboarding preferences. Please try again.";
-            header('Location: /user/onboarding.php');
+            header('Location: ' . $basePath . '/user/onboarding');
             exit;
         }
     }

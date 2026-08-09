@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/notices.php
  * Migrated Date: 2026-08-05 03:40:44
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class NoticeController
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_admin_page($this->pdo, 'manage_notices', 'Manage site-wide notices and broadcast announcements');
 
@@ -42,10 +38,6 @@ class NoticeController
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -56,6 +48,7 @@ class NoticeController
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'manage_notices', 'Manage site-wide notices and broadcast announcements');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : '';
 
@@ -89,7 +82,7 @@ class NoticeController
             }
         }
 
-        header('Location: /admin/notices');
+        header('Location: ' . $basePath . '/admin/notices');
         exit;
     }
 }

@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: roote/update_database.php
  * Migrated Date: 2026-08-05 06:52:04
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class UpdateDatabaseController
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         require_once __DIR__ . '/../../includes/functions.php';
         require_once __DIR__ . '/../../db/migrate_runner.php';
 
@@ -56,8 +52,8 @@ class UpdateDatabaseController
 
         // If no updates are actually pending, block access and send them to login
         if ($schemaCurrent >= $schemaLatest) {
-            $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-            header('Location: ' . $base . '/user/login.php');
+            $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+            header('Location: ' . $basePath . '/login');
             exit;
         }
 

@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/profile.php/user/actions/save_profile.php
  * Migrated Date: 2026-08-05 05:10:12
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,15 +22,11 @@ class UserProfileController
 
     public function show(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        require_permission($this->pdo, 'access_profile', 'Allows viewing and managing personal user profile and security settings');
+        \require_permission($this->pdo, 'access_profile', 'Allows viewing and managing personal user profile and security settings');
         /** @var array{id: int|string, username: string, email: string, email_verified?: int|string, first_name?: string, surname?: string, timezone?: string, date_format?: string, time_format?: string, attribution_display_mode?: string, language?: string, two_fa_enabled?: int|string} $currentUser */
-        $currentUser = get_current_user_data($this->pdo);
+        $currentUser = \get_current_user_data($this->pdo);
 
-        $systemName = get_system_name($this->pdo);
+        $systemName = \get_system_name($this->pdo);
         $systemSlug = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $systemName) ?? 'app');
 
         $message = $_SESSION['message'] ?? '';

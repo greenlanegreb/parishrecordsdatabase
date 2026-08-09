@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/manage_user_emails.php/admin/actions/save_user_email_template.php
  * Migrated Date: 2026-08-05 03:22:22
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,16 +22,10 @@ class UserEmailController
 
     public function index(): void
     {
-        // 1. Module check
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['users']);
-        if (!$moduleCheck->fetchColumn()) {
+        // 1. Module check using safe global helper
+        if (function_exists('is_module_enabled') && !\is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
             exit('403 Forbidden: The User Management module is currently disabled.');
-        }
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         // 2. Admin authorization
@@ -59,18 +53,13 @@ class UserEmailController
         $body = $template && isset($template['body']) && is_string($template['body']) ? $template['body'] : '';
         $templateName = $template && isset($template['template_name']) && is_string($template['template_name']) ? $template['template_name'] : 'User Template';
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         require_once __DIR__ . '/../Views/admin/manage_user_emails.php';
     }
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['users']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (function_exists('is_module_enabled') && !\is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
             exit('403 Forbidden: The User Management module is currently disabled.');
         }
@@ -85,6 +74,7 @@ class UserEmailController
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'manage_users', 'Manage user email templates');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $subject = isset($post['subject']) && is_string($post['subject']) ? trim($post['subject']) : '';
         $body = isset($post['body']) && is_string($post['body']) ? trim($post['body']) : '';
@@ -92,7 +82,7 @@ class UserEmailController
 
         if ($subject === '' || $body === '') {
             $_SESSION['error'] = "Subject and body fields cannot be blank.";
-            header('Location: /admin/users/emails?trigger_event=' . urlencode($triggerEvent));
+            header('Location: ' . $basePath . '/admin/users/emails?trigger_event=' . urlencode($triggerEvent));
             exit;
         }
 
@@ -111,7 +101,7 @@ class UserEmailController
             $_SESSION['error'] = "Failed to update the template database record.";
         }
 
-        header('Location: /admin/users/emails?trigger_event=' . urlencode($triggerEvent));
+        header('Location: ' . $basePath . '/admin/users/emails?trigger_event=' . urlencode($triggerEvent));
         exit;
     }
 }

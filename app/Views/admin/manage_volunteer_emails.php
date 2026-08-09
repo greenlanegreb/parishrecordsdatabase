@@ -2,23 +2,18 @@
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
- * Original Old File: admin/manage_volunteer_emails.php/admin/actions/save_volunteer_email_template.php
- * Migrated Date: 2026-08-05 03:28:00
- */declare(strict_types=1);
-
-/**
- * MIGRATED FILE MAPPING
- * ---------------------
  * Original Old File: admin/manage_volunteer_emails.php
  * Migrated Date: 2026-08-04 09:50:18
  */
+declare(strict_types=1);
 
 /** @string $message */
 /** @string $error */
 /** @array<int, array<string, mixed>> $templates */
 /** @array<int, string> $columns */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container py-4" style="max-width: 1100px;">
@@ -26,7 +21,7 @@ require_once __DIR__ . '/../partials/header.php';
     <p class="text-muted mb-3"><?= htmlspecialchars(__('volunteer_emails.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
 
     <div class="mb-4">
-        <a href="/admin/volunteers" class="btn btn-outline-secondary">← <?= htmlspecialchars(__('volunteer_emails.back_to_dashboard'), ENT_QUOTES, 'UTF-8') ?></a>
+        <a href="<?= $basePath ?>/admin/volunteers" class="btn btn-outline-secondary">← <?= htmlspecialchars(__('volunteer_emails.back_to_dashboard'), ENT_QUOTES, 'UTF-8') ?></a>
     </div>
 
     <!-- Feedback Alerts -->
@@ -63,7 +58,7 @@ require_once __DIR__ . '/../partials/header.php';
                             </summary>
                             
                             <div class="mt-3 pt-3 border-top">
-                                <form method="POST" action="/admin/volunteers/emails/store">
+                                <form method="POST" action="<?= $basePath ?>/admin/volunteers/emails/store">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="template_id" value="<?= $tplId ?>">
 
@@ -123,4 +118,4 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

@@ -4,13 +4,15 @@
  * ---------------------
  * Original Old File: roote/record_history.php
  * Migrated Date: 2026-08-05 06:49:21
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * @var int $recordId
  * @var array{id: int|string, table_id: int|string, table_name: string} $record
  * @var bool $canPurgeAudit
  * @var string $userTimezone
+ * @var string $userDateFormat
  * @var string $fullFormatStr
  * @var string $message
  * @var string $error
@@ -19,7 +21,8 @@
  * @var string $returnUrl
  */
 
-require_once __DIR__ . '/../../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container my-4" style="max-width: 900px;">
@@ -55,10 +58,20 @@ require_once __DIR__ . '/../../partials/header.php';
                 <?php 
                     $colName = isset($cv['column_name']) && is_string($cv['column_name']) ? $cv['column_name'] : '';
                     $valCont = isset($cv['value_content']) && is_string($cv['value_content']) ? $cv['value_content'] : '';
+                    $dataType = isset($cv['data_type']) && is_string($cv['data_type']) ? $cv['data_type'] : '';
+                    $boolFormat = isset($cv['boolean_display_format']) && is_string($cv['boolean_display_format']) ? $cv['boolean_display_format'] : 'yes_no';
+
+                    if ($dataType === 'BOOLEAN') {
+                        $displayVal = format_boolean_value($valCont, $boolFormat);
+                    } elseif ($dataType === 'DATE') {
+                        $displayVal = format_display_date($valCont, $userDateFormat);
+                    } else {
+                        $displayVal = $valCont !== '' ? $valCont : __('record_history.empty_value');
+                    }
                 ?>
                 <div class="col-md-4 col-sm-6">
                     <span class="d-block text-uppercase text-muted fw-bold" style="font-size: 0.75rem;"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?>:</span>
-                    <div class="text-dark fw-medium text-break"><?= htmlspecialchars($valCont !== '' ? $valCont : __('record_history.empty_value'), ENT_QUOTES, 'UTF-8') ?></div>
+                    <div class="text-dark fw-medium text-break"><?= htmlspecialchars($displayVal, ENT_QUOTES, 'UTF-8') ?></div>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -73,6 +86,7 @@ require_once __DIR__ . '/../../partials/header.php';
                 <?php 
                     $logId = isset($log['id']) ? (int)$log['id'] : 0;
                     $logAction = isset($log['action']) && is_string($log['action']) ? $log['action'] : '';
+                    $displayAction = str_replace('EDIT_', '', $logAction);
                     $createdAt = isset($log['created_at']) && is_string($log['created_at']) ? $log['created_at'] : '';
                     $username = isset($log['username']) && is_string($log['username']) ? $log['username'] : __('record_history.system_guest');
                     $details = isset($log['details']) && is_string($log['details']) ? $log['details'] : '';
@@ -80,21 +94,23 @@ require_once __DIR__ . '/../../partials/header.php';
                     $sugVal = isset($log['sug_value']) && is_string($log['sug_value']) ? $log['sug_value'] : '';
                     $sugReasoning = isset($log['sug_reasoning']) && is_string($log['sug_reasoning']) ? $log['sug_reasoning'] : '';
                 ?>
-                <div class="card border-0 shadow-sm p-3 border-start border-primary border-4 position-relative bg-white">
+                <div class="card border-0 shadow-sm p-3 border-start border-primary border-4 bg-white">
                     
-                    <!-- Purge Individual Audit Log Entry Button -->
-                    <?php if ($canPurgeAudit): ?>
-                        <form action="user/actions/purge_audit_entry.php" method="POST" onsubmit="return confirm('<?= htmlspecialchars(__('record_history.purge_confirm'), ENT_QUOTES, 'UTF-8') ?>');" class="position-absolute top-0 end-0 m-3">
-                            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
-                            <input type="hidden" name="audit_id" value="<?= $logId ?>">
-                            <input type="hidden" name="record_id" value="<?= $recordId ?>">
-                            <button type="submit" class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size: 0.7rem;"><?= htmlspecialchars(__('record_history.purge_btn'), ENT_QUOTES, 'UTF-8') ?></button>
-                        </form>
-                    <?php endif; ?>
+                    <!-- Header with Badge, Timestamp, and Purge Button -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-light text-dark fw-bold border"><?= htmlspecialchars($displayAction, ENT_QUOTES, 'UTF-8') ?></span>
+                            <small class="text-muted"><?= htmlspecialchars(format_user_time($createdAt, $userTimezone, $fullFormatStr), ENT_QUOTES, 'UTF-8') ?></small>
+                        </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-2 pe-5">
-                        <span class="badge bg-light text-dark fw-bold border"><?= htmlspecialchars($logAction, ENT_QUOTES, 'UTF-8') ?></span>
-                        <small class="text-muted"><?= htmlspecialchars(format_user_time($createdAt, $userTimezone, $fullFormatStr), ENT_QUOTES, 'UTF-8') ?></small>
+                        <?php if ($canPurgeAudit): ?>
+                            <form action="<?= $basePath ?>/purge_audit_entry" method="POST" onsubmit="return confirm('<?= htmlspecialchars(__('record_history.purge_confirm'), ENT_QUOTES, 'UTF-8') ?>');" class="mb-0">
+                                <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+                                <input type="hidden" name="audit_id" value="<?= $logId ?>">
+                                <input type="hidden" name="record_id" value="<?= $recordId ?>">
+                                <button type="submit" class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size: 0.7rem;"><?= htmlspecialchars(__('record_history.purge_btn'), ENT_QUOTES, 'UTF-8') ?></button>
+                            </form>
+                        <?php endif; ?>
                     </div>
                     
                     <div class="small text-secondary mb-2">
@@ -111,7 +127,15 @@ require_once __DIR__ . '/../../partials/header.php';
                                 <div><strong><?= htmlspecialchars(__('record_history.target_column'), ENT_QUOTES, 'UTF-8') ?></strong> <?= htmlspecialchars($sugCol, ENT_QUOTES, 'UTF-8') ?></div>
                             <?php endif; ?>
                             <?php if ($sugVal !== ''): ?>
-                                <div><strong><?= htmlspecialchars(__('record_history.proposed_value'), ENT_QUOTES, 'UTF-8') ?></strong> <span class="text-primary fw-bold"><?= htmlspecialchars($sugVal, ENT_QUOTES, 'UTF-8') ?></span></div>
+                                <?php 
+                                    $displaySugVal = $sugVal;
+                                    $parsedTime = strtotime($sugVal);
+                                    if ($parsedTime !== false && (preg_match('/^\d{4}[-\/\.]\d{2}[-\/\.]\d{2}$/', $sugVal) || preg_match('/^\d{2}[-\/\.]\d{2}[-\/\.]\d{4}$/', $sugVal))) {
+                                        $isoDate = date('Y-m-d', $parsedTime);
+                                        $displaySugVal = format_display_date($isoDate, $userDateFormat);
+                                    }
+                                ?>
+                                <div><strong><?= htmlspecialchars(__('record_history.proposed_value'), ENT_QUOTES, 'UTF-8') ?></strong> <span class="text-primary fw-bold"><?= htmlspecialchars($displaySugVal, ENT_QUOTES, 'UTF-8') ?></span></div>
                             <?php endif; ?>
                             <?php if ($sugReasoning !== ''): ?>
                                 <div><strong><?= htmlspecialchars(__('record_history.reasoning_evidence'), ENT_QUOTES, 'UTF-8') ?></strong> <?= htmlspecialchars($sugReasoning, ENT_QUOTES, 'UTF-8') ?></div>
@@ -124,4 +148,4 @@ require_once __DIR__ . '/../../partials/header.php';
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

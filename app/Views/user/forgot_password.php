@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: user/forgot_password.php/user/actions/save_forgot_password.php
  * Migrated Date: 2026-08-05 04:55:57
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * MIGRATED FILE MAPPING
@@ -16,7 +17,8 @@
 /** @string $error */
 /** @string $message */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container d-flex justify-content-center align-items-center py-5" style="min-height: 80vh;" role="region" aria-label="<?= htmlspecialchars(__('forgot_password.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -37,7 +39,7 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="/user/actions/save_forgot_password.php">
+        <form method="POST" action="<?= $basePath ?>/forgot-password">
             <?= csrf_field() ?>
             <div class="mb-3">
                 <label for="email" class="form-label small fw-bold"><?= htmlspecialchars(__('forgot_password.email_label'), ENT_QUOTES, 'UTF-8') ?></label>
@@ -48,9 +50,9 @@ require_once __DIR__ . '/../partials/header.php';
         </form>
 
         <p class="text-center mt-4 mb-0">
-            <a href="/user/login.php" class="text-decoration-underline small text-secondary"><?= htmlspecialchars(__('forgot_password.back_login_link'), ENT_QUOTES, 'UTF-8') ?></a>
+            <a href="<?= $basePath ?>/login" class="text-decoration-underline small text-secondary"><?= htmlspecialchars(__('forgot_password.back_login_link'), ENT_QUOTES, 'UTF-8') ?></a>
         </p>
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

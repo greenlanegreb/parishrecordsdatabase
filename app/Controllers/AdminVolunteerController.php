@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/volunteer_dashboard.php/admin/actions/save_volunteer.php
  * Migrated Date: 2026-08-05 03:57:29
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,24 +23,20 @@ class AdminVolunteerController
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!is_module_enabled($this->pdo, 'volunteers')) {
+        if (!\is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
         }
 
         /** @var array{id: int, username: string, timezone?: string, date_format?: string} $currentUser */
-        $currentUser = require_admin_page($this->pdo, 'manage_volunteers', 'Manage and review volunteer applications and workflow');
+        $currentUser = \require_admin_page($this->pdo, 'manage_volunteers', 'Manage and review volunteer applications and workflow');
 
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['message'], $_SESSION['error']);
 
-        [$userTimezone, $fullFormatStr] = get_user_time_prefs($currentUser);
-        $systemName = get_system_name($this->pdo);
+        [$userTimezone, $fullFormatStr] = \get_user_time_prefs($currentUser);
+        $systemName = \get_system_name($this->pdo);
 
         // Fetch schema columns
         $colsStmt = $this->pdo->query("SELECT * FROM volunteer_columns ORDER BY sort_order ASC, column_name ASC");
@@ -71,11 +67,7 @@ class AdminVolunteerController
 
     public function handleAction(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!is_module_enabled($this->pdo, 'volunteers')) {
+        if (!\is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
         }
@@ -86,10 +78,11 @@ class AdminVolunteerController
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
+        \verify_csrf_token();
         /** @var array{id: int, username: string} $currentUser */
-        $currentUser = require_permission($this->pdo, 'manage_volunteers', 'Manage and review volunteer applications and submissions');
+        $currentUser = \require_permission($this->pdo, 'manage_volunteers', 'Manage and review volunteer applications and submissions');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : '';
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
@@ -135,7 +128,7 @@ class AdminVolunteerController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: /admin/volunteer_dashboard.php');
+        header('Location: ' . BASE_PATH . '/admin/volunteers');
         exit;
     }
 }

@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/view_ticket.php/admin/actions/save_ticket_reply.php
  * Migrated Date: 2026-08-05 03:53:11
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -21,26 +21,50 @@ class AdminTicketController
         $this->pdo = $pdo;
     }
 
-    public function show(int $ticketId): void
+    public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!is_module_enabled($this->pdo, 'feedback')) {
+        if (!\is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
             exit('403 Forbidden: The Feedback module is currently disabled.');
         }
 
         /** @var array{id: int, username: string, timezone?: string} $currentUser */
-        $currentUser = require_admin_page($this->pdo, 'manage_feedback', 'View and reply to feedback tickets');
+        $currentUser = \require_admin_page($this->pdo, 'manage_feedback', 'Manage feedback and support tickets');
 
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['message'], $_SESSION['error']);
 
-        [$userTimezone, $fullFormatStr] = get_user_time_prefs($currentUser);
-        $systemName = get_system_name($this->pdo);
+        [$userTimezone, $fullFormatStr] = \get_user_time_prefs($currentUser);
+        $systemName = \get_system_name($this->pdo);
+
+        // Fetch all feedback tickets
+        $stmt = $this->pdo->query("SELECT t.*, u.username FROM feedback_tickets t LEFT JOIN users u ON t.user_id = u.id ORDER BY t.created_at DESC");
+        /** @array<int, array<string, mixed>> $tickets */
+        $tickets = $stmt !== false ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
+
+        require_once __DIR__ . '/../Views/admin/feedback_dashboard.php';
+    }
+
+    public function show(int|string $ticketId): void
+    {
+        if (!\is_module_enabled($this->pdo, 'feedback')) {
+            http_response_code(403);
+            exit('403 Forbidden: The Feedback module is currently disabled.');
+        }
+
+        $ticketId = (int)$ticketId;
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
+        /** @var array{id: int, username: string, timezone?: string} $currentUser */
+        $currentUser = \require_admin_page($this->pdo, 'manage_feedback', 'View and reply to feedback tickets');
+
+        $message = $_SESSION['message'] ?? '';
+        $error = $_SESSION['error'] ?? '';
+        unset($_SESSION['message'], $_SESSION['error']);
+
+        [$userTimezone, $fullFormatStr] = \get_user_time_prefs($currentUser);
+        $systemName = \get_system_name($this->pdo);
 
         $stmt = $this->pdo->prepare("SELECT t.*, u.username FROM feedback_tickets t LEFT JOIN users u ON t.user_id = u.id WHERE t.id = ?");
         $stmt->execute([$ticketId]);
@@ -48,7 +72,7 @@ class AdminTicketController
         $ticket = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($ticket === false) {
-            header('Location: /admin/feedback_dashboard.php');
+            header('Location: ' . BASE_PATH . '/admin/tickets');
             exit;
         }
 
@@ -74,11 +98,7 @@ class AdminTicketController
 
     public function handleAction(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!is_module_enabled($this->pdo, 'feedback')) {
+        if (!\is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
             exit('403 Forbidden');
         }
@@ -89,16 +109,17 @@ class AdminTicketController
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
+        \verify_csrf_token();
         /** @var array{id: int, username: string} $currentUser */
-        $currentUser = require_permission($this->pdo, 'manage_feedback', 'Manage feedback replies');
+        $currentUser = \require_permission($this->pdo, 'manage_feedback', 'Manage feedback replies');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : '';
         $ticketId = isset($post['ticket_id']) ? (int)$post['ticket_id'] : 0;
 
         if ($ticketId <= 0) {
-            header('Location: /admin/feedback_dashboard.php');
+            header('Location: ' . BASE_PATH . '/admin/tickets');
             exit;
         }
 
@@ -108,14 +129,21 @@ class AdminTicketController
         $ticket = $tStmt->fetch(PDO::FETCH_ASSOC);
 
         if ($ticket === false) {
-            header('Location: /admin/feedback_dashboard.php');
+            header('Location: ' . BASE_PATH . '/admin/tickets');
             exit;
         }
 
-        $systemName = get_system_name($this->pdo);
+        $systemName = \get_system_name($this->pdo);
+        $redirectUrl = BASE_PATH . '/admin/tickets/' . $ticketId;
 
         try {
-            if ($action === 'update_status') {
+            if ($action === 'delete_ticket') {
+                $this->pdo->prepare("DELETE FROM feedback_ticket_replies WHERE ticket_id = ?")->execute([$ticketId]);
+                $this->pdo->prepare("DELETE FROM feedback_ticket_values WHERE ticket_id = ?")->execute([$ticketId]);
+                $this->pdo->prepare("DELETE FROM feedback_tickets WHERE id = ?")->execute([$ticketId]);
+                $_SESSION['message'] = "Support ticket #{$ticketId} deleted successfully.";
+                $redirectUrl = BASE_PATH . '/admin/tickets';
+            } elseif ($action === 'update_status') {
                 $status = isset($post['status']) && is_string($post['status']) ? trim($post['status']) : 'Pending';
                 $this->pdo->prepare("UPDATE feedback_tickets SET status = ? WHERE id = ?")->execute([$status, $ticketId]);
                 $_SESSION['message'] = "Ticket status updated to {$status}.";
@@ -144,7 +172,7 @@ class AdminTicketController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: /admin/view_ticket.php?id=' . $ticketId);
+        header('Location: ' . $redirectUrl);
         exit;
     }
 }

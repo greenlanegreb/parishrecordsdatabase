@@ -4,12 +4,11 @@
  * ---------------------
  * Original Old File: user/login.php/user/actions/authenticate.php
  * Migrated Date: 2026-08-05 04:59:43
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
-Exception:
 use PDO;
 use PDOException;
 
@@ -24,22 +23,20 @@ class UserAuthenticateActionController
 
     public function authenticate(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
+        \verify_csrf_token();
 
         $post = $_POST;
         $username = isset($post['username']) && is_string($post['username']) ? trim($post['username']) : '';
         $password = isset($post['password']) && is_string($post['password']) ? $post['password'] : '';
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
         try {
             $stmt = $this->pdo->prepare("SELECT id, username, password_hash, two_fa_enabled, google_2fa_secret, is_active, is_new_user FROM users WHERE username = ? OR email = ?");
@@ -72,8 +69,7 @@ class UserAuthenticateActionController
 
                 // If a structural error occurred AND updates are waiting, route safely to the update gateway
                 if ($schemaCurrent < $schemaLatest) {
-                    $base = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
-                    header('Location: ' . $base . '/update_database.php');
+                    header('Location: ' . $basePath . '/update-database');
                     exit;
                 }
             }
@@ -88,17 +84,17 @@ class UserAuthenticateActionController
         if ($user !== false && $isActive && $passwordValid) {
             if (!empty($user['two_fa_enabled'])) {
                 $_SESSION['pending_2fa_user_id'] = $user['id'];
-                header('Location: /user/verify_2fa.php');
+                header('Location: ' . $basePath . '/verify-2fa');
                 exit;
             } else {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
 
-                // Forward new users to onboarding wizard, otherwise go to data_entry
+                // Forward new users to onboarding wizard, otherwise go to data entry
                 if (!empty($user['is_new_user'])) {
-                    header('Location: /user/onboarding.php');
+                    header('Location: ' . $basePath . '/onboarding');
                 } else {
-                    header('Location: /user/data_entry.php');
+                    header('Location: ' . $basePath . '/data-entry');
                 }
                 exit;
             }
@@ -106,7 +102,7 @@ class UserAuthenticateActionController
             error_log("Failed login attempt for user: '{$username}' from IP: " . $remoteAddr);
             http_response_code(403);
             $_SESSION['error'] = __('authenticate.err_invalid_credentials');
-            header('Location: /user/login.php');
+            header('Location: ' . $basePath . '/login');
             exit;
         }
     }

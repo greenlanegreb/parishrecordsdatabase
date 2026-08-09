@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/manage_feedback_schema.php/admin/actions/save_feedback_schema.php
  * Migrated Date: 2026-08-05 03:13:45
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,15 +22,9 @@ class FeedbackSchemaController
 
     public function index(): void
     {
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['feedback']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (!\is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
             exit('403 Forbidden: The Feedback Submissions module is currently disabled.');
-        }
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         /** @var array{id: int, username: string} $currentUser */
@@ -72,18 +66,13 @@ class FeedbackSchemaController
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['message'], $_SESSION['error']);
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         require_once __DIR__ . '/../Views/admin/manage_feedback_schema.php';
     }
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['feedback']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (!\is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
             exit('403 Forbidden');
         }
@@ -98,6 +87,7 @@ class FeedbackSchemaController
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'manage_feedback', 'Manage feedback schema definitions');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : '';
 
@@ -156,7 +146,7 @@ class FeedbackSchemaController
             $_SESSION['message'] = "Feedback form presentation settings updated successfully.";
         }
 
-        header('Location: /admin/feedback/schema');
+        header('Location: ' . $basePath . '/admin/feedback/schema');
         exit;
     }
 }

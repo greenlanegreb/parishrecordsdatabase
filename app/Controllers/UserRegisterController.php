@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/register.php/user/actions/save_register.php
  * Migrated Date: 2026-08-05 05:14:08
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserRegisterController
 
     public function show(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Ensure the users module is enabled; otherwise block access to registration
         if (!is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);

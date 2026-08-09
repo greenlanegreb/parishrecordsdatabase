@@ -2,31 +2,26 @@
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
- * Original Old File: admin/manage_feedback_emails.php/admin/actions/save_feedback_email_template.php
- * Migrated Date: 2026-08-05 03:09:11
- */declare(strict_types=1);
-
-/**
- * MIGRATED FILE MAPPING
- * ---------------------
  * Original Old File: admin/manage_feedback_emails.php
  * Migrated Date: 2026-08-04 09:32:04
  */
+declare(strict_types=1);
 
 /** @string $message */
 /** @string $error */
 /** @array<int, array<string, mixed>> $templates */
 /** @array<int, string> $columns */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container py-4" style="max-width: 1100px;">
-    <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('feedback_emails.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
-    <p class="text-muted mb-3"><?= htmlspecialchars(__('feedback_emails.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
+    <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('feedback_emails.heading') ?? 'Support Ticket Email Templates & Triggers', ENT_QUOTES, 'UTF-8') ?></h3>
+    <p class="text-muted mb-3"><?= htmlspecialchars(__('feedback_emails.subheading') ?? 'Configure and customize automated email notifications sent for ticket updates and replies.', ENT_QUOTES, 'UTF-8') ?></p>
 
     <div class="mb-4">
-        <a href="/admin/feedback" class="btn btn-outline-secondary">← <?= htmlspecialchars(__('feedback_emails.back_to_dashboard'), ENT_QUOTES, 'UTF-8') ?></a>
+        <a href="<?= $basePath ?>/admin/tickets" class="btn btn-outline-secondary">← <?= htmlspecialchars(__('feedback_emails.back_to_dashboard') ?? 'Back to Ticket Dashboard', ENT_QUOTES, 'UTF-8') ?></a>
     </div>
 
     <!-- Feedback Alerts -->
@@ -63,21 +58,21 @@ require_once __DIR__ . '/../partials/header.php';
                             </summary>
                             
                             <div class="mt-3 pt-3 border-top">
-                                <form method="POST" action="/admin/feedback/emails/store">
+                                <form method="POST" action="<?= $basePath ?>/admin/feedback/emails/store">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="template_id" value="<?= $tplId ?>">
 
                                     <div class="mb-3">
-                                        <label for="subject_<?= $tplId ?>" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_emails.email_subject'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <label for="subject_<?= $tplId ?>" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_emails.email_subject') ?? 'Email Subject', ENT_QUOTES, 'UTF-8') ?></label>
                                         <input type="text" id="subject_<?= $tplId ?>" name="subject" value="<?= htmlspecialchars($tplSubject, ENT_QUOTES, 'UTF-8') ?>" required class="form-control">
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="body_<?= $tplId ?>" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_emails.email_body'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <label for="body_<?= $tplId ?>" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_emails.email_body') ?? 'Email Body Content', ENT_QUOTES, 'UTF-8') ?></label>
                                         <textarea id="body_<?= $tplId ?>" name="body" rows="8" required class="form-control font-monospace"><?= htmlspecialchars($tplBody, ENT_QUOTES, 'UTF-8') ?></textarea>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('feedback_emails.save_template_btn'), ENT_QUOTES, 'UTF-8') ?></button>
+                                    <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('feedback_emails.save_template_btn') ?? 'Save Template', ENT_QUOTES, 'UTF-8') ?></button>
                                 </form>
                             </div>
                         </details>
@@ -89,12 +84,12 @@ require_once __DIR__ . '/../partials/header.php';
         <!-- Right Column: Available Placeholders Sidebar -->
         <div class="col-lg-4">
             <div class="card shadow-sm border-0 bg-light p-3">
-                <h4 class="h5 fw-bold text-dark mt-0"><?= htmlspecialchars(__('feedback_emails.placeholders_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
-                <p class="text-muted small"><?= htmlspecialchars(__('feedback_emails.placeholders_desc'), ENT_QUOTES, 'UTF-8') ?></p>
+                <h4 class="h5 fw-bold text-dark mt-0"><?= htmlspecialchars(__('feedback_emails.placeholders_heading') ?? 'Available Placeholders', ENT_QUOTES, 'UTF-8') ?></h4>
+                <p class="text-muted small"><?= htmlspecialchars(__('feedback_emails.placeholders_desc') ?? 'You can use these tags in your subject or body.', ENT_QUOTES, 'UTF-8') ?></p>
                 
                 <hr class="text-muted my-2">
                 
-                <strong class="small d-block mb-1"><?= htmlspecialchars(__('feedback_emails.fixed_tags'), ENT_QUOTES, 'UTF-8') ?></strong>
+                <strong class="small d-block mb-1"><?= htmlspecialchars(__('feedback_emails.fixed_tags') ?? 'Fixed Tags', ENT_QUOTES, 'UTF-8') ?></strong>
                 <ul class="ps-3 small font-monospace mb-3 text-secondary">
                     <li>{first_name}</li>
                     <li>{surname}</li>
@@ -106,8 +101,8 @@ require_once __DIR__ . '/../partials/header.php';
                 </ul>
 
                 <?php if (!empty($columns)): ?>
-                    <strong class="small d-block mb-1"><?= htmlspecialchars(__('feedback_emails.custom_tags'), ENT_QUOTES, 'UTF-8') ?></strong>
-                    <p class="text-muted" style="font-size: 0.78rem; margin-bottom: 4px;"><?= htmlspecialchars(__('feedback_emails.custom_tags_desc'), ENT_QUOTES, 'UTF-8') ?></p>
+                    <strong class="small d-block mb-1"><?= htmlspecialchars(__('feedback_emails.custom_tags') ?? 'Custom Schema Tags', ENT_QUOTES, 'UTF-8') ?></strong>
+                    <p class="text-muted" style="font-size: 0.78rem; margin-bottom: 4px;"><?= htmlspecialchars(__('feedback_emails.custom_tags_desc') ?? 'Dynamic fields submitted by users.', ENT_QUOTES, 'UTF-8') ?></p>
                     <ul class="ps-3 small font-monospace text-primary mb-0">
                         <?php foreach ($columns as $colLabel): 
                             $safeCol = is_string($colLabel) ? $colLabel : '';
@@ -125,4 +120,4 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

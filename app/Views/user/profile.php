@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: user/profile.php/user/actions/save_profile.php
  * Migrated Date: 2026-08-05 05:11:34
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * MIGRATED FILE MAPPING
@@ -19,7 +20,8 @@
 /** @array<int, string> $profileLanguages */
 /** @string $userLanguage */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container py-4" style="max-width: 800px;" role="region" aria-label="<?= htmlspecialchars(__('profile.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -41,7 +43,7 @@ require_once __DIR__ . '/../partials/header.php';
     <!-- Personal Details Card -->
     <div class="card shadow-sm border-0 p-4 mb-4">
         <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('profile.personal_details_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
-        <form method="POST" action="/user/actions/save_profile.php">
+        <form method="POST" action="<?= $basePath ?>/profile">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_personal_details">
 
@@ -58,7 +60,7 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="mb-3">
                 <label for="language" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.language_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <select id="language" name="language" class="form-select form-select-sm">
-                    <option value="" <?= ($userLanguage === '' || $userLanguage === '0') ? 'selected' : '' ?>><= htmlspecialchars(__('profile.lang_site_default'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="" <?= ($userLanguage === '' || $userLanguage === '0') ? 'selected' : '' ?>><?= htmlspecialchars(__('profile.lang_site_default'), ENT_QUOTES, 'UTF-8') ?></option>
                     <?php foreach ($profileLanguages as $code): ?>
                         <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>" <?= ($userLanguage === $code) ? 'selected' : '' ?>>
                             <?= htmlspecialchars(strtoupper($code), ENT_QUOTES, 'UTF-8') ?>
@@ -103,10 +105,10 @@ require_once __DIR__ . '/../partials/header.php';
                     <?php
                     $currentFmt = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
                     $dateFormats = [
-                        'd/m/Y'   => '23/07/2026 (UK Slash - DD/MM/YYYY)',
-                        'd/m/y'   => '23/07/26 (Short Year - DD/MM/YY)',
-                        'd.m.Y'   => '23.07.2026 (Dots - DD.MM.YYYY)',
-                        'm/d/Y'   => '07/23/2026 (US Style - MM/DD/YYYY)',
+                        'd/m/Y'  => '23/07/2026 (UK Slash - DD/MM/YYYY)',
+                        'd/m/y'  => '23/07/26 (Short Year - DD/MM/YY)',
+                        'd.m.Y'  => '23.07.2026 (Dots - DD.MM.YYYY)',
+                        'm/d/Y'  => '07/23/2026 (US Style - MM/DD/YYYY)',
                         'l j F Y' => 'Thursday 23 July 2026 (Full Text)'
                     ];
                     foreach ($dateFormats as $fmtKey => $fmtLabel) {
@@ -121,9 +123,9 @@ require_once __DIR__ . '/../partials/header.php';
                 <label for="time_format" class="form-label small fw-bold"><?= htmlspecialchars(__('onboarding.time_format_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <select id="time_format" name="time_format" class="form-select form-select-sm">
                     <?php $currentTimeFmt = isset($currentUser['time_format']) && is_string($currentUser['time_format']) ? $currentUser['time_format'] : '24'; ?>
-                    <option value="24" <?= ($currentTimeFmt === '24') ? 'selected' : '' ?>><= htmlspecialchars(__('onboarding.time_24'), ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="12" <?= ($currentTimeFmt === '12') ? 'selected' : '' ?>><= htmlspecialchars(__('onboarding.time_12'), ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="none" <?= ($currentTimeFmt === 'none') ? 'selected' : '' ?>><= htmlspecialchars(__('onboarding.time_none'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="24" <?= ($currentTimeFmt === '24') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.time_24'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="12" <?= ($currentTimeFmt === '12') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.time_12'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="none" <?= ($currentTimeFmt === 'none') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.time_none'), ENT_QUOTES, 'UTF-8') ?></option>
                 </select>
             </div>
 
@@ -137,9 +139,9 @@ require_once __DIR__ . '/../partials/header.php';
                 </small>
                 <select id="attribution_display_mode" name="attribution_display_mode" class="form-select form-select-sm">
                     <?php $mode = !empty($currentUser['attribution_display_mode']) ? $currentUser['attribution_display_mode'] : 'initials_random'; ?>
-                    <option value="initials_random" <?= ($mode === 'initials_random') ? 'selected' : '' ?>><= htmlspecialchars(__('onboarding.attr_opt_anon'), ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="full_name" <?= ($mode === 'full_name') ? 'selected' : '' ?>><= htmlspecialchars(__('onboarding.attr_opt_public'), ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="volunteers_only" <?= ($mode === 'volunteers_only') ? 'selected' : '' ?>><= htmlspecialchars(__('onboarding.attr_opt_vol'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="initials_random" <?= ($mode === 'initials_random') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.attr_opt_anon'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="full_name" <?= ($mode === 'full_name') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.attr_opt_public'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="volunteers_only" <?= ($mode === 'volunteers_only') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.attr_opt_vol'), ENT_QUOTES, 'UTF-8') ?></option>
                 </select>
             </div>
 
@@ -158,7 +160,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <span class="badge bg-warning text-dark ms-2"><?= htmlspecialchars(__('profile.email_unverified'), ENT_QUOTES, 'UTF-8') ?></span>
             <?php endif; ?>
         </p>
-        <form method="POST" action="/user/actions/save_profile.php">
+        <form method="POST" action="<?= $basePath ?>/profile">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_email">
             <div class="mb-3">
@@ -172,7 +174,7 @@ require_once __DIR__ . '/../partials/header.php';
     <!-- Password Security Card -->
     <div class="card shadow-sm border-0 p-4 mb-4">
         <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('profile.password_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
-        <form method="POST" action="/user/actions/save_profile.php">
+        <form method="POST" action="<?= $basePath ?>/profile">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_password">
             <input type="text" name="username" value="<?= htmlspecialchars($currentUser['username'], ENT_QUOTES, 'UTF-8') ?>" autocomplete="username" class="d-none" aria-hidden="true">
@@ -213,7 +215,7 @@ require_once __DIR__ . '/../partials/header.php';
         </p>
 
         <?php if (empty($currentUser['two_fa_enabled'])): ?>
-            <form method="POST" action="/user/actions/save_profile.php">
+            <form method="POST" action="<?= $basePath ?>/profile">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="setup_2fa">
                 <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('profile.setup_tfa_btn'), ENT_QUOTES, 'UTF-8') ?></button>
@@ -228,10 +230,10 @@ require_once __DIR__ . '/../partials/header.php';
                             <li><?= htmlspecialchars($nrp, ENT_QUOTES, 'UTF-8') ?></li>
                         <?php endforeach; ?>
                     </ul>
-                    <a href="/user/profile.php?action=download_new_codes" class="btn btn-sm btn-outline-secondary text-decoration-none d-inline-block"><?= htmlspecialchars(__('profile.download_codes_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="<?= $basePath ?>/profile?action=download_new_codes" class="btn btn-sm btn-outline-secondary text-decoration-none d-inline-block"><?= htmlspecialchars(__('profile.download_codes_btn'), ENT_QUOTES, 'UTF-8') ?></a>
                 </div>
             <?php endif; ?>
-            <form method="POST" action="/user/actions/save_profile.php" class="mt-2">
+            <form method="POST" action="<?= $basePath ?>/profile" class="mt-2">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="generate_backup_codes">
                 <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('<?= htmlspecialchars(__('profile.generate_codes_confirm'), ENT_QUOTES, 'UTF-8') ?>');"><?= htmlspecialchars(__('profile.generate_codes_btn'), ENT_QUOTES, 'UTF-8') ?></button>
@@ -240,4 +242,4 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

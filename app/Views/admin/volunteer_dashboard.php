@@ -2,16 +2,10 @@
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
- * Original Old File: admin/volunteer_dashboard.php/admin/actions/save_volunteer.php
- * Migrated Date: 2026-08-05 03:58:25
- */declare(strict_types=1);
-
-/**
- * MIGRATED FILE MAPPING
- * ---------------------
  * Original Old File: admin/volunteer_dashboard.php
  * Migrated Date: 2026-08-04 11:30:00
  */
+declare(strict_types=1);
 
 /** @string $message */
 /** @string $error */
@@ -22,7 +16,8 @@
 /** @string $fullFormatStr */
 /** @array{id: int, username: string, timezone?: string, date_format?: string} $currentUser */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container-fluid py-4" style="max-width: 1500px;" role="region" aria-label="Volunteer Portal Dashboard">
@@ -45,8 +40,8 @@ require_once __DIR__ . '/../partials/header.php';
             <p class="text-muted mb-0"><?= htmlspecialchars(__('volunteer_dashboard.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
         </div>
         <div class="d-flex gap-2 flex-wrap">
-            <a href="/admin/manage_volunteer_emails.php" class="btn btn-outline-secondary">✉️ <?= htmlspecialchars(__('volunteer_dashboard.manage_emails_btn'), ENT_QUOTES, 'UTF-8') ?></a>
-            <a href="/admin/manage_volunteer_schema.php" class="btn btn-outline-secondary">⚙️ <?= htmlspecialchars(__('volunteer_dashboard.manage_schema_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+            <a href="<?= $basePath ?>/admin/volunteers/emails" class="btn btn-outline-secondary">✉️ <?= htmlspecialchars(__('volunteer_dashboard.manage_emails_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+            <a href="<?= $basePath ?>/admin/volunteers/schema" class="btn btn-outline-secondary">⚙️ <?= htmlspecialchars(__('volunteer_dashboard.manage_schema_btn'), ENT_QUOTES, 'UTF-8') ?></a>
         </div>
     </div>
 
@@ -143,13 +138,15 @@ require_once __DIR__ . '/../partials/header.php';
                                         <!-- Trigger Interview Modal Button -->
                                         <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" onclick="openInterviewModal(<?= $subId ?>, '<?= htmlspecialchars(addslashes($status), ENT_QUOTES, 'UTF-8') ?>', '<?= htmlspecialchars($interviewDate, ENT_QUOTES, 'UTF-8') ?>', `<?= htmlspecialchars(addslashes($interviewNotes), ENT_QUOTES, 'UTF-8') ?>`)"><?= htmlspecialchars(__('volunteer_dashboard.chat_notes_btn'), ENT_QUOTES, 'UTF-8') ?></button>
 
-                                        <!-- Accept & Invite Bridge Button -->
-                                        <?php if ($subEmail !== ''): ?>
-                                            <a href="/admin/create_user.php?email=<?= urlencode($subEmail) ?>&first_name=<?= urlencode($firstName) ?>&surname=<?= urlencode($surname) ?>&volunteer_id=<?= $subId ?>" class="btn btn-sm btn-success py-0 px-2 text-decoration-none" style="font-size: 0.75rem;" title="<?= htmlspecialchars(__('volunteer_dashboard.accept_title'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(__('volunteer_dashboard.accept_invite_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+                                        <!-- Accept & Invite Button -->
+                                        <?php if (!empty($subEmail)): ?>
+                                        <a href="<?= $basePath ?>/admin/users/create?email=<?= urlencode($subEmail) ?>&first_name=<?= urlencode($firstName) ?>&surname=<?= urlencode($surname) ?>&volunteer_id=<?= (int)$subId ?>" class="btn btn-sm btn-success py-0 px-2 text-decoration-none" style="font-size: 0.75rem; margin-left: 4px;" title="<?= htmlspecialchars(__('volunteer_dashboard.accept_title'), ENT_QUOTES, 'UTF-8') ?>">
+                                        <?= htmlspecialchars(__('volunteer_dashboard.accept_invite_btn'), ENT_QUOTES, 'UTF-8') ?>
+                                        </a>
                                         <?php endif; ?>
 
                                         <!-- Delete Form Button -->
-                                        <form method="POST" action="/admin/actions/save_volunteer.php" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_dashboard.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+                                        <form method="POST" action="<?= $basePath ?>/admin/volunteers" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_dashboard.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="action" value="delete_volunteer">
                                             <input type="hidden" name="volunteer_id" value="<?= $subId ?>">
@@ -170,7 +167,7 @@ require_once __DIR__ . '/../partials/header.php';
 <div class="modal fade" id="interviewModal" tabindex="-1" aria-labelledby="interviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="/admin/actions/save_volunteer.php">
+            <form method="POST" action="<?= $basePath ?>/admin/volunteers">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="update_interview">
                 <input type="hidden" name="volunteer_id" id="modal_volunteer_id">
@@ -226,4 +223,4 @@ function openInterviewModal(id, status, date, notes) {
 }
 </script>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

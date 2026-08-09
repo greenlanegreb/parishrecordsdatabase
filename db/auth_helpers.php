@@ -203,19 +203,19 @@ function require_permission(PDO $pdo, string $permissionKey, ?string $descriptio
 {
     if (!isset($_SESSION['user_id'])) {
         $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-        header('Location: ' . $base . '/user/login.php');
+        header('Location: ' . $base . '/login');
         exit;
     }
 
     if (!has_permission($pdo, $permissionKey, $description)) {
-        require_once __DIR__ . '/../403.php';
+        require_once __DIR__ . '/../public/403.php';
         exit;
     }
 
     $user = get_current_user_data($pdo);
     if ($user === null) {
         $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-        header('Location: ' . $base . '/user/login.php');
+        header('Location: ' . $base . '/login');
         exit;
     }
 
@@ -241,7 +241,7 @@ function require_role(PDO $pdo, $allowedRoles): array
 {
     if (!isset($_SESSION['user_id'])) {
         $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-        header('Location: ' . $base . '/user/login.php');
+        header('Location: ' . $base . '/login');
         exit;
     }
     
@@ -250,7 +250,7 @@ function require_role(PDO $pdo, $allowedRoles): array
     $allowedArray = is_array($allowedRoles) ? $allowedRoles : [$allowedRoles];
 
     if ($user === null || !in_array($userRole, $allowedArray, true)) {
-        require_once __DIR__ . '/../403.php';
+        require_once __DIR__ . '/../public/403.php';
         exit;
     }
 

@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/save_maintenance.php
  * Migrated Date: 2026-08-05 04:35:30
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class AdminMaintenanceController
 
     public function save(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -63,7 +59,7 @@ class AdminMaintenanceController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: /admin/settings#tab-maintenance');
+        header('Location: ' . BASE_PATH . '/admin/settings#tab-maintenance');
         exit;
     }
 }

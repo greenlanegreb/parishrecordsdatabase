@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/test_mail.php
  * Migrated Date: 2026-08-05 04:43:53
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class AdminTestMailController
 
     public function send(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -44,7 +40,7 @@ class AdminTestMailController
 
         if (!filter_var($testEmail, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Please provide a valid recipient email address for testing.";
-            header('Location: /admin/settings#test-mail-section');
+            header('Location: ' . BASE_PATH . '/admin/settings#test-mail-section');
             exit;
         }
 
@@ -134,7 +130,7 @@ class AdminTestMailController
             }
         } catch (Exception $e) {
             $_SESSION['error'] = "Test mail failed: " . $e->getMessage();
-            header('Location: /admin/settings#test-mail-section');
+            header('Location: ' . BASE_PATH . '/admin/settings#test-mail-section');
             exit;
         }
 
@@ -147,7 +143,7 @@ class AdminTestMailController
             $_SESSION['error'] = "Failed to dispatch test email. Check your server logs or SMTP settings.";
         }
 
-        header('Location: /admin/settings#test-mail-section');
+        header('Location: ' . BASE_PATH . '/admin/settings#test-mail-section');
         exit;
     }
 }

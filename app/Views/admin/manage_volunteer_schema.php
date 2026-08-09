@@ -2,16 +2,10 @@
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
- * Original Old File: admin/manage_volunteer_schema.php/admin/actions/save_volunteer_schema.php
- * Migrated Date: 2026-08-05 03:32:40
- */declare(strict_types=1);
-
-/**
- * MIGRATED FILE MAPPING
- * ---------------------
  * Original Old File: admin/manage_volunteer_schema.php
  * Migrated Date: 2026-08-04 09:55:12
  */
+declare(strict_types=1);
 
 /** @string $message */
 /** @string $error */
@@ -20,7 +14,8 @@
 /** @array<string, mixed>|false $editCol */
 /** @array<int, array<string, mixed>> $columns */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
@@ -30,7 +25,7 @@ require_once __DIR__ . '/../partials/header.php';
     <p class="text-muted mb-3"><?= htmlspecialchars(__('volunteer_schema.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
 
     <div class="mb-4">
-        <a href="/admin/volunteers" class="btn btn-outline-secondary">← <?= htmlspecialchars(__('volunteer_schema.back_to_dashboard'), ENT_QUOTES, 'UTF-8') ?></a>
+        <a href="<?= $basePath ?>/admin/volunteers" class="btn btn-outline-secondary">← <?= htmlspecialchars(__('volunteer_schema.back_to_dashboard'), ENT_QUOTES, 'UTF-8') ?></a>
     </div>
 
     <!-- Feedback Alerts -->
@@ -55,7 +50,7 @@ require_once __DIR__ . '/../partials/header.php';
                     ✏️ <?= htmlspecialchars(__('volunteer_schema.settings_summary'), ENT_QUOTES, 'UTF-8') ?>
                 </summary>
                 <div class="mt-3 pt-3 border-top">
-                    <form method="POST" action="/admin/volunteers/schema/store">
+                    <form method="POST" action="<?= $basePath ?>/admin/volunteers/schema/store">
                         <?= csrf_field() ?>
                         <input type="hidden" name="action" value="update_settings">
                         
@@ -85,7 +80,7 @@ require_once __DIR__ . '/../partials/header.php';
                 </summary>
                 
                 <div class="mt-3 pt-3 border-top">
-                    <form method="POST" action="/admin/volunteers/schema/store">
+                    <form method="POST" action="<?= $basePath ?>/admin/volunteers/schema/store">
                         <?= csrf_field() ?>
                         <input type="hidden" name="action" value="<?= $editCol ? 'update' : 'create' ?>">
                         <?php if ($editCol): ?>
@@ -147,7 +142,7 @@ require_once __DIR__ . '/../partials/header.php';
 
                         <button type="submit" class="btn btn-primary"><?= $editCol ? htmlspecialchars(__('feedback_schema.save_field_btn'), ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('volunteer_schema.create_field_btn'), ENT_QUOTES, 'UTF-8') ?></button>
                         <?php if ($editCol): ?>
-                            <a href="/admin/volunteers/schema" class="btn btn-outline-secondary ms-2"><?= htmlspecialchars(__('btn.cancel'), ENT_QUOTES, 'UTF-8') ?></a>
+                            <a href="<?= $basePath ?>/admin/volunteers/schema" class="btn btn-outline-secondary ms-2"><?= htmlspecialchars(__('btn.cancel'), ENT_QUOTES, 'UTF-8') ?></a>
                         <?php endif; ?>
                     </form>
                 </div>
@@ -233,9 +228,9 @@ require_once __DIR__ . '/../partials/header.php';
                                 <td><code class="text-secondary"><?= htmlspecialchars($fieldSubtype !== '' ? $fieldSubtype : __('feedback_schema.subtype_standard_lower'), ENT_QUOTES, 'UTF-8') ?></code></td>
                                 <td><?= $isRequired ? '<span class="text-success fw-bold">Yes</span>' : '<span class="text-muted">No</span>' ?></td>
                                 <td class="text-end pe-3 text-nowrap">
-                                    <a href="/admin/volunteers/schema?edit_column=<?= $colId ?>#create-column-details" class="btn btn-sm btn-outline-secondary me-1"><?= htmlspecialchars(__('feedback_schema.edit_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+                                    <a href="<?= $basePath ?>/admin/volunteers/schema?edit_column=<?= $colId ?>#create-column-details" class="btn btn-sm btn-outline-secondary me-1"><?= htmlspecialchars(__('feedback_schema.edit_btn'), ENT_QUOTES, 'UTF-8') ?></a>
                                     
-                                    <form method="POST" action="/admin/volunteers/schema/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_schema.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+                                    <form method="POST" action="<?= $basePath ?>/admin/volunteers/schema/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_schema.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="column_id" value="<?= $colId ?>">
@@ -270,7 +265,7 @@ require_once __DIR__ . '/../partials/header.php';
                     for (var id in sortOrders) {
                         formData.append('sort_orders[' + id + ']', sortOrders[id]);
                     }
-                    fetch('/admin/volunteers/schema/store', { method: 'POST', body: formData });
+                    fetch('<?= $basePath ?>/admin/volunteers/schema/store', { method: 'POST', body: formData });
                 }
             });
         }
@@ -280,4 +275,4 @@ require_once __DIR__ . '/../partials/header.php';
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

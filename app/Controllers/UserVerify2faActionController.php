@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/verify_2fa.php/user/actions/save_verify_2fa.php
  * Migrated Date: 2026-08-05 05:31:06
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,16 +22,13 @@ class UserVerify2faActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
         if (!isset($_SESSION['pending_2fa_user_id'])) {
             http_response_code(403);
             error_log("Unauthorized direct access attempt to save_verify_2fa.php from IP: " . $remoteAddr);
-            header('Location: /user/login.php');
+            header('Location: ' . $basePath . '/login');
             exit;
         }
 
@@ -61,7 +58,7 @@ class UserVerify2faActionController
         if ($user === false) {
             http_response_code(403);
             error_log("Invalid pending 2FA user ID: {$userId} from IP: " . $remoteAddr);
-            header('Location: /user/login.php');
+            header('Location: ' . $basePath . '/login');
             exit;
         }
 
@@ -111,9 +108,9 @@ class UserVerify2faActionController
 
             // Forward new users to onboarding wizard, otherwise go to data_entry
             if (!empty($user['is_new_user'])) {
-                header('Location: /user/onboarding.php');
+                header('Location: ' . $basePath . '/user/onboarding');
             } else {
-                header('Location: /user/data_entry.php');
+                header('Location: ' . $basePath . '/data-entry');
             }
             exit;
         } else {
@@ -122,7 +119,7 @@ class UserVerify2faActionController
             $_SESSION['error'] = "Invalid verification code or backup code. Please try again.";
         }
 
-        header('Location: /user/verify_2fa.php');
+        header('Location: ' . $basePath . '/user/verify-2fa');
         exit;
     }
 }

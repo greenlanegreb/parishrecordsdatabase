@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/manage_feedback_emails.php/admin/actions/save_feedback_email_template.php
  * Migrated Date: 2026-08-04 09:32:53
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,15 +22,9 @@ class FeedbackEmailController
 
     public function index(): void
     {
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['feedback']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (!\is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
             exit('403 Forbidden: The Feedback module is currently disabled.');
-        }
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         /** @var array{id: int, username: string} $currentUser */
@@ -48,18 +42,13 @@ class FeedbackEmailController
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['message'], $_SESSION['error']);
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         require_once __DIR__ . '/../Views/admin/manage_feedback_emails.php';
     }
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['feedback']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (!\is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
             exit('403 Forbidden');
         }
@@ -73,6 +62,7 @@ class FeedbackEmailController
         verify_csrf_token();
         require_permission($this->pdo, 'manage_feedback', 'Manage feedback email templates');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $templateId = isset($post['template_id']) ? (int)$post['template_id'] : 0;
         $subject = isset($post['subject']) && is_string($post['subject']) ? trim($post['subject']) : '';
@@ -87,7 +77,7 @@ class FeedbackEmailController
             $_SESSION['error'] = "Subject and body fields cannot be empty.";
         }
 
-        header('Location: /admin/feedback/emails');
+        header('Location: ' . $basePath . '/admin/feedback/emails');
         exit;
     }
 }

@@ -3,21 +3,16 @@
  * MIGRATED FILE MAPPING
  * ---------------------
  * Original Old File: admin/notices.php
- * Migrated Date: 2026-08-05 03:41:45
- */declare(strict_types=1);
-
-/**
- * MIGRATED FILE MAPPING
- * ---------------------
- * Original Old File: admin/notices.php
  * Migrated Date: 2026-08-04 10:15:33
  */
+declare(strict_types=1);
 
 /** @string $message */
 /** @string $error */
 /** @array<int, array<string, mixed>> $notices */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container py-4" role="region" aria-label="Notices Management" style="max-width: 1100px;">
@@ -41,10 +36,10 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body p-4">
             <h4 class="h5 fw-bold mb-3"><?= htmlspecialchars(__('notices.create_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
-            <form method="POST" action="/admin/notices/store">
+            <form method="POST" action="<?= $basePath ?>/admin/notices/store">
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="create">
-               
+                
                 <div class="mb-3">
                     <label for="title" class="form-label fw-bold"><?= htmlspecialchars(__('notices.title_label'), ENT_QUOTES, 'UTF-8') ?></label>
                     <input type="text" id="title" name="title" required class="form-control">
@@ -141,7 +136,7 @@ require_once __DIR__ . '/../partials/header.php';
                                     <?= $isDismissible ? htmlspecialchars(__('notices.yes'), ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('notices.no_sticky'), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
                                 <td class="pe-3 text-end text-nowrap">
-                                    <form method="POST" action="/admin/notices/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('notices.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+                                    <form method="POST" action="<?= $basePath ?>/admin/notices/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('notices.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="notice_id" value="<?= $noticeId ?>">
@@ -157,4 +152,4 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

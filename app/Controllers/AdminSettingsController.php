@@ -4,175 +4,140 @@
  * ---------------------
  * Original Old File: admin/settings.php/admin/actions/save_settings.php
  * Migrated Date: 2026-08-05 03:44:11
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\SettingsService;
 use Exception;
 use PDO;
+
+// Ensure auth helpers are loaded
+$authHelperPath = __DIR__ . '/../../db/auth_helpers.php';
+if (file_exists($authHelperPath)) {
+    require_once $authHelperPath;
+}
+
+// Ensure general functions are loaded
+$functionsPath = __DIR__ . '/../../includes/functions.php';
+if (file_exists($functionsPath)) {
+    require_once $functionsPath;
+}
 
 class AdminSettingsController
 {
     private PDO $pdo;
+    private SettingsService $settingsService;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+        $this->settingsService = new SettingsService($pdo);
     }
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         /** @var array{id: int, username: string, timezone?: string} $currentUser */
-        $currentUser = require_admin_page($this->pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
+        $currentUser = \require_admin_page($this->pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
 
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['message'], $_SESSION['error']);
 
         // Auto-register table-scoped permissions for any existing dynamic tables
-        try {
-            $existingTables = $this->pdo->query("SELECT id, table_name FROM dynamic_tables");
-            /** @var array<int, array<string, mixed>> $tableRows */
-            $tableRows = $existingTables !== false ? $existingTables->fetchAll(PDO::FETCH_ASSOC) : [];
-            foreach ($tableRows as $et) {
-                $tId = isset($et['id']) ? (int)$et['id'] : 0;
-                $tName = isset($et['table_name']) && is_string($et['table_name']) ? $et['table_name'] : '';
-                $viewKey = 'view_table_' . $tId;
-                $viewDesc = 'Allows viewing and searching records in table: ' . $tName;
-                $modKey = 'moderate_table_' . $tId;
-                $modDesc = 'Allows reviewing and moderating suggestions in table: ' . $tName;
-                
-                $insP = $this->pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)");
-                $insP->execute([$viewKey, $viewDesc]);
-                $insP->execute([$modKey, $modDesc]);
-            }
-        } catch (Exception $e) {
-            // Ignore database table discovery errors if not yet seeded
-        }
+        $this->settingsService->autoRegisterTablePermissions();
 
-        $currentSystemName = get_system_name($this->pdo);
+        $currentSystemName = \get_system_name($this->pdo);
 
-        $getSettingVal = function(PDO $pdo, string $key, string $default): string {
-            try {
-                $stmt = $pdo->prepare("SELECT setting_value FROM site_settings WHERE setting_key = ?");
-                $stmt->execute([$key]);
-                $val = $stmt->fetchColumn();
-                return ($val !== false && $val !== null && is_string($val)) ? $val : $default;
-            } catch (Exception $e) {
-                return $default;
-            }
-        };
-
-        $currentMailDomain = $getSettingVal($this->pdo, 'mail_domain', '');
-        $currentMailFrom = $getSettingVal($this->pdo, 'mail_from', '');
-        $currentMailDriver = $getSettingVal($this->pdo, 'mail_driver', 'mail');
-        $currentSmtpHost = $getSettingVal($this->pdo, 'smtp_host', '');
-        $currentSmtpPort = $getSettingVal($this->pdo, 'smtp_port', '587');
-        $currentSmtpUser = $getSettingVal($this->pdo, 'smtp_user', '');
-        $currentSmtpEncryption = $getSettingVal($this->pdo, 'smtp_encryption', 'tls');
-        $maintenanceMode = $getSettingVal($this->pdo, 'maintenance_mode', '0');
-        $maintenanceReason = $getSettingVal($this->pdo, 'maintenance_reason', 'Scheduled system maintenance and database updates.');
-        $maintenanceEta = $getSettingVal($this->pdo, 'maintenance_eta', 'Shortly');
-        $currentDefaultLanguage = $getSettingVal($this->pdo, 'default_language', 'en');
+        $currentMailDomain = $this->settingsService->getSettingVal('mail_domain', '');
+        $currentMailFrom = $this->settingsService->getSettingVal('mail_from', '');
+        $currentMailDriver = $this->settingsService->getSettingVal('mail_driver', 'mail');
+        $currentSmtpHost = $this->settingsService->getSettingVal('smtp_host', '');
+        $currentSmtpPort = $this->settingsService->getSettingVal('smtp_port', '587');
+        $currentSmtpUser = $this->settingsService->getSettingVal('smtp_user', '');
+        $currentSmtpEncryption = $this->settingsService->getSettingVal('smtp_encryption', 'tls');
+        $maintenanceMode = $this->settingsService->getSettingVal('maintenance_mode', '0');
+        $maintenanceReason = $this->settingsService->getSettingVal('maintenance_reason', 'Scheduled system maintenance and database updates.');
+        $maintenanceEta = $this->settingsService->getSettingVal('maintenance_eta', 'Shortly');
+        $currentDefaultLanguage = $this->settingsService->getSettingVal('default_language', 'en');
 
         // CAPTCHA Configuration Settings
-        $currentCaptchaProvider = $getSettingVal($this->pdo, 'captcha_provider', 'none');
-        $currentTurnstileSite = $getSettingVal($this->pdo, 'turnstile_site_key', '');
-        $currentTurnstileSecret = $getSettingVal($this->pdo, 'turnstile_secret_key', '');
-        $currentRecaptchaSite = $getSettingVal($this->pdo, 'recaptcha_site_key', '');
-        $currentRecaptchaSecret = $getSettingVal($this->pdo, 'recaptcha_secret_key', '');
-        $currentHcaptchaSite = $getSettingVal($this->pdo, 'hcaptcha_site_key', '');
-        $currentHcaptchaSecret = $getSettingVal($this->pdo, 'hcaptcha_secret_key', '');
+        $currentCaptchaProvider = $this->settingsService->getSettingVal('captcha_provider', 'none');
+        $currentTurnstileSite = $this->settingsService->getSettingVal('turnstile_site_key', '');
+        $currentTurnstileSecret = $this->settingsService->getSettingVal('turnstile_secret_key', '');
+        $currentRecaptchaSite = $this->settingsService->getSettingVal('recaptcha_site_key', '');
+        $currentRecaptchaSecret = $this->settingsService->getSettingVal('recaptcha_secret_key', '');
+        $currentHcaptchaSite = $this->settingsService->getSettingVal('hcaptcha_site_key', '');
+        $currentHcaptchaSecret = $this->settingsService->getSettingVal('hcaptcha_secret_key', '');
 
-        // Available language files in /lang
+        // Available languages
         /** @var array<int, string> $availableLanguages */
-        $availableLanguages = [];
-        $langDir = __DIR__ . '/../../lang';
-        if (is_dir($langDir)) {
-            $globFiles = glob($langDir . '/*.php');
-            if ($globFiles !== false) {
-                foreach ($globFiles as $file) {
-                    $code = basename($file, '.php');
-                    if (preg_match('/^[a-z_]+$/', $code)) {
-                        $availableLanguages[] = $code;
-                    }
-                }
-            }
-            sort($availableLanguages);
-        }
-        if (!in_array('en', $availableLanguages, true)) {
-            array_unshift($availableLanguages, 'en');
-        }
+        $availableLanguages = $this->settingsService->getAvailableLanguages();
 
-        // Schema version status for update UI
-        $schemaCurrent = function_exists('get_schema_version') ? get_schema_version($this->pdo) : 0;
-        $schemaLatest = $schemaCurrent;
-        $migrationsDir = __DIR__ . '/../../db/migrations';
-        if (is_dir($migrationsDir)) {
-            $migGlob = glob($migrationsDir . '/*.php');
-            if ($migGlob !== false) {
-                foreach ($migGlob as $migFile) {
-                    $m = [];
-                    if (preg_match('/(\d+)_/', basename($migFile), $m)) {
-                        $schemaLatest = max($schemaLatest, (int)$m[1]);
-                    }
-                }
-            }
-        }
-        $schemaNeedsUpdate = ($schemaCurrent < $schemaLatest);
+        // Schema version status
+        $schemaStatus = $this->settingsService->getSchemaStatus();
+        $schemaCurrent = $schemaStatus['current'];
+        $schemaLatest = $schemaStatus['latest'];
+        $schemaNeedsUpdate = $schemaStatus['needsUpdate'];
 
         // Module toggles state
-        $modModerationVal = $getSettingVal($this->pdo, 'module_moderation_enabled', '1');
-        $modVolunteersVal = $getSettingVal($this->pdo, 'module_volunteers_enabled', '1');
-        $modFeedbackVal = $getSettingVal($this->pdo, 'module_feedback_enabled', '1');
-        $modUsersVal = $getSettingVal($this->pdo, 'module_users_enabled', '1');
-        $modLeaderboardVal = $getSettingVal($this->pdo, 'module_leaderboard_enabled', '1');
+        $modModerationVal = $this->settingsService->getSettingVal('module_moderation_enabled', '1');
+        $modVolunteersVal = $this->settingsService->getSettingVal('module_volunteers_enabled', '1');
+        $modFeedbackVal = $this->settingsService->getSettingVal('module_feedback_enabled', '1');
+        $modUsersVal = $this->settingsService->getSettingVal('module_users_enabled', '1');
+        $modLeaderboardVal = $this->settingsService->getSettingVal('module_leaderboard_enabled', '1');
 
-        $noticesStmt = $this->pdo->query("SELECT * FROM site_notices ORDER BY display_order ASC, id DESC");
         /** @var array<int, array<string, mixed>> $notices */
-        $notices = $noticesStmt !== false ? $noticesStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        $notices = $this->settingsService->getNotices();
 
-        // Audit log data fetching
-        $auditStmt = $this->pdo->query("
-            SELECT al.*, u.username 
-            FROM audit_logs al 
-            LEFT JOIN users u ON al.user_id = u.id 
-            ORDER BY al.created_at DESC 
-            LIMIT 250
-        ");
         /** @var array<int, array<string, mixed>> $auditLogs */
-        $auditLogs = $auditStmt !== false ? $auditStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        $auditLogs = $this->settingsService->getAuditLogs();
 
-        $actionsStmt = $this->pdo->query("SELECT DISTINCT action FROM audit_logs ORDER BY action ASC");
         /** @var array<int, string> $distinctActions */
-        $distinctActions = $actionsStmt !== false ? $actionsStmt->fetchAll(PDO::FETCH_COLUMN) : [];
+        $distinctActions = $this->settingsService->getDistinctActions();
+
+        // Roles & Permissions matrix data processing (extracted from view)
+        $rolesList = $this->settingsService->getRolesList();
+        $permsList = $this->settingsService->getPermissionsList();
+        $activeMappings = $this->settingsService->getActiveMappings();
+
+        $modUsersActive = is_module_enabled($this->pdo, 'users');
+        $modVolunteersActive = is_module_enabled($this->pdo, 'volunteers');
+        $modFeedbackActive = is_module_enabled($this->pdo, 'feedback');
+        $modModerationActive = is_module_enabled($this->pdo, 'moderation');
+        $modLeaderboardActive = is_module_enabled($this->pdo, 'leaderboard');
+
+        $categorizedPerms = [];
+        foreach ($permsList as $p) {
+            $pkey = isset($p['permission_key']) && is_string($p['permission_key']) ? $p['permission_key'] : '';
+            if (($pkey === 'manage_users' || $pkey === 'invite_users' || $pkey === 'access_onboarding') && !$modUsersActive) continue;
+            if (($pkey === 'manage_volunteers' || $pkey === 'submit_volunteer') && !$modVolunteersActive) continue;
+            if (($pkey === 'manage_feedback' || $pkey === 'submit_feedback') && !$modFeedbackActive) continue;
+            if (($pkey === 'access_suggest_edit' || $pkey === 'moderate_suggestions') && !$modModerationActive) continue;
+            if (($pkey === 'view_leaderboard') && !$modLeaderboardActive) continue;
+
+            $cat = $this->settingsService->getPermissionCategory($pkey);
+            $categorizedPerms[$cat][] = $p;
+        }
 
         $userTimezone = isset($currentUser['timezone']) && is_string($currentUser['timezone']) ? $currentUser['timezone'] : 'UTC';
-        $fullFormatStr = get_user_datetime_format($currentUser);
+        $fullFormatStr = \get_user_datetime_format($currentUser);
 
         require_once __DIR__ . '/../Views/admin/settings.php';
     }
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
+        \verify_csrf_token();
         /** @var array{id: int, username: string} $currentUser */
-        $currentUser = require_permission($this->pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
+        $currentUser = \require_permission($this->pdo, 'manage_settings', 'Manage global site settings, mail drivers, and maintenance mode');
 
         $post = $_POST;
         $systemName = isset($post['system_name']) && is_string($post['system_name']) ? trim($post['system_name']) : '';
@@ -248,7 +213,7 @@ class AdminSettingsController
             $_SESSION['error'] = "System name cannot be empty.";
         }
 
-        header('Location: /admin/settings');
+        header('Location: ' . BASE_PATH . '/admin/settings');
         exit;
     }
 }

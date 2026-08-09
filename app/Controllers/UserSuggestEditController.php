@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/suggest_edit.php/user/actions/save_suggest_edit.php
  * Migrated Date: 2026-08-05 05:26:30
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserSuggestEditController
 
     public function show(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Ensure the moderation module is enabled; otherwise block access to suggestions
         if (!is_module_enabled($this->pdo, 'moderation')) {
             http_response_code(403);
@@ -35,9 +31,10 @@ class UserSuggestEditController
         // Enforce permission-based access control
         require_permission($this->pdo, 'access_suggest_edit', 'Allows submitting edit suggestions for records');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $queryGet = $_GET;
         $recordId = isset($queryGet['record_id']) ? (string)$queryGet['record_id'] : null;
-        $serverRef = isset($_SERVER['HTTP_REFERER']) && is_string($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/index.php';
+        $serverRef = isset($_SERVER['HTTP_REFERER']) && is_string($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $basePath . '/index.php';
         $returnUrl = isset($queryGet['return']) && is_string($queryGet['return']) ? $queryGet['return'] : $serverRef;
 
         if ($recordId === null || $recordId === '') {

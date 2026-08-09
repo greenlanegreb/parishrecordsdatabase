@@ -1,7 +1,6 @@
 logs/
 *.log
 .DS_Store
-db/db.php
 /vendor/
 composer.phar
 .phpunit.result.cache
@@ -13,3 +12,6 @@ scan_keys.php
 missing_keys_report.txt
 lang/fix_lang.sh
 lang.bk
+**/*.bk
+**/*-pre-split*/
+**/*bk2/

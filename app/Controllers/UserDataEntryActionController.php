@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/data_entry.php/user/actions/save_data_entry.php
  * Migrated Date: 2026-08-05 04:50:29
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class UserDataEntryActionController
 
     public function save(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -37,6 +33,7 @@ class UserDataEntryActionController
         /** @var array{id: int|string, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'access_data_entry', 'Allows accessing the core data entry workstation and creating records');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $tableId = isset($post['table_id']) ? (int)$post['table_id'] : 1;
 
@@ -72,11 +69,15 @@ class UserDataEntryActionController
             /** @var array<int, string> $sanitizedInputs */
             $sanitizedInputs = [];
             foreach ($inputFilters as $cid => $val) {
-                $isBool = (isset($colsMap[$cid]) && (string)($colsMap[$cid]['data_type'] ?? '') === 'BOOLEAN');
+                $dataType = isset($colsMap[$cid]) ? (string)($colsMap[$cid]['data_type'] ?? '') : '';
+                $isBool = ($dataType === 'BOOLEAN');
+                $isDate = ($dataType === 'DATE');
                 
                 // Handle boolean "0" properly without treating it as empty
                 if ($isBool) {
                     $cleanVal = ($val !== '' && $val !== null) ? trim((string)$val) : '';
+                } elseif ($isDate) {
+                    $cleanVal = normalize_incoming_date(is_scalar($val) ? (string)$val : null);
                 } else {
                     $cleanVal = sanitize_incoming_text((string)$val);
                 }
@@ -87,7 +88,7 @@ class UserDataEntryActionController
                     if ($cleanVal === '') {
                         $colName = isset($colsMap[$cid]['column_name']) && is_string($colsMap[$cid]['column_name']) ? $colsMap[$cid]['column_name'] : 'Field';
                         $_SESSION['error'] = sprintf(__('save_data_entry.err_required_field'), $colName);
-                        header('Location: /user/data_entry.php?table_id=' . $tableId);
+                        header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                         exit;
                     }
                 }
@@ -102,7 +103,9 @@ class UserDataEntryActionController
                 $firstColVal = '';
                 $firstColId = 0;
                 foreach ($sanitizedInputs as $cid => $cval) {
-                    if ($cval !== '') {
+                    $dataType = isset($colsMap[$cid]) ? (string)($colsMap[$cid]['data_type'] ?? '') : '';
+                    // Skip boolean columns for duplicate checking to avoid false positives on '0' or '1'
+                    if ($cval !== '' && $dataType !== 'BOOLEAN') {
                         $firstColId = $cid;
                         $firstColVal = $cval;
                         break;
@@ -130,7 +133,7 @@ class UserDataEntryActionController
                             $this->pdo->rollBack();
                             $_SESSION['duplicate_warning'] = true;
                             $_SESSION['duplicate_matches'] = $existingMatches;
-                            header('Location: /user/data_entry.php?table_id=' . $tableId);
+                            header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                             exit;
                         }
                     }
@@ -177,7 +180,7 @@ class UserDataEntryActionController
         }
 
         unset($_SESSION['duplicate_warning'], $_SESSION['duplicate_matches']);
-        header('Location: /user/data_entry.php?table_id=' . $tableId);
+        header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
         exit;
     }
 }

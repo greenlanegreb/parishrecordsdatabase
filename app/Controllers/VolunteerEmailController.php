@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/manage_volunteer_emails.php/admin/actions/save_volunteer_email_template.php
  * Migrated Date: 2026-08-05 03:27:14
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,16 +22,10 @@ class VolunteerEmailController
 
     public function index(): void
     {
-        // 1. Module check
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['volunteers']);
-        if (!$moduleCheck->fetchColumn()) {
+        // 1. Module check using core helper
+        if (!\is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
-        }
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         // 2. Admin authorization
@@ -57,13 +51,7 @@ class VolunteerEmailController
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['volunteers']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (!\is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden');
         }
@@ -78,6 +66,7 @@ class VolunteerEmailController
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'manage_volunteers', 'Manage volunteer email templates');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $templateId = isset($post['template_id']) ? (int)$post['template_id'] : 0;
         $subject = isset($post['subject']) && is_string($post['subject']) ? trim($post['subject']) : '';
@@ -95,7 +84,7 @@ class VolunteerEmailController
             $_SESSION['error'] = "Subject and body fields cannot be empty.";
         }
 
-        header('Location: /admin/volunteers/emails');
+        header('Location: ' . $basePath . '/admin/volunteers/emails');
         exit;
     }
 }

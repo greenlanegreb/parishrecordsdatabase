@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: api/export.php
  * Migrated Date: 2026-08-05 05:59:46
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,39 +22,53 @@ class ApiExportController
 
     public function export(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        /** @var array{id: int|string, username?: string} $currentUser */
+        /** @var array{id: int|string, username?: string, date_format?: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'export_data', 'Export database records and search result sets to CSV');
         $userId = $currentUser['id'];
         $currentUsername = isset($currentUser['username']) && is_string($currentUser['username']) ? $currentUser['username'] : 'User';
 
+        $queryGet = $_GET;
+        
+        // Secure table export and check permissions
+        $tableId = isset($queryGet['table_id']) ? (int)$queryGet['table_id'] : 1;
+        if (!user_can_view_table($this->pdo, $tableId, $currentUser)) {
+            http_response_code(403);
+            exit('Unauthorized: You do not have permission to view or export this table.');
+        }
+
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
         $audit = $this->pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'CSV_EXPORT', ?, ?)");
-        $audit->execute([$userId, "Generated CSV database export with citation header", $remoteAddr]);
+        $audit->execute([$userId, "Generated CSV database export for table ID {$tableId}", $remoteAddr]);
 
         $systemName = get_system_name($this->pdo);
 
-        // Fetch columns and records
-        $colsStmt = $this->pdo->query("SELECT * FROM table_columns ORDER BY id ASC");
+        // Fetch columns ONLY for this table
+        $colsStmt = $this->pdo->prepare("SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, id ASC");
+        $colsStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $columns */
-        $columns = $colsStmt !== false ? $colsStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $queryGet = $_GET;
         /** @var array<mixed, mixed> $searchFilters */
         $searchFilters = isset($queryGet['filters']) && is_array($queryGet['filters']) ? $queryGet['filters'] : [];
         /** @var array<mixed, mixed> $dateFilters */
         $dateFilters = isset($queryGet['date_filters']) && is_array($queryGet['date_filters']) ? $queryGet['date_filters'] : [];
 
-        $recordsStmt = $this->pdo->query("SELECT r.id, r.created_at, u.username FROM records r LEFT JOIN users u ON r.created_by = u.id ORDER BY r.id DESC");
+        // Fetch records ONLY for this table
+        $recordsStmt = $this->pdo->prepare("SELECT r.id, r.created_at, u.username FROM records r LEFT JOIN users u ON r.created_by = u.id WHERE r.table_id = ? ORDER BY r.id DESC");
+        $recordsStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $records */
-        $records = $recordsStmt !== false ? $recordsStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        $records = $recordsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $valuesStmt = $this->pdo->query("SELECT record_id, column_id, value_content FROM record_values");
+        // Fetch values only for this table's records
+        $valuesStmt = $this->pdo->prepare("
+            SELECT rv.record_id, rv.column_id, rv.value_content 
+            FROM record_values rv 
+            JOIN records r ON rv.record_id = r.id 
+            WHERE r.table_id = ?
+        ");
+        $valuesStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $rawValues */
-        $rawValues = $valuesStmt !== false ? $valuesStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        $rawValues = $valuesStmt->fetchAll(PDO::FETCH_ASSOC);
         
         /** @var array<int|string, array<int|string, string>> $recordValues */
         $recordValues = [];
@@ -66,7 +80,7 @@ class ApiExportController
         }
 
         header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="prd-export-' . date('Y-m-d') . '.csv"');
+        header('Content-Disposition: attachment; filename="prd-table-' . $tableId . '-export-' . date('Y-m-d') . '.csv"');
         header('Cache-Control: no-store, no-cache, must-revalidate');
         
         $output = fopen('php://output', 'w');
@@ -75,12 +89,12 @@ class ApiExportController
             exit('Failed to open output stream.');
         }
 
-        // --- Citation & Metadata Header Rows ---
-        fputcsv($output, ["# Source System: " . $systemName]);
-        fputcsv($output, ["# Export Generated On: " . date('Y-m-d H:i:s')]);
-        fputcsv($output, ["# Exported By: " . $currentUsername]);
-        fputcsv($output, ["# --------------------------------------------------"]);
-        fputcsv($output, []); // Blank spacer row
+        // --- Citation & Metadata Header Rows (PHP 8.4+ explicit escape parameters added) ---
+        fputcsv($output, ["# Source System: " . $systemName], ',', '"', '\\');
+        fputcsv($output, ["# Export Generated On: " . date('Y-m-d H:i:s')], ',', '"', '\\');
+        fputcsv($output, ["# Exported By: " . $currentUsername], ',', '"', '\\');
+        fputcsv($output, ["# --------------------------------------------------"], ',', '"', '\\');
+        fputcsv($output, [], ',', '"', '\\'); // Blank spacer row
 
         // Standard Column Headers
         /** @var array<int, string> $headerRow */
@@ -91,9 +105,9 @@ class ApiExportController
         }
         $headerRow[] = 'Created By';
         $headerRow[] = 'Date Added';
-        fputcsv($output, $headerRow);
+        fputcsv($output, $headerRow, ',', '"', '\\');
 
-        $userDateFormat = isset($_SESSION['date_format']) && is_string($_SESSION['date_format']) ? $_SESSION['date_format'] : 'd/m/Y';
+        $userDateFormat = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
 
         // Data Rows
         foreach ($records as $rec) {
@@ -119,7 +133,7 @@ class ApiExportController
                 
                 $row[] = $recUsername;
                 $row[] = $recCreatedAt;
-                fputcsv($output, $row);
+                fputcsv($output, $row, ',', '"', '\\');
             }
         }
         fclose($output);

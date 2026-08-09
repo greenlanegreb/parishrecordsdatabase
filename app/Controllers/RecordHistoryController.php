@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: roote/record_history.php
  * Migrated Date: 2026-08-05 06:48:40
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,13 +22,6 @@ class RecordHistoryController
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        require_once __DIR__ . '/../../db/auth_helpers.php';
-        require_once __DIR__ . '/../../includes/functions.php';
-
         $queryGet = $_GET;
         $recordId = isset($queryGet['record_id']) ? (int)$queryGet['record_id'] : 0;
         if ($recordId <= 0) {
@@ -54,12 +47,12 @@ class RecordHistoryController
         $permKey = 'view_table_' . $tableId;
 
         if ($tableId !== 1 && $currentUser === null && !$hasPublicPermission) {
-            $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-            header('Location: ' . $base . '/user/login.php');
+            $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+            header('Location: ' . $basePath . '/login');
             exit;
         }
         if ($tableId !== 1 && $currentUser !== null && !has_permission($this->pdo, $permKey)) {
-            require_once __DIR__ . '/../../403.php';
+            require_once __DIR__ . '/../../public/403.php';
             exit;
         }
 
@@ -92,7 +85,7 @@ class RecordHistoryController
 
         // Fetch current live values for this record to show context
         $valsStmt = $this->pdo->prepare("
-            SELECT tc.column_name, rv.value_content 
+            SELECT tc.column_name, tc.data_type, tc.boolean_display_format, rv.value_content 
             FROM table_columns tc
             LEFT JOIN record_values rv ON rv.column_id = tc.id AND rv.record_id = ?
             WHERE tc.table_id = ?
@@ -103,7 +96,13 @@ class RecordHistoryController
         $currentValues = $valsStmt->fetchAll(PDO::FETCH_ASSOC);
 
         $serverRef = isset($_SERVER['HTTP_REFERER']) && is_string($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-        $returnUrl = $serverRef !== '' ? $serverRef : 'index.php?table_id=' . $tableId;
+        
+        // Ensure referer is safe and doesn't point back to the history page itself, fallback to data entry list
+        if ($serverRef !== '' && strpos($serverRef, 'record_history') === false) {
+            $returnUrl = $serverRef;
+        } else {
+            $returnUrl = 'data-entry?table_id=' . $tableId;
+        }
 
         // Pass variables to View
         require_once __DIR__ . '/../Views/record_history/index.php';

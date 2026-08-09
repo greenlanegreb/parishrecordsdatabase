@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/cron_token_cleanup.php
  * Migrated Date: 2026-08-05 04:26:53
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -26,10 +26,6 @@ class AdminCronController
         $isCli = (php_sapi_name() === 'cli');
 
         if (!$isCli) {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-
             $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
             if ($serverMethod !== 'POST') {
                 http_response_code(405);
@@ -95,7 +91,7 @@ class AdminCronController
                 exit(0);
             } else {
                 $_SESSION['message'] = $details;
-                header('Location: /admin/settings#tab-maintenance');
+                header('Location: ' . BASE_PATH . '/admin/settings#tab-maintenance');
                 exit;
             }
 
@@ -119,7 +115,7 @@ class AdminCronController
                 exit(1);
             } else {
                 $_SESSION['error'] = $errorDetails;
-                header('Location: /admin/settings#tab-maintenance');
+                header('Location: ' . BASE_PATH . '/admin/settings#tab-maintenance');
                 exit;
             }
         }

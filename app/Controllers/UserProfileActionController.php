@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/profile.php/user/actions/save_profile.php
  * Migrated Date: 2026-08-05 05:10:52
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class UserProfileActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -38,6 +34,7 @@ class UserProfileActionController
         $currentUser = require_permission($this->pdo, 'access_profile', 'Allows viewing and managing personal user profile and security settings');
         $userId = $currentUser['id'];
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : '';
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
@@ -193,11 +190,11 @@ class UserProfileActionController
         }
         // 4. Handle 2FA Setup Initiation
         elseif ($action === 'setup_2fa') {
-            header('Location: /user/setup_2fa.php');
+            header('Location: ' . $basePath . '/setup-2fa');
             exit;
         }
 
-        header('Location: /user/profile.php');
+        header('Location: ' . $basePath . '/profile');
         exit;
     }
 }

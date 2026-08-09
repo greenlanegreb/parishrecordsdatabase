@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: roote/volunteer.php
  * Migrated Date: 2026-08-05 07:01:53
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * @var \PDO $pdo
@@ -19,7 +20,8 @@
  * @var string $submittedEmail
  */
 
-require_once __DIR__ . '/../../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container my-5" style="max-width: 650px;" role="region" aria-label="<?= htmlspecialchars(__('volunteer.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -41,7 +43,7 @@ require_once __DIR__ . '/../../partials/header.php';
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="user/actions/save_public_volunteer.php">
+        <form method="POST" action="<?= $basePath ?>/volunteer">
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             
             <div class="d-none" aria-hidden="true">
@@ -190,4 +192,4 @@ document.addEventListener('input', function (event) {
 });
 </script>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

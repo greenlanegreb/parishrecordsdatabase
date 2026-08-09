@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: cat create_user.php/save_user.php
  * Migrated Date: 2026-08-04 09:24:11
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -32,11 +32,6 @@ class UserController
             exit('403 Forbidden: The User Management module is currently disabled.');
         }
 
-        // 2. Admin session & permission bootstrap
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
         // Assume auth helper verifies and returns current admin user array
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_admin_page($this->pdo, 'invite_users', 'Create and invite new users');
@@ -63,10 +58,6 @@ class UserController
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
         $moduleCheck->execute(['users']);
         if (!$moduleCheck->fetchColumn()) {
@@ -83,6 +74,7 @@ class UserController
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'manage_users', 'Manage user accounts, roles, and status');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $firstName = isset($post['first_name']) && is_string($post['first_name']) ? trim($post['first_name']) : '';
         $surname = isset($post['surname']) && is_string($post['surname']) ? trim($post['surname']) : '';
@@ -101,12 +93,12 @@ class UserController
 
         if ($email === '') {
             $_SESSION['error'] = "Email address is a required field.";
-            header('Location: /admin/users');
+            header('Location: ' . $basePath . '/admin/users');
             exit;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Invalid email format.";
-            header('Location: /admin/users');
+            header('Location: ' . $basePath . '/admin/users');
             exit;
         }
 
@@ -114,7 +106,7 @@ class UserController
         $chkEmail->execute([$email]);
         if ($chkEmail->fetch()) {
             $_SESSION['error'] = "A user account with that email address already exists.";
-            header('Location: /admin/users');
+            header('Location: ' . $basePath . '/admin/users');
             exit;
         }
 
@@ -197,7 +189,7 @@ class UserController
             $_SESSION['error'] = "Database insertion failed.";
         }
 
-        header('Location: /admin/users');
+        header('Location: ' . $basePath . '/admin/users');
         exit;
     }
 }

@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/manage_volunteer_schema.php/admin/actions/save_volunteer_schema.php
  * Migrated Date: 2026-08-05 03:31:26
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,15 +22,9 @@ class VolunteerSchemaController
 
     public function index(): void
     {
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['volunteers']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (!\is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden: The Volunteer Portal module is currently disabled.');
-        }
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         /** @var array{id: int, username: string} $currentUser */
@@ -77,13 +71,7 @@ class VolunteerSchemaController
 
     public function store(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $moduleCheck = $this->pdo->prepare("SELECT is_enabled FROM modules WHERE module_name = ?");
-        $moduleCheck->execute(['volunteers']);
-        if (!$moduleCheck->fetchColumn()) {
+        if (!\is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden');
         }
@@ -98,6 +86,7 @@ class VolunteerSchemaController
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'manage_volunteers', 'Manage volunteer schema definitions');
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : '';
 
@@ -162,7 +151,7 @@ class VolunteerSchemaController
             $_SESSION['message'] = "Form presentation settings updated successfully.";
         }
 
-        header('Location: /admin/volunteers/schema');
+        header('Location: ' . $basePath . '/admin/volunteers/schema');
         exit;
     }
 }

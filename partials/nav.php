@@ -7,24 +7,17 @@ declare(strict_types=1);
  * Migrated Date: 2026-08-05 06:25:00
  */
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-$authHelperPath = __DIR__ . '/../db/auth_helpers.php';
-if (file_exists($authHelperPath)) {
-    require_once $authHelperPath;
-}
-$functionsPath = __DIR__ . '/../includes/functions.php';
-if (file_exists($functionsPath)) {
-    require_once $functionsPath;
+// Ensure central initialization is loaded (acts as a safety net for direct file inclusions)
+$initPath = dirname(__DIR__) . '/includes/init.php';
+if (file_exists($initPath)) {
+    require_once $initPath;
 }
 
 // High-contrast toggle
 $queryGet = $_GET;
 if (isset($queryGet['contrast']) && $queryGet['contrast'] === 'toggle') {
     $_SESSION['high_contrast'] = !($_SESSION['high_contrast'] ?? false);
-    $redirectUrl = strtok($_SERVER['REQUEST_URI'] ?? '/index.php', '?') ?: '/index.php';
+    $redirectUrl = strtok($_SERVER['REQUEST_URI'] ?? '/', '?') ?: '/';
     header('Location: ' . $redirectUrl);
     exit;
 }
@@ -36,7 +29,7 @@ if (isset($queryGet['lang']) && is_string($queryGet['lang']) && function_exists(
     if ($requested !== '' && is_file($langFile)) {
         set_language($requested);
     }
-    $redirectUrl = strtok($_SERVER['REQUEST_URI'] ?? '/index.php', '?') ?: '/index.php';
+    $redirectUrl = strtok($_SERVER['REQUEST_URI'] ?? '/', '?') ?: '/';
     header('Location: ' . $redirectUrl);
     exit;
 }
@@ -48,36 +41,36 @@ $isLoggedIn = ($currentUser !== null || isset($_SESSION['user_id']));
 
 // Comprehensive flag & human-readable label dictionary for all your language files
 $languageMeta = [
-    'ar'         => ['name' => 'العربية (Arabic)', 'flag' => '🇸🇦'],
-    'br'         => ['name' => 'Brezhoneg (Breton)', 'flag' => '🏴󠁥󠁳󠁢󲁧'],
-    'cy'         => ['name' => 'Cymraeg (Welsh)', 'flag' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿'],
-    'da'         => ['name' => 'Dansk (Danish)', 'flag' => '🇩🇰'],
-    'de'         => ['name' => 'Deutsch (German)', 'flag' => '🇩🇪'],
-    'en'         => ['name' => 'English', 'flag' => '🇬🇧'],
-    'en_AU'      => ['name' => 'English (Australia)', 'flag' => '🇦🇺'],
-    'en_US'      => ['name' => 'English (United States)', 'flag' => '🇺🇸'],
+    'ar'          => ['name' => 'العربية (Arabic)', 'flag' => '🇸🇦'],
+    'br'          => ['name' => 'Brezhoneg (Breton)', 'flag' => '🏴󠁥󠁳󠁢󲁧'],
+    'cy'          => ['name' => 'Cymraeg (Welsh)', 'flag' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿'],
+    'da'          => ['name' => 'Dansk (Danish)', 'flag' => '🇩🇰'],
+    'de'          => ['name' => 'Deutsch (German)', 'flag' => '🇩🇪'],
+    'en'          => ['name' => 'English', 'flag' => '🇬🇧'],
+    'en_AU'       => ['name' => 'English (Australia)', 'flag' => '🇦🇺'],
+    'en_US'       => ['name' => 'English (United States)', 'flag' => '🇺🇸'],
     'en_GB_chav' => ['name' => 'English (UK Slang)', 'flag' => '🇬🇧'],
-    'es'         => ['name' => 'Español (Spanish)', 'flag' => '🇪🇸'],
-    'fa'         => ['name' => 'فارسی (Persian)', 'flag' => '🇮🇷'],
-    'fr'         => ['name' => 'Français (French)', 'flag' => '🇫🇷'],
-    'ga'         => ['name' => 'Gaeilge (Irish)', 'flag' => '🇮🇪'],
-    'gd'         => ['name' => 'Gàidhlig (Scottish Gaelic)', 'flag' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿'],
-    'gv'         => ['name' => 'Gaelg (Manx)', 'flag' => '🇮🇲'],
-    'it'         => ['name' => 'Italiano (Italian)', 'flag' => '🇮🇹'],
-    'ja'         => ['name' => '日本語 (Japanese)', 'flag' => '🇯🇵'],
-    'kw'         => ['name' => 'Kernewek (Cornish)', 'flag' => '🏴󠁰󠁲󠁧󠁢󠁣󠁷󠁿'],
-    'ln'         => ['name' => 'Lingala', 'flag' => '🇨🇩'],
-    'pl'         => ['name' => 'Polski (Polish)', 'flag' => '🇵🇱'],
-    'prs'        => ['name' => 'Dari (Afghan Persian)', 'flag' => '🇦🇫'],
-    'ps'         => ['name' => 'پښتو (Pashto)', 'flag' => '🇦🇫'],
-    'pt'         => ['name' => 'Português (Portuguese)', 'flag' => '🇵🇹'],
-    'pt_BR'      => ['name' => 'Português (Brazil)', 'flag' => '🇧🇷'],
-    'rn'         => ['name' => 'Kirundi', 'flag' => '🇧🇮'],
-    'ru'         => ['name' => 'Русский (Russian)', 'flag' => '🇷🇺'],
-    'so'         => ['name' => 'Soomaaliga (Somali)', 'flag' => '🇸🇴'],
-    'uk'         => ['name' => 'Українська (Ukrainian)', 'flag' => '🇺🇦'],
-    'zh_CN'      => ['name' => '中文 (Chinese Simplified)', 'flag' => '🇨🇳'],
-    'zh_TW'      => ['name' => '中文 (Chinese Traditional)', 'flag' => '🇹🇼'],
+    'es'          => ['name' => 'Español (Spanish)', 'flag' => '🇪🇸'],
+    'fa'          => ['name' => 'فارسی (Persian)', 'flag' => '🇮🇷'],
+    'fr'          => ['name' => 'Français (French)', 'flag' => '🇫🇷'],
+    'ga'          => ['name' => 'Gaeilge (Irish)', 'flag' => '🇮🇪'],
+    'gd'          => ['name' => 'Gàidhlig (Scottish Gaelic)', 'flag' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿'],
+    'gv'          => ['name' => 'Gaelg (Manx)', 'flag' => '🇮🇲'],
+    'it'          => ['name' => 'Italiano (Italian)', 'flag' => '🇮🇹'],
+    'ja'          => ['name' => '日本語 (Japanese)', 'flag' => '🇯🇵'],
+    'kw'          => ['name' => 'Kernewek (Cornish)', 'flag' => '🏴󠁰󠁲󠁧󠁢󠁣󠁷󠁿'],
+    'ln'          => ['name' => 'Lingala', 'flag' => '🇨🇩'],
+    'pl'          => ['name' => 'Polski (Polish)', 'flag' => '🇵🇱'],
+    'prs'         => ['name' => 'Dari (Afghan Persian)', 'flag' => '🇦🇫'],
+    'ps'          => ['name' => 'پښتو (Pashto)', 'flag' => '🇦🇫'],
+    'pt'          => ['name' => 'Português (Portuguese)', 'flag' => '🇵🇹'],
+    'pt_BR'       => ['name' => 'Português (Brazil)', 'flag' => '🇧🇷'],
+    'rn'          => ['name' => 'Kirundi', 'flag' => '🇧🇮'],
+    'ru'          => ['name' => 'Русский (Russian)', 'flag' => '🇷🇺'],
+    'so'          => ['name' => 'Soomaaliga (Somali)', 'flag' => '🇸🇴'],
+    'uk'          => ['name' => 'Українська (Ukrainian)', 'flag' => '🇺🇦'],
+    'zh_CN'       => ['name' => '中文 (Chinese Simplified)', 'flag' => '🇨🇳'],
+    'zh_TW'       => ['name' => '中文 (Chinese Traditional)', 'flag' => '🇹🇼'],
 ];
 
 // Automatically scan the lang directory so NO languages are missed
@@ -107,9 +100,9 @@ $modUsers       = (isset($pdo) && $pdo instanceof PDO) ? is_module_enabled($pdo,
 $modLeaderboard = (isset($pdo) && $pdo instanceof PDO) ? is_module_enabled($pdo, 'leaderboard') : true;
 
 // Public button visibility
-$canPublicSearch     = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && guest_has_permission($pdo, 'view_as_guest'));
-$canPublicVolunteer  = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modVolunteers && guest_has_permission($pdo, 'submit_volunteer'));
-$canPublicFeedback   = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modFeedback && guest_has_permission($pdo, 'submit_feedback'));
+$canPublicSearch      = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && guest_has_permission($pdo, 'view_as_guest'));
+$canPublicVolunteer   = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modVolunteers && guest_has_permission($pdo, 'submit_volunteer'));
+$canPublicFeedback    = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modFeedback && guest_has_permission($pdo, 'submit_feedback'));
 $canPublicLeaderboard = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modLeaderboard && guest_has_permission($pdo, 'view_leaderboard'));
 
 // ------------------------------------------------------------------
@@ -137,8 +130,14 @@ $canManageFeed  = (isset($pdo) && $pdo instanceof PDO) && $modFeedback && has_pe
 $canManageSets  = (isset($pdo) && $pdo instanceof PDO) && has_permission($pdo, 'manage_settings', 'Manage global settings');
 
 $baseUrl = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-$serverScript = isset($_SERVER['SCRIPT_NAME']) && is_string($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
-$currentScript = basename($serverScript);
+
+// Determine current clean route path for active states
+$requestUri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
+$currentRoute = str_replace($baseUrl, '', $requestUri);
+if ($currentRoute === '' || $currentRoute === false) {
+    $currentRoute = '/';
+}
+
 $systemName = (function_exists('get_system_name') && isset($pdo) && $pdo instanceof PDO) ? get_system_name($pdo) : 'Parish Records Directory (PRD)';
 $sessionUsername = isset($_SESSION['username']) && is_string($_SESSION['username']) ? $_SESSION['username'] : 'User';
 $displayUsername = ($currentUser !== null && isset($currentUser['username']) && is_string($currentUser['username'])) ? $currentUser['username'] : $sessionUsername;
@@ -186,7 +185,7 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top" aria-label="Main Navigation">
     <div class="container">
         <!-- Brand Title -->
-        <a class="navbar-brand fw-bold text-primary" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/index.php">
+        <a class="navbar-brand fw-bold text-primary" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/">
             <?= htmlspecialchars($systemName, ENT_QUOTES, 'UTF-8') ?>
         </a>
 
@@ -200,7 +199,7 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
                 <?php if ($canPublicSearch): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/index.php" class="nav-link <?= ($currentScript === 'index.php') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/" class="nav-link <?= ($currentRoute === '/' || $currentRoute === '/index.php') ? 'active fw-bold text-primary' : '' ?>">
                             <?= htmlspecialchars(__('nav.search'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
@@ -208,7 +207,7 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
                 
                 <?php if (!$isLoggedIn && $canPublicVolunteer): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/volunteer.php" class="nav-link <?= ($currentScript === 'volunteer.php') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/volunteer" class="nav-link <?= ($currentRoute === '/volunteer') ? 'active fw-bold text-primary' : '' ?>">
                             <?= htmlspecialchars(__('nav.volunteer'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
@@ -216,7 +215,7 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
                 
                 <?php if (!$isLoggedIn && $canPublicFeedback): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback.php" class="nav-link <?= ($currentScript === 'feedback.php') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback" class="nav-link <?= ($currentRoute === '/feedback') ? 'active fw-bold text-primary' : '' ?>">
                             <?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
@@ -224,7 +223,7 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
                 
                 <?php if (!$isLoggedIn && $canPublicLeaderboard): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard.php" class="nav-link <?= ($currentScript === 'leaderboard.php') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard" class="nav-link <?= ($currentRoute === '/leaderboard') ? 'active fw-bold text-primary' : '' ?>">
                             <?= htmlspecialchars(__('nav.leaderboard'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
@@ -232,48 +231,48 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
 
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/user/data_entry.php" class="nav-link <?= ($currentScript === 'data_entry.php') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/data-entry" class="nav-link <?= ($currentRoute === '/profile') ? 'active fw-bold text-primary' : '' ?>">
                             <?= htmlspecialchars(__('nav.data_entry'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
                     <?php if ($canModerate): ?>
                         <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/moderate.php" class="nav-link <?= ($currentScript === 'moderate.php') ? 'active fw-bold text-primary' : '' ?>">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/moderation" class="nav-link <?= (str_starts_with($currentRoute, '/admin')) ? 'active fw-bold text-primary' : '' ?>">
                                 <?= htmlspecialchars(__('nav.moderation'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>
                     <?php endif; ?>
                     <?php if ($canManageUsers): ?>
                         <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/users.php" class="nav-link <?= ($currentScript === 'users.php') ? 'active fw-bold text-primary' : '' ?>">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/users" class="nav-link <?= ($currentRoute === '/admin/users') ? 'active fw-bold text-primary' : '' ?>">
                                 <?= htmlspecialchars(__('nav.manage_users'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>
                     <?php endif; ?>
                     <?php if ($canManageCols): ?>
                         <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/manage_tables.php" class="nav-link <?= ($currentScript === 'manage_tables.php') ? 'active fw-bold text-primary' : '' ?>">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tables" class="nav-link <?= ($currentRoute === '/admin/maintenance') ? 'active fw-bold text-primary' : '' ?>">
                                 <?= htmlspecialchars(__('nav.manage_tables'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>
                     <?php endif; ?>
                     <?php if ($modVolunteers && $canManageVols): ?>
                         <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/volunteer_dashboard.php" class="nav-link <?= ($currentScript === 'volunteer_dashboard.php') ? 'active fw-bold text-primary' : '' ?>">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/volunteers" class="nav-link" >
                                 <?= htmlspecialchars(__('nav.volunteer_dashboard'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>
                     <?php endif; ?>
                     <?php if ($modFeedback && $canManageFeed): ?>
                         <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/feedback_dashboard.php" class="nav-link <?= ($currentScript === 'feedback_dashboard.php') ? 'active fw-bold text-primary' : '' ?>">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tickets" class="nav-link">
                                 <?= htmlspecialchars(__('nav.feedback_dashboard'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>
                     <?php endif; ?>
                     <?php if ($canManageSets): ?>
                         <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/settings.php" class="nav-link <?= ($currentScript === 'settings.php') ? 'active fw-bold text-primary' : '' ?>">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin" class="nav-link <?= ($currentRoute === '/admin') ? 'active fw-bold text-primary' : '' ?>">
                                 <?= htmlspecialchars(__('nav.settings'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>
@@ -287,24 +286,24 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
                     <li class="nav-item d-flex align-items-center gap-2">
                         <span class="navbar-text small text-secondary">
                             <?= htmlspecialchars(__('nav.welcome'), ENT_QUOTES, 'UTF-8') ?>
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/user/profile.php" class="fw-bold text-dark text-decoration-none <?= ($currentScript === 'profile.php') ? 'text-decoration-underline' : '' ?>" aria-label="Go to User Profile">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile" class="fw-bold text-dark text-decoration-none <?= ($currentRoute === '/profile') ? 'text-decoration-underline' : '' ?>" aria-label="Go to User Profile">
                                 <?= htmlspecialchars($displayIdentifier, ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </span>
                         <?php if ($modLeaderboard): ?>
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard.php" class="badge bg-warning text-dark text-decoration-none px-2 py-1" aria-label="<?= htmlspecialchars(__('nav.leaderboard_score'), ENT_QUOTES, 'UTF-8') ?>: <?= $userPoints ?> points">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard" class="badge bg-warning text-dark text-decoration-none px-2 py-1" aria-label="<?= htmlspecialchars(__('nav.leaderboard_score'), ENT_QUOTES, 'UTF-8') ?>: <?= $userPoints ?> points">
                                 ⭐ <span class="fw-bold"><?= $userPoints ?></span>
                             </a>
                         <?php endif; ?>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/user/logout.php" class="btn btn-sm btn-outline-danger" role="button" aria-label="<?= htmlspecialchars(__('nav.logout'), ENT_QUOTES, 'UTF-8') ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/logout" class="btn btn-sm btn-outline-danger" role="button" aria-label="<?= htmlspecialchars(__('nav.logout'), ENT_QUOTES, 'UTF-8') ?>">
                             <?= htmlspecialchars(__('nav.logout'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/user/login.php" class="btn btn-sm btn-primary px-3 <?= ($currentScript === 'login.php') ? 'active' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/login" class="btn btn-sm btn-primary px-3 <?= ($currentRoute === '/login') ? 'active' : '' ?>">
                             <?= htmlspecialchars(__('nav.login'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
@@ -312,7 +311,7 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
 
                 <?php if ($isLoggedIn && $modFeedback): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback.php" class="btn btn-sm btn-outline-secondary <?= ($currentScript === 'feedback.php') ? 'active' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback" class="btn btn-sm btn-outline-secondary <?= ($currentRoute === '/feedback') ? 'active' : '' ?>">
                             <?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>

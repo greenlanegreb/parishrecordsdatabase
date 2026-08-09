@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/actions/save_public_ticket.php
  * Migrated Date: 2026-08-05 05:43:56
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class UserSavePublicTicketActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         if (!is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
             exit('403 Forbidden');
@@ -42,11 +38,13 @@ class UserSavePublicTicketActionController
 
         require_once __DIR__ . '/../../includes/security_engine.php';
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
         // 1. Run Threat Defense Firewall Check
         $firewallResult = run_form_firewall_check($this->pdo);
         if ($firewallResult !== true) {
             $_SESSION['error'] = is_string($firewallResult) ? $firewallResult : 'Firewall block triggered.';
-            header('Location: /feedback.php');
+            header('Location: ' . $basePath . '/feedback');
             exit;
         }
 
@@ -54,14 +52,14 @@ class UserSavePublicTicketActionController
         $captchaResult = verify_form_captcha($this->pdo);
         if ($captchaResult !== true) {
             $_SESSION['error'] = is_string($captchaResult) ? $captchaResult : 'CAPTCHA verification failed.';
-            header('Location: /feedback.php');
+            header('Location: ' . $basePath . '/feedback');
             exit;
         }
 
         $post = $_POST;
         $honeypot = isset($post['website_hp']) && is_string($post['website_hp']) ? trim($post['website_hp']) : '';
         if ($honeypot !== '') {
-            header('Location: /feedback.php');
+            header('Location: ' . $basePath . '/feedback');
             exit;
         }
 
@@ -83,12 +81,12 @@ class UserSavePublicTicketActionController
 
         if ($firstName === '' || $surname === '' || $email === '' || $subject === '') {
             $_SESSION['error'] = "First name, surname, email address, and subject are mandatory fields.";
-            header('Location: /feedback.php');
+            header('Location: ' . $basePath . '/feedback');
             exit;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Invalid email format.";
-            header('Location: /feedback.php');
+            header('Location: ' . $basePath . '/feedback');
             exit;
         }
 
@@ -123,7 +121,7 @@ class UserSavePublicTicketActionController
                 if ($isEmpty) {
                     $colName = isset($colMeta['column_name']) && is_string($colMeta['column_name']) ? $colMeta['column_name'] : 'Field';
                     $_SESSION['error'] = "The field '{$colName}' is mandatory.";
-                    header('Location: /feedback.php');
+                    header('Location: ' . $basePath . '/feedback');
                     exit;
                 }
             }
@@ -166,7 +164,7 @@ class UserSavePublicTicketActionController
             $_SESSION['error'] = "An error occurred while saving your ticket. Please try again.";
         }
 
-        header('Location: /feedback.php');
+        header('Location: ' . $basePath . '/feedback');
         exit;
     }
 }

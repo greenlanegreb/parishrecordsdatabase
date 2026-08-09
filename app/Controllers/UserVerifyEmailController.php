@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/verify_email.php
  * Migrated Date: 2026-08-05 05:34:13
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserVerifyEmailController
 
     public function verify(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $message = '';
         $error = '';
 

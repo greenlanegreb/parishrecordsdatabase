@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/actions/save_public_volunteer.php
  * Migrated Date: 2026-08-05 05:46:11
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class UserSavePublicVolunteerActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         if (!is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden');
@@ -42,11 +38,13 @@ class UserSavePublicVolunteerActionController
 
         require_once __DIR__ . '/../../includes/security_engine.php';
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
         // 1. Run Threat Defense Firewall Check
         $firewallResult = run_form_firewall_check($this->pdo);
         if ($firewallResult !== true) {
             $_SESSION['error'] = is_string($firewallResult) ? $firewallResult : 'Firewall block triggered.';
-            header('Location: /volunteer.php');
+            header('Location: ' . $basePath . '/volunteer');
             exit;
         }
 
@@ -54,7 +52,7 @@ class UserSavePublicVolunteerActionController
         $captchaResult = verify_form_captcha($this->pdo);
         if ($captchaResult !== true) {
             $_SESSION['error'] = is_string($captchaResult) ? $captchaResult : 'CAPTCHA verification failed.';
-            header('Location: /volunteer.php');
+            header('Location: ' . $basePath . '/volunteer');
             exit;
         }
 
@@ -62,7 +60,7 @@ class UserSavePublicVolunteerActionController
         $honeypot = isset($post['website_url']) && is_string($post['website_url']) ? trim($post['website_url']) : '';
         if ($honeypot !== '') {
             $_SESSION['error'] = 'Spam detection triggered.';
-            header('Location: /volunteer.php');
+            header('Location: ' . $basePath . '/volunteer');
             exit;
         }
 
@@ -80,12 +78,12 @@ class UserSavePublicVolunteerActionController
 
         if ($firstName === '' || $surname === '' || $email === '') {
             $_SESSION['error'] = "First name, surname, and email address are required fields.";
-            header('Location: /volunteer.php');
+            header('Location: ' . $basePath . '/volunteer');
             exit;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Please provide a valid email address.";
-            header('Location: /volunteer.php');
+            header('Location: ' . $basePath . '/volunteer');
             exit;
         }
 
@@ -129,7 +127,7 @@ class UserSavePublicVolunteerActionController
             $_SESSION['error'] = "An error occurred while saving your submission. Please try again.";
         }
 
-        header('Location: /volunteer.php');
+        header('Location: ' . $basePath . '/volunteer');
         exit;
     }
 }

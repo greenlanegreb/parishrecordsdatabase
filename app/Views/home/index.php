@@ -2,9 +2,10 @@
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
- * Original Old File: roote/index.php
+ * Original Old File: root/index.php
  * Migrated Date: 2026-08-05 06:40:21
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * @var \PDO $pdo
@@ -23,12 +24,13 @@
  * @var array|null $currentUser
  */
 
-require_once __DIR__ . '/../../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container my-4">
     <!-- DYNAMIC NOTICES MODULE -->
-    <?php include __DIR__ . '/../../partials/notices_banner.php'; ?>
+    <?php include ROOT_PATH . '/partials/notices_banner.php'; ?>
 
     <?php if ($message !== ''): ?>
         <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
@@ -49,14 +51,14 @@ require_once __DIR__ . '/../../partials/header.php';
             <h3 class="h5 fw-bold mb-2">⚠️ <?= htmlspecialchars(__('index.no_tables_heading'), ENT_QUOTES, 'UTF-8') ?></h3>
             <p class="mb-3"><?= htmlspecialchars(__('index.no_tables_desc'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php if ($isAdmin): ?>
-                <p><?= __('index.admin_create_table_guide', ['link' => 'admin/manage_tables.php']) ?></p>
+                <p><?= __('index.admin_create_table_guide', ['link' => $basePath . '/admin/manage-tables']) ?></p>
                 <div>
-                    <a href="admin/manage_tables.php" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="<?= $basePath ?>/admin/manage-tables" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
                 </div>
             <?php elseif ($currentUser !== null): ?>
                 <p class="mb-0"><?= htmlspecialchars(__('index.contact_admin_tables'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php else: ?>
-                <p class="mb-0"><?= __('index.guest_login_tables_guide', ['login_link' => 'user/login.php']) ?></p>
+                <p class="mb-0"><?= __('index.guest_login_tables_guide', ['login_link' => $basePath . '/user/login']) ?></p>
             <?php endif; ?>
         </div>
     <?php elseif ($totalColumnsCount === 0): ?>
@@ -66,7 +68,7 @@ require_once __DIR__ . '/../../partials/header.php';
             <?php if ($isAdmin): ?>
                 <p><?= htmlspecialchars(__('index.admin_add_columns_guide'), ENT_QUOTES, 'UTF-8') ?></p>
                 <div>
-                    <a href="admin/manage_tables.php" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="<?= $basePath ?>/admin/manage-tables" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
                 </div>
             <?php else: ?>
                 <p class="mb-0"><?= htmlspecialchars(__('index.contact_admin_columns'), ENT_QUOTES, 'UTF-8') ?></p>
@@ -83,7 +85,7 @@ require_once __DIR__ . '/../../partials/header.php';
                     </div>
                     <div class="col-auto" style="min-width: 280px;">
                         <select id="public_table_selector" class="form-select form-select-sm"
-                                onchange="location.href='index.php?table_id='+this.value;">
+                                onchange="location.href='<?= $basePath ?>/?table_id='+this.value;">
                             <?php foreach ($availableTables as $at): ?>
                                 <?php 
                                     $atId = isset($at['id']) ? (int)$at['id'] : 0;
@@ -189,7 +191,6 @@ require_once __DIR__ . '/../../partials/header.php';
                 <table id="data-table" class="table table-hover align-middle mb-0" role="table">
                     <thead class="table-light">
                         <tr>
-                            <th class="sortable py-3 px-3" data-sort="id" scope="col" style="cursor: pointer;"><?= htmlspecialchars(__('index.th_record_id'), ENT_QUOTES, 'UTF-8') ?> ▼</th>
                             <?php foreach ($columns as $col): ?>
                                 <?php 
                                     $cId = isset($col['id']) ? (int)$col['id'] : 0;
@@ -201,7 +202,7 @@ require_once __DIR__ . '/../../partials/header.php';
                             <?php endforeach; ?>
                             <th class="py-3 px-3" scope="col"><?= htmlspecialchars(__('index.th_created_by'), ENT_QUOTES, 'UTF-8') ?></th>
                             <th class="sortable py-3 px-3" data-sort="date" scope="col" style="cursor: pointer;"><?= htmlspecialchars(__('index.th_date_added'), ENT_QUOTES, 'UTF-8') ?> ↕</th>
-                            <th class="py-3 px-3" scope="col"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></th>
+                            <th class="py-3 text-end pe-3" scope="col"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -216,166 +217,191 @@ require_once __DIR__ . '/../../partials/header.php';
             <div id="pagination-container" class="pagination justify-content-center mb-0 gap-1"></div>
         </nav>
 
-        <!-- PUBLIC SUGGESTION MODAL PARTIAL -->
-        <?php include __DIR__ . '/../../partials/suggest_edit_modal.php'; ?>
-
         <script>
-        let currentSort = 'id';
-        let currentDir  = 'DESC';
-        let currentPage = 1;
+let currentSort = 'id';
+let currentDir = 'DESC';
+let currentPage = 1;
+const basePath = '<?= $basePath ?>';
+const searchForm = document.getElementById('search-form');
 
-        const searchForm = document.getElementById('search-form');
+// -------------------------------------------------
+// Debounce helper
+// -------------------------------------------------
+function debounce(fn, delay = 400) {
+    let timer = null;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
 
-        function fetchFilteredData(page = 1) {
-            currentPage = page;
-            const formData = new URLSearchParams();
-            formData.append('sort', currentSort);
-            formData.append('dir',  currentDir);
-            formData.append('page', currentPage);
+function fetchFilteredData(page = 1) {
+    currentPage = page;
+    const formData = new URLSearchParams();
+    formData.append('sort', currentSort);
+    formData.append('dir', currentDir);
+    formData.append('page', currentPage);
 
-            if (searchForm) {
-                const tableIdInput = searchForm.querySelector('input[name="table_id"]');
-                if (tableIdInput) formData.append('table_id', tableIdInput.value);
+    if (searchForm) {
+        const tableIdInput = searchForm.querySelector('input[name="table_id"]');
+        if (tableIdInput) formData.append('table_id', tableIdInput.value);
 
-                searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
-                    if (input.value.trim() !== '') formData.append(input.name, input.value.trim());
-                });
+        searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
+            if (input.value.trim() !== '') {
+                formData.append(input.name, input.value.trim());
             }
-
-            const exportCsvBtn = document.getElementById('export-csv-btn');
-            const exportJsonBtn = document.getElementById('export-json-btn');
-            if (exportCsvBtn) exportCsvBtn.href = 'api/export.php?' + formData.toString();
-            if (exportJsonBtn) exportJsonBtn.href = 'api/export_json.php?' + formData.toString();
-
-            fetch('api/search.php?' + formData.toString())
-                .then(r => {
-                    if (!r.ok) throw new Error('Search request failed');
-                    return r.json();
-                })
-                .then(data => {
-                    const tableBody = document.getElementById('table-body');
-                    if (tableBody) tableBody.innerHTML = data.html || '';
-                    renderPagination(data.total_pages || 0, data.current_page || 1);
-                })
-                .catch(() => {
-                    const tableBody = document.getElementById('table-body');
-                    if (tableBody) {
-                        tableBody.innerHTML = '<tr><td colspan="99" class="text-center py-4 text-muted"><?= htmlspecialchars(__('search.load_error'), ENT_QUOTES, 'UTF-8') ?></td></tr>';
-                    }
-                });
-        }
-
-        function renderPagination(totalPages, activePage) {
-            const container = document.getElementById('pagination-container');
-            if (!container) return;
-            container.innerHTML = '';
-            if (totalPages <= 1) return;
-
-            for (let i = 1; i <= totalPages; i++) {
-                const li = document.createElement('li');
-                li.className = 'page-item ' + (i === activePage ? 'active' : '');
-                
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.textContent = i;
-                btn.className = 'page-link';
-                btn.addEventListener('click', () => fetchFilteredData(i));
-                
-                li.appendChild(btn);
-                container.appendChild(li);
-            }
-        }
-
-        document.querySelectorAll('th.sortable').forEach(th => {
-            th.addEventListener('click', () => {
-                const sortKey = th.getAttribute('data-sort');
-                if (currentSort === sortKey) {
-                    currentDir = currentDir === 'ASC' ? 'DESC' : 'ASC';
-                } else {
-                    currentSort = sortKey;
-                    currentDir  = 'ASC';
-                }
-                document.querySelectorAll('th.sortable').forEach(h => {
-                    h.textContent = h.textContent.replace(/ [▲▼↕]/g, '') + ' ↕';
-                });
-                th.textContent = th.textContent.replace(/ [▲▼↕]/g, '') + (currentDir === 'ASC' ? ' ▲' : ' ▼');
-                fetchFilteredData(1);
-            });
         });
+    }
 
-        function updateActionButtonsState() {
-            if (!searchForm) return;
-            let hasActiveFilter = false;
-            searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
-                if (input.name && input.name !== 'table_id' && input.value.trim() !== '') {
-                    hasActiveFilter = true;
-                }
-            });
+    const exportCsvBtn = document.getElementById('export-csv-btn');
+    const exportJsonBtn = document.getElementById('export-json-btn');
+    if (exportCsvBtn) exportCsvBtn.href = basePath + '/api/export?' + formData.toString();
+    if (exportJsonBtn) exportJsonBtn.href = basePath + '/api/export-json?' + formData.toString();
 
-            const csvBtn = document.getElementById('export-csv-btn');
-            const jsonBtn = document.getElementById('export-json-btn');
-            const copyBtn = document.getElementById('copy-clipboard-btn');
+    fetch(basePath + '/api/search?' + formData.toString())
+        .then(r => {
+            if (!r.ok) throw new Error('Search request failed');
+            return r.json();
+        })
+        .then(data => {
+            const tableBody = document.getElementById('table-body');
+            if (tableBody) tableBody.innerHTML = data.html || '';
+            renderPagination(data.total_pages || 0, data.current_page || 1);
+        })
+        .catch(() => {
+            const tableBody = document.getElementById('table-body');
+            if (tableBody) {
+                tableBody.innerHTML = '<tr><td colspan="99" class="text-center py-4 text-muted"><?= htmlspecialchars(__('search.load_error'), ENT_QUOTES, 'UTF-8') ?></td></tr>';
+            }
+        });
+}
 
-            if (csvBtn) csvBtn.textContent = hasActiveFilter ? '<?= __('index.download_filtered_csv') ?>' : '<?= __('index.download_entire_csv') ?>';
-            if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? '<?= __('index.download_filtered_json') ?>' : '<?= __('index.download_entire_json') ?>';
-            if (copyBtn) copyBtn.textContent = hasActiveFilter ? '<?= __('index.copy_filtered_table') ?>' : '<?= __('index.copy_entire_table') ?>';
+// Debounced version used while typing
+const debouncedFetch = debounce(() => fetchFilteredData(1), 400);
+
+function renderPagination(totalPages, activePage) {
+    const container = document.getElementById('pagination-container');
+    if (!container) return;
+    container.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = 'page-item ' + (i === activePage ? 'active' : '');
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = i;
+        btn.className = 'page-link';
+        btn.addEventListener('click', () => fetchFilteredData(i));
+
+        li.appendChild(btn);
+        container.appendChild(li);
+    }
+}
+
+document.querySelectorAll('th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+        const sortKey = th.getAttribute('data-sort');
+        if (currentSort === sortKey) {
+            currentDir = currentDir === 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            currentSort = sortKey;
+            currentDir = 'ASC';
         }
+        document.querySelectorAll('th.sortable').forEach(h => {
+            h.textContent = h.textContent.replace(/ [▲▼↕]/g, '') + ' ↕';
+        });
+        th.textContent = th.textContent.replace(/ [▲▼↕]/g, '') + (currentDir === 'ASC' ? ' ▲' : ' ▼');
+        fetchFilteredData(1);
+    });
+});
 
+function updateActionButtonsState() {
+    if (!searchForm) return;
+    let hasActiveFilter = false;
+    searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
+        if (input.name && input.name !== 'table_id' && input.value.trim() !== '') {
+            hasActiveFilter = true;
+        }
+    });
+    const csvBtn = document.getElementById('export-csv-btn');
+    const jsonBtn = document.getElementById('export-json-btn');
+    const copyBtn = document.getElementById('copy-clipboard-btn');
+    if (csvBtn) csvBtn.textContent = hasActiveFilter ? '<?= __('index.download_filtered_csv') ?>' : '<?= __('index.download_entire_csv') ?>';
+    if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? '<?= __('index.download_filtered_json') ?>' : '<?= __('index.download_entire_json') ?>';
+    if (copyBtn) copyBtn.textContent = hasActiveFilter ? '<?= __('index.copy_filtered_table') ?>' : '<?= __('index.copy_entire_table') ?>';
+}
+
+if (searchForm) {
+    searchForm.querySelectorAll('input, select').forEach(el => {
+        // Live typing → debounced
+        el.addEventListener('input', () => {
+            updateActionButtonsState();
+            debouncedFetch();
+        });
+        // Selects / blur → immediate
+        el.addEventListener('change', () => {
+            updateActionButtonsState();
+            fetchFilteredData(1);
+        });
+    });
+}
+
+const clearBtn = document.getElementById('clear-search');
+if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
         if (searchForm) {
-            searchForm.querySelectorAll('input, select').forEach(el => {
-                el.addEventListener('input',  () => {
-                    updateActionButtonsState();
-                    fetchFilteredData(1);
-                });
-                el.addEventListener('change', () => {
-                    updateActionButtonsState();
-                    fetchFilteredData(1);
-                });
-            });
+            searchForm.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+            searchForm.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
         }
-
-        const clearBtn = document.getElementById('clear-search');
-        if (clearBtn) {
-            clearBtn.addEventListener('click', () => {
-                if (searchForm) {
-                    searchForm.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
-                    searchForm.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
-                }
-                currentSort = 'id';
-                currentDir  = 'DESC';
-                document.querySelectorAll('th.sortable').forEach(h => {
-                    h.textContent = h.textContent.replace(/ [▲▼↕]/g, '') + ' ↕';
-                });
-                updateActionButtonsState();
-                fetchFilteredData(1);
-            });
-        }
-
-        document.getElementById('copy-clipboard-btn')?.addEventListener('click', () => {
-            const table = document.getElementById('data-table');
-            if (!table) return;
-
-            let textContent = '';
-            table.querySelectorAll('tr').forEach(row => {
-                let rowData = [];
-                row.querySelectorAll('th, td').forEach(cell => {
-                    rowData.push(cell.innerText.trim());
-                });
-                textContent += rowData.join('\t') + '\n';
-            });
-
-            navigator.clipboard.writeText(textContent).then(() => {
-                alert('<?= __('index.clipboard_success') ?>');
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
+        currentSort = 'id';
+        currentDir = 'DESC';
+        document.querySelectorAll('th.sortable').forEach(h => {
+            h.textContent = h.textContent.replace(/ [▲▼↕]/g, '') + ' ↕';
         });
-
         updateActionButtonsState();
         fetchFilteredData(1);
-        </script>
+    });
+}
+
+document.getElementById('copy-clipboard-btn')?.addEventListener('click', () => {
+    const table = document.getElementById('data-table');
+    if (!table) return;
+    let textContent = '';
+    table.querySelectorAll('tr').forEach(row => {
+        let rowData = [];
+        row.querySelectorAll('th, td').forEach(cell => {
+            rowData.push(cell.innerText.trim());
+        });
+        textContent += rowData.join('\t') + '\n';
+    });
+    navigator.clipboard.writeText(textContent).then(() => {
+        alert('<?= __('index.clipboard_success') ?>');
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+});
+
+// Dynamic delegate for Suggest Edit buttons
+const tableBodyEl = document.getElementById('table-body');
+if (tableBodyEl) {
+    tableBodyEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('.suggest-edit-btn');
+        if (btn) {
+            const recordId = btn.getAttribute('data-record-id');
+            const currentUrl = window.location.href;
+            window.location.href = basePath + '/user/suggest-edit?record_id=' + recordId + '&return=' + encodeURIComponent(currentUrl);
+        }
+    });
+}
+
+updateActionButtonsState();
+fetchFilteredData(1);
+</script>
+
 
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

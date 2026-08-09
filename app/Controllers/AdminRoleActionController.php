@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/save_role.php
  * Migrated Date: 2026-08-05 04:41:55
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class AdminRoleActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -87,7 +83,7 @@ class AdminRoleActionController
                     $_SESSION['error'] = "Failed to delete role: " . $e->getMessage();
                 }
             }
-            header('Location: /admin/settings#tab-permissions');
+            header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
             exit;
         }
 
@@ -98,7 +94,7 @@ class AdminRoleActionController
 
         if ($roleName === '') {
             $_SESSION['error'] = "Role name cannot be empty.";
-            header('Location: /admin/settings#tab-permissions');
+            header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
             exit;
         }
 
@@ -155,7 +151,7 @@ class AdminRoleActionController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: /admin/settings#tab-permissions');
+        header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
         exit;
     }
 }

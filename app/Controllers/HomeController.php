@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: roote/index.php
  * Migrated Date: 2026-08-05 06:39:40
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -24,26 +24,20 @@ class HomeController
     {
         // Only send people to the installer when nothing is configured yet
         if (!is_file(__DIR__ . '/../../db/db.php') && !is_file(__DIR__ . '/../../config.local.php')) {
-            header('Location: install/');
+            $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+            header('Location: ' . $basePath . '/install/');
             exit;
         }
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        require_once __DIR__ . '/../../db/auth_helpers.php';
-        require_once __DIR__ . '/../../includes/functions.php';
 
         // ------------------------------------------------------------------
         // Permission gate: not-logged-in visitors need view_as_guest
         // ------------------------------------------------------------------
         /** @var array{id: int|string, date_format?: string, timezone?: string, time_format?: string}|null $currentUser */
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
+        $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
 
         if ($currentUser === null && !guest_has_permission($this->pdo, 'view_as_guest')) {
-            $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-            header('Location: ' . $base . '/user/login.php');
+            header('Location: ' . $basePath . '/login');
             exit;
         }
 
@@ -79,7 +73,7 @@ class HomeController
             : (!empty($availableTables) ? (int)$availableTables[0]['id'] : 0);
 
         if ($totalTablesCount > 0 && ($activeTableId < 1 || !user_can_view_table($this->pdo, $activeTableId, $currentUser))) {
-            require_once __DIR__ . '/../../403.php';
+            require_once __DIR__ . '/../../public/403.php';
             exit;
         }
 
@@ -90,12 +84,15 @@ class HomeController
         if ($currentUser !== null && isset($currentUser['date_format']) && is_string($currentUser['date_format'])) {
             $userDateFormat = $currentUser['date_format'];
         }
-        $datePlaceholder = 'DD-MM-YYYY';
-        if ($userDateFormat === 'm/d/Y' || $userDateFormat === 'm-d-Y') {
-            $datePlaceholder = 'MM-DD-YYYY';
-        } elseif ($userDateFormat === 'Y/m/d' || $userDateFormat === 'Y-m-d') {
-            $datePlaceholder = 'YYYY-MM-DD';
-        }
+
+        // Use the centralized date placeholder helper function
+        $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholder($userDateFormat) : 'DD-MM-YYYY';
+
+        $userTimezone = ($currentUser !== null && isset($currentUser['timezone']) && is_string($currentUser['timezone'])) ? $currentUser['timezone'] : 'UTC';
+        $fullFormatStr = ($currentUser !== null && function_exists('get_user_datetime_format')) ? get_user_datetime_format($currentUser) : 'd/m/Y H:i';
+
+       $userTimezone = ($currentUser !== null && isset($currentUser['timezone']) && is_string($currentUser['timezone'])) ? $currentUser['timezone'] : 'UTC';
+       $fullFormatStr = ($currentUser !== null && function_exists('get_user_datetime_format')) ? get_user_datetime_format($currentUser) : 'd/m/Y H:i';
 
         // ------------------------------------------------------------------
         // Columns for the active table
@@ -116,7 +113,7 @@ class HomeController
         $error = isset($_SESSION['error']) && is_string($_SESSION['error']) ? $_SESSION['error'] : '';
         unset($_SESSION['message'], $_SESSION['error']);
 
-        $suggestReturnUrl = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') . '/index.php' : '/index.php';
+        $suggestReturnUrl = $basePath !== '' ? $basePath . '/' : '/';
         $suggestTableId = $activeTableId;
         $isAdmin = $currentUser !== null && is_admin($this->pdo);
 

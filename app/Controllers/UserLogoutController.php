@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/logout.php
  * Migrated Date: 2026-08-05 05:02:08
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -13,10 +13,6 @@ class UserLogoutController
 {
     public function logout(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Unset all session variables
         $_SESSION = [];
 
@@ -37,8 +33,11 @@ class UserLogoutController
         // Finally, destroy the session
         session_destroy();
 
-        // Redirect back to the login page
-        header("Location: /user/login.php");
+        // Dynamically get the subfolder path (e.g. '/projects/prd')
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
+        // Redirect back to the clean login route with proper base path
+        header("Location: " . $basePath . "/login");
         exit;
     }
 }

@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: roote/update_database.php
  * Migrated Date: 2026-08-05 06:52:42
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * @var int $schemaCurrent
@@ -13,7 +14,8 @@
  * @var string $message
  */
 
-require_once __DIR__ . '/../../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container my-5" style="max-width: 600px;">
@@ -37,18 +39,18 @@ require_once __DIR__ . '/../../partials/header.php';
                 <div><?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?></div>
                 <?php if ($schemaCurrent >= $schemaLatest): ?>
                     <div class="mt-2">
-                        <a href="user/login.php" class="alert-link fw-bold text-success text-decoration-none"><?= htmlspecialchars(__('update_database.proceed_login'), ENT_QUOTES, 'UTF-8') ?> &rarr;</a>
+                        <a href="<?= $basePath ?>/login" class="alert-link fw-bold text-success text-decoration-none"><?= htmlspecialchars(__('update_database.proceed_login'), ENT_QUOTES, 'UTF-8') ?> &rarr;</a>
                     </div>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
 
         <?php if ($schemaCurrent < $schemaLatest): ?>
-            <form method="POST" onsubmit="return confirm('<?= htmlspecialchars(__('update_database.confirm_prompt'), ENT_QUOTES, 'UTF-8') ?>');">
+            <form method="POST" action="<?= $basePath ?>/update-database" onsubmit="return confirm('<?= htmlspecialchars(__('update_database.confirm_prompt'), ENT_QUOTES, 'UTF-8') ?>');">
                 <button type="submit" class="btn btn-primary w-100 fw-bold py-2"><?= htmlspecialchars(__('update_database.update_btn'), ENT_QUOTES, 'UTF-8') ?></button>
             </form>
         <?php endif; ?>
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

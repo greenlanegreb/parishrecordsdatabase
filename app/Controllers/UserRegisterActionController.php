@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/register.php/user/actions/save_register.php
  * Migrated Date: 2026-08-05 05:14:47
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserRegisterActionController
 
     public function register(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Ensure the users module is enabled; otherwise block action execution
         if (!is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
@@ -40,6 +36,7 @@ class UserRegisterActionController
 
         verify_csrf_token();
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $username = isset($post['username']) && is_string($post['username']) ? trim($post['username']) : '';
         $email = isset($post['email']) && is_string($post['email']) ? trim($post['email']) : '';
@@ -79,7 +76,7 @@ class UserRegisterActionController
             }
         }
 
-        header('Location: /user/register.php');
+        header('Location: ' . $basePath . '/register');
         exit;
     }
 }

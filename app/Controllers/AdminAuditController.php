@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/purge_audit_logs.php
  * Migrated Date: 2026-08-05 04:29:45
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class AdminAuditController
 
     public function purge(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -70,7 +66,9 @@ class AdminAuditController
             $_SESSION['error'] = "Failed to clear audit logs: " . $e->getMessage();
         }
 
-        header('Location: /admin/settings#tab-audit');
+        // Use BASE_PATH to ensure subfolder redirects work seamlessly
+        $redirectUrl = BASE_PATH . '/admin/settings#tab-audit';
+        header('Location: ' . $redirectUrl);
         exit;
     }
 }

@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/actions/save_suggestion.php
  * Migrated Date: 2026-08-05 05:48:21
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,16 +23,13 @@ class UserSaveSuggestionActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
             exit('Method Not Allowed');
         }
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
 
         // Where to send the user back
@@ -40,9 +37,14 @@ class UserSaveSuggestionActionController
         $returnUrl = $rawReturnUrl;
         if ($returnUrl === '' || preg_match('#^https?://#i', $returnUrl)) {
             // Disallow open redirects; only local relative paths
-            $returnUrl = '/index.php';
+            $returnUrl = '/';
         }
         
+        // Ensure local relative return URL honors BASE_PATH if present
+        if ($basePath !== '' && str_starts_with($returnUrl, '/') && !str_starts_with($returnUrl, $basePath)) {
+            $returnUrl = $basePath . $returnUrl;
+        }
+
         $tableIdReturn = isset($post['table_id']) ? (int)$post['table_id'] : 0;
 
         $suggestionRedirect = function(string $url): void {
@@ -133,6 +135,11 @@ class UserSaveSuggestionActionController
         if ($col === false) {
             $_SESSION['error'] = 'Invalid column.';
             $suggestionRedirect($returnUrl);
+        }
+
+        // Normalize date inputs automatically if the column is a DATE type
+        if (isset($col['data_type']) && $col['data_type'] === 'DATE' && function_exists('normalize_incoming_date')) {
+            $proposedValue = normalize_incoming_date($proposedValue);
         }
 
         $isRequired = !empty($col['is_required']);

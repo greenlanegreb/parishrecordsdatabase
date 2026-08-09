@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: roote/leaderboard.php
  * Migrated Date: 2026-08-05 06:46:32
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * @var array<int, array<string, mixed>> $leaderboardUsers
@@ -12,7 +13,8 @@
  * @var array|null $currentUser
  */
 
-require_once __DIR__ . '/../../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container my-4" role="region" aria-label="<?= htmlspecialchars(__('leaderboard.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -103,4 +105,4 @@ require_once __DIR__ . '/../../partials/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

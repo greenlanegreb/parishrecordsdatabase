@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: api/search.php
  * Migrated Date: 2026-08-05 06:03:09
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,16 +22,11 @@ class ApiSearchController
 
     public function search(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         header('Content-Type: application/json; charset=utf-8');
         header('Cache-Control: no-store, no-cache, must-revalidate');
 
         // ------------------------------------------------------------------
         // Access: guest needs view_as_guest; everyone needs view_table_{id}
-        // (No special case for table id 1; guests are checked too.)
         // ------------------------------------------------------------------
         /** @var array{id: int|string, date_format?: string}|null $currentUser */
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
@@ -50,13 +45,13 @@ class ApiSearchController
             exit;
         }
 
-        // ------------------------------------------------------------------
-        // Rest of the original logic
-        // ------------------------------------------------------------------
         $userDateFormat = 'd/m/Y';
         if ($currentUser !== null && isset($currentUser['date_format']) && is_string($currentUser['date_format'])) {
-            $userDateFormat = $currentUser['date_format'];
+        $userDateFormat = $currentUser['date_format'];
         }
+       
+        $userTimezone = ($currentUser !== null && isset($currentUser['timezone']) && is_string($currentUser['timezone'])) ? $currentUser['timezone'] : 'UTC';
+        $fullFormatStr = ($currentUser !== null && function_exists('get_user_datetime_format')) ? get_user_datetime_format($currentUser) : 'd/m/Y H:i';
 
         $colsStmt = $this->pdo->prepare("SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC");
         $colsStmt->execute([$tableId]);
@@ -89,9 +84,16 @@ class ApiSearchController
         /** @var array<int, array<string, mixed>> $records */
         $records = $recordsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $valuesStmt = $this->pdo->query("SELECT record_id, column_id, value_content FROM record_values");
+        // Memory-optimized: Only load values belonging to records in this table
+        $valuesStmt = $this->pdo->prepare("
+            SELECT rv.record_id, rv.column_id, rv.value_content 
+            FROM record_values rv 
+            JOIN records r ON rv.record_id = r.id 
+            WHERE r.table_id = ?
+        ");
+        $valuesStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $rawValues */
-        $rawValues = $valuesStmt !== false ? $valuesStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        $rawValues = $valuesStmt->fetchAll(PDO::FETCH_ASSOC);
         
         /** @var array<int|string, array<int|string, string>> $recordValues */
         $recordValues = [];
@@ -123,7 +125,7 @@ class ApiSearchController
         // Build HTML rows
         ob_start();
         if (empty($paginatedRecords)) {
-            echo '<tr><td colspan="' . (count($columns) + 4) . '">' . htmlspecialchars(__('api_search.no_records'), ENT_QUOTES, 'UTF-8') . '</td></tr>';
+            echo '<tr><td colspan="' . (count($columns) + 3) . '" class="text-center py-4 text-muted">' . htmlspecialchars(__('api_search.no_records'), ENT_QUOTES, 'UTF-8') . '</td></tr>';
         } else {
             foreach ($paginatedRecords as $rec) {
                 $recId = isset($rec['id']) ? (int)$rec['id'] : 0;
@@ -131,7 +133,7 @@ class ApiSearchController
                 $recCreatedAt = isset($rec['created_at']) && is_string($rec['created_at']) ? $rec['created_at'] : '';
 
                 echo '<tr>';
-                echo '<td>#' . $recId . '</td>';
+                // Record ID column intentionally omitted from public UI to save space
                 foreach ($columns as $col) {
                     $cId = isset($col['id']) ? $col['id'] : 0;
                     $rawVal = $recordValues[$recId][$cId] ?? '';
@@ -147,14 +149,14 @@ class ApiSearchController
                     }
                     echo '<td>' . htmlspecialchars($displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
                 }
-                echo '<td>' . htmlspecialchars(obscure_name_ajax($recUsername), ENT_QUOTES, 'UTF-8') . '</td>';
-                echo '<td>' . date('Y-m-d H:i', strtotime($recCreatedAt)) . '</td>';
+                echo '<td>' . htmlspecialchars(function_exists('obscure_name_ajax') ? obscure_name_ajax($recUsername) : $recUsername, ENT_QUOTES, 'UTF-8') . '</td>';
+                echo '<td>' . format_user_time($recCreatedAt, $userTimezone, $fullFormatStr) . '</td>';
 
-                // Actions Column: History button + Suggest Edit button (if module enabled)
-                echo '<td>';
-                echo '<a href="/record_history.php?record_id=' . $recId . '" class="btn btn-secondary" style="padding:0.2rem 0.4rem;font-size:0.8rem;text-decoration:none;margin-right:4px;">' . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a>';
+                // Actions Column
+                echo '<td class="text-end pe-3 text-nowrap">';
+                echo '<a href="record_history.php?record_id=' . $recId . '" class="btn btn-sm btn-outline-secondary py-0 px-2 text-decoration-none me-1" style="font-size: 0.75rem;">' . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a>';
                 if ($isModerationEnabled) {
-                    echo '<button type="button" class="btn" style="padding:0.2rem 0.4rem;font-size:0.8rem;" onclick="openSuggestModal(' . $recId . ')">' . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button>';
+                    echo '<button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 suggest-edit-btn" data-record-id="' . $recId . '" style="font-size: 0.75rem;">' . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button>';
                 }
                 echo '</td>';
 

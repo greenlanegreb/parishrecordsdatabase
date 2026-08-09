@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: roote/feedback.php
  * Migrated Date: 2026-08-05 06:58:54
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * @var \PDO $pdo
@@ -20,7 +21,8 @@
  * @var string $submittedSubject
  */
 
-require_once __DIR__ . '/../../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container my-5" style="max-width: 650px;">
@@ -42,7 +44,7 @@ require_once __DIR__ . '/../../partials/header.php';
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="user/actions/save_public_ticket.php">
+        <form method="POST" action="<?= $basePath ?>/feedback">
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             
             <!-- Honeypot -->
@@ -199,4 +201,4 @@ document.addEventListener('input', function (event) {
 });
 </script>
 
-<?php require_once __DIR__ . '/../../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

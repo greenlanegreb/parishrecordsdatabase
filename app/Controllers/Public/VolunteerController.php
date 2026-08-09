@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: roote/volunteer.php
  * Migrated Date: 2026-08-05 07:01:07
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers\Public;
 
@@ -22,14 +22,6 @@ class VolunteerController
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        require_once __DIR__ . '/../../../db/auth_helpers.php';
-        require_once __DIR__ . '/../../../includes/functions.php';
-        require_once __DIR__ . '/../../../includes/security_engine.php';
-
         if (!is_module_enabled($this->pdo, 'volunteers')) {
             http_response_code(403);
             exit('403 Forbidden: The Volunteer Portal module is currently disabled.');

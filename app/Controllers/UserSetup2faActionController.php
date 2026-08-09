@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/setup_2fa.php/user/actions/save_setup_2fa.php
  * Migrated Date: 2026-08-05 05:23:06
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserSetup2faActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -33,8 +29,17 @@ class UserSetup2faActionController
         }
 
         verify_csrf_token();
-        /** @var array{id: int|string, username: string} $currentUser */
-        $currentUser = require_permission($this->pdo, 'setup_2fa', 'Allows setting up and configuring Google Authenticator 2FA');
+        
+        // Ensure user is logged in dynamically (bypassing the old permission check wall)
+        /** @var array{id: int|string, username: string}|null $currentUser */
+        $currentUser = get_current_user_data($this->pdo);
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
+        if ($currentUser === null) {
+            header('Location: ' . $basePath . '/login');
+            exit;
+        }
+
         $userId = $currentUser['id'];
 
         $secret = isset($_SESSION['temp_2fa_secret']) && is_string($_SESSION['temp_2fa_secret']) ? $_SESSION['temp_2fa_secret'] : '';
@@ -50,7 +55,7 @@ class UserSetup2faActionController
             if ($upd->execute([$secret, $hashedCodesJson, $userId])) {
                 unset($_SESSION['temp_2fa_secret'], $_SESSION['temp_raw_backup_codes'], $_SESSION['temp_hashed_backup_codes']);
                 $_SESSION['message'] = "Two-Factor Authentication successfully enabled!";
-                header('Location: /user/profile.php');
+                header('Location: ' . $basePath . '/profile');
                 exit;
             } else {
                 http_response_code(403);
@@ -63,7 +68,7 @@ class UserSetup2faActionController
             $_SESSION['error'] = "Invalid 2FA code. Please ensure your authenticator app is synced and try again.";
         }
 
-        header('Location: /user/setup_2fa.php');
+        header('Location: ' . $basePath . '/setup-2fa');
         exit;
     }
 }

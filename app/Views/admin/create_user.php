@@ -2,13 +2,6 @@
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
- * Original Old File: cat create_user.php/save_user.php
- * Migrated Date: 2026-08-04 09:25:29
- */declare(strict_types=1);
-
-/**
- * MIGRATED FILE MAPPING
- * ---------------------
  * Original Old File: admin/create_user.php
  * Migrated Date: 2026-08-04 09:21:39
  */
@@ -21,7 +14,9 @@
 /** @var int $volunteerId */
 /** @var array<int, array{id: int, role_name: string}> $rolesList */
 
-require_once __DIR__ . '/../partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
+require_once ROOT_PATH . '/partials/header.php';
 ?>
 
 <div class="container py-5" style="max-width: 600px;">
@@ -43,7 +38,7 @@ require_once __DIR__ . '/../partials/header.php';
         <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('create_user.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
         <p class="text-muted mb-4"><?= htmlspecialchars(__('create_user.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
         
-        <form method="POST" action="/admin/users/store">
+        <form method="POST" action="<?= $basePath ?>/admin/users/create">
             <?= csrf_field() ?>
             
             <?php if ($volunteerId > 0): ?>
@@ -89,4 +84,4 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

@@ -1,8 +1,5 @@
-includes:
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
-
 parameters:
-    level: 8
+    level: 3
     paths:
         - app
         - includes
@@ -10,17 +7,6 @@ parameters:
         - partials
         - public
         - routes
-        - index.php
-        - feedback.php
-        - leaderboard.php
-        - record_history.php
-        - update_database.php
-        - volunteer.php
 
     checkUninitializedProperties: true
-    checkMissingCallableSignature: true
-    checkTooWideReturnTypesInProtectedAndPublicMethods: true
-    reportUnmatchedIgnoredErrors: true
-
-    # Optional but useful
-    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false

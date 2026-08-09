@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/save_feedback.php
  * Migrated Date: 2026-08-05 04:33:57
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class AdminFeedbackActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Ensure the feedback module is enabled; otherwise block action execution
         if (!is_module_enabled($this->pdo, 'feedback')) {
             http_response_code(403);
@@ -88,7 +84,7 @@ class AdminFeedbackActionController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: /admin/feedback_dashboard.php');
+        header('Location: ' . BASE_PATH . '/admin/tickets');
         exit;
     }
 }

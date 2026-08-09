@@ -1,4 +1,20 @@
 Options -Indexes
 
-ErrorDocument 403 403.php
-ErrorDocument 404 404.php
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Do not rewrite if the request is already pointing inside the public folder
+    RewriteCond %{REQUEST_URI} !/public/
+    
+    # Allow direct access to actual physical files and directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/index.php [QSA,L]
+
+    # Explicitly route the root directory itself to public/index.php
+    RewriteRule ^$ public/index.php [QSA,L]
+</IfModule>
+
+# Updated to point to the new location inside public/
+ErrorDocument 403 /public/403.php
+ErrorDocument 404 /public/404.php

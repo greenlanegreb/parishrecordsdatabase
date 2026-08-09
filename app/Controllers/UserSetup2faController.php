@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/setup_2fa.php/user/actions/save_setup_2fa.php
  * Migrated Date: 2026-08-05 05:22:20
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,17 +22,19 @@ class UserSetup2faController
 
     public function show(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // Enforce dynamic permission check for 2FA setup (automatically registers 'setup_2fa' if new)
-        require_permission($this->pdo, 'setup_2fa', 'Allows setting up and configuring Google Authenticator 2FA');
-        /** @var array{id: int|string, username: string, two_fa_enabled?: int|string} $user */
+        // Ensure user is logged in (bypassing the old permission check wall)
+        /** @var array{id: int|string, username: string, two_fa_enabled?: int|string}|null $user */
         $user = get_current_user_data($this->pdo);
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+
+        if ($user === null) {
+            header('Location: ' . $basePath . '/login');
+            exit;
+        }
+
         if (!empty($user['two_fa_enabled'])) {
-            header('Location: /user/profile.php');
+            header('Location: ' . $basePath . '/profile');
             exit;
         }
 

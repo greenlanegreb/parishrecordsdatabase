@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: roote/leaderboard.php
  * Migrated Date: 2026-08-05 06:45:49
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,13 +22,6 @@ class LeaderboardController
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        require_once __DIR__ . '/../../db/auth_helpers.php';
-        require_once __DIR__ . '/../../includes/functions.php';
-
         if (!is_module_enabled($this->pdo, 'leaderboard')) {
             http_response_code(403);
             exit('403 Forbidden: The Leaderboard module is currently disabled.');
@@ -41,8 +34,8 @@ class LeaderboardController
         $hasPublicPermission = guest_has_permission($this->pdo, 'view_leaderboard');
 
         if ($currentUser === null && !$hasPublicPermission) {
-            $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-            header('Location: ' . $base . '/user/login.php');
+            $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+            header('Location: ' . $basePath . '/login');
             exit;
         }
 

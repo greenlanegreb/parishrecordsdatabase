@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/save_permissions.php
  * Migrated Date: 2026-08-05 04:40:25
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class AdminPermissionsActionController
 
     public function save(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -76,7 +72,7 @@ class AdminPermissionsActionController
             $_SESSION['error'] = "Failed to update permissions: " . $e->getMessage();
         }
 
-        header('Location: /admin/settings#tab-permissions');
+        header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
         exit;
     }
 }

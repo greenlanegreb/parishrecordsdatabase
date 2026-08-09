@@ -4,6 +4,7 @@
     "type": "project",
     "require": {
         "php": "^8.2",
+        "nesbot/carbon": "^3.13",
         "nikic/fast-route": "^1.3"
     },
     "require-dev": {

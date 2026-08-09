@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/data_entry.php/user/actions/save_data_entry.php
  * Migrated Date: 2026-08-05 04:49:46
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,12 +22,8 @@ class UserDataEntryController
 
     public function index(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        require_permission($this->pdo, 'access_data_entry', 'Allows accessing the core data entry workstation and creating records');
-        /** @var array{id: int|string, username: string, first_name?: string, surname?: string, attribution_display_mode?: string, date_format?: string} $currentUser */
+        \require_permission($this->pdo, 'access_data_entry', 'Allows accessing the core data entry workstation and creating records');
+        /** @var array{id: int|string, username: string, first_name?: string, surname?: string, attribution_display_mode?: string, date_format?: string, timezone?: string} $currentUser */
         $currentUser = get_current_user_data($this->pdo);
 
         // Check existence of tables and columns
@@ -64,6 +60,9 @@ class UserDataEntryController
         }
 
         $userDateFormat = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
+        $userTimezone = isset($currentUser['timezone']) && is_string($currentUser['timezone']) ? $currentUser['timezone'] : 'UTC';
+        $fullFormatStr = \get_user_datetime_format($currentUser);
+
         $datePlaceholder = __('data_entry.date_placeholder_ymd');
         if ($userDateFormat === 'd/m/Y') {
             $datePlaceholder = __('data_entry.date_placeholder_dmy');

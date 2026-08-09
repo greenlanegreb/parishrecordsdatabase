@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: user/login.php/user/actions/authenticate.php
  * Migrated Date: 2026-08-05 05:00:24
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * MIGRATED FILE MAPPING
@@ -16,7 +17,8 @@
 /** @string $error */
 /** @string $message */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container d-flex justify-content-center align-items-center py-5" style="min-height: 80vh;" role="region" aria-label="<?= htmlspecialchars(__('login.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -36,8 +38,8 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="/user/actions/authenticate.php">
-            <?= csrf_field() ?>
+        <form method="POST" action="<?= $basePath ?>/user/login">
+            <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="mb-3">
                 <label for="username" class="form-label small fw-bold"><?= htmlspecialchars(__('login.username_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="text" id="username" name="username" required class="form-control">
@@ -50,10 +52,10 @@ require_once __DIR__ . '/../partials/header.php';
 
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
                 <button type="submit" class="btn btn-primary px-4"><?= htmlspecialchars(__('login.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>
-                <a href="/user/forgot_password.php" class="small text-decoration-underline text-secondary"><?= htmlspecialchars(__('login.forgot_password_link'), ENT_QUOTES, 'UTF-8') ?></a>
+                <a href="<?= $basePath ?>/user/forgot-password" class="small text-decoration-underline text-secondary"><?= htmlspecialchars(__('login.forgot_password_link'), ENT_QUOTES, 'UTF-8') ?></a>
             </div>
         </form>
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

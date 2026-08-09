@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/forgot_password.php/user/actions/save_forgot_password.php
  * Migrated Date: 2026-08-05 04:55:09
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class UserForgotPasswordActionController
 
     public function handle(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
@@ -35,6 +31,7 @@ class UserForgotPasswordActionController
 
         verify_csrf_token();
         
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $email = isset($post['email']) && is_string($post['email']) ? trim($post['email']) : '';
 
@@ -61,8 +58,7 @@ class UserForgotPasswordActionController
                     $serverHost = isset($_SERVER['HTTP_HOST']) && is_string($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
                     $httpsOn = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
                     $protocol = $httpsOn ? "https://" : "https://"; // Maintains original fallback pattern
-                    $basePath = defined('BASE_PATH') ? BASE_PATH : '';
-                    $resetLink = $protocol . $serverHost . $basePath . "/user/set_password.php?token=" . $token;
+                    $resetLink = $protocol . $serverHost . $basePath . "/user/set-password?token=" . $token;
 
                     $username = isset($user['username']) && is_string($user['username']) ? $user['username'] : 'User';
                     $messageBody = "Hello " . $username . ",\n\n" .
@@ -79,7 +75,7 @@ class UserForgotPasswordActionController
             $_SESSION['message'] = "If an account matches that email address, a password reset link has been dispatched.";
         }
 
-        header('Location: /user/forgot_password.php');
+        header('Location: ' . $basePath . '/forgot-password');
         exit;
     }
 }

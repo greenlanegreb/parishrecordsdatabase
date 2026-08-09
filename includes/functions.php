@@ -7,6 +7,8 @@ declare(strict_types=1);
  * Migrated Date: 2026-08-04 17:30:00
  */
 
+use App\Services\DateSearchService;
+
 if (!function_exists('obscure_name_ajax')) {
     function obscure_name_ajax(?string $name): string
     {
@@ -123,6 +125,8 @@ if (!function_exists('format_boolean_value')) {
       
         $isTrue = filter_var($val, FILTER_VALIDATE_BOOLEAN);
         switch ($format) {
+            case 'male_female':
+                return $isTrue ? 'Male' : 'Female';
             case 'true_false':
                 return $isTrue ? 'True' : 'False';
             case 'tick_cross':
@@ -179,11 +183,42 @@ if (!function_exists('format_display_date')) {
         if (empty($dateStr)) {
             return '';
         }
-        $dt = DateTime::createFromFormat('Y-m-d', $dateStr);
-        if ($dt !== false) {
-            $phpFormat = str_replace(['d', 'm', 'Y'], ['d', 'm', 'Y'], $formatPref);
-            return $dt->format($phpFormat);
+        
+        $dt = false;
+        foreach (['Y-m-d', 'd/m/Y', 'd.m.Y', 'Y/m/d', 'Y.m.d', 'd-m-Y', 'Y-m', 'm/Y', 'm.Y', 'Y'] as $fmt) {
+            $parsed = DateTime::createFromFormat($fmt, trim($dateStr));
+            if ($parsed !== false) {
+                $dt = $parsed;
+                break;
+            }
         }
+
+        if ($dt === false && @strtotime($dateStr) !== false) {
+            $dt = new DateTime($dateStr);
+        }
+
+        if ($dt !== false) {
+            $trimmed = trim($dateStr);
+            $length = strlen($trimmed);
+
+            // 1. Handle 4-digit Year only
+            if ($length === 4 && ctype_digit($trimmed)) {
+                return $dt->format('Y');
+            }
+
+            // 2. Handle Year-Month partial dates strictly (length 7, e.g., "1955-09", "09/1955", "09.1955")
+            if ($length === 7) {
+                if (strpos($formatPref, '.') !== false) {
+                    return $dt->format('m.Y');
+                } elseif (strpos($formatPref, '-') !== false) {
+                    return $dt->format('Y-m');
+                }
+            }
+
+            // 3. Fallback to full user format preference for complete dates
+            return $dt->format($formatPref);
+        }
+        
         return $dateStr;
     }
 }
@@ -247,80 +282,7 @@ if (!function_exists('generate_csv_export')) {
 
         foreach ($records as $rec) {
             $recId = isset($rec['id']) ? (int)$rec['id'] : 0;
-            $match = true;
-            if (!empty($searchFilters)) {
-                foreach ($searchFilters as $colId => $searchTerm) {
-                    if (is_string($searchTerm) && trim($searchTerm) !== '') {
-                        $cellVal = $recordValues[$recId][$colId] ?? '';
-                        if (stripos($cellVal, trim($searchTerm)) === false) {
-                            $match = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            if ($match && !empty($dateFilters)) {
-                foreach ($dateFilters as $colId => $range) {
-                    if (!is_array($range)) {
-                        continue;
-                    }
-                    $fromInput = isset($range['from']) && is_string($range['from']) ? trim($range['from']) : '';
-                    $toInput = isset($range['to']) && is_string($range['to']) ? trim($range['to']) : '';
-                    $cellVal = trim($recordValues[$recId][$colId] ?? '');
-
-                    if ($cellVal !== '') {
-                        $cellTs = strtotime($cellVal);
-                        if ($fromInput !== '') {
-                            $fromTs = false;
-                            $m = [];
-                            if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $fromInput, $m)) {
-                                $fromTs = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
-                            } else {
-                                $fromTs = strtotime($fromInput);
-                            }
-                            if ($fromTs !== false && $cellTs !== false) {
-                                if ($cellTs < $fromTs) {
-                                    $match = false;
-                                    break;
-                                }
-                            } else {
-                                $cleanFrom = str_replace(['/', '-'], '', $fromInput);
-                                $cleanCell = str_replace('-', '', $cellVal);
-                                if (stripos($cellVal, $fromInput) === false && stripos($cleanCell, $cleanFrom) === false) {
-                                    $match = false;
-                                    break;
-                                }
-                            }
-                        }
-                        if ($toInput !== '') {
-                            $toTs = false;
-                            $m = [];
-                            if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $toInput, $m)) {
-                                $toTs = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
-                            } else {
-                                $toTs = strtotime($toInput);
-                            }
-                            if ($toTs !== false && $cellTs !== false) {
-                                if ($cellTs > $toTs) {
-                                    $match = false;
-                                    break;
-                                }
-                            } else {
-                                $cleanTo = str_replace(['/', '-'], '', $toInput);
-                                $cleanCell = str_replace('-', '', $cellVal);
-                                if (stripos($cellVal, $toInput) === false && stripos($cleanCell, $cleanTo) === false) {
-                                    $match = false;
-                                    break;
-                                }
-                            }
-                        }
-                    } elseif ($fromInput !== '' || $toInput !== '') {
-                        $match = false;
-                        break;
-                    }
-                }
-            }
-            if ($match) {
+            if (record_matches_filters($recId, $recordValues, $searchFilters, $dateFilters)) {
                 $row = ['#' . $recId];
                 foreach ($columns as $col) {
                     $cId = isset($col['id']) ? $col['id'] : 0;
@@ -393,82 +355,7 @@ if (!function_exists('record_matches_filters')) {
      */
     function record_matches_filters($recordId, array $recordValuesMap, array $searchFilters, array $dateFilters): bool
     {
-        if (!empty($searchFilters)) {
-            foreach ($searchFilters as $colId => $searchTerm) {
-                if (is_string($searchTerm) && trim($searchTerm) !== '') {
-                    $cellVal = $recordValuesMap[$recordId][$colId] ?? '';
-                    if (stripos($cellVal, trim($searchTerm)) === false) {
-                        return false;
-                    }
-                }
-            }
-        }
-      
-        if (!empty($dateFilters)) {
-            foreach ($dateFilters as $colId => $range) {
-                if (!is_array($range)) {
-                    continue;
-                }
-                $fromInput = isset($range['from']) && is_string($range['from']) ? trim($range['from']) : '';
-                $toInput = isset($range['to']) && is_string($range['to']) ? trim($range['to']) : '';
-                $cellVal = trim($recordValuesMap[$recordId][$colId] ?? '');
-              
-                if ($cellVal === '') {
-                    if ($fromInput !== '' || $toInput !== '') {
-                        return false;
-                    }
-                    continue;
-                }
-
-                $cellTs = strtotime($cellVal);
-
-                if ($fromInput !== '') {
-                    $fromTs = false;
-                    $m = [];
-                    if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $fromInput, $m)) {
-                        $fromTs = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
-                    } else {
-                        $fromTs = strtotime($fromInput);
-                    }
-
-                    if ($fromTs !== false && $cellTs !== false) {
-                        if ($cellTs < $fromTs) {
-                            return false;
-                        }
-                    } else {
-                        $cleanFrom = str_replace(['/', '-'], '', $fromInput);
-                        $cleanCell = str_replace('-', '', $cellVal);
-                        if (stripos($cellVal, $fromInput) === false && stripos($cleanCell, $cleanFrom) === false) {
-                            return false;
-                        }
-                    }
-                }
-
-                if ($toInput !== '') {
-                    $toTs = false;
-                    $m = [];
-                    if (preg_match('/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/', $toInput, $m)) {
-                        $toTs = strtotime("{$m[3]}-{$m[2]}-{$m[1]}");
-                    } else {
-                        $toTs = strtotime($toInput);
-                    }
-
-                    if ($toTs !== false && $cellTs !== false) {
-                        if ($cellTs > $toTs) {
-                            return false;
-                        }
-                    } else {
-                        $cleanTo = str_replace(['/', '-'], '', $toInput);
-                        $cleanCell = str_replace('-', '', $cellVal);
-                        if (stripos($cellVal, $toInput) === false && stripos($cleanCell, $cleanTo) === false) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-      
-        return true;
+        return DateSearchService::recordMatchesFilters($recordId, $recordValuesMap, $searchFilters, $dateFilters);
     }
 }
 
@@ -575,7 +462,7 @@ if (!function_exists('__')) {
         if ($catalogue === null || $loadedLang !== $lang) {
             $safeRegex = preg_replace('/[^a-zA-Z_]/', '', $lang);
             $safe = ($safeRegex !== null && $safeRegex !== '') ? $safeRegex : 'en';
-            
+          
             // Look for exact file path match first
             $path = __DIR__ . '/../lang/' . $safe . '.php';
 
@@ -679,5 +566,72 @@ if (!function_exists('log_username_check_attempt')) {
         } catch (Exception $e) {
             // Suppress log failure exceptions
         }
+    }
+}
+
+function get_flash(string $key): string {
+    // Check $GLOBALS first (in case require_admin_page already ran)
+    if (isset($GLOBALS[$key])) {
+        $val = $GLOBALS[$key];
+        unset($GLOBALS[$key]); // consume it
+        return $val;
+    }
+    
+    // Fall back to session directly
+    if (isset($_SESSION[$key])) {
+        $val = $_SESSION[$key];
+        unset($_SESSION[$key]); // consume it
+        return $val;
+    }
+    
+    return '';
+}
+
+if (!function_exists('normalize_incoming_date')) {
+    /**
+     * Standardizes full or partial date inputs into a uniform database format.
+     */
+    function normalize_incoming_date(?string $val): string
+    {
+        $valStr = trim((string)$val);
+        if ($valStr === '') {
+            return '';
+        }
+        
+        $cleanVal = $valStr;
+        // 1. 4-digit year (e.g., "1850")
+        if (preg_match('/^(\d{4})$/', $valStr)) {
+            $cleanVal = $valStr;
+        } 
+        // 2. Year and Month (e.g., "1850-05" or "1850/05")
+        elseif (preg_match('/^(\d{4})[\/\-](\d{1,2})$/', $valStr, $m)) {
+            $cleanVal = "{$m[1]}-" . str_pad($m[2], 2, '0', STR_PAD_LEFT);
+        } 
+        // 3. Full date parsing across common formats
+        else {
+            foreach (['d/m/Y', 'd.m.Y', 'Y-m-d', 'd-m-Y', 'Y/m/d', 'm/d/Y'] as $fmt) {
+                $dt = DateTime::createFromFormat($fmt, $valStr);
+                if ($dt !== false) {
+                    $cleanVal = $dt->format('Y-m-d');
+                    break;
+                }
+            }
+        }
+        return $cleanVal;
+    }
+}
+
+if (!function_exists('get_date_placeholder')) {
+    function get_date_placeholder(?string $dateFormat): string
+    {
+        $userFmt = $dateFormat ?: 'd/m/Y';
+        if ($userFmt === 'd/m/Y' || $userFmt === 'd/m/y') {
+            return 'DD/MM/YYYY (e.g. 25/05/1955)';
+        } elseif ($userFmt === 'd.m.Y') {
+            return 'DD.MM.YYYY (e.g. 25.05.1955)';
+        } elseif ($userFmt === 'm/d/Y') {
+            return 'MM/DD/YYYY (e.g. 05/25/1955)';
+        }
+        return 'YYYY-MM-DD (e.g. 1955-05-25)';
     }
 }

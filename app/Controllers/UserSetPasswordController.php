@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/set_password.php/user/actions/save_password.php
  * Migrated Date: 2026-08-05 05:17:35
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserSetPasswordController
 
     public function show(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $queryGet = $_GET;
         $token = isset($queryGet['token']) && is_string($queryGet['token']) ? trim($queryGet['token']) : '';
 

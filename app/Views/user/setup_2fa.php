@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: user/setup_2fa.php/user/actions/save_setup_2fa.php
  * Migrated Date: 2026-08-05 05:23:49
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * MIGRATED FILE MAPPING
@@ -18,7 +19,8 @@
 /** @string $secret */
 /** @array<int, string> $rawBackupCodes */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container d-flex justify-content-center align-items-center py-5" style="min-height: 80vh;" role="region" aria-label="<?= htmlspecialchars(__('setup_2fa.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -55,10 +57,10 @@ require_once __DIR__ . '/../partials/header.php';
                     <li><?= htmlspecialchars($rc, ENT_QUOTES, 'UTF-8') ?></li>
                 <?php endforeach; ?>
             </ul>
-            <a href="/user/setup_2fa.php?action=download_codes" class="btn btn-sm btn-outline-secondary text-decoration-none d-inline-block"><?= htmlspecialchars(__('setup_2fa.download_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+            <a href="<?= $basePath ?>/setup-2fa?action=download_codes" class="btn btn-sm btn-outline-secondary text-decoration-none d-inline-block"><?= htmlspecialchars(__('setup_2fa.download_btn'), ENT_QUOTES, 'UTF-8') ?></a>
         </div>
 
-        <form method="POST" action="/user/actions/save_setup_2fa.php">
+        <form method="POST" action="<?= $basePath ?>/setup-2fa">
             <?= csrf_field() ?>
             <div class="mb-3">
                 <label for="code" class="form-label small fw-bold"><?= htmlspecialchars(__('setup_2fa.code_label'), ENT_QUOTES, 'UTF-8') ?></label>
@@ -68,9 +70,9 @@ require_once __DIR__ . '/../partials/header.php';
         </form>
         
         <p class="text-center mt-4 mb-0">
-            <a href="/user/profile.php" class="small text-decoration-underline text-secondary"><?= htmlspecialchars(__('setup_2fa.cancel_link'), ENT_QUOTES, 'UTF-8') ?></a>
+            <a href="<?= $basePath ?>/profile" class="small text-decoration-underline text-secondary"><?= htmlspecialchars(__('setup_2fa.cancel_link'), ENT_QUOTES, 'UTF-8') ?></a>
         </p>
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

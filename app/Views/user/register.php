@@ -4,7 +4,8 @@
  * ---------------------
  * Original Old File: user/register.php/user/actions/save_register.php
  * Migrated Date: 2026-08-05 05:15:34
- */declare(strict_types=1);
+ */
+declare(strict_types=1);
 
 /**
  * MIGRATED FILE MAPPING
@@ -16,7 +17,8 @@
 /** @string $message */
 /** @string $error */
 
-require_once __DIR__ . '/../partials/header.php';
+require_once ROOT_PATH . '/partials/header.php';
+$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
 <div class="container d-flex justify-content-center align-items-center py-5" style="min-height: 80vh;" role="region" aria-label="<?= htmlspecialchars(__('register.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
@@ -36,7 +38,7 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
         <?php endif; ?>
         
-        <form method="POST" action="/user/actions/save_register.php">
+        <form method="POST" action="<?= $basePath ?>/register">
             <?= csrf_field() ?>
             <div class="mb-3">
                 <label for="username" class="form-label small fw-bold"><?= htmlspecialchars(__('register.username_label'), ENT_QUOTES, 'UTF-8') ?></label>
@@ -58,4 +60,4 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 </div>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: admin/actions/save_user.php
  * Migrated Date: 2026-08-05 04:45:53
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -23,10 +23,6 @@ class AdminUserActionController
 
     public function create(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         if (!is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
             exit('403 Forbidden: The User Management module is currently disabled.');
@@ -39,6 +35,7 @@ class AdminUserActionController
         }
 
         verify_csrf_token();
+
         /** @var array{id: int, username: string} $currentUser */
         $currentUser = require_permission($this->pdo, 'manage_users', 'Manage user accounts, roles, and status');
 
@@ -61,12 +58,13 @@ class AdminUserActionController
 
         if ($email === '') {
             $_SESSION['error'] = "Email address is a required field.";
-            header('Location: /admin/users');
+            header('Location: ' . BASE_PATH . '/admin/users');
             exit;
         }
+
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Invalid email format.";
-            header('Location: /admin/users');
+            header('Location: ' . BASE_PATH . '/admin/users');
             exit;
         }
 
@@ -74,7 +72,7 @@ class AdminUserActionController
         $chkEmail->execute([$email]);
         if ($chkEmail->fetch()) {
             $_SESSION['error'] = "A user account with that email address already exists.";
-            header('Location: /admin/users');
+            header('Location: ' . BASE_PATH . '/admin/users');
             exit;
         }
 
@@ -89,7 +87,7 @@ class AdminUserActionController
                 $_SESSION['error'] = "Username availability check limit reached (max 3 per 24 hours). A unique username has been automatically allocated instead.";
             } else {
                 $sanitized = preg_replace('/[^a-zA-Z0-9_\-]/', '', $requestedUsername) ?? '';
-                
+
                 $chkUser = $this->pdo->prepare("SELECT id FROM users WHERE username = ?");
                 $chkUser->execute([$sanitized]);
                 if ($chkUser->fetch()) {
@@ -108,7 +106,6 @@ class AdminUserActionController
             if ($base === '') {
                 $base = 'user';
             }
-
             $username = $base;
             $counter = 1;
             while (true) {
@@ -120,7 +117,7 @@ class AdminUserActionController
                 $username = $base . $counter;
                 $counter++;
             }
-            
+
             // Append auto-allocated notice if they originally tried a taken/limited name
             if ($requestedUsername !== '' && empty($_SESSION['error'])) {
                 $_SESSION['error'] = "The username you requested was unavailable. Username '{$username}' was automatically allocated.";
@@ -134,13 +131,12 @@ class AdminUserActionController
             require_once __DIR__ . '/../../db/mail_helper.php';
 
             $ins = $this->pdo->prepare("INSERT INTO users (username, first_name, surname, email, password_hash, role_id, invite_token, invite_expires_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
             if ($ins->execute([$username, $firstName, $surname, $email, '', $roleId, $token, $expires])) {
                 $userDetails = [
                     'first_name' => $firstName,
-                    'surname'    => $surname,
-                    'username'   => $username,
-                    'role_name'  => ucwords($roleName)
+                    'surname' => $surname,
+                    'username' => $username,
+                    'role_name' => ucwords($roleName)
                 ];
 
                 if (send_user_invitation($this->pdo, $email, $token, $userDetails)) {
@@ -152,7 +148,7 @@ class AdminUserActionController
                     if (empty($_SESSION['message'])) {
                         $_SESSION['message'] = "User '{$username}' created successfully and invitation email sent!";
                     }
-                    
+
                     $audit = $this->pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'CREATE_USER', ?, ?)");
                     $audit->execute([$currentUser['id'], "Created user account ({$roleName}) with username: {$username}", $remoteAddr]);
                 } else {
@@ -165,7 +161,7 @@ class AdminUserActionController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: /admin/users');
+        header('Location: ' . BASE_PATH . '/admin/users');
         exit;
     }
 }

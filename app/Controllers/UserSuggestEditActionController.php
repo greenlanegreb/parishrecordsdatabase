@@ -4,8 +4,8 @@
  * ---------------------
  * Original Old File: user/suggest_edit.php/user/actions/save_suggest_edit.php
  * Migrated Date: 2026-08-05 05:27:15
- */declare(strict_types=1);
-
+ */
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,6 @@ class UserSuggestEditActionController
 
     public function save(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Ensure the moderation module is enabled; otherwise block action execution
         if (!is_module_enabled($this->pdo, 'moderation')) {
             http_response_code(403);
@@ -43,14 +39,31 @@ class UserSuggestEditActionController
         $currentUser = require_permission($this->pdo, 'access_suggest_edit', 'Allows submitting edit suggestions for records');
         $userId = $currentUser['id'];
 
+        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
         $recordId = isset($post['record_id']) ? (string)$post['record_id'] : null;
-        $returnUrl = isset($post['return_url']) && is_string($post['return_url']) ? $post['return_url'] : '/index.php';
+        $returnUrl = isset($post['return_url']) && is_string($post['return_url']) ? $post['return_url'] : 'index.php';
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 
         if ($recordId === null || $recordId === '') {
             http_response_code(403);
             exit("No record specified.");
+        }
+
+        // Check honeypot anti-spam traps
+        if (!empty($post['website_hp']) || !empty($post['website_url'])) {
+            $_SESSION['error'] = "Spam detected.";
+            header("Location: " . $basePath . "/user/suggest-edit?record_id=" . urlencode($recordId) . "&return=" . urlencode($returnUrl));
+            exit;
+        }
+
+        // Validate Captcha if function exists
+        if (function_exists('verify_form_captcha')) {
+            if (!verify_form_captcha($this->pdo, $post)) {
+                $_SESSION['error'] = "Invalid captcha code. Please try again.";
+                header("Location: " . $basePath . "/user/suggest-edit?record_id=" . urlencode($recordId) . "&return=" . urlencode($returnUrl));
+                exit;
+            }
         }
 
         $columnId = isset($post['column_id']) ? (string)$post['column_id'] : '';
@@ -67,6 +80,11 @@ class UserSuggestEditActionController
             $colInfo = $colStmt->fetch(PDO::FETCH_ASSOC);
 
             if ($colInfo !== false) {
+                // Normalize date inputs automatically if the column is a DATE type
+                if ($colInfo['data_type'] === 'DATE') {
+                    $proposedValue = normalize_incoming_date($proposedValue);
+                }
+
                 $displayVal = $proposedValue;
                 if ($colInfo['data_type'] === 'BOOLEAN') {
                     $fmt = isset($colInfo['boolean_display_format']) && is_string($colInfo['boolean_display_format']) ? $colInfo['boolean_display_format'] : 'yes_no';
@@ -95,7 +113,7 @@ class UserSuggestEditActionController
             }
         }
 
-        header("Location: /user/suggest_edit.php?record_id=" . urlencode($recordId) . "&return=" . urlencode($returnUrl));
+        header("Location: " . $basePath . "/user/suggest-edit?record_id=" . urlencode($recordId) . "&return=" . urlencode($returnUrl));
         exit;
     }
 }
