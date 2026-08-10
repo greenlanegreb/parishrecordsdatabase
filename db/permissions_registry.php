@@ -32,6 +32,7 @@ return [
         'submit_feedback'      => 'Allows submitting public feedback and inquiries',
         'submit_volunteer'     => 'Allows submitting volunteer interest and transcripts',
         'view_as_guest'        => 'View and search records',
+        'view_error_logs'      => 'View and look up system error log entries by reference ID',
         'view_leaderboard'     => 'Allows viewing community contribution leaderboards',
         'view_user_full_names' => 'Controls Visibility of Volunteers Full Names Being Seen Instead of Obscured',
     ],
@@ -57,8 +58,9 @@ return [
             'purge_audit_entry',
             'submit_feedback',
             'submit_volunteer',
-            'view_leaderboard',
             'view_as_guest',
+            'view_error_logs',
+            'view_leaderboard',
             'view_user_full_names',
         ],
         'moderator' => [

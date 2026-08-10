@@ -68,7 +68,20 @@ class UserForgotPasswordActionController
                                    "This link is valid for 24 hours. If you did not request a password reset, please ignore this email.\n";
 
                     require_once __DIR__ . '/../../db/mail_helper.php';
-                    send_user_invitation($this->pdo, $email, $token, $subject, $messageBody);
+                    send_user_invitation(
+                         $this->pdo,
+                         $email,
+                         $token,
+                         [
+                             'username'   => $username,
+                             'first_name' => $username,
+                             'surname'    => '',
+                             'role_name'  => '',
+                         ],
+                         'password_reset',
+                         $subject,
+                         $messageBody
+                   );
                 }
             }
 

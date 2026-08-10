@@ -10,6 +10,7 @@ return function (RouteCollector $r): void {
     $r->addRoute('GET', '/leaderboard', ['App\Controllers\LeaderboardController', 'index']);
     $r->addRoute('GET', '/volunteer', ['App\Controllers\Public\VolunteerController', 'index']);
     $r->addRoute('POST', '/volunteer', ['App\Controllers\UserSavePublicVolunteerActionController', 'handle']);
+    $r->addRoute('POST', '/volunteer/check-username', ['App\Controllers\UserSavePublicVolunteerActionController', 'checkUsername']);
     $r->addRoute('GET', '/feedback', ['App\Controllers\Public\FeedbackController', 'index']);
     $r->addRoute('POST', '/feedback', ['App\Controllers\UserSavePublicTicketActionController', 'handle']);
 

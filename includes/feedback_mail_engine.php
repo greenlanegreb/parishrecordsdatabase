@@ -89,5 +89,18 @@ function send_feedback_templated_email(PDO $pdo, int $ticketId, string $triggerE
     $subject = str_replace($tagKeys, $tagVals, $template['subject']);
     $body = str_replace($tagKeys, $tagVals, $template['body']);
 
-    return send_user_invitation($pdo, $toEmail, '', $subject, $body);
+    return send_user_invitation(
+        $pdo,
+        $toEmail,
+        '',
+        [
+            'first_name' => $firstName,
+            'surname'    => $surname,
+            'username'   => '',
+            'role_name'  => '',
+        ],
+        $triggerEvent,
+        $subject,
+        $body
+    );
 }

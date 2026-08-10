@@ -6,50 +6,55 @@
  * Migrated Date: 2026-08-04 10:25:40
  */
 declare(strict_types=1);
-
-/** @string $message */
-/** @string $error */
-/** @int $schemaCurrent */
-/** @int $schemaLatest */
-/** @bool $schemaNeedsUpdate */
-/** @string $currentSystemName */
-/** @string $currentDefaultLanguage */
-/** @array<int, string> $availableLanguages */
-/** @string $currentCaptchaProvider */
-/** @string $currentTurnstileSite */
-/** @string $currentTurnstileSecret */
-/** @string $currentRecaptchaSite */
-/** @string $currentRecaptchaSecret */
-/** @string $currentHcaptchaSite */
-/** @string $currentHcaptchaSecret */
-/** @string $currentMailDomain */
-/** @string $currentMailFrom */
-/** @string $currentMailDriver */
-/** @string $currentSmtpHost */
-/** @string $currentSmtpPort */
-/** @string $currentSmtpUser */
-/** @string $currentSmtpEncryption */
-/** @string $modModerationVal */
-/** @string $modVolunteersVal */
-/** @string $modFeedbackVal */
-/** @string $modUsersVal */
-/** @string $modLeaderboardVal */
-/** @string $maintenanceMode */
-/** @string $maintenanceReason */
-/** @string $maintenanceEta */
-/** @array<int, array<string, mixed>> $notices */
-/** @array<int, array<string, mixed>> $auditLogs */
-/** @array<int, string> $distinctActions */
-/** @string $userTimezone */
-/** @string $fullFormatStr */
-/** @array<int, array<string, mixed>> $rolesList */
-/** @array<int, array<int, true>> $activeMappings */
-/** @array<string, array<int, array<string, mixed>>> $categorizedPerms */
-
+/** @var string $message */
+/** @var string $error */
+/** @var int $schemaCurrent */
+/** @var int $schemaLatest */
+/** @var bool $schemaNeedsUpdate */
+/** @var string $currentSystemName */
+/** @var string $currentDefaultLanguage */
+/** @var array<int, string> $availableLanguages */
+/** @var string $currentCaptchaProvider */
+/** @var string $currentTurnstileSite */
+/** @var string $currentTurnstileSecret */
+/** @var string $currentRecaptchaSite */
+/** @var string $currentRecaptchaSecret */
+/** @var string $currentHcaptchaSite */
+/** @var string $currentHcaptchaSecret */
+/** @var string $currentMailDomain */
+/** @var string $currentMailFrom */
+/** @var string $currentMailDriver */
+/** @var string $currentSmtpHost */
+/** @var string $currentSmtpPort */
+/** @var string $currentSmtpUser */
+/** @var string $currentSmtpEncryption */
+/** @var string $modModerationVal */
+/** @var string $modVolunteersVal */
+/** @var string $modFeedbackVal */
+/** @var string $modUsersVal */
+/** @var string $modLeaderboardVal */
+/** @var string $maintenanceMode */
+/** @var string $maintenanceReason */
+/** @var string $maintenanceEta */
+/** @var array<int, array<string, mixed>> $notices */
+/** @var array<int, array<string, mixed>> $auditLogs */
+/** @var array<int, string> $distinctActions */
+/** @var string $userTimezone */
+/** @var string $fullFormatStr */
+/** @var array<int, array<string, mixed>> $rolesList */
+/** @var array<int, array<int, true>> $activeMappings */
+/** @var array<string, array<int, array<string, mixed>>> $categorizedPerms */
+/** @var bool $canViewErrorLogs */
+/** @var array<int, array<string, mixed>> $recentErrors */
+/** @var array<string, mixed>|null $lookedUpError */
+/** @var string $errorLookupId */
+$canViewErrorLogs = $canViewErrorLogs ?? false;
+$recentErrors     = $recentErrors ?? [];
+$lookedUpError    = $lookedUpError ?? null;
+$errorLookupId    = $errorLookupId ?? '';
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
-
 <style>
 @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -65,7 +70,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     display: inline-block;
 }
 </style>
-
 <div class="container py-4" role="region" aria-label="Site Settings Form" style="max-width: 1100px;">
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -79,10 +83,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
-
     <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('settings.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
     <p class="text-muted mb-4"><?= htmlspecialchars(__('settings.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
-
     <!-- Accessible Bootstrap Nav Tabs -->
     <ul class="nav nav-tabs mb-4" role="tablist" aria-label="Settings Sections">
         <li class="nav-item" role="presentation">
@@ -103,8 +105,12 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold text-secondary" id="tab-audit" data-bs-toggle="tab" data-bs-target="#panel-audit" type="button" role="tab" aria-controls="panel-audit" aria-selected="false"><?= htmlspecialchars(__('settings.tab_audit'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <?php if ($canViewErrorLogs): ?>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold text-secondary" id="tab-errors" data-bs-toggle="tab" data-bs-target="#panel-errors" type="button" role="tab" aria-controls="panel-errors" aria-selected="false">Error log</button>
+        </li>
+        <?php endif; ?>
     </ul>
-
     <div class="tab-content">
         <?php require __DIR__ . '/settings_parts/core.php'; ?>
         <?php require __DIR__ . '/settings_parts/modules.php'; ?>
@@ -112,9 +118,11 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <?php require __DIR__ . '/settings_parts/notices.php'; ?>
         <?php require __DIR__ . '/settings_parts/permissions.php'; ?>
         <?php require __DIR__ . '/settings_parts/audit.php'; ?>
+        <?php if ($canViewErrorLogs): ?>
+            <?php require __DIR__ . '/settings_parts/errors.php'; ?>
+        <?php endif; ?>
     </div>
 </div>
-
 <script>
 function toggleSmtpFields(val) {
     document.getElementById('smtp_settings_block').style.display = (val === 'smtp') ? 'block' : 'none';
@@ -154,12 +162,13 @@ function handleTestMailSubmit(form) {
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const hash = window.location.hash;
-    
+
     let targetTab = 'tab-core';
     if (hash === '#test-mail-section') {
         targetTab = 'tab-core';
         setTimeout(() => {
-            document.getElementById('test-mail-section').scrollIntoView({ behavior: 'smooth' });
+            const el = document.getElementById('test-mail-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 200);
     } else if (urlParams.has('edit_role') || hash === '#tab-permissions') {
         targetTab = 'tab-permissions';
@@ -171,6 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
         targetTab = 'tab-notices';
     } else if (hash === '#tab-maintenance') {
         targetTab = 'tab-maintenance';
+    } else if (hash === '#tab-errors' || urlParams.get('tab') === 'errors') {
+        targetTab = 'tab-errors';
     }
 
     const tabTriggerEl = document.querySelector('#' + targetTab);
@@ -180,5 +191,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

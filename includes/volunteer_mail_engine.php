@@ -92,6 +92,19 @@ function send_volunteer_templated_email(PDO $pdo, int $submissionId, string $tri
     $subject = str_replace($tagKeys, $tagVals, $template['subject']);
     $body = str_replace($tagKeys, $tagVals, $template['body']);
 
-    // 6. Dispatch using your hybrid mail helper
-    return send_user_invitation($pdo, $toEmail, '', $subject, $body);
+        // 6. Dispatch using your hybrid mail helper
+    return send_user_invitation(
+        $pdo,
+        $toEmail,
+        '',
+        [
+            'first_name' => $firstName,
+            'surname'    => $surname,
+            'username'   => '',
+            'role_name'  => '',
+        ],
+        $triggerEvent,
+        $subject,
+        $body
+    );
 }

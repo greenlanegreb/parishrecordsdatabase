@@ -59,7 +59,12 @@ require_once ROOT_PATH . '/partials/header.php';
 
             <div class="mb-3">
                 <label for="username" class="form-label fw-bold"><?= htmlspecialchars(__('create_user.username_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="username" name="username" placeholder="<?= htmlspecialchars(__('create_user.username_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control">
+                <input type="text"
+                       id="username"
+                       name="username"
+                       value="<?= htmlspecialchars($prefillUsername ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                       placeholder="<?= htmlspecialchars(__('create_user.username_placeholder'), ENT_QUOTES, 'UTF-8') ?>"
+                       class="form-control">
                 <div class="form-text"><?= htmlspecialchars(__('create_user.username_help'), ENT_QUOTES, 'UTF-8') ?></div>
             </div>
             

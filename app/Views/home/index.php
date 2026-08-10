@@ -58,7 +58,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <?php elseif ($currentUser !== null): ?>
                 <p class="mb-0"><?= htmlspecialchars(__('index.contact_admin_tables'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php else: ?>
-                <p class="mb-0"><?= __('index.guest_login_tables_guide', ['login_link' => $basePath . '/user/login']) ?></p>
+                <p class="mb-0"><?= __('index.guest_login_tables_guide', ['login_link' => $basePath . '/login']) ?></p>
             <?php endif; ?>
         </div>
     <?php elseif ($totalColumnsCount === 0): ?>

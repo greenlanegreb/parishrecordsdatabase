@@ -29,6 +29,7 @@ class ComposerStaticInit657b85759b97fae05fc2983bd4abadf7
             'Psr\\Clock\\' => 10,
             'PhpParser\\' => 10,
             'PHPStan\\' => 8,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'F' =>
         array (
@@ -77,6 +78,10 @@ class ComposerStaticInit657b85759b97fae05fc2983bd4abadf7
         'PHPStan\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpstan-strict-rules/src',
+        ),
+        'PHPMailer\\PHPMailer\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'FastRoute\\' =>
         array (

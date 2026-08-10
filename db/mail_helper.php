@@ -9,11 +9,6 @@ declare(strict_types=1);
 
 // db/mail_helper.php - Hybrid mailer supporting local Postfix or PHPMailer SMTP with database email template parsing
 
-// Require the lightweight core PHPMailer files directly
-require_once __DIR__ . '/../includes/phpmailer/Exception.php';
-require_once __DIR__ . '/../includes/phpmailer/PHPMailer.php';
-require_once __DIR__ . '/../includes/phpmailer/SMTP.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -69,7 +64,7 @@ function send_user_invitation(
     $protocol = $isHttps ? "https://" : "https://";
     $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? BASE_PATH : '';
     
-    $setupLink = $protocol . $httpHost . $basePath . "/user/set_password.php?token=" . $resetToken;
+    $setupLink = $protocol . $httpHost . $basePath . "/user/set-password?token=" . $resetToken;
 
     $fName = isset($userDetails['first_name']) && is_string($userDetails['first_name']) ? $userDetails['first_name'] : (isset($userDetails['username']) && is_string($userDetails['username']) ? $userDetails['username'] : 'User');
     $sName = isset($userDetails['surname']) && is_string($userDetails['surname']) ? $userDetails['surname'] : '';

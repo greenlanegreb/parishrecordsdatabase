@@ -44,41 +44,38 @@ if ($uri === '' || $uri === false) {
     $uri = '/';
 }
 
-// 7. GLOBAL SCHEMA / MIGRATION SAFETY-VALVE INTERCEPT
-if ($uri !== '/update-database' && is_file(__DIR__ . '/../db/migrate_runner.php')) {
+
+// 7. SCHEMA STATUS (soft — do not lock the site for pending migrations)
+// Pending migrations are applied by an admin via Settings / update-database after backup.
+// A hard site-wide redirect here caused lockouts on routine migrations and exposed
+// the update gateway to anonymous users.
+$schemaBehind = false;
+if (is_file(__DIR__ . '/../db/migrate_runner.php') && isset($pdo) && $pdo instanceof PDO) {
     require_once __DIR__ . '/../db/migrate_runner.php';
-    
     try {
-        $currentSchema = function_exists('get_schema_version') && isset($pdo) && $pdo instanceof PDO ? get_schema_version($pdo) : 0;
-        $latestSchema = $currentSchema;
-        $migrationsDir = __DIR__ . '/../db/migrations';
-        
-        if (is_dir($migrationsDir)) {
-            $globFiles = glob($migrationsDir . '/*.php');
-            if ($globFiles !== false) {
-                foreach ($globFiles as $migFile) {
-                    $m = [];
-                    if (preg_match('/(\d+)_/', basename($migFile), $m)) {
-                        $latestSchema = max($latestSchema, (int)$m[1]);
+        if (function_exists('get_schema_version')) {
+            $currentSchema = get_schema_version($pdo);
+            $latestSchema = $currentSchema;
+            $migrationsDir = __DIR__ . '/../db/migrations';
+            if (is_dir($migrationsDir)) {
+                $globFiles = glob($migrationsDir . '/*.php');
+                if ($globFiles !== false) {
+                    foreach ($globFiles as $migFile) {
+                        $m = [];
+                        if (preg_match('/(\d+)_/', basename($migFile), $m)) {
+                            $latestSchema = max($latestSchema, (int) $m[1]);
+                        }
                     }
                 }
             }
-        }
-        
-        if ($currentSchema < $latestSchema) {
-            $redirectTarget = ($baseDir !== '' ? $baseDir : '') . '/update-database';
-            if (!headers_sent()) {
-                header('Location: ' . $redirectTarget);
-                exit;
-            }
+            $schemaBehind = ($currentSchema < $latestSchema);
+            // Available later for an admin banner if you want:
+            // $GLOBALS['schema_behind'] = $schemaBehind;
         }
     } catch (\Throwable $e) {
-        // Fail gracefully if database or tables aren't set up yet, forcing the update gateway
-        $redirectTarget = ($baseDir !== '' ? $baseDir : '') . '/update-database';
-        if (!headers_sent()) {
-            header('Location: ' . $redirectTarget);
-            exit;
-        }
+        // DB not ready / serious failure — do not redirect the public to the updater.
+        // Fresh installs are handled by db/db.php → /install/.
+        // Admins can still open /update-database when authenticated.
     }
 }
 

@@ -36,7 +36,6 @@ class SettingsService
                 $viewDesc = 'Allows viewing and searching records in table: ' . $tName;
                 $modKey = 'moderate_table_' . $tId;
                 $modDesc = 'Allows reviewing and moderating suggestions in table: ' . $tName;
-
                 $insP = $this->pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES (?, ?)");
                 $insP->execute([$viewKey, $viewDesc]);
                 $insP->execute([$modKey, $modDesc]);
@@ -124,10 +123,10 @@ class SettingsService
     public function getAuditLogs(): array
     {
         $auditStmt = $this->pdo->query("
-            SELECT al.*, u.username 
-            FROM audit_logs al 
-            LEFT JOIN users u ON al.user_id = u.id 
-            ORDER BY al.created_at DESC 
+            SELECT al.*, u.username
+            FROM audit_logs al
+            LEFT JOIN users u ON al.user_id = u.id
+            ORDER BY al.created_at DESC
             LIMIT 250
         ");
         return $auditStmt !== false ? $auditStmt->fetchAll(PDO::FETCH_ASSOC) : [];
@@ -190,6 +189,9 @@ class SettingsService
         if (in_array($pkey, ['access_suggest_edit', 'moderate_suggestions', 'manage_feedback'], true)) {
             return 'Moderation Workflow';
         }
+        if (in_array($pkey, ['view_error_logs', 'manage_audit_logs', 'purge_audit_entry'], true)) {
+            return 'Core System & Settings';
+        }
         return 'Core System & Settings';
     }
 
@@ -209,7 +211,6 @@ class SettingsService
         $rawLang         = isset($post['default_language']) && is_string($post['default_language']) ? strtolower(trim($post['default_language'])) : 'en';
         $defaultLanguage = preg_replace('/[^a-z_]/', '', $rawLang) ?: 'en';
 
-        // Only allow languages that actually have a file
         $langFile = __DIR__ . '/../../lang/' . $defaultLanguage . '.php';
         if (!is_file($langFile)) {
             $defaultLanguage = 'en';
@@ -240,7 +241,6 @@ class SettingsService
         $stmt->execute(['system_name', $systemName, $systemName]);
         $stmt->execute(['default_language', $defaultLanguage, $defaultLanguage]);
 
-        // CAPTCHA
         $stmt->execute(['captcha_provider', $captchaProvider, $captchaProvider]);
         $stmt->execute(['turnstile_site_key', $turnstileSite, $turnstileSite]);
         if ($turnstileSecret !== '') {
@@ -255,7 +255,6 @@ class SettingsService
             $stmt->execute(['hcaptcha_secret_key', $hcaptchaSecret, $hcaptchaSecret]);
         }
 
-        // Mail
         $stmt->execute(['mail_domain', $mailDomain, $mailDomain]);
         $stmt->execute(['mail_from', $mailFrom, $mailFrom]);
         $stmt->execute(['mail_driver', $mailDriver, $mailDriver]);
@@ -272,5 +271,73 @@ class SettingsService
 
         audit($this->pdo, (int) $currentUser['id'], 'UPDATE_SETTINGS',
             'Updated global site settings, mail drivers, and CAPTCHA configurations', $remoteAddr);
+    }
+
+    /**
+     * Path to the structured error log.
+     */
+    private function getErrorLogPath(): string
+    {
+        return dirname(__DIR__, 2) . '/logs/error_structured.log';
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function findErrorById(string $id): ?array
+    {
+        $id = trim($id);
+        if ($id === '' || !preg_match('/^E-\d{8}-[A-F0-9]+$/i', $id)) {
+            return null;
+        }
+
+        $path = $this->getErrorLogPath();
+        if (!is_file($path) || !is_readable($path)) {
+            return null;
+        }
+
+        $lines = @file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false) {
+            return null;
+        }
+
+        for ($i = count($lines) - 1; $i >= 0; $i--) {
+            $row = json_decode($lines[$i], true);
+            if (!is_array($row)) {
+                continue;
+            }
+            if (isset($row['id']) && strcasecmp((string) $row['id'], $id) === 0) {
+                return $row;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getRecentErrors(int $limit = 50): array
+    {
+        $limit = max(1, min(200, $limit));
+        $path = $this->getErrorLogPath();
+        if (!is_file($path) || !is_readable($path)) {
+            return [];
+        }
+
+        $lines = @file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false || $lines === []) {
+            return [];
+        }
+
+        $out = [];
+        for ($i = count($lines) - 1; $i >= 0 && count($out) < $limit; $i--) {
+            $row = json_decode($lines[$i], true);
+            if (is_array($row) && isset($row['id'])) {
+                $out[] = $row;
+            }
+        }
+
+        return $out;
     }
 }

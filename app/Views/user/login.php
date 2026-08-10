@@ -38,7 +38,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="<?= $basePath ?>/user/login">
+        <form method="POST" action="<?= $basePath ?>/login">
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
             <div class="mb-3">
                 <label for="username" class="form-label small fw-bold"><?= htmlspecialchars(__('login.username_label'), ENT_QUOTES, 'UTF-8') ?></label>

@@ -3,7 +3,7 @@
         'name' => 'deballiol/prd',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'd72e7cbe2eb37f2903f5d3130a2bd23ccda5d66f',
+        'reference' => 'a1df40cd11deb4403d534d0ea6e4a5b8d3e95f21',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'deballiol/prd' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'd72e7cbe2eb37f2903f5d3130a2bd23ccda5d66f',
+            'reference' => 'a1df40cd11deb4403d534d0ea6e4a5b8d3e95f21',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -81,6 +81,15 @@
             'install_path' => __DIR__ . '/../phar-io/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v7.1.1',
+            'version' => '7.1.1.0',
+            'reference' => '1bc1716a507a65e039d4ac9d9adebbbd0d346e15',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'phpstan/phpstan' => array(
             'pretty_version' => '2.2.8',

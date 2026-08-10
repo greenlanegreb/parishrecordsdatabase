@@ -117,6 +117,21 @@ class AdminSettingsController
             $categorizedPerms[$cat][] = $p;
         }
 
+        // Error log tab (permission-gated)
+        $canViewErrorLogs = has_permission($this->pdo, 'view_error_logs');
+        $recentErrors     = [];
+        $lookedUpError    = null;
+        $errorLookupId    = '';
+
+        if ($canViewErrorLogs) {
+            $recentErrors  = $this->settingsService->getRecentErrors(50);
+            $errorLookupId = isset($_GET['error_id']) && is_string($_GET['error_id'])
+                ? trim($_GET['error_id']) : '';
+            if ($errorLookupId !== '') {
+                $lookedUpError = $this->settingsService->findErrorById($errorLookupId);
+            }
+        }
+
         $userTimezone  = isset($currentUser['timezone']) && is_string($currentUser['timezone'])
             ? $currentUser['timezone'] : 'UTC';
         $fullFormatStr = get_user_datetime_format($currentUser);

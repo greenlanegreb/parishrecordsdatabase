@@ -25,7 +25,7 @@ declare(strict_types=1);
             <div class="alert alert-warning py-2 px-3 small mb-2">
                 <?= htmlspecialchars(__('settings.schema_update_notice'), ENT_QUOTES, 'UTF-8') ?>
             </div>
-            <form method="POST" action="<?= $basePath ?>/admin/migrations/run" class="mt-2" onsubmit="return confirm('<?= htmlspecialchars(__('settings.migration_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+            <form method="POST" action="<?= $basePath ?>/admin/migration/run" class="mt-2" onsubmit="return confirm('<?= htmlspecialchars(__('settings.migration_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
                 <?= csrf_field() ?>
                 <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('settings.update_db_btn'), ENT_QUOTES, 'UTF-8') ?></button>
             </form>

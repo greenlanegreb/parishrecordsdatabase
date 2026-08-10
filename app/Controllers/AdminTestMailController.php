@@ -86,9 +86,6 @@ class AdminTestMailController
 
             if ($mailDriver === 'smtp') {
                 // Test via PHPMailer SMTP
-                require_once __DIR__ . '/../../includes/phpmailer/Exception.php';
-                require_once __DIR__ . '/../../includes/phpmailer/PHPMailer.php';
-                require_once __DIR__ . '/../../includes/phpmailer/SMTP.php';
 
                 $mail = new PHPMailer\PHPMailer\PHPMailer(true);
                 $mail->isSMTP();

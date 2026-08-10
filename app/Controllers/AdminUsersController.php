@@ -88,10 +88,34 @@ class AdminUsersController
         $error   = $GLOBALS['error'] ?? '';
         $queryGet = $_GET;
 
-        $prefillEmail   = isset($queryGet['email']) && is_string($queryGet['email']) ? trim($queryGet['email']) : '';
+                $prefillEmail   = isset($queryGet['email']) && is_string($queryGet['email']) ? trim($queryGet['email']) : '';
         $prefillFirst   = isset($queryGet['first_name']) && is_string($queryGet['first_name']) ? trim($queryGet['first_name']) : '';
         $prefillSurname = isset($queryGet['surname']) && is_string($queryGet['surname']) ? trim($queryGet['surname']) : '';
         $volunteerId    = isset($queryGet['volunteer_id']) ? (int) $queryGet['volunteer_id'] : 0;
+        $prefillUsername = '';
+
+        if ($volunteerId > 0) {
+            $vStmt = $this->pdo->prepare(
+                'SELECT preferred_username, first_name, surname, email
+                 FROM volunteer_submissions WHERE id = ? LIMIT 1'
+            );
+            $vStmt->execute([$volunteerId]);
+            $vol = $vStmt->fetch(PDO::FETCH_ASSOC);
+            if (is_array($vol)) {
+                if ($prefillEmail === '' && !empty($vol['email']) && is_string($vol['email'])) {
+                    $prefillEmail = trim($vol['email']);
+                }
+                if ($prefillFirst === '' && !empty($vol['first_name']) && is_string($vol['first_name'])) {
+                    $prefillFirst = trim($vol['first_name']);
+                }
+                if ($prefillSurname === '' && !empty($vol['surname']) && is_string($vol['surname'])) {
+                    $prefillSurname = trim($vol['surname']);
+                }
+                if (!empty($vol['preferred_username']) && is_string($vol['preferred_username'])) {
+                    $prefillUsername = trim($vol['preferred_username']);
+                }
+            }
+        }
 
         $rolesStmt = $this->pdo->query("SELECT id, role_name FROM roles ORDER BY id ASC");
         /** @var array<int, array{id: int, role_name: string}> $rolesList */

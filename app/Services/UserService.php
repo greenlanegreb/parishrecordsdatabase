@@ -69,6 +69,8 @@ class UserService
 
     public function sendPasswordReset(int $targetUserId, array $currentUser, string $remoteAddr): string
     {
+
+        require_once dirname(__DIR__, 2) . '/db/mail_helper.php';
         $token = bin2hex(random_bytes(32));
         $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
         
@@ -99,6 +101,8 @@ class UserService
 
     public function resendInvite(int $targetUserId, array $currentUser, string $remoteAddr): string
     {
+
+        require_once dirname(__DIR__, 2) . '/db/mail_helper.php';
         $token = bin2hex(random_bytes(32));
         $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
         
