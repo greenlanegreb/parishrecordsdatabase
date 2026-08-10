@@ -22,6 +22,7 @@ class HomeController
 
     public function index(): void
     {
+
         // Only send people to the installer when nothing is configured yet
         if (!is_file(__DIR__ . '/../../db/db.php') && !is_file(__DIR__ . '/../../config.local.php')) {
             $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';

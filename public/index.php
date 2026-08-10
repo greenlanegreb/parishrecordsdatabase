@@ -1,23 +1,27 @@
 <?php
 declare(strict_types=1);
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 // public/index.php
 
-// 1. REGISTER THE CENTRALIZED ERROR HANDLER FIRST
+// 1. This Helps The Built in Error Log Where Errors are Handled Properly and Securely. 
+// See true/false setting in config.local.php to turn on development mode error reporting or see admin dash.
+error_reporting(E_ALL);
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
+ini_set('log_errors', '1');
+
+
+// 2. REGISTER THE CENTRALIZED ERROR HANDLER FIRST
 require_once __DIR__ . '/../includes/error_handler.php';
 register_global_error_handlers(__DIR__ . '/../logs');
 
-// 2. VENDOR AUTOLOAD
+// 3. VENDOR AUTOLOAD
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// 3. APPLICATION INITIALIZATION (Loads BASE_PATH, sessions, functions, auth helpers, security, and $pdo)
+// 4. APPLICATION INITIALIZATION (Loads BASE_PATH, sessions, functions, auth helpers, security, and $pdo)
 require_once __DIR__ . '/../includes/init.php';
 
-// 4. NORMALIZE URI FOR GLOBAL GATEKEEPING
+// 5. NORMALIZE URI FOR GLOBAL GATEKEEPING
 $server = $_SERVER;
 $httpMethod = isset($server['REQUEST_METHOD']) && is_string($server['REQUEST_METHOD']) ? $server['REQUEST_METHOD'] : 'GET';
 $uri = isset($server['REQUEST_URI']) && is_string($server['REQUEST_URI']) ? $server['REQUEST_URI'] : '/';
@@ -28,7 +32,7 @@ if (false !== $pos) {
 }
 $uri = rawurldecode($uri);
 
-// Safe subfolder prefix stripping using $baseDir provided by init.php
+// 6. Safe subfolder prefix stripping using $baseDir provided by init.php
 if ($baseDir !== '') {
     if ($uri === $baseDir) {
         $uri = '/';
@@ -40,7 +44,7 @@ if ($uri === '' || $uri === false) {
     $uri = '/';
 }
 
-// 5. GLOBAL SCHEMA / MIGRATION SAFETY-VALVE INTERCEPT
+// 7. GLOBAL SCHEMA / MIGRATION SAFETY-VALVE INTERCEPT
 if ($uri !== '/update-database' && is_file(__DIR__ . '/../db/migrate_runner.php')) {
     require_once __DIR__ . '/../db/migrate_runner.php';
     
@@ -78,7 +82,7 @@ if ($uri !== '/update-database' && is_file(__DIR__ . '/../db/migrate_runner.php'
     }
 }
 
-// 6. FASTROUTE DISPATCHING
+// 8. FASTROUTE DISPATCHING
 /** @var callable(FastRoute\RouteCollector): void $routeDefinition */
 $routeDefinition = require __DIR__ . '/../routes/web.php';
 $dispatcher = FastRoute\simpleDispatcher($routeDefinition);
@@ -91,7 +95,7 @@ if (!is_array($routeInfo)) {
 
 $status = $routeInfo[0] ?? null;
 
-// Helper closure to render the shared error view cleanly for 404/405
+// 9. Helper closure to render the shared error view cleanly for 404/405
 $renderErrorView = function(int $code, string $title, string $message): void {
     if (!headers_sent()) {
         http_response_code($code);

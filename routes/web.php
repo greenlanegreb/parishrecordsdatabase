@@ -100,5 +100,7 @@ return function (RouteCollector $r): void {
     $r->addRoute('POST', '/admin/roles/save', ['App\Controllers\AdminRoleActionController', 'handle']);
     $r->addRoute('POST', '/admin/mail/test', ['App\Controllers\AdminTestMailController', 'send']);
     $r->addRoute('POST', '/admin/notices/inline-save', ['App\Controllers\AdminNoticeActionController', 'handle']);
+    $r->addRoute('GET',  '/admin/notices', ['App\Controllers\NoticeController', 'index']);
+    $r->addRoute('POST', '/admin/notices', ['App\Controllers\NoticeController', 'store']);
     $r->addRoute('POST', '/admin/permissions/save', ['App\Controllers\AdminPermissionsActionController', 'save']);
 };

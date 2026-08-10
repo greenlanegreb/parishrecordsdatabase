@@ -167,6 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
         targetTab = 'tab-modules';
     } else if (hash === '#tab-audit') {
         targetTab = 'tab-audit';
+    } else if (hash === '#tab-notices') {
+        targetTab = 'tab-notices';
     } else if (hash === '#tab-maintenance') {
         targetTab = 'tab-maintenance';
     }

@@ -5,18 +5,24 @@ declare(strict_types=1);
 /**
  * Pure MVC View Template for Errors
  * Expects variables passed from the handler:
- * - $errorCode (int) e.g., 404, 500
- * - $errorTitle (string) 
+ * - $errorCode (int) e.g. 404, 500
+ * - $errorTitle (string)
  * - $errorMessage (string)
- * - $exception (\Throwable|null) Optional, for local stack traces
+ * - $isLocal (bool) show debug block when true
+ * - $errorFile (string) optional
+ * - $errorLine (int) optional
+ * - $trace (string) optional redacted stack trace
  * - $basePath (string)
  */
 
-$errorCode = $errorCode ?? 500;
-$errorTitle = $errorTitle ?? 'An Unexpected Error Occurred';
+$errorCode    = $errorCode ?? 500;
+$errorTitle   = $errorTitle ?? 'An Unexpected Error Occurred';
 $errorMessage = $errorMessage ?? 'The system encountered an unhandled exception and has safely halted execution.';
-$basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : ($basePath ?? '');
-$isLocal = $isLocal ?? false;
+$basePath     = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : ($basePath ?? '');
+$isLocal      = $isLocal ?? false;
+$errorFile    = $errorFile ?? '';
+$errorLine    = $errorLine ?? 0;
+$trace        = $trace ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +30,6 @@ $isLocal = $isLocal ?? false;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($errorCode . ' — ' . $errorTitle, ENT_QUOTES, 'UTF-8') ?></title>
-    <!-- Bootstrap 5 CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/assets/style.css">
 </head>
@@ -38,12 +43,20 @@ $isLocal = $isLocal ?? false;
                 <?= htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8') ?>
             </p>
 
-            <?php if ($isLocal && isset($exception) && $exception instanceof \Throwable): ?>
+            <?php if ($isLocal): ?>
                 <div class="text-start bg-light p-3 rounded border small mb-4">
-                    <div class="fw-bold text-dark mb-1">Debug Info (Local Environment Only):</div>
-                    <div class="text-muted mb-2"><strong>File:</strong> <?= htmlspecialchars($exception->getFile(), ENT_QUOTES, 'UTF-8') ?> (Line <?= $exception->getLine() ?>)</div>
-                    <label class="form-label fw-bold text-muted small">Stack Trace:</label>
-                    <pre class="bg-dark text-light p-2 rounded small overflow-auto mb-0" style="max-height: 200px;"><code><?= htmlspecialchars($exception->getTraceAsString(), ENT_QUOTES, 'UTF-8') ?></code></pre>
+                    <div class="fw-bold text-dark mb-1">Debug details</div>
+                    <?php if ($errorFile !== ''): ?>
+                        <div class="text-muted mb-2">
+                            <strong>File:</strong>
+                            <?= htmlspecialchars((string) $errorFile, ENT_QUOTES, 'UTF-8') ?>
+                            (Line <?= (int) $errorLine ?>)
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($trace !== ''): ?>
+                        <label class="form-label fw-bold text-muted small">Stack trace</label>
+                        <pre class="bg-dark text-light p-2 rounded small overflow-auto mb-0" style="max-height: 280px; white-space: pre-wrap;"><code><?= htmlspecialchars((string) $trace, ENT_QUOTES, 'UTF-8') ?></code></pre>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
 
@@ -54,7 +67,6 @@ $isLocal = $isLocal ?? false;
             </div>
         </div>
     </div>
-    <!-- Bootstrap 5 JS Bundle CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

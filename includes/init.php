@@ -43,6 +43,12 @@ if (is_file($authHelpersPath)) {
     require_once $authHelpersPath;
 }
 
+// 4b. Load controller helpers (DRY wrappers)
+$controllerHelpersPath = __DIR__ . '/controller_helpers.php';
+if (is_file($controllerHelpersPath)) {
+    require_once $controllerHelpersPath;
+}
+
 // 5. Load security engine / threat defense firewall
 $securityEnginePath = __DIR__ . '/security_engine.php';
 if (is_file($securityEnginePath)) {

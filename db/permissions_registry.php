@@ -22,6 +22,7 @@ return [
         'manage_audit_logs'    => 'Allows viewing and managing the global system-wide audit logs',
         'manage_columns'       => 'Configure table columns',
         'manage_feedback'      => 'Manage feedback',
+        'manage_notices'       => 'Manage PRD Front Page Notices',
         'manage_settings'      => 'Manage global settings',
         'manage_tables'        => 'Manage dynamic database tables and column schema definitions',
         'manage_users'         => 'Manage user accounts, roles, and status',
@@ -30,8 +31,9 @@ return [
         'purge_audit_entry'    => 'Allows purging individual audit log entries from records',
         'submit_feedback'      => 'Allows submitting public feedback and inquiries',
         'submit_volunteer'     => 'Allows submitting volunteer interest and transcripts',
-        'view_leaderboard'     => 'Allows viewing community contribution leaderboards',
         'view_as_guest'        => 'View and search records',
+        'view_leaderboard'     => 'Allows viewing community contribution leaderboards',
+        'view_user_full_names' => 'Controls Visibility of Volunteers Full Names Being Seen Instead of Obscured',
     ],
 
     // 2. The default permissions assigned to core roles during installation (alphabetical)
@@ -46,6 +48,7 @@ return [
             'manage_audit_logs',
             'manage_columns',
             'manage_feedback',
+            'manage_notices',
             'manage_settings',
             'manage_tables',
             'manage_users',
@@ -56,6 +59,7 @@ return [
             'submit_volunteer',
             'view_leaderboard',
             'view_as_guest',
+            'view_user_full_names',
         ],
         'moderator' => [
             'access_data_entry',

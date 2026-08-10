@@ -31,8 +31,11 @@ class AdminAuditController
 
         verify_csrf_token();
         /** @var array{id: int, username: string} $currentUser */
-        $currentUser = require_admin_page($this->pdo, 'manage_settings', 'Manage global site settings');
-
+        $currentUser = require_permission(
+           $this->pdo,
+           'manage_audit_logs',
+           'Allows viewing and managing the global system-wide audit logs'
+           );
         $post = $_POST;
         $purgeType = isset($post['purge_type']) && is_string($post['purge_type']) ? trim($post['purge_type']) : '';
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
