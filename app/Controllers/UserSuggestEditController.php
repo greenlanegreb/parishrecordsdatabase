@@ -29,7 +29,8 @@ class UserSuggestEditController
         }
 
         // Enforce permission-based access control
-        require_permission($this->pdo, 'access_suggest_edit', 'Allows submitting edit suggestions for records');
+                /** @var array{id: int|string, username?: string}|null $currentUser */
+        $currentUser = require_suggest_edit_access($this->pdo);
 
         $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $queryGet = $_GET;
@@ -63,6 +64,12 @@ class UserSuggestEditController
 
         if (empty($recordData)) {
             exit(__('record_history.exit_not_found'));
+        }
+
+        $tableId = isset($recordData[0]['table_id']) ? (int) $recordData[0]['table_id'] : 0;
+        if ($tableId < 1 || !user_can_view_table($this->pdo, $tableId, $currentUser)) {
+            http_response_code(403);
+            exit('403 Forbidden: You cannot suggest edits for this record.');
         }
 
         $message = $_SESSION['message'] ?? '';

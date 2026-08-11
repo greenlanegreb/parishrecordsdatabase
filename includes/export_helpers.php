@@ -1,0 +1,106 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * CSV export helpers (records / search export).
+ */
+
+if (!function_exists('generate_csv_export')) {
+    function generate_csv_export(PDO $pdo, string $filenamePrefix = 'psd-export'): void
+    {
+        $userDateFormat = 'd/m/Y';
+        if (isset($_SESSION['user_id'])) {
+            $currentUser = get_current_user_data($pdo);
+            if (
+                $currentUser !== false
+                && $currentUser !== null
+                && isset($currentUser['date_format'])
+                && is_string($currentUser['date_format'])
+            ) {
+                $userDateFormat = $currentUser['date_format'];
+            }
+        }
+
+        $colsStmt = $pdo->query('SELECT * FROM table_columns ORDER BY id ASC');
+        /** @var array<int, array<string, mixed>> $columns */
+        $columns = $colsStmt !== false ? $colsStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+
+        $queryGet = $_GET;
+        /** @var array<mixed, mixed> $searchFilters */
+        $searchFilters = isset($queryGet['filters']) && is_array($queryGet['filters']) ? $queryGet['filters'] : [];
+        /** @var array<mixed, mixed> $dateFilters */
+        $dateFilters = isset($queryGet['date_filters']) && is_array($queryGet['date_filters']) ? $queryGet['date_filters'] : [];
+
+        $recordsStmt = $pdo->query(
+            'SELECT r.id, r.created_at, u.username
+             FROM records r
+             LEFT JOIN users u ON r.created_by = u.id
+             ORDER BY r.id DESC'
+        );
+        /** @var array<int, array<string, mixed>> $records */
+        $records = $recordsStmt !== false ? $recordsStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+
+        $valuesStmt = $pdo->query('SELECT record_id, column_id, value_content FROM record_values');
+        /** @var array<int, array<string, mixed>> $rawValues */
+        $rawValues = $valuesStmt !== false ? $valuesStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+
+        /** @var array<int|string, array<int|string, string>> $recordValues */
+        $recordValues = [];
+        foreach ($rawValues as $val) {
+            $recId = isset($val['record_id']) ? $val['record_id'] : 0;
+            $colId = isset($val['column_id']) ? $val['column_id'] : 0;
+            $valCont = isset($val['value_content']) && is_string($val['value_content']) ? $val['value_content'] : '';
+            $recordValues[$recId][$colId] = $valCont;
+        }
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filenamePrefix . '-' . date('Y-m-d') . '.csv"');
+        header('Cache-Control: no-store, no-cache, must-revalidate');
+
+        $output = fopen('php://output', 'w');
+        if ($output === false) {
+            http_response_code(500);
+            exit('Failed to open output stream.');
+        }
+
+        /** @var array<int, string> $headerRow */
+        $headerRow = ['Record ID'];
+        foreach ($columns as $col) {
+            $colName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : '';
+            $headerRow[] = $colName;
+        }
+        $headerRow[] = 'Created By';
+        $headerRow[] = 'Date Added';
+        fputcsv($output, $headerRow);
+
+        foreach ($records as $rec) {
+            $recId = isset($rec['id']) ? (int) $rec['id'] : 0;
+            if (record_matches_filters($recId, $recordValues, $searchFilters, $dateFilters)) {
+                $row = ['#' . $recId];
+                foreach ($columns as $col) {
+                    $cId = isset($col['id']) ? $col['id'] : 0;
+                    $rawVal = $recordValues[$recId][$cId] ?? '';
+                    $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
+                    $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
+                        ? $col['boolean_display_format'] : 'yes_no';
+
+                    if ($dataType === 'BOOLEAN') {
+                        $row[] = format_boolean_value($rawVal, $boolFormat);
+                    } elseif ($dataType === 'DATE') {
+                        $row[] = format_display_date($rawVal, $userDateFormat);
+                    } else {
+                        $row[] = $rawVal;
+                    }
+                }
+                $recUsername = isset($rec['username']) && is_string($rec['username']) ? $rec['username'] : 'User_Anon';
+                $recCreatedAt = isset($rec['created_at']) && is_string($rec['created_at']) ? $rec['created_at'] : '';
+
+                $row[] = $recUsername;
+                $row[] = $recCreatedAt;
+                fputcsv($output, $row);
+            }
+        }
+        fclose($output);
+        exit;
+    }
+}

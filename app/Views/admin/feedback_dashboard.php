@@ -7,12 +7,12 @@
  */
 declare(strict_types=1);
 
-/** @string $message */
-/** @string $error */
-/** @array<int, array<string, mixed>> $tickets */
-/** @string $userTimezone */
-/** @string $fullFormatStr */
-/** @array{id: int, username: string, timezone?: string, date_format?: string} $currentUser */
+/** @var string $message */
+/** @var string $error */
+/** @var array<int, array<string, mixed>> $tickets */
+/** @var string $userTimezone */
+/** @var string $fullFormatStr */
+/** @var array{id: int, username: string, timezone?: string, date_format?: string} $currentUser */
 
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
@@ -43,11 +43,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         </div>
     </div>
 
-    <!-- Tickets Table Card -->
     <div class="card shadow-sm border-0">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" role="table">
-                <table class="table table-hover align-middle mb-0" role="table">
                 <thead class="table-light">
                     <tr>
                         <th scope="col" class="py-3 ps-3"><?= htmlspecialchars(__('feedback_dash.th_ticket_date') ?? 'Ticket ID / Date', ENT_QUOTES, 'UTF-8') ?></th>
@@ -64,23 +62,18 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                         </tr>
                     <?php else: ?>
                         <?php foreach ($tickets as $t): ?>
-                            <?php 
-                                $subId = isset($t['id']) ? (int)$t['id'] : 0;
+                            <?php
+                                $subId = isset($t['id']) ? (int) $t['id'] : 0;
                                 $subEmail = isset($t['email']) && is_string($t['email']) ? $t['email'] : '';
-                                $firstName = isset($t['first_name']) && is_string($t['first_name']) ? $t['first_name'] : '';
-                                $surname = isset($t['surname']) && is_string($t['surname']) ? $t['surname'] : '';
-                                $fullName = trim("{$firstName} {$surname}");
-                                if ($fullName === '') {
-                                    $fullName = $t['name'] ?? ($t['username'] ?? __('feedback_dash.anonymous') ?? 'Anonymous');
-                                }
-
+                                $fullName = isset($t['submitter_display']) && is_string($t['submitter_display'])
+                                    ? $t['submitter_display']
+                                    : 'Anonymous';
                                 $status = isset($t['status']) && is_string($t['status']) ? $t['status'] : 'Pending';
-                                $badgeClass = match(strtolower($status)) {
+                                $badgeClass = match (strtolower($status)) {
                                     'completed', 'resolved' => 'bg-success',
                                     'rejected', 'closed' => 'bg-danger',
                                     default => 'bg-warning text-dark'
                                 };
-
                                 $createdAt = isset($t['created_at']) && is_string($t['created_at']) ? $t['created_at'] : '';
                                 $subjectText = isset($t['subject']) && is_string($t['subject']) ? $t['subject'] : 'Support Inquiry';
                             ?>
@@ -95,14 +88,13 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                         <a href="mailto:<?= htmlspecialchars($subEmail, ENT_QUOTES, 'UTF-8') ?>" class="text-decoration-none small"><?= htmlspecialchars($subEmail, ENT_QUOTES, 'UTF-8') ?></a>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= htmlspecialchars(substr($subjectText, 0, 60), ENT_QUOTES, 'UTF-8') ?>...</td>
+                                <td><?= htmlspecialchars(mb_substr($subjectText, 0, 60), ENT_QUOTES, 'UTF-8') ?><?= mb_strlen($subjectText) > 60 ? '…' : '' ?></td>
                                 <td>
                                     <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?></span>
                                 </td>
                                 <td class="text-end pe-3 text-nowrap">
                                     <div class="d-flex justify-content-end gap-1">
                                         <a href="<?= $basePath ?>/admin/tickets/<?= $subId ?>" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;"><?= htmlspecialchars(__('feedback_dash.open_ticket_btn') ?? 'Open Ticket & Dialogue', ENT_QUOTES, 'UTF-8') ?></a>
-                                        
                                         <form method="POST" action="<?= $basePath ?>/admin/tickets/action" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('feedback_dash.delete_confirm') ?? 'Are you sure you want to delete this ticket?', ENT_QUOTES, 'UTF-8') ?>');">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="action" value="delete_ticket">

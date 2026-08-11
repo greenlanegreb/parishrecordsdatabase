@@ -7,19 +7,18 @@
  */
 declare(strict_types=1);
 
-/** @string $message */
-/** @string $error */
-/** @array<int, array<string, mixed>> $columns */
-/** @array<int, array<string, mixed>> $submissions */
-/** @array<int, array<int, string>> $submissionValues */
-/** @string $userTimezone */
-/** @string $fullFormatStr */
-/** @array{id: int, username: string, timezone?: string, date_format?: string} $currentUser */
+/** @var string $message */
+/** @var string $error */
+/** @var array<int, array<string, mixed>> $columns */
+/** @var array<int, array<string, mixed>> $submissions */
+/** @var array<int, array<int, string>> $submissionValues */
+/** @var string $userTimezone */
+/** @var string $fullFormatStr */
+/** @var array{id: int, username: string, timezone?: string, date_format?: string} $currentUser */
 
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
-
 <div class="container-fluid py-4" style="max-width: 1500px;" role="region" aria-label="Volunteer Portal Dashboard">
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -45,7 +44,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         </div>
     </div>
 
-    <!-- Submissions Table Card -->
     <div class="card shadow-sm border-0">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" role="table">
@@ -71,50 +69,64 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                         </tr>
                     <?php else: ?>
                         <?php foreach ($submissions as $sub): ?>
-                            <?php 
-                                $subId = isset($sub['id']) ? (int)$sub['id'] : 0;
+                            <?php
+                                $subId = isset($sub['id']) ? (int) $sub['id'] : 0;
                                 $subEmail = isset($sub['email']) && is_string($sub['email']) ? $sub['email'] : '';
                                 $firstName = isset($sub['first_name']) && is_string($sub['first_name']) ? $sub['first_name'] : '';
                                 $surname = isset($sub['surname']) && is_string($sub['surname']) ? $sub['surname'] : '';
-                                $fullName = trim("{$firstName} {$surname}");
-                                if ($fullName === '') {
-                                    $fullName = __('volunteer_dashboard.volunteer_prefix') . ' #' . $subId;
-                                }
-
+                                $fullName = isset($sub['applicant_display']) && is_string($sub['applicant_display'])
+                                    ? $sub['applicant_display']
+                                    : (trim($firstName . ' ' . $surname) !== ''
+                                        ? trim($firstName . ' ' . $surname)
+                                        : ('Volunteer #' . $subId));
+                                $prefUser = isset($sub['preferred_username_display']) && is_string($sub['preferred_username_display'])
+                                    ? $sub['preferred_username_display'] : '';
                                 $status = isset($sub['status']) && is_string($sub['status']) ? $sub['status'] : 'Pending Review';
-                                $badgeClass = match($status) {
+                                $badgeClass = match ($status) {
                                     'Accepted' => 'bg-success',
                                     'Chat Scheduled' => 'bg-warning text-dark',
                                     'Rejected' => 'bg-danger',
                                     default => 'bg-secondary'
                                 };
-
-                                $interviewDate = isset($sub['interview_date']) && is_string($sub['interview_date']) ? $sub['interview_date'] : '';
-                                $interviewNotes = isset($sub['interview_notes']) && is_string($sub['interview_notes']) ? $sub['interview_notes'] : '';
-                                $createdAt = isset($sub['created_at']) && is_string($sub['created_at']) ? $sub['created_at'] : '';
+                                $interviewDate = isset($sub['interview_date']) && is_string($sub['interview_date'])
+                                    ? $sub['interview_date'] : '';
+                                $interviewNotes = isset($sub['interview_notes']) && is_string($sub['interview_notes'])
+                                    ? $sub['interview_notes'] : '';
+                                $createdAt = isset($sub['created_at']) && is_string($sub['created_at'])
+                                    ? $sub['created_at'] : '';
                             ?>
                             <tr>
                                 <td class="ps-3 fw-bold">#<?= $subId ?></td>
                                 <td>
                                     <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?></span>
                                 </td>
-                                <td class="fw-bold text-dark"><?= htmlspecialchars($fullName, ENT_QUOTES, 'UTF-8') ?></td>
-                                <td><a href="mailto:<?= htmlspecialchars($subEmail, ENT_QUOTES, 'UTF-8') ?>" class="text-decoration-none"><?= htmlspecialchars($subEmail, ENT_QUOTES, 'UTF-8') ?></a></td>
-                                
+                                <td class="fw-bold text-dark">
+                                    <?= htmlspecialchars($fullName, ENT_QUOTES, 'UTF-8') ?>
+                                    <?php if ($prefUser !== ''): ?>
+                                        <br><small class="text-muted fw-normal">@<?= htmlspecialchars($prefUser, ENT_QUOTES, 'UTF-8') ?></small>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($subEmail !== ''): ?>
+                                        <a href="mailto:<?= htmlspecialchars($subEmail, ENT_QUOTES, 'UTF-8') ?>" class="text-decoration-none"><?= htmlspecialchars($subEmail, ENT_QUOTES, 'UTF-8') ?></a>
+                                    <?php endif; ?>
+                                </td>
+
                                 <?php foreach ($columns as $col): ?>
-                                    <?php 
-                                        $colId = isset($col['id']) ? (int)$col['id'] : 0;
+                                    <?php
+                                        $colId = isset($col['id']) ? (int) $col['id'] : 0;
                                         $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
-                                        $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format']) ? $col['boolean_display_format'] : 'yes_no';
-                                        $dateFormat = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
-                                        
+                                        $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
+                                            ? $col['boolean_display_format'] : 'yes_no';
+                                        $dateFormat = isset($currentUser['date_format']) && is_string($currentUser['date_format'])
+                                            ? $currentUser['date_format'] : 'd/m/Y';
                                         $rawVal = $submissionValues[$subId][$colId] ?? '';
                                         if ($dataType === 'BOOLEAN') {
                                             $displayVal = format_boolean_value($rawVal, $boolFormat);
                                         } elseif ($dataType === 'DATE') {
                                             $displayVal = format_display_date($rawVal, $dateFormat);
                                         } else {
-                                            $displayVal = nl2br(htmlspecialchars($rawVal, ENT_QUOTES, 'UTF-8'));
+                                            $displayVal = nl2br(htmlspecialchars((string) $rawVal, ENT_QUOTES, 'UTF-8'));
                                         }
                                     ?>
                                     <td><?= $displayVal ?></td>
@@ -135,18 +147,20 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <td><?= format_user_time($createdAt, $userTimezone, $fullFormatStr) ?></td>
                                 <td class="text-end pe-3 text-nowrap">
                                     <div class="d-flex justify-content-end gap-1">
-                                        <!-- Trigger Interview Modal Button -->
-                                        <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" onclick="openInterviewModal(<?= $subId ?>, '<?= htmlspecialchars(addslashes($status), ENT_QUOTES, 'UTF-8') ?>', '<?= htmlspecialchars($interviewDate, ENT_QUOTES, 'UTF-8') ?>', `<?= htmlspecialchars(addslashes($interviewNotes), ENT_QUOTES, 'UTF-8') ?>`)"><?= htmlspecialchars(__('volunteer_dashboard.chat_notes_btn'), ENT_QUOTES, 'UTF-8') ?></button>
-
-                                        <!-- Accept & Invite Button -->
-                                        <?php if (!empty($subEmail)): ?>
-                                        <a href="<?= $basePath ?>/admin/users/create?email=<?= urlencode($subEmail) ?>&first_name=<?= urlencode($firstName) ?>&surname=<?= urlencode($surname) ?>&volunteer_id=<?= (int)$subId ?>" class="btn btn-sm btn-success py-0 px-2 text-decoration-none" style="font-size: 0.75rem; margin-left: 4px;" title="<?= htmlspecialchars(__('volunteer_dashboard.accept_title'), ENT_QUOTES, 'UTF-8') ?>">
-                                        <?= htmlspecialchars(__('volunteer_dashboard.accept_invite_btn'), ENT_QUOTES, 'UTF-8') ?>
-                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;"
+                                            onclick="openInterviewModal(<?= $subId ?>, '<?= htmlspecialchars(addslashes($status), ENT_QUOTES, 'UTF-8') ?>', '<?= htmlspecialchars($interviewDate, ENT_QUOTES, 'UTF-8') ?>', `<?= htmlspecialchars(addslashes($interviewNotes), ENT_QUOTES, 'UTF-8') ?>`)">
+                                            <?= htmlspecialchars(__('volunteer_dashboard.chat_notes_btn'), ENT_QUOTES, 'UTF-8') ?>
+                                        </button>
+                                        <?php if ($subEmail !== ''): ?>
+                                            <a href="<?= $basePath ?>/admin/users/create?email=<?= urlencode($subEmail) ?>&amp;first_name=<?= urlencode($firstName) ?>&amp;surname=<?= urlencode($surname) ?>&amp;volunteer_id=<?= $subId ?><?= $prefUser !== '' ? '&amp;username=' . urlencode($prefUser) : '' ?>"
+                                               class="btn btn-sm btn-success py-0 px-2 text-decoration-none"
+                                               style="font-size: 0.75rem; margin-left: 4px;"
+                                               title="<?= htmlspecialchars(__('volunteer_dashboard.accept_title'), ENT_QUOTES, 'UTF-8') ?>">
+                                                <?= htmlspecialchars(__('volunteer_dashboard.accept_invite_btn'), ENT_QUOTES, 'UTF-8') ?>
+                                            </a>
                                         <?php endif; ?>
-
-                                        <!-- Delete Form Button -->
-                                        <form method="POST" action="<?= $basePath ?>/admin/volunteers" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_dashboard.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+                                        <form method="POST" action="<?= $basePath ?>/admin/volunteers" class="d-inline"
+                                              onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_dashboard.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="action" value="delete_volunteer">
                                             <input type="hidden" name="volunteer_id" value="<?= $subId ?>">
@@ -163,7 +177,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     </div>
 </div>
 
-<!-- Bootstrap 5 Interview & Notes Modal -->
 <div class="modal fade" id="interviewModal" tabindex="-1" aria-labelledby="interviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -171,7 +184,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <?= csrf_field() ?>
                 <input type="hidden" name="action" value="update_interview">
                 <input type="hidden" name="volunteer_id" id="modal_volunteer_id">
-
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold" id="interviewModalLabel"><?= htmlspecialchars(__('volunteer_dashboard.modal_heading'), ENT_QUOTES, 'UTF-8') ?></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -186,12 +198,10 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                             <option value="Rejected"><?= htmlspecialchars(__('volunteer_dashboard.status_rejected'), ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
-
                     <div class="mb-3">
                         <label for="modal_interview_date" class="form-label fw-bold small"><?= htmlspecialchars(__('volunteer_dashboard.modal_date_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <input type="datetime-local" id="modal_interview_date" name="interview_date" class="form-control form-control-sm">
                     </div>
-
                     <div class="mb-3">
                         <label for="modal_interview_notes" class="form-label fw-bold small"><?= htmlspecialchars(__('volunteer_dashboard.modal_notes_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <textarea id="modal_interview_notes" name="interview_notes" rows="4" class="form-control form-control-sm" placeholder="<?= htmlspecialchars(__('volunteer_dashboard.modal_notes_placeholder'), ENT_QUOTES, 'UTF-8') ?>"></textarea>
@@ -216,11 +226,9 @@ function openInterviewModal(id, status, date, notes) {
         document.getElementById('modal_interview_date').value = '';
     }
     document.getElementById('modal_interview_notes').value = notes;
-    
     const modalEl = document.getElementById('interviewModal');
     const modalInstance = new bootstrap.Modal(modalEl);
     modalInstance.show();
 }
 </script>
-
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

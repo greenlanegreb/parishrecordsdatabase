@@ -199,6 +199,7 @@ function is_moderator(PDO $pdo): bool
  * 
  * @return array<string, mixed>
  */
+
 function require_permission(PDO $pdo, string $permissionKey, ?string $description = null): array
 {
     if (!isset($_SESSION['user_id'])) {
@@ -229,6 +230,71 @@ function require_permission(PDO $pdo, string $permissionKey, ?string $descriptio
     }
 
     return $user;
+}
+
+/**
+ * Allow CSV/JSON export for a logged-in user with export_data,
+ * or for an anonymous visitor when the guest role has export_data.
+ *
+ * @return array{id: int|string, username?: string, date_format?: string}|null
+ *         User row when logged in; null when guest is allowed.
+ */
+function require_export_access(PDO $pdo): ?array
+{
+    if (isset($_SESSION['user_id'])) {
+        return require_permission(
+            $pdo,
+            'export_data',
+            'Export database records and search result sets to CSV'
+        );
+    }
+
+    if (!guest_has_permission($pdo, 'export_data')) {
+        $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+        header('Location: ' . $base . '/login');
+        exit;
+    }
+
+    return null;
+}
+
+/**
+ * Allow suggest-edit for a logged-in user with access_suggest_edit,
+ * or for a guest when the guest role has access_suggest_edit.
+ *
+ * @return array{id: int|string, username?: string, date_format?: string}|null
+ */
+function require_suggest_edit_access(PDO $pdo): ?array
+{
+    if (isset($_SESSION['user_id'])) {
+        return require_permission(
+            $pdo,
+            'access_suggest_edit',
+            'Allows submitting edit suggestions for records'
+        );
+    }
+
+    if (!guest_has_permission($pdo, 'access_suggest_edit')) {
+        $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+        header('Location: ' . $base . '/login');
+        exit;
+    }
+
+    return null;
+}
+
+/**
+ * Whether the current visitor may use suggest-edit (for UI buttons).
+ */
+function can_suggest_edit(PDO $pdo): bool
+{
+    if (!is_module_enabled($pdo, 'moderation')) {
+        return false;
+    }
+    if (isset($_SESSION['user_id'])) {
+        return has_permission($pdo, 'access_suggest_edit');
+    }
+    return guest_has_permission($pdo, 'access_suggest_edit');
 }
 
 /**

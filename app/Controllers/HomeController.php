@@ -79,21 +79,37 @@ class HomeController
         }
 
         // ------------------------------------------------------------------
-        // User display preferences
+        // User display preferences (logged-in profile; guest = site/default UK)
         // ------------------------------------------------------------------
-        $userDateFormat = 'd-m-Y';
-        if ($currentUser !== null && isset($currentUser['date_format']) && is_string($currentUser['date_format'])) {
-            $userDateFormat = $currentUser['date_format'];
+        $siteDateFormat = function_exists('get_setting')
+            ? get_setting($this->pdo, 'default_date_format', 'd/m/Y')
+            : 'd/m/Y';
+        if ($siteDateFormat === '') {
+            $siteDateFormat = 'd/m/Y';
         }
 
-        // Use the centralized date placeholder helper function
-        $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholder($userDateFormat) : 'DD-MM-YYYY';
+        if ($currentUser !== null) {
+            $userDateFormat = (
+                isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== ''
+            ) ? $currentUser['date_format'] : $siteDateFormat;
 
-        $userTimezone = ($currentUser !== null && isset($currentUser['timezone']) && is_string($currentUser['timezone'])) ? $currentUser['timezone'] : 'UTC';
-        $fullFormatStr = ($currentUser !== null && function_exists('get_user_datetime_format')) ? get_user_datetime_format($currentUser) : 'd/m/Y H:i';
+            $userTimezone = (
+                isset($currentUser['timezone']) && is_string($currentUser['timezone']) && $currentUser['timezone'] !== ''
+            ) ? $currentUser['timezone'] : 'UTC';
 
-       $userTimezone = ($currentUser !== null && isset($currentUser['timezone']) && is_string($currentUser['timezone'])) ? $currentUser['timezone'] : 'UTC';
-       $fullFormatStr = ($currentUser !== null && function_exists('get_user_datetime_format')) ? get_user_datetime_format($currentUser) : 'd/m/Y H:i';
+            $fullFormatStr = function_exists('get_user_datetime_format')
+                ? get_user_datetime_format($currentUser)
+                : ($userDateFormat . ' H:i');
+        } else {
+            $userDateFormat = $siteDateFormat;
+            $userTimezone = 'UTC';
+            $fullFormatStr = $userDateFormat . ' H:i';
+        }
+
+        $datePlaceholder = function_exists('get_date_placeholder')
+            ? get_date_placeholder($userDateFormat)
+            : 'DD/MM/YYYY (e.g. 25/05/1955)';
+
 
         // ------------------------------------------------------------------
         // Columns for the active table

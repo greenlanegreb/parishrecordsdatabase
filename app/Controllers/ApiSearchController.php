@@ -25,12 +25,8 @@ class ApiSearchController
         header('Content-Type: application/json; charset=utf-8');
         header('Cache-Control: no-store, no-cache, must-revalidate');
 
-        // ------------------------------------------------------------------
-        // Access: guest needs view_as_guest; everyone needs view_table_{id}
-        // ------------------------------------------------------------------
-        /** @var array{id: int|string, date_format?: string}|null $currentUser */
+        /** @var array{id: int|string, date_format?: string, timezone?: string}|null $currentUser */
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
-
         if ($currentUser === null && !guest_has_permission($this->pdo, 'view_as_guest')) {
             http_response_code(403);
             echo json_encode(['error' => __('api_search.error_public_forbidden')]);
@@ -38,22 +34,39 @@ class ApiSearchController
         }
 
         $queryGet = $_GET;
-        $tableId = isset($queryGet['table_id']) ? (int)$queryGet['table_id'] : 1;
+        $tableId = isset($queryGet['table_id']) ? (int) $queryGet['table_id'] : 1;
         if (!user_can_view_table($this->pdo, $tableId, $currentUser)) {
             http_response_code(403);
             echo json_encode(['error' => __('api_search.error_unauthorized_table')]);
             exit;
         }
 
-        $userDateFormat = 'd/m/Y';
-        if ($currentUser !== null && isset($currentUser['date_format']) && is_string($currentUser['date_format'])) {
-        $userDateFormat = $currentUser['date_format'];
+        $siteDateFormat = function_exists('get_setting')
+            ? get_setting($this->pdo, 'default_date_format', 'd/m/Y')
+            : 'd/m/Y';
+        if ($siteDateFormat === '') {
+            $siteDateFormat = 'd/m/Y';
         }
-       
-        $userTimezone = ($currentUser !== null && isset($currentUser['timezone']) && is_string($currentUser['timezone'])) ? $currentUser['timezone'] : 'UTC';
-        $fullFormatStr = ($currentUser !== null && function_exists('get_user_datetime_format')) ? get_user_datetime_format($currentUser) : 'd/m/Y H:i';
 
-        $colsStmt = $this->pdo->prepare("SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC");
+        if ($currentUser !== null) {
+            $userDateFormat = (
+                isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== ''
+            ) ? $currentUser['date_format'] : $siteDateFormat;
+            $userTimezone = (
+                isset($currentUser['timezone']) && is_string($currentUser['timezone']) && $currentUser['timezone'] !== ''
+            ) ? $currentUser['timezone'] : 'UTC';
+            $fullFormatStr = function_exists('get_user_datetime_format')
+                ? get_user_datetime_format($currentUser)
+                : ($userDateFormat . ' H:i');
+        } else {
+            $userDateFormat = $siteDateFormat;
+            $userTimezone = 'UTC';
+            $fullFormatStr = $userDateFormat . ' H:i';
+        }
+
+        $colsStmt = $this->pdo->prepare(
+            'SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC'
+        );
         $colsStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $columns */
         $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -62,10 +75,11 @@ class ApiSearchController
         $searchFilters = isset($queryGet['filters']) && is_array($queryGet['filters']) ? $queryGet['filters'] : [];
         /** @var array<mixed, mixed> $dateFilters */
         $dateFilters = isset($queryGet['date_filters']) && is_array($queryGet['date_filters']) ? $queryGet['date_filters'] : [];
-        
+
         $sortCol = isset($queryGet['sort']) && is_string($queryGet['sort']) ? $queryGet['sort'] : 'id';
-        $sortDir = (isset($queryGet['dir']) && is_string($queryGet['dir']) && strtoupper($queryGet['dir']) === 'ASC') ? 'ASC' : 'DESC';
-        $page = max(1, isset($queryGet['page']) ? (int)$queryGet['page'] : 1);
+        $sortDir = (isset($queryGet['dir']) && is_string($queryGet['dir']) && strtoupper($queryGet['dir']) === 'ASC')
+            ? 'ASC' : 'DESC';
+        $page = max(1, isset($queryGet['page']) ? (int) $queryGet['page'] : 1);
         $perPage = 10;
         $offset = ($page - 1) * $perPage;
 
@@ -75,7 +89,8 @@ class ApiSearchController
         }
 
         $recordsStmt = $this->pdo->prepare(
-            "SELECT r.id, r.created_at, u.username
+            "SELECT r.id, r.created_at, r.created_by,
+                    u.username, u.first_name, u.surname, u.attribution_display_mode
              FROM records r
              LEFT JOIN users u ON r.created_by = u.id
              WHERE r.table_id = ? {$orderClause}"
@@ -84,17 +99,16 @@ class ApiSearchController
         /** @var array<int, array<string, mixed>> $records */
         $records = $recordsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Memory-optimized: Only load values belonging to records in this table
         $valuesStmt = $this->pdo->prepare("
-            SELECT rv.record_id, rv.column_id, rv.value_content 
-            FROM record_values rv 
-            JOIN records r ON rv.record_id = r.id 
+            SELECT rv.record_id, rv.column_id, rv.value_content
+            FROM record_values rv
+            JOIN records r ON rv.record_id = r.id
             WHERE r.table_id = ?
         ");
         $valuesStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $rawValues */
         $rawValues = $valuesStmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         /** @var array<int|string, array<int|string, string>> $recordValues */
         $recordValues = [];
         foreach ($rawValues as $val) {
@@ -107,38 +121,42 @@ class ApiSearchController
         /** @var array<int, array<string, mixed>> $matchedRecords */
         $matchedRecords = [];
         foreach ($records as $rec) {
-            $recId = isset($rec['id']) ? (int)$rec['id'] : 0;
+            $recId = isset($rec['id']) ? (int) $rec['id'] : 0;
             if (record_matches_filters($recId, $recordValues, $searchFilters, $dateFilters)) {
                 $matchedRecords[] = $rec;
             }
         }
 
         $totalMatched = count($matchedRecords);
-        $totalPages = (int)ceil($totalMatched / $perPage);
+        $totalPages = (int) ceil($totalMatched / $perPage);
         if ($totalPages < 1) {
             $totalPages = 1;
         }
         $paginatedRecords = array_slice($matchedRecords, $offset, $perPage);
 
         $isModerationEnabled = is_module_enabled($this->pdo, 'moderation');
+        $canSuggestEdit = function_exists('can_suggest_edit')
+            ? can_suggest_edit($this->pdo)
+            : $isModerationEnabled;
 
-        // Build HTML rows
         ob_start();
         if (empty($paginatedRecords)) {
-            echo '<tr><td colspan="' . (count($columns) + 3) . '" class="text-center py-4 text-muted">' . htmlspecialchars(__('api_search.no_records'), ENT_QUOTES, 'UTF-8') . '</td></tr>';
+            echo '<tr><td colspan="' . (count($columns) + 3) . '" class="text-center py-4 text-muted">'
+                . htmlspecialchars(__('api_search.no_records'), ENT_QUOTES, 'UTF-8')
+                . '</td></tr>';
         } else {
             foreach ($paginatedRecords as $rec) {
-                $recId = isset($rec['id']) ? (int)$rec['id'] : 0;
-                $recUsername = isset($rec['username']) && is_string($rec['username']) ? $rec['username'] : '';
+                $recId = isset($rec['id']) ? (int) $rec['id'] : 0;
                 $recCreatedAt = isset($rec['created_at']) && is_string($rec['created_at']) ? $rec['created_at'] : '';
 
                 echo '<tr>';
-                // Record ID column intentionally omitted from public UI to save space
+
                 foreach ($columns as $col) {
                     $cId = isset($col['id']) ? $col['id'] : 0;
                     $rawVal = $recordValues[$recId][$cId] ?? '';
                     $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
-                    $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format']) ? $col['boolean_display_format'] : 'yes_no';
+                    $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
+                        ? $col['boolean_display_format'] : 'yes_no';
 
                     if ($dataType === 'BOOLEAN') {
                         $displayVal = format_boolean_value($rawVal, $boolFormat);
@@ -147,16 +165,37 @@ class ApiSearchController
                     } else {
                         $displayVal = $rawVal;
                     }
-                    echo '<td>' . htmlspecialchars($displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
+                    echo '<td>' . htmlspecialchars((string) $displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
                 }
-                echo '<td>' . htmlspecialchars(function_exists('obscure_name_ajax') ? obscure_name_ajax($recUsername) : $recUsername, ENT_QUOTES, 'UTF-8') . '</td>';
+
+                $creatorId = isset($rec['created_by']) ? (int) $rec['created_by'] : 0;
+                if ($creatorId > 0) {
+                    $creator = [
+                        'id' => $creatorId,
+                        'username' => isset($rec['username']) && is_string($rec['username']) ? $rec['username'] : '',
+                        'first_name' => isset($rec['first_name']) && is_string($rec['first_name']) ? $rec['first_name'] : '',
+                        'surname' => isset($rec['surname']) && is_string($rec['surname']) ? $rec['surname'] : '',
+                        'attribution_display_mode' => isset($rec['attribution_display_mode']) && is_string($rec['attribution_display_mode'])
+                            ? $rec['attribution_display_mode']
+                            : 'initials_random',
+                    ];
+                    $createdByLabel = function_exists('format_user_display_name')
+                        ? format_user_display_name($this->pdo, $creator, $currentUser)
+                        : 'Contributor';
+                } else {
+                    $createdByLabel = 'System';
+                }
+                echo '<td>' . htmlspecialchars($createdByLabel, ENT_QUOTES, 'UTF-8') . '</td>';
                 echo '<td>' . format_user_time($recCreatedAt, $userTimezone, $fullFormatStr) . '</td>';
 
-                // Actions Column
                 echo '<td class="text-end pe-3 text-nowrap">';
-                echo '<a href="record_history.php?record_id=' . $recId . '" class="btn btn-sm btn-outline-secondary py-0 px-2 text-decoration-none me-1" style="font-size: 0.75rem;">' . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a>';
-                if ($isModerationEnabled) {
-                    echo '<button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 suggest-edit-btn" data-record-id="' . $recId . '" style="font-size: 0.75rem;">' . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button>';
+                echo '<a href="record_history.php?record_id=' . $recId
+                    . '" class="btn btn-sm btn-outline-secondary py-0 px-2 text-decoration-none me-1" style="font-size: 0.75rem;">'
+                    . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a>';
+                if ($canSuggestEdit) {
+                    echo '<button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 suggest-edit-btn" data-record-id="'
+                        . $recId . '" style="font-size: 0.75rem;">'
+                        . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button>';
                 }
                 echo '</td>';
 
@@ -166,8 +205,8 @@ class ApiSearchController
         $html = ob_get_clean();
 
         echo json_encode([
-            'html'         => $html !== false ? $html : '',
-            'total_pages'  => $totalPages,
+            'html' => $html !== false ? $html : '',
+            'total_pages' => $totalPages,
             'current_page' => $page,
         ]);
         exit;

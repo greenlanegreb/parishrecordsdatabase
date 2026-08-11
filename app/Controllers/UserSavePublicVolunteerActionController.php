@@ -142,32 +142,12 @@ class UserSavePublicVolunteerActionController
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
-        require_once __DIR__ . '/../../includes/security_engine.php';
+                require_public_form_security($this->pdo, '/volunteer', ['website_url']);
+
         $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
-
-        $firewallResult = run_form_firewall_check($this->pdo);
-        if ($firewallResult !== true) {
-            $_SESSION['error'] = is_string($firewallResult) ? $firewallResult : 'Firewall block triggered.';
-            header('Location: ' . $basePath . '/volunteer');
-            exit;
-        }
-
-        $captchaResult = verify_form_captcha($this->pdo);
-        if ($captchaResult !== true) {
-            $_SESSION['error'] = is_string($captchaResult) ? $captchaResult : 'CAPTCHA verification failed.';
-            header('Location: ' . $basePath . '/volunteer');
-            exit;
-        }
-
         $post = $_POST;
-        $honeypot = isset($post['website_url']) && is_string($post['website_url']) ? trim($post['website_url']) : '';
-        if ($honeypot !== '') {
-            $_SESSION['error'] = 'Spam detection triggered.';
-            header('Location: ' . $basePath . '/volunteer');
-            exit;
-        }
 
+        $firstName =
         $firstName = isset($post['volunteer_first_name']) && is_string($post['volunteer_first_name']) ? trim($post['volunteer_first_name']) : '';
         $surname = isset($post['volunteer_surname']) && is_string($post['volunteer_surname']) ? trim($post['volunteer_surname']) : '';
         $email = isset($post['volunteer_email']) && is_string($post['volunteer_email']) ? trim($post['volunteer_email']) : '';
@@ -196,6 +176,7 @@ class UserSavePublicVolunteerActionController
             exit;
         }
 
+        // Username on submit: uniqueness only (rate limit is AJAX "Check availability" only)
         $finalUsername = '';
         $usernameNote = '';
 
@@ -205,28 +186,22 @@ class UserSavePublicVolunteerActionController
                 ? "A username was allocated for you: {$finalUsername}."
                 : "No username requested; allocated: {$finalUsername}.";
         } else {
-            log_username_check_attempt($this->pdo);
-
-            if (has_exceeded_username_check_limit($this->pdo)) {
+            $sanitized = preg_replace('/[^a-zA-Z0-9_\-]/', '', $requestedUsername) ?? '';
+            if ($sanitized === '' || $sanitized !== $requestedUsername) {
                 $finalUsername = $this->allocateUniqueUsername($firstName, $surname);
-                $usernameNote = "Username check limit reached (max 3 per 24 hours from your network). Allocated: {$finalUsername}.";
+                $usernameNote = "Invalid username characters; allocated: {$finalUsername}.";
+            } elseif ($this->usernameIsTaken($sanitized)) {
+                $finalUsername = $this->allocateUniqueUsername($firstName, $surname);
+                $usernameNote = "The username '{$sanitized}' is not available. Allocated: {$finalUsername}.";
             } else {
-                $sanitized = preg_replace('/[^a-zA-Z0-9_\-]/', '', $requestedUsername) ?? '';
-                if ($sanitized === '') {
-                    $finalUsername = $this->allocateUniqueUsername($firstName, $surname);
-                    $usernameNote = "Invalid username characters; allocated: {$finalUsername}.";
-                } elseif ($this->usernameIsTaken($sanitized)) {
-                    $finalUsername = $this->allocateUniqueUsername($firstName, $surname);
-                    $usernameNote = "The username '{$sanitized}' is not available. Allocated: {$finalUsername}.";
-                } else {
-                    $finalUsername = $sanitized;
-                    $usernameNote = "Username reserved for your application: {$finalUsername}.";
-                }
+                $finalUsername = $sanitized;
+                $usernameNote = "Username reserved for your application: {$finalUsername}.";
             }
         }
 
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
-        $userId = ($currentUser !== false && $currentUser !== null && isset($currentUser['id'])) ? $currentUser['id'] : null;
+
+ $userId = ($currentUser !== false && $currentUser !== null && isset($currentUser['id'])) ? $currentUser['id'] : null;
 
         $this->pdo->beginTransaction();
         try {

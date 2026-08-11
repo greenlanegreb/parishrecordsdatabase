@@ -34,10 +34,23 @@ class UserSuggestEditActionController
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
-        /** @var array{id: int|string, username: string} $currentUser */
-        $currentUser = require_permission($this->pdo, 'access_suggest_edit', 'Allows submitting edit suggestions for records');
-        $userId = $currentUser['id'];
+   verify_csrf_token();
+
+        /** @var array{id: int|string, username?: string}|null $currentUser */
+        $currentUser = require_suggest_edit_access($this->pdo);
+        $userId = ($currentUser !== null && isset($currentUser['id'])) ? $currentUser['id'] : null;
+
+        // Extra public protections when not logged in
+        if ($userId === null) {
+            require_public_form_security(
+                $this->pdo,
+                '/user/suggest-edit?' . http_build_query([
+                    'record_id' => (string) ($_POST['record_id'] ?? ''),
+                    'return'    => (string) ($_POST['return_url'] ?? '/'),
+                ]),
+                ['website_hp', 'website_url']
+            );
+        }
 
         $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         $post = $_POST;
@@ -57,11 +70,11 @@ class UserSuggestEditActionController
             exit;
         }
 
-        // Validate Captcha if function exists
-        if (function_exists('verify_form_captcha')) {
+        // Captcha only for unauthenticated guests (not logged-in volunteers/staff)
+        if ($userId === null && function_exists('verify_form_captcha')) {
             if (!verify_form_captcha($this->pdo, $post)) {
-                $_SESSION['error'] = "Invalid captcha code. Please try again.";
-                header("Location: " . $basePath . "/user/suggest-edit?record_id=" . urlencode($recordId) . "&return=" . urlencode($returnUrl));
+                $_SESSION['error'] = 'Invalid captcha code. Please try again.';
+                header('Location: ' . $basePath . '/user/suggest-edit?record_id=' . urlencode((string) $recordId) . '&return=' . urlencode($returnUrl));
                 exit;
             }
         }

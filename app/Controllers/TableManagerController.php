@@ -27,15 +27,15 @@ class TableManagerController
 
         [$userTimezone, $fullFormatStr] = get_user_time_prefs($currentUser);
 
-        // All tables
-        $tablesStmt = $this->pdo->query("SELECT * FROM dynamic_tables ORDER BY id ASC");
+        $tablesStmt = $this->pdo->query('SELECT * FROM dynamic_tables ORDER BY id ASC');
         /** @var array<int, array<string, mixed>> $tables */
         $tables = $tablesStmt !== false ? $tablesStmt->fetchAll(PDO::FETCH_ASSOC) : [];
 
         $get = $_GET;
-        $activeTableId = isset($get['table_id']) ? (int) $get['table_id'] : ($tables !== [] ? (int) $tables[0]['id'] : 1);
+        $activeTableId = isset($get['table_id'])
+            ? (int) $get['table_id']
+            : ($tables !== [] ? (int) $tables[0]['id'] : 1);
 
-        // Active table info
         $activeTableInfo = null;
         foreach ($tables as $t) {
             if (isset($t['id']) && (int) $t['id'] === $activeTableId) {
@@ -44,10 +44,9 @@ class TableManagerController
             }
         }
 
-        // Editing a table?
         $editTable = null;
         if (isset($get['edit_table'])) {
-            $stmt = $this->pdo->prepare("SELECT * FROM dynamic_tables WHERE id = ?");
+            $stmt = $this->pdo->prepare('SELECT * FROM dynamic_tables WHERE id = ?');
             $stmt->execute([(int) $get['edit_table']]);
             $fetched = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($fetched !== false) {
@@ -55,10 +54,9 @@ class TableManagerController
             }
         }
 
-        // Editing a column?
         $editCol = null;
         if (isset($get['edit_column'])) {
-            $cStmt = $this->pdo->prepare("SELECT * FROM table_columns WHERE id = ?");
+            $cStmt = $this->pdo->prepare('SELECT * FROM table_columns WHERE id = ?');
             $cStmt->execute([(int) $get['edit_column']]);
             $fetchedCol = $cStmt->fetch(PDO::FETCH_ASSOC);
             if ($fetchedCol !== false) {
@@ -69,16 +67,25 @@ class TableManagerController
             }
         }
 
-        // Columns for the active table
         $colsStmt = $this->pdo->prepare(
-            "SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, id ASC"
+            'SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, id ASC'
         );
         $colsStmt->execute([$activeTableId]);
         /** @var array<int, array<string, mixed>> $columns */
         $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
 
+        foreach ($columns as &$col) {
+            $uid = isset($col['created_by']) ? (int) $col['created_by'] : 0;
+            if ($uid > 0 && function_exists('format_user_display_name_by_id')) {
+                $col['created_by_display'] = format_user_display_name_by_id($this->pdo, $uid, $currentUser);
+            } else {
+                $col['created_by_display'] = 'System';
+            }
+        }
+        unset($col);
+
         $message = $GLOBALS['message'] ?? '';
-        $error   = $GLOBALS['error'] ?? '';
+        $error = $GLOBALS['error'] ?? '';
         $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
 
         require_once __DIR__ . '/../Views/admin/manage_tables.php';
@@ -100,8 +107,8 @@ class TableManagerController
             'Manage dynamic database tables and column schema definitions'
         );
 
-        $post    = $_POST;
-        $action  = isset($post['action']) && is_string($post['action']) ? $post['action'] : 'create';
+        $post = $_POST;
+        $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : 'create';
         $tableId = isset($post['table_id']) ? (int) $post['table_id'] : 1;
 
         $tableService = new TableService($this->pdo);

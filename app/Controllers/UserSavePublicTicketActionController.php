@@ -34,41 +34,17 @@ class UserSavePublicTicketActionController
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
-
-        require_once __DIR__ . '/../../includes/security_engine.php';
+///
+                require_public_form_security($this->pdo, '/feedback', ['website_hp']);
 
         $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
-
-        // 1. Run Threat Defense Firewall Check
-        $firewallResult = run_form_firewall_check($this->pdo);
-        if ($firewallResult !== true) {
-            $_SESSION['error'] = is_string($firewallResult) ? $firewallResult : 'Firewall block triggered.';
-            header('Location: ' . $basePath . '/feedback');
-            exit;
-        }
-
-        // 2. Run CAPTCHA Verification Check
-        $captchaResult = verify_form_captcha($this->pdo);
-        if ($captchaResult !== true) {
-            $_SESSION['error'] = is_string($captchaResult) ? $captchaResult : 'CAPTCHA verification failed.';
-            header('Location: ' . $basePath . '/feedback');
-            exit;
-        }
-
         $post = $_POST;
-        $honeypot = isset($post['website_hp']) && is_string($post['website_hp']) ? trim($post['website_hp']) : '';
-        if ($honeypot !== '') {
-            header('Location: ' . $basePath . '/feedback');
-            exit;
-        }
-
         $firstName = isset($post['feedback_first_name']) && is_string($post['feedback_first_name']) ? trim($post['feedback_first_name']) : '';
         $surname = isset($post['feedback_surname']) && is_string($post['feedback_surname']) ? trim($post['feedback_surname']) : '';
         $email = isset($post['feedback_email']) && is_string($post['feedback_email']) ? trim($post['feedback_email']) : '';
         $rawSubject = isset($post['feedback_subject']) && is_string($post['feedback_subject']) ? trim($post['feedback_subject']) : '';
         $subject = ($rawSubject !== '') ? $rawSubject : 'Support Inquiry';
-        
+
         /** @var array<mixed, mixed> $fields */
         $fields = isset($post['fields']) && is_array($post['fields']) ? $post['fields'] : [];
         $userId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;

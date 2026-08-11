@@ -79,6 +79,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                        autocomplete="username"
                        pattern="[A-Za-z0-9_\-]+"
                        maxlength="50"
+                       title="Letters, numbers, underscore, and hyphen only"
                        value="<?= htmlspecialchars($submittedUsername, ENT_QUOTES, 'UTF-8') ?>">
                 <div class="form-text">Letters, numbers, underscore, hyphen. Leave blank or choose auto-allocate below.</div>
                 <button type="button" class="btn btn-outline-secondary btn-sm mt-1" id="check-username-btn">Check availability</button>
@@ -180,7 +181,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <div class="mb-3">
                 <?= render_form_captcha_widget($pdo) ?>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold mt-2"><?= htmlspecialchars(__('volunteer.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold mt-2" id="volunteer-submit-btn"><?= htmlspecialchars(__('volunteer.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
     </div>
 </div>
@@ -200,6 +201,10 @@ document.addEventListener('input', function (event) {
     const form = document.getElementById('volunteer-form');
     if (!autoBox || !userInput || !checkBtn || !resultEl || !form) return;
 
+    function usernameFormatOk(value) {
+        return value === '' || /^[A-Za-z0-9_-]+$/.test(value);
+    }
+
     function syncUsernameField() {
         if (autoBox.checked) {
             userInput.value = '';
@@ -207,6 +212,7 @@ document.addEventListener('input', function (event) {
             checkBtn.disabled = true;
             resultEl.textContent = '';
             resultEl.classList.remove('text-success', 'text-danger', 'text-warning');
+            userInput.setCustomValidity('');
         } else {
             userInput.disabled = false;
             checkBtn.disabled = false;
@@ -215,12 +221,42 @@ document.addEventListener('input', function (event) {
     autoBox.addEventListener('change', syncUsernameField);
     syncUsernameField();
 
+    // Strip illegal characters + message if anything was removed
+    userInput.addEventListener('input', function () {
+        const before = userInput.value;
+        const cleaned = before.replace(/[^A-Za-z0-9_-]/g, '');
+        if (cleaned !== before) {
+            userInput.value = cleaned;
+            resultEl.textContent = 'Only letters, numbers, underscore, and hyphen are allowed.';
+            resultEl.classList.remove('text-success', 'text-warning');
+            resultEl.classList.add('text-danger');
+        }
+        const v = userInput.value.trim();
+        if (v !== '' && !usernameFormatOk(v)) {
+            userInput.setCustomValidity('Use only letters, numbers, underscore, and hyphen.');
+        } else {
+            userInput.setCustomValidity('');
+            if (resultEl.textContent.indexOf('Only letters') === 0 || resultEl.textContent.indexOf('Use only letters') === 0) {
+                resultEl.textContent = '';
+                resultEl.classList.remove('text-danger');
+            }
+        }
+    });
+
     checkBtn.addEventListener('click', function () {
+        const name = userInput.value.trim();
+        if (name !== '' && !usernameFormatOk(name)) {
+            resultEl.textContent = 'Use only letters, numbers, underscore, and hyphen.';
+            resultEl.classList.remove('text-success', 'text-warning');
+            resultEl.classList.add('text-danger');
+            return;
+        }
+
         resultEl.textContent = 'Checking…';
         resultEl.classList.remove('text-success', 'text-danger', 'text-warning');
 
         const fd = new FormData(form);
-        fd.set('username', userInput.value.trim());
+        fd.set('username', name);
 
         fetch('<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/volunteer/check-username', {
             method: 'POST',
@@ -245,6 +281,15 @@ document.addEventListener('input', function (event) {
             resultEl.textContent = 'Could not check username. Try again.';
             resultEl.classList.add('text-danger');
         });
+    });
+
+    // Prevent double submit while mail is slow
+    form.addEventListener('submit', function () {
+        const btn = document.getElementById('volunteer-submit-btn');
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = 'Submitting…';
+        }
     });
 })();
 </script>

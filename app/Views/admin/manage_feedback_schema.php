@@ -54,7 +54,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     <form method="POST" action="<?= $basePath ?>/admin/feedback/schema/store">
                         <?= csrf_field() ?>
                         <input type="hidden" name="action" value="update_settings">
-                        
+
                         <div class="mb-3">
                             <label for="form_title" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.form_title_label') ?? 'Form Title', ENT_QUOTES, 'UTF-8') ?></label>
                             <input type="text" id="form_title" name="form_title" value="<?= htmlspecialchars($formTitle, ENT_QUOTES, 'UTF-8') ?>" class="form-control max-width-600" required>
@@ -79,7 +79,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <summary class="fw-bold fs-5 text-dark" style="cursor: pointer;">
                     <?= $editCol ? htmlspecialchars(__('feedback_schema.edit_field_title') ?? 'Edit Field:', ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('feedback_schema.add_field_title') ?? 'Add New Field', ENT_QUOTES, 'UTF-8') ?>
                 </summary>
-                
+
                 <div class="mt-3 pt-3 border-top">
                     <form method="POST" action="<?= $basePath ?>/admin/feedback/schema/store">
                         <?= csrf_field() ?>
@@ -87,7 +87,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                         <?php if ($editCol): ?>
                             <input type="hidden" name="column_id" value="<?= (int)($editCol['id'] ?? 0) ?>">
                         <?php endif; ?>
-                        
+
                         <div class="mb-3">
                             <label for="column_name" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.field_name_label') ?? 'Field Name', ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span></label>
                             <input type="text" id="column_name" name="column_name" value="<?= $editCol ? htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" required class="form-control max-width-400">
@@ -220,15 +220,17 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                         </tr>
                     <?php else: ?>
                         <?php foreach ($columns as $col): ?>
-                            <?php 
+                            <?php
                                 $colId = isset($col['id']) ? (int)$col['id'] : 0;
                                 $colName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : '';
                                 $colType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                                 $colSub = isset($col['field_subtype']) && is_string($col['field_subtype']) ? $col['field_subtype'] : '';
                                 $isRequired = !empty($col['is_required']);
                                 $maxLen = !empty($col['max_length']) ? (int)$col['max_length'] : 0;
-                                $createdBy = isset($col['username']) && is_string($col['username']) ? $col['username'] : (__('feedback_schema.system_user') ?? 'System');
-                                
+                                $createdBy = isset($col['created_by_display']) && is_string($col['created_by_display']) && $col['created_by_display'] !== ''
+                                    ? $col['created_by_display']
+                                    : (__('feedback_schema.system_user') ?? 'System');
+
                                 $editBtnText = __('btn.edit');
                                 if (!$editBtnText || $editBtnText === 'btn.edit') {
                                     $editBtnText = 'Edit';
@@ -244,7 +246,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <td><?= htmlspecialchars($createdBy, ENT_QUOTES, 'UTF-8') ?></td>
                                 <td class="text-end pe-3 text-nowrap">
                                     <a href="<?= $basePath ?>/admin/feedback/schema?edit_column=<?= $colId ?>#create-column-details" class="btn btn-sm btn-outline-secondary me-1"><?= htmlspecialchars($editBtnText, ENT_QUOTES, 'UTF-8') ?></a>
-                                    
+
                                     <form method="POST" action="<?= $basePath ?>/admin/feedback/schema/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('feedback_schema.delete_confirm') ?? 'Are you sure you want to delete this field?', ENT_QUOTES, 'UTF-8') ?>');">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="delete">

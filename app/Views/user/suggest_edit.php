@@ -133,18 +133,14 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                 <textarea id="reasoning" name="reasoning" rows="3" placeholder="<?= htmlspecialchars(__('suggest_edit.reasoning_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"></textarea>
             </div>
 
-            <?php
-            $pdoInstance = (isset($pdo) && $pdo instanceof PDO) ? $pdo : null;
-            if ($pdoInstance !== null) {
-                if (function_exists('render_form_captcha_widget')) {
+            <?php if (empty($_SESSION['user_id'])): ?>
+                <?php
+                $pdoInstance = (isset($pdo) && $pdo instanceof PDO) ? $pdo : null;
+                if ($pdoInstance !== null && function_exists('render_form_captcha_widget')) {
                     echo render_form_captcha_widget($pdoInstance);
-                } elseif (function_exists('render_form_captcha')) {
-                    echo render_form_captcha($pdoInstance);
-                } elseif (function_exists('get_form_captcha_html')) {
-                    echo get_form_captcha_html($pdoInstance);
                 }
-            }
-            ?>
+                ?>
+            <?php endif; ?>
 
             <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('suggest_edit.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
