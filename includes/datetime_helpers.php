@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 /**
  * Date / time display and input helpers.
+ * Site defaults (default_timezone, default_date_format, default_time_format)
+ * apply when the viewer has no personal preference (or is a guest).
  */
 
 if (!function_exists('format_user_time')) {
@@ -65,16 +67,76 @@ if (!function_exists('format_display_date')) {
     }
 }
 
+if (!function_exists('resolve_pdo_for_settings')) {
+    function resolve_pdo_for_settings(?PDO $pdo = null): ?PDO
+    {
+        if ($pdo instanceof PDO) {
+            return $pdo;
+        }
+        if (isset($GLOBALS['pdo']) && $GLOBALS['pdo'] instanceof PDO) {
+            return $GLOBALS['pdo'];
+        }
+        return null;
+    }
+}
+
+/**
+ * @return array{0: string, 1: string, 2: string} [timezone, date_format, time_format]
+ */
+if (!function_exists('get_site_datetime_defaults')) {
+    function get_site_datetime_defaults(?PDO $pdo = null): array
+    {
+        $tz = 'UTC';
+        $date = 'd/m/Y';
+        $time = '24';
+
+        $pdo = resolve_pdo_for_settings($pdo);
+        if ($pdo instanceof PDO && function_exists('get_setting')) {
+            $tzRaw = get_setting($pdo, 'default_timezone', 'UTC');
+            $dateRaw = get_setting($pdo, 'default_date_format', 'd/m/Y');
+            $timeRaw = get_setting($pdo, 'default_time_format', '24');
+            if ($tzRaw !== '') {
+                $tz = $tzRaw;
+            }
+            if ($dateRaw !== '') {
+                $date = $dateRaw;
+            }
+            if ($timeRaw !== '') {
+                $time = $timeRaw;
+            }
+        }
+
+        if (!in_array($tz, timezone_identifiers_list(), true)) {
+            $tz = 'UTC';
+        }
+
+        $allowedDates = ['d/m/Y', 'd.m.Y', 'Y-m-d', 'm/d/Y', 'd-m-Y'];
+        if (!in_array($date, $allowedDates, true)) {
+            $date = 'd/m/Y';
+        }
+
+        if ($time !== '12' && $time !== '24') {
+            $time = '24';
+        }
+
+        return [$tz, $date, $time];
+    }
+}
+
 if (!function_exists('get_user_datetime_format')) {
     /**
      * @param array{date_format?: string, time_format?: string} $currentUser
      */
-    function get_user_datetime_format(array $currentUser): string
+    function get_user_datetime_format(array $currentUser, ?PDO $pdo = null): string
     {
-        $userDateFormat = isset($currentUser['date_format']) && is_string($currentUser['date_format'])
-            ? $currentUser['date_format'] : 'd/m/Y';
-        $userTimeFormat = isset($currentUser['time_format']) && is_string($currentUser['time_format'])
-            ? $currentUser['time_format'] : '24';
+        [, $siteDate, $siteTime] = get_site_datetime_defaults($pdo);
+
+        $userDateFormat = (isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== '')
+            ? $currentUser['date_format']
+            : $siteDate;
+        $userTimeFormat = (isset($currentUser['time_format']) && is_string($currentUser['time_format']) && $currentUser['time_format'] !== '')
+            ? $currentUser['time_format']
+            : $siteTime;
 
         if ($userTimeFormat === '12') {
             return $userDateFormat . ' h:i A';
@@ -89,15 +151,23 @@ if (!function_exists('get_user_datetime_format')) {
 if (!function_exists('get_user_time_prefs')) {
     /**
      * @param array{timezone?: string, date_format?: string, time_format?: string} $currentUser
-     * @return array{0: string, 1: string}
+     * @return array{0: string, 1: string} [timezone, full datetime format string]
      */
-    function get_user_time_prefs(array $currentUser): array
+    function get_user_time_prefs(array $currentUser, ?PDO $pdo = null): array
     {
-        $tz = isset($currentUser['timezone']) && is_string($currentUser['timezone'])
-            ? $currentUser['timezone'] : 'UTC';
+        [$siteTz] = get_site_datetime_defaults($pdo);
+
+        $tz = (isset($currentUser['timezone']) && is_string($currentUser['timezone']) && $currentUser['timezone'] !== '')
+            ? $currentUser['timezone']
+            : $siteTz;
+
+        if (!in_array($tz, timezone_identifiers_list(), true)) {
+            $tz = $siteTz;
+        }
+
         return [
             $tz,
-            get_user_datetime_format($currentUser),
+            get_user_datetime_format($currentUser, $pdo),
         ];
     }
 }

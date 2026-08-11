@@ -6,7 +6,6 @@
  * Migrated Date: 2026-08-04 10:40:00
  */
 declare(strict_types=1);
-
 /** @string $message */
 /** @string $error */
 /** @string $prefillEmail */
@@ -17,9 +16,7 @@ declare(strict_types=1);
 /** @array<int, array<string, mixed>> $users */
 /** @array<int, array<string, mixed>> $rolesList */
 /** @array{id: int, username: string} $currentUser */
-
 require_once ROOT_PATH . '/partials/header.php';
-
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 if ($basePath === '') {
     $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
@@ -32,16 +29,14 @@ if ($basePath === '') {
     }
 }
 ?>
-
 <div class="container py-4" role="region" aria-label="Admin User Management" style="max-width: 1300px;">
-
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
-    
+
     <?php if (!empty($message)): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong><?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?></strong>
@@ -73,8 +68,6 @@ if ($basePath === '') {
                         <?php if ($volunteerId > 0): ?>
                             <input type="hidden" name="volunteer_id" value="<?= $volunteerId ?>">
                         <?php endif; ?>
-
-                        <!-- First Name & Surname -->
                         <div class="row g-2 mb-3">
                             <div class="col-md-6">
                                 <label for="first_name" class="form-label small fw-bold"><?= htmlspecialchars(__('create_user.first_name') ?? 'First Name', ENT_QUOTES, 'UTF-8') ?></label>
@@ -85,23 +78,20 @@ if ($basePath === '') {
                                 <input type="text" id="surname" name="surname" value="<?= htmlspecialchars($prefillSurname, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm">
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label for="username" class="form-label small fw-bold"><?= htmlspecialchars(__('create_user.username_label') ?? 'Username', ENT_QUOTES, 'UTF-8') ?></label>
                             <input type="text" id="username" name="username" placeholder="<?= htmlspecialchars(__('create_user.username_placeholder') ?? 'Enter username', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm">
                             <div class="form-text"><?= htmlspecialchars(__('create_user.username_help') ?? 'Optional. If left blank, one will be generated from email.', ENT_QUOTES, 'UTF-8') ?></div>
                         </div>
-
                         <div class="mb-3">
                             <label for="email" class="form-label small fw-bold"><?= htmlspecialchars(__('create_user.email_label') ?? 'Email Address', ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span></label>
                             <input type="email" id="email" name="email" value="<?= htmlspecialchars($prefillEmail, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
                         </div>
-
                         <div class="mb-4">
                             <label for="role_id" class="form-label small fw-bold"><?= htmlspecialchars(__('create_user.role_label') ?? 'Role Assignment', ENT_QUOTES, 'UTF-8') ?></label>
                             <select id="role_id" name="role_id" class="form-select form-select-sm">
                                 <?php foreach ($rolesList as $r): ?>
-                                    <?php 
+                                    <?php
                                         $rId = isset($r['id']) ? (int)$r['id'] : 0;
                                         $rName = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
                                     ?>
@@ -111,11 +101,23 @@ if ($basePath === '') {
                                 <?php endforeach; ?>
                             </select>
                         </div>
-
                         <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('create_user.submit_btn') ?? 'Send Invitation', ENT_QUOTES, 'UTF-8') ?></button>
                     </form>
                 </div>
             </details>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body py-3">
+            <label for="user-search" class="form-label small fw-bold mb-1">Find user</label>
+            <input type="search"
+                   id="user-search"
+                   class="form-control"
+                   placeholder="Username, email, or role…"
+                   autocomplete="off">
+            <div class="form-text">Filters the list as you type. Clear the box to show everyone again.</div>
+            <div id="user-search-empty" class="alert alert-warning small mt-2 mb-0 d-none">No users match that search.</div>
         </div>
     </div>
 
@@ -142,7 +144,7 @@ if ($basePath === '') {
                         </tr>
                     <?php else: ?>
                         <?php foreach ($users as $u): ?>
-                            <?php 
+                            <?php
                                 $uId = isset($u['id']) ? (int)$u['id'] : 0;
                                 $uUsername = isset($u['username']) && is_string($u['username']) ? $u['username'] : '';
                                 $uEmail = isset($u['email']) && is_string($u['email']) ? $u['email'] : '';
@@ -152,14 +154,16 @@ if ($basePath === '') {
                                 $uActive = !empty($u['is_active']);
                                 $uRoleId = isset($u['role_id']) ? (int)$u['role_id'] : 0;
                                 $uRoleName = isset($u['role_name']) && is_string($u['role_name']) ? $u['role_name'] : 'User';
-
                                 $isFirstAdmin = ($uId === $firstAdminId);
                             ?>
-                            <tr>
+                            <tr data-search="<?= htmlspecialchars(
+                                strtolower($uUsername . ' ' . $uEmail . ' ' . $uRoleName . ' ' . $uId),
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>">
                                 <td class="ps-3 fw-bold"><?= $uId ?></td>
                                 <td class="fw-bold text-dark"><?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?></td>
                                 <td>
-                                    <!-- Email Display & Inline Override Form -->
                                     <form method="POST" action="<?= $basePath ?>/admin/users" class="d-flex gap-1 align-items-center mb-1">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="update_email">
@@ -170,7 +174,6 @@ if ($basePath === '') {
                                     <small class="text-muted"><?= htmlspecialchars(__('admin_users.verified_label') ?? 'Verified:', ENT_QUOTES, 'UTF-8') ?> <?= $uVerified ? htmlspecialchars(__('admin_users.yes') ?? 'Yes', ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('admin_users.no') ?? 'No', ENT_QUOTES, 'UTF-8') ?></small>
                                 </td>
                                 <td>
-                                    <!-- Role Change Form -->
                                     <?php if ($isFirstAdmin): ?>
                                         <span class="small text-muted fst-italic">
                                             <?= htmlspecialchars(ucwords($uRoleName), ENT_QUOTES, 'UTF-8') ?><br>
@@ -183,7 +186,7 @@ if ($basePath === '') {
                                             <input type="hidden" name="target_user_id" value="<?= $uId ?>">
                                             <select name="new_role_id" class="form-select form-select-sm" style="font-size: 0.85rem;" aria-label="Role for <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>">
                                                 <?php foreach ($rolesList as $r): ?>
-                                                    <?php 
+                                                    <?php
                                                         $rId = isset($r['id']) ? (int)$r['id'] : 0;
                                                         $rName = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
                                                     ?>
@@ -207,7 +210,6 @@ if ($basePath === '') {
                                 <td><?= $u2fa ? '<span class="badge bg-info text-dark">' . htmlspecialchars(__('admin_users.enabled') ?? 'Enabled', ENT_QUOTES, 'UTF-8') . '</span>' : htmlspecialchars(__('admin_users.disabled') ?? 'Disabled', ENT_QUOTES, 'UTF-8') ?></td>
                                 <td class="pe-3">
                                     <div class="d-flex flex-column gap-2 py-1">
-                                        <!-- Points Override Form -->
                                         <form method="POST" action="<?= $basePath ?>/admin/users" class="d-flex gap-1 align-items-center">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="action" value="override_points">
@@ -215,25 +217,19 @@ if ($basePath === '') {
                                             <input type="number" name="new_points" value="<?= $uPoints ?>" class="form-control form-control-sm" style="width: 75px; padding: 0.1rem 0.3rem;" aria-label="Points for <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;"><?= htmlspecialchars(__('admin_users.set_score_btn') ?? 'Set', ENT_QUOTES, 'UTF-8') ?></button>
                                         </form>
-
                                         <div class="d-flex flex-wrap gap-1">
-                                            <!-- Resend Invite Button -->
                                             <form method="POST" action="<?= $basePath ?>/admin/users" onsubmit="return confirm('<?= htmlspecialchars(__('admin_users.resend_invite_confirm') ?? 'Are you sure you want to resend the invitation email?', ENT_QUOTES, 'UTF-8') ?>');" class="d-inline">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="action" value="resend_invite">
                                                 <input type="hidden" name="target_user_id" value="<?= $uId ?>">
                                                 <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" aria-label="Resend invite to <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(__('admin_users.resend_invite_btn') ?? 'Resend Invite', ENT_QUOTES, 'UTF-8') ?></button>
                                             </form>
-
-                                            <!-- Send Password Reset Link Button -->
                                             <form method="POST" action="<?= $basePath ?>/admin/users" onsubmit="return confirm('<?= htmlspecialchars(__('admin_users.reset_pwd_confirm') ?? 'Send password reset link to user?', ENT_QUOTES, 'UTF-8') ?>');" class="d-inline">
                                                 <?= csrf_field() ?>
                                                 <input type="hidden" name="action" value="send_password_reset">
                                                 <input type="hidden" name="target_user_id" value="<?= $uId ?>">
                                                 <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" aria-label="Send password reset to <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(__('admin_users.reset_password_btn') ?? 'Reset Pwd', ENT_QUOTES, 'UTF-8') ?></button>
                                             </form>
-
-                                            <!-- Suspension Toggle Button & Delete Button -->
                                             <?php if ($uId !== (int)$currentUser['id'] && !$isFirstAdmin): ?>
                                                 <?php if ($uActive): ?>
                                                     <form method="POST" action="<?= $basePath ?>/admin/users" onsubmit="return confirm('<?= htmlspecialchars(__('admin_users.suspend_confirm') ?? 'Are you sure you want to suspend this user?', ENT_QUOTES, 'UTF-8') ?>');" class="d-inline">
@@ -250,8 +246,6 @@ if ($basePath === '') {
                                                         <button type="submit" class="btn btn-sm btn-outline-success py-0 px-2" style="font-size: 0.75rem;" aria-label="Reactivate <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(__('admin_users.reactivate_btn') ?? 'Reactivate', ENT_QUOTES, 'UTF-8') ?></button>
                                                     </form>
                                                 <?php endif; ?>
-
-                                                <!-- Permanent Clean Delete Button -->
                                                 <form method="POST" action="<?= $basePath ?>/admin/users" onsubmit="return confirm('Are you sure you want to permanently delete user <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>? This action cannot be undone.');" class="d-inline">
                                                     <?= csrf_field() ?>
                                                     <input type="hidden" name="action" value="delete">
@@ -259,8 +253,6 @@ if ($basePath === '') {
                                                     <button type="submit" class="btn btn-sm btn-danger py-0 px-2" style="font-size: 0.75rem;" aria-label="Delete <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>">Delete</button>
                                                 </form>
                                             <?php endif; ?>
-
-                                            <!-- 2FA Reset / Disable Button -->
                                             <?php if ($u2fa): ?>
                                                 <form method="POST" action="<?= $basePath ?>/admin/users" onsubmit="return confirm('<?= htmlspecialchars(__('admin_users.reset_2fa_confirm') ?? 'Reset 2FA for this user?', ENT_QUOTES, 'UTF-8') ?>');" class="d-inline">
                                                     <?= csrf_field() ?>
@@ -280,5 +272,27 @@ if ($basePath === '') {
         </div>
     </div>
 </div>
-
+<script>
+(function () {
+    const input = document.getElementById('user-search');
+    const empty = document.getElementById('user-search-empty');
+    if (!input) return;
+    const rows = Array.from(document.querySelectorAll('tbody tr[data-search]'));
+    function applyFilter() {
+        const q = (input.value || '').trim().toLowerCase();
+        let visible = 0;
+        rows.forEach(function (row) {
+            const hay = row.getAttribute('data-search') || '';
+            const show = q === '' || hay.indexOf(q) !== -1;
+            row.classList.toggle('d-none', !show);
+            if (show) visible++;
+        });
+        if (empty) {
+            empty.classList.toggle('d-none', q === '' || visible > 0);
+        }
+    }
+    input.addEventListener('input', applyFilter);
+    input.addEventListener('search', applyFilter);
+})();
+</script>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

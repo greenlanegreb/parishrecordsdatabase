@@ -633,8 +633,8 @@ return [
 // ------------------------------------------------------------------
     // Site Footer
     // ------------------------------------------------------------------
-    'footer.compiled_notice'  => 'Parish records compiled from public-domain historical sources.',
-    'footer.software_notice'  => 'Software platform open-source under the MIT License.',
+    'footer.compiled_notice'  => 'Your Footer Goes Here.',
+    'footer.software_notice'  => 'PRD (V1.17) is open-source under the MIT License.',
     'footer.rights_reserved'  => 'All rights reserved.',
 
 // ------------------------------------------------------------------

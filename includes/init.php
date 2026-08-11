@@ -43,6 +43,8 @@ if (is_file($authHelpersPath)) {
     require_once $authHelpersPath;
 }
 
+
+
 // 4b. Load controller helpers (DRY wrappers)
 $controllerHelpersPath = __DIR__ . '/controller_helpers.php';
 if (is_file($controllerHelpersPath)) {
@@ -61,7 +63,13 @@ if (is_file($dbPath)) {
     require_once $dbPath;
 }
 
-// 7. Define universal root server path for clean file includes
+// 7. Helpers can read site settings without every caller passing PDO: 
+
+if (isset($pdo) && $pdo instanceof PDO) {
+    $GLOBALS['pdo'] = $pdo;
+}
+
+// 8. Define universal root server path for clean file includes
 if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__DIR__));
 }

@@ -1,20 +1,16 @@
 <?php
 declare(strict_types=1);
 /**
- * MIGRATED FILE MAPPING
- * ---------------------
- * Original Old File: partials/nav.php
- * Migrated Date: 2026-08-05 06:25:00
+ * Main navigation + accessibility / language bar.
  */
-
-// Ensure central initialization is loaded (acts as a safety net for direct file inclusions)
 $initPath = dirname(__DIR__) . '/includes/init.php';
 if (file_exists($initPath)) {
     require_once $initPath;
 }
 
-// High-contrast toggle
 $queryGet = $_GET;
+
+// High-contrast toggle
 if (isset($queryGet['contrast']) && $queryGet['contrast'] === 'toggle') {
     $_SESSION['high_contrast'] = !($_SESSION['high_contrast'] ?? false);
     $redirectUrl = strtok($_SERVER['REQUEST_URI'] ?? '/', '?') ?: '/';
@@ -22,9 +18,9 @@ if (isset($queryGet['contrast']) && $queryGet['contrast'] === 'toggle') {
     exit;
 }
 
-// Language switch (?lang=en / ?lang=cy …)
+// Language switch
 if (isset($queryGet['lang']) && is_string($queryGet['lang']) && function_exists('set_language')) {
-    $requested = preg_replace('/[^a-zA-Z_]/', '', $queryGet['lang']);
+    $requested = preg_replace('/[^a-zA-Z_]/', '', $queryGet['lang']) ?? '';
     $langFile = __DIR__ . '/../lang/' . $requested . '.php';
     if ($requested !== '' && is_file($langFile)) {
         set_language($requested);
@@ -35,45 +31,35 @@ if (isset($queryGet['lang']) && is_string($queryGet['lang']) && function_exists(
 }
 
 $isHighContrast = isset($_SESSION['high_contrast']) && $_SESSION['high_contrast'];
+
 /** @var array{id: int|string, username: string, first_name?: string, points?: int|string}|null $currentUser */
-$currentUser = (function_exists('get_current_user_data') && isset($pdo) && $pdo instanceof PDO) ? get_current_user_data($pdo) : null;
+$currentUser = (function_exists('get_current_user_data') && isset($pdo) && $pdo instanceof PDO)
+    ? get_current_user_data($pdo) : null;
 $isLoggedIn = ($currentUser !== null || isset($_SESSION['user_id']));
 
-// Comprehensive flag & human-readable label dictionary for all your language files
+// Optional flags for common languages; others still appear by scanned name
 $languageMeta = [
-    'ar'          => ['name' => 'العربية (Arabic)', 'flag' => '🇸🇦'],
-    'br'          => ['name' => 'Brezhoneg (Breton)', 'flag' => '🏴󠁥󠁳󠁢󲁧'],
-    'cy'          => ['name' => 'Cymraeg (Welsh)', 'flag' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿'],
-    'da'          => ['name' => 'Dansk (Danish)', 'flag' => '🇩🇰'],
-    'de'          => ['name' => 'Deutsch (German)', 'flag' => '🇩🇪'],
-    'en'          => ['name' => 'English', 'flag' => '🇬🇧'],
-    'en_AU'       => ['name' => 'English (Australia)', 'flag' => '🇦🇺'],
-    'en_US'       => ['name' => 'English (United States)', 'flag' => '🇺🇸'],
-    'en_GB_chav' => ['name' => 'English (UK Slang)', 'flag' => '🇬🇧'],
-    'es'          => ['name' => 'Español (Spanish)', 'flag' => '🇪🇸'],
-    'fa'          => ['name' => 'فارسی (Persian)', 'flag' => '🇮🇷'],
-    'fr'          => ['name' => 'Français (French)', 'flag' => '🇫🇷'],
-    'ga'          => ['name' => 'Gaeilge (Irish)', 'flag' => '🇮🇪'],
-    'gd'          => ['name' => 'Gàidhlig (Scottish Gaelic)', 'flag' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿'],
-    'gv'          => ['name' => 'Gaelg (Manx)', 'flag' => '🇮🇲'],
-    'it'          => ['name' => 'Italiano (Italian)', 'flag' => '🇮🇹'],
-    'ja'          => ['name' => '日本語 (Japanese)', 'flag' => '🇯🇵'],
-    'kw'          => ['name' => 'Kernewek (Cornish)', 'flag' => '🏴󠁰󠁲󠁧󠁢󠁣󠁷󠁿'],
-    'ln'          => ['name' => 'Lingala', 'flag' => '🇨🇩'],
-    'pl'          => ['name' => 'Polski (Polish)', 'flag' => '🇵🇱'],
-    'prs'         => ['name' => 'Dari (Afghan Persian)', 'flag' => '🇦🇫'],
-    'ps'          => ['name' => 'پښتو (Pashto)', 'flag' => '🇦🇫'],
-    'pt'          => ['name' => 'Português (Portuguese)', 'flag' => '🇵🇹'],
-    'pt_BR'       => ['name' => 'Português (Brazil)', 'flag' => '🇧🇷'],
-    'rn'          => ['name' => 'Kirundi', 'flag' => '🇧🇮'],
-    'ru'          => ['name' => 'Русский (Russian)', 'flag' => '🇷🇺'],
-    'so'          => ['name' => 'Soomaaliga (Somali)', 'flag' => '🇸🇴'],
-    'uk'          => ['name' => 'Українська (Ukrainian)', 'flag' => '🇺🇦'],
-    'zh_CN'       => ['name' => '中文 (Chinese Simplified)', 'flag' => '🇨🇳'],
-    'zh_TW'       => ['name' => '中文 (Chinese Traditional)', 'flag' => '🇹🇼'],
+    'en' => ['name' => 'English', 'flag' => '🇬🇧'],
+    'en_US' => ['name' => 'English (US)', 'flag' => '🇺🇸'],
+    'en_AU' => ['name' => 'English (AU)', 'flag' => '🇦🇺'],
+    'cy' => ['name' => 'Cymraeg', 'flag' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿'],
+    'gd' => ['name' => 'Gàidhlig', 'flag' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿'],
+    'ga' => ['name' => 'Gaeilge', 'flag' => '🇮🇪'],
+    'fr' => ['name' => 'Français', 'flag' => '🇫🇷'],
+    'de' => ['name' => 'Deutsch', 'flag' => '🇩🇪'],
+    'es' => ['name' => 'Español', 'flag' => '🇪🇸'],
+    'pt' => ['name' => 'Português', 'flag' => '🇵🇹'],
+    'pt_BR' => ['name' => 'Português (BR)', 'flag' => '🇧🇷'],
+    'pl' => ['name' => 'Polski', 'flag' => '🇵🇱'],
+    'it' => ['name' => 'Italiano', 'flag' => '🇮🇹'],
+    'ru' => ['name' => 'Русский', 'flag' => '🇷🇺'],
+    'uk' => ['name' => 'Українська', 'flag' => '🇺🇦'],
+    'ar' => ['name' => 'العربية', 'flag' => '🇸🇦'],
+    'zh_CN' => ['name' => '中文 (简体)', 'flag' => '🇨🇳'],
+    'zh_TW' => ['name' => '中文 (繁體)', 'flag' => '🇹🇼'],
+    'ja' => ['name' => '日本語', 'flag' => '🇯🇵'],
 ];
 
-// Automatically scan the lang directory so NO languages are missed
 $navLanguages = [];
 $langDir = __DIR__ . '/../lang';
 if (is_dir($langDir)) {
@@ -81,7 +67,7 @@ if (is_dir($langDir)) {
     if ($globFiles !== false) {
         foreach ($globFiles as $file) {
             $code = basename($file, '.php');
-            if (preg_match('/^[a-zA-Z_\-]+$/', $code)) {
+            if (preg_match('/^[a-zA-Z_]+$/', $code)) {
                 $navLanguages[$code] = $languageMeta[$code]['name'] ?? ucwords(str_replace('_', ' ', $code));
             }
         }
@@ -90,89 +76,91 @@ if (is_dir($langDir)) {
 }
 $activeLang = function_exists('get_active_language') ? get_active_language() : 'en';
 
-// ------------------------------------------------------------------
-// Module toggles
-// ------------------------------------------------------------------
-$modModeration  = (isset($pdo) && $pdo instanceof PDO) ? is_module_enabled($pdo, 'moderation') : true;
-$modVolunteers  = (isset($pdo) && $pdo instanceof PDO) ? is_module_enabled($pdo, 'volunteers') : true;
-$modFeedback    = (isset($pdo) && $pdo instanceof PDO) ? is_module_enabled($pdo, 'feedback') : true;
-$modUsers       = (isset($pdo) && $pdo instanceof PDO) ? is_module_enabled($pdo, 'users') : true;
-$modLeaderboard = (isset($pdo) && $pdo instanceof PDO) ? is_module_enabled($pdo, 'leaderboard') : true;
+$pdoOk = isset($pdo) && $pdo instanceof PDO;
 
-// Public button visibility
-$canPublicSearch      = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && guest_has_permission($pdo, 'view_as_guest'));
-$canPublicVolunteer   = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modVolunteers && guest_has_permission($pdo, 'submit_volunteer'));
-$canPublicFeedback    = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modFeedback && guest_has_permission($pdo, 'submit_feedback'));
-$canPublicLeaderboard = $isLoggedIn || (isset($pdo) && $pdo instanceof PDO && $modLeaderboard && guest_has_permission($pdo, 'view_leaderboard'));
+$modModeration = $pdoOk ? is_module_enabled($pdo, 'moderation') : true;
+$modVolunteers = $pdoOk ? is_module_enabled($pdo, 'volunteers') : true;
+$modFeedback = $pdoOk ? is_module_enabled($pdo, 'feedback') : true;
+$modUsers = $pdoOk ? is_module_enabled($pdo, 'users') : true;
+$modLeaderboard = $pdoOk ? is_module_enabled($pdo, 'leaderboard') : true;
 
-// ------------------------------------------------------------------
-// Logged-in capability checks
-// ------------------------------------------------------------------
+$canPublicSearch = $isLoggedIn || ($pdoOk && guest_has_permission($pdo, 'view_as_guest'));
+$canPublicVolunteer = !$isLoggedIn && $pdoOk && $modVolunteers && guest_has_permission($pdo, 'submit_volunteer');
+$canPublicFeedback = !$isLoggedIn && $pdoOk && $modFeedback && guest_has_permission($pdo, 'submit_feedback');
+$canPublicLeaderboard = !$isLoggedIn && $pdoOk && $modLeaderboard && guest_has_permission($pdo, 'view_leaderboard');
+
+// Keep moderate_table_1 special-case + dynamic tables + moderate_suggestions
 $canModerate = false;
-if (isset($pdo) && $pdo instanceof PDO && $modModeration) {
-    if (is_admin($pdo) || has_permission($pdo, 'moderate_table_1')) {
+if ($pdoOk && $modModeration) {
+    if (is_admin($pdo) || has_permission($pdo, 'moderate_table_1') || has_permission($pdo, 'moderate_suggestions')) {
         $canModerate = true;
     } else {
-        $tablesChk = $pdo->query("SELECT id FROM dynamic_tables");
+        $tablesChk = $pdo->query('SELECT id FROM dynamic_tables');
         $tableIds = $tablesChk !== false ? $tablesChk->fetchAll(PDO::FETCH_COLUMN) : [];
         foreach ($tableIds as $tId) {
-            if (has_permission($pdo, 'moderate_table_' . (int)$tId)) {
+            if (has_permission($pdo, 'moderate_table_' . (int) $tId)) {
                 $canModerate = true;
                 break;
             }
         }
     }
 }
-$canManageUsers = (isset($pdo) && $pdo instanceof PDO) && $modUsers && has_permission($pdo, 'manage_users', 'Manage user accounts');
-$canManageCols  = (isset($pdo) && $pdo instanceof PDO) && has_permission($pdo, 'manage_columns', 'Configure table columns');
-$canManageVols  = (isset($pdo) && $pdo instanceof PDO) && $modVolunteers && has_permission($pdo, 'manage_volunteers', 'Manage volunteers');
-$canManageFeed  = (isset($pdo) && $pdo instanceof PDO) && $modFeedback && has_permission($pdo, 'manage_feedback', 'Manage feedback');
-$canManageSets  = (isset($pdo) && $pdo instanceof PDO) && has_permission($pdo, 'manage_settings', 'Manage global settings');
+
+$canManageUsers = $pdoOk && $modUsers && has_permission($pdo, 'manage_users');
+$canManageCols = $pdoOk && has_permission($pdo, 'manage_columns');
+$canManageVols = $pdoOk && $modVolunteers && has_permission($pdo, 'manage_volunteers');
+$canManageFeed = $pdoOk && $modFeedback && has_permission($pdo, 'manage_feedback');
+$canManageSets = $pdoOk && has_permission($pdo, 'manage_settings');
+$showAdminMenu = $canManageUsers || $canManageCols || $canManageVols || $canManageFeed || $canManageSets;
 
 $baseUrl = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-
-// Determine current clean route path for active states
 $requestUri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
-$currentRoute = str_replace($baseUrl, '', $requestUri);
+$currentRoute = str_replace($baseUrl, '', (string) $requestUri);
 if ($currentRoute === '' || $currentRoute === false) {
     $currentRoute = '/';
 }
 
-$systemName = (function_exists('get_system_name') && isset($pdo) && $pdo instanceof PDO) ? get_system_name($pdo) : 'Parish Records Directory (PRD)';
-$sessionUsername = isset($_SESSION['username']) && is_string($_SESSION['username']) ? $_SESSION['username'] : 'User';
-$displayUsername = ($currentUser !== null && isset($currentUser['username']) && is_string($currentUser['username'])) ? $currentUser['username'] : $sessionUsername;
-$displayIdentifier = ($currentUser !== null && isset($currentUser['first_name']) && is_string($currentUser['first_name']) && $currentUser['first_name'] !== '') ? $currentUser['first_name'] : $displayUsername;
-$userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$currentUser['points'] : 0;
-?>
+$systemName = ($pdoOk && function_exists('get_system_name'))
+    ? get_system_name($pdo) : 'Parish Records Directory (PRD)';
 
+$sessionUsername = isset($_SESSION['username']) && is_string($_SESSION['username'])
+    ? $_SESSION['username'] : 'User';
+$displayUsername = ($currentUser !== null && isset($currentUser['username']) && is_string($currentUser['username']))
+    ? $currentUser['username'] : $sessionUsername;
+$displayIdentifier = ($currentUser !== null && isset($currentUser['first_name']) && is_string($currentUser['first_name']) && $currentUser['first_name'] !== '')
+    ? $currentUser['first_name'] : $displayUsername;
+$userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int) $currentUser['points'] : 0;
+
+$navActive = static function (string $route) use ($currentRoute): string {
+    return ($currentRoute === $route) ? 'active fw-bold text-primary' : '';
+};
+?>
 <!-- Top Accessibility & Language Bar -->
 <div class="bg-dark text-white py-1 px-3 small border-bottom">
     <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <!-- High-Contrast Toggle -->
         <div>
-            <a href="?contrast=toggle" class="text-white text-decoration-none d-inline-flex align-items-center gap-1" role="button" aria-label="<?= htmlspecialchars(__('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?>">
-                <span aria-hidden="true">👁️</span> <span><?= htmlspecialchars($isHighContrast ? __('nav.low_contrast') : __('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?></span>
+            <a href="?contrast=toggle" class="text-white text-decoration-none d-inline-flex align-items-center gap-1" role="button"
+               aria-label="<?= htmlspecialchars(__('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?>">
+                <span aria-hidden="true">👁️</span>
+                <span><?= htmlspecialchars($isHighContrast ? __('nav.low_contrast') : __('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?></span>
             </a>
         </div>
-
-        <!-- Accessible Language Picker with Flags -->
         <?php if (count($navLanguages) > 1): ?>
             <div class="d-inline-flex align-items-center gap-2">
                 <label for="site-lang-select" class="text-white-50 mb-0">
-                    <span aria-hidden="true">🌐</span> <span class="visually-hidden">Language Selector:</span>
+                    <span aria-hidden="true">🌐</span>
+                    <span class="visually-hidden">Language</span>
                 </label>
-                <select id="site-lang-select" 
-                        onchange="if(this.value) window.location.href='?lang=' + encodeURIComponent(this.value);" 
+                <select id="site-lang-select"
+                        onchange="if(this.value) window.location.href='?lang=' + encodeURIComponent(this.value);"
                         class="form-select form-select-sm bg-dark text-white border-secondary py-0 px-2"
                         style="width: auto; font-size: 0.85rem;"
-                        aria-label="Select Application Language">
+                        aria-label="Select language">
                     <?php foreach ($navLanguages as $code => $label): ?>
-                        <?php 
-                            $flag = $languageMeta[$code]['flag'] ?? '🏳️';
-                            $displayText = $flag . ' ' . $label;
-                        ?>
-                        <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>" <?= ($code === $activeLang) ? 'selected' : '' ?> class="bg-dark text-white">
-                            <?= htmlspecialchars($displayText, ENT_QUOTES, 'UTF-8') ?>
+                        <?php $flag = $languageMeta[$code]['flag'] ?? ''; ?>
+                        <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>"
+                            <?= ($code === $activeLang) ? 'selected' : '' ?> class="bg-dark text-white">
+                            <?= htmlspecialchars(trim($flag . ' ' . $label), ENT_QUOTES, 'UTF-8') ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -181,49 +169,51 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
     </div>
 </div>
 
-<!-- Main Bootstrap 5 Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top" aria-label="Main Navigation">
     <div class="container">
-        <!-- Brand Title -->
         <a class="navbar-brand fw-bold text-primary" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/">
             <?= htmlspecialchars($systemName, ENT_QUOTES, 'UTF-8') ?>
         </a>
 
-        <!-- Mobile Toggle Button -->
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbarContent" aria-controls="mainNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNavbarContent" aria-controls="mainNavbarContent"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Navbar Links & Account Actions -->
         <div class="collapse navbar-collapse" id="mainNavbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
                 <?php if ($canPublicSearch): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/" class="nav-link <?= ($currentRoute === '/' || $currentRoute === '/index.php') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/"
+                           class="nav-link <?= ($currentRoute === '/' || $currentRoute === '/index.php') ? 'active fw-bold text-primary' : '' ?>">
                             <?= htmlspecialchars(__('nav.search'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
                 <?php endif; ?>
-                
-                <?php if (!$isLoggedIn && $canPublicVolunteer): ?>
+
+                <?php if ($canPublicVolunteer): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/volunteer" class="nav-link <?= ($currentRoute === '/volunteer') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/volunteer"
+                           class="nav-link <?= $navActive('/volunteer') ?>">
                             <?= htmlspecialchars(__('nav.volunteer'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
                 <?php endif; ?>
-                
-                <?php if (!$isLoggedIn && $canPublicFeedback): ?>
+
+                <?php if ($canPublicFeedback): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback" class="nav-link <?= ($currentRoute === '/feedback') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback"
+                           class="nav-link <?= $navActive('/feedback') ?>">
                             <?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
                 <?php endif; ?>
-                
-                <?php if (!$isLoggedIn && $canPublicLeaderboard): ?>
+
+                <?php if ($canPublicLeaderboard): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard" class="nav-link <?= ($currentRoute === '/leaderboard') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard"
+                           class="nav-link <?= $navActive('/leaderboard') ?>">
                             <?= htmlspecialchars(__('nav.leaderboard'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
@@ -231,88 +221,114 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int)$c
 
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/data-entry" class="nav-link <?= ($currentRoute === '/profile') ? 'active fw-bold text-primary' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/data-entry"
+                           class="nav-link <?= $navActive('/data-entry') ?>">
                             <?= htmlspecialchars(__('nav.data_entry'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
+
                     <?php if ($canModerate): ?>
                         <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/moderation" class="nav-link <?= (str_starts_with($currentRoute, '/admin')) ? 'active fw-bold text-primary' : '' ?>">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/moderation"
+                               class="nav-link <?= str_starts_with($currentRoute, '/admin/moderation') ? 'active fw-bold text-primary' : '' ?>">
                                 <?= htmlspecialchars(__('nav.moderation'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>
                     <?php endif; ?>
-                    <?php if ($canManageUsers): ?>
-                        <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/users" class="nav-link <?= ($currentRoute === '/admin/users') ? 'active fw-bold text-primary' : '' ?>">
-                                <?= htmlspecialchars(__('nav.manage_users'), ENT_QUOTES, 'UTF-8') ?>
+
+                    <?php if ($showAdminMenu): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle <?= (str_starts_with($currentRoute, '/admin') && !str_starts_with($currentRoute, '/admin/moderation')) ? 'active fw-bold text-primary' : '' ?>"
+                               href="#" id="adminNavDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
                             </a>
-                        </li>
-                    <?php endif; ?>
-                    <?php if ($canManageCols): ?>
-                        <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tables" class="nav-link <?= ($currentRoute === '/admin/maintenance') ? 'active fw-bold text-primary' : '' ?>">
-                                <?= htmlspecialchars(__('nav.manage_tables'), ENT_QUOTES, 'UTF-8') ?>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                    <?php if ($modVolunteers && $canManageVols): ?>
-                        <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/volunteers" class="nav-link" >
-                                <?= htmlspecialchars(__('nav.volunteer_dashboard'), ENT_QUOTES, 'UTF-8') ?>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                    <?php if ($modFeedback && $canManageFeed): ?>
-                        <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tickets" class="nav-link">
-                                <?= htmlspecialchars(__('nav.feedback_dashboard'), ENT_QUOTES, 'UTF-8') ?>
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                    <?php if ($canManageSets): ?>
-                        <li class="nav-item">
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin" class="nav-link <?= ($currentRoute === '/admin') ? 'active fw-bold text-primary' : '' ?>">
-                                <?= htmlspecialchars(__('nav.settings'), ENT_QUOTES, 'UTF-8') ?>
-                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="adminNavDropdown">
+                                <?php if ($canManageUsers): ?>
+                                    <li>
+                                        <a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/users') ? 'active' : '' ?>"
+                                           href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/users">
+                                            <?= htmlspecialchars(__('nav.manage_users'), ENT_QUOTES, 'UTF-8') ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if ($canManageCols): ?>
+                                    <li>
+                                        <a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/tables') ? 'active' : '' ?>"
+                                           href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tables">
+                                            <?= htmlspecialchars(__('nav.manage_tables'), ENT_QUOTES, 'UTF-8') ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if ($canManageVols): ?>
+                                    <li>
+                                        <a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/volunteers') ? 'active' : '' ?>"
+                                           href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/volunteers">
+                                            <?= htmlspecialchars(__('nav.volunteer_dashboard'), ENT_QUOTES, 'UTF-8') ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if ($canManageFeed): ?>
+                                    <li>
+                                        <a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/tickets') ? 'active' : '' ?>"
+                                           href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tickets">
+                                            <?= htmlspecialchars(__('nav.feedback_dashboard'), ENT_QUOTES, 'UTF-8') ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if ($canManageSets): ?>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item <?= ($currentRoute === '/admin' || str_starts_with($currentRoute, '/admin/settings')) ? 'active' : '' ?>"
+                                           href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin">
+                                            <?= htmlspecialchars(__('nav.settings'), ENT_QUOTES, 'UTF-8') ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>
             </ul>
 
-            <!-- Right-Side Account / Auth Controls -->
             <ul class="navbar-nav ms-auto align-items-lg-center gap-2 mt-3 mt-lg-0">
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item d-flex align-items-center gap-2">
                         <span class="navbar-text small text-secondary">
                             <?= htmlspecialchars(__('nav.welcome'), ENT_QUOTES, 'UTF-8') ?>
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile" class="fw-bold text-dark text-decoration-none <?= ($currentRoute === '/profile') ? 'text-decoration-underline' : '' ?>" aria-label="Go to User Profile">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile"
+                               class="fw-bold text-dark text-decoration-none <?= $navActive('/profile') ?>"
+                               aria-label="Profile">
                                 <?= htmlspecialchars($displayIdentifier, ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </span>
                         <?php if ($modLeaderboard): ?>
-                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard" class="badge bg-warning text-dark text-decoration-none px-2 py-1" aria-label="<?= htmlspecialchars(__('nav.leaderboard_score'), ENT_QUOTES, 'UTF-8') ?>: <?= $userPoints ?> points">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard"
+                               class="badge bg-warning text-dark text-decoration-none px-2 py-1"
+                               aria-label="<?= htmlspecialchars(__('nav.leaderboard_score'), ENT_QUOTES, 'UTF-8') ?>: <?= $userPoints ?>">
                                 ⭐ <span class="fw-bold"><?= $userPoints ?></span>
                             </a>
                         <?php endif; ?>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/logout" class="btn btn-sm btn-outline-danger" role="button" aria-label="<?= htmlspecialchars(__('nav.logout'), ENT_QUOTES, 'UTF-8') ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/logout"
+                           class="btn btn-sm btn-outline-danger" role="button">
                             <?= htmlspecialchars(__('nav.logout'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
+                    <?php if ($modFeedback): ?>
+                        <li class="nav-item">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback"
+                               class="btn btn-sm btn-outline-secondary <?= $navActive('/feedback') ?>">
+                                <?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 <?php else: ?>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/login" class="btn btn-sm btn-primary px-3 <?= ($currentRoute === '/login') ? 'active' : '' ?>">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/login"
+                           class="btn btn-sm btn-primary px-3 <?= $navActive('/login') ?>">
                             <?= htmlspecialchars(__('nav.login'), ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                    </li>
-                <?php endif; ?>
-
-                <?php if ($isLoggedIn && $modFeedback): ?>
-                    <li class="nav-item">
-                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback" class="btn btn-sm btn-outline-secondary <?= ($currentRoute === '/feedback') ? 'active' : '' ?>">
-                            <?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
                 <?php endif; ?>

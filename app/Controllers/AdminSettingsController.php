@@ -52,6 +52,10 @@ class AdminSettingsController
 
         // Language
         $currentDefaultLanguage = $this->settingsService->getSettingVal('default_language', 'en');
+        $currentDefaultTimezone   = $this->settingsService->getSettingVal('default_timezone', 'UTC');
+        $currentDefaultDateFormat = $this->settingsService->getSettingVal('default_date_format', 'd/m/Y');
+        $currentDefaultTimeFormat = $this->settingsService->getSettingVal('default_time_format', '24');
+        $currentFooterCompiledNotice = $this->settingsService->getSettingVal('footer_compiled_notice', '');
 
         // CAPTCHA
         $currentCaptchaProvider = $this->settingsService->getSettingVal('captcha_provider', 'none');

@@ -39,8 +39,10 @@ return function (RouteCollector $r): void {
 
     // --- Admin Dashboard & Management Routes ---
     $r->addRoute('GET', '/admin', ['App\Controllers\AdminSettingsController', 'index']);
-    $r->addRoute('GET', '/admin/settings', ['App\Controllers\AdminSettingsController', 'index']);
     $r->addRoute('POST', '/admin', ['App\Controllers\AdminSettingsController', 'store']);
+    $r->addRoute('POST', '/admin/settings', ['App\Controllers\AdminSettingsController', 'store']);
+    $r->addRoute('POST', '/admin/settings/store', ['App\Controllers\AdminSettingsController', 'store']);
+    $r->addRoute('GET', '/admin/settings', ['App\Controllers\AdminSettingsController', 'index']);
 
     // Users
     $r->addRoute('GET', '/admin/users', ['App\Controllers\AdminUsersController', 'index']);
