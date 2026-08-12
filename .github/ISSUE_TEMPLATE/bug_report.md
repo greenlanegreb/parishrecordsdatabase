@@ -12,9 +12,11 @@ name: Bug Report
 about: Create a report to help us fix a problem
 ---
 
-## Who is doing what? (Please See Cross For Up to Date Status)
+## Who is doing what? (Please See or Add a Cross within the [ ] For Up to Date Status)
 - [ ] **Fix/Code:** [@greenlanegreb ]
-- [ ] **Test/Verify:** [ @katherinehuk]
+- [ ] **Test/Verify:** [@katherinehuk]
+- [ ] **Test Failed** [@greenlanegreb]
+- [ ] **Test Passed** [@greenlanegreb]
 
 ## Description
 A clear and concise description of what the bug is.
