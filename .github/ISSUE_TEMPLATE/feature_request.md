@@ -13,8 +13,10 @@ about: Suggest a feature request for PRD
 ---
 
 ## Who is doing what? (Please see Cross For Current Status)
-- [ ] **Build/Code:** [ ]
-- [ ] **Test/Verify:** [ ]
+- [ ] **Build/Code:** [@greenlanegreb ]
+- [ ] **Test/Verify:** [@katherinehuk]
+- [ ] **Test Passed:** [@greenlanegreb]
+- [ ] **Test Failed:** [@greenlanegreb]
 
 ## Is your feature request related to a problem? Please describe.
 A clear and concise description of what the problem is. (Ex. "I'm always frustrated when [...]")
