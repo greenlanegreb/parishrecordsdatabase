@@ -1,7 +1,6 @@
 logs/
 *.log
 .DS_Store
-/vendor/
 composer.phar
 .phpunit.result.cache
 .phpunit.cache
@@ -15,3 +14,9 @@ lang.bk
 **/*.bk
 **/*-pre-split*/
 **/*bk2/
+/vendor/phpstan/
+/vendor/phpunit/
+/vendor/bin/
+/vendor/sebastian/
+/vendor/phar-io/
+/vendor/theseer/
