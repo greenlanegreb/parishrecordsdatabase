@@ -25,6 +25,13 @@ declare(strict_types=1);
         <?= csrf_field() ?>
         <div class="d-flex flex-column gap-3">
             <?php foreach ($categorizedPerms as $categoryName => $catPerms): ?>
+                             <?php
+                                 usort($catPerms, static function (array $a, array $b): int {
+                                     $ka = isset($a['permission_key']) && is_string($a['permission_key']) ? $a['permission_key'] : '';
+                                     $kb = isset($b['permission_key']) && is_string($b['permission_key']) ? $b['permission_key'] : '';
+                                     return strcasecmp($ka, $kb);
+                                 });
+                              ?>
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
                         <details>

@@ -10,7 +10,7 @@ function register_global_error_handlers(string $logDir): void
             // This error code is not included in error_reporting
             return false;
         }
-        $err = new \ErrorException($message, 0, $errno, $file, $line);
+        $err = new \ErrorException($message, 0, $severity, $file, $line);
         handle_system_error($err, 'PhpError', $logDir);
         return true;
     });
