@@ -1,21 +1,18 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
+about: Suggest an idea for this project - Please add Priority Label too!
+title: "[FEATURE]"
+labels: enhancement
+assignees: greenlanegreb
 
 ---
 
 ---
 name: Feature Request
-about: Suggest an idea for this project
-title: '[FEATURE]: '
-labels: enhancement
-assignees: ''
+about: Suggest a feature request for PRD
 ---
 
-## Who is doing what?
+## Who is doing what? (Please see Cross For Current Status)
 - [ ] **Build/Code:** [ ]
 - [ ] **Test/Verify:** [ ]
 
