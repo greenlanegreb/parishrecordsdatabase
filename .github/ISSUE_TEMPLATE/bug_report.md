@@ -1,8 +1,8 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+about: Create a report to help us improve - Please Add a Priority Label too!
+title: "[BUG]"
+labels: bug
 assignees: greenlanegreb
 
 ---
@@ -10,14 +10,11 @@ assignees: greenlanegreb
 ---
 name: Bug Report
 about: Create a report to help us fix a problem
-title: '[BUG]: '
-labels: bug
-assignees: ''
 ---
 
-## Who is doing what?
-- [ ] **Fix/Code:** [ ]
-- [ ] **Test/Verify:** [ ]
+## Who is doing what? (Please See Cross For Up to Date Status)
+- [ ] **Fix/Code:** [@greenlanegreb ]
+- [ ] **Test/Verify:** [ @katherinehuk]
 
 ## Description
 A clear and concise description of what the bug is.
