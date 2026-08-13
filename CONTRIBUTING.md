@@ -28,7 +28,6 @@ Please log in as an admin and confirm the permission matrix and modules look rig
 - `config.local.php` (credentials)
 
 - Please Don't Commit Real SMTP passwords or production secrets
-- Please Don't Commit Vendor trees that end users should not need (unless explicitly agreed)
 
 ## Coding norms
 
