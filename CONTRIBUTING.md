@@ -2,12 +2,12 @@
 
 Thanks for your interest in contributing.
 
-## Goals of this project
+## PRD Goals
 
 - We aim to Stay **lightweight** and runnable on ordinary shared hosting  
 
-- **No Composer required for end users** (dev tooling is of course fine for contributors)  
-- Clear, straight-forward modern MVC PHP over heavy frameworks  
+- Please ensure that **Composer is NOT required for end users** (dev tooling is of course fine for contributors)  
+- Please ensure clear, straight-forward modern MVC PHP over heavy frameworks  
 - Please keep the **permission matrix** as the single source of truth for access control  
 
 ## Getting started (development)
@@ -25,7 +25,7 @@ Please log in as an admin and confirm the permission matrix and modules look rig
 
 ## What not to commit
 
-- `config.local.php` (credentials)
+- Please Don't Commit `config.local.php` (that's your credentials!)
 
 - Please Don't Commit Real SMTP passwords or production secrets
 
@@ -33,12 +33,12 @@ Please log in as an admin and confirm the permission matrix and modules look rig
 
 - **Permissions:** Please use `has_permission()`, `guest_has_permission()`, or `require_permission()` / `require_admin_page()`. Please do not add new hardcoded role-name checks if a permission key exists.
 
-- **Modules:** new optional features should respect `is_module_enabled($pdo, 'module_key')`.
-- **Public vs admin:** public pages must work for guests when the guest role has the relevant permission; Please do not force login unless the feature is intentionally authenticated-only.
+- **Modules:** Please ensure that optional features respect `is_module_enabled($pdo, 'module_key')`.
+- **Public vs admin:** Please ensure that public pages work for guests when the guest role has the relevant permission; Please do not force login unless the feature is intentionally authenticated-only.
 - **CSRF:** Please use `csrf_field()` on forms and `verify_csrf_token()` on POST handlers. Please make full use of functionality within `includes/security_engine.php`
 - **Output:** Please escape with `htmlspecialchars` (or existing helpers) for user-facing content.
-- **MVC Compliance** We are Committed to MVC compliant code with pragmatism - shared helpers are very welcome when the same logic appears in several places. We aim to be predictable and as as helpful as we can to each other.
-- **Language** - We use dot notification and a `__` function and are highly committed to supporting speakers of languages including in third-world countries where we dream of this solution playing it's part in changing lives. Please ensure that our project is inclusive.
+- **MVC Compliance** We are Committed to MVC compliant code with pragmatism - shared helpers are very welcome when the same logic appears in several places. We aim to be predictable and as as helpful as we can to each other. Please also advocate for the same.
+- **Language** - We use dot notification and a `__` function and are highly committed to supporting speakers of languages including in third-world countries where we dream of this solution playing it's part in changing lives. Please ensure that PRD remains inclusive and, wherever possible, is even more inclusive.
 - **Accessibility** - We aim for the highest standards of inclusion for those with disabilities - particularly those who rely on screen readers. Please ensure full aria compliance and anything else you can do to level the playing field for those with disabilities.
 
 ## Adding a feature (checklist)
