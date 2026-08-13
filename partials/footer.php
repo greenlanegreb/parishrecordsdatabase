@@ -22,7 +22,7 @@ if ($pdoForFooter instanceof PDO && function_exists('get_setting')) {
         <p class="small text-muted mb-1"><?= htmlspecialchars($footerCompiled, ENT_QUOTES, 'UTF-8') ?></p>
         <p class="small text-muted mb-0">
             <?= htmlspecialchars(__('footer.software_notice'), ENT_QUOTES, 'UTF-8') ?>
-            &copy; <?= date('Y') ?> Benjamin-Elijah Cakebread-Snow. <?= htmlspecialchars(__('footer.rights_reserved'), ENT_QUOTES, 'UTF-8') ?>
+            &copy; <?= date('Y') ?> greenlanegreb. <?= htmlspecialchars(__('footer.rights_reserved'), ENT_QUOTES, 'UTF-8') ?>
         </p>
     </div>
 </footer>
