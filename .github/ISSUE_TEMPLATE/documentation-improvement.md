@@ -12,7 +12,8 @@ name: Documentation Improvmeent Request
 about: Suggest an improvement for the documentation
 ---
 
-## Who is doing what? (Please see Cross For Current Status)
+## Who is doing what? (Please see Cross For Current Status. This becomes  a tick when it displays to the public).
+
 - [ ] **Update Documentation:** [@greenlanegreb ]
 - [ ] **Proof Read:** [@katherinehuk]
 - [ ] **Proof Read Passed - Commit:** [@greenlanegreb]
