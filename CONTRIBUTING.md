@@ -4,16 +4,16 @@ Thanks for your interest in contributing.
 
 ## Goals of this project
 
-- Stay **lightweight** and runnable on ordinary shared hosting  
+- We aim to Stay **lightweight** and runnable on ordinary shared hosting  
 
-- **No Composer required for end users** (dev tooling is fine for contributors)  
-- Prefer clear, straight-forward PHP over heavy frameworks  
-- Keep the **permission matrix** as the single source of truth for access control  
+- **No Composer required for end users** (dev tooling is of course fine for contributors)  
+- Clear, straight-forward modern MVC PHP over heavy frameworks  
+- Please keep the **permission matrix** as the single source of truth for access control  
 
 ## Getting started (development)
 
 1. Please fork and clone the repository.
-2. Please copy `db/db.php.example` → `db/db.php` and set local database credentials.
+2. Please copy `config.local.example` → `config.local.php` and set local database credentials.
 3. Please create/import a development database.
 4. Please point a local web server (or PHP built-in server) at the project root.
 
@@ -25,10 +25,10 @@ Please log in as an admin and confirm the permission matrix and modules look rig
 
 ## What not to commit
 
-- `db/db.php` (credentials)
+- `config.local.php` (credentials)
 
-- Real SMTP passwords or production secrets
-- Vendor trees that end users should not need (unless explicitly agreed)
+- Please Don't Commit Real SMTP passwords or production secrets
+- Please Don't Commit Vendor trees that end users should not need (unless explicitly agreed)
 
 ## Coding norms
 
@@ -36,14 +36,15 @@ Please log in as an admin and confirm the permission matrix and modules look rig
 
 - **Modules:** new optional features should respect `is_module_enabled($pdo, 'module_key')`.
 - **Public vs admin:** public pages must work for guests when the guest role has the relevant permission; Please do not force login unless the feature is intentionally authenticated-only.
-- **CSRF:** Please use `csrf_field()` on forms and `verify_csrf_token()` on POST handlers.
+- **CSRF:** Please use `csrf_field()` on forms and `verify_csrf_token()` on POST handlers. Please make full use of functionality within `includes/security_engine.php`
 - **Output:** Please escape with `htmlspecialchars` (or existing helpers) for user-facing content.
-- We prefer full, readable files over deep abstraction. Small shared helpers are welcome when the same logic appears in several places.
+- **MVC Compliance** We are Committed to MVC compliant code with pragmatism - shared helpers are very welcome when the same logic appears in several places. We aim to be predictable and as as helpful as we can to each other.
+- **Language** - We use dot notification and a `__` function and are highly committed to supporting speakers of languages including in third-world countries where we dream of this solution playing it's part in changing lives. Please ensure that our project is inclusive.
+- **Accessibility** - We aim for the highest standards of inclusion for those with disabilities - particularly those who rely on screen readers. Please ensure full aria compliance and anything else you can do to level the playing field for those with disabilities.
 
 ## Adding a feature (checklist)
 
-- Please decide whether it needs a module toggle and/or new permission keys.
-
+- Please decide whether a new feature needs a module toggle and/or new permission keys.
 - Please register permission keys via the existing helpers (they auto-appear in Settings).
 - Please wire nav links only when the user has the right permission (and module is on).
 - Please keep action scripts thin; put reusable logic in `includes/functions.php` or `db/auth_helpers.php` as appropriate.
@@ -52,7 +53,6 @@ Please log in as an admin and confirm the permission matrix and modules look rig
 ## Pull requests
 
 - Please describe what changed and why.
-
 - Please note any new permission keys or module settings.
 - Please call out any migration / schema steps.
 - Please keep PRs focused where possible.
@@ -63,4 +63,4 @@ Please Open an issue for design discussion before large refactors (framework mig
 
 ## Thank You
 
-A very big thank you for your time! Happy coding!
+A very big thank you for your time and dedication! Happy coding!
