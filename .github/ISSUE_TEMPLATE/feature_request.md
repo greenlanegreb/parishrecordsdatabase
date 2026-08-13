@@ -12,7 +12,8 @@ name: Feature Request
 about: Suggest a feature request for PRD
 ---
 
-## Who is doing what? (Please see Cross For Current Status)
+## Who is doing what? (Please see Cross For Current Status (Updates to a tick in public view)
+
 - [ ] **Build/Code:** [@greenlanegreb ]
 - [ ] **Test/Verify:** [@katherinehuk]
 - [ ] **Test Passed:** [@greenlanegreb]
