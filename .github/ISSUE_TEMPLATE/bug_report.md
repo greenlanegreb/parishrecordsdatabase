@@ -12,7 +12,8 @@ name: Bug Report
 about: Create a report to help us fix a problem
 ---
 
-## Who is doing what? (Please See or Add a Cross within the [ ] For Up to Date Status)
+## Who is doing what? (Please See or Add a Cross within the [ ] For Up to Date Status). This becomes  a tick when it displays to the public.
+
 - [ ] **Fix/Code:** [@greenlanegreb ]
 - [ ] **Test/Verify:** [@katherinehuk]
 - [ ] **Test Failed** [@greenlanegreb]
