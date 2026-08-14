@@ -17,20 +17,32 @@ if (is_file($functionsPath)) {
     require_once $functionsPath;
 }
 
-// Handle language selection submission right away if posted
 $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-if ($serverMethod === 'POST' && isset($_POST['selected_lang']) && is_string($_POST['selected_lang'])) {
-    $chosenLang = preg_replace('/[^a-zA-Z_]/', '', $_POST['selected_lang']);
-    if (is_string($chosenLang) && $chosenLang !== '') {
-        if (function_exists('set_language')) {
-            set_language($chosenLang);
-        } else {
-            $_SESSION['lang'] = $chosenLang;
+$step = isset($_POST['step']) ? (int)$_POST['step'] : 1;
+
+// Handle "Back" button navigation
+if ($serverMethod === 'POST' && isset($_POST['action']) && $_POST['action'] === 'back') {
+    if ($step === 2) {
+        $step = 1;
+    } elseif ($step === 3) {
+        $step = 2;
+    } elseif ($step === 5) {
+        $step = 3;
+    }
+} else {
+    // Handle language selection submission right away if posted
+    if ($serverMethod === 'POST' && isset($_POST['selected_lang']) && is_string($_POST['selected_lang'])) {
+        $chosenLang = preg_replace('/[^a-zA-Z_]/', '', $_POST['selected_lang']);
+        if (is_string($chosenLang) && $chosenLang !== '') {
+            if (function_exists('set_language')) {
+                set_language($chosenLang);
+            } else {
+                $_SESSION['lang'] = $chosenLang;
+            }
         }
     }
 }
 
-$step = isset($_POST['step']) ? (int)$_POST['step'] : 1;
 $error = '';
 $message = '';
 
@@ -66,6 +78,44 @@ function install_import_sql(PDO $pdo, string $path): void {
         }
     } finally {
         $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
+    }
+}
+
+function install_run_migrations(PDO $pdo, string $migrationsDir): void {
+    if (!is_dir($migrationsDir)) {
+        return;
+    }
+
+    $files = glob($migrationsDir . '/*.php');
+    if ($files === false || empty($files)) {
+        return;
+    }
+
+    $migrations = [];
+    foreach ($files as $file) {
+        $basename = basename($file);
+        // Extract the leading numbers before any dash or underscore
+        if (preg_match('/^(\d+)[-_]/', $basename, $m)) {
+            $num = (int)$m[1];
+            $migrations[$num] = $file;
+        }
+    }
+
+    // Sort numerically so 002 comes before 026 and 100
+    ksort($migrations, SORT_NUMERIC);
+
+    foreach ($migrations as $num => $file) {
+        $basename = basename($file);
+        try {
+            // Include the migration file. 
+            // Depending on how your migrations are written, including them executes them or defines functions.
+            include_once $file;
+            if (function_exists('up')) {
+                up($pdo);
+            }
+        } catch (\Throwable $e) {
+            throw new RuntimeException("Migration failed [{$basename}]: " . $e->getMessage(), 0, $e);
+        }
     }
 }
 
@@ -246,8 +296,8 @@ function install_show_complete_page(): void {
                 <h1 class="h4 fw-bold text-success mb-3"><?= htmlspecialchars($completeHeading, ENT_QUOTES, 'UTF-8') ?></h1>
                 <p class="text-secondary small mb-4"><?= htmlspecialchars($completeDesc, ENT_QUOTES, 'UTF-8') ?></p>
                 <div class="mb-4">
-                    <a href="../user/login.php" class="btn btn-primary btn-sm px-3 fw-bold text-decoration-none me-2"><?= htmlspecialchars($loginLink, ENT_QUOTES, 'UTF-8') ?></a>
-                    <a href="../index.php" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars($homeLink, ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="../login" class="btn btn-primary btn-sm px-3 fw-bold text-decoration-none me-2"><?= htmlspecialchars($loginLink, ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="../" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars($homeLink, ENT_QUOTES, 'UTF-8') ?></a>
                 </div>
                 <p class="small text-muted mb-0"><em><?= htmlspecialchars($deleteHint, ENT_QUOTES, 'UTF-8') ?></em></p>
             </div>
@@ -269,6 +319,26 @@ function install_load_pdo_from_config(string $configLocal): PDO {
     return $pdo;
 }
 
+// Helper function to map language codes to emoji flags
+function install_get_language_flag(string $code): string {
+    $map = [
+        'en' => '🇬🇧',
+        'fr' => '🇫🇷',
+        'es' => '🇪🇸',
+        'de' => '🇩🇪',
+        'it' => '🇮🇹',
+        'nl' => '🇳🇱',
+        'pt' => '🇵🇹',
+        'pl' => '🇵🇱',
+        'ru' => '🇷🇺',
+        'zh' => '🇨🇳',
+        'ja' => '🇯🇵',
+        'ar' => '🇸🇦',
+    ];
+    $cleanCode = strtolower(substr($code, 0, 2));
+    return $map[$cleanCode] ?? '🌐';
+}
+
 // Probe write access inside this project folder only
 $probeOk = false;
 $probeError = '';
@@ -286,7 +356,7 @@ if (is_file($lockFile)) {
     install_show_complete_page();
 }
 
-if (is_file($configLocal) && $serverMethod !== 'POST') {
+if (is_file($configLocal) && $serverMethod !== 'POST' && (!isset($_POST['action']) || $_POST['action'] !== 'back')) {
     try {
         $pdo = install_load_pdo_from_config($configLocal);
         $userCount = (int)$pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
@@ -310,7 +380,7 @@ if (is_file($configLocal) && $serverMethod !== 'POST') {
 }
 
 // ---------- POST ----------
-if ($serverMethod === 'POST') {
+if ($serverMethod === 'POST' && (!isset($_POST['action']) || $_POST['action'] !== 'back')) {
     try {
         if ($step === 1) {
             // Language selection completed, move to requirements check (Step 2)
@@ -342,39 +412,61 @@ if ($serverMethod === 'POST') {
             // Force MySQL session time zone to UTC (+00:00) during installation checks
             $pdo->exec("SET time_zone = '+00:00';");
 
-            if (!install_db_is_empty($pdo)) {
-                throw new RuntimeException(__('install.err_db_not_empty'));
+            $dbIsEmpty = install_db_is_empty($pdo);
+            $hasUsers = false;
+
+            if (!$dbIsEmpty) {
+                // Check if users table exists and has any accounts
+                try {
+                    $userCheck = $pdo->query("SELECT COUNT(*) FROM users");
+                    $hasUsers = $userCheck !== false && ((int)$userCheck->fetchColumn() > 0);
+                } catch (\Throwable $e) {
+                    $hasUsers = false;
+                }
+
+                // If there are already users, this DB is truly in use / not empty
+                if ($hasUsers) {
+                    throw new RuntimeException(__('install.err_db_not_empty'));
+                }
             }
 
+            // Write configs always
             install_write_config_local($configLocal, $host, $name, $user, $pass);
             install_write_loader_db_php($loaderDb);
 
-            install_import_sql($pdo, $root . '/db/schema_baseline.sql');
-            install_import_sql($pdo, $root . '/db/seed_baseline.sql');
-            if (is_file($root . '/db/seed_permissions.sql')) {
-                install_import_sql($pdo, $root . '/db/seed_permissions.sql');
-            }
-            if (is_file($root . '/db/seed_role_permissions.sql')) {
-                install_import_sql($pdo, $root . '/db/seed_role_permissions.sql');
-            }
+            // Only import schema/seeds if the DB was actually empty
+            if ($dbIsEmpty) {
+                install_import_sql($pdo, $root . '/db/schema_baseline.sql');
+                install_import_sql($pdo, $root . '/db/seed_baseline.sql');
+                if (is_file($root . '/db/seed_permissions.sql')) {
+                    install_import_sql($pdo, $root . '/db/seed_permissions.sql');
+                }
+                if (is_file($root . '/db/seed_role_permissions.sql')) {
+                    install_import_sql($pdo, $root . '/db/seed_role_permissions.sql');
+                }
 
-            if (is_file($functionsPath)) {
-                require_once $functionsPath;
-            }
-            $latest = install_latest_schema_version($root . '/db/migrations');
-            if (function_exists('set_schema_version')) {
-                set_schema_version($pdo, $latest);
-            } else {
-                $stmt = $pdo->prepare(
-                    "INSERT INTO site_settings (setting_key, setting_value) VALUES ('schema_version', ?)
-                     ON DUPLICATE KEY UPDATE setting_value = ?"
-                );
-                $stmt->execute([(string)$latest, (string)$latest]);
+                // Run all sequential updates from db/migrations
+                install_run_migrations($pdo, $root . '/db/migrations');
+
+                if (is_file($functionsPath)) {
+                    require_once $functionsPath;
+                }
+                $latest = install_latest_schema_version($root . '/db/migrations');
+                if (function_exists('set_schema_version')) {
+                    set_schema_version($pdo, $latest);
+                } else {
+                    $stmt = $pdo->prepare(
+                        "INSERT INTO site_settings (setting_key, setting_value) VALUES ('schema_version', ?)
+                         ON DUPLICATE KEY UPDATE setting_value = ?"
+                    );
+                    $stmt->execute([(string)$latest, (string)$latest]);
+                }
             }
 
             $_SESSION['install_db_ok'] = true;
             $step = 5; // Move to admin creation
             $message = __('install.msg_schema_imported');
+
         } elseif ($step === 5) {
             $sessionDbOk = isset($_SESSION['install_db_ok']) && $_SESSION['install_db_ok'] === true;
             if (!$sessionDbOk || !is_file($configLocal)) {
@@ -482,14 +574,12 @@ $currentActiveLang = function_exists('get_active_language') ? get_active_languag
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= htmlspecialchars(__('install.page_title') ?: 'Welcome to the Installer', ENT_QUOTES, 'UTF-8') ?></title>
+    <title><?= htmlspecialchars(__('install.page_title') !== 'install.page_title' ? __('install.page_title') : 'Welcome to the Installer', ENT_QUOTES, 'UTF-8') ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-5">
     <div class="container" style="max-width: 600px;">
         <div class="card border-0 shadow-sm p-4 bg-white">
-            <h1 class="h4 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.heading') ?: 'Welcome Please!', ENT_QUOTES, 'UTF-8') ?></h1>
-            <p class="text-muted small mb-4"><?= htmlspecialchars(__('install.subheading') ?: 'We are delighted to help you set everything up safely. Thank you for choosing our software!', ENT_QUOTES, 'UTF-8') ?></p>
 
             <?php if ($error !== ''): ?>
                 <div class="alert alert-danger alert-dismissible fade show shadow-sm small" role="alert">
@@ -506,92 +596,111 @@ $currentActiveLang = function_exists('get_active_language') ? get_active_languag
             <?php endif; ?>
 
             <?php if ($step === 6): ?>
-                <h2 class="h5 fw-bold text-success mb-2"><?= htmlspecialchars(__('install.done_heading') ?: 'All Set Up, Thank You!', ENT_QUOTES, 'UTF-8') ?></h2>
-                <p class="text-secondary small mb-3"><?= htmlspecialchars(__('install.done_message') ?: 'Your database and admin profile have been configured successfully.', ENT_QUOTES, 'UTF-8') ?></p>
+                <h2 class="h5 fw-bold text-success mb-2">All Set Up, Thank You!</h2>
+                <p class="text-secondary small mb-3">Your database and admin profile have been configured successfully.</p>
                 <p class="small mb-0">
-                    <a href="../user/login.php" class="text-decoration-none fw-bold"><?= htmlspecialchars(__('install.login_link') ?: 'Please log in here', ENT_QUOTES, 'UTF-8') ?></a> · 
-                    <a href="../index.php" class="text-decoration-none text-muted"><?= htmlspecialchars(__('install.home_link') ?: 'Visit home page', ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="../user/login.php" class="text-decoration-none fw-bold">Please log in here</a> · 
+                    <a href="../index.php" class="text-decoration-none text-muted">Visit home page</a>
                 </p>
 
             <?php elseif ($step === 5): ?>
-                <h2 class="h5 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.admin_heading') ?: 'Create Administrator Account', ENT_QUOTES, 'UTF-8') ?></h2>
-                <p class="text-muted small mb-3"><?= htmlspecialchars(__('install.admin_subheading') ?: 'Please provide details for your main administrator account below.', ENT_QUOTES, 'UTF-8') ?></p>
+                <h2 class="h5 fw-bold text-dark mb-1">Create Administrator Account</h2>
+                <p class="text-muted small mb-3">Please provide details for your main administrator account below.</p>
                 
                 <form method="post">
                     <input type="hidden" name="step" value="5">
                     
                     <div class="mb-3">
-                        <label for="admin_username" class="form-label small fw-bold"><?= htmlspecialchars(__('install.admin_username_label') ?: 'Admin Username:', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="admin_username" class="form-label small fw-bold">Admin Username:</label>
                         <input id="admin_username" name="admin_username" required autocomplete="username" class="form-control form-control-sm">
                     </div>
                     
                     <div class="mb-3">
-                        <label for="admin_email" class="form-label small fw-bold"><?= htmlspecialchars(__('install.admin_email_label') ?: 'Admin Email Address:', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="admin_email" class="form-label small fw-bold">Admin Email Address:</label>
                         <input id="admin_email" name="admin_email" type="email" required autocomplete="email" class="form-control form-control-sm">
                     </div>
                     
                     <div class="mb-3">
-                        <label for="admin_password" class="form-label small fw-bold"><?= htmlspecialchars(__('install.admin_password_label') ?: 'Password (at least 8 characters please):', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="admin_password" class="form-label small fw-bold">Password (at least 8 characters please):</label>
                         <input id="admin_password" name="admin_password" type="password" required autocomplete="new-password" class="form-control form-control-sm">
                     </div>
                     
                     <div class="mb-4">
-                        <label for="admin_password_confirm" class="form-label small fw-bold"><?= htmlspecialchars(__('install.admin_confirm_password_label') ?: 'Confirm Password please:', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="admin_password_confirm" class="form-label small fw-bold">Confirm Password please:</label>
                         <input id="admin_password_confirm" name="admin_password_confirm" type="password" required autocomplete="new-password" class="form-control form-control-sm">
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.finish_btn') ?: 'Save and Complete Installation, Please', ENT_QUOTES, 'UTF-8') ?></button>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="submit" name="action" value="back" formnovalidate class="btn btn-outline-secondary btn-sm px-3">&larr; Back</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold">Save and Complete Installation, Please</button>
+                    </div>
                 </form>
 
             <?php elseif ($step === 3 || $showDbForm): ?>
-                <h2 class="h5 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.db_heading') ?: 'Database Connection Setup', ENT_QUOTES, 'UTF-8') ?></h2>
-                <p class="text-muted small mb-3"><?= htmlspecialchars(__('install.db_hint') ?: 'Please enter your MySQL database connection credentials below.', ENT_QUOTES, 'UTF-8') ?></p>
+                <h2 class="h5 fw-bold text-dark mb-1">Database Connection Setup</h2>
+                <p class="text-muted small mb-3">Please enter your MySQL database connection credentials below.</p>
                 
                 <form method="post">
                     <input type="hidden" name="step" value="3">
                     
                     <div class="mb-3">
-                        <label for="db_host" class="form-label small fw-bold"><?= htmlspecialchars(__('install.db_host_label') ?: 'Database Host:', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="db_host" class="form-label small fw-bold">Database Host:</label>
                         <input id="db_host" name="db_host" value="127.0.0.1" required class="form-control form-control-sm">
                     </div>
                     
                     <div class="mb-3">
-                        <label for="db_name" class="form-label small fw-bold"><?= htmlspecialchars(__('install.db_name_label') ?: 'Database Name:', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="db_name" class="form-label small fw-bold">Database Name:</label>
                         <input id="db_name" name="db_name" required class="form-control form-control-sm">
                     </div>
                     
                     <div class="mb-3">
-                        <label for="db_user" class="form-label small fw-bold"><?= htmlspecialchars(__('install.db_user_label') ?: 'Database Username:', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="db_user" class="form-label small fw-bold">Database Username:</label>
                         <input id="db_user" name="db_user" required autocomplete="off" class="form-control form-control-sm">
                     </div>
                     
                     <div class="mb-4">
-                        <label for="db_pass" class="form-label small fw-bold"><?= htmlspecialchars(__('install.db_pass_label') ?: 'Database Password:', ENT_QUOTES, 'UTF-8') ?></label>
-                        <input id="db_pass" name="db_pass" type="password" autocomplete="new-password" class="form-control form-control-sm">
+                        <label for="db_pass" class="form-label small fw-bold">Database Password:</label>
+                        <div class="input-group input-group-sm">
+                            <input id="db_pass" name="db_pass" type="password" autocomplete="new-password" class="form-control">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn" onclick="
+                                const passInput = document.getElementById('db_pass');
+                                const btn = document.getElementById('togglePasswordBtn');
+                                if (passInput.type === 'password') {
+                                    passInput.type = 'text';
+                                    btn.textContent = 'Hide';
+                                } else {
+                                    passInput.type = 'password';
+                                    btn.textContent = 'Show';
+                                }
+                            ">Show</button>
+                        </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.db_submit_btn') ?: 'Test Connection and Proceed, Please', ENT_QUOTES, 'UTF-8') ?></button>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="submit" name="action" value="back" formnovalidate class="btn btn-outline-secondary btn-sm px-3">&larr; Back</button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold">Test Connection and Proceed, Please</button>
+                    </div>
                 </form>
 
             <?php elseif ($step === 2): ?>
-                <h2 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('install.req_heading') ?: 'System Requirements Check', ENT_QUOTES, 'UTF-8') ?></h2>
+                <h2 class="h5 fw-bold text-dark mb-3">System Requirements Check</h2>
                 
                 <ul class="list-group list-group-flush mb-4 small">
                     <li class="list-group-item d-flex justify-content-between align-items-center <?= $phpOk ? 'text-success' : 'text-danger' ?>">
-                        <span><?= htmlspecialchars(sprintf(__('install.req_php') ?: 'PHP Version >= 8.0.0 (Yours is: %s)', PHP_VERSION), ENT_QUOTES, 'UTF-8') ?></span>
+                        <span>PHP Version >= 8.0.0 (Yours is: <?= PHP_VERSION ?>)</span>
                         <span><?= $phpOk ? '✓' : '✗' ?></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center <?= $pdoOk ? 'text-success' : 'text-danger' ?>">
-                        <span><?= htmlspecialchars(__('install.req_pdo') ?: 'PDO MySQL Extension Enabled', ENT_QUOTES, 'UTF-8') ?></span>
+                        <span>PDO MySQL Extension Enabled</span>
                         <span><?= $pdoOk ? '✓' : '✗' ?></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center <?= $logsOk ? 'text-success' : 'text-danger' ?>">
-                        <span><?= htmlspecialchars(__('install.req_logs') ?: 'Logs Directory Writable', ENT_QUOTES, 'UTF-8') ?></span>
+                        <span>Logs Directory Writable</span>
                         <span><?= $logsOk ? '✓' : '✗' ?></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center <?= $probeOk ? 'text-success' : 'text-danger' ?>">
                         <div>
-                            <span><?= htmlspecialchars(__('install.req_probe') ?: 'Project Folder Write Permissions Checked', ENT_QUOTES, 'UTF-8') ?></span>
+                            <span>Project Folder Write Permissions Checked</span>
                             <?php if (!$probeOk && $probeError !== ''): ?>
                                 <div class="text-muted small"><?= htmlspecialchars($probeError, ENT_QUOTES, 'UTF-8') ?></div>
                             <?php endif; ?>
@@ -600,37 +709,57 @@ $currentActiveLang = function_exists('get_active_language') ? get_active_languag
                     </li>
                 </ul>
 
-                <?php if ($reqsOk): ?>
-                    <form method="post">
-                        <input type="hidden" name="step" value="2">
-                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.continue_btn') ?: 'Everything looks great, please continue', ENT_QUOTES, 'UTF-8') ?></button>
-                    </form>
-                <?php else: ?>
-                    <div class="alert alert-warning small mb-0">
-                        <?= htmlspecialchars(__('install.req_fail_msg') ?: 'Please fix the requirements highlighted above before proceeding. Thank you!', ENT_QUOTES, 'UTF-8') ?>
+                <form method="post">
+                    <input type="hidden" name="step" value="2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="submit" name="action" value="back" formnovalidate class="btn btn-outline-secondary btn-sm px-3">&larr; Back</button>
+                        <?php if ($reqsOk): ?>
+                            <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold">Everything looks great, please continue</button>
+                        <?php else: ?>
+                            <button type="submit" disabled class="btn btn-primary btn-sm px-4 fw-bold">Please fix requirements</button>
+                        <?php endif; ?>
+                    </div>
+                </form>
+                <?php if (!$reqsOk): ?>
+                    <div class="alert alert-warning small mt-3 mb-0">
+                        Please fix the requirements highlighted above before proceeding. Thank you!
                     </div>
                 <?php endif; ?>
 
             <?php else: ?>
-                <!-- Step 1: Language Selection -->
-                <h2 class="h5 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.lang_heading') ?: 'Choose Your Preferred Language', ENT_QUOTES, 'UTF-8') ?></h2>
-                <p class="text-muted small mb-3"><?= htmlspecialchars(__('install.lang_hint') ?: 'Please select your preferred language for the installation process and application setup.', ENT_QUOTES, 'UTF-8') ?></p>
+                <!-- Step 1: Language Selection & Welcome -->
+                <h1 class="h5 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.lang_heading') !== 'install.lang_heading' ? __('install.lang_heading') : 'Welcome to the PRD Installer Wizard!', ENT_QUOTES, 'UTF-8') ?></h1>
+                <p class="text-muted small mb-3">
+                    First-time setup for <span class="fw-bold text-dark">this application folder only</span>. Please ensure that you are using an empty MySQL database.
+                </p>
+
+                <!-- Environment Requirements Preview Box -->
+                <div class="alert alert-secondary bg-light border-0 small mb-3 p-3">
+                    <span class="fw-bold d-block mb-1 text-dark">PRD Environment Requirements:</span>
+                    <ul class="mb-0 ps-3 text-muted">
+                        <li>PHP version 8.0 or higher</li>
+                        <li>PDO MySQL/MariaDB extension enabled</li>
+                        <li>MySQL database with <strong>utf8mb4</strong> charset support</li>
+                        <li>Writable project folder &amp; logs directory</li>
+                    </ul>
+                </div>
                 
                 <form method="post">
                     <input type="hidden" name="step" value="1">
                     
                     <div class="mb-4">
-                        <label for="selected_lang" class="form-label small fw-bold"><?= htmlspecialchars(__('install.lang_label') ?: 'Language Choice:', ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="selected_lang" class="form-label small fw-bold"><?= htmlspecialchars(__('install.lang_label') !== 'install.lang_label' ? __('install.lang_label') : 'Choose Your Preferred Language:', ENT_QUOTES, 'UTF-8') ?></label>
                         <select id="selected_lang" name="selected_lang" class="form-select form-select-sm">
                             <?php foreach ($availableLanguages as $code => $label): ?>
+                                <?php $flag = install_get_language_flag($code); ?>
                                 <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>" <?= ($code === $currentActiveLang) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?> (<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>)
+                                    <?= $flag ?> <?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?> (<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.lang_submit_btn') ?: 'Confirm Language and Continue, Please', ENT_QUOTES, 'UTF-8') ?></button>
+                    <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.lang_submit_btn') !== 'install.lang_submit_btn' ? __('install.lang_submit_btn') : 'Confirm Language and Continue, Please', ENT_QUOTES, 'UTF-8') ?></button>
                 </form>
             <?php endif; ?>
         </div>
