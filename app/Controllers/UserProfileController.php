@@ -26,6 +26,9 @@ class UserProfileController
         /** @var array{id: int|string, username: string, email: string, email_verified?: int|string, first_name?: string, surname?: string, timezone?: string, date_format?: string, time_format?: string, attribution_display_mode?: string, language?: string, two_fa_enabled?: int|string} $currentUser */
         $currentUser = \get_current_user_data($this->pdo);
 
+        require_once dirname(__DIR__, 2) . '/includes/user_preferences.php';
+        $currentUser = \user_merge_personal_draft($currentUser, 'profile_personal_draft');
+
         $systemName = \get_system_name($this->pdo);
         $systemSlug = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '-', $systemName) ?? 'app');
 
@@ -33,25 +36,9 @@ class UserProfileController
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['message'], $_SESSION['error']);
 
-        /** @var array<int, string> $profileLanguages */
-        $profileLanguages = [];
-        $langDir = __DIR__ . '/../lang';
-        if (is_dir($langDir)) {
-            $langFiles = glob($langDir . '/*.php');
-            if ($langFiles !== false) {
-                foreach ($langFiles as $file) {
-                    $code = basename($file, '.php');
-                    if (preg_match('/^[a-z_]+$/', $code)) {
-                        $profileLanguages[] = $code;
-                    }
-                }
-            }
-            sort($profileLanguages);
-        }
-        if (!in_array('en', $profileLanguages, true)) {
-            array_unshift($profileLanguages, 'en');
-        }
-        $userLanguage = isset($currentUser['language']) && is_string($currentUser['language']) ? $currentUser['language'] : '';
+        $profileLanguages = \user_available_language_codes();
+        $userLanguage = isset($currentUser['language']) && is_string($currentUser['language'])
+            ? $currentUser['language'] : '';
 
         $queryGet = $_GET;
         if (isset($queryGet['action']) && $queryGet['action'] === 'download_new_codes') {
@@ -64,10 +51,10 @@ class UserProfileController
                 header('Content-Disposition: attachment; filename="' . $systemSlug . '-backup-codes.txt"');
                 header('Cache-Control: no-store, no-cache, must-revalidate');
                 echo strtoupper($systemName) . " - NEW EMERGENCY BACKUP CODES\n";
-                echo str_repeat("=", strlen($systemName) + 33) . "\n\n";
+                echo str_repeat('=', strlen($systemName) + 33) . "\n\n";
                 echo "Keep these codes in a secure place. Each code can only be used once:\n\n";
                 foreach ($codesToDownload as $code) {
-                    echo " - " . $code . "\n";
+                    echo ' - ' . $code . "\n";
                 }
                 exit;
             }

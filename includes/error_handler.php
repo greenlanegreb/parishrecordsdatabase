@@ -10,6 +10,7 @@ function register_global_error_handlers(string $logDir): void
             // This error code is not included in error_reporting
             return false;
         }
+        // Use $severity (handler arg). Old code used undefined $errno → null → TypeError on PHP 8+
         $err = new \ErrorException($message, 0, $severity, $file, $line);
         handle_system_error($err, 'PhpError', $logDir);
         return true;
@@ -24,7 +25,13 @@ function register_global_error_handlers(string $logDir): void
     register_shutdown_function(function () use ($logDir): void {
         $error = error_get_last();
         if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
-            $fatal = new \ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+            $fatal = new \ErrorException(
+                $error['message'],
+                0,
+                (int) $error['type'],
+                $error['file'] ?? __FILE__,
+                $error['line'] ?? 0
+            );
             handle_system_error($fatal, 'FatalError', $logDir);
         }
     });
@@ -69,12 +76,14 @@ function handle_system_error(\Throwable $exception, string $type, string $logDir
 
     $message = redact_sensitive_text($exception->getMessage());
     $trace   = redact_sensitive_text($exception->getTraceAsString());
-    $uri     = redact_sensitive_text((string) ($_SERVER['REQUEST_URI'] ?? 'CLI/Unknown'));
+    $uri     = redact_sensitive_text(
+        isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : 'CLI/Unknown'
+    );
 
     $errorData = [
         'id'          => $errorId,
         'timestamp'   => gmdate('Y-m-d\TH:i:s\Z'),
-        'error_type'  => $type . '_' . get_class($exception),
+        'error_type'  => $type . '_' . $exception::class,
         'message'     => $message,
         'file'        => $exception->getFile(),
         'line'        => $exception->getLine(),

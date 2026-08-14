@@ -37,6 +37,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
         <form method="POST" action="<?= $basePath ?>/user/onboarding">
             <?= csrf_field() ?>
+            <input type="hidden" name="apply_language" id="apply_language" value="0">
             <div class="mb-3">
                 <label for="first_name" class="form-label small fw-bold"><?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($currentUser['first_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="given-name" class="form-control form-control-sm">
@@ -45,6 +46,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <div class="mb-3">
                 <label for="surname" class="form-label small fw-bold"><?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="text" id="surname" name="surname" value="<?= htmlspecialchars($currentUser['surname'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="family-name" class="form-control form-control-sm">
+            </div>
+
+            <div class="mb-3">
+                <label for="language" class="form-label small fw-bold"><?= htmlspecialchars(__('onboarding.language_label') !== 'onboarding.language_label' ? __('onboarding.language_label') : __('profile.language_label'), ENT_QUOTES, 'UTF-8') ?></label>
+                <select id="language" name="language" class="form-select form-select-sm"
+                        onchange="document.getElementById('apply_language').value='1'; this.form.submit();">
+                    <option value="" <?= ($userLanguage === '' || $userLanguage === '0') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.lang_site_default') !== 'onboarding.lang_site_default' ? __('onboarding.lang_site_default') : __('profile.lang_site_default'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <?php
+                    $langFlags = [
+                        'en' => '🇬🇧', 'fr' => '🇫🇷', 'es' => '🇪🇸', 'de' => '🇩🇪', 'it' => '🇮🇹',
+                        'nl' => '🇳🇱', 'pt' => '🇵🇹', 'pl' => '🇵🇱', 'cy' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿', 'gd' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿', 'ga' => '🇮🇪',
+                    ];
+                    foreach (($onboardingLanguages ?? []) as $code):
+                        $flag = $langFlags[strtolower(substr((string)$code, 0, 2))] ?? '🌐';
+                    ?>
+                        <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>" <?= ($userLanguage === $code) ? 'selected' : '' ?>>
+                            <?= $flag ?> <?= htmlspecialchars(strtoupper($code), ENT_QUOTES, 'UTF-8') ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -83,11 +104,11 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     <?php 
                     $currentFmt = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
                     $dateFormats = [
-                        'd/m/Y' => '23/07/2026 (UK Slash - DD/MM/YYYY)',
-                        'd/m/y' => '23/07/26 (Short Year - DD/MM/YY)',
-                        'd.m.Y' => '23.07.2026 (Dots - DD.MM.YYYY)',
-                        'm/d/Y' => '07/23/2026 (US Style - MM/DD/YYYY)',
-                        'l j F Y' => 'Thursday 23 July 2026 (Full Text)'
+                        'd/m/Y'  => __('onboarding.date_fmt_dmy'),
+                        'd/m/y'  => __('onboarding.date_fmt_dmy_short'),
+                        'd.m.Y'  => __('onboarding.date_fmt_dots'),
+                        'm/d/Y'  => __('onboarding.date_fmt_mdy'),
+                        'l j F Y' => __('onboarding.date_fmt_full'),
                     ];
                     foreach ($dateFormats as $fmtKey => $fmtLabel) {
                         $selected = ($currentFmt === $fmtKey) ? 'selected' : '';
@@ -123,8 +144,21 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 py-2"><?= htmlspecialchars(__('onboarding.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>
+            <div class="d-grid gap-2">
+                <button type="submit" name="after_save" value="profile" class="btn btn-primary py-2"
+                        onclick="document.getElementById('apply_language').value='0';">
+                    <?= htmlspecialchars(__('onboarding.btn_continue_2fa') !== 'onboarding.btn_continue_2fa' ? __('onboarding.btn_continue_2fa') : 'Continue to 2FA', ENT_QUOTES, 'UTF-8') ?>
+                </button>
+                <button type="submit" name="after_save" value="continue" class="btn btn-outline-secondary py-2"
+                        onclick="document.getElementById('apply_language').value='0';">
+                    <?= htmlspecialchars(__('onboarding.btn_skip_for_now') !== 'onboarding.btn_skip_for_now' ? __('onboarding.btn_skip_for_now') : 'Skip for now', ENT_QUOTES, 'UTF-8') ?>
+                </button>
+            </div>
         </form>
+
+        <p class="text-muted small mt-3 mb-0">
+            <?= htmlspecialchars(__('onboarding.security_hint') !== 'onboarding.security_hint' ? __('onboarding.security_hint') : 'You can change personal settings anytime by clicking your username in the menu.', ENT_QUOTES, 'UTF-8') ?>
+        </p>
     </div>
 </div>
 

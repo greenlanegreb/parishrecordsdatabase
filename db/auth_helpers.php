@@ -156,6 +156,7 @@ function guest_has_permission(PDO $pdo, string $permissionKey): bool
  * - Logged in: needs view_table_{id}
  * - Guest: needs view_as_guest AND view_table_{id}
  */
+
 function user_can_view_table(PDO $pdo, int $tableId, ?array $currentUser = null): bool
 {
     if ($tableId < 1) {
@@ -179,6 +180,7 @@ function user_can_view_table(PDO $pdo, int $tableId, ?array $currentUser = null)
 /**
  * Check if the current user has an admin role.
  */
+
 function is_admin(PDO $pdo): bool
 {
     $user = get_current_user_data($pdo);
@@ -220,16 +222,30 @@ function require_permission(PDO $pdo, string $permissionKey, ?string $descriptio
         exit;
     }
 
-    $serverSelf = isset($_SERVER['PHP_SELF']) && is_string($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
-    $currentScript = basename($serverSelf);
-    
-    if (!empty($user['is_new_user']) && $currentScript !== 'onboarding.php' && $currentScript !== 'save_onboarding.php') {
+
+        if (!empty($user['is_new_user']) && !request_is_onboarding_route()) {
         $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-        header('Location: ' . $base . '/user/onboarding.php');
+        header('Location: ' . $base . '/user/onboarding');
         exit;
     }
 
     return $user;
+}
+
+/**
+ * True when the current request is the onboarding wizard (MVC route).
+ */
+function request_is_onboarding_route(): bool
+{
+    $uri = isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI'])
+        ? $_SERVER['REQUEST_URI'] : '';
+    $path = parse_url($uri, PHP_URL_PATH);
+    if (!is_string($path) || $path === '') {
+        return false;
+    }
+    // Match /user/onboarding with optional BASE_PATH prefix and trailing slash
+    return (bool) preg_match('#/user/onboarding/?$#', $path)
+        || str_contains($path, '/user/onboarding');
 }
 
 /**
@@ -239,6 +255,7 @@ function require_permission(PDO $pdo, string $permissionKey, ?string $descriptio
  * @return array{id: int|string, username?: string, date_format?: string}|null
  *         User row when logged in; null when guest is allowed.
  */
+
 function require_export_access(PDO $pdo): ?array
 {
     if (isset($_SESSION['user_id'])) {
@@ -320,12 +337,9 @@ function require_role(PDO $pdo, $allowedRoles): array
         exit;
     }
 
-    $serverSelf = isset($_SERVER['PHP_SELF']) && is_string($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
-    $currentScript = basename($serverSelf);
-    
-    if (!empty($user['is_new_user']) && $currentScript !== 'onboarding.php' && $currentScript !== 'save_onboarding.php') {
+        if (!empty($user['is_new_user']) && !request_is_onboarding_route()) {
         $base = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
-        header('Location: ' . $base . '/user/onboarding.php');
+        header('Location: ' . $base . '/user/onboarding');
         exit;
     }
 

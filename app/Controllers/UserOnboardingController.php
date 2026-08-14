@@ -2,7 +2,7 @@
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
- * Original Old File: user/onboarding.php/user/actions/save_onboarding.php
+ * Original Old File: user/onboarding.php
  * Migrated Date: 2026-08-05 05:04:14
  */
 declare(strict_types=1);
@@ -23,32 +23,47 @@ class UserOnboardingController
 
     public function show(): void
     {
-        // Ensure the users module is enabled; otherwise block access to onboarding
-        if (!is_module_enabled($this->pdo, 'users')) {
+        if (!\is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
             exit('403 Forbidden: The User Management module is currently disabled.');
         }
 
-        // Require user authentication (redirects to login if not logged in)
-        require_login();
-        /** @var array{id: int|string, username: string, first_name?: string, surname?: string, is_new_user?: int|string, timezone?: string, date_format?: string, time_format?: string, attribution_display_mode?: string} $currentUser */
-        $currentUser = get_current_user_data($this->pdo);
+        $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
 
-        // Ensure 'access_onboarding' permission exists in schema for role management UI
-        try {
-            $pCheck = $this->pdo->prepare("INSERT IGNORE INTO permissions (permission_key, description) VALUES ('access_onboarding', 'Allows accessing the first-time user onboarding setup wizard')");
-            $pCheck->execute();
-        } catch (Exception $e) {
-            // Suppress if table/permission already exists
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $basePath . '/login');
+            exit;
         }
 
-        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+        /** @var array{id: int|string, username: string, first_name?: string, surname?: string, is_new_user?: int|string, timezone?: string, date_format?: string, time_format?: string, attribution_display_mode?: string, language?: string|null}|null $currentUser */
+        $currentUser = \get_current_user_data($this->pdo);
+        if ($currentUser === null) {
+            header('Location: ' . $basePath . '/login');
+            exit;
+        }
 
-        // If they are no longer marked as a new user, redirect them to main entry/dashboard
+        try {
+            $pCheck = $this->pdo->prepare(
+                "INSERT IGNORE INTO permissions (permission_key, description)
+                 VALUES ('access_onboarding', 'Allows accessing the first-time user onboarding setup wizard')"
+            );
+            $pCheck->execute();
+        } catch (Exception $e) {
+            // non-fatal
+        }
+
         if (empty($currentUser['is_new_user'])) {
             header('Location: ' . $basePath . '/data-entry');
             exit;
         }
+
+        require_once dirname(__DIR__, 2) . '/includes/user_preferences.php';
+        $currentUser = \user_merge_personal_draft($currentUser, 'onboarding_draft');
+
+        /** @var list<string> $onboardingLanguages */
+        $onboardingLanguages = \user_available_language_codes();
+        $userLanguage = isset($currentUser['language']) && is_string($currentUser['language'])
+            ? $currentUser['language'] : '';
 
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['error']);

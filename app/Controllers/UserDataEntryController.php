@@ -24,7 +24,7 @@ class UserDataEntryController
     {
         \require_permission($this->pdo, 'access_data_entry', 'Allows accessing the core data entry workstation and creating records');
         /** @var array{id: int|string, username: string, first_name?: string, surname?: string, attribution_display_mode?: string, date_format?: string, timezone?: string} $currentUser */
-        $currentUser = get_current_user_data($this->pdo);
+        $currentUser = \get_current_user_data($this->pdo);
 
         // Check existence of tables and columns
         $tablesCountStmt = $this->pdo->query("SELECT COUNT(*) FROM dynamic_tables");
@@ -54,8 +54,16 @@ class UserDataEntryController
             ? (int)$queryGet['table_id']
             : (!empty($availableTables) ? (int)$availableTables[0]['id'] : 0);
 
-        if ($activeTableId < 1 || !user_can_view_table($this->pdo, $activeTableId, $currentUser)) {
-            require_once __DIR__ . '/../Views/errors/403.php';
+
+        // No tables yet → fall through; the view shows the "create a table" empty state.
+        // Only 403 when tables exist but this user cannot view the requested one.
+        if ($totalTablesCount > 0 && ($activeTableId < 1 || !\user_can_view_table($this->pdo, $activeTableId, $currentUser))) {
+            http_response_code(403);
+            $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
+            echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>403</title></head><body>';
+            echo '<p>403 Forbidden — you cannot view this table.</p>';
+            echo '<p><a href="' . htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') . '/">Home</a></p>';
+            echo '</body></html>';
             exit;
         }
 

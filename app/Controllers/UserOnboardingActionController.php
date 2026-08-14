@@ -4,6 +4,8 @@
  * ---------------------
  * Original Old File: user/onboarding.php/user/actions/save_onboarding.php
  * Migrated Date: 2026-08-05 05:05:06
+ *
+ * Shared personal-details helpers; language apply keeps form draft; names required.
  */
 declare(strict_types=1);
 
@@ -22,66 +24,80 @@ class UserOnboardingActionController
 
     public function save(): void
     {
-        if (!is_module_enabled($this->pdo, 'users')) {
+        if (!\is_module_enabled($this->pdo, 'users')) {
             http_response_code(403);
             exit('403 Forbidden: The User Management module is currently disabled.');
         }
 
-        $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+        $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD'])
+            ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
             http_response_code(405);
             exit('Method Not Allowed');
         }
 
-        verify_csrf_token();
-        require_login();
-        /** @var array{id: int|string, username: string} $currentUser */
-        $currentUser = get_current_user_data($this->pdo);
-        $userId = $currentUser['id'];
+        \verify_csrf_token();
 
-        $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
-        $post = $_POST;
-        $firstName = isset($post['first_name']) && is_string($post['first_name']) ? trim($post['first_name']) : '';
-        $surname = isset($post['surname']) && is_string($post['surname']) ? trim($post['surname']) : '';
-        $displayMode = isset($post['attribution_display_mode']) && is_string($post['attribution_display_mode']) ? trim($post['attribution_display_mode']) : 'initials_random';
-        $timezone = isset($post['timezone']) && is_string($post['timezone']) ? trim($post['timezone']) : 'UTC';
-        $dateFormat = isset($post['date_format']) && is_string($post['date_format']) ? trim($post['date_format']) : 'd/m/Y';
-        $timeFormat = isset($post['time_format']) && is_string($post['time_format']) ? trim($post['time_format']) : '24';
+        $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
 
-        $allowedModes = ['full_name', 'volunteers_only', 'initials_random'];
-        if (!in_array($displayMode, $allowedModes, true)) {
-            $displayMode = 'initials_random';
-        }
-
-        $validTimezones = timezone_identifiers_list();
-        if (!in_array($timezone, $validTimezones, true)) {
-            $timezone = 'UTC';
-        }
-
-        $allowedDateFormats = ['d/m/Y', 'd/m/y', 'd.m.Y', 'm/d/Y', 'l j F Y'];
-        if (!in_array($dateFormat, $allowedDateFormats, true)) {
-            $dateFormat = 'd/m/Y';
-        }
-
-        $allowedTimeFormats = ['12', '24', 'none'];
-        if (!in_array($timeFormat, $allowedTimeFormats, true)) {
-            $timeFormat = '24';
-        }
-
-        $stmt = $this->pdo->prepare("UPDATE users SET first_name = ?, surname = ?, attribution_display_mode = ?, timezone = ?, date_format = ?, time_format = ?, is_new_user = 0 WHERE id = ?");
-        if ($stmt->execute([$firstName, $surname, $displayMode, $timezone, $dateFormat, $timeFormat, $userId])) {
-            $_SESSION['message'] = "Welcome aboard! Your preferences have been saved.";
-            
-            if (function_exists('has_permission') && has_permission($this->pdo, 'manage_settings')) {
-                header('Location: ' . $basePath . '/admin/settings');
-            } else {
-                header('Location: ' . $basePath . '/data-entry');
-            }
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ' . $basePath . '/login');
             exit;
-        } else {
-            $_SESSION['error'] = "Failed to save onboarding preferences. Please try again.";
+        }
+
+        /** @var array{id: int|string, username: string}|null $currentUser */
+        $currentUser = \get_current_user_data($this->pdo);
+        if ($currentUser === null) {
+            header('Location: ' . $basePath . '/login');
+            exit;
+        }
+
+        require_once dirname(__DIR__, 2) . '/includes/user_preferences.php';
+
+        $normalized = \user_normalize_personal_details($_POST);
+        $applyLangOnly = isset($_POST['apply_language']) && (string) $_POST['apply_language'] === '1';
+
+        // Language switch: keep typed values, switch UI language, stay on onboarding
+        if ($applyLangOnly) {
+            \user_store_personal_draft('onboarding_draft', $normalized);
+            \user_apply_ui_language($normalized['language'], $this->pdo);
             header('Location: ' . $basePath . '/user/onboarding');
             exit;
         }
+
+        $err = \user_validate_personal_details_required($normalized);
+        if ($err !== '') {
+            \user_store_personal_draft('onboarding_draft', $normalized);
+            $_SESSION['error'] = $err;
+            header('Location: ' . $basePath . '/user/onboarding');
+            exit;
+        }
+
+        $userId = $currentUser['id'];
+        if (!\user_save_personal_details($this->pdo, $userId, $normalized, true)) {
+            \user_store_personal_draft('onboarding_draft', $normalized);
+            $_SESSION['error'] = function_exists('__')
+                ? __('onboarding.err_save_failed')
+                : 'Failed to save onboarding preferences. Please try again.';
+            header('Location: ' . $basePath . '/user/onboarding');
+            exit;
+        }
+
+        unset($_SESSION['onboarding_draft']);
+        \user_apply_ui_language($normalized['language'], $this->pdo);
+
+        $_SESSION['message'] = function_exists('__')
+            ? __('onboarding.msg_welcome')
+            : 'Welcome aboard! Your preferences have been saved.';
+
+        // after_save: profile (2FA) or skip to app
+        $after = isset($_POST['after_save']) && is_string($_POST['after_save'])
+            ? $_POST['after_save'] : 'continue';
+        if ($after === 'profile' && \function_exists('has_permission') && \has_permission($this->pdo, 'access_profile')) {
+            header('Location: ' . $basePath . '/profile');
+        } else {
+            header('Location: ' . $basePath . '/data-entry');
+        }
+        exit;
     }
 }

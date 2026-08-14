@@ -559,6 +559,7 @@ return [
 // ------------------------------------------------------------------
     // Installer Wizard
     // ------------------------------------------------------------------
+    'install.back_btn'                  => 'Back',
     'install.complete_title'            => 'Setup complete',
     'install.complete_heading'          => 'Setup complete',
     'install.complete_desc'             => 'This site is already set up. The installer is closed so it cannot be run again by mistake.',
@@ -578,6 +579,8 @@ return [
     'install.err_password_length'       => 'Password must be at least 8 characters.',
     'install.err_passwords_match'       => 'Passwords do not match.',
     'install.err_admin_save_failed'     => 'Admin user was not saved. Check the users table structure.',
+    'install.hide_password'             => 'Hide',
+    'install.lang_label'                => 'Language',
     'install.msg_installation_complete' => 'Installation complete.',
     'install.page_title'                => 'Install — Parish Records Directory',
     'install.heading'                   => 'Install',
@@ -605,6 +608,7 @@ return [
     'install.req_probe'                 => 'Can create files in this project folder',
     'install.continue_btn'              => 'Continue',
     'install.req_fail_msg'              => 'Fix the failed checks, then reload this page.',
+    'install.show_password'             => 'Show',
 
 // ------------------------------------------------------------------
     // Leaderboard
@@ -782,15 +786,28 @@ return [
 // ------------------------------------------------------------------
     // User Onboarding Setup Wizard
     // ------------------------------------------------------------------
+    'onboarding.btn_continue_2fa' => 'Continue to 2FA',
+    'onboarding.btn_skip_for_now' => 'Skip for now',
+    'onboarding.err_names_required' => 'First name and surname are required.',
+    'onboarding.err_save_failed'  => 'Failed to save onboarding preferences. Please try again.',
     'onboarding.page_title'       => 'Welcome - Account Setup Wizard',
     'onboarding.heading'          => 'Welcome to the Team!',
     'onboarding.subheading'       => 'Before you start, please take a moment to configure your regional display settings and privacy preferences. You can always update these later in your profile.',
     'onboarding.timezone_label'   => 'Timezone / Region:',
+    'onboarding.date_fmt_dots'    => '23.07.2026 (Dots - DD.MM.YYYY)',
+    'onboarding.date_fmt_dmy'     => '23/07/2026 (UK Slash - DD/MM/YYYY)',
+    'onboarding.date_fmt_dmy_short' => '23/07/26 (Short Year - DD/MM/YY)',
+    'onboarding.date_fmt_full'    => 'Thursday 23 July 2026 (Full Text)',
+    'onboarding.date_fmt_mdy'     => '07/23/2026 (US Style - MM/DD/YYYY)',
     'onboarding.date_format_label' => 'Date Display Format:',
+    'onboarding.language_label'    => 'Language',
+    'onboarding.lang_site_default' => 'Site default',
+    'onboarding.msg_welcome'       => 'Welcome aboard! Your preferences have been saved.',
+    'onboarding.security_hint'     => 'You can change personal settings anytime by clicking your username in the menu.',
     'onboarding.time_format_label' => 'Clock Format (Time Display):',
-    'onboarding.time_24'          => '24-Hour (e.g., 16:07)',
-    'onboarding.time_12'          => '12-Hour AM/PM (e.g., 04:07 PM)',
-    'onboarding.time_none'        => 'Date Only (Hide Time Completely)',
+    'onboarding.time_24'           => '24-Hour (e.g., 16:07)',
+    'onboarding.time_12'           => '12-Hour AM/PM (e.g., 04:07 PM)',
+    'onboarding.time_none'         => 'Date Only (Hide Time Completely)',
     'onboarding.attribution_label' => 'Leaderboard & Attribution Display Preference:',
     'onboarding.attribution_desc1' => 'Controls how your name appears on the public leaderboard and record logs.',
     'onboarding.attr_anon_title'   => 'Anonymous:',
@@ -836,6 +853,8 @@ return [
     'profile.download_codes_btn'   => 'Download New Codes as .txt',
     'profile.generate_codes_confirm' => 'Are you sure? This will invalidate any existing backup codes.',
     'profile.generate_codes_btn'   => 'Generate New Backup Codes',
+    'profile.err_personal_update'  => 'Failed to update personal details.',
+    'profile.msg_personal_updated' => 'Personal details, timezone, and format settings updated successfully!',
 
 // ------------------------------------------------------------------
     // User Registration

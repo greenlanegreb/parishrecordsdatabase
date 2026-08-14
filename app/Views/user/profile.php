@@ -6,27 +6,24 @@
  * Migrated Date: 2026-08-05 05:11:34
  */
 declare(strict_types=1);
-
 /**
  * MIGRATED FILE MAPPING
  * ---------------------
  * Original Old File: user/profile.php
  * Migrated Date: 2026-08-04 13:30:00
+ *
+ * Personal details: required names; language change reloads UI without losing form draft.
  */
-
 /** @string $error */
 /** @string $message */
 /** @array{id: int|string, username: string, email: string, email_verified?: int|string, first_name?: string, surname?: string, timezone?: string, date_format?: string, time_format?: string, attribution_display_mode?: string, language?: string, two_fa_enabled?: int|string} $currentUser */
 /** @array<int, string> $profileLanguages */
 /** @string $userLanguage */
-
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
-
 <div class="container py-4" style="max-width: 800px;" role="region" aria-label="<?= htmlspecialchars(__('profile.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
     <h3 class="fw-bold text-dark mb-4"><?= htmlspecialchars(__('profile.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
-
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></strong>
@@ -39,36 +36,40 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
-
     <!-- Personal Details Card -->
     <div class="card shadow-sm border-0 p-4 mb-4">
         <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('profile.personal_details_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
         <form method="POST" action="<?= $basePath ?>/profile">
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_personal_details">
-
+            <input type="hidden" name="apply_language" id="apply_language" value="0">
             <div class="mb-3">
                 <label for="first_name" class="form-label small fw-bold"><?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($currentUser['first_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" autocomplete="given-name" class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($currentUser['first_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="given-name" class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?>">
             </div>
-
             <div class="mb-3">
                 <label for="surname" class="form-label small fw-bold"><?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="surname" name="surname" value="<?= htmlspecialchars($currentUser['surname'] ?? '', ENT_QUOTES, 'UTF-8') ?>" autocomplete="family-name" class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="text" id="surname" name="surname" value="<?= htmlspecialchars($currentUser['surname'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="family-name" class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?>">
             </div>
-
             <div class="mb-3">
                 <label for="language" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.language_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <select id="language" name="language" class="form-select form-select-sm">
+                <select id="language" name="language" class="form-select form-select-sm"
+                        onchange="document.getElementById('apply_language').value='1'; this.form.submit();">
                     <option value="" <?= ($userLanguage === '' || $userLanguage === '0') ? 'selected' : '' ?>><?= htmlspecialchars(__('profile.lang_site_default'), ENT_QUOTES, 'UTF-8') ?></option>
-                    <?php foreach ($profileLanguages as $code): ?>
+                    <?php
+                    $langFlags = [
+                        'en' => '🇬🇧', 'fr' => '🇫🇷', 'es' => '🇪🇸', 'de' => '🇩🇪', 'it' => '🇮🇹',
+                        'nl' => '🇳🇱', 'pt' => '🇵🇹', 'pl' => '🇵🇱', 'cy' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿', 'gd' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿', 'ga' => '🇮🇪',
+                    ];
+                    foreach ($profileLanguages as $code):
+                        $flag = $langFlags[strtolower(substr((string)$code, 0, 2))] ?? '🌐';
+                    ?>
                         <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>" <?= ($userLanguage === $code) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars(strtoupper($code), ENT_QUOTES, 'UTF-8') ?>
+                            <?= $flag ?> <?= htmlspecialchars(strtoupper($code), ENT_QUOTES, 'UTF-8') ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
-
             <div class="mb-3">
                 <label for="timezone" class="form-label small fw-bold"><?= htmlspecialchars(__('onboarding.timezone_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <select id="timezone" name="timezone" class="form-select form-select-sm">
@@ -98,18 +99,17 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     ?>
                 </select>
             </div>
-
             <div class="mb-3">
                 <label for="date_format" class="form-label small fw-bold"><?= htmlspecialchars(__('onboarding.date_format_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <select id="date_format" name="date_format" class="form-select form-select-sm">
                     <?php
                     $currentFmt = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
                     $dateFormats = [
-                        'd/m/Y'  => '23/07/2026 (UK Slash - DD/MM/YYYY)',
-                        'd/m/y'  => '23/07/26 (Short Year - DD/MM/YY)',
-                        'd.m.Y'  => '23.07.2026 (Dots - DD.MM.YYYY)',
-                        'm/d/Y'  => '07/23/2026 (US Style - MM/DD/YYYY)',
-                        'l j F Y' => 'Thursday 23 July 2026 (Full Text)'
+                        'd/m/Y'  => __('onboarding.date_fmt_dmy'),
+                        'd/m/y'  => __('onboarding.date_fmt_dmy_short'),
+                        'd.m.Y'  => __('onboarding.date_fmt_dots'),
+                        'm/d/Y'  => __('onboarding.date_fmt_mdy'),
+                        'l j F Y' => __('onboarding.date_fmt_full'),
                     ];
                     foreach ($dateFormats as $fmtKey => $fmtLabel) {
                         $selected = ($currentFmt === $fmtKey) ? 'selected' : '';
@@ -118,7 +118,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     ?>
                 </select>
             </div>
-
             <div class="mb-3">
                 <label for="time_format" class="form-label small fw-bold"><?= htmlspecialchars(__('onboarding.time_format_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <select id="time_format" name="time_format" class="form-select form-select-sm">
@@ -128,7 +127,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     <option value="none" <?= ($currentTimeFmt === 'none') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.time_none'), ENT_QUOTES, 'UTF-8') ?></option>
                 </select>
             </div>
-
             <div class="mb-3">
                 <label for="attribution_display_mode" class="form-label small fw-bold"><?= htmlspecialchars(__('onboarding.attribution_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <small class="text-muted d-block mb-2">
@@ -144,11 +142,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     <option value="volunteers_only" <?= ($mode === 'volunteers_only') ? 'selected' : '' ?>><?= htmlspecialchars(__('onboarding.attr_opt_vol'), ENT_QUOTES, 'UTF-8') ?></option>
                 </select>
             </div>
-
-            <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('profile.update_details_btn'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button type="submit" class="btn btn-sm btn-primary" onclick="document.getElementById('apply_language').value='0';"><?= htmlspecialchars(__('profile.update_details_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
     </div>
-
     <!-- Email Settings Card -->
     <div class="card shadow-sm border-0 p-4 mb-4">
         <h4 class="h5 fw-bold text-dark mb-2"><?= htmlspecialchars(__('profile.email_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
@@ -170,7 +166,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('profile.update_email_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
     </div>
-
     <!-- Password Security Card -->
     <div class="card shadow-sm border-0 p-4 mb-4">
         <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('profile.password_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
@@ -178,7 +173,6 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <?= csrf_field() ?>
             <input type="hidden" name="action" value="update_password">
             <input type="text" name="username" value="<?= htmlspecialchars($currentUser['username'], ENT_QUOTES, 'UTF-8') ?>" autocomplete="username" class="d-none" aria-hidden="true">
-
             <div class="mb-3">
                 <label for="current_password" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.current_password_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="password" id="current_password" name="current_password" autocomplete="current-password" required class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('profile.current_password_label'), ENT_QUOTES, 'UTF-8') ?>">
@@ -203,17 +197,15 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('profile.update_password_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
     </div>
-
     <!-- 2FA & Backup Codes Card -->
     <div class="card shadow-sm border-0 p-4">
         <h4 class="h5 fw-bold text-dark mb-2"><?= htmlspecialchars(__('profile.tfa_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
         <p class="small text-muted mb-3">
-            <?= htmlspecialchars(__('profile.tfa_status_label'), ENT_QUOTES, 'UTF-8') ?> 
+            <?= htmlspecialchars(__('profile.tfa_status_label'), ENT_QUOTES, 'UTF-8') ?>
             <strong>
                 <?= !empty($currentUser['two_fa_enabled']) ? '<span class="text-success">' . htmlspecialchars(__('profile.tfa_enabled'), ENT_QUOTES, 'UTF-8') . '</span>' : '<span class="text-secondary">' . htmlspecialchars(__('profile.tfa_disabled'), ENT_QUOTES, 'UTF-8') . '</span>' ?>
             </strong>
         </p>
-
         <?php if (empty($currentUser['two_fa_enabled'])): ?>
             <form method="POST" action="<?= $basePath ?>/profile">
                 <?= csrf_field() ?>
@@ -241,5 +233,4 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <?php endif; ?>
     </div>
 </div>
-
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

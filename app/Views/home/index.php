@@ -51,9 +51,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <h3 class="h5 fw-bold mb-2">⚠️ <?= htmlspecialchars(__('index.no_tables_heading'), ENT_QUOTES, 'UTF-8') ?></h3>
             <p class="mb-3"><?= htmlspecialchars(__('index.no_tables_desc'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php if ($isAdmin): ?>
-                <p><?= __('index.admin_create_table_guide', ['link' => $basePath . '/admin/manage-tables']) ?></p>
+                <p><?= __('index.admin_create_table_guide', ['link' => $basePath . '/admin/tables']) ?></p>
                 <div>
-                    <a href="<?= $basePath ?>/admin/manage-tables" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="<?= $basePath ?>/admin/tables" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
                 </div>
             <?php elseif ($currentUser !== null): ?>
                 <p class="mb-0"><?= htmlspecialchars(__('index.contact_admin_tables'), ENT_QUOTES, 'UTF-8') ?></p>
@@ -68,7 +68,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <?php if ($isAdmin): ?>
                 <p><?= htmlspecialchars(__('index.admin_add_columns_guide'), ENT_QUOTES, 'UTF-8') ?></p>
                 <div>
-                    <a href="<?= $basePath ?>/admin/manage-tables" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="<?= $basePath ?>/admin/tables" class="btn btn-primary btn-sm px-4"><?= htmlspecialchars(__('index.go_to_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
                 </div>
             <?php else: ?>
                 <p class="mb-0"><?= htmlspecialchars(__('index.contact_admin_columns'), ENT_QUOTES, 'UTF-8') ?></p>
