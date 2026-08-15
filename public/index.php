@@ -21,6 +21,24 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // 4. APPLICATION INITIALIZATION (Loads BASE_PATH, sessions, functions, auth helpers, security, and $pdo)
 require_once __DIR__ . '/../includes/init.php';
 
+//4a Dismiss Notices Move from partials/header.php
+
+// public/index.php — after require init.php, before FastRoute
+if (isset($_GET['dismiss_notice'])) {
+    $dismissId = (int) $_GET['dismiss_notice'];
+    if ($dismissId > 0) {
+        if (!isset($_SESSION['dismissed_notices']) || !is_array($_SESSION['dismissed_notices'])) {
+            $_SESSION['dismissed_notices'] = [];
+        }
+        $_SESSION['dismissed_notices'][$dismissId] = true;
+    }
+    $uri = isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI'])
+        ? $_SERVER['REQUEST_URI'] : '/';
+    $clean = strtok($uri, '?') ?: '/';
+    header('Location: ' . $clean);
+    exit;
+}
+
 // 5. NORMALIZE URI FOR GLOBAL GATEKEEPING
 $server = $_SERVER;
 $httpMethod = isset($server['REQUEST_METHOD']) && is_string($server['REQUEST_METHOD']) ? $server['REQUEST_METHOD'] : 'GET';
