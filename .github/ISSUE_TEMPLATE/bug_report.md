@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve - Please Add a Priority Label too!
 title: "[BUG]"
-labels: bug, enhancement
+labels: Language
 assignees: greenlanegreb
 
 ---
