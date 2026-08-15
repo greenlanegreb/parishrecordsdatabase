@@ -35,6 +35,15 @@ declare(strict_types=1);
                         <?php endif; ?>
                     </div>
                 </form>
+
+                <?php if ($editTable): ?>
+                    <form method="POST" action="<?= $basePath ?>/admin/tables" class="mt-3 pt-3 border-top" onsubmit="return confirm('⚠️ Are you sure you want to delete this table? All associated records and structure will be permanently removed.');">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="action" value="delete_table">
+                        <input type="hidden" name="table_id" value="<?= (int)($editTable['id'] ?? 0) ?>">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete Table</button>
+                    </form>
+                <?php endif; ?>
             </div>
         </details>
     </div>
