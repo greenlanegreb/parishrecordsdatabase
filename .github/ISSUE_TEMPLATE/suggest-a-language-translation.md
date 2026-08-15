@@ -2,7 +2,7 @@
 name: Suggest a Language Translation
 about: This is for areas of PRD that do not translate
 title: ''
-labels: ''
+labels: Language
 assignees: greenlanegreb
 
 ---
@@ -22,7 +22,9 @@ about: Language Translation Needed
 
 
 ## What were you doing on PRD at the time please?
-This helps us to locate the offending files.
+This helps us to locate the offending files:
+
+
 
 ## Additional context
 Add any other context, mockups, or screenshots about the feature request here.
