@@ -21,6 +21,8 @@
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
         "test": "phpunit"
+        "lang:sort": "php scripts/langSortUtility/sort_lang_blocks.php",
+        "lang:check": "php scripts/langSortUtility/check_counts.php"
     },
     "config": {
         "sort-packages": true

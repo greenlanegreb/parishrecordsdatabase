@@ -6,6 +6,15 @@
  * Migrated Date: 2026-08-04 12:00:00
  */
 declare(strict_types=1);
+/** Translate with fallback when lang key is missing. @return string */
+$__t = static function (string $key, string $fallback = ''): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v !== $key && $v !== '') {
+        return $v;
+    }
+    return $fallback !== '' ? $fallback : $key;
+};
+
 
 /** @string $message */
 /** @string $error */
@@ -50,24 +59,24 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
     <?php if ($totalTablesCount === 0): ?>
         <div class="card shadow-sm border-0 bg-warning bg-opacity-10 text-warning-emphasis p-4 mb-4">
-            <h3 class="h5 fw-bold mb-2"><?= htmlspecialchars(__('data_entry.no_tables_heading'), ENT_QUOTES, 'UTF-8') ?></h3>
-            <p class="mb-2"><?= htmlspecialchars(__('data_entry.no_tables_desc'), ENT_QUOTES, 'UTF-8') ?></p>
+            <h3 class="h5 fw-bold mb-2"><?= htmlspecialchars($__t('data_entry.no_tables_heading', 'No Tables Configured'), ENT_QUOTES, 'UTF-8') ?></h3>
+            <p class="mb-2"><?= htmlspecialchars($__t('data_entry.no_tables_desc', 'There are no tables available for data entry.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php if ($isAdmin): ?>
-                <p class="mb-2"><?= __('data_entry.admin_tables_prompt') ?></p>
-                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars(__('data_entry.go_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                <p class="mb-2"><?= htmlspecialchars($__t('data_entry.admin_tables_prompt', 'You can configure tables and columns in the admin area.'), ENT_QUOTES, 'UTF-8') ?></p>
+                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars($__t('data_entry.go_manage_tables', 'Manage Tables'), ENT_QUOTES, 'UTF-8') ?></a>
             <?php else: ?>
-                <p class="mb-0"><?= htmlspecialchars(__('data_entry.contact_admin_tables'), ENT_QUOTES, 'UTF-8') ?></p>
+                <p class="mb-0"><?= htmlspecialchars($__t('data_entry.contact_admin_tables', 'Please contact an administrator to set up tables.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php endif; ?>
         </div>
     <?php elseif ($totalColumnsCount === 0): ?>
         <div class="card shadow-sm border-0 bg-warning bg-opacity-10 text-warning-emphasis p-4 mb-4">
-            <h3 class="h5 fw-bold mb-2"><?= htmlspecialchars(__('data_entry.no_cols_heading'), ENT_QUOTES, 'UTF-8') ?></h3>
-            <p class="mb-2"><?= htmlspecialchars(__('data_entry.no_cols_desc'), ENT_QUOTES, 'UTF-8') ?></p>
+            <h3 class="h5 fw-bold mb-2"><?= htmlspecialchars($__t('data_entry.no_cols_heading', 'No Columns Configured'), ENT_QUOTES, 'UTF-8') ?></h3>
+            <p class="mb-2"><?= htmlspecialchars($__t('data_entry.no_cols_desc', 'This table has no active columns defined.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php if ($isAdmin): ?>
-                <p class="mb-2"><?= __('data_entry.admin_cols_prompt') ?></p>
-                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars(__('data_entry.go_manage_tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                <p class="mb-2"><?= htmlspecialchars($__t('data_entry.admin_cols_prompt', 'You can add columns to this table in the admin area.'), ENT_QUOTES, 'UTF-8') ?></p>
+                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars($__t('data_entry.go_manage_tables', 'Manage Tables'), ENT_QUOTES, 'UTF-8') ?></a>
             <?php else: ?>
-                <p class="mb-0"><?= htmlspecialchars(__('data_entry.contact_admin_cols'), ENT_QUOTES, 'UTF-8') ?></p>
+                <p class="mb-0"><?= htmlspecialchars($__t('data_entry.contact_admin_cols', 'Please contact an administrator to configure columns.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php endif; ?>
         </div>
     <?php else: ?>
@@ -193,7 +202,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     .catch(() => {
                         const tbody = document.getElementById('data-entry-table-body');
                         if (tbody) {
-                            tbody.innerHTML = '<tr><td colspan="99" class="text-center py-4 text-muted">Error loading records</td></tr>';
+                            const errorMsg = '<?= htmlspecialchars($__t('data_entry.error_loading', 'Error loading records'), ENT_QUOTES, 'UTF-8') ?>';
+                            tbody.innerHTML = '<tr><td colspan="99" class="text-center py-4 text-muted">' + errorMsg + '</td></tr>';
                         }
                     });
             }
@@ -277,7 +287,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 });
 
                 navigator.clipboard.writeText(textContent).then(() => {
-                    alert('<?= htmlspecialchars(__('data_entry.clipboard_alert'), ENT_QUOTES, 'UTF-8') ?>');
+                    alert('<?= htmlspecialchars($__t('data_entry.clipboard_alert', 'Copied to clipboard!'), ENT_QUOTES, 'UTF-8') ?>');
                 }).catch(err => {
                     console.error('Failed to copy text: ', err);
                 });

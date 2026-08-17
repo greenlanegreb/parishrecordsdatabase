@@ -39,25 +39,36 @@ $isLoggedIn = ($currentUser !== null || isset($_SESSION['user_id']));
 
 // Optional flags for common languages; others still appear by scanned name
 $languageMeta = [
-    'en' => ['name' => 'English', 'flag' => '🇬🇧'],
-    'en_US' => ['name' => 'English (US)', 'flag' => '🇺🇸'],
-    'en_AU' => ['name' => 'English (AU)', 'flag' => '🇦🇺'],
-    'cy' => ['name' => 'Cymraeg', 'flag' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿'],
-    'gd' => ['name' => 'Gàidhlig', 'flag' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿'],
-    'ga' => ['name' => 'Gaeilge', 'flag' => '🇮🇪'],
-    'fr' => ['name' => 'Français', 'flag' => '🇫🇷'],
-    'de' => ['name' => 'Deutsch', 'flag' => '🇩🇪'],
-    'es' => ['name' => 'Español', 'flag' => '🇪🇸'],
-    'pt' => ['name' => 'Português', 'flag' => '🇵🇹'],
-    'pt_BR' => ['name' => 'Português (BR)', 'flag' => '🇧🇷'],
-    'pl' => ['name' => 'Polski', 'flag' => '🇵🇱'],
-    'it' => ['name' => 'Italiano', 'flag' => '🇮🇹'],
-    'ru' => ['name' => 'Русский', 'flag' => '🇷🇺'],
-    'uk' => ['name' => 'Українська', 'flag' => '🇺🇦'],
-    'ar' => ['name' => 'العربية', 'flag' => '🇸🇦'],
-    'zh_CN' => ['name' => '中文 (简体)', 'flag' => '🇨🇳'],
-    'zh_TW' => ['name' => '中文 (繁體)', 'flag' => '🇹🇼'],
-    'ja' => ['name' => '日本語', 'flag' => '🇯🇵'],
+    'ar'     => ['name' => 'العربية', 'flag' => '🇸🇦'],
+    'br'     => ['name' => 'Brezhoneg', 'flag' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿'], // or appropriate flag
+    'da'     => ['name' => 'Dansk', 'flag' => '🇩🇰'],
+    'de'     => ['name' => 'Deutsch', 'flag' => '🇩🇪'],
+    'en'     => ['name' => 'English', 'flag' => '🇬🇧'],
+    'en_AU'  => ['name' => 'English (AU)', 'flag' => '🇦🇺'],
+    'en_GB_chav' => ['name' => 'English (Chav)', 'flag' => '🇬🇧'],
+    'en_US'  => ['name' => 'English (US)', 'flag' => '🇺🇸'],
+    'es'     => ['name' => 'Español', 'flag' => '🇪🇸'],
+    'fa'     => ['name' => 'فارسی', 'flag' => '🇮🇷'],
+    'fr'     => ['name' => 'Français', 'flag' => '🇫🇷'],
+    'ga'     => ['name' => 'Gaeilge', 'flag' => '🇮🇪'],
+    'gd'     => ['name' => 'Gàidhlig', 'flag' => '🏴󠁧󠁢󠁳󠁣󠁴󠁿'],
+    'gv'     => ['name' => 'Gaelg', 'flag' => '🇮🇲'],
+    'it'     => ['name' => 'Italiano', 'flag' => '🇮🇹'],
+    'ja'     => ['name' => '日本語', 'flag' => '🇯🇵'],
+    'kw'     => ['name' => 'Kernewek', 'flag' => '🏴󠁧󠁢󠁧󠁿'],
+    'ln'     => ['name' => 'Lingála', 'flag' => '🇨🇩'],
+    'pl'     => ['name' => 'Polski', 'flag' => '🇵🇱'],
+    'prs'    => ['name' => 'Dari', 'flag' => '🇦🇫'],
+    'ps'     => ['name' => 'پښتو', 'flag' => '🇦🇫'],
+    'pt'     => ['name' => 'Português', 'flag' => '🇵🇹'],
+    'pt_BR'  => ['name' => 'Português (BR)', 'flag' => '🇧🇷'],
+    'rn'     => ['name' => 'Kirundi', 'flag' => '🇧🇮'],
+    'ru'     => ['name' => 'Русский', 'flag' => '🇷🇺'],
+    'so'     => ['name' => 'Soomaali', 'flag' => '🇸🇴'],
+    'uk'     => ['name' => 'Українська', 'flag' => '🇺🇦'],
+    'cy'     => ['name' => 'Cymraeg', 'flag' => '🏴󠁧󠁢󠁷󠁬󠁳󠁿'],
+    'zh_CN'  => ['name' => '中文 (简体)', 'flag' => '🇨🇳'],
+    'zh_TW'  => ['name' => '中文 (繁體)', 'flag' => '🇹🇼'],
 ];
 
 $navLanguages = [];
@@ -149,15 +160,15 @@ $navActive = static function (string $route) use ($currentRoute): string {
             <div class="d-inline-flex align-items-center gap-2">
                 <label for="site-lang-select" class="text-white-50 mb-0">
                     <span aria-hidden="true">🌐</span>
-                    <span class="visually-hidden">Language</span>
+                    <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
                 </label>
                 <select id="site-lang-select"
                         onchange="if(this.value) window.location.href='?lang=' + encodeURIComponent(this.value);"
                         class="form-select form-select-sm bg-dark text-white border-secondary py-0 px-2"
                         style="width: auto; font-size: 0.85rem;"
-                        aria-label="Select language">
+                        aria-label="<?= htmlspecialchars(__('nav.select_language'), ENT_QUOTES, 'UTF-8') ?>"
                     <?php foreach ($navLanguages as $code => $label): ?>
-                        <?php $flag = $languageMeta[$code]['flag'] ?? ''; ?>
+                        <?php $flag = $languageMeta[$code]['flag'] ?? '🌐'; ?>
                         <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>"
                             <?= ($code === $activeLang) ? 'selected' : '' ?> class="bg-dark text-white">
                             <?= htmlspecialchars(trim($flag . ' ' . $label), ENT_QUOTES, 'UTF-8') ?>
@@ -177,7 +188,7 @@ $navActive = static function (string $route) use ($currentRoute): string {
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                 data-bs-target="#mainNavbarContent" aria-controls="mainNavbarContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="<?= htmlspecialchars(__('nav.toggle_navigation'), ENT_QUOTES, 'UTF-8') ?>">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -241,7 +252,7 @@ $navActive = static function (string $route) use ($currentRoute): string {
                             <a class="nav-link dropdown-toggle <?= (str_starts_with($currentRoute, '/admin') && !str_starts_with($currentRoute, '/admin/moderation')) ? 'active fw-bold text-primary' : '' ?>"
                                href="#" id="adminNavDropdown" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
+                                <?= htmlspecialchars(__('nav.admin'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="adminNavDropdown">
                                 <?php if ($canManageUsers): ?>
@@ -298,7 +309,7 @@ $navActive = static function (string $route) use ($currentRoute): string {
                             <?= htmlspecialchars(__('nav.welcome'), ENT_QUOTES, 'UTF-8') ?>
                             <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile"
                                class="fw-bold text-dark text-decoration-none <?= $navActive('/profile') ?>"
-                               aria-label="Profile">
+                               aria-label="<?= htmlspecialchars(__('nav.profile'), ENT_QUOTES, 'UTF-8') ?>">
                                 <?= htmlspecialchars($displayIdentifier, ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </span>

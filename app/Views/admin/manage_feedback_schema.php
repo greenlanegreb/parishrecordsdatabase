@@ -6,6 +6,15 @@
  * Migrated Date: 2026-08-04 09:35:12
  */
 declare(strict_types=1);
+/** Translate with fallback when lang key is missing. @return string */
+$__t = static function (string $key, string $fallback = ''): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v !== $key && $v !== '') {
+        return $v;
+    }
+    return $fallback !== '' ? $fallback : $key;
+};
+
 
 /** @string $message */
 /** @string $error */
@@ -22,11 +31,11 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 
 <div class="container py-4" style="max-width: 1100px;">
-    <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('feedback_schema.heading') ?? 'Manage Ticket Form Schema', ENT_QUOTES, 'UTF-8') ?></h3>
-    <p class="text-muted mb-3"><?= htmlspecialchars(__('feedback_schema.subheading') ?? 'Customize form fields and submission requirements.', ENT_QUOTES, 'UTF-8') ?></p>
+    <h3 class="fw-bold mb-1"><?= htmlspecialchars($__t('feedback_schema.heading', 'Manage Ticket Form Schema'), ENT_QUOTES, 'UTF-8') ?></h3>
+    <p class="text-muted mb-3"><?= htmlspecialchars($__t('feedback_schema.subheading', 'Customize form fields and submission requirements.'), ENT_QUOTES, 'UTF-8') ?></p>
 
     <div class="mb-4">
-        <a href="<?= $basePath ?>/admin/tickets" class="btn btn-outline-secondary">← <?= htmlspecialchars(__('feedback_emails.back_to_dashboard') ?? 'Back to Ticket Dashboard', ENT_QUOTES, 'UTF-8') ?></a>
+        <a href="<?= $basePath ?>/admin/tickets" class="btn btn-outline-secondary">← <?= htmlspecialchars($__t('feedback_emails.back_to_dashboard', 'Back to Ticket Dashboard'), ENT_QUOTES, 'UTF-8') ?></a>
     </div>
 
     <!-- Feedback Alerts -->
@@ -48,7 +57,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <div class="card-body">
             <details>
                 <summary class="fw-bold fs-5 text-dark" style="cursor: pointer;">
-                    ✏️ <?= htmlspecialchars(__('feedback_schema.settings_summary') ?? 'Form Settings', ENT_QUOTES, 'UTF-8') ?>
+                    ✏️ <?= htmlspecialchars($__t('feedback_schema.settings_summary', 'Form Settings'), ENT_QUOTES, 'UTF-8') ?>
                 </summary>
                 <div class="mt-3 pt-3 border-top">
                     <form method="POST" action="<?= $basePath ?>/admin/feedback/schema/store">
@@ -56,16 +65,16 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                         <input type="hidden" name="action" value="update_settings">
 
                         <div class="mb-3">
-                            <label for="form_title" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.form_title_label') ?? 'Form Title', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="form_title" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.form_title_label', 'Form Title'), ENT_QUOTES, 'UTF-8') ?></label>
                             <input type="text" id="form_title" name="form_title" value="<?= htmlspecialchars($formTitle, ENT_QUOTES, 'UTF-8') ?>" class="form-control max-width-600" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="form_intro" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.form_intro_label') ?? 'Form Introduction', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="form_intro" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.form_intro_label', 'Form Introduction'), ENT_QUOTES, 'UTF-8') ?></label>
                             <textarea id="form_intro" name="form_intro" rows="3" class="form-control" required><?= htmlspecialchars($formIntro, ENT_QUOTES, 'UTF-8') ?></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('feedback_schema.save_settings_btn') ?? 'Save Settings', ENT_QUOTES, 'UTF-8') ?></button>
+                        <button type="submit" class="btn btn-primary"><?= htmlspecialchars($__t('feedback_schema.save_settings_btn', 'Save Settings'), ENT_QUOTES, 'UTF-8') ?></button>
                     </form>
                 </div>
             </details>
@@ -77,7 +86,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <div class="card-body">
             <details id="create-column-details" <?= $editCol ? 'open' : '' ?>>
                 <summary class="fw-bold fs-5 text-dark" style="cursor: pointer;">
-                    <?= $editCol ? htmlspecialchars(__('feedback_schema.edit_field_title') ?? 'Edit Field:', ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('feedback_schema.add_field_title') ?? 'Add New Field', ENT_QUOTES, 'UTF-8') ?>
+                    <?= $editCol ? htmlspecialchars($__t('feedback_schema.edit_field_title', 'Edit Field:'), ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : htmlspecialchars($__t('feedback_schema.add_field_title', 'Add New Field'), ENT_QUOTES, 'UTF-8') ?>
                 </summary>
 
                 <div class="mt-3 pt-3 border-top">
@@ -89,64 +98,64 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                         <?php endif; ?>
 
                         <div class="mb-3">
-                            <label for="column_name" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.field_name_label') ?? 'Field Name', ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span></label>
+                            <label for="column_name" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.field_name_label', 'Field Name'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span></label>
                             <input type="text" id="column_name" name="column_name" value="<?= $editCol ? htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" required class="form-control max-width-400">
                         </div>
 
                         <div class="mb-3">
-                            <label for="data_type" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.data_type_label') ?? 'Data Type', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="data_type" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.data_type_label', 'Data Type'), ENT_QUOTES, 'UTF-8') ?></label>
                             <select id="data_type" name="data_type" class="form-select max-width-400" onchange="updateSubtypeOptions(this.value)">
-                                <option value="VARCHAR" <?= ($editCol && ($editCol['data_type'] ?? '') === 'VARCHAR') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_varchar') ?? 'VARCHAR', ENT_QUOTES, 'UTF-8') ?></option>
-                                <option value="TEXT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'TEXT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_text') ?? 'TEXT', ENT_QUOTES, 'UTF-8') ?></option>
-                                <option value="INT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_int') ?? 'INT', ENT_QUOTES, 'UTF-8') ?></option>
-                                <option value="BOOLEAN" <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean') ?? 'BOOLEAN', ENT_QUOTES, 'UTF-8') ?></option>
-                                <option value="DATE" <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date') ?? 'DATE', ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="VARCHAR" <?= ($editCol && ($editCol['data_type'] ?? '') === 'VARCHAR') ? 'selected' : '' ?>><?= htmlspecialchars($__t('feedback_schema.type_varchar', 'VARCHAR'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="TEXT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'TEXT') ? 'selected' : '' ?>><?= htmlspecialchars($__t('feedback_schema.type_text', 'TEXT'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="INT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars($__t('feedback_schema.type_int', 'INT'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="BOOLEAN" <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars($__t('feedback_schema.type_boolean', 'BOOLEAN'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="DATE" <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars($__t('feedback_schema.type_date', 'DATE'), ENT_QUOTES, 'UTF-8') ?></option>
                             </select>
                         </div>
 
                         <!-- Sub-type Selector -->
                         <div id="subtype_wrapper" class="mb-3">
-                            <label for="field_subtype" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.subtype_label') ?? 'Field Subtype', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="field_subtype" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.subtype_label', 'Field Subtype'), ENT_QUOTES, 'UTF-8') ?></label>
                             <select id="field_subtype" name="field_subtype" class="form-select max-width-400" onchange="toggleExtraFieldOptions()">
-                                <option value=""><?= htmlspecialchars(__('feedback_schema.subtype_standard') ?? 'Standard', ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value=""><?= htmlspecialchars($__t('feedback_schema.subtype_standard', 'Standard'), ENT_QUOTES, 'UTF-8') ?></option>
                             </select>
                         </div>
 
                         <!-- Options Input Box -->
                         <div id="field_options_wrapper" class="mb-3" style="display: none;">
-                            <label for="field_options" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.options_label') ?? 'Options (comma separated or line by line)', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="field_options" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.options_label', 'Options (comma separated or line by line)'), ENT_QUOTES, 'UTF-8') ?></label>
                             <textarea id="field_options" name="field_options" rows="4" placeholder="Low, Medium, High&#10;Urgent, Non-Urgent" class="form-control max-width-400"><?= $editCol ? htmlspecialchars((string)($editCol['field_options'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?></textarea>
-                            <div class="form-text"><?= htmlspecialchars(__('feedback_schema.options_help') ?? 'Provide options for select/radio/checkbox fields.', ENT_QUOTES, 'UTF-8') ?></div>
+                            <div class="form-text"><?= htmlspecialchars($__t('feedback_schema.options_help', 'Provide options for select/radio/checkbox fields.'), ENT_QUOTES, 'UTF-8') ?></div>
                         </div>
 
                         <!-- Allow Multiple Checkbox -->
                         <div id="allow_multiple_wrapper" class="mb-3 form-check" style="display: none;">
                             <input type="checkbox" id="allow_multiple" name="allow_multiple" value="1" <?= ($editCol && !empty($editCol['allow_multiple'])) ? 'checked' : '' ?> class="form-check-input">
-                            <label for="allow_multiple" class="form-check-label"><?= htmlspecialchars(__('feedback_schema.allow_multiple') ?? 'Allow Multiple Selections', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="allow_multiple" class="form-check-label"><?= htmlspecialchars($__t('feedback_schema.allow_multiple', 'Allow Multiple Selections'), ENT_QUOTES, 'UTF-8') ?></label>
                         </div>
 
                         <div id="boolean_options_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'block' : 'none' ?>;">
-                            <label for="boolean_display_format" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.boolean_format') ?? 'Boolean Display Format', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="boolean_display_format" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.boolean_format', 'Boolean Display Format'), ENT_QUOTES, 'UTF-8') ?></label>
                             <select id="boolean_display_format" name="boolean_display_format" class="form-select max-width-400">
-                                <option value="yes_no" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars(__('index.opt_yes_true') ?? 'Yes / No', ENT_QUOTES, 'UTF-8') ?></option>
-                                <option value="true_false" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars(__('index.opt_true') ?? 'True / False', ENT_QUOTES, 'UTF-8') ?></option>
-                                <option value="tick_cross" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars(__('index.opt_tick') ?? 'Tick / Cross', ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="yes_no" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars($__t('index.opt_yes_true', 'Yes / No'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="true_false" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars($__t('index.opt_true', 'True / False'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="tick_cross" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars($__t('index.opt_tick', 'Tick / Cross'), ENT_QUOTES, 'UTF-8') ?></option>
                             </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="max_length" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.max_length_label') ?? 'Max Length', ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="max_length" class="form-label fw-bold"><?= htmlspecialchars($__t('feedback_schema.max_length_label', 'Max Length'), ENT_QUOTES, 'UTF-8') ?></label>
                             <input type="number" id="max_length" name="max_length" value="<?= $editCol ? htmlspecialchars((string)($editCol['max_length'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" placeholder="e.g. 255" class="form-control max-width-400">
                         </div>
 
                         <div class="mb-3 form-check">
                             <input type="checkbox" id="is_required" name="is_required" value="1" <?= ($editCol && !empty($editCol['is_required'])) ? 'checked' : '' ?> class="form-check-input">
-                            <label for="is_required" class="form-check-label"><?= htmlspecialchars(__('feedback_schema.is_required_label') ?? 'Required Field', ENT_QUOTES, 'UTF-8') ?> (<span class="text-danger">*</span>)</label>
+                            <label for="is_required" class="form-check-label"><?= htmlspecialchars($__t('feedback_schema.is_required_label', 'Required Field'), ENT_QUOTES, 'UTF-8') ?> (<span class="text-danger">*</span>)</label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary"><?= $editCol ? htmlspecialchars(__('feedback_schema.save_field_btn') ?? 'Update Field', ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('feedback_schema.create_field_btn') ?? 'Create Field', ENT_QUOTES, 'UTF-8') ?></button>
+                        <button type="submit" class="btn btn-primary"><?= $editCol ? htmlspecialchars($__t('feedback_schema.save_field_btn', 'Update Field'), ENT_QUOTES, 'UTF-8') : htmlspecialchars($__t('feedback_schema.create_field_btn', 'Create Field'), ENT_QUOTES, 'UTF-8') ?></button>
                         <?php if ($editCol): ?>
-                            <a href="<?= $basePath ?>/admin/feedback/schema" class="btn btn-outline-secondary ms-2"><?= htmlspecialchars(__('btn.cancel') ?? 'Cancel', ENT_QUOTES, 'UTF-8') ?></a>
+                            <a href="<?= $basePath ?>/admin/feedback/schema" class="btn btn-outline-secondary ms-2"><?= htmlspecialchars($__t('btn.cancel', 'Cancel'), ENT_QUOTES, 'UTF-8') ?></a>
                         <?php endif; ?>
                     </form>
                 </div>
@@ -158,14 +167,14 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     function updateSubtypeOptions(dataType) {
         var subSelect = document.getElementById('field_subtype');
         var currentSubtype = "<?= $editCol && isset($editCol['field_subtype']) && is_string($editCol['field_subtype']) ? $editCol['field_subtype'] : '' ?>";
-        subSelect.innerHTML = '<option value=""><?= htmlspecialchars(__('feedback_schema.subtype_standard') ?? 'Standard', ENT_QUOTES, 'UTF-8') ?></option>';
+        subSelect.innerHTML = '<option value=""><?= htmlspecialchars($__t('feedback_schema.subtype_standard', 'Standard'), ENT_QUOTES, 'UTF-8') ?></option>';
 
         if (dataType === 'VARCHAR') {
-            subSelect.innerHTML += '<option value="email"><?= htmlspecialchars(__('feedback_schema.sub_email') ?? 'Email', ENT_QUOTES, 'UTF-8') ?></option><option value="url"><?= htmlspecialchars(__('feedback_schema.sub_url') ?? 'URL', ENT_QUOTES, 'UTF-8') ?></option><option value="select"><?= htmlspecialchars(__('feedback_schema.sub_select') ?? 'Select Dropdown', ENT_QUOTES, 'UTF-8') ?></option><option value="radio"><?= htmlspecialchars(__('feedback_schema.sub_radio') ?? 'Radio Buttons', ENT_QUOTES, 'UTF-8') ?></option><option value="checkbox"><?= htmlspecialchars(__('feedback_schema.sub_checkbox') ?? 'Checkboxes', ENT_QUOTES, 'UTF-8') ?></option>';
+            subSelect.innerHTML += '<option value="email"><?= htmlspecialchars($__t('feedback_schema.sub_email', 'Email'), ENT_QUOTES, 'UTF-8') ?></option><option value="url"><?= htmlspecialchars($__t('feedback_schema.sub_url', 'URL'), ENT_QUOTES, 'UTF-8') ?></option><option value="select"><?= htmlspecialchars($__t('feedback_schema.sub_select', 'Select Dropdown'), ENT_QUOTES, 'UTF-8') ?></option><option value="radio"><?= htmlspecialchars($__t('feedback_schema.sub_radio', 'Radio Buttons'), ENT_QUOTES, 'UTF-8') ?></option><option value="checkbox"><?= htmlspecialchars($__t('feedback_schema.sub_checkbox', 'Checkboxes'), ENT_QUOTES, 'UTF-8') ?></option>';
         } else if (dataType === 'TEXT') {
-            subSelect.innerHTML += '<option value="textarea"><?= htmlspecialchars(__('feedback_schema.sub_textarea') ?? 'Textarea', ENT_QUOTES, 'UTF-8') ?></option>';
+            subSelect.innerHTML += '<option value="textarea"><?= htmlspecialchars($__t('feedback_schema.sub_textarea', 'Textarea'), ENT_QUOTES, 'UTF-8') ?></option>';
         } else if (dataType === 'INT') {
-            subSelect.innerHTML += '<option value="number"><?= htmlspecialchars(__('feedback_schema.sub_number') ?? 'Number', ENT_QUOTES, 'UTF-8') ?></option>';
+            subSelect.innerHTML += '<option value="number"><?= htmlspecialchars($__t('feedback_schema.sub_number', 'Number'), ENT_QUOTES, 'UTF-8') ?></option>';
         }
 
         subSelect.value = currentSubtype;
@@ -197,26 +206,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
     <hr class="my-4">
 
-    <h3 class="fw-bold mb-3"><?= htmlspecialchars(__('feedback_schema.existing_fields_heading') ?? 'Existing Form Fields', ENT_QUOTES, 'UTF-8') ?></h3>
+    <h3 class="fw-bold mb-3"><?= htmlspecialchars($__t('feedback_schema.existing_fields_heading', 'Existing Form Fields'), ENT_QUOTES, 'UTF-8') ?></h3>
     <div class="card shadow-sm border-0">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0" role="table">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col" style="width: 50px;" class="text-center py-3 ps-3"><?= htmlspecialchars(__('feedback_schema.th_move') ?? 'Move', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_field_name') ?? 'Field Name', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_data_type') ?? 'Data Type', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_subtype') ?? 'Subtype', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_required') ?? 'Required', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_max_length') ?? 'Max Length', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_created_by') ?? 'Created By', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3 pe-3 text-end"><?= htmlspecialchars(__('index.th_actions') ?? 'Actions', ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" style="width: 50px;" class="text-center py-3 ps-3"><?= htmlspecialchars($__t('feedback_schema.th_move', 'Move'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3"><?= htmlspecialchars($__t('feedback_schema.th_field_name', 'Field Name'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3"><?= htmlspecialchars($__t('feedback_schema.th_data_type', 'Data Type'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3"><?= htmlspecialchars($__t('feedback_schema.th_subtype', 'Subtype'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3"><?= htmlspecialchars($__t('feedback_schema.th_required', 'Required'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3"><?= htmlspecialchars($__t('feedback_schema.th_max_length', 'Max Length'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3"><?= htmlspecialchars($__t('feedback_schema.th_created_by', 'Created By'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3 pe-3 text-end"><?= htmlspecialchars($__t('index.th_actions', 'Actions'), ENT_QUOTES, 'UTF-8') ?></th>
                     </tr>
                 </thead>
                 <tbody id="sortable-columns-body">
                     <?php if (empty($columns)): ?>
                         <tr>
-                            <td colspan="8" class="text-center py-4 text-muted"><?= htmlspecialchars(__('feedback_schema.no_fields') ?? 'No custom fields defined yet.', ENT_QUOTES, 'UTF-8') ?></td>
+                            <td colspan="8" class="text-center py-4 text-muted"><?= htmlspecialchars($__t('feedback_schema.no_fields', 'No custom fields defined yet.'), ENT_QUOTES, 'UTF-8') ?></td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($columns as $col): ?>
@@ -229,7 +238,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 $maxLen = !empty($col['max_length']) ? (int)$col['max_length'] : 0;
                                 $createdBy = isset($col['created_by_display']) && is_string($col['created_by_display']) && $col['created_by_display'] !== ''
                                     ? $col['created_by_display']
-                                    : (__('feedback_schema.system_user') ?? 'System');
+                                    : ($__t('feedback_schema.system_user', 'System'));
 
                                 $editBtnText = __('btn.edit');
                                 if (!$editBtnText || $editBtnText === 'btn.edit') {
@@ -240,18 +249,18 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <td class="text-center text-muted ps-3 fs-5" title="Drag to reorder">☰</td>
                                 <td><span class="fw-bold"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></span></td>
                                 <td><code class="text-dark"><?= htmlspecialchars($colType, ENT_QUOTES, 'UTF-8') ?></code></td>
-                                <td><code class="text-secondary"><?= htmlspecialchars($colSub !== '' ? $colSub : (__('feedback_schema.subtype_standard_lower') ?? 'standard'), ENT_QUOTES, 'UTF-8') ?></code></td>
-                                <td><?= $isRequired ? '<span class="text-success fw-bold">Yes</span>' : '<span class="text-muted">No</span>' ?></td>
+                                <td><code class="text-secondary"><?= htmlspecialchars($colSub !== '' ? $colSub : ($__t('feedback_schema.subtype_standard_lower', 'standard')), ENT_QUOTES, 'UTF-8') ?></code></td>
+                                <td><?= $isRequired ? '<span class="text-success fw-bold">' . htmlspecialchars(__('manage_tables.yes') ?: 'Yes', ENT_QUOTES, 'UTF-8') . '</span>' : '<span class="text-muted">' . htmlspecialchars(__('manage_tables.no') ?: 'No', ENT_QUOTES, 'UTF-8') . '</span>' ?></td>
                                 <td><?= $maxLen > 0 ? $maxLen : 'N/A' ?></td>
                                 <td><?= htmlspecialchars($createdBy, ENT_QUOTES, 'UTF-8') ?></td>
                                 <td class="text-end pe-3 text-nowrap">
                                     <a href="<?= $basePath ?>/admin/feedback/schema?edit_column=<?= $colId ?>#create-column-details" class="btn btn-sm btn-outline-secondary me-1"><?= htmlspecialchars($editBtnText, ENT_QUOTES, 'UTF-8') ?></a>
 
-                                    <form method="POST" action="<?= $basePath ?>/admin/feedback/schema/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('feedback_schema.delete_confirm') ?? 'Are you sure you want to delete this field?', ENT_QUOTES, 'UTF-8') ?>');">
+                                    <form method="POST" action="<?= $basePath ?>/admin/feedback/schema/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars($__t('feedback_schema.delete_confirm', 'Are you sure you want to delete this field?'), ENT_QUOTES, 'UTF-8') ?>');">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="column_id" value="<?= $colId ?>">
-                                        <button type="submit" class="btn btn-sm btn-danger"><?= htmlspecialchars(__('btn.delete') ?? 'Delete', ENT_QUOTES, 'UTF-8') ?></button>
+                                        <button type="submit" class="btn btn-sm btn-danger"><?= htmlspecialchars($__t('btn.delete', 'Delete'), ENT_QUOTES, 'UTF-8') ?></button>
                                     </form>
                                 </td>
                             </tr>

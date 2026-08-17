@@ -1,5 +1,14 @@
 <?php
 declare(strict_types=1);
+/** Translate with fallback when lang key is missing. @return string */
+$__t = static function (string $key, string $fallback = ''): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v !== $key && $v !== '') {
+        return $v;
+    }
+    return $fallback !== '' ? $fallback : $key;
+};
+
 ?>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="fw-bold mb-0"><?= htmlspecialchars(__('manage_tables.existing_cols_heading_prefix'), ENT_QUOTES, 'UTF-8') ?> "<?= htmlspecialchars((string) ($activeTableInfo['table_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"</h3>
@@ -37,7 +46,7 @@ declare(strict_types=1);
                             $maxLength = isset($col['max_length']) ? $col['max_length'] : 'N/A';
                             $createdBy = isset($col['created_by_display']) && is_string($col['created_by_display']) && $col['created_by_display'] !== ''
                                 ? $col['created_by_display']
-                                : (__('feedback_schema.system_user') ?? 'System');
+                                : ($__t('feedback_schema.system_user', 'System'));
                             $createdAt = isset($col['created_at']) && is_string($col['created_at']) ? $col['created_at'] : '';
                             $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
                                 ? $col['boolean_display_format'] : 'yes_no';
@@ -48,11 +57,11 @@ declare(strict_types=1);
                             <td class="text-center text-muted ps-3 fs-5" title="Drag to reorder">☰</td>
                             <td><span class="fw-bold"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></span></td>
                             <td><code class="text-dark"><?= htmlspecialchars($dataType, ENT_QUOTES, 'UTF-8') ?></code></td>
-                            <td><?= $isRequired ? '<span class="text-success fw-bold">Yes</span>' : '<span class="text-muted">No</span>' ?></td>
+                            <td><?= $isRequired ? '<span class="text-success fw-bold">' . htmlspecialchars(__('manage_tables.yes') ?: 'Yes', ENT_QUOTES, 'UTF-8') . '</span>' : '<span class="text-muted">' . htmlspecialchars(__('manage_tables.no') ?: 'No', ENT_QUOTES, 'UTF-8') . '</span>' ?></td>
                             <td>
                                 <?= $excludePublic
-                                    ? '<span class="text-success fw-bold">Yes</span>'
-                                    : '<span class="text-danger fw-bold">' . htmlspecialchars(__('manage_tables.status_hidden'), ENT_QUOTES, 'UTF-8') . '</span>' ?>
+                                    ? '<span class="text-success fw-bold">' . htmlspecialchars(__('manage_tables.yes') ?: 'Yes', ENT_QUOTES, 'UTF-8') . '</span>'
+                                    : '<span class="text-danger fw-bold">' . htmlspecialchars(__('manage_tables.status_hidden') ?: 'Hidden', ENT_QUOTES, 'UTF-8') . '</span>' ?>
                             </td>
                             <td>
                                 <?php

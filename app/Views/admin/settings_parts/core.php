@@ -1,5 +1,14 @@
 <?php
 declare(strict_types=1);
+/** Translate with fallback when lang key is missing. @return string */
+$__t = static function (string $key, string $fallback = ''): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v !== $key && $v !== '') {
+        return $v;
+    }
+    return $fallback !== '' ? $fallback : $key;
+};
+
 ?>
 <!-- TAB 1: Core & Mail Settings -->
 <div class="tab-pane fade show active" id="panel-core" role="tabpanel" aria-labelledby="tab-core">
@@ -58,68 +67,66 @@ declare(strict_types=1);
             </div>
 
             <div class="mb-3">
-                <label for="default_timezone" class="form-label fw-bold">Default timezone</label>
-                <select id="default_timezone" name="default_timezone" class="form-select max-width-320">
-                    <?php
-                    $tzList = timezone_identifiers_list();
-                    $currentDefaultTimezone = $currentDefaultTimezone ?? 'UTC';
-                    foreach ($tzList as $tzId):
-                    ?>
-                        <option value="<?= htmlspecialchars($tzId, ENT_QUOTES, 'UTF-8') ?>"
-                            <?= ($currentDefaultTimezone === $tzId) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($tzId, ENT_QUOTES, 'UTF-8') ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <div class="form-text">Used for guests and users who have not set a timezone in their profile. Stored timestamps stay UTC.</div>
-            </div>
+              <label for="default_timezone" class="form-label fw-bold"><?= htmlspecialchars($__t('settings.default_timezone', 'Default timezone'), ENT_QUOTES, 'UTF-8') ?></label>
+              <select id="default_timezone" name="default_timezone" class="form-select max-width-320">
+                  <?php
+                  $tzList = timezone_identifiers_list();
+                  $currentDefaultTimezone = $currentDefaultTimezone ?? 'UTC';
+                  foreach ($tzList as $tzId):
+                  ?>
+                      <option value="<?= htmlspecialchars($tzId, ENT_QUOTES, 'UTF-8') ?>"
+                          <?= ($currentDefaultTimezone === $tzId) ? 'selected' : '' ?>>
+                          <?= htmlspecialchars($tzId, ENT_QUOTES, 'UTF-8') ?>
+                      </option>
+                  <?php endforeach; ?>
+              </select>
+              <div class="form-text"><?= htmlspecialchars($__t('settings.timezone_helper', 'Used for guests and users who have not set a timezone in their profile. Stored timestamps stay UTC.'), ENT_QUOTES, 'UTF-8') ?></div>
+          </div>
+
+             <div class="mb-3">
+              <label for="default_date_format" class="form-label fw-bold"><?= htmlspecialchars($__t('settings.default_date_format', 'Default date format'), ENT_QUOTES, 'UTF-8') ?></label>
+              <select id="default_date_format" name="default_date_format" class="form-select max-width-320">
+                  <?php
+                  $currentDefaultDateFormat = $currentDefaultDateFormat ?? 'd/m/Y';
+                  $dateOpts = [
+                      'd/m/Y' => 'DD/MM/YYYY',
+                      'd.m.Y' => 'DD.MM.YYYY',
+                      'Y-m-d' => 'YYYY-MM-DD',
+                      'm/d/Y' => 'MM/DD/YYYY',
+                      'd-m-Y' => 'DD-MM-YYYY',
+                  ];
+                  foreach ($dateOpts as $val => $label):
+                  ?>
+                      <option value="<?= htmlspecialchars($val, ENT_QUOTES, 'UTF-8') ?>"
+                          <?= ($currentDefaultDateFormat === $val) ? 'selected' : '' ?>>
+                          <?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?>
+                      </option>
+                  <?php endforeach; ?>
+              </select>
+          </div>
 
             <div class="mb-3">
-                <label for="default_date_format" class="form-label fw-bold">Default date format</label>
-                <select id="default_date_format" name="default_date_format" class="form-select max-width-320">
-                    <?php
-                    $currentDefaultDateFormat = $currentDefaultDateFormat ?? 'd/m/Y';
-                    $dateOpts = [
-                        'd/m/Y' => 'DD/MM/YYYY',
-                        'd.m.Y' => 'DD.MM.YYYY',
-                        'Y-m-d' => 'YYYY-MM-DD',
-                        'm/d/Y' => 'MM/DD/YYYY',
-                        'd-m-Y' => 'DD-MM-YYYY',
-                    ];
-                    foreach ($dateOpts as $val => $label):
-                    ?>
-                        <option value="<?= htmlspecialchars($val, ENT_QUOTES, 'UTF-8') ?>"
-                            <?= ($currentDefaultDateFormat === $val) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+              <label for="default_time_format" class="form-label fw-bold"><?= htmlspecialchars($__t('settings.default_time_format', 'Default time format'), ENT_QUOTES, 'UTF-8') ?></label>
+              <select id="default_time_format" name="default_time_format" class="form-select max-width-320">
+                  <?php $currentDefaultTimeFormat = $currentDefaultTimeFormat ?? '24'; ?>
+                  <option value="24" <?= ($currentDefaultTimeFormat === '24') ? 'selected' : '' ?>>24-hour (14:30)</option>
+                  <option value="12" <?= ($currentDefaultTimeFormat === '12') ? 'selected' : '' ?>>12-hour (2:30 PM)</option>
+              </select>
+              <div class="form-text"><?= htmlspecialchars($__t('settings.default_lang_note', 'Default language is already set above. Profile settings override these for logged-in users.'), ENT_QUOTES, 'UTF-8') ?></div>
+          </div>
 
             <div class="mb-3">
-                <label for="default_time_format" class="form-label fw-bold">Default time format</label>
-                <select id="default_time_format" name="default_time_format" class="form-select max-width-320">
-                    <?php $currentDefaultTimeFormat = $currentDefaultTimeFormat ?? '24'; ?>
-                    <option value="24" <?= ($currentDefaultTimeFormat === '24') ? 'selected' : '' ?>>24-hour (14:30)</option>
-                    <option value="12" <?= ($currentDefaultTimeFormat === '12') ? 'selected' : '' ?>>12-hour (2:30 PM)</option>
-                </select>
-                <div class="form-text">Default language is already set above. Profile settings override these for logged-in users.</div>
-            </div>
-
-            <div class="mb-3">
-                <label for="footer_compiled_notice" class="form-label fw-bold">Footer source line</label>
-                <input type="text"
-                       id="footer_compiled_notice"
-                       name="footer_compiled_notice"
-                       value="<?= htmlspecialchars($currentFooterCompiledNotice ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                       class="form-control"
-                       placeholder="Your Footer Goes Here.">
-                <div class="form-text">
-                    Shown as the first line of the site footer. Leave blank to use the default text from the language file.
-                    Software credit and copyright stay fixed.
-                </div>
-            </div>
-
+              <label for="footer_compiled_notice" class="form-label fw-bold"><?= htmlspecialchars($__t('settings.footer_compiled_notice', 'Footer source line'), ENT_QUOTES, 'UTF-8') ?></label>
+              <input type="text"
+                     id="footer_compiled_notice"
+                     name="footer_compiled_notice"
+                     value="<?= htmlspecialchars($currentFooterCompiledNotice ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                     class="form-control"
+                     placeholder="Your Footer Goes Here.">
+              <div class="form-text">
+                 <?= htmlspecialchars($__t('settings.footer_notice_helper', 'Shown as the first line of the site footer. Leave blank to use the default text from the language file. Software credit and copyright stay fixed.'), ENT_QUOTES, 'UTF-8') ?>
+              </div>
+          </div>
             <!-- CAPTCHA Configuration Settings -->
             <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('settings.captcha_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
             <div class="mb-3">

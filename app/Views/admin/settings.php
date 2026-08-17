@@ -6,6 +6,15 @@
  * Migrated Date: 2026-08-04 10:25:40
  */
 declare(strict_types=1);
+/** Translate with fallback when lang key is missing. @return string */
+$__t = static function (string $key, string $fallback = ''): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v !== $key && $v !== '') {
+        return $v;
+    }
+    return $fallback !== '' ? $fallback : $key;
+};
+
 /** @var string $message */
 /** @var string $error */
 /** @var int $schemaCurrent */
@@ -88,26 +97,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     <!-- Accessible Bootstrap Nav Tabs -->
     <ul class="nav nav-tabs mb-4" role="tablist" aria-label="Settings Sections">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active fw-bold" id="tab-core" data-bs-toggle="tab" data-bs-target="#panel-core" type="button" role="tab" aria-controls="panel-core" aria-selected="true"><?= htmlspecialchars(__('settings.tab_core'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button class="nav-link active fw-bold" id="tab-core" data-bs-toggle="tab" data-bs-target="#panel-core" type="button" role="tab" aria-controls="panel-core" aria-selected="true"><?= htmlspecialchars($__t('settings.tab_core', 'Core'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold text-secondary" id="tab-modules" data-bs-toggle="tab" data-bs-target="#panel-modules" type="button" role="tab" aria-controls="panel-modules" aria-selected="false"><?= htmlspecialchars(__('settings.tab_modules'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button class="nav-link fw-bold text-secondary" id="tab-modules" data-bs-toggle="tab" data-bs-target="#panel-modules" type="button" role="tab" aria-controls="panel-modules" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_modules', 'Modules'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold text-secondary" id="tab-maintenance" data-bs-toggle="tab" data-bs-target="#panel-maintenance" type="button" role="tab" aria-controls="panel-maintenance" aria-selected="false"><?= htmlspecialchars(__('settings.tab_maintenance'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button class="nav-link fw-bold text-secondary" id="tab-maintenance" data-bs-toggle="tab" data-bs-target="#panel-maintenance" type="button" role="tab" aria-controls="panel-maintenance" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_maintenance', 'Maintenance'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold text-secondary" id="tab-notices" data-bs-toggle="tab" data-bs-target="#panel-notices" type="button" role="tab" aria-controls="panel-notices" aria-selected="false"><?= htmlspecialchars(__('settings.tab_notices'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button class="nav-link fw-bold text-secondary" id="tab-notices" data-bs-toggle="tab" data-bs-target="#panel-notices" type="button" role="tab" aria-controls="panel-notices" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_notices', 'Notices'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold text-secondary" id="tab-permissions" data-bs-toggle="tab" data-bs-target="#panel-permissions" type="button" role="tab" aria-controls="panel-permissions" aria-selected="false"><?= htmlspecialchars(__('settings.tab_permissions'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button class="nav-link fw-bold text-secondary" id="tab-permissions" data-bs-toggle="tab" data-bs-target="#panel-permissions" type="button" role="tab" aria-controls="panel-permissions" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_permissions', 'Permissions'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold text-secondary" id="tab-audit" data-bs-toggle="tab" data-bs-target="#panel-audit" type="button" role="tab" aria-controls="panel-audit" aria-selected="false"><?= htmlspecialchars(__('settings.tab_audit'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button class="nav-link fw-bold text-secondary" id="tab-audit" data-bs-toggle="tab" data-bs-target="#panel-audit" type="button" role="tab" aria-controls="panel-audit" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_audit', 'Audit Log'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <?php if ($canViewErrorLogs): ?>
         <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold text-secondary" id="tab-errors" data-bs-toggle="tab" data-bs-target="#panel-errors" type="button" role="tab" aria-controls="panel-errors" aria-selected="false">Error log</button>
+            <button class="nav-link fw-bold text-secondary" id="tab-errors" data-bs-toggle="tab" data-bs-target="#panel-errors" type="button" role="tab" aria-controls="panel-errors" aria-selected="false"><?= htmlspecialchars($__t('settings.error_log_tab', 'Error Log'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <?php endif; ?>
     </ul>

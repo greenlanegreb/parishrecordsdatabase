@@ -1,6 +1,15 @@
 <?php
 // app/Views/errors/error_template.php
 declare(strict_types=1);
+/** Translate with fallback when lang key is missing. @return string */
+$__t = static function (string $key, string $fallback = ''): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v !== $key && $v !== '') {
+        return $v;
+    }
+    return $fallback !== '' ? $fallback : $key;
+};
+
 
 /**
  * Pure MVC View Template for Errors
@@ -45,16 +54,16 @@ $trace        = $trace ?? '';
 
             <?php if ($isLocal): ?>
                 <div class="text-start bg-light p-3 rounded border small mb-4">
-                    <div class="fw-bold text-dark mb-1">Debug details</div>
+                    <div class="fw-bold text-dark mb-1"><?= htmlspecialchars($__t('error_template.debug_details', 'Debug details'), ENT_QUOTES, 'UTF-8') ?></div>
                     <?php if ($errorFile !== ''): ?>
                         <div class="text-muted mb-2">
-                            <strong>File:</strong>
+                            <strong><?= htmlspecialchars($__t('error_template.file_label', 'File:'), ENT_QUOTES, 'UTF-8') ?></strong>
                             <?= htmlspecialchars((string) $errorFile, ENT_QUOTES, 'UTF-8') ?>
-                            (Line <?= (int) $errorLine ?>)
+                            (<?= htmlspecialchars($__t('error_template.line_label', 'Line'), ENT_QUOTES, 'UTF-8') ?> <?= (int) $errorLine ?>)
                         </div>
                     <?php endif; ?>
                     <?php if ($trace !== ''): ?>
-                        <label class="form-label fw-bold text-muted small">Stack trace</label>
+                        <label class="form-label fw-bold text-muted small"><?= htmlspecialchars($__t('error_template.stack_trace', 'Stack trace'), ENT_QUOTES, 'UTF-8') ?></label>
                         <pre class="bg-dark text-light p-2 rounded small overflow-auto mb-0" style="max-height: 280px; white-space: pre-wrap;"><code><?= htmlspecialchars((string) $trace, ENT_QUOTES, 'UTF-8') ?></code></pre>
                     <?php endif; ?>
                 </div>

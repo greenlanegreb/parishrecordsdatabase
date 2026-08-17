@@ -6,6 +6,15 @@
  * Migrated Date: 2026-08-05 07:01:53
  */
 declare(strict_types=1);
+/** Translate with fallback when lang key is missing. @return string */
+$__t = static function (string $key, string $fallback = ''): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v !== $key && $v !== '') {
+        return $v;
+    }
+    return $fallback !== '' ? $fallback : $key;
+};
+
 /**
  * @var \PDO $pdo
  * @var string $formTitle
@@ -82,12 +91,12 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                        title="Letters, numbers, underscore, and hyphen only"
                        value="<?= htmlspecialchars($submittedUsername, ENT_QUOTES, 'UTF-8') ?>">
                 <div class="form-text">Letters, numbers, underscore, hyphen. Leave blank or choose auto-allocate below.</div>
-                <button type="button" class="btn btn-outline-secondary btn-sm mt-1" id="check-username-btn">Check availability</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm mt-1" id="check-username-btn"><?= htmlspecialchars($__t('volunteer.check_availability', 'Check availability'), ENT_QUOTES, 'UTF-8') ?></button>
                 <div id="username-check-result" class="form-text mt-1" aria-live="polite"></div>
             </div>
             <div class="form-check mb-4">
                 <input type="checkbox" class="form-check-input" name="auto_username" id="auto_username" value="1">
-                <label class="form-check-label small" for="auto_username">Allocate a unique username for me</label>
+                <label class="form-check-label small" for="auto_username"><?= htmlspecialchars($__t('volunteer.allocate_unique_username', 'Allocate a unique username for me'), ENT_QUOTES, 'UTF-8') ?></label>
             </div>
 
             <hr class="text-muted my-4">

@@ -3,6 +3,14 @@ declare(strict_types=1);
 
 /** @var array<int, array<string, mixed>> $rolesList */
 $rolesList = $rolesList ?? [];
+
+/**
+ * Translate with optional English fallback when the key is missing.
+ */
+$nt = static function (string $key, string $fallback): string {
+    $t = __($key);
+    return ($t !== $key && $t !== '') ? $t : $fallback;
+};
 ?>
 <!-- TAB: Site Notices -->
 <div class="tab-pane fade" id="panel-notices" role="tabpanel" aria-labelledby="tab-notices">
@@ -16,45 +24,45 @@ $rolesList = $rolesList ?? [];
         <div class="card-body">
             <details>
                 <summary class="fw-bold fs-6 text-dark" style="cursor: pointer;">
-                    Add new notice
+                    <?= htmlspecialchars($nt('notices.add_new', 'Add new notice'), ENT_QUOTES, 'UTF-8') ?>
                 </summary>
                 <div class="mt-3 pt-3 border-top">
-                    <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/notices/inline-save" class="notice-audience-form">
+                    <form method="POST" action="<?= htmlspecialchars(($basePath ?? ''), ENT_QUOTES, 'UTF-8') ?>/admin/notices/inline-save" class="notice-audience-form">
                         <?= csrf_field() ?>
                         <input type="hidden" name="update_action" value="create">
 
                         <div class="mb-2">
-                            <label class="form-label small fw-bold">Title</label>
+                            <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.title_label', 'Title'), ENT_QUOTES, 'UTF-8') ?></label>
                             <input type="text" name="title" class="form-control form-control-sm" required>
                         </div>
 
                         <div class="mb-2">
-                            <label class="form-label small fw-bold">Content</label>
+                            <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.content_label', 'Content'), ENT_QUOTES, 'UTF-8') ?></label>
                             <textarea name="content" rows="3" class="form-control form-control-sm" required></textarea>
                         </div>
 
                         <div class="row g-2 mb-2">
                             <div class="col-6">
-                                <label class="form-label small fw-bold">Display order</label>
+                                <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.display_order', 'Display order'), ENT_QUOTES, 'UTF-8') ?></label>
                                 <input type="number" name="display_order" value="0" class="form-control form-control-sm">
                             </div>
                             <div class="col-6 d-flex align-items-end gap-3 pb-1">
                                 <div class="form-check mb-0">
                                     <input type="checkbox" name="is_active" id="new_is_active" value="1" class="form-check-input" checked>
-                                    <label class="form-check-label small" for="new_is_active">Active</label>
+                                    <label class="form-check-label small" for="new_is_active"><?= htmlspecialchars($nt('notices.active', 'Active'), ENT_QUOTES, 'UTF-8') ?></label>
                                 </div>
                                 <div class="form-check mb-0">
                                     <input type="checkbox" name="is_dismissible" id="new_is_dismissible" value="1" class="form-check-input" checked>
-                                    <label class="form-check-label small" for="new_is_dismissible">Dismissible</label>
+                                    <label class="form-check-label small" for="new_is_dismissible"><?= htmlspecialchars($nt('notices.dismissible', 'Dismissible'), ENT_QUOTES, 'UTF-8') ?></label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3 notice-audience-group">
-                            <span class="form-label small fw-bold d-block">Audience</span>
+                            <span class="form-label small fw-bold d-block"><?= htmlspecialchars($nt('notices.audience', 'Audience'), ENT_QUOTES, 'UTF-8') ?></span>
                             <div class="form-check form-check-inline">
                                 <input type="checkbox" name="target_roles[]" value="everyone" class="form-check-input notice-everyone" id="new_role_everyone" checked>
-                                <label class="form-check-label small" for="new_role_everyone">Everyone</label>
+                                <label class="form-check-label small" for="new_role_everyone"><?= htmlspecialchars($nt('notices.everyone', 'Everyone'), ENT_QUOTES, 'UTF-8') ?></label>
                             </div>
                             <?php foreach ($rolesList as $r):
                                 $roleName = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
@@ -76,7 +84,7 @@ $rolesList = $rolesList ?? [];
                             <?php endforeach; ?>
                         </div>
 
-                        <button type="submit" class="btn btn-sm btn-primary">Create notice</button>
+                        <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars($nt('notices.create_notice_btn', 'Create notice'), ENT_QUOTES, 'UTF-8') ?></button>
                     </form>
                 </div>
             </details>
@@ -92,15 +100,15 @@ $rolesList = $rolesList ?? [];
         <div class="d-flex flex-column gap-3">
             <?php foreach ($notices as $n): ?>
                 <?php
-                    $noticeId      = isset($n['id']) ? (int) $n['id'] : 0;
-                    $title         = isset($n['title']) && is_string($n['title']) ? $n['title'] : '';
-                    $content       = isset($n['content']) && is_string($n['content']) ? $n['content'] : '';
-                    $isActive      = !empty($n['is_active']);
+                    $noticeId = isset($n['id']) ? (int) $n['id'] : 0;
+                    $title = isset($n['title']) && is_string($n['title']) ? $n['title'] : '';
+                    $content = isset($n['content']) && is_string($n['content']) ? $n['content'] : '';
+                    $isActive = !empty($n['is_active']);
                     $isDismissible = !empty($n['is_dismissible']);
-                    $displayOrder  = isset($n['display_order']) ? (int) $n['display_order'] : 0;
-                    $targetRoles   = isset($n['target_roles']) && is_string($n['target_roles']) ? $n['target_roles'] : 'everyone';
+                    $displayOrder = isset($n['display_order']) ? (int) $n['display_order'] : 0;
+                    $targetRoles = isset($n['target_roles']) && is_string($n['target_roles']) ? $n['target_roles'] : 'everyone';
                     $rolesSelected = array_map('trim', explode(',', $targetRoles));
-                    $everyoneOn    = in_array('everyone', $rolesSelected, true);
+                    $everyoneOn = in_array('everyone', $rolesSelected, true);
                 ?>
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
@@ -114,47 +122,49 @@ $rolesList = $rolesList ?? [];
                                 </span>
                             </summary>
                             <div class="mt-3 pt-3 border-top">
-                                <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/notices/inline-save" class="notice-audience-form">
+                                <form method="POST" action="<?= htmlspecialchars(($basePath ?? ''), ENT_QUOTES, 'UTF-8') ?>/admin/notices/inline-save" class="notice-audience-form">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="notice_id" value="<?= $noticeId ?>">
 
                                     <div class="mb-2">
-                                        <label class="form-label small fw-bold">Title</label>
+                                        <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.title_label', 'Title'), ENT_QUOTES, 'UTF-8') ?></label>
                                         <input type="text" name="title" value="<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" required>
                                     </div>
 
                                     <div class="mb-2">
-                                        <label class="form-label small fw-bold">Content</label>
+                                        <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.content_label', 'Content'), ENT_QUOTES, 'UTF-8') ?></label>
                                         <textarea name="content" rows="3" class="form-control form-control-sm" required><?= htmlspecialchars($content, ENT_QUOTES, 'UTF-8') ?></textarea>
                                     </div>
 
                                     <div class="row g-2 mb-2">
                                         <div class="col-6">
-                                            <label class="form-label small fw-bold">Display order</label>
+                                            <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.display_order', 'Display order'), ENT_QUOTES, 'UTF-8') ?></label>
                                             <input type="number" name="display_order" value="<?= $displayOrder ?>" class="form-control form-control-sm">
                                         </div>
                                         <div class="col-6 d-flex align-items-end gap-3 pb-1">
                                             <div class="form-check mb-0">
                                                 <input type="checkbox" name="is_active" id="active_<?= $noticeId ?>" value="1" class="form-check-input" <?= $isActive ? 'checked' : '' ?>>
-                                                <label class="form-check-label small" for="active_<?= $noticeId ?>">Active</label>
+                                                <label class="form-check-label small" for="active_<?= $noticeId ?>"><?= htmlspecialchars($nt('notices.active', 'Active'), ENT_QUOTES, 'UTF-8') ?></label>
                                             </div>
                                             <div class="form-check mb-0">
                                                 <input type="checkbox" name="is_dismissible" id="dismiss_<?= $noticeId ?>" value="1" class="form-check-input" <?= $isDismissible ? 'checked' : '' ?>>
-                                                <label class="form-check-label small" for="dismiss_<?= $noticeId ?>">Dismissible</label>
+                                                <label class="form-check-label small" for="dismiss_<?= $noticeId ?>"><?= htmlspecialchars($nt('notices.dismissible', 'Dismissible'), ENT_QUOTES, 'UTF-8') ?></label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="mb-3 notice-audience-group">
-                                        <span class="form-label small fw-bold d-block">Audience</span>
+                                        <span class="form-label small fw-bold d-block"><?= htmlspecialchars($nt('notices.audience', 'Audience'), ENT_QUOTES, 'UTF-8') ?></span>
                                         <div class="form-check form-check-inline">
                                             <input type="checkbox"
                                                    name="target_roles[]"
-                                                   id="role_<?= $noticeId ?>_everyone"
                                                    value="everyone"
                                                    class="form-check-input notice-everyone"
+                                                   id="role_<?= $noticeId ?>_everyone"
                                                    <?= $everyoneOn ? 'checked' : '' ?>>
-                                            <label class="form-check-label small" for="role_<?= $noticeId ?>_everyone">Everyone</label>
+                                            <label class="form-check-label small" for="role_<?= $noticeId ?>_everyone">
+                                                <?= htmlspecialchars($nt('notices.everyone', 'Everyone'), ENT_QUOTES, 'UTF-8') ?>
+                                            </label>
                                         </div>
                                         <?php foreach ($rolesList as $r):
                                             $roleName = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
@@ -180,9 +190,9 @@ $rolesList = $rolesList ?? [];
                                     </div>
 
                                     <div class="d-flex flex-wrap gap-2">
-                                        <button type="submit" name="update_action" value="save" class="btn btn-sm btn-primary">Save</button>
+                                        <button type="submit" name="update_action" value="save" class="btn btn-sm btn-primary"><?= htmlspecialchars($nt('notices.save_btn', 'Save'), ENT_QUOTES, 'UTF-8') ?></button>
                                         <button type="submit" name="update_action" value="delete" class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Delete this notice?');">Delete</button>
+                                            onclick="return confirm('<?= htmlspecialchars($nt('notices.delete_confirm', 'Delete this notice?'), ENT_QUOTES, 'UTF-8') ?>');"><?= htmlspecialchars($nt('notices.delete_btn', 'Delete'), ENT_QUOTES, 'UTF-8') ?></button>
                                     </div>
                                 </form>
                             </div>
@@ -226,8 +236,6 @@ $rolesList = $rolesList ?? [];
         });
     }
 
-    // Before submit: re-enable disabled role checkboxes so their values are posted
-    // (or rely on "everyone" alone — server already treats everyone as all)
     document.querySelectorAll('.notice-audience-form').forEach(function (form) {
         form.addEventListener('submit', function () {
             form.querySelectorAll('.notice-role:disabled').forEach(function (cb) {

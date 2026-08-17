@@ -226,10 +226,10 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <td><span class="fw-bold"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></span></td>
                                 <td><code class="text-dark"><?= htmlspecialchars($dataType, ENT_QUOTES, 'UTF-8') ?></code></td>
                                 <td><code class="text-secondary"><?= htmlspecialchars($fieldSubtype !== '' ? $fieldSubtype : __('feedback_schema.subtype_standard_lower'), ENT_QUOTES, 'UTF-8') ?></code></td>
-                                <td><?= $isRequired ? '<span class="text-success fw-bold">Yes</span>' : '<span class="text-muted">No</span>' ?></td>
+                                <td><?= $isRequired ? '<span class="text-success fw-bold">' . htmlspecialchars(__('manage_tables.yes') ?: 'Yes', ENT_QUOTES, 'UTF-8') . '</span>' : '<span class="text-muted">' . htmlspecialchars(__('manage_tables.no') ?: 'No', ENT_QUOTES, 'UTF-8') . '</span>' ?></td>
                                 <td class="text-end pe-3 text-nowrap">
                                     <a href="<?= $basePath ?>/admin/volunteers/schema?edit_column=<?= $colId ?>#create-column-details" class="btn btn-sm btn-outline-secondary me-1"><?= htmlspecialchars(__('feedback_schema.edit_btn'), ENT_QUOTES, 'UTF-8') ?></a>
-                                    
+
                                     <form method="POST" action="<?= $basePath ?>/admin/volunteers/schema/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_schema.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="delete">

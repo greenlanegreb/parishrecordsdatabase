@@ -60,10 +60,28 @@ class UserDataEntryController
         if ($totalTablesCount > 0 && ($activeTableId < 1 || !\user_can_view_table($this->pdo, $activeTableId, $currentUser))) {
             http_response_code(403);
             $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
-            echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>403</title></head><body>';
-            echo '<p>403 Forbidden — you cannot view this table.</p>';
-            echo '<p><a href="' . htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') . '/">Home</a></p>';
-            echo '</body></html>';
+            $errorCode = 403;
+            $errorTitle = function_exists('__') ? __('error.403_title') : 'Access Forbidden';
+            if ($errorTitle === 'error.403_title') {
+                $errorTitle = 'Access Forbidden';
+            }
+            $errorMessage = function_exists('__') ? __('data_entry.err_cannot_view_table') : 'You cannot view this table.';
+            if ($errorMessage === 'data_entry.err_cannot_view_table') {
+                $errorMessage = 'You cannot view this table.';
+            }
+            $isLocal = defined('APP_DEBUG') && APP_DEBUG === true;
+            $errorFile = '';
+            $errorLine = 0;
+            $trace = '';
+            $templatePath = dirname(__DIR__, 2) . '/app/Views/errors/error_template.php';
+            if (is_file($templatePath)) {
+                require $templatePath;
+            } else {
+                echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>403</title></head><body>';
+                echo '<p>' . htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8') . '</p>';
+                echo '<p><a href="' . htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') . '/">Home</a></p>';
+                echo '</body></html>';
+            }
             exit;
         }
 

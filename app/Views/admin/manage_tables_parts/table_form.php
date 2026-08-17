@@ -41,7 +41,7 @@ declare(strict_types=1);
                         <?= csrf_field() ?>
                         <input type="hidden" name="action" value="delete_table">
                         <input type="hidden" name="table_id" value="<?= (int)($editTable['id'] ?? 0) ?>">
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete Table</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm"><?= htmlspecialchars(__('manage_tables.delete_table_btn'), ENT_QUOTES, 'UTF-8') ?></button>
                     </form>
                 <?php endif; ?>
             </div>
