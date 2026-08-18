@@ -1,5 +1,11 @@
 <?php
 declare(strict_types=1);
+if (!function_exists('parse_column_options')) {
+    $optHelper = dirname(__DIR__, 3) . '/includes/column_options.php';
+    if (is_file($optHelper)) {
+        require_once $optHelper;
+    }
+}
 ?>
 <?php if (!$duplicateWarning): ?>
     <div class="card shadow-sm border-0 mb-4 bg-light">
@@ -20,7 +26,21 @@ declare(strict_types=1);
                                     $colName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : '';
                                     $isRequired = !empty($col['is_required']);
                                     $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
-                                    $savedVal = isset($submittedData[$colId]) && is_string($submittedData[$colId]) ? $submittedData[$colId] : '';
+                                    $savedVal = '';
+                                    if (isset($submittedData[$colId])) {
+                                        $savedVal = is_array($submittedData[$colId])
+                                            ? implode(', ', array_map('strval', $submittedData[$colId]))
+                                            : (is_scalar($submittedData[$colId]) ? (string) $submittedData[$colId] : '');
+                                    }
+                                    $choiceOptions = [];
+                                    $allowMultiple = !empty($col['allow_multiple']);
+                                    if ($dataType === 'SELECT') {
+                                        $rawOpts = isset($col['field_options']) && is_string($col['field_options']) ? $col['field_options'] : '';
+                                        $choiceOptions = function_exists('parse_column_options')
+                                            ? parse_column_options($rawOpts)
+                                            : array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawOpts) ?: [])));
+                                    }
+                                    $savedChoices = $savedVal === '' ? [] : array_map('trim', explode(',', $savedVal));
                                 ?>
                                 <div class="col-md-4">
                                     <label for="col_<?= $colId ?>" class="form-label small fw-bold">
@@ -46,6 +66,28 @@ declare(strict_types=1);
                                         </select>
                                     <?php elseif ($dataType === 'DATE'): ?>
                                         <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(get_date_placeholder($currentUser['date_format'] ?? null), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm date-input" title="<?= htmlspecialchars(__('data_entry.date_title_hint'), ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?>>
+                                    <?php elseif ($dataType === 'SELECT'): ?>
+                                        <select id="col_<?= $colId ?>"
+                                                name="filters[<?= $colId ?>]<?= $allowMultiple ? '[]' : '' ?>"
+                                                class="form-select form-select-sm"
+                                                <?= $allowMultiple ? 'multiple' : '' ?>
+                                                <?= $isRequired ? 'required' : '' ?>
+                                                <?= $allowMultiple ? 'aria-multiselectable="true"' : '' ?>>
+                                            <?php if (!$allowMultiple): ?>
+                                                <option value=""><?= htmlspecialchars(__('feedback.select_placeholder'), ENT_QUOTES, 'UTF-8') ?></option>
+                                            <?php endif; ?>
+                                            <?php foreach ($choiceOptions as $opt): ?>
+                                                <option value="<?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?>" <?= in_array($opt, $savedChoices, true) ? 'selected' : '' ?>><?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <?php if ($allowMultiple): ?>
+                                            <div class="form-text"><?= htmlspecialchars(__('data_entry.multiselect_hint') !== 'data_entry.multiselect_hint' ? __('data_entry.multiselect_hint') : 'Hold Ctrl (or Cmd) to choose more than one.', ENT_QUOTES, 'UTF-8') ?></div>
+                                        <?php endif; ?>
+                                    <?php elseif ($dataType === 'INT'): ?>
+                                        <input type="number" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm"
+                                               <?= isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '' ? 'min="' . (int)$col['min_value'] . '"' : '' ?>
+                                               <?= isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '' ? 'max="' . (int)$col['max_value'] . '"' : '' ?>
+                                               <?= $isRequired ? 'required' : '' ?>>
                                     <?php else: ?>
                                         <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(__('data_entry.enter_value_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" <?= $isRequired ? 'required' : '' ?>>
                                     <?php endif; ?>

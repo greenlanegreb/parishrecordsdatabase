@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
+$keepColumnFormOpen = $editCol || (isset($_GET['add_column']) && (string) $_GET['add_column'] === '1');
 ?>
 <!-- Collapsible Column Form Container -->
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-body">
-        <details id="create-column-details" <?= $editCol ? 'open' : '' ?>>
+        <details id="create-column-details" <?= $keepColumnFormOpen ? 'open' : '' ?>>
             <summary class="fw-bold fs-5 text-dark" style="cursor: pointer;">
                 <?= $editCol ? htmlspecialchars(__('manage_tables.edit_col_summary'), ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('manage_tables.add_col_summary_prefix'), ENT_QUOTES, 'UTF-8') . ' "' . htmlspecialchars((string)($activeTableInfo['table_name'] ?? ''), ENT_QUOTES, 'UTF-8') . '"' ?>
             </summary>
@@ -20,7 +21,7 @@ declare(strict_types=1);
                   
                     <div class="mb-3">
                         <label for="column_name" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.col_name_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span></label>
-                        <input type="text" id="column_name" name="column_name" value="<?= $editCol ? htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" required class="form-control max-width-400">
+                        <input type="text" id="column_name" name="column_name" value="<?= $editCol ? htmlspecialchars((string)($editCol['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" required class="form-control max-width-400" <?= (!$editCol && $keepColumnFormOpen) ? 'autofocus' : '' ?>>
                     </div>
 
                     <div class="mb-3">
@@ -31,6 +32,7 @@ declare(strict_types=1);
                             <option value="INT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_int'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="BOOLEAN" <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="DATE" <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="SELECT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 
@@ -55,6 +57,29 @@ declare(strict_types=1);
                         </select>
                     </div>
 
+                    <div id="choice_options_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'SELECT') ? 'block' : 'none' ?>;">
+                        <label for="field_options" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.choice_options_label') !== 'manage_tables.choice_options_label' ? __('manage_tables.choice_options_label') : 'Choices (one per line)', ENT_QUOTES, 'UTF-8') ?></label>
+                        <textarea id="field_options" name="field_options" rows="5" class="form-control max-width-400"><?= $editCol ? htmlspecialchars((string)($editCol['field_options'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?></textarea>
+                        <div class="form-text"><?= htmlspecialchars(__('manage_tables.choice_options_help') !== 'manage_tables.choice_options_help' ? __('manage_tables.choice_options_help') : 'Example: Baptism, Marriage, Burial — each on its own line.', ENT_QUOTES, 'UTF-8') ?></div>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" id="allow_multiple" name="allow_multiple" value="1" class="form-check-input" <?= ($editCol && !empty($editCol['allow_multiple'])) ? 'checked' : '' ?>>
+                            <label for="allow_multiple" class="form-check-label"><?= htmlspecialchars(__('manage_tables.allow_multiple_label') !== 'manage_tables.allow_multiple_label' ? __('manage_tables.allow_multiple_label') : 'Allow more than one choice (multi-select)', ENT_QUOTES, 'UTF-8') ?></label>
+                        </div>
+                    </div>
+
+                    <div id="int_bounds_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'block' : 'none' ?>;">
+                        <div class="row g-2" style="max-width: 400px;">
+                            <div class="col">
+                                <label for="min_value" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.min_value_label') !== 'manage_tables.min_value_label' ? __('manage_tables.min_value_label') : 'Minimum', ENT_QUOTES, 'UTF-8') ?></label>
+                                <input type="number" id="min_value" name="min_value" value="<?= $editCol && $editCol['min_value'] !== null && $editCol['min_value'] !== '' ? htmlspecialchars((string)$editCol['min_value'], ENT_QUOTES, 'UTF-8') : '' ?>" class="form-control">
+                            </div>
+                            <div class="col">
+                                <label for="max_value" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.max_value_label') !== 'manage_tables.max_value_label' ? __('manage_tables.max_value_label') : 'Maximum', ENT_QUOTES, 'UTF-8') ?></label>
+                                <input type="number" id="max_value" name="max_value" value="<?= $editCol && $editCol['max_value'] !== null && $editCol['max_value'] !== '' ? htmlspecialchars((string)$editCol['max_value'], ENT_QUOTES, 'UTF-8') : '' ?>" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label for="max_length" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.max_length_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <input type="number" id="max_length" name="max_length" value="<?= $editCol ? htmlspecialchars((string)($editCol['max_length'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" placeholder="e.g. 255 characters" class="form-control max-width-400">
@@ -70,9 +95,12 @@ declare(strict_types=1);
                         <label for="exclude_from_public_search" class="form-check-label"><?= htmlspecialchars(__('manage_tables.exclude_search_label'), ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
 
-                    <button type="submit" class="btn btn-primary"><?= $editCol ? htmlspecialchars(__('feedback_schema.save_field_btn'), ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('manage_tables.create_col_btn'), ENT_QUOTES, 'UTF-8') ?></button>
                     <?php if ($editCol): ?>
+                        <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('feedback_schema.save_field_btn'), ENT_QUOTES, 'UTF-8') ?></button>
                         <a href="<?= $basePath ?>/admin/tables?table_id=<?= $activeTableId ?>" class="btn btn-outline-secondary ms-2"><?= htmlspecialchars(__('btn.cancel'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <?php else: ?>
+                        <button type="submit" name="after_save" value="done" class="btn btn-primary"><?= htmlspecialchars(__('manage_tables.create_col_btn') !== 'manage_tables.create_col_btn' ? __('manage_tables.create_col_btn') : 'Save column', ENT_QUOTES, 'UTF-8') ?></button>
+                        <button type="submit" name="after_save" value="add_another" class="btn btn-outline-primary ms-2"><?= htmlspecialchars(__('manage_tables.save_and_add_col') !== 'manage_tables.save_and_add_col' ? __('manage_tables.save_and_add_col') : 'Save and add another', ENT_QUOTES, 'UTF-8') ?></button>
                     <?php endif; ?>
                 </form>
             </div>
@@ -84,8 +112,11 @@ declare(strict_types=1);
 function toggleFieldOptions(val) {
     var boolWrapper = document.getElementById('boolean_options_wrapper');
     var dateWrapper = document.getElementById('date_options_wrapper');
-  
-    boolWrapper.style.display = (val === 'BOOLEAN') ? 'block' : 'none';
-    dateWrapper.style.display = (val === 'DATE') ? 'block' : 'none';
+    var choiceWrapper = document.getElementById('choice_options_wrapper');
+    var intWrapper = document.getElementById('int_bounds_wrapper');
+    if (boolWrapper) boolWrapper.style.display = (val === 'BOOLEAN') ? 'block' : 'none';
+    if (dateWrapper) dateWrapper.style.display = (val === 'DATE') ? 'block' : 'none';
+    if (choiceWrapper) choiceWrapper.style.display = (val === 'SELECT') ? 'block' : 'none';
+    if (intWrapper) intWrapper.style.display = (val === 'INT') ? 'block' : 'none';
 }
 </script>

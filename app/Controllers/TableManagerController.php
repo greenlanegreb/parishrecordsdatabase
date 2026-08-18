@@ -129,6 +129,10 @@ class TableManagerController
                     redirect('/admin/tables');
 
                 case 'create':
+                    flash_success($tableService->saveColumn($action, $tableId, $post, $currentUser));
+                    $addAnother = isset($post['after_save']) && $post['after_save'] === 'add_another';
+                    redirect('/admin/tables?table_id=' . $tableId . ($addAnother ? '&add_column=1' : ''));
+
                 case 'update':
                     flash_success($tableService->saveColumn($action, $tableId, $post, $currentUser));
                     break;

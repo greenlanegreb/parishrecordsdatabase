@@ -12,6 +12,8 @@ namespace App\Controllers;
 use Exception;
 use PDO;
 
+require_once dirname(__DIR__, 2) . '/includes/column_options.php';
+
 class UserDataEntryActionController
 {
     private PDO $pdo;
@@ -55,7 +57,7 @@ class UserDataEntryActionController
             // Fetch column metadata specifically for this table
             /** @var array<int, array<string, mixed>> $colsMap */
             $colsMap = [];
-            $stmtCols = $this->pdo->prepare("SELECT id, column_name, is_required, data_type FROM table_columns WHERE table_id = ?");
+            $stmtCols = $this->pdo->prepare("SELECT id, column_name, is_required, data_type, field_options, allow_multiple, min_value, max_value FROM table_columns WHERE table_id = ?");
             $stmtCols->execute([$tableId]);
             while ($col = $stmtCols->fetch(PDO::FETCH_ASSOC)) {
                 $cId = isset($col['id']) ? (int)$col['id'] : 0;
@@ -72,21 +74,53 @@ class UserDataEntryActionController
                 $dataType = isset($colsMap[$cid]) ? (string)($colsMap[$cid]['data_type'] ?? '') : '';
                 $isBool = ($dataType === 'BOOLEAN');
                 $isDate = ($dataType === 'DATE');
-                
-                // Handle boolean "0" properly without treating it as empty
+                $isSelect = ($dataType === 'SELECT');
+                $isInt = ($dataType === 'INT');
+                $colName = isset($colsMap[$cid]['column_name']) && is_string($colsMap[$cid]['column_name']) ? $colsMap[$cid]['column_name'] : 'Field';
+
                 if ($isBool) {
-                    $cleanVal = ($val !== '' && $val !== null) ? trim((string)$val) : '';
+                    $cleanVal = ($val !== '' && $val !== null && !is_array($val)) ? trim((string)$val) : '';
                 } elseif ($isDate) {
                     $cleanVal = normalize_incoming_date(is_scalar($val) ? (string)$val : null);
+                } elseif ($isSelect) {
+                    $cleanVal = flatten_posted_column_value($val);
+                    $opts = parse_column_options($colsMap[$cid]['field_options'] ?? '');
+                    $multi = !empty($colsMap[$cid]['allow_multiple']);
+                    if ($cleanVal !== '' && !column_values_are_allowed($cleanVal, $opts, $multi)) {
+                        $_SESSION['error'] = sprintf(__('save_data_entry.err_invalid_choice') !== 'save_data_entry.err_invalid_choice' ? __('save_data_entry.err_invalid_choice') : 'Please choose a listed option for %s.', $colName);
+                        header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
+                        exit;
+                    }
+                } elseif ($isInt) {
+                    $cleanVal = is_scalar($val) ? trim((string)$val) : '';
+                    if ($cleanVal !== '') {
+                        if (!preg_match('/^-?\d+$/', $cleanVal)) {
+                            $_SESSION['error'] = sprintf(__('save_data_entry.err_not_number') !== 'save_data_entry.err_not_number' ? __('save_data_entry.err_not_number') : '%s must be a whole number.', $colName);
+                            header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
+                            exit;
+                        }
+                        $n = (int) $cleanVal;
+                        $min = $colsMap[$cid]['min_value'] ?? null;
+                        $max = $colsMap[$cid]['max_value'] ?? null;
+                        if ($min !== null && $min !== '' && $n < (int)$min) {
+                            $_SESSION['error'] = sprintf(__('save_data_entry.err_min') !== 'save_data_entry.err_min' ? __('save_data_entry.err_min') : '%s is below the minimum.', $colName);
+                            header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
+                            exit;
+                        }
+                        if ($max !== null && $max !== '' && $n > (int)$max) {
+                            $_SESSION['error'] = sprintf(__('save_data_entry.err_max') !== 'save_data_entry.err_max' ? __('save_data_entry.err_max') : '%s is above the maximum.', $colName);
+                            header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
+                            exit;
+                        }
+                    }
                 } else {
-                    $cleanVal = sanitize_incoming_text((string)$val);
+                    $cleanVal = sanitize_incoming_text(is_scalar($val) ? (string)$val : flatten_posted_column_value($val));
                 }
 
                 $sanitizedInputs[$cid] = $cleanVal;
 
                 if (isset($colsMap[$cid]) && !empty($colsMap[$cid]['is_required'])) {
                     if ($cleanVal === '') {
-                        $colName = isset($colsMap[$cid]['column_name']) && is_string($colsMap[$cid]['column_name']) ? $colsMap[$cid]['column_name'] : 'Field';
                         $_SESSION['error'] = sprintf(__('save_data_entry.err_required_field'), $colName);
                         header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                         exit;

@@ -1,5 +1,11 @@
 <?php
 declare(strict_types=1);
+if (!function_exists('parse_column_options')) {
+    $optHelper = dirname(__DIR__, 3) . '/includes/column_options.php';
+    if (is_file($optHelper)) {
+        require_once $optHelper;
+    }
+}
 $userDateFormat = (isset($currentUser) && is_array($currentUser) && isset($currentUser['date_format']) && is_string($currentUser['date_format']))
     ? $currentUser['date_format']
     : null;
@@ -39,6 +45,20 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                                class="form-control form-control-sm"
                                                placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>">
                                     </div>
+                                <?php elseif ($dataType === 'SELECT'): ?>
+                                    <?php
+                                        $rawOpts = isset($col['field_options']) && is_string($col['field_options']) ? $col['field_options'] : '';
+                                        $choiceOptions = function_exists('parse_column_options')
+                                            ? parse_column_options($rawOpts)
+                                            : array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawOpts) ?: [])));
+                                        $searchVal = isset($searchFilters[$colId]) && is_string($searchFilters[$colId]) ? $searchFilters[$colId] : '';
+                                    ?>
+                                    <select name="filters[<?= $colId ?>]" class="form-select form-select-sm">
+                                        <option value=""><?= htmlspecialchars(__('data_entry.filter_all_option'), ENT_QUOTES, 'UTF-8') ?></option>
+                                        <?php foreach ($choiceOptions as $opt): ?>
+                                            <option value="<?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?>" <?= ($searchVal === $opt) ? 'selected' : '' ?>><?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 <?php elseif ($dataType === 'BOOLEAN'): ?>
                                     <?php
                                         $displayFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format']) ? $col['boolean_display_format'] : 'yes_no';

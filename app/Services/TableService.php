@@ -175,8 +175,46 @@ class TableService
         $isRequired = isset($post['is_required']) ? 1 : 0;
         $excludeFromPublicSearch = isset($post['exclude_from_public_search']) ? 1 : 0;
 
+        $allowedTypes = ['VARCHAR', 'TEXT', 'INT', 'BOOLEAN', 'DATE', 'SELECT'];
+        if (!in_array($dataType, $allowedTypes, true)) {
+            $dataType = 'VARCHAR';
+        }
+
         $booleanDisplayFormat = ($dataType === 'BOOLEAN') ? (isset($post['boolean_display_format']) && is_string($post['boolean_display_format']) ? trim($post['boolean_display_format']) : 'yes_no') : null;
         $dateSearchBehavior = ($dataType === 'DATE') ? (isset($post['date_search_behavior']) && is_string($post['date_search_behavior']) ? trim($post['date_search_behavior']) : 'manual_only') : null;
+
+        $fieldOptions = null;
+        $allowMultiple = 0;
+        if ($dataType === 'SELECT') {
+            $rawOpts = isset($post['field_options']) && is_string($post['field_options']) ? $post['field_options'] : '';
+            if (!function_exists('parse_column_options')) {
+                $helper = dirname(__DIR__, 2) . '/includes/column_options.php';
+                if (is_file($helper)) {
+                    require_once $helper;
+                }
+            }
+            $opts = function_exists('parse_column_options') ? parse_column_options($rawOpts) : [];
+            if ($opts === []) {
+                throw new Exception('Choice lists need at least one option (one per line).');
+            }
+            $fieldOptions = implode("
+", $opts);
+            $allowMultiple = isset($post['allow_multiple']) ? 1 : 0;
+        }
+
+        $minValue = null;
+        $maxValue = null;
+        if ($dataType === 'INT') {
+            if (isset($post['min_value']) && is_string($post['min_value']) && $post['min_value'] !== '') {
+                $minValue = (int) $post['min_value'];
+            }
+            if (isset($post['max_value']) && is_string($post['max_value']) && $post['max_value'] !== '') {
+                $maxValue = (int) $post['max_value'];
+            }
+            if ($minValue !== null && $maxValue !== null && $minValue > $maxValue) {
+                throw new Exception('Minimum cannot be greater than maximum.');
+            }
+        }
 
         if ($columnName === '') {
             throw new Exception("Column name cannot be empty.");
@@ -189,8 +227,8 @@ class TableService
             $orderStmt->execute([$tableId]);
             $nextSortOrder = (int)$orderStmt->fetchColumn();
 
-            $stmt = $this->pdo->prepare("INSERT INTO table_columns (table_id, column_name, data_type, max_length, boolean_display_format, date_search_behavior, sort_order, is_required, exclude_from_public_search, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            if (!$stmt->execute([$tableId, $columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $nextSortOrder, $isRequired, $excludeFromPublicSearch, $currentUser['id']])) {
+            $stmt = $this->pdo->prepare("INSERT INTO table_columns (table_id, column_name, data_type, max_length, boolean_display_format, date_search_behavior, sort_order, is_required, exclude_from_public_search, created_by, field_options, allow_multiple, min_value, max_value) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            if (!$stmt->execute([$tableId, $columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $nextSortOrder, $isRequired, $excludeFromPublicSearch, $currentUser['id'], $fieldOptions, $allowMultiple, $minValue, $maxValue])) {
                 throw new Exception("Failed to create column.");
             }
 
@@ -204,8 +242,8 @@ class TableService
                 throw new Exception("Invalid column selected for update.");
             }
 
-            $stmt = $this->pdo->prepare("UPDATE table_columns SET column_name = ?, data_type = ?, max_length = ?, boolean_display_format = ?, date_search_behavior = ?, is_required = ?, exclude_from_public_search = ? WHERE id = ?");
-            if (!$stmt->execute([$columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $isRequired, $excludeFromPublicSearch, $columnId])) {
+            $stmt = $this->pdo->prepare("UPDATE table_columns SET column_name = ?, data_type = ?, max_length = ?, boolean_display_format = ?, date_search_behavior = ?, is_required = ?, exclude_from_public_search = ?, field_options = ?, allow_multiple = ?, min_value = ?, max_value = ? WHERE id = ?");
+            if (!$stmt->execute([$columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $isRequired, $excludeFromPublicSearch, $fieldOptions, $allowMultiple, $minValue, $maxValue, $columnId])) {
                 throw new Exception("Failed to update column.");
             }
 
