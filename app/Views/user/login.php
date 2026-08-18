@@ -52,7 +52,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
                 <button type="submit" class="btn btn-primary px-4"><?= htmlspecialchars(__('login.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>
-                <a href="<?= $basePath ?>/user/forgot-password" class="small text-decoration-underline text-secondary"><?= htmlspecialchars(__('login.forgot_password_link'), ENT_QUOTES, 'UTF-8') ?></a>
+                <a href="<?= $basePath ?>/forgot-password" class="small text-decoration-underline text-secondary"><?= htmlspecialchars(__('login.forgot_password_link'), ENT_QUOTES, 'UTF-8') ?></a>
             </div>
         </form>
     </div>
