@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => '管理员',
     'nav.data_entry'             => '数据录入',
     'nav.feedback'               => '意见反馈',
     'nav.feedback_dashboard'     => '反馈面板',
     'nav.high_contrast'          => '高对比度',
     'nav.invite_user'            => '邀请用户',
+    'nav.language_label'         => '语言',
     'nav.leaderboard'            => '排行榜',
     'nav.leaderboard_score'      => '排行榜积分',
     'nav.login'                  => '登录',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => '数据表管理',
     'nav.manage_users'           => '用户管理',
     'nav.moderation'             => '内容审核',
+    'nav.profile'                => '个人资料',
     'nav.search'                 => '搜索',
+    'nav.select_language'        => '选择语言',
     'nav.settings'               => '系统设置',
+    'nav.toggle_navigation'      => '切换导航',
     'nav.volunteer'              => '加入志愿者',
     'nav.volunteer_dashboard'    => '志愿者面板',
     'nav.welcome'                => '欢迎，',
-    'nav.admin'                  => '管理员',
-    'nav.language_label'         => '语言',
-    'nav.profile'                => '个人资料',
-    'nav.select_language'        => '选择语言',
-    'nav.toggle_navigation'      => '切换导航',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> '从公开搜索中排除此列 (index.php)',
     'manage_tables.existing_cols_heading_prefix' => '现有列：',
     'manage_tables.heading'              => '动态表单与结构管理',
+    'manage_tables.no'                   => '否',
     'manage_tables.no_columns_found'     => '此表尚未定义任何动态列。',
     'manage_tables.req_toggle_label'     => '将此列设为必填（强制录入数据）',
     'manage_tables.save_table_btn'       => '保存表更改',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => '显示格式',
     'manage_tables.th_public_search'     => '公开搜索？',
     'manage_tables.type_text_long'       => 'TEXT (长段落)',
-    'manage_tables.delete_table_btn'     => '删除表',
     'manage_tables.yes'                  => '是',
-    'manage_tables.no'                   => '否',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => '当前正在编辑：',
     'user_emails.back_to_creation'       => '返回用户创建',
+    'user_emails.currently_editing'      => '当前正在编辑：',
     'user_emails.desc_invitation'        => '当管理员创建或邀请新用户时自动发送。',
     'user_emails.desc_reset'             => '在触发密码重置或重新发送访问链接时发送。',
     'user_emails.email_body_label'       => '邮件正文：',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => '通知内容（允许 HTML/文本）：',
+    'notices.active'                     => '启用',
+    'notices.add_new'                    => '添加新公告',
+    'notices.audience'                   => '目标受众',
+    'notices.content_label'              => '内容',
     'notices.create_heading'             => '创建新通知',
-    'notices.delete_confirm'             => '确定要删除此通知吗？',
+    'notices.create_notice_btn'          => '创建公告',
+    'notices.delete_btn'                 => '删除',
+    'notices.delete_confirm'             => '确定要删除此公告吗？',
+    'notices.dismissible'                => '可关闭',
     'notices.dismissible_label'          => "可关闭（包含 'X' 关闭按钮）",
+    'notices.display_order'              => '显示顺序',
     'notices.display_order_label'        => '显示顺序：',
     'notices.error_blank'                => '标题和内容不能为空。',
+    'notices.everyone'                   => '所有人',
     'notices.existing_heading'           => '活动与现有通知',
     'notices.heading'                    => '网站通知与公告管理器',
     'notices.msg_created'                => '通知创建成功！',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => '审核员',
     'notices.role_public'                => '公开（访客）',
     'notices.role_users'                 => '用户',
+    'notices.save_btn'                   => '保存',
     'notices.subheading'                 => '创建动态警报、欢迎横幅或针对特定用户角色的定向公告。',
     'notices.target_roles_label'         => '目标受众（选择角色或全部）：',
     'notices.th_dismissible'             => '可关闭',
     'notices.th_order'                   => '顺序',
     'notices.th_target_roles'            => '目标角色',
     'notices.th_title'                   => '标题',
-    'notices.title_label'                => '通知标题 / 标头：',
-    'notices.yes'                        => '是',
-    'notices.add_new'                    => '添加新公告',
     'notices.title_label'                => '标题',
-    'notices.content_label'              => '内容',
-    'notices.display_order'              => '显示顺序',
-    'notices.active'                     => '启用',
-    'notices.dismissible'                => '可关闭',
-    'notices.audience'                   => '目标受众',
-    'notices.everyone'                   => '所有人',
-    'notices.create_notice_btn'          => '创建公告',
-    'notices.save_btn'                   => '保存',
-    'notices.delete_btn'                 => '删除',
-    'notices.delete_confirm'             => '确定要删除此公告吗？',
+    'notices.yes'                        => '是',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => '清理过期的验证令牌，并自动或手动清除已激活用户账号中的挂起链接。',
     'settings.cron_maintenance_heading' => '自动化令牌维护与 Cron 设置',
     'settings.db_updates_heading'        => '数据库更新',
+    'settings.default_date_format'     => '默认日期格式',
     'settings.default_lang_desc'         => '用于访客以及未选择语言的用户。将文件放在 lang/ 目录中（例如 zh_CN.php）以提供更多选项。',
     'settings.default_lang_label'        => '网站默认语言：',
+    'settings.default_lang_note'       => '默认语言已在上方设置。对于已登录用户，个人资料设置将覆盖这些设置。',
+    'settings.default_time_format'     => '默认时间格式',
+    'settings.default_timezone'        => '默认时区',
+    'settings.delete_btn'              => '删除',
     'settings.delete_role_confirm'      => '确定要删除此角色吗？分配给该角色的用户将被安全地重新分配到默认用户角色。',
     'settings.download_backup_btn'       => '下载数据库备份',
     'settings.download_backup_desc'      => '将完整的 .sql 文件保存到您的计算机。在运行更新之前请将其存放在安全的地方。',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => '已认证的 SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (端口 465)',
     'settings.enc_tls'                   => 'TLS (端口 587)',
+    'settings.error_log_tab'           => '错误日志',
     'settings.existing_roles_heading'   => '现有角色与管理',
+    'settings.footer_compiled_notice'  => '页脚来源行', 
+    'settings.footer_notice_helper'    => '显示为网站页脚的第一行。留空则使用语言文件中的默认文本。软件版权和致谢信息保持固定。',
     'settings.hcaptcha_heading'          => 'hCaptcha 设置',
     'settings.heading'                   => '全局网站设置、模块与权限',
     'settings.mail_domain_label'         => '系统邮件域（回退）：',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => '网站通知与公告',
     'settings.permissions_heading'       => '动态角色与权限矩阵',
     'settings.permissions_subheading'    => '权限按系统功能分组。请展开各部分来配置权限，然后保存下方的更新。',
+    'settings.port_label'              => '端口：',
     'settings.purge_all_confirm'         => '⚠️ 警告：这将会永久删除所有系统审计日志。您确定要继续吗？',
     'settings.purge_records_confirm'     => '您确定要清除所有与记录相关的审计条目吗？',
     'settings.recaptcha_heading'         => 'Google reCAPTCHA 设置',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => '网站密钥（公开）：',
     'settings.smtp_encryption_label'     => '加密方式：',
     'settings.smtp_heading'              => 'SMTP 服务器设置',
-    'settings.smtp_host_label'           => 'SMTP 主机：',
+    'settings.smtp_host_label'         => 'SMTP 主机：',
     'settings.smtp_pass_label'           => 'SMTP 密码（留空则保持当前密码）：',
     'settings.smtp_port_label'           => '端口：',
     'settings.smtp_user_label'           => 'SMTP 用户名：',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => '时间戳',
     'settings.turnstile_heading'         => 'Cloudflare Turnstile 设置',
     'settings.update_db_btn'             => '更新数据库',
-    'settings.default_timezone'        => '默认时区',
-    'settings.default_date_format'     => '默认日期格式',
-    'settings.default_time_format'     => '默认时间格式',
-    'settings.footer_compiled_notice'  => '页脚来源行', 
-    'settings.delete_btn'              => '删除',
-    'settings.error_log_tab'           => '错误日志',
-    'settings.smtp_host_label'         => 'SMTP 主机：',
-    'settings.port_label'              => '端口：',
-    'settings.default_lang_note'       => '默认语言已在上方设置。对于已登录用户，个人资料设置将覆盖这些设置。',
-    'settings.footer_notice_helper'    => '显示为网站页脚的第一行。留空则使用语言文件中的默认文本。软件版权和致谢信息保持固定。',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => '删除',
     'admin_users.disabled'               => '已禁用',
     'admin_users.enabled'                => '已启用',
+    'admin_users.find_user'              => '查找用户',
     'admin_users.heading'                => '用户账号管理与排行榜审核',
     'admin_users.invite_user_btn'        => '邀请新用户',
     'admin_users.manage_templates_btn'   => '管理邮件模板',
     'admin_users.no'                     => '否',
+    'admin_users.no_search_match'        => '没有找到符合该搜索的用户。',
     'admin_users.no_users'               => '未找到任何用户。',
     'admin_users.protected_admin'        => '受保护的主管理员',
     'admin_users.reactivate_btn'         => '重新激活',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => '重置密码',
     'admin_users.reset_pwd_confirm'      => '发送密码重置链接给该用户？',
     'admin_users.save_email_title'       => '保存新电子邮件地址',
+    'admin_users.search_help'            => '随输入实时过滤列表。清空输入框以重新显示所有人。',
+    'admin_users.search_placeholder'     => '用户名、邮箱或角色…',
     'admin_users.set_score_btn'          => '设置积分',
     'admin_users.status_active'          => '活动',
     'admin_users.status_suspended'       => '已暂停',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => '更新',
     'admin_users.verified_label'         => '已验证：',
     'admin_users.yes'                    => '是',
-    'admin_users.find_user'              => '查找用户',
-    'admin_users.search_placeholder'     => '用户名、邮箱或角色…',
-    'admin_users.search_help'            => '随输入实时过滤列表。清空输入框以重新显示所有人。',
-    'admin_users.no_search_match'        => '没有找到符合该搜索的用户。',
-    'admin_users.delete_btn'             => '删除',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => '返回公共首页',
-    'admin_errors.heading'             => '错误日志',
-    'admin_errors.subheading'          => '查找错误页面上显示的参考 ID（例如 E-20260810-A1B2C3）。完整详情存储在服务器日志中；访客在屏幕上看到的详情取决于 APP_DEBUG 设置。',
-    'admin_errors.label_error_id'      => '错误参考 ID',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => '查找',
-    'admin_errors.not_found'           => '未找到相关的日志条目',
-    'admin_errors.found_heading'       => '找到：',
-    'admin_errors.time_utc'            => '时间 (UTC)',
-    'admin_errors.local_time'          => '您的本地时间',
-    'admin_errors.type'                => '类型',
-    'admin_errors.message'             => '消息',
     'admin_errors.file'                => '文件',
+    'admin_errors.found_heading'       => '找到：',
+    'admin_errors.heading'             => '错误日志',
+    'admin_errors.label_error_id'      => '错误参考 ID',
     'admin_errors.line_prefix'         => '行',
+    'admin_errors.local_time'          => '您的本地时间',
+    'admin_errors.message'             => '消息',
+    'admin_errors.no_recent'           => '结构化错误日志中暂无条目。',
+    'admin_errors.not_found'           => '未找到相关的日志条目',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => '最近错误',
     'admin_errors.request'             => '请求',
     'admin_errors.stack_trace'         => '堆栈跟踪',
-    'admin_errors.recent_heading'      => '最近错误',
-    'admin_errors.no_recent'           => '结构化错误日志中暂无条目。',
+    'admin_errors.subheading'          => '查找错误页面上显示的参考 ID（例如 E-20260810-A1B2C3）。完整详情存储在服务器日志中；访客在屏幕上看到的详情取决于 APP_DEBUG 设置。',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => '时间',
     'admin_errors.th_message'          => '消息',
+    'admin_errors.th_time'             => '时间',
+    'admin_errors.time_utc'            => '时间 (UTC)',
+    'admin_errors.type'                => '类型',
     'error_template.debug_details'     => '调试详情',
-    'error_template.stack_trace'       => '堆栈跟踪',
     'error_template.file_label'        => '文件：',
     'error_template.line_label'        => '行',
+    'error_template.return_home_btn'   => '返回公共首页',
+    'error_template.stack_trace'       => '堆栈跟踪',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => '管理员密码（最少 8 个字符）',
     'install.admin_subheading'           => '这是用于登录<strong>本网站</strong>的账号（并非数据库账号）。',
     'install.admin_username_label'       => '管理员用户名',
+    'install.back_btn'                   => '返回',
     'install.complete_desc'              => '本网站已完成配置。安装程序已被锁定，以防再次被误运行。',
     'install.complete_heading'           => '安装已完成',
     'install.complete_title'             => '安装已完成',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP 无法在此项目文件夹中创建文件。',
     'install.finish_btn'                 => '完成安装',
     'install.heading'                    => '安装',
+    'install.hide_password'              => '隐藏',
     'install.home_link'                  => '前往网站',
+    'install.lang_label'                 => '语言',
     'install.login_link'                 => '登录',
     'install.msg_db_ready'               => '数据库已准备就绪。创建您的管理员账号以完成安装。',
     'install.msg_installation_complete' => '安装已完成。',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'PDO MySQL 扩展',
     'install.req_php'                    => 'PHP 8.0+ (检测到 %s)',
     'install.req_probe'                  => '能够在此项目文件夹中创建文件',
-    'install.subheading'                 => '初始配置<strong>仅适用于此应用程序文件夹</strong>。请使用一个空的 MySQL 数据库。',
-    'install.back_btn'                   => '返回',
-    'install.hide_password'              => '隐藏',
-    'install.lang_label'                 => '语言',
     'install.show_password'              => '显示',
+    'install.subheading'                 => '初始配置<strong>仅适用于此应用程序文件夹</strong>。请使用一个空的 MySQL 数据库。',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => '移除应急访问文件',
+    'update_database.backup_notice'    => '条件允许时，请在运行更新前备份数据库。',
     'update_database.confirm_prompt'   => '您是否已经创建了数据库备份？点击确定以应用待处理的架构更新。',
     'update_database.current_version'  => '当前架构版本：',
     'update_database.err_failed'       => '迁移失败：',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => '数据库已是最新。',
     'update_database.page_title'       => '需要系统更新 — 教区户籍记录目录',
     'update_database.proceed_login'    => '前往登录页面',
+    'update_database.remove_emergency_file' => '移除应急访问文件',
     'update_database.subheading'       => '应用程序的数据库结构已过时，在恢复正常运行之前需要进行架构更新。',
     'update_database.update_btn'       => '立即更新数据库',
-    'index.remove_emergency_file'      => '移除应急访问文件',
-    'update_database.remove_emergency_file' => '移除应急访问文件',
-    'update_database.backup_notice'    => '条件允许时，请在运行更新前备份数据库。',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => '记录 ID: %d — 值: %s',
     'data_entry.dup_prompt'           => '您是否仍要继续并保存此重复条目？',
     'data_entry.enter_value_placeholder' => '输入值...',
+    'data_entry.error_loading'        => '加载记录时出错',
     'data_entry.existing_records_heading' => '现有记录表',
     'data_entry.filter_all_option'    => '-- 全部 --',
     'data_entry.filter_placeholder'   => '筛选...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => '提交数据',
     'data_entry.th_added_by'          => '添加者',
     'data_entry.th_date_created'      => '创建日期',
-    'data_entry.error_loading'        => '加载记录时出错',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => '仅志愿者：',
     'onboarding.attribution_desc1' => '控制您的姓名在公开排行榜和记录中的显示方式。',
     'onboarding.attribution_label' => '排行榜与署名显示偏好：',
-    'onboarding.date_format_label' => '日期显示格式：',
-    'onboarding.heading'           => '欢迎加入团队！',
-    'onboarding.page_title'        => '欢迎 - 账号设置向导',
-    'onboarding.subheading'        => '在开始之前，请花一点时间配置您的区域显示和隐私偏好。您随时可以在个人资料中进行更改。',
-    'onboarding.submit_btn'        => '保存偏好并继续',
-    'onboarding.time_12'          => '12 小时制 上午/下午 (例如 04:07 PM)',
-    'onboarding.time_24'          => '24 小时制 (例如 16:07)',
-    'onboarding.time_format_label' => '时钟格式（时间显示）：',
-    'onboarding.time_none'        => '仅日期 (完全隐藏时间)',
-    'onboarding.timezone_label'    => '时区 / 地区：',
     'onboarding.btn_continue_2fa'   => '继续进行两步验证 (2FA)',
     'onboarding.btn_skip_for_now'   => '暂略过',
     'onboarding.date_fmt_dmy'       => '2026/07/23 (英国斜杠 - 日/月/年)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '2026.07.23 (点分隔 - 日.月.年)',
     'onboarding.date_fmt_full'      => '2026年7月23日 星期四 (完整文本)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (美国风格 - 月/日/年)',
+    'onboarding.date_format_label' => '日期显示格式：',
     'onboarding.err_names_required' => '名和姓是必填项。',
     'onboarding.err_save_failed'    => '保存配置首选项失败，请重试。',
+    'onboarding.heading'           => '欢迎加入团队！',
     'onboarding.lang_site_default'  => '网站默认',
     'onboarding.language_label'     => '语言',
     'onboarding.msg_welcome'        => '欢迎加入！您的偏好设置已保存。',
+    'onboarding.page_title'        => '欢迎 - 账号设置向导',
     'onboarding.security_hint'      => '您可以随时在菜单中点击您的用户名来更改个人设置。',
+    'onboarding.subheading'        => '在开始之前，请花一点时间配置您的区域显示和隐私偏好。您随时可以在个人资料中进行更改。',
+    'onboarding.submit_btn'        => '保存偏好并继续',
+    'onboarding.time_12'          => '12 小时制 上午/下午 (例如 04:07 PM)',
+    'onboarding.time_24'          => '24 小时制 (例如 16:07)',
+    'onboarding.time_format_label' => '时钟格式（时间显示）：',
+    'onboarding.time_none'        => '仅日期 (完全隐藏时间)',
+    'onboarding.timezone_label'    => '时区 / 地区：',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => '电子邮件地址',
     'profile.email_unverified'     => '(未验证 - 请检查您的收件箱)',
     'profile.email_verified'       => '(已验证)',
+    'profile.err_personal_update'   => '更新个人信息失败。',
     'profile.generate_codes_btn'   => '生成新备用代码',
     'profile.generate_codes_confirm' => '您确定吗？这会使任何现有的备用代码失效。',
     'profile.heading'              => '用户个人资料与安全',
     'profile.lang_site_default'    => '网站默认',
     'profile.language_label'       => '首选语言：',
+    'profile.msg_personal_updated'  => '个人信息、时区和格式设置已成功更新！',
     'profile.new_password_label'   => '新密码（最少 8 个字符）：',
     'profile.password_heading'     => '更改密码',
     'profile.personal_details_heading' => '个人详细信息',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => '更新个人详细信息',
     'profile.update_email_btn'     => '更新邮箱并验证',
     'profile.update_password_btn'  => '更新密码',
-    'profile.err_personal_update'   => '更新个人信息失败。',
-    'profile.msg_personal_updated'  => '个人信息、时区和格式设置已成功更新！',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => '用户注册',
+    'register.email_label'    => '电子邮件地址',
     'register.heading'        => '注册新账号',
     'register.submit_btn'     => '注册',
     'register.username_label' => '用户名：',
-    'register.email_label'    => '电子邮件地址',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => '当前值：',
     'suggest_edit.empty_label'          => '(空)',
     'suggest_edit.heading_prefix'       => '建议编辑记录',
+    'suggest_edit.leave_blank'          => '请将此字段留空',
     'suggest_edit.proposed_value_label' => '建议的新值：',
     'suggest_edit.reasoning_label'      => '依据 / 理由 / 来源说明：',
     'suggest_edit.reasoning_placeholder'=> '提供上下文、来源引用或进行此更改的理由...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => '提交建议以供审查',
     'suggest_edit.submit_heading'       => '提交新的建议值与依据',
     'suggest_edit.success_msg_suffix'   => '您可以随时在下方提交其他编辑，或在完成后使用上方的返回链接。',
-    'suggest_edit.leave_blank'          => '请将此字段留空',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => '为我分配一个唯一的用户名',
+    'index.check_availability'         => '检查可用性',
+    'volunteer.allocate_unique_username' => '为我分配一个唯一的用户名',
     'volunteer.aria_region'          => '志愿者表单',
+    'volunteer.check_availability'     => '检查可用性',
     'volunteer.honeypot_label'       => '请将此字段留空：',
     'volunteer.multi_select_hint'    => '按住 Ctrl 或 Cmd 键进行多选。',
     'volunteer.required_field_title'=> '必填字段',
     'volunteer.submit_btn'           => '提交志愿者申请',
-    'index.check_availability'         => '检查可用性',
-    'index.allocate_unique_username'   => '为我分配一个唯一的用户名',
-    'volunteer.check_availability'     => '检查可用性',
-    'volunteer.allocate_unique_username' => '为我分配一个唯一的用户名',
 ];

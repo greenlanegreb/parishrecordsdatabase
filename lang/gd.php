@@ -7,11 +7,13 @@ return [
     // Navigation
     // ------------------------------------------------------------------
     'manage_tables'              => 'Stiùirich bùird', // fallback mapping or key
+    'nav.admin'                  => 'Rianadair',
     'nav.data_entry'             => 'Cur a-steach dàta',
     'nav.feedback'               => 'Fios air ais',
     'nav.feedback_dashboard'     => 'Deas-bhòrd an fhios air ais',
     'nav.high_contrast'          => 'Iomsgaradh àrd',
     'nav.invite_user'            => 'Thoir cuireadh do chleachdaiche',
+    'nav.language_label'         => 'Cànan',
     'nav.leaderboard'            => 'Clàr nan sgòran',
     'nav.leaderboard_score'      => 'Sgòr a\' chlàir',
     'nav.login'                  => 'Log a-steach',
@@ -20,16 +22,14 @@ return [
     'nav.manage_tables'          => 'Stiùirich bùird',
     'nav.manage_users'           => 'Stiùirich cleachdaichean',
     'nav.moderation'             => 'Modaireachd',
+    'nav.profile'                => 'Pròifil',
     'nav.search'                 => 'Lorg',
+    'nav.select_language'        => 'Tagh cànan',
     'nav.settings'               => 'Roghainnean an t-siostaim',
+    'nav.toggle_navigation'      => 'Tionndaidh an seòladh',
     'nav.volunteer'              => 'Gabh pàirt',
     'nav.volunteer_dashboard'    => 'Deas-bhòrd nan saor-thoilich',
     'nav.welcome'                => 'Fàilte,',
-    'nav.admin'                  => 'Rianadair',
-    'nav.language_label'         => 'Cànan',
-    'nav.profile'                => 'Pròifil',
-    'nav.select_language'        => 'Tagh cànan',
-    'nav.toggle_navigation'      => 'Tionndaidh an seòladh',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -208,7 +208,7 @@ return [
     'manage_tables.date_bhv_all'         => 'A h-uile ceann-latha a\' gabhail a-steach rianachd',
     'manage_tables.date_bhv_manual'      => 'Ceann-latha stòr-dàta (cuir a-steach le làimh a-mhàin)',
     'manage_tables.delete_col_confirm'   => 'RABHADH: Le bhith a\' sguab às a\' chlàr seo bheir sin air falbh gach dàta cealla co-cheangailte anns gach clàradh. A bheil thu cinnteach?',
-    'manage_tables.delete_table_btn'     => 'Sguab às an clàr',
+    'manage_tables.delete_table_btn'     => 'Sguab às an Clàr',
     'manage_tables.delete_table_confirm'=> 'RABHADH: Le bhith a\' sguab às a\' chlàr seo bheir sin air falbh gu buan gach colbh agus susbaint a chaidh a shàbhaladh. A bheil thu cinnteach gu tur?',
     'manage_tables.edit_col_summary'     => 'Deasaich colbh dinamach:',
     'manage_tables.edit_metadata_btn'    => 'Deasaich meata-dàta a\' chlàir',
@@ -216,6 +216,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Dùisg an colbh seo bho lorg poblach (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Colbhan a th\' ann airson',
     'manage_tables.heading'              => 'Stiùirich bùird is sgeemachan',
+    'manage_tables.no'                   => 'Chan eil',
     'manage_tables.no_columns_found'     => 'Chan eil colbhan dinamach air am mìneachadh airson a\' chlàir seo fhathast.',
     'manage_tables.req_toggle_label'     => 'Dèan an colbh seo riatanach (cur a-steach dàta èigneachail)',
     'manage_tables.save_table_btn'       => 'Sàbhail atharrachaidhean a\' chlàir',
@@ -228,15 +229,13 @@ return [
     'manage_tables.th_display_format'    => 'Cruth taisbeanaidh',
     'manage_tables.th_public_search'     => 'Lorg poblach?',
     'manage_tables.type_text_long'       => 'TEXT (Earrann fhada)',
-    'manage_tables.delete_table_btn'     => 'Sguab às an Clàr',
     'manage_tables.yes'                  => 'Tha',
-    'manage_tables.no'                   => 'Chan eil',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'A\' deasachadh an-dràsta:',
     'user_emails.back_to_creation'       => 'Air ais gu cruthachadh cleachdaiche',
+    'user_emails.currently_editing'      => 'A\' deasachadh an-dràsta:',
     'user_emails.desc_invitation'        => 'Air a chuir gu fèin-ghluasadach nuair a bhios rianadair a\' cruthachadh no a\' toirt cuireadh do chleachdaiche ùr.',
     'user_emails.desc_reset'             => 'Air a chuir nuair a thèid ath-shuidheachadh facal-faire no ath-chuir ceangal a thòiseachadh.',
     'user_emails.email_body_label'       => 'Corp a\' phuist-d:',
@@ -301,12 +300,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Susbaint a\' bhratha (HTML/Teacsa ceadaichte):',
+    'notices.active'                     => 'Gnìomhach',
+    'notices.add_new'                    => 'Cuir fios ùr ris',
+    'notices.audience'                   => 'Èisteachd',
+    'notices.content_label'              => 'Susbaint',
     'notices.create_heading'             => 'Cruthaich brath ùr',
-    'notices.delete_confirm'             => 'Sguab às am brath seo?',
+    'notices.create_notice_btn'          => 'Cruthaich fios',
+    'notices.delete_btn'                 => 'Sguab às',
+    'notices.delete_confirm'             => 'A bheil thu airson am fios seo a sguabadh às?',
+    'notices.dismissible'                => 'Gabhaidh a sguabadh às an t-sùil',
     'notices.dismissible_label'          => "Lorg-a-mach (A\' gabhail a-steach putan dùnaidh 'X')",
+    'notices.display_order'              => 'Òrdugh taisbeanaidh',
     'notices.display_order_label'        => 'Òrdugh taisbeanaidh:',
     'notices.error_blank'                => 'Chan fhaod an tiotal agus an susbaint a bhith bàn.',
+    'notices.everyone'                   => 'H-uile duine',
     'notices.existing_heading'           => 'Brathan gnìomhach a th\' ann',
     'notices.heading'                    => 'Stiùiriche aithrisean is brathan a\' chàir',
     'notices.msg_created'                => 'Chaidh an brath a chruthachadh gu soirbheachail!',
@@ -319,26 +326,15 @@ return [
     'notices.role_moderators'            => 'Modaireatairean',
     'notices.role_public'                => 'Poblach (Aoigh)',
     'notices.role_users'                 => 'Cleachdaichean',
+    'notices.save_btn'                   => 'Sàbhail',
     'notices.subheading'                 => 'Cruthaich rabhaidhean dinamach, brataichean fàilte, no brathan targaid airson dreuchdan cleachdaiche sònraichte.',
     'notices.target_roles_label'         => 'Luchd-èisteachd targaid (Tagh dreuchdan no a h-uile):',
     'notices.th_dismissible'             => 'Lorg-a-mach',
     'notices.th_order'                   => 'Òrdugh',
     'notices.th_target_roles'            => 'Dreuchdan targaid',
     'notices.th_title'                   => 'Tiotal',
-    'notices.title_label'                => 'Tiotal / Ceann a\' bhratha:',
-    'notices.yes'                        => 'Tha',
-    'notices.add_new'                    => 'Cuir fios ùr ris',
     'notices.title_label'                => 'Cuspair',
-    'notices.content_label'              => 'Susbaint',
-    'notices.display_order'              => 'Òrdugh taisbeanaidh',
-    'notices.active'                     => 'Gnìomhach',
-    'notices.dismissible'                => 'Gabhaidh a sguabadh às an t-sùil',
-    'notices.audience'                   => 'Èisteachd',
-    'notices.everyone'                   => 'H-uile duine',
-    'notices.create_notice_btn'          => 'Cruthaich fios',
-    'notices.save_btn'                   => 'Sàbhail',
-    'notices.delete_btn'                 => 'Sguab às',
-    'notices.delete_confirm'             => 'A bheil thu airson am fios seo a sguabadh às?',
+    'notices.yes'                        => 'Tha',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -362,8 +358,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Glan comharran dearbhaidh a dh’fhalbh an ùine agus cuir às do cheanglaichean crochte bho chunntasan luchd-cleachdaidh a chaidh an gnìomhachadh gu fèin-obrachail no le làimh.',
     'settings.cron_maintenance_heading' => 'Càradh Chomharran Fèin-obrachail & Suidheachadh Cron',
     'settings.db_updates_heading'        => 'Ùrachaidhean stòr-dàta',
+    'settings.default_date_format'       => 'Fòrmat ceann-là bunaiteach',
     'settings.default_lang_desc'         => 'Air a chleachdadh airson aoibhchean agus cleachdaichean nach do thagh cànan. Cuir faidhlichean ann an lang/ (me gd.php) gus roghainnean a bharrachd a thoirt seachad.',
     'settings.default_lang_label'        => 'Cànan àbhaisteach an lìn:',
+    'settings.default_lang_note'         => 'Tha an cànan bunaiteach air a shuidheachadh gu h-àrd mar-thà. Bidh roghainnean a’ phròifil a’ dol thairist air an fheadhainn seo do luchd-cleachdaidh a tha air logadh a-steach.',
+    'settings.default_time_format'       => 'Fòrmat ùine bunaiteach',
+    'settings.default_timezone'          => 'Sòn-ùine bunaiteach',
+    'settings.delete_btn'                => 'Sguab às',
     'settings.delete_role_confirm'      => 'A bheil thu cinnte gu bheil thu airson an dreuchd seo a sguabadh às? Thèid luchd-cleachdaidh a chaidh an sònrachadh dhi ath-shònrachadh gu sàbhailte chun dreuchd cleachdaiche bunaiteach.',
     'settings.download_backup_btn'       => 'Luchdaich a-nuas cùl-taic stòr-dàta',
     'settings.download_backup_desc'      => 'A\' sàbhaladh faidhle .sql iomlan air a\' choimpiutair agad. Glèidh e ann an àite sàbhailte mus ruith thu ùrachaidhean.',
@@ -371,7 +372,10 @@ return [
     'settings.driver_smtp'               => 'SMTP dearbhte (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Port 465)',
     'settings.enc_tls'                   => 'TLS (Port 587)',
+    'settings.error_log_tab'             => 'Loga mearachdan',
     'settings.existing_roles_heading'   => 'Dreuchdan a tha ann & Stiùireadh',
+    'settings.footer_compiled_notice'    => 'Loidhne thùs a’ bhun-duilleag', 
+    'settings.footer_notice_helper'      => 'Air a thaisbeancadh mar a’ chiad loidhne de bhun-duilleag na làraich. Fàg falamh gus an teacsa bunaiteach bhon fhaidhle cànain a chleachdadh. Bidh creideasan bathar-bog agus dlighe-sgrìobhaidh fhathast stèidhichte.',
     'settings.hcaptcha_heading'          => 'Roghainnean hCaptcha',
     'settings.heading'                   => 'Roghainnean cruinneil an lìn, modalan, agus ceadan',
     'settings.mail_domain_label'         => 'Fearann puist-d an t-siostaim (Fallback):',
@@ -403,6 +407,7 @@ return [
     'settings.notices_heading'           => 'Brathan agus aithrisean an lìn',
     'settings.permissions_heading'       => 'Matrics dhreuchdan is ceadan dinamach',
     'settings.permissions_subheading'    => 'Tha ceadan air an bubhalachadh le gnìomhan an t-siostaim. Leudaich na h-earrannan gus comasan a rèiteachadh.',
+    'settings.port_label'                => 'Port:',
     'settings.purge_all_confirm'         => '⚠️ RABHADH: Sguabaidh seo às GU BUAN A H-UILE LOG SGRÙDAIDH SIÒSTAIM. A bheil thu cinnteach?',
     'settings.purge_records_confirm'     => 'A bheil thu cinnteach gu bheil thu ag iarraidh gach log sgrùdaidh co-cheangailte ri clàran a ghlanadh?',
     'settings.recaptcha_heading'         => 'Roghainnean Google reCAPTCHA',
@@ -422,7 +427,7 @@ return [
     'settings.site_key_label'            => 'Iuchair an Làraich (Poblach):',
     'settings.smtp_encryption_label'     => 'Crioptachadh:',
     'settings.smtp_heading'              => 'Roghainnean frithealaiche SMTP',
-    'settings.smtp_host_label'           => 'Ostair SMTP:',
+    'settings.smtp_host_label'           => 'Òstair SMTP:',
     'settings.smtp_pass_label'           => 'Facal-faire SMTP (fàg bàn gus an tè an-dràsta a chumail):',
     'settings.smtp_port_label'           => 'Port:',
     'settings.smtp_user_label'           => 'Ainm-cleachdaiche SMTP:',
@@ -451,26 +456,19 @@ return [
     'settings.th_timestamp'              => 'Stampa-ùine',
     'settings.turnstile_heading'         => 'Roghainnean Cloudflare Turnstile',
     'settings.update_db_btn'             => 'Ùraich stòr-dàta',
-    'settings.default_timezone'          => 'Sòn-ùine bunaiteach',
-    'settings.default_date_format'       => 'Fòrmat ceann-là bunaiteach',
-    'settings.default_time_format'       => 'Fòrmat ùine bunaiteach',
-    'settings.footer_compiled_notice'    => 'Loidhne thùs a’ bhun-duilleag', 
-    'settings.delete_btn'                => 'Sguab às',
-    'settings.error_log_tab'             => 'Loga mearachdan',
-    'settings.smtp_host_label'           => 'Òstair SMTP:',
-    'settings.port_label'                => 'Port:',
-    'settings.default_lang_note'         => 'Tha an cànan bunaiteach air a shuidheachadh gu h-àrd mar-thà. Bidh roghainnean a’ phròifil a’ dol thairist air an fheadhainn seo do luchd-cleachdaidh a tha air logadh a-steach.',
-    'settings.footer_notice_helper'      => 'Air a thaisbeancadh mar a’ chiad loidhne de bhun-duilleag na làraich. Fàg falamh gus an teacsa bunaiteach bhon fhaidhle cànain a chleachdadh. Bidh creideasan bathar-bog agus dlighe-sgrìobhaidh fhathast stèidhichte.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Sguab às',
     'admin_users.disabled'               => 'Ciorramach',
     'admin_users.enabled'                => 'Air a chomasachadh',
+    'admin_users.find_user'              => 'Lorg cleachdaiche',
     'admin_users.heading'                => 'Stiùirich cunntasan cleachdaiche is modaireachd clàr nan sgòran',
     'admin_users.invite_user_btn'        => 'Thoir cuireadh do chleachdaiche ùr',
     'admin_users.manage_templates_btn'   => 'Stiùirich teamplaidean puist-d',
     'admin_users.no'                     => 'Chan eil',
+    'admin_users.no_search_match'        => 'Chan eil cleachdaiche ann a tha a’ maidseadh an rannsachaidh sin.',
     'admin_users.no_users'               => 'Cha deach cleachdaiche a lorg.',
     'admin_users.protected_admin'        => 'Prìomh rianadair dìonta',
     'admin_users.reactivate_btn'         => 'Ath-ghnìomhaich',
@@ -481,6 +479,8 @@ return [
     'admin_users.reset_password_btn'     => 'Ath-shuidhich am facal-faire',
     'admin_users.reset_pwd_confirm'      => 'Cuir ceangal ath-shuidheachadh facal-faire chun chleachdaiche seo?',
     'admin_users.save_email_title'       => 'Sàbhail seòladh puist-d ùr',
+    'admin_users.search_help'            => 'A’ criathradh an liosta fhad ’s a sgrìobhas tu. Falamhaich am bogsa gus a h-uile duine a thaisbeancadh a-rithist.',
+    'admin_users.search_placeholder'     => 'Ainm-cleachdaiche, post-d, no dreuchd…',
     'admin_users.set_score_btn'          => 'Suidhich sgòr',
     'admin_users.status_active'          => 'Gnìomhach',
     'admin_users.status_suspended'       => 'Air a chuir dheth',
@@ -497,11 +497,6 @@ return [
     'admin_users.update_btn'             => 'Ùraich',
     'admin_users.verified_label'         => 'Air a dhearbhadh:',
     'admin_users.yes'                    => 'Tha',
-    'admin_users.find_user'              => 'Lorg cleachdaiche',
-    'admin_users.search_placeholder'     => 'Ainm-cleachdaiche, post-d, no dreuchd…',
-    'admin_users.search_help'            => 'A’ criathradh an liosta fhad ’s a sgrìobhas tu. Falamhaich am bogsa gus a h-uile duine a thaisbeancadh a-rithist.',
-    'admin_users.no_search_match'        => 'Chan eil cleachdaiche ann a tha a’ maidseadh an rannsachaidh sin.',
-    'admin_users.delete_btn'             => 'Sguab às',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -567,31 +562,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'Air ais gu duilleag-dachaigh a\' phobaill',
-    'admin_errors.heading'             => 'Loga mearachdan',
-    'admin_errors.subheading'          => 'Lorg ID iomrais a chithear air duilleag mearachd (m.e. E-20260810-A1B2C3). Tha mion-fhiosrachadh slàn air a stòradh ann log an fhrithealaiche; tha mion-fhiosrachadh air an sgrìn airson luchd-tadhail an urra ri APP_DEBUG.',
-    'admin_errors.label_error_id'      => 'ID iomrais mearachd',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Lorg',
-    'admin_errors.not_found'           => 'Cha deach co-chlàr loga a lorg airson',
-    'admin_errors.found_heading'       => 'Air a lorg:',
-    'admin_errors.time_utc'            => 'Ùine (UTC)',
-    'admin_errors.local_time'          => 'An ùine ionadail agad',
-    'admin_errors.type'                => 'Seòrsa',
-    'admin_errors.message'             => 'Teachdaireachd',
     'admin_errors.file'                => 'Faidhle',
+    'admin_errors.found_heading'       => 'Air a lorg:',
+    'admin_errors.heading'             => 'Loga mearachdan',
+    'admin_errors.label_error_id'      => 'ID iomrais mearachd',
     'admin_errors.line_prefix'         => 'Loidhne',
+    'admin_errors.local_time'          => 'An ùine ionadail agad',
+    'admin_errors.message'             => 'Teachdaireachd',
+    'admin_errors.no_recent'           => 'Gun chlàran anns an loga mearachdan structaraichte fhathast.',
+    'admin_errors.not_found'           => 'Cha deach co-chlàr loga a lorg airson',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Mearachdan o chionn ghoirid',
     'admin_errors.request'             => 'Iarrtas',
     'admin_errors.stack_trace'         => 'Lorg cruach',
-    'admin_errors.recent_heading'      => 'Mearachdan o chionn ghoirid',
-    'admin_errors.no_recent'           => 'Gun chlàran anns an loga mearachdan structaraichte fhathast.',
+    'admin_errors.subheading'          => 'Lorg ID iomrais a chithear air duilleag mearachd (m.e. E-20260810-A1B2C3). Tha mion-fhiosrachadh slàn air a stòradh ann log an fhrithealaiche; tha mion-fhiosrachadh air an sgrìn airson luchd-tadhail an urra ri APP_DEBUG.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Ùine',
     'admin_errors.th_message'          => 'Teachdaireachd',
+    'admin_errors.th_time'             => 'Ùine',
+    'admin_errors.time_utc'            => 'Ùine (UTC)',
+    'admin_errors.type'                => 'Seòrsa',
     'error_template.debug_details'     => 'Mion-fhiosrachadh dì-bhugachaidh',
-    'error_template.stack_trace'       => 'Lorg cruach',
     'error_template.file_label'        => 'Faidhle:',
     'error_template.line_label'        => 'Loidhne',
+    'error_template.return_home_btn'   => 'Air ais gu duilleag-dachaigh a\' phobaill',
+    'error_template.stack_trace'       => 'Lorg cruach',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -625,6 +620,7 @@ return [
     'install.admin_password_label'       => 'Facal-faire an rianadair (min. 8 litrichean)',
     'install.admin_subheading'           => 'Is e seo an logadh a-steach airson <strong>an làrach-lìn seo</strong> (chan e an stòr-dàta).',
     'install.admin_username_label'       => 'Ainm-cleachdaiche an rianadair',
+    'install.back_btn'                   => 'Air ais',
     'install.complete_desc'              => 'Tha an làrach seo air a rèiteachadh mu thràth. Chaidh an stàlaichear a ghlasadh gus casg a chuir air ruith gun dùil.',
     'install.complete_heading'           => 'Chaidh an stàladh a chrìochnachadh',
     'install.complete_title'             => 'Chaidh an stàladh a chrìochnachadh',
@@ -652,7 +648,9 @@ return [
     'install.err_write_permission'       => 'Chan urrainn dha PHP faidhlichean a chruthachadh sa phasgan phròiseact seo.',
     'install.finish_btn'                 => 'Crìochnaich an stàladh',
     'install.heading'                    => 'Stàladh',
+    'install.hide_password'              => 'Folaich',
     'install.home_link'                  => 'Rach gu an làrach',
+    'install.lang_label'                 => 'Cànan',
     'install.login_link'                 => 'Log a-steach',
     'install.msg_db_ready'               => 'Tha an stòr-dàta deiseil. Cruthaich do chunntas rianadair gus an stàladh a chrìochnachadh.',
     'install.msg_installation_complete' => 'Chaidh an stàladh a chrìochnachadh.',
@@ -664,11 +662,8 @@ return [
     'install.req_pdo'                    => 'Leudachadh PDO MySQL',
     'install.req_php'                    => 'PHP 8.0+ (chaidh %s a lorg)',
     'install.req_probe'                  => 'Gabhaidh faidhlichean a chruthachadh sa phasgan phròiseact seo',
-    'install.subheading'                 => 'Rèiteachadh tòiseachaidh <strong>airson pasgan na h-aplacaid seo a-mhàin</strong>. Cleachd stòr-dàta MySQL bàn.',
-    'install.back_btn'                   => 'Air ais',
-    'install.hide_password'              => 'Folaich',
-    'install.lang_label'                 => 'Cànan',
     'install.show_password'              => 'Seall',
+    'install.subheading'                 => 'Rèiteachadh tòiseachaidh <strong>airson pasgan na h-aplacaid seo a-mhàin</strong>. Cleachd stòr-dàta MySQL bàn.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -735,6 +730,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Thoir air falbh faidhle ruigsinneachd èiginn',
+    'update_database.backup_notice'    => 'Gabh cùl-taic de stòr-dàta mus ruith thu ùrachaidhean nuair a ghabhas e dèanamh.',
     'update_database.confirm_prompt'   => 'An do rinn thu cùl-taic den stòr-dàta agad? Briog air OK gus na h-ùrachaidhean sgeama a tha a\' feitheamh a chuir an gnìomh.',
     'update_database.current_version'  => 'An-dràsta tionndadh sgeama:',
     'update_database.err_failed'       => 'Dh\'fhàillig an imrich:',
@@ -744,11 +741,9 @@ return [
     'update_database.msg_uptodate'     => 'Tha an stòr-dàta ùr-nodha mu thràth.',
     'update_database.page_title'       => 'Feumach air Ùrachadh an t-Siostaim — Stòr-dàta Clàran Parraiste',
     'update_database.proceed_login'    => 'Lean air adhart gu duilleag logadh a-steach',
+    'update_database.remove_emergency_file' => 'Thoir air falbh faidhle ruigsinneachd èiginn',
     'update_database.subheading'       => 'Tha sgeama stòr-dàta na h-aplacaid ro aosta agus feumach air ùrachadh sgeama mus lean an obair àbhaisteach air adhart.',
     'update_database.update_btn'       => 'Ùraich an stòr-dàta a-nis',
-    'index.remove_emergency_file'      => 'Thoir air falbh faidhle ruigsinneachd èiginn',
-    'update_database.remove_emergency_file' => 'Thoir air falbh faidhle ruigsinneachd èiginn',
-    'update_database.backup_notice'    => 'Gabh cùl-taic de stòr-dàta mus ruith thu ùrachaidhean nuair a ghabhas e dèanamh.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -806,6 +801,7 @@ return [
     'data_entry.dup_item_format'      => 'ID a\' Chlàraidh: %d — Luach: %s',
     'data_entry.dup_prompt'           => 'A bheil thu ag iarraidh leantainn air adhart agus an clàradh dùbailte seo a sàbhhaladh co-dhiù?',
     'data_entry.enter_value_placeholder' => 'Cuir a-steach luach...',
+    'data_entry.error_loading'         => 'Mearachd nuair a bha clàran gan luchdachadh',
     'data_entry.existing_records_heading' => 'Clàr nan clàran a th\' ann',
     'data_entry.filter_all_option'    => '-- A h-uile --',
     'data_entry.filter_placeholder'   => 'Criathraich...',
@@ -825,7 +821,6 @@ return [
     'data_entry.submit_data_btn'      => 'Cuir a-steach dàta',
     'data_entry.th_added_by'          => 'Air a chur ris le',
     'data_entry.th_date_created'      => 'Ceann-latha cruthachaidh',
-    'data_entry.error_loading'         => 'Mearachd nuair a bha clàran gan luchdachadh',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -861,16 +856,6 @@ return [
     'onboarding.attr_vol_title'    => 'Saor-thoilich a-mhàin:',
     'onboarding.attribution_desc1' => 'A\' smachdachadh mar a bhios d\' ainm air a shealltainn air clàr nan sgòran poblach agus clàran.',
     'onboarding.attribution_label' => 'Roghainn taisbeanaidh air clàr nan sgòran:',
-    'onboarding.date_format_label' => 'Cruth taisbeanaidh ceann-latha:',
-    'onboarding.heading'           => 'Fàilte dhan sgioba!',
-    'onboarding.page_title'        => 'Fàilte - Draoidh Suidheachadh Cunntais',
-    'onboarding.subheading'        => 'Mus tòisich thu, gabh mionaid gus roghainnean taisbeanaidh roinneil agus prìobhaideachd a rèiteachadh. Faodaidh tu an ùrachadh anns a\' phròifil agad.',
-    'onboarding.submit_btn'        => 'Sàbhail roghainnean & lean air adhart',
-    'onboarding.time_12'          => '12 uairean AM/PM (me 04:07 PM)',
-    'onboarding.time_24'          => '24 uairean (me 16:07)',
-    'onboarding.time_format_label' => 'Cruth gleoc (Taisbeanadh ùine):',
-    'onboarding.time_none'        => 'Ceann-latha a-mhàin (Falaich an ùine gu tur)',
-    'onboarding.timezone_label'    => 'Sòn-ùine / Roinn:',
     'onboarding.btn_continue_2fa'   => 'Lean air adhart gu 2FA',
     'onboarding.btn_skip_for_now'   => 'Leig seachad an dràsta',
     'onboarding.date_fmt_dmy'       => '23/07/2026 (Stoidhle RA - Là/Mìos/Bliadhna)',
@@ -878,12 +863,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (Puingean - Là.Mìos.Bliadhna)',
     'onboarding.date_fmt_full'      => 'Diardaoin 23 Iuchar 2026 (Teacst Làn)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (Stoidhle na SA - Mìos/Là/Bliadhna)',
+    'onboarding.date_format_label' => 'Cruth taisbeanaidh ceann-latha:',
     'onboarding.err_names_required' => 'Tha feum air a\' chiad ainm agus an sloinneadh.',
     'onboarding.err_save_failed'    => 'Cha b\' urrainn dhuinn roghainnean a shàbhaladh. Feuch a-rithist.',
+    'onboarding.heading'           => 'Fàilte dhan sgioba!',
     'onboarding.lang_site_default'  => 'Bun-roghainn an làraich',
     'onboarding.language_label'     => 'Cànan',
     'onboarding.msg_welcome'        => 'Fàilte! Chaidh na roghainnean agad a shàbhaladh.',
+    'onboarding.page_title'        => 'Fàilte - Draoidh Suidheachadh Cunntais',
     'onboarding.security_hint'      => 'Faodaidh tu roghainnean pearsanta atharrachadh aig àm sam bith le bhith a\' briogadh air d\' ainm-cleachdaiche sa chlàr.',
+    'onboarding.subheading'        => 'Mus tòisich thu, gabh mionaid gus roghainnean taisbeanaidh roinneil agus prìobhaideachd a rèiteachadh. Faodaidh tu an ùrachadh anns a\' phròifil agad.',
+    'onboarding.submit_btn'        => 'Sàbhail roghainnean & lean air adhart',
+    'onboarding.time_12'          => '12 uairean AM/PM (me 04:07 PM)',
+    'onboarding.time_24'          => '24 uairean (me 16:07)',
+    'onboarding.time_format_label' => 'Cruth gleoc (Taisbeanadh ùine):',
+    'onboarding.time_none'        => 'Ceann-latha a-mhàin (Falaich an ùine gu tur)',
+    'onboarding.timezone_label'    => 'Sòn-ùine / Roinn:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -899,11 +894,13 @@ return [
     'profile.email_heading'        => 'Seòladh puist-d',
     'profile.email_unverified'     => '(Gun dearbhadh - Thoir sùil air a\' bhogsa a-steach agad)',
     'profile.email_verified'       => '(Air a dhearbhadh)',
+    'profile.err_personal_update'   => 'Cha b\' urrainn am fiosrachadh pearsanta ùrachadh.',
     'profile.generate_codes_btn'   => 'Cruthaich còdan cùl-taic ùra',
     'profile.generate_codes_confirm' => 'A bheil thu cinnteach? Bheir seo air falbh èifeachd nan còdan cùl-taic sam bith a th\' ann.',
     'profile.heading'              => 'Pròifil chleachdaiche & Tèarainteachd',
     'profile.lang_site_default'    => 'Tùs an lìn',
     'profile.language_label'       => 'Cànan as fheàrr leat:',
+    'profile.msg_personal_updated'  => 'Chaidh am fiosrachadh pearsanta, an raon-ùine, agus roghainnean cruthachaidh ùrachadh gu soirbheachail!',
     'profile.new_password_label'   => 'Facal-faire ùr (min. 8 litrichean):',
     'profile.password_heading'     => 'Atharraich am facal-faire',
     'profile.personal_details_heading' => 'Mion-fhiosrachadh pearsanta',
@@ -917,17 +914,15 @@ return [
     'profile.update_details_btn'   => 'Ùraich mion-fhiosrachadh pearsanta',
     'profile.update_email_btn'     => 'Ùraich post-d is dearbhaich',
     'profile.update_password_btn'  => 'Ùraich am facal-faire',
-    'profile.err_personal_update'   => 'Cha b\' urrainn am fiosrachadh pearsanta ùrachadh.',
-    'profile.msg_personal_updated'  => 'Chaidh am fiosrachadh pearsanta, an raon-ùine, agus roghainnean cruthachaidh ùrachadh gu soirbheachail!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Clàradh chleachdaiche',
+    'register.email_label'    => 'Seòladh Post-d',
     'register.heading'        => 'Clàraich cunntas ùr',
     'register.submit_btn'     => 'Clàraich',
     'register.username_label' => 'Ainm-cleachdaiche:',
-    'register.email_label'    => 'Seòladh Post-d',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -967,6 +962,7 @@ return [
     'suggest_edit.current_values_heading' => 'Luachan an-dràsta:',
     'suggest_edit.empty_label'          => '(bàn)',
     'suggest_edit.heading_prefix'       => 'Mol deasachadh airson a\' chlàraidh',
+    'suggest_edit.leave_blank'         => 'Fàg an raon seo falamh',
     'suggest_edit.proposed_value_label' => 'Luach ùr a moladh:',
     'suggest_edit.reasoning_label'      => 'Fianais / Adhbhar / Notaichean stòrais:',
     'suggest_edit.reasoning_placeholder'=> 'Thoir seachad co-theacsa, luachan stòrais, no adhbhar airson an atharrachaidh seo...',
@@ -975,7 +971,6 @@ return [
     'suggest_edit.submit_btn'           => 'Cuir a-steach moladh airson sgrùdadh',
     'suggest_edit.submit_heading'       => 'Cuir a-steach luach ùr a moladh agus fianais',
     'suggest_edit.success_msg_suffix'   => 'Faodaidh tu deasachadh eile a chuir a-steach gu h-sìos, no an ceangal air ais a chleachdadh nuair a bhios tu deiseil.',
-    'suggest_edit.leave_blank'         => 'Fàg an raon seo falamh',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1003,13 +998,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Sònraich ainm-cleachdaiche sònraichte dhòmhsa',
+    'index.check_availability'         => 'Thoir sùil air cothrom',
+    'volunteer.allocate_unique_username' => 'Sònraich ainm-cleachdaiche sònraichte dhòmhsa',
     'volunteer.aria_region'          => 'Foirm saor-thoilich',
+    'volunteer.check_availability'     => 'Thoir sùil air cothrom',
     'volunteer.honeypot_label'       => 'Fàg an raon seo bàn:',
     'volunteer.multi_select_hint'    => 'Cùm sìos Ctrl no Cmd gus iomadh a thaghadh.',
     'volunteer.required_field_title'=> 'Raon riatanach',
     'volunteer.submit_btn'           => 'Cuir a-steach iarrtas saor-thoilich',
-    'index.check_availability'         => 'Thoir sùil air cothrom',
-    'index.allocate_unique_username'   => 'Sònraich ainm-cleachdaiche sònraichte dhòmhsa',
-    'volunteer.check_availability'     => 'Thoir sùil air cothrom',
-    'volunteer.allocate_unique_username' => 'Sònraich ainm-cleachdaiche sònraichte dhòmhsa',
 ];

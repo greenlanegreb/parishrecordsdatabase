@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Administrator',
     'nav.data_entry'             => 'Dataintastning',
     'nav.feedback'               => 'Feedback',
     'nav.feedback_dashboard'     => 'Feedback-kontrolpanel',
     'nav.high_contrast'          => 'Høj kontrast',
     'nav.invite_user'            => 'Inviter bruger',
+    'nav.language_label'         => 'Sprog',
     'nav.leaderboard'            => 'Rangliste',
     'nav.leaderboard_score'      => 'Ranglistescore',
     'nav.login'                  => 'Log ind',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Administrer tabeller',
     'nav.manage_users'           => 'Administrer brugere',
     'nav.moderation'             => 'Moderering',
+    'nav.profile'                => 'Profil',
     'nav.search'                 => 'Søg',
+    'nav.select_language'        => 'Vælg sprog',
     'nav.settings'               => 'Systemindstillinger',
+    'nav.toggle_navigation'      => 'Skift navigation',
     'nav.volunteer'              => 'Bliv frivillig',
     'nav.volunteer_dashboard'    => 'Frivillig-kontrolpanel',
     'nav.welcome'                => 'Velkommen,',
-    'nav.admin'                  => 'Administrator',
-    'nav.language_label'         => 'Sprog',
-    'nav.profile'                => 'Profil',
-    'nav.select_language'        => 'Vælg sprog',
-    'nav.toggle_navigation'      => 'Skift navigation',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Udelad denne kolonne fra offentlig søgning (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Eksisterende kolonner for',
     'manage_tables.heading'              => 'Administrer tabeller og skemaer',
+    'manage_tables.no'                   => 'Nej',
     'manage_tables.no_columns_found'     => 'Ingen dynamiske kolonner defineret for denne tabel endnu.',
     'manage_tables.req_toggle_label'     => 'Gør denne kolonne obligatorisk (håndhæver dataintastning)',
     'manage_tables.save_table_btn'       => 'Gem tabelændringer',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Visningsformat',
     'manage_tables.th_public_search'     => 'Offentlig søgning?',
     'manage_tables.type_text_long'       => 'TEXT (Langt afsnit)',
-    'manage_tables.delete_table_btn'     => 'Slet tabel',
     'manage_tables.yes'                  => 'Ja',
-    'manage_tables.no'                   => 'Nej',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'Redigerer i øjeblikket:',
     'user_emails.back_to_creation'       => 'Tilbage til brugeroprettelse',
+    'user_emails.currently_editing'      => 'Redigerer i øjeblikket:',
     'user_emails.desc_invitation'        => 'Sendes automatisk, når en administrator opretter eller inviterer en ny bruger.',
     'user_emails.desc_reset'             => 'Sendes ved udløsning af nulstilling af adgangskode eller genudsendelse af adgangslink.',
     'user_emails.email_body_label'       => 'E-mailtekst:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Meddelelsesindhold (HTML/tekst tilladt):',
+    'notices.active'                     => 'Aktiv',
+    'notices.add_new'                    => 'Tilføj ny meddelelse',
+    'notices.audience'                   => 'Målgruppe',
+    'notices.content_label'              => 'Indhold',
     'notices.create_heading'             => 'Opret ny meddelelse',
-    'notices.delete_confirm'             => 'Slet denne meddelelse?',
+    'notices.create_notice_btn'          => 'Opret meddelelse',
+    'notices.delete_btn'                 => 'Slet',
+    'notices.delete_confirm'             => 'Vil du slette denne meddelelse?',
+    'notices.dismissible'                => 'Kan lukkes',
     'notices.dismissible_label'          => "Kan afvises (inkluderer 'X' lukke-knap)",
+    'notices.display_order'              => 'Visningsrækkefølge',
     'notices.display_order_label'        => 'Visningsrækkefølge:',
     'notices.error_blank'                => 'Titel og indhold må ikke være tomme.',
+    'notices.everyone'                   => 'Alle',
     'notices.existing_heading'           => 'Aktive og eksisterende meddelelser',
     'notices.heading'                    => 'Håndtering af webstedsmeddelelser og annoncer',
     'notices.msg_created'                => 'Meddelelse oprettet succesfuldt!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Moderatorer',
     'notices.role_public'                => 'Offentlig (Gæst)',
     'notices.role_users'                 => 'Brugere',
+    'notices.save_btn'                   => 'Gem',
     'notices.subheading'                 => 'Opret dynamiske alarmer, velkomstbannere eller målrettede meddelelser til specifikke brugerroller.',
     'notices.target_roles_label'         => 'Målgruppe (vælg roller eller alle):',
     'notices.th_dismissible'             => 'Kan afvises',
     'notices.th_order'                   => 'Rækkefølge',
     'notices.th_target_roles'            => 'Målroller',
     'notices.th_title'                   => 'Titel',
-    'notices.title_label'                => 'Meddelelsestitel / Overskrift:',
-    'notices.yes'                        => 'Ja',
-    'notices.add_new'                    => 'Tilføj ny meddelelse',
     'notices.title_label'                => 'Titel',
-    'notices.content_label'              => 'Indhold',
-    'notices.display_order'              => 'Visningsrækkefølge',
-    'notices.active'                     => 'Aktiv',
-    'notices.dismissible'                => 'Kan lukkes',
-    'notices.audience'                   => 'Målgruppe',
-    'notices.everyone'                   => 'Alle',
-    'notices.create_notice_btn'          => 'Opret meddelelse',
-    'notices.save_btn'                   => 'Gem',
-    'notices.delete_btn'                 => 'Slet',
-    'notices.delete_confirm'             => 'Vil du slette denne meddelelse?',
+    'notices.yes'                        => 'Ja',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Ryd ud i udløbne verifikationstokens og rens ufuldstændige links fra aktiverede brugerkonti automatisk eller manuelt.',
     'settings.cron_maintenance_heading' => 'Automatisk token-vedligeholdelse og Cron-opsætning',
     'settings.db_updates_heading'        => 'Databaseopdateringer',
+    'settings.default_date_format'       => 'Standard datoformat',
     'settings.default_lang_desc'         => 'Bruges til gæster og brugere, der ikke har indstillet en sprogpræference. Tilføj filer til lang/ (f.eks. da.php) for flere sprogmuligheder.',
     'settings.default_lang_label'        => 'Standard webstedssprog:',
+    'settings.default_lang_note'         => 'Standardsproget er allerede angivet ovenfor. Profilindstillinger tilsidesætter disse for indlogget brugere.',
+    'settings.default_time_format'       => 'Standard tidsformat',
+    'settings.default_timezone'          => 'Standard tidszone',
+    'settings.delete_btn'                => 'Slet',
     'settings.delete_role_confirm'      => 'Er du sikker på, at du vil slette denne rolle? Brugere, der er tildelt den, vil sikkert blive tildelt standardbrugerrollen igen.',
     'settings.download_backup_btn'       => 'Download databasebackup',
     'settings.download_backup_desc'      => 'Gemmer en fuld .sql-fil på din computer. Opbevar den et sikkert sted, før du kører opdateringer.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'Godkendt SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Port 465)',
     'settings.enc_tls'                   => 'TLS (Port 587)',
+    'settings.error_log_tab'             => 'Fejllog',
     'settings.existing_roles_heading'   => 'Eksisterende roller og håndtering',
+    'settings.footer_compiled_notice'    => 'Sidfodskilde', 
+    'settings.footer_notice_helper'      => 'Vises som første linje i sidfoden. Lad feltet stå tomt for at bruge standardteksten fra sprogfilen. Softwarekredit og ophavsret forbliver faste.',
     'settings.hcaptcha_heading'          => 'Indstillinger for hCaptcha',
     'settings.heading'                   => 'Globale webstedsindstillinger, moduler og tilladelser',
     'settings.mail_domain_label'         => 'Systemmail-domæne (Fallback):',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Webstedsmeddelelser og annoncer',
     'settings.permissions_heading'       => 'Dynamisk rolle- og tilladelsesmatrix',
     'settings.permissions_subheading'    => 'Tilladelser er grupperet efter systemfunktioner. Udvid sektioner for at konfigurere rettigheder og gem matrixen nedenfor.',
+    'settings.port_label'                => 'Port:',
     'settings.purge_all_confirm'         => '⚠️ ADVARSEL: Dette vil PERMANENT SLETTE ALLE SYSTEMAKTIVITETSLOGS. Er du sikker?',
     'settings.purge_records_confirm'     => 'Er du sikker på, at du vil rydde alle aktivitetslogs knyttet til poster?',
     'settings.recaptcha_heading'         => 'Indstillinger for Google reCAPTCHA',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Tidsstempel',
     'settings.turnstile_heading'         => 'Indstillinger for Cloudflare Turnstile',
     'settings.update_db_btn'             => 'Opdater database',
-    'settings.default_timezone'          => 'Standard tidszone',
-    'settings.default_date_format'       => 'Standard datoformat',
-    'settings.default_time_format'       => 'Standard tidsformat',
-    'settings.footer_compiled_notice'    => 'Sidfodskilde', 
-    'settings.delete_btn'                => 'Slet',
-    'settings.error_log_tab'             => 'Fejllog',
-    'settings.smtp_host_label'           => 'SMTP-vært:',
-    'settings.port_label'                => 'Port:',
-    'settings.default_lang_note'         => 'Standardsproget er allerede angivet ovenfor. Profilindstillinger tilsidesætter disse for indlogget brugere.',
-    'settings.footer_notice_helper'      => 'Vises som første linje i sidfoden. Lad feltet stå tomt for at bruge standardteksten fra sprogfilen. Softwarekredit og ophavsret forbliver faste.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Slet',
     'admin_users.disabled'               => 'Deaktiveret',
     'admin_users.enabled'                => 'Aktiveret',
+    'admin_users.find_user'              => 'Find bruger',
     'admin_users.heading'                => 'Brugerkontoadministration og ranglistemoderering',
     'admin_users.invite_user_btn'        => 'Inviter ny bruger',
     'admin_users.manage_templates_btn'   => 'Administrer e-mailskabeloner',
     'admin_users.no'                     => 'Nej',
+    'admin_users.no_search_match'        => 'Ingen brugere matcher denne søgning.',
     'admin_users.no_users'               => 'Ingen brugere fundet.',
     'admin_users.protected_admin'        => 'Beskyttet primær administrator',
     'admin_users.reactivate_btn'         => 'Genaktiver',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Nulstil adgangskode',
     'admin_users.reset_pwd_confirm'      => 'Send link til nulstilling af adgangskode til denne bruger?',
     'admin_users.save_email_title'       => 'Gem ny e-mailadresse',
+    'admin_users.search_help'            => 'Filtrerer listen, mens du skriver. Ryd feltet for at vise alle igen.',
+    'admin_users.search_placeholder'     => 'Brugernavn, e-mail eller rolle…',
     'admin_users.set_score_btn'          => 'Indstiller score',
     'admin_users.status_active'          => 'Aktiv',
     'admin_users.status_suspended'       => 'Suspenderet',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Opdater',
     'admin_users.verified_label'         => 'Bekræftet:',
     'admin_users.yes'                    => 'Ja',
-    'admin_users.find_user'              => 'Find bruger',
-    'admin_users.search_placeholder'     => 'Brugernavn, e-mail eller rolle…',
-    'admin_users.search_help'            => 'Filtrerer listen, mens du skriver. Ryd feltet for at vise alle igen.',
-    'admin_users.no_search_match'        => 'Ingen brugere matcher denne søgning.',
-    'admin_users.delete_btn'             => 'Slet',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'Tilbage til offentlig forside',
-    'admin_errors.heading'             => 'Fejllog',
-    'admin_errors.subheading'          => 'Slå et reference-ID op, der vises på en fejlside (f.eks. E-20260810-A1B2C3). Fuldstændige detaljer gemmes i serverloggen; skærmdetaljer for besøgende afhænger af APP_DEBUG.',
-    'admin_errors.label_error_id'      => 'Fejlreference-ID',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Find',
-    'admin_errors.not_found'           => 'Ingen logpost fundet for',
-    'admin_errors.found_heading'       => 'Fundet:',
-    'admin_errors.time_utc'            => 'Tid (UTC)',
-    'admin_errors.local_time'          => 'Din lokale tid',
-    'admin_errors.type'                => 'Type',
-    'admin_errors.message'             => 'Besked',
     'admin_errors.file'                => 'Fil',
+    'admin_errors.found_heading'       => 'Fundet:',
+    'admin_errors.heading'             => 'Fejllog',
+    'admin_errors.label_error_id'      => 'Fejlreference-ID',
     'admin_errors.line_prefix'         => 'Linje',
+    'admin_errors.local_time'          => 'Din lokale tid',
+    'admin_errors.message'             => 'Besked',
+    'admin_errors.no_recent'           => 'Ingen poster i den strukturerede fejllog endnu.',
+    'admin_errors.not_found'           => 'Ingen logpost fundet for',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Seneste fejl',
     'admin_errors.request'             => 'Forespørgsel',
     'admin_errors.stack_trace'         => 'Stak-trace',
-    'admin_errors.recent_heading'      => 'Seneste fejl',
-    'admin_errors.no_recent'           => 'Ingen poster i den strukturerede fejllog endnu.',
+    'admin_errors.subheading'          => 'Slå et reference-ID op, der vises på en fejlside (f.eks. E-20260810-A1B2C3). Fuldstændige detaljer gemmes i serverloggen; skærmdetaljer for besøgende afhænger af APP_DEBUG.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Tid',
     'admin_errors.th_message'          => 'Besked',
+    'admin_errors.th_time'             => 'Tid',
+    'admin_errors.time_utc'            => 'Tid (UTC)',
+    'admin_errors.type'                => 'Type',
     'error_template.debug_details'     => 'Fejlsøgningsdetaljer',
-    'error_template.stack_trace'       => 'Stak-trace',
     'error_template.file_label'        => 'Fil:',
     'error_template.line_label'        => 'Linje',
+    'error_template.return_home_btn'   => 'Tilbage til offentlig forside',
+    'error_template.stack_trace'       => 'Stak-trace',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Administratoradgangskode (min. 8 tegn)',
     'install.admin_subheading'           => 'Dette er loginoplysningerne til <strong>dette websted</strong> (ikke en databasekonto).',
     'install.admin_username_label'       => 'Administratorbrugernavn',
+    'install.back_btn'                   => 'Tilbage',
     'install.complete_desc'              => 'Dette websted er allerede konfigureret. Installeren er blevet låst for at forhindre genudførelse.',
     'install.complete_heading'           => 'Installation fuldført',
     'install.complete_title'             => 'Installation fuldført',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP kan ikke oprette filer i denne projektmappe.',
     'install.finish_btn'                 => 'Fuldfør installation',
     'install.heading'                    => 'Installation',
+    'install.hide_password'              => 'Skjul',
     'install.home_link'                  => 'Gå til websted',
+    'install.lang_label'                 => 'Sprog',
     'install.login_link'                 => 'Log ind',
     'install.msg_db_ready'               => 'Databasen er klar. Opret din administratorkonto for at afslutte.',
     'install.msg_installation_complete' => 'Installation fuldført.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'PDO MySQL-udvidelse',
     'install.req_php'                    => 'PHP 8.0+ (registreret %s)',
     'install.req_probe'                  => 'Evne til at oprette filer i denne projektmappe',
-    'install.subheading'                 => 'Første opsætning <strong>kun for denne applikationsmappe</strong>. Brug en tom MySQL-database.',
-    'install.back_btn'                   => 'Tilbage',
-    'install.hide_password'              => 'Skjul',
-    'install.lang_label'                 => 'Sprog',
     'install.show_password'              => 'Vis',
+    'install.subheading'                 => 'Første opsætning <strong>kun for denne applikationsmappe</strong>. Brug en tom MySQL-database.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Fjern nødadgangsfil',
+    'update_database.backup_notice'    => 'Tag en databasebackup, før du kører opdateringer, når du kan.',
     'update_database.confirm_prompt'   => 'Har du taget backup af din database? Klik på OK for at anvende ventende skemaopdateringer.',
     'update_database.current_version'  => 'Aktuel skemaversion:',
     'update_database.err_failed'       => 'Migration mislykkedes:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'Databasen er allerede opdateret.',
     'update_database.page_title'       => 'Systemopdatering påkrævet — Sognearkiv',
     'update_database.proceed_login'    => 'Gå til login-side',
+    'update_database.remove_emergency_file' => 'Fjern nødadgangsfil',
     'update_database.subheading'       => 'Applikationsdatabaseskemaet er forældet og kræver en skemaopdatering, før normal drift kan fortsætte.',
     'update_database.update_btn'       => 'Opdater database nu',
-    'index.remove_emergency_file'      => 'Fjern nødadgangsfil',
-    'update_database.remove_emergency_file' => 'Fjern nødadgangsfil',
-    'update_database.backup_notice'    => 'Tag en databasebackup, før du kører opdateringer, når du kan.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'Post-ID: %d — Værdi: %s',
     'data_entry.dup_prompt'           => 'Vil du fortsætte og gemme denne dubletpost alligevel?',
     'data_entry.enter_value_placeholder' => 'Indtast værdi...',
+    'data_entry.error_loading'         => 'Fejl ved indlæsning af poster',
     'data_entry.existing_records_heading' => 'Tabel over eksisterende poster',
     'data_entry.filter_all_option'    => '-- Alle --',
     'data_entry.filter_placeholder'   => 'Filtrer...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Indsend data',
     'data_entry.th_added_by'          => 'Tilføjet af',
     'data_entry.th_date_created'      => 'Oprettet dato',
-    'data_entry.error_loading'         => 'Fejl ved indlæsning af poster',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'Kun frivillige:',
     'onboarding.attribution_desc1' => 'Styrer, hvordan dit navn vises på den offentlige rangliste og i poster.',
     'onboarding.attribution_label' => 'Præference for ranglistevisning:',
-    'onboarding.date_format_label' => 'Dato-visningsformat:',
-    'onboarding.heading'           => 'Velkommen til holdet!',
-    'onboarding.page_title'        => 'Velkommen — Kontopsætningsguide',
-    'onboarding.subheading'        => 'Før du går i gang, bedes du bruge et øjeblik på at konfigurere dine regionale visnings- og privatlivspræferencer. Du kan ændre dem i din profil når som helst.',
-    'onboarding.submit_btn'        => 'Gem præferencer og fortsæt',
-    'onboarding.time_12'          => '12-timers AM/PM (f.eks. 04:07 PM)',
-    'onboarding.time_24'          => '24-timers (f.eks. 16:07)',
-    'onboarding.time_format_label' => 'Urformat (tidsvisning):',
-    'onboarding.time_none'        => 'Kun dato (skjul tid helt)',
-    'onboarding.timezone_label'    => 'Tidszone / Region:',
     'onboarding.btn_continue_2fa'   => 'Fortsæt til 2FA',
     'onboarding.btn_skip_for_now'   => 'Spring over for nu',
     'onboarding.date_fmt_dmy'       => '23/07/2026 (UK Skråstreg - DD/MM/ÅÅÅÅ)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (Prikker - DD.MM.ÅÅÅÅ)',
     'onboarding.date_fmt_full'      => 'Torsdag den 23. juli 2026 (Fuld tekst)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (US Stil - MM/DD/ÅÅÅÅ)',
+    'onboarding.date_format_label' => 'Dato-visningsformat:',
     'onboarding.err_names_required' => 'Fornavn og efternavn er påkrævet.',
     'onboarding.err_save_failed'    => 'Kunne ikke gemme opsætningspræferencer. Prøv venligst igen.',
+    'onboarding.heading'           => 'Velkommen til holdet!',
     'onboarding.lang_site_default'  => 'Webstedets standard',
     'onboarding.language_label'     => 'Sprog',
     'onboarding.msg_welcome'        => 'Velkommen ombord! Dine præferencer er blevet gemt.',
+    'onboarding.page_title'        => 'Velkommen — Kontopsætningsguide',
     'onboarding.security_hint'      => 'Du kan til enhver tid ændre personlige indstillinger ved at klikke på dit brugernavn i menuen.',
+    'onboarding.subheading'        => 'Før du går i gang, bedes du bruge et øjeblik på at konfigurere dine regionale visnings- og privatlivspræferencer. Du kan ændre dem i din profil når som helst.',
+    'onboarding.submit_btn'        => 'Gem præferencer og fortsæt',
+    'onboarding.time_12'          => '12-timers AM/PM (f.eks. 04:07 PM)',
+    'onboarding.time_24'          => '24-timers (f.eks. 16:07)',
+    'onboarding.time_format_label' => 'Urformat (tidsvisning):',
+    'onboarding.time_none'        => 'Kun dato (skjul tid helt)',
+    'onboarding.timezone_label'    => 'Tidszone / Region:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'E-mailadresse',
     'profile.email_unverified'     => '(Ubekræftet - Tjek din indbakke)',
     'profile.email_verified'       => '(Bekræftet)',
+    'profile.err_personal_update'   => 'Kunne ikke opdatere personlige oplysninger.',
     'profile.generate_codes_btn'   => 'Generer nye bakkoder',
     'profile.generate_codes_confirm' => 'Er du sikker? Dette vil gøre alle eksisterende bakkoder ugyldige.',
     'profile.heading'              => 'Brugerprofil og sikkerhed',
     'profile.lang_site_default'    => 'Webstedets standard',
     'profile.language_label'       => 'Foretrukket sprog:',
+    'profile.msg_personal_updated'  => 'Personlige oplysninger, tidszone og formatindstillinger blev opdateret oprettet!',
     'profile.new_password_label'   => 'Ny adgangskode (min. 8 tegn):',
     'profile.password_heading'     => 'Skift adgangskode',
     'profile.personal_details_heading' => 'Personlige oplysninger',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Opdater personlige oplysninger',
     'profile.update_email_btn'     => 'Opdater e-mail og bekræft',
     'profile.update_password_btn'  => 'Opdater adgangskode',
-    'profile.err_personal_update'   => 'Kunne ikke opdatere personlige oplysninger.',
-    'profile.msg_personal_updated'  => 'Personlige oplysninger, tidszone og formatindstillinger blev opdateret oprettet!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Brugerregistrering',
+    'register.email_label'    => 'E-mailadresse',
     'register.heading'        => 'Registrer ny konto',
     'register.submit_btn'     => 'Registrer',
     'register.username_label' => 'Brugernavn:',
-    'register.email_label'    => 'E-mailadresse',
     // ------------------------------------------------------------------
     // Set Password via Secure Token
     // ------------------------------------------------------------------
@@ -965,6 +960,7 @@ return [
     'suggest_edit.current_values_heading' => 'Aktuelle værdier:',
     'suggest_edit.empty_label'          => '(tom)',
     'suggest_edit.heading_prefix'       => 'Foreslå redigering for post',
+    'suggest_edit.leave_blank'          => 'Efterlad dette felt tomt',
     'suggest_edit.proposed_value_label' => 'Foreslået ny værdi:',
     'suggest_edit.reasoning_label'      => 'Dokumentation / Begrundelse / Kildehenvisning:',
     'suggest_edit.reasoning_placeholder'=> 'Giv kontekst, kildecitat eller årsag til denne ændring...',
@@ -973,7 +969,6 @@ return [
     'suggest_edit.submit_btn'           => 'Indsend forslag til gennemgang',
     'suggest_edit.submit_heading'       => 'Indsend ny foreslået værdi og dokumentation',
     'suggest_edit.success_msg_suffix'   => 'Du kan indsende en anden redigering nedenfor eller bruge returlinket ovenfor, når du er færdig.',
-    'suggest_edit.leave_blank'          => 'Efterlad dette felt tomt',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1001,13 +996,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Tildel et unikt brugernavn til mig',
+    'index.check_availability'         => 'Tjek tilgængelighed',
+    'volunteer.allocate_unique_username' => 'Tildel et unikt brugernavn til mig',
     'volunteer.aria_region'          => 'Frivilligformular',
+    'volunteer.check_availability'     => 'Tjek tilgængelighed',
     'volunteer.honeypot_label'       => 'Lad dette felt stå tomt:',
     'volunteer.multi_select_hint'    => 'Hold Ctrl eller Cmd nede for at vælge flere.',
     'volunteer.required_field_title'=> 'Obligatorisk felt',
     'volunteer.submit_btn'           => 'Indsend frivilligansøgning',
-    'index.check_availability'         => 'Tjek tilgængelighed',
-    'index.allocate_unique_username'   => 'Tildel et unikt brugernavn til mig',
-    'volunteer.check_availability'     => 'Tjek tilgængelighed',
-    'volunteer.allocate_unique_username' => 'Tildel et unikt brugernavn til mig',
 ];

@@ -20,9 +20,13 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse --memory-limit=512M",
-        "test": "phpunit"
+        "test": "phpunit",
+        "lang:audit": "php scripts/langSortUtility/check_translations.php",
+        "lang:check-list": "php scripts/langSortUtility/audit_lang.php",
         "lang:sort": "php scripts/langSortUtility/sort_lang_blocks.php",
-        "lang:check": "php scripts/langSortUtility/check_counts.php"
+        "lang:counts": "php scripts/langSortUtility/check_counts.php",
+        "lang:missing": "php scripts/langSortUtility/check_missing_keys.php",
+        "lang:duplicates": "php scripts/langSortUtility/find_duplicate_keys.php"
     },
     "config": {
         "sort-packages": true

@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Merour',
     'nav.data_entry'             => 'Enankañ roadennoù',
     'nav.feedback'               => 'Evezhiadennoù',
     'nav.feedback_dashboard'     => 'Taolenn an evezhiadennoù',
     'nav.high_contrast'          => 'Dargemm uhel',
     'nav.invite_user'            => 'Pedadenn implijer',
+    'nav.language_label'         => 'Yezh',
     'nav.leaderboard'            => 'Taolenn ar skorennoù',
     'nav.leaderboard_score'      => 'Skor an daolenn',
     'nav.login'                  => 'Kemmañ titouroù / Degemer',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Merkañ ar taolennoù',
     'nav.manage_users'           => 'Merkañ an implijerien',
     'nav.moderation'             => 'Moderadur',
+    'nav.profile'                => 'Profil',
     'nav.search'                 => 'Klask',
+    'nav.select_language'        => 'Diuzañ ur yezh',
     'nav.settings'               => 'Arventennoù ar reizhiad',
+    'nav.toggle_navigation'      => 'Diskouez/Kuzhat an treuzkas',
     'nav.volunteer'              => 'Kenlabourat',
     'nav.volunteer_dashboard'    => 'Taolenn ar genlabourerien',
     'nav.welcome'                => 'Degemer mat,',
-    'nav.admin'                  => 'Merour',
-    'nav.language_label'         => 'Yezh',
-    'nav.profile'                => 'Profil',
-    'nav.select_language'        => 'Diuzañ ur yezh',
-    'nav.toggle_navigation'      => 'Diskouez/Kuzhat an treuzkas',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -207,7 +207,7 @@ return [
     'manage_tables.date_bhv_all'         => 'An holl zeiziadoù en o zouez ar re verour',
     'manage_tables.date_bhv_manual'      => 'Deiziadoù diaz roadennoù (enankañ gant an dorn hepken)',
     'manage_tables.delete_col_confirm'   => 'DIWALL: Diverkañ ar golonenn-mañ a ziverko ivez an holl roadennoù kellig liammet e pep teul. Sur oc\'h?',
-    'manage_tables.delete_table_btn'     => 'Diverkañ an daolenn',
+    'manage_tables.delete_table_btn'     => 'Excluir Tabela',
     'manage_tables.delete_table_confirm'=> 'DIWALL: Diverkañ an daolenn-mañ a ziverko da viken an holl golonenn hag an titouroù enrollet. Sur oc\'h penn-da-benn?',
     'manage_tables.edit_col_summary'     => 'Kemmañ ar golonenn gemmus:',
     'manage_tables.edit_metadata_btn'    => 'Kemmañ metaoueg an daolenn',
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Disfankañ ar golonenn-mañ diouzh ar c\'hlask foran (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Kolonennoù zo anezho evit',
     'manage_tables.heading'              => 'Merkañ taolennoù ha frammoù',
+    'manage_tables.no'                   => 'Não',
     'manage_tables.no_columns_found'     => 'N\'eus bet termenet kolonenn gemmus ebet evit an daolenn-mañ c\'hoari.',
     'manage_tables.req_toggle_label'     => 'Ober eus ar golonenn-mañ un dra ret (enankañ ret)',
     'manage_tables.save_table_btn'       => 'Enrollañ kemmoù an daolenn',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Furm diskouez',
     'manage_tables.th_public_search'     => 'Klask foran?',
     'manage_tables.type_text_long'       => 'TEXT (Paragraf hir)',
-    'manage_tables.delete_table_btn'     => 'Excluir Tabela',
     'manage_tables.yes'                  => 'Sim',
-    'manage_tables.no'                   => 'Não',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'O c\'hemmañ bremañ:',
     'user_emails.back_to_creation'       => 'Distreiñ d\'ar c\'hrouiñ implijer',
+    'user_emails.currently_editing'      => 'O c\'hemmañ bremañ:',
     'user_emails.desc_invitation'        => 'Kaset ent-emgefre pa krou pe bed ur merour un implijer nevez.',
     'user_emails.desc_reset'             => 'Kaset pa voe goulennet adaozañ ger-tremen.',
     'user_emails.email_body_label'       => 'Korf ar postel:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Danvez ar c\'hemenn (HTML/Skrid aotreet):',
+    'notices.active'                     => 'Ativo',
+    'notices.add_new'                    => 'Adicionar novo aviso',
+    'notices.audience'                   => 'Público-alvo',
+    'notices.content_label'              => 'Conteúdo',
     'notices.create_heading'             => 'Krouiñ ur c\'hemenn nevez',
-    'notices.delete_confirm'             => 'Diverkañ ar c\'hemenn-mañ?',
+    'notices.create_notice_btn'          => 'Criar aviso',
+    'notices.delete_btn'                 => 'Excluir',
+    'notices.delete_confirm'             => 'Excluir este aviso?',
+    'notices.dismissible'                => 'Dispensável',
     'notices.dismissible_label'          => "Gallout a reer serrañ (A zo bouton serrañ 'X' warni)",
+    'notices.display_order'              => 'Ordem de exibição',
     'notices.display_order_label'        => 'Urzh diskouez:',
     'notices.error_blank'                => 'Ne c\'hall ket an titl hag an danvez bezañ goullo.',
+    'notices.everyone'                   => 'Todos',
     'notices.existing_heading'           => 'Kemennoù oberiant ha zo anezho',
     'notices.heading'                    => 'Merkañ kemennoù ha bruderezh al lec\'hienn',
     'notices.msg_created'                => 'Kemenn krouet gant berzh!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Modererien',
     'notices.role_public'                => 'Foran (Gweladenner)',
     'notices.role_users'                 => 'Implijerien',
+    'notices.save_btn'                   => 'Salvar',
     'notices.subheading'                 => 'Krouiñ diwallerezhioù kemmus, banieloù degemer pe kemennoù siblet.',
     'notices.target_roles_label'         => 'Tud siblet (Dibab kargoù pe pep tra):',
     'notices.th_dismissible'             => 'Gallout a reer serrañ',
     'notices.th_order'                   => 'Urzh',
     'notices.th_target_roles'            => 'Kargoù siblet',
     'notices.th_title'                   => 'Titl',
-    'notices.title_label'                => 'Titl / Penn-skrid ar c\'hemenn:',
-    'notices.yes'                        => 'Ya',
-    'notices.add_new'                    => 'Adicionar novo aviso',
     'notices.title_label'                => 'Título',
-    'notices.content_label'              => 'Conteúdo',
-    'notices.display_order'              => 'Ordem de exibição',
-    'notices.active'                     => 'Ativo',
-    'notices.dismissible'                => 'Dispensável',
-    'notices.audience'                   => 'Público-alvo',
-    'notices.everyone'                   => 'Todos',
-    'notices.create_notice_btn'          => 'Criar aviso',
-    'notices.save_btn'                   => 'Salvar',
-    'notices.delete_btn'                 => 'Excluir',
-    'notices.delete_confirm'             => 'Excluir este aviso?',
+    'notices.yes'                        => 'Ya',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Dilamiñ an tokenioù gwiriañ aet d\'o zu ha naetaat al liammoù distag diouzh kontoù an implijerien oberiant a-zteol pe gant an dorn.',
     'settings.cron_maintenance_heading' => 'Trec\'hToken A emgefre & kefluniañ Cron',
     'settings.db_updates_heading'        => 'Hizivadurioù an diaz roadennoù',
+    'settings.default_date_format'       => 'Formato de data padrão',
     'settings.default_lang_desc'         => 'Implijet evit ar weladennerien hag an implijerien hep yezh dibabet. Ouzhpennit restroù e lang/ (da skouer br.php) evit muioc\'h a zibaboù.',
     'settings.default_lang_label'        => 'Yezh dre ziouer al lec\'hienn:',
+    'settings.default_lang_note'         => 'O idioma padrão já está definido acima. As configurações de perfil substituem estas para usuários conectados.',
+    'settings.default_time_format'       => 'Formato de hora padrão',
+    'settings.default_timezone'          => 'Fuso horário padrão',
+    'settings.delete_btn'                => 'Excluir',
     'settings.delete_role_confirm'      => 'Ha sur oc\'h e fell deoc\'h dilemel ar roll-mañ? An implijerien skoazellket dezhañ a vo adroet e roll skoueriek an implijer e mod sur.',
     'settings.download_backup_btn'       => 'Pellgargañ evezhiañ an diaz roadennoù',
     'settings.download_backup_desc'      => 'Enrollañ a ra ur restr .sql leun war ho urzhiataer. Grit se e-lec\'h sur a-raok an hizivadurioù.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'SMTP gwiriet (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Porzh 465)',
     'settings.enc_tls'                   => 'TLS (Porzh 587)',
+    'settings.error_log_tab'             => 'Log de erros',
     'settings.existing_roles_heading'   => 'Rolloù a zo & Merañ',
+    'settings.footer_compiled_notice'    => 'Linha de rodapé', 
+    'settings.footer_notice_helper'      => 'Exibido como a primeira linha do rodapé do site. Deixe em branco para usar o texto padrão do arquivo de idioma. Créditos do software e direitos autorais permanecem fixos.',
     'settings.hcaptcha_heading'          => 'Arventennoù hCaptcha',
     'settings.heading'                   => 'Arventennoù hollek al lec\'hienn, modulennoù ha aotreoù',
     'settings.mail_domain_label'         => 'Domani postel ar reizhiad:',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Kemennoù ha bruderezh al lec\'hienn',
     'settings.permissions_heading'       => 'Matris kemmus ar kargoù hag an aotreoù',
     'settings.permissions_subheading'    => 'Rannet eo an aotreoù hervez arc\'hwelioù ar reizhiad. Astennit ar rannoù evit kefluniañ.',
+    'settings.port_label'                => 'Porta:',
     'settings.purge_all_confirm'         => '⚠️ DIWALL: Se a ziverko da viken AN HOLL MARILHOÙ GWIRIAÑ. Sur oc\'h?',
     'settings.purge_records_confirm'     => 'Sur oc\'h e fell deoc\'h diverkañ an holl marilhoù liammet ouzh an teulioù?',
     'settings.recaptcha_heading'         => 'Arventennoù Google reCAPTCHA',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => 'Kloc\'h al lec\'hienn (Foran):',
     'settings.smtp_encryption_label'     => 'Enrinegañ:',
     'settings.smtp_heading'              => 'Arventennoù servijer SMTP',
-    'settings.smtp_host_label'           => 'Servijer SMTP:',
+    'settings.smtp_host_label'           => 'Host SMTP:',
     'settings.smtp_pass_label'           => 'Ger-tremen SMTP (lezel goullo evit mirout an hini bremañ):',
     'settings.smtp_port_label'           => 'Porzh (Port):',
     'settings.smtp_user_label'           => 'Anv implijer SMTP:',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Euriad',
     'settings.turnstile_heading'         => 'Arventennoù Cloudflare Turnstile',
     'settings.update_db_btn'             => 'Hizivaat an diaz roadennoù',
-    'settings.default_timezone'          => 'Fuso horário padrão',
-    'settings.default_date_format'       => 'Formato de data padrão',
-    'settings.default_time_format'       => 'Formato de hora padrão',
-    'settings.footer_compiled_notice'    => 'Linha de rodapé', 
-    'settings.delete_btn'                => 'Excluir',
-    'settings.error_log_tab'             => 'Log de erros',
-    'settings.smtp_host_label'           => 'Host SMTP:',
-    'settings.port_label'                => 'Porta:',
-    'settings.default_lang_note'         => 'O idioma padrão já está definido acima. As configurações de perfil substituem estas para usuários conectados.',
-    'settings.footer_notice_helper'      => 'Exibido como a primeira linha do rodapé do site. Deixe em branco para usar o texto padrão do arquivo de idioma. Créditos do software e direitos autorais permanecem fixos.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Excluir',
     'admin_users.disabled'               => 'Diweredekaet',
     'admin_users.enabled'                => 'Gweredekaet',
+    'admin_users.find_user'              => 'Encontrar usuário',
     'admin_users.heading'                => 'Merkañ kontoù implijerien ha moderiñ ar skorennoù',
     'admin_users.invite_user_btn'        => 'Pedadenn implijer nevez',
     'admin_users.manage_templates_btn'   => 'Merkañ patromoù postel',
     'admin_users.no'                     => 'Ket',
+    'admin_users.no_search_match'        => 'Nenhum usuário corresponde a esta pesquisa.',
     'admin_users.no_users'               => 'Implijer ebet kavet.',
     'admin_users.protected_admin'        => 'Merour pennañ gwarezet',
     'admin_users.reactivate_btn'         => 'Adsakañ',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Adaozañ ar ger-tremen',
     'admin_users.reset_pwd_confirm'      => 'Kas ul liamm adaozañ ger-tremen d\'an implijer-mañ?',
     'admin_users.save_email_title'       => 'Enrollañ chomlec\'h postel nevez',
+    'admin_users.search_help'            => 'Filtra a lista conforme você digita. Limpe o campo para mostrar todos novamente.',
+    'admin_users.search_placeholder'     => 'Nome de usuário, e-mail ou função…',
     'admin_users.set_score_btn'          => 'Lakaat ar skor',
     'admin_users.status_active'          => 'Oberiant',
     'admin_users.status_suspended'       => 'Suspended',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Hizivaat',
     'admin_users.verified_label'         => 'Gwiriet:',
     'admin_users.yes'                    => 'Ya',
-    'admin_users.find_user'              => 'Encontrar usuário',
-    'admin_users.search_placeholder'     => 'Nome de usuário, e-mail ou função…',
-    'admin_users.search_help'            => 'Filtra a lista conforme você digita. Limpe o campo para mostrar todos novamente.',
-    'admin_users.no_search_match'        => 'Nenhum usuário corresponde a esta pesquisa.',
-    'admin_users.delete_btn'             => 'Excluir',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'Distreiñ d\'ar gêr foran',
-    'admin_errors.heading'             => 'Log de erros',
-    'admin_errors.subheading'          => 'Procure um ID de referência exibido em uma página de erro (ex: E-20260810-A1B2C3). Os detalhes completos são armazenados no log do servidor; os detalhes na tela para os visitantes dependem de APP_DEBUG.',
-    'admin_errors.label_error_id'      => 'ID de referência do erro',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Buscar',
-    'admin_errors.not_found'           => 'Nenhum registro encontrado para',
-    'admin_errors.found_heading'       => 'Encontrado:',
-    'admin_errors.time_utc'            => 'Horário (UTC)',
-    'admin_errors.local_time'          => 'Seu horário local',
-    'admin_errors.type'                => 'Tipo',
-    'admin_errors.message'             => 'Mensagem',
     'admin_errors.file'                => 'Arquivo',
+    'admin_errors.found_heading'       => 'Encontrado:',
+    'admin_errors.heading'             => 'Log de erros',
+    'admin_errors.label_error_id'      => 'ID de referência do erro',
     'admin_errors.line_prefix'         => 'Linha',
+    'admin_errors.local_time'          => 'Seu horário local',
+    'admin_errors.message'             => 'Mensagem',
+    'admin_errors.no_recent'           => 'Nenhuma entrada no log de erros estruturado ainda.',
+    'admin_errors.not_found'           => 'Nenhum registro encontrado para',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Erros recentes',
     'admin_errors.request'             => 'Requisição',
     'admin_errors.stack_trace'         => 'Rastreamento de pilha',
-    'admin_errors.recent_heading'      => 'Erros recentes',
-    'admin_errors.no_recent'           => 'Nenhuma entrada no log de erros estruturado ainda.',
+    'admin_errors.subheading'          => 'Procure um ID de referência exibido em uma página de erro (ex: E-20260810-A1B2C3). Os detalhes completos são armazenados no log do servidor; os detalhes na tela para os visitantes dependem de APP_DEBUG.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Horário',
     'admin_errors.th_message'          => 'Mensagem',
+    'admin_errors.th_time'             => 'Horário',
+    'admin_errors.time_utc'            => 'Horário (UTC)',
+    'admin_errors.type'                => 'Tipo',
     'error_template.debug_details'     => 'Detalhes de depuração',
-    'error_template.stack_trace'       => 'Rastreamento de pilha',
     'error_template.file_label'        => 'Arquivo:',
     'error_template.line_label'        => 'Linha',
+    'error_template.return_home_btn'   => 'Distreiñ d\'ar gêr foran',
+    'error_template.stack_trace'       => 'Rastreamento de pilha',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Ger-tremen ar merour (8 arouezenn min.)',
     'install.admin_subheading'           => 'Se eo an titouroù mont tre evit <strong>al lec\'hienn-mañ</strong> (ket evit an diaz roadennoù).',
     'install.admin_username_label'       => 'Anv implijer ar merour',
+    'install.back_btn'                   => 'Distreiñ',
     'install.complete_desc'              => 'Kefluniet eo bet al lec\'hienn-mañ dija. Prennet eo an apetraen evit mirout ouzh un dro-c\'hoari.',
     'install.complete_heading'           => 'Prenet eo an apetrañ',
     'install.complete_title'             => 'Prenet eo an apetrañ',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'N\'hall ket PHP krouiñ restroù er renkell raktres-mañ.',
     'install.finish_btn'                 => 'Echuiñ an apetañ',
     'install.heading'                    => 'Apetañ',
+    'install.hide_password'              => 'Kuzhat',
     'install.home_link'                  => 'Mont d\'al lec\'hienn',
+    'install.lang_label'                 => 'Yezh',
     'install.login_link'                 => 'Kemmañ titouroù / Degemer',
     'install.msg_db_ready'               => 'Gellout a ra an diaz roadennoù. Krouit ho kont merour evit echuiñ.',
     'install.msg_installation_complete'  => 'Prenet eo an apetrañ.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'Stilhon PDO MySQL',
     'install.req_php'                    => 'PHP 8.0+ (kavet %s)',
     'install.req_probe'                  => 'Gallout a reer krouiñ restroù er renkell raktres-mañ',
-    'install.subheading'                 => 'Kefluniadur kentañ <strong>evit ar renkell-mañ hepken</strong>. Implijit un diaz roadennoù MySQL goullo.',
-    'install.back_btn'                   => 'Distreiñ',
-    'install.hide_password'              => 'Kuzhat',
-    'install.lang_label'                 => 'Yezh',
     'install.show_password'              => 'Diskouez',
+    'install.subheading'                 => 'Kefluniadur kentañ <strong>evit ar renkell-mañ hepken</strong>. Implijit un diaz roadennoù MySQL goullo.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Remover arquivo de acesso de emergência',
+    'update_database.backup_notice'    => 'Faça um backup do banco de dados antes de executar atualizações sempre que possível.',
     'update_database.confirm_prompt'   => 'Savet ho peus un evezhiañ eus ho diaz roadennoù? Pouezit war OK evit arloañ an hizivadurioù framm o c\'hortoz.',
     'update_database.current_version'  => 'Stumm framm bremañ:',
     'update_database.err_failed'       => 'C\'hwitet eo an emgann:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'Hizivaet eo an diaz roadennoù dija.',
     'update_database.page_title'       => 'Ezhomm zo eus hizivadur reizhiad — Roll Teulioù Parrez',
     'update_database.proceed_login'    => 'Mont d\'ar bajenn demm tre',
+    'update_database.remove_emergency_file' => 'Remover arquivo de acesso de emergência',
     'update_database.subheading'       => 'Kozh eo framm diaz roadennoù an arload hag ezhomm zo eus un hizivadur framm a-raok kenderc\'hel.',
     'update_database.update_btn'       => 'Hizivaat an diaz roadennoù bremañ',
-    'index.remove_emergency_file'      => 'Remover arquivo de acesso de emergência',
-    'update_database.remove_emergency_file' => 'Remover arquivo de acesso de emergência',
-    'update_database.backup_notice'    => 'Faça um backup do banco de dados antes de executar atualizações sempre que possível.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'Niverenn an teul: %d — Gwerzh: %s',
     'data_entry.dup_prompt'           => 'Fellout a ra deoc\'h kenderc\'hel hag enrollañ an eilenn-mañ memestra?',
     'data_entry.enter_value_placeholder' => 'Enankañ ur werzh...',
+    'data_entry.error_loading'        => 'Erro ao carregar registros',
     'data_entry.existing_records_heading' => 'Taolenn teulioù zo anezho',
     'data_entry.filter_all_option'    => '-- Pep tra --',
     'data_entry.filter_placeholder'   => 'Silañ...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Kas roadennoù',
     'data_entry.th_added_by'          => 'Ouzhpennet gant',
     'data_entry.th_date_created'      => 'Deiziad krouiñ',
-    'data_entry.error_loading'        => 'Erro ao carregar registros',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'Kenlabourerien hepken:',
     'onboarding.attribution_desc1' => 'A vera penaos e weler ho anv er skorennoù foran hag er marilhoù.',
     'onboarding.attribution_label' => 'Dibab diskouez er skorennoù:',
-    'onboarding.date_format_label' => 'Furm diskouez deiziad:',
-    'onboarding.heading'           => 'Degemer mat er skipailh!',
-    'onboarding.page_title'        => 'Degemer mat — Skoazeller kefluniañ kont',
-    'onboarding.subheading'        => 'A-raok kregiñ, kemmit un tamm amzer evit kefluniañ ho dibabioù rannvroel ha prevezded.',
-    'onboarding.submit_btn'        => 'Enrollañ dibabioù ha kenderc\'hel',
-    'onboarding.time_12'          => '12 eur AM/PM (da skouer 04:07 PM)',
-    'onboarding.time_24'          => '24 eur (da skouer 16:07)',
-    'onboarding.time_format_label' => 'Furm eur (Diskouez an eur):',
-    'onboarding.time_none'        => 'Deiziad hepken (Kuzhat an eur)',
-    'onboarding.timezone_label'    => 'Padelezh eur / Rannvro:',
     'onboarding.btn_continue_2fa'   => 'Kenderc\'hel gant 2FA',
     'onboarding.btn_skip_for_now'   => 'Tremen e-biou evit ar poent',
     'onboarding.date_fmt_dmy'       => '23/07/2026 (Stumm UK - DD/MM/YYYY)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (Pikoù - DD.MM.YYYY)',
     'onboarding.date_fmt_full'      => 'Yaou 23 Gouere 2026 (Testenn leun)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (Stumm US - MM/DD/YYYY)',
+    'onboarding.date_format_label' => 'Furm diskouez deiziad:',
     'onboarding.err_names_required' => 'Rekis eo an anv hag an anv-tiegezh.',
     'onboarding.err_save_failed'    => 'C\'hwitet eo bet war enrollañ an arventennoù. Klaskit en-dro mar plij.',
+    'onboarding.heading'           => 'Degemer mat er skipailh!',
     'onboarding.lang_site_default'  => 'Yezh dre ziouer al lec\'hienn',
     'onboarding.language_label'     => 'Yezh',
     'onboarding.msg_welcome'        => 'Degemer mat! Enrollet eo bet ho arventennoù.',
+    'onboarding.page_title'        => 'Degemer mat — Skoazeller kefluniañ kont',
     'onboarding.security_hint'      => 'Gallout a rit cheñch ho arventennoù hiniennel en ur c\'hlec\'hiañ war ho anv-implijer er roll.',
+    'onboarding.subheading'        => 'A-raok kregiñ, kemmit un tamm amzer evit kefluniañ ho dibabioù rannvroel ha prevezded.',
+    'onboarding.submit_btn'        => 'Enrollañ dibabioù ha kenderc\'hel',
+    'onboarding.time_12'          => '12 eur AM/PM (da skouer 04:07 PM)',
+    'onboarding.time_24'          => '24 eur (da skouer 16:07)',
+    'onboarding.time_format_label' => 'Furm eur (Diskouez an eur):',
+    'onboarding.time_none'        => 'Deiziad hepken (Kuzhat an eur)',
+    'onboarding.timezone_label'    => 'Padelezh eur / Rannvro:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'Chomlec\'h postel',
     'profile.email_unverified'     => '(Ket gwiriet - Gwirmit ho boest postel)',
     'profile.email_verified'       => '(Gwiriet)',
+    'profile.err_personal_update'   => 'C\'hwitet eo bet war hizivaat an titouroù hiniennel.',
     'profile.generate_codes_btn'   => 'Krouiñ kodoù skoazell nevez',
     'profile.generate_codes_confirm' => 'Sur oc\'h? Se a zivoio kodoù skoazell zo anezho.',
     'profile.heading'              => 'Profil implijer ha Diogelroez',
     'profile.lang_site_default'    => 'Dre ziouer al lec\'hienn',
     'profile.language_label'       => 'Yezh plijet:',
+    'profile.msg_personal_updated'  => 'Hizivaet eo bet an titouroù hiniennel, an takad eur hag ar stummoù gant berzh!',
     'profile.new_password_label'   => 'Ger-tremen nevez (8 arouezenn min.):',
     'profile.password_heading'     => 'Kemmañ ar ger-tremen',
     'profile.personal_details_heading' => 'Munudoù personel',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Hizivaat ar munudoù personel',
     'profile.update_email_btn'     => 'Hizivaat ar postel ha gwiriañ',
     'profile.update_password_btn'  => 'Hizivaat ar ger-tremen',
-    'profile.err_personal_update'   => 'C\'hwitet eo bet war hizivaat an titouroù hiniennel.',
-    'profile.msg_personal_updated'  => 'Hizivaet eo bet an titouroù hiniennel, an takad eur hag ar stummoù gant berzh!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Enskrivadur implijer',
+    'register.email_label'    => 'Chomlec\'h postel',
     'register.heading'        => 'Enskrivañ ur c\'hont nevez',
     'register.submit_btn'     => 'Enskrivañ',
     'register.username_label' => 'Anv implijer:',
-    'register.email_label'    => 'Chomlec\'h postel',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'Gwerzhioù bremañ:',
     'suggest_edit.empty_label'          => '(goullo)',
     'suggest_edit.heading_prefix'       => 'Kinnig kemmañ evit an teul',
+    'suggest_edit.leave_blank'          => 'Deixe este campo em branco',
     'suggest_edit.proposed_value_label' => 'Gwerzh nevez kinniget:',
     'suggest_edit.reasoning_label'      => 'Prouenn / Abeg / Notennoù vamm:',
     'suggest_edit.reasoning_placeholder'=> 'Roit titouroù, menegoù pe abeg ar c\'hemm-mañ...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'Kas ar c\'hinnig da vezañ gwiriet',
     'suggest_edit.submit_heading'       => 'Kas gwerzh kinniget nevez ha prouenn',
     'suggest_edit.success_msg_suffix'   => 'Gallout a rit kas ur c\'hemm all dindan, pe implij al liamm distro uheloc\'h.',
-    'suggest_edit.leave_blank'          => 'Deixe este campo em branco',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Atribuir um nome de usuário exclusivo para mim',
+    'index.check_availability'         => 'Verificar disponibilidade',
+    'volunteer.allocate_unique_username' => 'Atribuir um nome de usuário exclusivo para mim',
     'volunteer.aria_region'          => 'Follenn genlabourer',
+    'volunteer.check_availability'     => 'Verificar disponibilidade',
     'volunteer.honeypot_label'       => 'Lezel ar vaezienn-mañ goullo:',
     'volunteer.multi_select_hint'    => 'Pouezit war Ctrl pe Cmd evit diuz meur a hini.',
     'volunteer.required_field_title'=> 'Maezienn ret',
     'volunteer.submit_btn'           => 'Kas goulenn kenlabour',
-    'index.check_availability'         => 'Verificar disponibilidade',
-    'index.allocate_unique_username'   => 'Atribuir um nome de usuário exclusivo para mim',
-    'volunteer.check_availability'     => 'Verificar disponibilidade',
-    'volunteer.allocate_unique_username' => 'Atribuir um nome de usuário exclusivo para mim',
 ];

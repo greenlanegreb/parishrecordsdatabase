@@ -85,6 +85,13 @@ return function (RouteCollector $r): void {
     $r->addRoute('GET', '/admin/feedback/schema', ['App\Controllers\FeedbackSchemaController', 'index']);
     $r->addRoute('POST', '/admin/feedback/schema/store', ['App\Controllers\FeedbackSchemaController', 'store']);
 
+    // ---Github Admin Only Feedback Routes (Admin)
+
+    $r->addRoute('GET',  '/admin/gh-feedback', ['App\Controllers\GHFeedbackController', 'index']);
+    $r->addRoute('GET',  '/admin/gh-feedback/search', ['App\Controllers\GHFeedbackController', 'search']);
+    $r->addRoute('POST', '/admin/gh-feedback/store', ['App\Controllers\GHFeedbackController', 'store']);
+    $r->addRoute('POST', '/admin/gh-feedback/comment', ['App\Controllers\GHFeedbackController', 'comment']);
+
     // --- System / Tools & Records ---
     $r->addRoute('GET', '/update-database', ['App\Controllers\UpdateDatabaseController', 'index']);
     $r->addRoute('POST', '/update-database', ['App\Controllers\UpdateDatabaseController', 'index']);

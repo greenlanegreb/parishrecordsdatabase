@@ -7,15 +7,12 @@ return [
     // 1. Navigation
     // ------------------------------------------------------------------
     'nav.admin'              => 'Admin',
-    'nav.language_label'     => 'Language',
-    'nav.profile'            => 'Profile',
-    'nav.select_language'    => 'Select language',
-    'nav.toggle_navigation'  => 'Toggle navigation',
     'nav.data_entry'         => 'Data Entry',
     'nav.feedback'           => 'Feedback',
     'nav.feedback_dashboard' => 'Feedback Dashboard',
     'nav.high_contrast'      => 'High Contrast',
     'nav.invite_user'        => 'Invite User',
+    'nav.language_label'     => 'Language',
     'nav.leaderboard'        => 'Leaderboard',
     'nav.leaderboard_score'  => 'Leaderboard Score',
     'nav.login'              => 'Login',
@@ -24,8 +21,11 @@ return [
     'nav.manage_tables'      => 'Manage Tables',
     'nav.manage_users'       => 'Manage Users',
     'nav.moderation'         => 'Moderation',
+    'nav.profile'            => 'Profile',
     'nav.search'             => 'Search',
+    'nav.select_language'    => 'Select language',
     'nav.settings'           => 'Site Settings',
+    'nav.toggle_navigation'  => 'Toggle navigation',
     'nav.volunteer'          => 'Volunteer',
     'nav.volunteer_dashboard'=> 'Volunteer Dashboard',
     'nav.welcome'            => 'Welcome,',
@@ -217,6 +217,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Exclude this column from public search (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Existing Columns for',
     'manage_tables.heading'             => 'Dynamic Table & Schema Management',
+    'manage_tables.no'                  => 'No',
     'manage_tables.no_columns_found'    => 'No dynamic columns defined for this table yet.',
     'manage_tables.req_toggle_label'    => 'Make this column required (mandatory data entry)',
     'manage_tables.save_table_btn'      => 'Save Table Changes',
@@ -230,7 +231,6 @@ return [
     'manage_tables.th_public_search'    => 'Public Search?',
     'manage_tables.type_text_long'      => 'TEXT (Long Paragraph)',
     'manage_tables.yes'                 => 'Yes',
-    'manage_tables.no'                  => 'No',
 
     // ------------------------------------------------------------------
     // 11. Admin: Manage User Notification Email Templates
@@ -301,12 +301,20 @@ return [
     // ------------------------------------------------------------------
     // 15. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
+    'notices.active'                => 'Active',
+    'notices.add_new'               => 'Add new notice',
+    'notices.audience'              => 'Audience',
     'notices.content_label'         => 'Notice Content (HTML/Text allowed):',
     'notices.create_heading'        => 'Create New Notice',
+    'notices.create_notice_btn'     => 'Create notice',
+    'notices.delete_btn'            => 'Delete',
     'notices.delete_confirm'        => 'Delete this notice?',
+    'notices.dismissible'           => 'Dismissible',
     'notices.dismissible_label'     => "Make Dismissible (Includes close 'X' button)",
+    'notices.display_order'         => 'Display order',
     'notices.display_order_label'   => 'Display Order:',
     'notices.error_blank'           => 'Title and content cannot be blank.',
+    'notices.everyone'              => 'Everyone',
     'notices.existing_heading'      => 'Active & Existing Notices',
     'notices.heading'               => 'Site Notices & Announcements Manager',
     'notices.msg_created'           => 'Notice created successfully!',
@@ -319,23 +327,15 @@ return [
     'notices.role_moderators'       => 'Moderators',
     'notices.role_public'           => 'Public (Guests)',
     'notices.role_users'            => 'Users',
+    'notices.save_btn'              => 'Save',
     'notices.subheading'            => 'Create dynamic alerts, welcome banners, or targeted notifications for specific user roles.',
     'notices.target_roles_label'    => 'Target Audience (Select roles or everyone):',
     'notices.th_dismissible'        => 'Dismissible',
     'notices.th_order'              => 'Order',
     'notices.th_target_roles'       => 'Target Roles',
     'notices.th_title'              => 'Title',
-    'notices.yes'                   => 'Yes',
-    'notices.add_new'               => 'Add new notice',
     'notices.title_label'           => 'Title',
-    'notices.display_order'         => 'Display order',
-    'notices.active'                => 'Active',
-    'notices.dismissible'           => 'Dismissible',
-    'notices.audience'              => 'Audience',
-    'notices.everyone'              => 'Everyone',
-    'notices.create_notice_btn'     => 'Create notice',
-    'notices.save_btn'              => 'Save',
-    'notices.delete_btn'            => 'Delete',
+    'notices.yes'                   => 'Yes',
 
     // ------------------------------------------------------------------
     // 16. Admin: Global Site Settings, Modules & Permissions
@@ -359,8 +359,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Purge expired verification tokens and clean up dangling links from activated user accounts automatically or manually.',
     'settings.cron_maintenance_heading' => 'Automated Token Maintenance & Cron Setup',
     'settings.db_updates_heading'       => 'Database updates',
+    'settings.default_date_format'      => 'Default date format',
     'settings.default_lang_desc'        => 'Used for guests and users who have not chosen a language. Add files under lang/ (e.g. cy.php) to offer more options.',
     'settings.default_lang_label'       => 'Default site language:',
+    'settings.default_lang_note'        => 'Default language is already set above. Profile settings override these for logged-in users.',
+    'settings.default_time_format'      => 'Default time format',
+    'settings.default_timezone'         => 'Default timezone',
+    'settings.delete_btn'               => 'Delete',
     'settings.delete_role_confirm'      => 'Are you sure you want to delete this role? Users assigned to it will be safely reassigned to the default user role.',
     'settings.download_backup_btn'      => 'Download database backup',
     'settings.download_backup_desc'     => 'Saves a full .sql file to your computer. Keep it somewhere safe before running updates.',
@@ -368,7 +373,10 @@ return [
     'settings.driver_smtp'              => 'Authenticated SMTP (PHPMailer)',
     'settings.enc_ssl'                  => 'SSL (Port 465)',
     'settings.enc_tls'                  => 'TLS (Port 587)',
+    'settings.error_log_tab'            => 'Error log',
     'settings.existing_roles_heading'   => 'Existing Roles & Management',
+    'settings.footer_compiled_notice'   => 'Footer source line',
+    'settings.footer_notice_helper'     => 'Shown as the first line of the site footer. Leave blank to use the default text from the language file. Software credit and copyright stay fixed.',
     'settings.hcaptcha_heading'         => 'hCaptcha Settings',
     'settings.heading'                  => 'Global Site Settings, Modules & Permissions',
     'settings.mail_domain_label'        => 'System Mail Domain (Fallback Envelope):',
@@ -400,6 +408,7 @@ return [
     'settings.notices_heading'          => 'Site Notices & Announcements',
     'settings.permissions_heading'      => 'Dynamic Role & Permission Matrix',
     'settings.permissions_subheading'   => 'Permissions are grouped by system functions. Expand sections to configure capabilities, then save your updates at the bottom.',
+    'settings.port_label'               => 'Port:',
     'settings.purge_all_confirm'        => '⚠️ WARNING: This will permanently delete the ENTIRE system audit log. Are you sure you want to proceed?',
     'settings.purge_records_confirm'    => 'Are you sure you want to clear all records-related audit entries?',
     'settings.recaptcha_heading'        => 'Google reCAPTCHA Settings',
@@ -448,25 +457,19 @@ return [
     'settings.th_timestamp'             => 'Timestamp',
     'settings.turnstile_heading'        => 'Cloudflare Turnstile Settings',
     'settings.update_db_btn'            => 'Update database',
-    'settings.default_timezone'         => 'Default timezone',
-    'settings.default_date_format'      => 'Default date format',
-    'settings.default_time_format'      => 'Default time format',
-    'settings.footer_compiled_notice'   => 'Footer source line',
-    'settings.delete_btn'               => 'Delete',
-    'settings.error_log_tab'            => 'Error log',
-    'settings.port_label'               => 'Port:',
-    'settings.default_lang_note'        => 'Default language is already set above. Profile settings override these for logged-in users.',
-    'settings.footer_notice_helper'     => 'Shown as the first line of the site footer. Leave blank to use the default text from the language file. Software credit and copyright stay fixed.',
 
     // ------------------------------------------------------------------
     // 17. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'            => 'Delete',
     'admin_users.disabled'              => 'Disabled',
     'admin_users.enabled'               => 'Enabled',
+    'admin_users.find_user'             => 'Find user',
     'admin_users.heading'               => 'User Account Management & Leaderboard Moderation',
     'admin_users.invite_user_btn'       => 'Invite New User',
     'admin_users.manage_templates_btn'  => 'Manage Email Templates',
     'admin_users.no'                    => 'No',
+    'admin_users.no_search_match'       => 'No users match that search.',
     'admin_users.no_users'              => 'No users found.',
     'admin_users.protected_admin'       => 'Protected Primary Admin',
     'admin_users.reactivate_btn'        => 'Reactivate',
@@ -477,6 +480,8 @@ return [
     'admin_users.reset_password_btn'    => 'Reset Password',
     'admin_users.reset_pwd_confirm'     => 'Dispatch a password reset link to this user?',
     'admin_users.save_email_title'      => 'Save new email address',
+    'admin_users.search_help'           => 'Filters the list as you type. Clear the box to show everyone again.',
+    'admin_users.search_placeholder'    => 'Username, email, or role…',
     'admin_users.set_score_btn'         => 'Set Score',
     'admin_users.status_active'         => 'Active',
     'admin_users.status_suspended'      => 'Suspended',
@@ -493,11 +498,6 @@ return [
     'admin_users.update_btn'            => 'Update',
     'admin_users.verified_label'        => 'Verified:',
     'admin_users.yes'                   => 'Yes',
-    'admin_users.find_user'             => 'Find user',
-    'admin_users.search_placeholder'    => 'Username, email, or role…',
-    'admin_users.search_help'           => 'Filters the list as you type. Clear the box to show everyone again.',
-    'admin_users.no_search_match'       => 'No users match that search.',
-    'admin_users.delete_btn'            => 'Delete',
 
     // ------------------------------------------------------------------
     // 18. Admin: View Ticket & Threaded Dialogue
@@ -563,31 +563,31 @@ return [
     // ------------------------------------------------------------------
     // 21. Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn' => 'Return to Public Home',
-    'admin_errors.heading'            => 'Error log',
-    'admin_errors.subheading'         => 'Look up a reference ID shown on an error page (e.g. E-20260810-A1B2C3). Full detail is stored in the server log; on-screen detail for visitors depends on APP_DEBUG.',
-    'admin_errors.label_error_id'     => 'Error reference ID',
-    'admin_errors.placeholder_id'     => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'           => 'Find',
-    'admin_errors.not_found'          => 'No log entry found for',
-    'admin_errors.found_heading'      => 'Found:',
-    'admin_errors.time_utc'           => 'Time (UTC)',
-    'admin_errors.local_time'         => 'Your local time',
-    'admin_errors.type'               => 'Type',
-    'admin_errors.message'            => 'Message',
     'admin_errors.file'               => 'File',
+    'admin_errors.found_heading'      => 'Found:',
+    'admin_errors.heading'            => 'Error log',
+    'admin_errors.label_error_id'     => 'Error reference ID',
     'admin_errors.line_prefix'        => 'Line',
+    'admin_errors.local_time'         => 'Your local time',
+    'admin_errors.message'            => 'Message',
+    'admin_errors.no_recent'          => 'No entries in the structured error log yet.',
+    'admin_errors.not_found'          => 'No log entry found for',
+    'admin_errors.placeholder_id'     => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'     => 'Recent errors',
     'admin_errors.request'            => 'Request',
     'admin_errors.stack_trace'        => 'Stack trace',
-    'admin_errors.recent_heading'     => 'Recent errors',
-    'admin_errors.no_recent'          => 'No entries in the structured error log yet.',
+    'admin_errors.subheading'         => 'Look up a reference ID shown on an error page (e.g. E-20260810-A1B2C3). Full detail is stored in the server log; on-screen detail for visitors depends on APP_DEBUG.',
     'admin_errors.th_id'              => 'ID',
-    'admin_errors.th_time'            => 'Time',
     'admin_errors.th_message'         => 'Message',
+    'admin_errors.th_time'            => 'Time',
+    'admin_errors.time_utc'           => 'Time (UTC)',
+    'admin_errors.type'               => 'Type',
     'error_template.debug_details'    => 'Debug details',
-    'error_template.stack_trace'      => 'Stack trace',
     'error_template.file_label'       => 'File:',
     'error_template.line_label'       => 'Line',
+    'error_template.return_home_btn' => 'Return to Public Home',
+    'error_template.stack_trace'      => 'Stack trace',
 
     // ------------------------------------------------------------------
     // 22. Public: Ticket Intake & Feedback Portal
@@ -695,7 +695,7 @@ return [
     // ------------------------------------------------------------------
     'footer.compiled_notice'  => 'Your Footer Goes Here.',
     'footer.rights_reserved'  => 'All rights reserved.',
-    'footer.software_notice'  => 'PRD (V1.17) is open-source under the MIT License.',
+    'footer.software_notice'  => 'pRD (V1.18) is open-source under the MIT License.',
 
     // ------------------------------------------------------------------
     // 27. Site Header & Head
@@ -731,6 +731,8 @@ return [
     // ------------------------------------------------------------------
     // 30. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'     => 'Remove emergency access file',
+    'update_database.backup_notice'   => 'Take a database backup before running updates when you can.',
     'update_database.confirm_prompt'  => 'Have you backed up your database? Click OK to apply pending schema updates.',
     'update_database.current_version' => 'Current Schema Version:',
     'update_database.err_failed'      => 'Migration failed:',
@@ -740,11 +742,9 @@ return [
     'update_database.msg_uptodate'    => 'Database is already up to date.',
     'update_database.page_title'      => 'System Update Required — Parish Records Directory',
     'update_database.proceed_login'   => 'Proceed to Login',
+    'update_database.remove_emergency_file' => 'Remove emergency access file',
     'update_database.subheading'      => 'The application database structure is out of date and requires a schema update before normal operation can resume.',
     'update_database.update_btn'      => 'Update Database Now',
-    'index.remove_emergency_file'     => 'Remove emergency access file',
-    'update_database.remove_emergency_file' => 'Remove emergency access file',
-    'update_database.backup_notice'   => 'Take a database backup before running updates when you can.',
 
     // ------------------------------------------------------------------
     // 31. User Authentication Action
@@ -802,6 +802,7 @@ return [
     'data_entry.dup_item_format'      => 'Record ID: %d — Value: %s',
     'data_entry.dup_prompt'           => 'Do you still wish to proceed and save this duplicate entry?',
     'data_entry.enter_value_placeholder' => 'Enter value...',
+    'data_entry.error_loading'        => 'Error loading records',
     'data_entry.existing_records_heading' => 'Existing Records Table',
     'data_entry.filter_all_option'    => '-- All --',
     'data_entry.filter_placeholder'   => 'Filter...',
@@ -821,7 +822,6 @@ return [
     'data_entry.submit_data_btn'      => 'Submit Data',
     'data_entry.th_added_by'          => 'Added By',
     'data_entry.th_date_created'      => 'Date Created',
-    'data_entry.error_loading'        => 'Error loading records',
 
     // ------------------------------------------------------------------
     // 35. Forgot Password
@@ -963,6 +963,7 @@ return [
     'suggest_edit.current_values_heading' => 'Current Values:',
     'suggest_edit.empty_label'          => '(empty)',
     'suggest_edit.heading_prefix'       => 'Suggest an Edit for Record',
+    'suggest_edit.leave_blank'        => 'Leave this field blank',
     'suggest_edit.proposed_value_label' => 'Proposed New Value:',
     'suggest_edit.reasoning_label'      => 'Evidence / Reasoning / Source Notes:',
     'suggest_edit.reasoning_placeholder'=> 'Provide context, source citations, or rationale for this change...',
@@ -971,7 +972,6 @@ return [
     'suggest_edit.submit_btn'           => 'Submit Suggestion for Review',
     'suggest_edit.submit_heading'       => 'Submit New Proposed Value & Evidence',
     'suggest_edit.success_msg_suffix'   => 'Feel free to submit another change below, or use the return link above when finished.',
-    'suggest_edit.leave_blank'        => 'Leave this field blank',
 
     // ------------------------------------------------------------------
     // 43. Verify 2FA Login Challenge
@@ -999,13 +999,13 @@ return [
     // ------------------------------------------------------------------
     // 45. Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'  => 'Allocate a unique username for me',
+    'index.check_availability'        => 'Check availability',
+    'volunteer.allocate_unique_username' => 'Allocate a unique username for me',
     'volunteer.aria_region'        => 'Volunteer Form',
+    'volunteer.check_availability'    => 'Check availability',
     'volunteer.honeypot_label'     => 'Leave this field blank:',
     'volunteer.multi_select_hint'  => 'Hold Ctrl or Cmd to select multiple.',
     'volunteer.required_field_title'=> 'Required Field',
     'volunteer.submit_btn'         => 'Submit Volunteer Interest',
-    'index.check_availability'        => 'Check availability',
-    'index.allocate_unique_username'  => 'Allocate a unique username for me',
-    'volunteer.check_availability'    => 'Check availability',
-    'volunteer.allocate_unique_username' => 'Allocate a unique username for me',
 ];

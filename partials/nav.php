@@ -249,7 +249,7 @@ $navActive = static function (string $route) use ($currentRoute): string {
 
                     <?php if ($showAdminMenu): ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle <?= (str_starts_with($currentRoute, '/admin') && !str_starts_with($currentRoute, '/admin/moderation')) ? 'active fw-bold text-primary' : '' ?>"
+                            <a class="nav-link dropdown-toggle <?= (str_starts_with($currentRoute, '/admin') && !str_starts_with($currentRoute, '/admin/moderation') && !str_starts_with($currentRoute, '/admin/gh-feedback')) ? 'active fw-bold text-primary' : '' ?>"
                                href="#" id="adminNavDropdown" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <?= htmlspecialchars(__('nav.admin'), ENT_QUOTES, 'UTF-8') ?>
@@ -327,10 +327,17 @@ $navActive = static function (string $route) use ($currentRoute): string {
                             <?= htmlspecialchars(__('nav.logout'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
-                    <?php if ($modFeedback): ?>
+                    <?php if ($canManageSets): ?>
+                        <li class="nav-item">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/gh-feedback"
+                               class="btn btn-sm btn-outline-primary bg-white text-primary<?= $currentRoute === '/admin/gh-feedback' ? ' fw-bold' : '' ?>">
+                                <?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?>
+                            </a>
+                        </li>
+                    <?php elseif ($modFeedback): ?>
                         <li class="nav-item">
                             <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback"
-                               class="btn btn-sm btn-outline-secondary <?= $navActive('/feedback') ?>">
+                               class="btn btn-sm btn-outline-primary bg-white text-primary<?= $currentRoute === '/feedback' ? ' fw-bold' : '' ?>">
                                 <?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?>
                             </a>
                         </li>

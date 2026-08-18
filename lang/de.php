@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Administrator',
     'nav.data_entry'             => 'Dateneingabe',
     'nav.feedback'               => 'Feedback',
     'nav.feedback_dashboard'     => 'Feedback-Dashboard',
     'nav.high_contrast'          => 'Hoher Kontrast',
     'nav.invite_user'            => 'Benutzer einladen',
+    'nav.language_label'         => 'Sprache',
     'nav.leaderboard'            => 'Bestenliste',
     'nav.leaderboard_score'      => 'Bestenlisten-Punktzahl',
     'nav.login'                  => 'Anmelden',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Tabellen verwalten',
     'nav.manage_users'           => 'Benutzer verwalten',
     'nav.moderation'             => 'Moderation',
+    'nav.profile'                => 'Profil',
     'nav.search'                 => 'Suchen',
+    'nav.select_language'        => 'Sprache auswählen',
     'nav.settings'               => 'Seiten-Einstellungen',
+    'nav.toggle_navigation'      => 'Navigation umschalten',
     'nav.volunteer'              => 'Mithelfen',
     'nav.volunteer_dashboard'    => 'Helfer-Dashboard',
     'nav.welcome'                => 'Willkommen,',
-    'nav.admin'                  => 'Administrator',
-    'nav.language_label'         => 'Sprache',
-    'nav.profile'                => 'Profil',
-    'nav.select_language'        => 'Sprache auswählen',
-    'nav.toggle_navigation'      => 'Navigation umschalten',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Diese Spalte von der öffentlichen Suche ausschließen (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Bestehende Spalten für',
     'manage_tables.heading'              => 'Dynamische Tabellen- & Schemaverwaltung',
+    'manage_tables.no'                   => 'Nein',
     'manage_tables.no_columns_found'     => 'Noch keine dynamischen Spalten für diese Tabelle definiert.',
     'manage_tables.req_toggle_label'     => 'Diese Spalte als Pflichtfeld festlegen (obligatorische Dateneingabe)',
     'manage_tables.save_table_btn'       => 'Tabellenänderungen speichern',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Anzeigeformat',
     'manage_tables.th_public_search'     => 'Öffentliche Suche?',
     'manage_tables.type_text_long'       => 'TEXT (Langer Absatz)',
-    'manage_tables.delete_table_btn'     => 'Tabelle löschen',
     'manage_tables.yes'                  => 'Ja',
-    'manage_tables.no'                   => 'Nein',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'Wird derzeit bearbeitet:',
     'user_emails.back_to_creation'       => 'Zurück zur Benutzererstellung',
+    'user_emails.currently_editing'      => 'Wird derzeit bearbeitet:',
     'user_emails.desc_invitation'        => 'Wird automatisch versendet, wenn ein Administrator ein neues Benutzerkonto erstellt oder einlädt.',
     'user_emails.desc_reset'             => 'Wird versendet, wenn ein Administrator das Zurücksetzen des Passworts auslöst oder einen Zugriffslink erneut sendet.',
     'user_emails.email_body_label'       => 'E-Mail-Inhalt:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Hinweisinhalt (HTML/Text erlaubt):',
+    'notices.active'                     => 'Aktiv',
+    'notices.add_new'                    => 'Neuen Hinweis hinzufügen',
+    'notices.audience'                   => 'Zielgruppe',
+    'notices.content_label'              => 'Inhalt',
     'notices.create_heading'             => 'Neuen Hinweis erstellen',
-    'notices.delete_confirm'             => 'Diesen Hinweis löschen?',
+    'notices.create_notice_btn'          => 'Hinweis erstellen',
+    'notices.delete_btn'                 => 'Löschen',
+    'notices.delete_confirm'             => 'Diesen Hinweis wirklich löschen?',
+    'notices.dismissible'                => 'Ausblendbar',
     'notices.dismissible_label'          => "Ausblendbar (Inklusive 'X'-Schließschaltfläche)",
+    'notices.display_order'              => 'Anzeigereihenfolge',
     'notices.display_order_label'        => 'Anzeigefolge:',
     'notices.error_blank'                => 'Titel und Inhalt dürfen nicht leer sein.',
+    'notices.everyone'                   => 'Jeder',
     'notices.existing_heading'           => 'Aktive & bestehende Hinweise',
     'notices.heading'                    => 'Seitenhinweise & Ankündigungen verwalten',
     'notices.msg_created'                => 'Hinweis erfolgreich erstellt!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Moderatoren',
     'notices.role_public'                => 'Öffentlich (Gäste)',
     'notices.role_users'                 => 'Benutzer',
+    'notices.save_btn'                   => 'Speichern',
     'notices.subheading'                 => 'Dynamische Warnungen, Willkommensbanner oder zielgerichtete Benachrichtigungen für bestimmte Benutzerrollen erstellen.',
     'notices.target_roles_label'         => 'Zielpublikum (Rollen auswählen oder alle):',
     'notices.th_dismissible'             => 'Ausblendbar',
     'notices.th_order'                   => 'Reihenfolge',
     'notices.th_target_roles'            => 'Zielrollen',
     'notices.th_title'                   => 'Titel',
-    'notices.title_label'                => 'Hinweistitel / Überschrift:',
-    'notices.yes'                        => 'Ja',
-    'notices.add_new'                    => 'Neuen Hinweis hinzufügen',
     'notices.title_label'                => 'Titel',
-    'notices.content_label'              => 'Inhalt',
-    'notices.display_order'              => 'Anzeigereihenfolge',
-    'notices.active'                     => 'Aktiv',
-    'notices.dismissible'                => 'Ausblendbar',
-    'notices.audience'                   => 'Zielgruppe',
-    'notices.everyone'                   => 'Jeder',
-    'notices.create_notice_btn'          => 'Hinweis erstellen',
-    'notices.save_btn'                   => 'Speichern',
-    'notices.delete_btn'                 => 'Löschen',
-    'notices.delete_confirm'             => 'Diesen Hinweis wirklich löschen?',
+    'notices.yes'                        => 'Ja',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Abgelaufene Bestätigungstokens automatisch oder manuell bereinigen und hängende Links von aktivierten Benutzerkonten entfernen.',
     'settings.cron_maintenance_heading' => 'Automatisierte Token-Wartung & Cron-Einrichtung',
     'settings.db_updates_heading'        => 'Datenbank-Updates',
+    'settings.default_date_format'       => 'Standarddatumsformat',
     'settings.default_lang_desc'         => 'Wird für Gäste und Benutzer verwendet, die keine Sprache ausgewählt haben. Fügen Sie Dateien unter lang/ hinzu (z. B. cy.php), um weitere Optionen anzubieten.',
     'settings.default_lang_label'        => 'Standard-Seiten языке:',
+    'settings.default_lang_note'         => 'Die Standardsprache ist bereits oben festgelegt. Profileinstellungen überschreiben diese für angemeldete Benutzer.',
+    'settings.default_time_format'       => 'Standardzeitformat',
+    'settings.default_timezone'          => 'Standardzeitzone',
+    'settings.delete_btn'                => 'Löschen',
     'settings.delete_role_confirm'      => 'Sind Sie sicher, dass Sie diese Rolle löschen möchten? Benutzer, denen sie zugewiesen ist, werden sicher der Standard-Benutzerrolle zugewiesen.',
     'settings.download_backup_btn'       => 'Datenbank-Backup herunterladen',
     'settings.download_backup_desc'      => 'Speichert eine vollständige .sql-Datei auf Ihrem Computer. Bewahren Sie sie an einem sicheren Ort auf, bevor Sie Updates ausführen.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'Authentifiziertes SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Port 465)',
     'settings.enc_tls'                   => 'TLS (Port 587)',
+    'settings.error_log_tab'             => 'Fehlerprotokoll',
     'settings.existing_roles_heading'   => 'Bestehende Rollen & Verwaltung',
+    'settings.footer_compiled_notice'    => 'Fußzeilen-Quelltextzeile', 
+    'settings.footer_notice_helper'      => 'Wird als erste Zeile der Website-Fußzeile angezeigt. Leer lassen, um den Standardtext aus der Sprachdatei zu verwenden. Software-Credits und Urheberrechte bleiben fix.',
     'settings.hcaptcha_heading'          => 'hCaptcha-Einstellungen',
     'settings.heading'                   => 'Globale Website-Einstellungen, Module & Berechtigungen',
     'settings.mail_domain_label'         => 'System-E-Mail-Domain (Fallback-Umschlag):',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Seitenhinweise & Ankündigungen',
     'settings.permissions_heading'       => 'Dynamische Rollen- & Berechtigungsmatrix',
     'settings.permissions_subheading'    => 'Berechtigungen sind nach Systemfunktionen gruppiert. Erweitern Sie Abschnitte, um Funktionen zu konfigurieren, und speichern Sie Ihre Aktualisierungen unten.',
+    'settings.port_label'                => 'Port:',
     'settings.purge_all_confirm'         => '⚠️ WARNUNG: Dadurch wird das GESAMTE System-Audit-Log dauerhaft gelöscht. Sind Sie sicher, dass Sie fortfahren möchten?',
     'settings.purge_records_confirm'     => 'Möchten Sie wirklich alle datensatzbezogenen Audit-Einträge löschen?',
     'settings.recaptcha_heading'         => 'Google reCAPTCHA-Einstellungen',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Zeitstempel',
     'settings.turnstile_heading'         => 'Cloudflare Turnstile-Einstellungen',
     'settings.update_db_btn'             => 'Datenbank aktualisieren',
-    'settings.default_timezone'          => 'Standardzeitzone',
-    'settings.default_date_format'       => 'Standarddatumsformat',
-    'settings.default_time_format'       => 'Standardzeitformat',
-    'settings.footer_compiled_notice'    => 'Fußzeilen-Quelltextzeile', 
-    'settings.delete_btn'                => 'Löschen',
-    'settings.error_log_tab'             => 'Fehlerprotokoll',
-    'settings.smtp_host_label'           => 'SMTP-Host:',
-    'settings.port_label'                => 'Port:',
-    'settings.default_lang_note'         => 'Die Standardsprache ist bereits oben festgelegt. Profileinstellungen überschreiben diese für angemeldete Benutzer.',
-    'settings.footer_notice_helper'      => 'Wird als erste Zeile der Website-Fußzeile angezeigt. Leer lassen, um den Standardtext aus der Sprachdatei zu verwenden. Software-Credits und Urheberrechte bleiben fix.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Löschen',
     'admin_users.disabled'               => 'Deaktiviert',
     'admin_users.enabled'                => 'Aktiviert',
+    'admin_users.find_user'              => 'Benutzer finden',
     'admin_users.heading'                => 'Benutzerkontenverwaltung & Bestenlisten-Moderation',
     'admin_users.invite_user_btn'        => 'Neuen Benutzer einladen',
     'admin_users.manage_templates_btn'   => 'E-Mail-Vorlagen verwalten',
     'admin_users.no'                     => 'Nein',
+    'admin_users.no_search_match'        => 'Keine Benutzer entsprechen dieser Suche.',
     'admin_users.no_users'               => 'Keine Benutzer gefunden.',
     'admin_users.protected_admin'        => 'Geschützter Primär-Admin',
     'admin_users.reactivate_btn'         => 'Reaktivieren',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Passwort zurücksetzen',
     'admin_users.reset_pwd_confirm'      => 'Einen Link zum Zurücksetzen des Passworts an diesen Benutzer senden?',
     'admin_users.save_email_title'       => 'Neue E-Mail-Adresse speichern',
+    'admin_users.search_help'            => 'Filtert die Liste während der Eingabe. Das Feld leeren, um alle wieder anzuzeigen.',
+    'admin_users.search_placeholder'     => 'Benutzername, E-Mail oder Rolle…',
     'admin_users.set_score_btn'          => 'Punktzahl festlegen',
     'admin_users.status_active'          => 'Aktiv',
     'admin_users.status_suspended'       => 'Gesperrt',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Aktualisieren',
     'admin_users.verified_label'         => 'Verifiziert:',
     'admin_users.yes'                    => 'Ja',
-    'admin_users.find_user'              => 'Benutzer finden',
-    'admin_users.search_placeholder'     => 'Benutzername, E-Mail oder Rolle…',
-    'admin_users.search_help'            => 'Filtert die Liste während der Eingabe. Das Feld leeren, um alle wieder anzuzeigen.',
-    'admin_users.no_search_match'        => 'Keine Benutzer entsprechen dieser Suche.',
-    'admin_users.delete_btn'             => 'Löschen',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn' => 'Zurück zur Startseite',
-    'admin_errors.heading'             => 'Fehlerprotokoll',
-    'admin_errors.subheading'          => 'Schlagen Sie eine auf einer Fehlerseite angezeigte Referenz-ID nach (z. B. E-20260810-A1B2C3). Vollständige Details werden im Serverprotokoll gespeichert; Details auf dem Bildschirm für Besucher hängen von APP_DEBUG ab.',
-    'admin_errors.label_error_id'      => 'Fehlerreferenz-ID',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Suchen',
-    'admin_errors.not_found'           => 'Kein Protokolleintrag gefunden für',
-    'admin_errors.found_heading'       => 'Gefunden:',
-    'admin_errors.time_utc'            => 'Zeit (UTC)',
-    'admin_errors.local_time'          => 'Ihre Ortszeit',
-    'admin_errors.type'                => 'Typ',
-    'admin_errors.message'             => 'Meldung',
     'admin_errors.file'                => 'Datei',
+    'admin_errors.found_heading'       => 'Gefunden:',
+    'admin_errors.heading'             => 'Fehlerprotokoll',
+    'admin_errors.label_error_id'      => 'Fehlerreferenz-ID',
     'admin_errors.line_prefix'         => 'Zeile',
+    'admin_errors.local_time'          => 'Ihre Ortszeit',
+    'admin_errors.message'             => 'Meldung',
+    'admin_errors.no_recent'           => 'Noch keine Einträge im strukturierten Fehlerprotokoll.',
+    'admin_errors.not_found'           => 'Kein Protokolleintrag gefunden für',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Letzte Fehler',
     'admin_errors.request'             => 'Anfrage',
     'admin_errors.stack_trace'         => 'Stack-Trace',
-    'admin_errors.recent_heading'      => 'Letzte Fehler',
-    'admin_errors.no_recent'           => 'Noch keine Einträge im strukturierten Fehlerprotokoll.',
+    'admin_errors.subheading'          => 'Schlagen Sie eine auf einer Fehlerseite angezeigte Referenz-ID nach (z. B. E-20260810-A1B2C3). Vollständige Details werden im Serverprotokoll gespeichert; Details auf dem Bildschirm für Besucher hängen von APP_DEBUG ab.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Zeit',
     'admin_errors.th_message'          => 'Meldung',
+    'admin_errors.th_time'             => 'Zeit',
+    'admin_errors.time_utc'            => 'Zeit (UTC)',
+    'admin_errors.type'                => 'Typ',
     'error_template.debug_details'     => 'Debugging-Details',
-    'error_template.stack_trace'       => 'Stack-Trace',
     'error_template.file_label'        => 'Datei:',
     'error_template.line_label'        => 'Zeile',
+    'error_template.return_home_btn' => 'Zurück zur Startseite',
+    'error_template.stack_trace'       => 'Stack-Trace',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Admin-Passwort (min. 8 Zeichen)',
     'install.admin_subheading'           => 'Dies ist das Login für <strong>diese Website</strong> (nicht die Datenbank).',
     'install.admin_username_label'       => 'Admin-Benutzername',
+    'install.back_btn'                   => 'Zurück',
     'install.complete_desc'              => 'Diese Website ist bereits eingerichtet. Das Installationsprogramm ist gesperrt, damit es nicht versehentlich erneut ausgeführt werden kann.',
     'install.complete_heading'           => 'Einrichtung abgeschlossen',
     'install.complete_title'             => 'Einrichtung abgeschlossen',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP kann keine Dateien in diesem Projektordner erstellen.',
     'install.finish_btn'                 => 'Installation abschließen',
     'install.heading'                    => 'Installieren',
+    'install.hide_password'              => 'Verbergen',
     'install.home_link'                  => 'Zur Website',
+    'install.lang_label'                 => 'Sprache',
     'install.login_link'                 => 'Anmelden',
     'install.msg_db_ready'               => 'Datenbank ist bereit. Erstellen Sie Ihr Admin-Konto, um die Einrichtung abzuschließen.',
     'install.msg_installation_complete' => 'Installation abgeschlossen.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'PDO MySQL-Erweiterung',
     'install.req_php'                    => 'PHP 8.0+ (%s gefunden)',
     'install.req_probe'                  => 'Kann Dateien in diesem Projektordner erstellen',
-    'install.subheading'                 => 'Ersteinrichtung <strong>nur für diesen Anwendungsordner</strong>. Verwenden Sie eine leere MySQL-Datenbank.',
-    'install.back_btn'                   => 'Zurück',
-    'install.hide_password'              => 'Verbergen',
-    'install.lang_label'                 => 'Sprache',
     'install.show_password'              => 'Anzeigen',
+    'install.subheading'                 => 'Ersteinrichtung <strong>nur für diesen Anwendungsordner</strong>. Verwenden Sie eine leere MySQL-Datenbank.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Notfall-Zugriffsdatei entfernen',
+    'update_database.backup_notice'    => 'Erstellen Sie nach Möglichkeit ein Datenbank-Backup, bevor Sie Updates ausführen.',
     'update_database.confirm_prompt'   => 'Haben Sie ein Backup Ihrer Datenbank erstellt? Klicken Sie auf OK, um ausstehende Schemaupdates anzuwenden.',
     'update_database.current_version'  => 'Aktuelle Schemaversion:',
     'update_database.err_failed'       => 'Migration fehlgeschlagen:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'Datenbank ist bereits aktuell.',
     'update_database.page_title'       => 'System-Update erforderlich — Kirchenbuchverzeichnis',
     'update_database.proceed_login'    => 'Zur Anmeldung',
+    'update_database.remove_emergency_file' => 'Notfall-Zugriffsdatei entfernen',
     'update_database.subheading'       => 'Die Anwendungsdatenbankstruktur ist veraltet und erfordert ein Schemaupdate, bevor der Normalbetrieb fortgesetzt werden kann.',
     'update_database.update_btn'       => 'Datenbank jetzt aktualisieren',
-    'index.remove_emergency_file'      => 'Notfall-Zugriffsdatei entfernen',
-    'update_database.remove_emergency_file' => 'Notfall-Zugriffsdatei entfernen',
-    'update_database.backup_notice'    => 'Erstellen Sie nach Möglichkeit ein Datenbank-Backup, bevor Sie Updates ausführen.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'Datensatz-ID: %d — Wert: %s',
     'data_entry.dup_prompt'           => 'Möchten Sie trotzdem fortfahren und diesen doppelten Eintrag speichern?',
     'data_entry.enter_value_placeholder' => 'Wert eingeben...',
+    'data_entry.error_loading'        => 'Fehler beim Laden der Datensätze',
     'data_entry.existing_records_heading' => 'Tabelle der bestehenden Datensätze',
     'data_entry.filter_all_option'    => '-- Alle --',
     'data_entry.filter_placeholder'   => 'Filtern...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Daten absenden',
     'data_entry.th_added_by'          => 'Hinzugefügt von',
     'data_entry.th_date_created'      => 'Erstellungsdatum',
-    'data_entry.error_loading'        => 'Fehler beim Laden der Datensätze',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'   => 'Nur für Helfer:',
     'onboarding.attribution_desc1' => 'Steuert, wie Ihr Name auf der öffentlichen Bestenliste und in Datensatz-Logs angezeigt wird.',
     'onboarding.attribution_label' => 'Bestenlisten- & Namensnennungs-Präferenz:',
-    'onboarding.date_format_label' => 'Datumsanzeigeformat:',
-    'onboarding.heading'           => 'Willkommen im Team!',
-    'onboarding.page_title'        => 'Willkommen - Konto-Einrichtungsassistent',
-    'onboarding.subheading'        => 'Bevor Sie beginnen, nehmen Sie sich bitte einen Moment Zeit, um Ihre regionalen Anzeigeeinstellungen und Datenschutzeinstellungen zu konfigurieren. Sie können diese jederzeit später in Ihrem Profil aktualisieren.',
-    'onboarding.submit_btn'        => 'Einstellungen speichern & fortfahren',
-    'onboarding.time_12'          => '12-Stunden AM/PM (z. B. 04:07 PM)',
-    'onboarding.time_24'          => '24-Stunden (z. B. 16:07)',
-    'onboarding.time_format_label' => 'Uhrzeitformat (Zeitanzeige):',
-    'onboarding.time_none'        => 'Nur Datum (Zeit komplett ausblenden)',
-    'onboarding.timezone_label'    => 'Zeitzone / Region:',
     'onboarding.btn_continue_2fa'   => 'Weiter zu 2FA',
     'onboarding.btn_skip_for_now'   => 'Für den Moment überspringen',
     'onboarding.date_fmt_dmy'       => '23.07.2026 (UK Schrägstrich - TT.MM.JJJJ)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (Punkte - TT.MM.JJJJ)',
     'onboarding.date_fmt_full'      => 'Donnerstag, 23. Juli 2026 (Volltext)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (US-Stil - MM/TT/JJJJ)',
+    'onboarding.date_format_label' => 'Datumsanzeigeformat:',
     'onboarding.err_names_required' => 'Vorname und Nachname sind erforderlich.',
     'onboarding.err_save_failed'    => 'Fehler beim Speichern der Einrichtungseinstellungen. Bitte versuchen Sie es erneut.',
+    'onboarding.heading'           => 'Willkommen im Team!',
     'onboarding.lang_site_default'  => 'Standard der Website',
     'onboarding.language_label'     => 'Sprache',
     'onboarding.msg_welcome'        => 'Willkommen an Bord! Ihre Einstellungen wurden gespeichert.',
+    'onboarding.page_title'        => 'Willkommen - Konto-Einrichtungsassistent',
     'onboarding.security_hint'      => 'Sie können persönliche Einstellungen jederzeit ändern, indem Sie auf Ihren Benutzernamen im Menü klicken.',
+    'onboarding.subheading'        => 'Bevor Sie beginnen, nehmen Sie sich bitte einen Moment Zeit, um Ihre regionalen Anzeigeeinstellungen und Datenschutzeinstellungen zu konfigurieren. Sie können diese jederzeit später in Ihrem Profil aktualisieren.',
+    'onboarding.submit_btn'        => 'Einstellungen speichern & fortfahren',
+    'onboarding.time_12'          => '12-Stunden AM/PM (z. B. 04:07 PM)',
+    'onboarding.time_24'          => '24-Stunden (z. B. 16:07)',
+    'onboarding.time_format_label' => 'Uhrzeitformat (Zeitanzeige):',
+    'onboarding.time_none'        => 'Nur Datum (Zeit komplett ausblenden)',
+    'onboarding.timezone_label'    => 'Zeitzone / Region:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'E-Mail-Adresse',
     'profile.email_unverified'     => '(Unverifiziert - Posteingang prüfen)',
     'profile.email_verified'       => '(Verifiziert)',
+    'profile.err_personal_update'   => 'Fehler beim Aktualisieren der persönlichen Daten.',
     'profile.generate_codes_btn'   => 'Neue Backup-Codes generieren',
     'profile.generate_codes_confirm' => 'Sind Sie sicher? Dadurch werden alle bestehenden Backup-Codes ungültig.',
     'profile.heading'              => 'Benutzerprofil & Sicherheit',
     'profile.lang_site_default'    => 'Standard der Website',
     'profile.language_label'       => 'Bevorzugte Sprache:',
+    'profile.msg_personal_updated'  => 'Persönliche Daten, Zeitzone und Formatseinstellungen erfolgreich aktualisiert!',
     'profile.new_password_label'   => 'Neues Passwort (min. 8 Zeichen):',
     'profile.password_heading'     => 'Passwort ändern',
     'profile.personal_details_heading' => 'Persönliche Details',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Persönliche Details aktualisieren',
     'profile.update_email_btn'     => 'E-Mail aktualisieren & verifizieren',
     'profile.update_password_btn'  => 'Passwort aktualisieren',
-    'profile.err_personal_update'   => 'Fehler beim Aktualisieren der persönlichen Daten.',
-    'profile.msg_personal_updated'  => 'Persönliche Daten, Zeitzone und Formatseinstellungen erfolgreich aktualisiert!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Benutzerregistrierung',
+    'register.email_label'    => 'E-Mail-Adresse',
     'register.heading'        => 'Neues Konto registrieren',
     'register.submit_btn'     => 'Registrieren',
     'register.username_label' => 'Benutzername:',
-    'register.email_label'    => 'E-Mail-Adresse',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'Aktuelle Werte:',
     'suggest_edit.empty_label'          => '(leer)',
     'suggest_edit.heading_prefix'       => 'Bearbeitung vorschlagen für Datensatz',
+    'suggest_edit.leave_blank'         => 'Dieses Feld leer lassen',
     'suggest_edit.proposed_value_label' => 'Vorgeschlagener neuer Wert:',
     'suggest_edit.reasoning_label'      => 'Nachweis / Begründung / Quellennotizen:',
     'suggest_edit.reasoning_placeholder'=> 'Geben Sie Kontext, Quellenangaben oder Gründe für diese Änderung an...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'Vorschlag zur Überprüfung einreichen',
     'suggest_edit.submit_heading'       => 'Neuen vorgeschlagenen Wert & Nachweis einreichen',
     'suggest_edit.success_msg_suffix'   => 'Fühlen Sie sich frei, unten eine weitere Änderung einzureichen, oder verwenden Sie den Rückkehflink oben, wenn Sie fertig sind.',
-    'suggest_edit.leave_blank'         => 'Dieses Feld leer lassen',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Einen eindeutigen Benutzernamen für mich zuweisen',
+    'index.check_availability'         => 'Verfügbarkeit prüfen',
+    'volunteer.allocate_unique_username' => 'Einen eindeutigen Benutzernamen für mich zuweisen',
     'volunteer.aria_region'          => 'Helferformular',
+    'volunteer.check_availability'     => 'Verfügbarkeit prüfen',
     'volunteer.honeypot_label'       => 'Dieses Feld leer lassen:',
     'volunteer.multi_select_hint'    => 'Halten Sie Strg oder Cmd gedrückt, um mehrere auszuwählen.',
     'volunteer.required_field_title'=> 'Pflichtfeld',
     'volunteer.submit_btn'           => 'Helferinteresse absenden',
-    'index.check_availability'         => 'Verfügbarkeit prüfen',
-    'index.allocate_unique_username'   => 'Einen eindeutigen Benutzernamen für mich zuweisen',
-    'volunteer.check_availability'     => 'Verfügbarkeit prüfen',
-    'volunteer.allocate_unique_username' => 'Einen eindeutigen Benutzernamen für mich zuweisen',
 ];

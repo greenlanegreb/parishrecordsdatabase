@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Big Boss',
     'nav.data_entry'             => 'Type Up the Patter',
     'nav.feedback'               => 'Have Your Say / Beef',
     'nav.feedback_dashboard'     => 'Beef & Complaints Deck',
     'nav.high_contrast'          => 'Blinding Bright',
     'nav.invite_user'            => 'Roll Call / Add Mate',
+    'nav.language_label'         => 'Lingo',
     'nav.leaderboard'            => 'Top Boy Board',
     'nav.leaderboard_score'      => 'Rep / Street Cred Score',
     'nav.login'                  => 'Log In (Innit)',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Sort the Setup',
     'nav.manage_users'           => 'Manage the Crew',
     'nav.moderation'             => 'Guv’nor / Security',
+    'nav.profile'                => 'Me, Innit',
     'nav.search'                 => 'Have a Butcher’s',
+    'nav.select_language'        => 'Pick your lingo',
     'nav.settings'               => 'System Settings (Bare Tech)',
+    'nav.toggle_navigation'      => 'Flip the bits',
     'nav.volunteer'              => 'Step Up / Graft',
     'nav.volunteer_dashboard'    => 'Graft Dashboard',
     'nav.welcome'                => 'Alright family,',
-    'nav.admin'                  => 'Big Boss',
-    'nav.language_label'         => 'Lingo',
-    'nav.profile'                => 'Me, Innit',
-    'nav.select_language'        => 'Pick your lingo',
-    'nav.toggle_navigation'      => 'Flip the bits',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -179,12 +179,12 @@ return [
     'feedback_schema.subtype_standard'       => '-- Basic --',
     'feedback_schema.subtype_standard_lower'=> 'basic',
     'feedback_schema.system_user'            => 'The System',
+    'feedback_schema.th_created_by'          => 'Made By',
     'feedback_schema.th_data_type'           => 'Data Type',
     'feedback_schema.th_email'               => 'Email',
     'feedback_schema.th_field_name'          => 'Field Name',
     'feedback_schema.th_id'                  => 'ID',
     'feedback_schema.th_max_length'          => 'Max Size',
-    'feedback_schema.th_created_by'          => 'Made By',
     'feedback_schema.th_move'                => 'Shift',
     'feedback_schema.th_required'            => 'Must Have?',
     'feedback_schema.th_subtype'             => 'Subtype',
@@ -207,7 +207,7 @@ return [
     'manage_tables.date_bhv_all'         => 'All dates including boss inputs',
     'manage_tables.date_bhv_manual'      => 'Database date (manual punching only)',
     'manage_tables.delete_col_confirm'   => 'WARNING: Trashing this column deletes every single cell of data tied to it across all records. Sure?',
-    'manage_tables.delete_table_btn'     => 'Bin This Table',
+    'manage_tables.delete_table_btn'     => 'Bin the Table',
     'manage_tables.delete_table_confirm'=> 'WARNING: Binned tables drop every single column and saved record forever. Are you absolutely certain geezer?',
     'manage_tables.edit_col_summary'     => 'Twist Column:',
     'manage_tables.edit_metadata_btn'    => 'Edit Table Info',
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label' => 'Keep this column out of public search (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Current columns for',
     'manage_tables.heading'              => 'Sort Tables & Schemas',
+    'manage_tables.no'                   => 'Nah mate',
     'manage_tables.no_columns_found'     => 'No dynamic columns set up for this table yet.',
     'manage_tables.req_toggle_label'     => 'Lock this column down (Mandatory data entry)',
     'manage_tables.save_table_btn'       => 'Save Table Changes',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Display Style',
     'manage_tables.th_public_search'     => 'Public Search?',
     'manage_tables.type_text_long'       => 'TEXT (Proper Long Paragraph)',
-    'manage_tables.delete_table_btn'     => 'Bin the Table',
     'manage_tables.yes'                  => 'Yeah bruv',
-    'manage_tables.no'                   => 'Nah mate',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'Working on:',
     'user_emails.back_to_creation'       => 'Back to Recruitment',
+    'user_emails.currently_editing'      => 'Working on:',
     'user_emails.desc_invitation'        => 'Fired out automatically when an admin invites a brand new recruit.',
     'user_emails.desc_reset'             => 'Fired out when someone triggers a password reset or re-requests a link.',
     'user_emails.email_body_label'       => 'Email Content:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Alert Content (HTML/text sorted):',
+    'notices.active'                     => 'Proper live',
+    'notices.add_new'                    => 'Slap up a fresh shout',
+    'notices.audience'                   => 'The mandem / Who sees it',
+    'notices.content_label'              => 'The Gist',
     'notices.create_heading'             => 'Build New Alert',
-    'notices.delete_confirm'             => 'Bin this alert?',
+    'notices.create_notice_btn'          => 'Post the shout',
+    'notices.delete_btn'                 => 'Bin it',
+    'notices.delete_confirm'             => 'You actually wanna trash this shout, fam?',
+    'notices.dismissible'                => 'Can shut it',
     'notices.dismissible_label'          => "Can be dismissed (Slaps an 'X' close button on it)",
+    'notices.display_order'              => 'Order of play',
     'notices.display_order_label'        => 'Display Order:',
     'notices.error_blank'                => 'Title and content can’t be left blank mate.',
+    'notices.everyone'                   => 'Absolute everyone',
     'notices.existing_heading'           => 'Active & Existing Banners',
     'notices.heading'                    => 'Banners & Site Alerts Manager',
     'notices.msg_created'                => 'Alert successfully published!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Security Crew (Moderators)',
     'notices.role_public'                => 'Public Walk-ins (Guests)',
     'notices.role_users'                 => 'Registered Lads (Users)',
+    'notices.save_btn'                   => 'Lock it in',
     'notices.subheading'                 => 'Slap up dynamic alerts, welcome banners, or targetted announcements for specific user ranks.',
     'notices.target_roles_label'         => 'Target Crew (Pick roles or everyone):',
     'notices.th_dismissible'             => 'Dismissible',
     'notices.th_order'                   => 'Order',
     'notices.th_target_roles'            => 'Target Ranks',
     'notices.th_title'                   => 'Title',
-    'notices.title_label'                => 'Alert Title / Header:',
-    'notices.yes'                        => 'Yeah',
-    'notices.add_new'                    => 'Slap up a fresh shout',
     'notices.title_label'                => 'What’s it called',
-    'notices.content_label'              => 'The Gist',
-    'notices.display_order'              => 'Order of play',
-    'notices.active'                     => 'Proper live',
-    'notices.dismissible'                => 'Can shut it',
-    'notices.audience'                   => 'The mandem / Who sees it',
-    'notices.everyone'                   => 'Absolute everyone',
-    'notices.create_notice_btn'          => 'Post the shout',
-    'notices.save_btn'                   => 'Lock it in',
-    'notices.delete_btn'                 => 'Bin it',
-    'notices.delete_confirm'             => 'You actually wanna trash this shout, fam?',
+    'notices.yes'                        => 'Yeah',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Bin them expired verification tokens and sort out any pendin links from bare accounts that got activated by themselves or proper manually.',
     'settings.cron_maintenance_heading' => 'Proper Automated Token Maintins & Cron Setup, Safe G',
     'settings.db_updates_heading'        => 'Database Upgrades',
+    'settings.default_date_format'       => 'Standard day layout',
     'settings.default_lang_desc'         => 'Used for random guests and users without a preset language. Drop files into lang/ (e.g., en_GB_chav.php) for more.',
     'settings.default_lang_label'        => 'Default Site Slang / Language:',
+    'settings.default_lang_note'         => 'Default lingo is already sorted up top. Your profile bits override these when you’re logged in proper.',
+    'settings.default_time_format'       => 'Standard hour layout',
+    'settings.default_timezone'          => 'Standard clock time',
+    'settings.delete_btn'                => 'Bin it',
     'settings.delete_role_confirm'      => 'You dead-ass sure you wanna scrap this role? Anyone stuck on it will get safely banged back over to the standard default user tier.',
     'settings.download_backup_btn'       => 'Download Database Backup (SQL)',
     'settings.download_backup_desc'      => 'Saves a full .sql snapshot to your rig. Stash it safely before running updates.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'Authenticated SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Port 465)',
     'settings.enc_tls'                   => 'TLS (Port 587)',
+    'settings.error_log_tab'             => 'Messed up log',
     'settings.existing_roles_heading'   => 'Current Roles & Management',
+    'settings.footer_compiled_notice'    => 'Bottom footer source gaff', 
+    'settings.footer_notice_helper'      => 'Shows right at the very bottom of the gaff. Leave it blank if you want the default blurb from the lingo file. Software credits and copyright stay put.',
     'settings.hcaptcha_heading'          => 'hCaptcha Setup',
     'settings.heading'                   => 'Global Site Settings, Modules & Permissions',
     'settings.mail_domain_label'         => 'System Mail Domain (Fallback):',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Site Notices & Banners',
     'settings.permissions_heading'       => 'Dynamic Ranks & Permissions Matrix',
     'settings.permissions_subheading'    => 'Permissions are grouped by system capabilities. Expand boxes to tweak what each rank can do and save below.',
+    'settings.port_label'                => 'Port:',
     'settings.purge_all_confirm'         => '⚠️ WARNING: This will WIPE EVERY SINGLE SYSTEM AUDIT LOG FOREVER. Are you sure?',
     'settings.purge_records_confirm'     => 'Sure you want to wipe all audit logs tied to records?',
     'settings.recaptcha_heading'         => 'Google reCAPTCHA Setup',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => 'Site Key (Public):',
     'settings.smtp_encryption_label'     => 'Encryption:',
     'settings.smtp_heading'              => 'SMTP Server Setup',
-    'settings.smtp_host_label'           => 'SMTP Host:',
+    'settings.smtp_host_label'           => 'SMTP Host geezer:',
     'settings.smtp_pass_label'           => 'SMTP Password (leave blank to keep current):',
     'settings.smtp_port_label'           => 'Port:',
     'settings.smtp_user_label'           => 'SMTP Username:',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Timestamp',
     'settings.turnstile_heading'         => 'Cloudflare Turnstile Setup',
     'settings.update_db_btn'             => 'Upgrade Database Now',
-    'settings.default_timezone'          => 'Standard clock time',
-    'settings.default_date_format'       => 'Standard day layout',
-    'settings.default_time_format'       => 'Standard hour layout',
-    'settings.footer_compiled_notice'    => 'Bottom footer source gaff', 
-    'settings.delete_btn'                => 'Bin it',
-    'settings.error_log_tab'             => 'Messed up log',
-    'settings.smtp_host_label'           => 'SMTP Host geezer:',
-    'settings.port_label'                => 'Port:',
-    'settings.default_lang_note'         => 'Default lingo is already sorted up top. Your profile bits override these when you’re logged in proper.',
-    'settings.footer_notice_helper'      => 'Shows right at the very bottom of the gaff. Leave it blank if you want the default blurb from the lingo file. Software credits and copyright stay put.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Bin it',
     'admin_users.disabled'               => 'Off',
     'admin_users.enabled'                => 'On',
+    'admin_users.find_user'              => 'Track down a geezer',
     'admin_users.heading'                => 'User Account Management & Rep Moderation',
     'admin_users.invite_user_btn'        => 'Invite New Mate',
     'admin_users.manage_templates_btn'   => 'Sort Email Slang Templates',
     'admin_users.no'                     => 'Nah',
+    'admin_users.no_search_match'        => 'Found absolute jack shit matching that search.',
     'admin_users.no_users'               => 'No users found.',
     'admin_users.protected_admin'        => 'Protected Top Boss',
     'admin_users.reactivate_btn'         => 'Unfreeze',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Reset Password',
     'admin_users.reset_pwd_confirm'      => 'Fire a password reset link to this user?',
     'admin_users.save_email_title'       => 'Save New Email Addy',
+    'admin_users.search_help'            => 'Filters the list as you bash the keyboard. Clear the box to see everyone again.',
+    'admin_users.search_placeholder'     => 'Username, email, or what they do…',
     'admin_users.set_score_btn'          => 'Set Rep Score',
     'admin_users.status_active'          => 'Active',
     'admin_users.status_suspended'       => 'Frozen / Banned',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Update',
     'admin_users.verified_label'         => 'Verified:',
     'admin_users.yes'                    => 'Yeah',
-    'admin_users.find_user'              => 'Track down a geezer',
-    'admin_users.search_placeholder'     => 'Username, email, or what they do…',
-    'admin_users.search_help'            => 'Filters the list as you bash the keyboard. Clear the box to see everyone again.',
-    'admin_users.no_search_match'        => 'Found absolute jack shit matching that search.',
-    'admin_users.delete_btn'             => 'Bin it',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'Get Back to Public Yard',
-    'admin_errors.heading'             => 'Messed up log',
-    'admin_errors.subheading'          => 'Have a butcher’s at the reference ID on the error screen (e.g. E-20260810-A1B2C3). Full details are banged into the server log; what randoms see on screen depends on APP_DEBUG.',
-    'admin_errors.label_error_id'      => 'Error reference ID',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Find it',
-    'admin_errors.not_found'           => 'Found zero log entries for',
-    'admin_errors.found_heading'       => 'Jackpot:',
-    'admin_errors.time_utc'            => 'Time (UTC)',
-    'admin_errors.local_time'          => 'Your local time',
-    'admin_errors.type'                => 'Sort / Type',
-    'admin_errors.message'             => 'The beef / Message',
     'admin_errors.file'                => 'File',
+    'admin_errors.found_heading'       => 'Jackpot:',
+    'admin_errors.heading'             => 'Messed up log',
+    'admin_errors.label_error_id'      => 'Error reference ID',
     'admin_errors.line_prefix'         => 'Line',
+    'admin_errors.local_time'          => 'Your local time',
+    'admin_errors.message'             => 'The beef / Message',
+    'admin_errors.no_recent'           => 'Clean sheet, no entries in the structured error log yet.',
+    'admin_errors.not_found'           => 'Found zero log entries for',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Fresh disasters',
     'admin_errors.request'             => 'Request',
     'admin_errors.stack_trace'         => 'The trail of doom',
-    'admin_errors.recent_heading'      => 'Fresh disasters',
-    'admin_errors.no_recent'           => 'Clean sheet, no entries in the structured error log yet.',
+    'admin_errors.subheading'          => 'Have a butcher’s at the reference ID on the error screen (e.g. E-20260810-A1B2C3). Full details are banged into the server log; what randoms see on screen depends on APP_DEBUG.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Time',
     'admin_errors.th_message'          => 'The beef',
+    'admin_errors.th_time'             => 'Time',
+    'admin_errors.time_utc'            => 'Time (UTC)',
+    'admin_errors.type'                => 'Sort / Type',
     'error_template.debug_details'     => 'Debugging bits',
-    'error_template.stack_trace'       => 'The trail of doom',
     'error_template.file_label'        => 'File:',
     'error_template.line_label'        => 'Line',
+    'error_template.return_home_btn'   => 'Get Back to Public Yard',
+    'error_template.stack_trace'       => 'The trail of doom',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Boss Password (min. 8 characters)',
     'install.admin_subheading'           => 'These are your sign-in details for <strong>this site</strong> (not a database account).',
     'install.admin_username_label'       => 'Boss Username',
+    'install.back_btn'                   => 'Whip it back',
     'install.complete_desc'              => 'This site is already fully configured. The installer’s been locked down so nobody messes with it.',
     'install.complete_heading'           => 'Setup Done & Dusted',
     'install.complete_title'             => 'Setup Done & Dusted',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP can’t write files in this project folder. Fix your permissions.',
     'install.finish_btn'                 => 'Finish Setup',
     'install.heading'                    => 'Setup Wizard',
+    'install.hide_password'              => 'Lock it down',
     'install.home_link'                  => 'Go to Yard',
+    'install.lang_label'                 => 'Lingo',
     'install.login_link'                 => 'Log In',
     'install.msg_db_ready'               => 'Database is locked and loaded. Set up your main boss account to finish up.',
     'install.msg_installation_complete' => 'Setup complete.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'PDO MySQL Extension',
     'install.req_php'                    => 'PHP 8.0+ (detected %s)',
     'install.req_probe'                  => 'Permission to write files in this project folder',
-    'install.subheading'                 => 'Initial configuration <strong>for this app folder only</strong>. Hook it up to an empty MySQL database.',
-    'install.back_btn'                   => 'Whip it back',
-    'install.hide_password'              => 'Lock it down',
-    'install.lang_label'                 => 'Lingo',
     'install.show_password'              => 'Let it peak',
+    'install.subheading'                 => 'Initial configuration <strong>for this app folder only</strong>. Hook it up to an empty MySQL database.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -696,9 +691,9 @@ return [
     // ------------------------------------------------------------------
     // Site Footer
     // ------------------------------------------------------------------
-    'footer.compiled_notice'  => 'Parish records pulled together from public domain history books.',
+    'footer.compiled_notice'  => 'Your footer goes here bruv!',
     'footer.rights_reserved'  => 'All rights reserved bruv.',
-    'footer.software_notice'  => 'Open source software platform under MIT license.',
+    'footer.software_notice'  => 'pRD (V1.18) is open-source under the MIT License.',
 
     // ------------------------------------------------------------------
     // Site Header & Head
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Nuke the emergency backdoor file',
+    'update_database.backup_notice'    => 'Back up your database before you run any updates, otherwise you could be totally screwed.',
     'update_database.confirm_prompt'   => 'Did you back up your database? Hit OK to apply pending schema upgrades.',
     'update_database.current_version'  => 'Current schema version:',
     'update_database.err_failed'       => 'Migration completely tanked:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'Database is already fully up to date.',
     'update_database.page_title'       => 'System Upgrade Required — Parish Records',
     'update_database.proceed_login'    => 'Head to Log In Page',
+    'update_database.remove_emergency_file' => 'Nuke the emergency backdoor file',
     'update_database.subheading'       => 'The database schema is outdated and needs an upgrade before the site can function normally.',
     'update_database.update_btn'       => 'Upgrade Database Now',
-    'index.remove_emergency_file'      => 'Nuke the emergency backdoor file',
-    'update_database.remove_emergency_file' => 'Nuke the emergency backdoor file',
-    'update_database.backup_notice'    => 'Back up your database before you run any updates, otherwise you could be totally screwed.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'Record ID: %d — Value: %s',
     'data_entry.dup_prompt'           => 'Want to push ahead and save this duplicate record anyway?',
     'data_entry.enter_value_placeholder' => 'Punch value in...',
+    'data_entry.error_loading'        => 'Absolute shocker loading up the records',
     'data_entry.existing_records_heading' => 'Existing Records Table',
     'data_entry.filter_all_option'    => '-- All --',
     'data_entry.filter_placeholder'   => 'Filter...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Submit Data',
     'data_entry.th_added_by'          => 'Added By',
     'data_entry.th_date_created'      => 'Created When',
-    'data_entry.error_loading'        => 'Absolute shocker loading up the records',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,9 +855,22 @@ return [
     'onboarding.attr_vol_title'    => 'Crew Only:',
     'onboarding.attribution_desc1' => 'Controls how your name flashes on the public leaderboard and records.',
     'onboarding.attribution_label' => 'Leaderboard Display Choice:',
+    'onboarding.btn_continue_2fa'   => 'Roll to 2FA',
+    'onboarding.btn_skip_for_now'   => 'Fuck it, skip',
+    'onboarding.date_fmt_dmy'       => '23/07/2026 (Proper UK - Day/Month/Year)',
+    'onboarding.date_fmt_dmy_short' => '23/07/26 (Shorty - Day/Month/Yr)',
+    'onboarding.date_fmt_dots'      => '23.07.2026 (Dotty - Day.Month.Year)',
+    'onboarding.date_fmt_full'      => 'Thursday 23rd July 2026 (Full Blown)',
+    'onboarding.date_fmt_mdy'       => '07/23/2026 (Yank style - Month/Day/Year)',
     'onboarding.date_format_label' => 'Date Display Style:',
+    'onboarding.err_names_required' => 'Gotta give us your gov\'nor name and your family, bruv.',
+    'onboarding.err_save_failed'    => 'Peak, that didn\'t save. Try again, blud.',
     'onboarding.heading'           => 'Welcome to the Crew!',
+    'onboarding.lang_site_default'  => 'Standard Gaff Default',
+    'onboarding.language_label'     => 'Lingo',
+    'onboarding.msg_welcome'         => 'Safe fam! Sorted.',
     'onboarding.page_title'        => 'Welcome — Account Setup Wizard',
+    'onboarding.security_hint'      => 'Swag your settings anytime by tapping your tag in the gaff.',
     'onboarding.subheading'        => 'Before you start graft, take a second to set up your regional display and privacy choices. You can twist these in your profile anytime.',
     'onboarding.submit_btn'        => 'Save Choices & Keep Going',
     'onboarding.time_12'          => '12-hour AM/PM (e.g. 04:07 PM)',
@@ -870,19 +878,6 @@ return [
     'onboarding.time_format_label' => 'Clock Format:',
     'onboarding.time_none'        => 'Date only (hide time completely)',
     'onboarding.timezone_label'    => 'Timezone / Turf:',
-    'onboarding.btn_continue_2fa'   => 'Roll to 2FA',
-    'onboarding.btn_skip_for_now'   => 'F*** it, skip',
-    'onboarding.date_fmt_dmy'       => '23/07/2026 (Proper UK - Day/Month/Year)',
-    'onboarding.date_fmt_dmy_short' => '23/07/26 (Shorty - Day/Month/Yr)',
-    'onboarding.date_fmt_dots'      => '23.07.2026 (Dotty - Day.Month.Year)',
-    'onboarding.date_fmt_full'      => 'Thursday 23rd July 2026 (Full Blown)',
-    'onboarding.date_fmt_mdy'       => '07/23/2026 (Yank style - Month/Day/Year)',
-    'onboarding.err_names_required' => 'Gotta give us your gov\'nor name and your family, bruv.',
-    'onboarding.err_save_failed'    => 'Peak, that didn\'t save. Try again, blud.',
-    'onboarding.lang_site_default'  => 'Standard Gaff Default',
-    'onboarding.language_label'     => 'Lingo',
-    'onboarding.msg_welcome'         => 'Safe fam! Sorted.',
-    'onboarding.security_hint'      => 'Swag your settings anytime by tapping your tag in the gaff.',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'Email Address',
     'profile.email_unverified'     => '(Unverified - Check your inbox)',
     'profile.email_verified'       => '(Verified)',
+    'profile.err_personal_update'   => 'Nah fam, couldn\'t update your info.',
     'profile.generate_codes_btn'   => 'Generate New Backup Codes',
     'profile.generate_codes_confirm' => 'Are you sure? This nukes any existing backup codes.',
     'profile.heading'              => 'User Profile & Security',
     'profile.lang_site_default'    => 'Site Default',
     'profile.language_label'       => 'Preferred Slang / Language:',
+    'profile.msg_personal_updated'  => 'Done g, your stuff is fully locked in and fresh!',
     'profile.new_password_label'   => 'New Password (min. 8 characters):',
     'profile.password_heading'     => 'Change Password',
     'profile.personal_details_heading' => 'Personal Details',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Update Personal Details',
     'profile.update_email_btn'     => 'Update Email & Verify',
     'profile.update_password_btn'  => 'Update Password',
-    'profile.err_personal_update'   => 'Nah fam, couldn\'t update your info.',
-    'profile.msg_personal_updated'  => 'Done g, your stuff is fully locked in and fresh!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'User Registration',
+    'register.email_label'    => 'Email Addy',
     'register.heading'        => 'Register New Account',
     'register.submit_btn'     => 'Sign Up',
     'register.username_label' => 'Username:',
-    'register.email_label'    => 'Email Addy',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'Current Values:',
     'suggest_edit.empty_label'          => '(blank)',
     'suggest_edit.heading_prefix'       => 'Suggest Edit for Record',
+    'suggest_edit.leave_blank'          => 'Leave this box completely bare',
     'suggest_edit.proposed_value_label' => 'Proposed New Value:',
     'suggest_edit.reasoning_label'      => 'Proof / Backstory / Source Notes:',
     'suggest_edit.reasoning_placeholder'=> 'Give context, source citation, or reason for this change...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'Submit Suggestion for Review',
     'suggest_edit.submit_heading'       => 'Submit New Proposed Value & Proof',
     'suggest_edit.success_msg_suffix'   => 'You can fire another edit below or use the return link above when you’re done.',
-    'suggest_edit.leave_blank'          => 'Leave this box completely bare',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'     => 'Just give us a random unique username',
+    'index.check_availability'           => 'Check if the username is free',
+    'volunteer.allocate_unique_username' => 'Just give us a random unique username',
     'volunteer.aria_region'              => 'Graft Application Form',
+    'volunteer.check_availability'       => 'Check if they’re free',
     'volunteer.honeypot_label'           => 'Leave this field blank you mug:',
     'volunteer.multi_select_hint'        => 'Hold Ctrl or Cmd to select multiple.',
     'volunteer.required_field_title'     => 'Must Have Field',
     'volunteer.submit_btn'               => 'Submit Graft App',
-    'index.check_availability'           => 'Check if the username is free',
-    'index.allocate_unique_username'     => 'Just give us a random unique username',
-    'volunteer.check_availability'       => 'Check if they’re free',
-    'volunteer.allocate_unique_username' => 'Just give us a random unique username',
 ];

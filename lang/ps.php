@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'مدیر',
     'nav.data_entry'             => 'د ډاټا داخلول',
     'nav.feedback'               => 'نظرونه',
     'nav.feedback_dashboard'     => 'د نظرونو ډشبورډ',
     'nav.high_contrast'          => 'لوړ توپیر',
     'nav.invite_user'            => 'کاروونکی بلل',
+    'nav.language_label'         => 'ژبه',
     'nav.leaderboard'            => 'مخکښان',
     'nav.leaderboard_score'      => 'نمرې',
     'nav.login'                  => 'ننوتل',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'د جدولونو مدیریت',
     'nav.manage_users'           => 'د کاروونکو مدیریت',
     'nav.moderation'             => 'منظوري',
+    'nav.profile'                => 'پروفایل',
     'nav.search'                 => 'پلټنه',
+    'nav.select_language'        => 'ژبه وټاکئ',
     'nav.settings'               => 'د سیستم تنظیمات',
+    'nav.toggle_navigation'      => 'د تګ راتګ بدلول',
     'nav.volunteer'              => 'رضاکار کېدل',
     'nav.volunteer_dashboard'    => 'د رضاکارانو ډشبورډ',
     'nav.welcome'                => 'ښه راغلاست،',
-    'nav.admin'                  => 'مدیر',
-    'nav.language_label'         => 'ژبه',
-    'nav.profile'                => 'پروفایل',
-    'nav.select_language'        => 'ژبه وټاکئ',
-    'nav.toggle_navigation'      => 'د تګ راتګ بدلول',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -207,7 +207,7 @@ return [
     'manage_tables.date_bhv_all'         => 'ټولې نېټې (د مدیر په ګډون)',
     'manage_tables.date_bhv_manual'      => 'په ډیټابیس کې نېټه (يوازې په لاسي ډول)',
     'manage_tables.delete_col_confirm'   => 'خبرداری: د دې ستنې ړنګول به په هر ریکارډ کې اړوند حجرو ټول معلومات هم له منځه یوسي. آیا ډاډه یاست؟',
-    'manage_tables.delete_table_btn'     => 'جدول ړنګول',
+    'manage_tables.delete_table_btn'     => 'میز ړنګول',
     'manage_tables.delete_table_confirm'=> 'خبرداری: د دې جدول ړنګول به ټولې ستنې او خوندي شوي منځپانګې په بشپړ ډول له منځه یوسي. آیا تاسو په بشپړ ډول ډاډه یاست؟',
     'manage_tables.edit_col_summary'     => 'متحرک ستون سمول:',
     'manage_tables.edit_metadata_btn'    => 'د جدول معلومات سمول',
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'دا ستون د عامه پلټنې څخه وباسئ (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'شته ستنې:',
     'manage_tables.heading'              => 'د جدولونو او جوړښتونو مدیریت',
+    'manage_tables.no'                   => 'نه',
     'manage_tables.no_columns_found'     => 'د دې جدول لپاره تر اوسه هېڅ متحرک ستون نه ده تعریف شوې.',
     'manage_tables.req_toggle_label'     => 'دا ستون لازمي ګرځول (د ډاټا داخلول اړین دي)',
     'manage_tables.save_table_btn'       => 'د جدول بدلونونه خوندي کول',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'د ښودلو بڼه',
     'manage_tables.th_public_search'     => 'عامه پلټنه؟',
     'manage_tables.type_text_long'       => 'TEXT (اوږد پارګراف)',
-    'manage_tables.delete_table_btn'     => 'میز ړنګول',
     'manage_tables.yes'                  => 'هو',
-    'manage_tables.no'                   => 'نه',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'اوس مهال سمول:',
     'user_emails.back_to_creation'       => 'د کاروونکي جوړولو ته بېرته ستنېدل',
+    'user_emails.currently_editing'      => 'اوس مهال سمول:',
     'user_emails.desc_invitation'        => 'کله چې مدیر نوی کاروونکی جوړ کړي یا بلنه ورکړي، په اتوماتيک ډول لېږل کیږي.',
     'user_emails.desc_reset'             => 'کله چې د پټنوم د بیا تنظیمولو غوښتنه وشي، لېږل کیږي.',
     'user_emails.email_body_label'       => 'د برېښنالیک متن:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'د خبرتیا منځپانګه (HTML/متن اجازه لري):',
+    'notices.active'                     => 'فعال',
+    'notices.add_new'                    => 'نوې خبرتیا اضافه کول',
+    'notices.audience'                   => 'لیدونکي',
+    'notices.content_label'              => 'منځپانګه',
     'notices.create_heading'             => 'نوی خبرتیا جوړول',
-    'notices.delete_confirm'             => 'آیا غواړئ دا خبرتیا ړنګ کړئ؟',
+    'notices.create_notice_btn'          => 'خبرتیا جوړول',
+    'notices.delete_btn'                 => 'ړنګول',
+    'notices.delete_confirm'             => 'آیا دا خبرتیا ړنګوئ؟',
+    'notices.dismissible'                => 'د له منځه وړلو وړ',
     'notices.dismissible_label'          => "د بندولو وړ (د 'X' تڼۍ سره)",
+    'notices.display_order'              => 'د ښودلو ترتیب',
     'notices.display_order_label'        => 'د ښودلو ترتیب:',
     'notices.error_blank'                => 'سرلیک او منځپانګه نشي کولی خالي وي.',
+    'notices.everyone'                   => 'هرڅوک',
     'notices.existing_heading'           => 'فعاله او شته خبرتیاوې',
     'notices.heading'                    => 'د وېبپاڼې د خبرتیاوو مدیریت',
     'notices.msg_created'                => 'خبرتیا په بریا سره جوړه شوه!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'مدیران (مډرېټران)',
     'notices.role_public'                => 'عامه (مېلمانه)',
     'notices.role_users'                 => 'کاروونکي',
+    'notices.save_btn'                   => 'خوندي کول',
     'notices.subheading'                 => 'متحرک خبرتیاوې، د ښه راغلاست برېښنايي بانېرونه، یا د ځانګړو کاروونکو لپاره اعلانونه جوړ کړئ.',
     'notices.target_roles_label'         => 'مطلوب لیدونکي (رولونه یا ټول وټاکئ):',
     'notices.th_dismissible'             => 'د بندولو وړ',
     'notices.th_order'                   => 'ترتیب',
     'notices.th_target_roles'            => 'مطلوب رولونه',
     'notices.th_title'                   => 'سرلیک',
-    'notices.title_label'                => 'د خبرتیا سرلیک:',
-    'notices.yes'                        => 'هو',
-    'notices.add_new'                    => 'نوې خبرتیا اضافه کول',
     'notices.title_label'                => 'سرلیک',
-    'notices.content_label'              => 'منځپانګه',
-    'notices.display_order'              => 'د ښودلو ترتیب',
-    'notices.active'                     => 'فعال',
-    'notices.dismissible'                => 'د له منځه وړلو وړ',
-    'notices.audience'                   => 'لیدونکي',
-    'notices.everyone'                   => 'هرڅوک',
-    'notices.create_notice_btn'          => 'خبرتیا جوړول',
-    'notices.save_btn'                   => 'خوندي کول',
-    'notices.delete_btn'                 => 'ړنګول',
-    'notices.delete_confirm'             => 'آیا دا خبرتیا ړنګوئ؟',
+    'notices.yes'                        => 'هو',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'د اعتبار پای ته رسیدلي تایید ټوکينونه له منځه یوسي او د فعالو کاروونکو حسابونو څخه پاتې لینکونه په اتوماتیک یا لاسي ډول پاک کړئ.',
     'settings.cron_maintenance_heading' => 'د ټوکينونو اتوماتیک ساتنه او د کرون تنظیم',
     'settings.db_updates_heading'        => 'د ډیټابیس تازه معلومات',
+    'settings.default_date_format'       => 'اصلي نیټې بڼه',
     'settings.default_lang_desc'         => 'د مېلمنو او هغو کاروونکو لپاره کارول کیږي چې ژبه یې نه ده ټاکلې. د نورو ژبو لپاره فایلونه په lang/ كې کېږدئ (لکه ps.php).',
     'settings.default_lang_label'        => 'د وېبپاڼې اصلي ژبه:',
+    'settings.default_lang_note'         => 'اصلي ژبه دمخه پورته ټاکل شوې ده. د پروفایل تنظیمات د ننوتلو کاروونکو لپاره دا له سره لیکي.',
+    'settings.default_time_format'       => 'اصلي وخت بڼه',
+    'settings.default_timezone'          => 'اصلي وخت سیمه',
+    'settings.delete_btn'                => 'ړنګول',
     'settings.delete_role_confirm'      => 'آیا ډاډه یاست چې غواړئ دا رول ړنګ کړئ؟ هغه کاروونکي چې دې ته ټاکل شوي په خوندي توګه به د کاروونکي اصلي رول ته بیا وټاکل شي.',
     'settings.download_backup_btn'       => 'د ډیټابیس بیک اپ راښکته کول',
     'settings.download_backup_desc'      => 'بشپړ .sql فایل په خپل کمپیوټر کې خوندي کړئ. د تازه معلوماتو له پلي کولو دمخه یې په خوندي ځای کې وساتئ.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'تایید شوی SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (پورټ 465)',
     'settings.enc_tls'                   => 'TLS (پورټ 587)',
+    'settings.error_log_tab'             => 'د تېروتنو راپور',
     'settings.existing_roles_heading'   => 'موجود رولونه او مدیریت',
+    'settings.footer_compiled_notice'    => 'د فوټر سرچینې کرښه', 
+    'settings.footer_notice_helper'      => 'د سایټ فوټر د لومړۍ کرښې په توګه ښودل کیږي. د ژبې فایل څخه د اصلي متن کارولو لپاره تش پرېږدئ. د سافټویر کریډیټ او کاپي رایټ ثابت پاتې کیږي.',
     'settings.hcaptcha_heading'          => 'د hCaptcha تنظیمات',
     'settings.heading'                   => 'د وېبپاڼې عمومي تنظیمات، ماډلونه او واکونه',
     'settings.mail_domain_label'         => 'د سیستم برېښنالیک ډومین:',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'د وېبپاڼې خبرتیاوې او اعلانونه',
     'settings.permissions_heading'       => 'متغیر رولونه او د واکونو مټریکس',
     'settings.permissions_subheading'    => 'واکونه د سیستم د دندو له مخې ویشل شوي دي. د واکونو د تنظیمولو لپاره برخې پراخې کړئ.',
+    'settings.port_label'                => 'پورټ:',
     'settings.purge_all_confirm'         => '⚠️ خبرداری: دا به د سیستم ټولې پلټنې لاګونه په بشپړ ډول ړنګ کړي. آیا ډاډه یاست؟',
     'settings.purge_records_confirm'     => 'آیا غواړئ د ریکارډونو اړوند ټولې پلټنې لاګونه پاک کړئ؟',
     'settings.recaptcha_heading'         => 'د Google reCAPTCHA تنظیمات',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => 'د وېبپاڼې کیلي (عامه):',
     'settings.smtp_encryption_label'     => 'سخت خوندیتوب (Encryption):',
     'settings.smtp_heading'              => 'د SMTP سرور تنظیمات',
-    'settings.smtp_host_label'           => 'د SMTP کورنوم (Host):',
+    'settings.smtp_host_label'           => 'د SMTP کوربه:',
     'settings.smtp_pass_label'           => 'د SMTP پټنوم (که خالي پاتې شي اوسنی به وساتل شي):',
     'settings.smtp_port_label'           => 'پورټ (Port):',
     'settings.smtp_user_label'           => 'د SMTP کارن نوم:',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'نېټه او وخت',
     'settings.turnstile_heading'         => 'د Cloudflare Turnstile تنظیمات',
     'settings.update_db_btn'             => 'ډیټابیس تازه کول',
-    'settings.default_timezone'          => 'اصلي وخت سیمه',
-    'settings.default_date_format'       => 'اصلي نیټې بڼه',
-    'settings.default_time_format'       => 'اصلي وخت بڼه',
-    'settings.footer_compiled_notice'    => 'د فوټر سرچینې کرښه', 
-    'settings.delete_btn'                => 'ړنګول',
-    'settings.error_log_tab'             => 'د تېروتنو راپور',
-    'settings.smtp_host_label'           => 'د SMTP کوربه:',
-    'settings.port_label'                => 'پورټ:',
-    'settings.default_lang_note'         => 'اصلي ژبه دمخه پورته ټاکل شوې ده. د پروفایل تنظیمات د ننوتلو کاروونکو لپاره دا له سره لیکي.',
-    'settings.footer_notice_helper'      => 'د سایټ فوټر د لومړۍ کرښې په توګه ښودل کیږي. د ژبې فایل څخه د اصلي متن کارولو لپاره تش پرېږدئ. د سافټویر کریډیټ او کاپي رایټ ثابت پاتې کیږي.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'ړنګول',
     'admin_users.disabled'               => 'غیر فعال شوی',
     'admin_users.enabled'                => 'فعال شوی',
+    'admin_users.find_user'              => 'کاروونکی موندل',
     'admin_users.heading'                => 'د کاروونکو اکاونټونو مدیریت او د مخکښانو بیاکتنه',
     'admin_users.invite_user_btn'        => 'نوی کاروونکی بلل',
     'admin_users.manage_templates_btn'   => 'د برېښنالیک کينډۍ مدیریت',
     'admin_users.no'                     => 'نه',
+    'admin_users.no_search_match'        => 'هیڅ کاروونکی له دې لټون سره سمون نه خوري.',
     'admin_users.no_users'               => 'هېڅ کاروونکی ونه موندل شو.',
     'admin_users.protected_admin'        => 'ساتل شوی اصلي ایډمن',
     'admin_users.reactivate_btn'         => 'بیا فعالول',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'پټنوم بیا تنظیمول',
     'admin_users.reset_pwd_confirm'      => 'آیا دې کاروونکي ته د پټنوم د بیا تنظیمولو لینک ولېږل شي؟',
     'admin_users.save_email_title'       => 'نوی برېښنالیک خوندي کول',
+    'admin_users.search_help'            => 'لکه څنګه چې تاسو ټایپ کوئ، لست فلتر کوي. د هرچا بیا ښودلو لپاره بکس پاک کړئ.',
+    'admin_users.search_placeholder'     => 'د کاروونکي نوم، برېښلیک، یا رول…',
     'admin_users.set_score_btn'          => 'نمرې ټاکل',
     'admin_users.status_active'          => 'فعال',
     'admin_users.status_suspended'       => 'ځنډول شوی',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'تازه کول',
     'admin_users.verified_label'         => 'تایید شوی:',
     'admin_users.yes'                    => 'هو',
-    'admin_users.find_user'              => 'کاروونکی موندل',
-    'admin_users.search_placeholder'     => 'د کاروونکي نوم، برېښلیک، یا رول…',
-    'admin_users.search_help'            => 'لکه څنګه چې تاسو ټایپ کوئ، لست فلتر کوي. د هرچا بیا ښودلو لپاره بکس پاک کړئ.',
-    'admin_users.no_search_match'        => 'هیڅ کاروونکی له دې لټون سره سمون نه خوري.',
-    'admin_users.delete_btn'             => 'ړنګول',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'د کور پاڼې ته بېرته ستنېدل',
-    'admin_errors.heading'             => 'د تېروتنو راپور',
-    'admin_errors.subheading'          => 'په یوه تېروتنه پاڼه کې ښودل شوی د حوالې شناخت (ID) وګورئ (لکه E-20260810-A1B2C3). بشپړ جزئیات په سرور راپور کې ساتل کیږي؛ د لیدونکو لپاره په سکرین د جزئیاتو ښودل په APP_DEBUG پورې تړاو لري.',
-    'admin_errors.label_error_id'      => 'د تېروتنې د حوالې ID',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'موندل',
-    'admin_errors.not_found'           => 'د دې لپاره هیڅ راپور ثبت شوی و نه موندل شو',
-    'admin_errors.found_heading'       => 'موندل شو:',
-    'admin_errors.time_utc'            => 'وخت (UTC)',
-    'admin_errors.local_time'          => 'ستاسو ځایی وخت',
-    'admin_errors.type'                => 'ډول',
-    'admin_errors.message'             => 'پیغام',
     'admin_errors.file'                => 'فایل',
+    'admin_errors.found_heading'       => 'موندل شو:',
+    'admin_errors.heading'             => 'د تېروتنو راپور',
+    'admin_errors.label_error_id'      => 'د تېروتنې د حوالې ID',
     'admin_errors.line_prefix'         => 'کرښه',
+    'admin_errors.local_time'          => 'ستاسو ځایی وخت',
+    'admin_errors.message'             => 'پیغام',
+    'admin_errors.no_recent'           => 'تر اوسه په منظم تېروتنه راپور کې هیڅ ریکارډ نشته.',
+    'admin_errors.not_found'           => 'د دې لپاره هیڅ راپور ثبت شوی و نه موندل شو',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'وروستۍ تېروتنې',
     'admin_errors.request'             => 'غوښتنه',
     'admin_errors.stack_trace'         => 'د سټیک تعقیب',
-    'admin_errors.recent_heading'      => 'وروستۍ تېروتنې',
-    'admin_errors.no_recent'           => 'تر اوسه په منظم تېروتنه راپور کې هیڅ ریکارډ نشته.',
+    'admin_errors.subheading'          => 'په یوه تېروتنه پاڼه کې ښودل شوی د حوالې شناخت (ID) وګورئ (لکه E-20260810-A1B2C3). بشپړ جزئیات په سرور راپور کې ساتل کیږي؛ د لیدونکو لپاره په سکرین د جزئیاتو ښودل په APP_DEBUG پورې تړاو لري.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'وخت',
     'admin_errors.th_message'          => 'پیغام',
+    'admin_errors.th_time'             => 'وخت',
+    'admin_errors.time_utc'            => 'وخت (UTC)',
+    'admin_errors.type'                => 'ډول',
     'error_template.debug_details'     => 'د ډیبګ کولو جزئیات',
-    'error_template.stack_trace'       => 'د سټیک تعقیب',
     'error_template.file_label'        => 'فایل:',
     'error_template.line_label'        => 'کرښه',
+    'error_template.return_home_btn'   => 'د کور پاڼې ته بېرته ستنېدل',
+    'error_template.stack_trace'       => 'د سټیک تعقیب',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'د مدیر پټنوم (لږترلږه 8 توري)',
     'install.admin_subheading'           => 'دا د <strong>دې وېبپاڼې</strong> د ننوتلو اکاونټ دی (د ډیټابیس اکاونټ نه دی).',
     'install.admin_username_label'       => 'د مدیر کارن نوم',
+    'install.back_btn'                   => 'شاته',
     'install.complete_desc'              => 'دا وېبپاڼه دمخه تنظیم شوې ده. د بیا ځلي چلولو د مخنیوي لپاره نصب کونکی بند شوی دی.',
     'install.complete_heading'           => 'نصب بشپړ شو',
     'install.complete_title'             => 'نصب بشپړ شو',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP نشي کولی پدې پروژه کې فایلونه جوړ کړي.',
     'install.finish_btn'                 => 'نصب بشپړول',
     'install.heading'                    => 'نصب',
+    'install.hide_password'              => 'پټول',
     'install.home_link'                  => 'وېبپاڼې ته تلل',
+    'install.lang_label'                 => 'ژبه',
     'install.login_link'                 => 'ننوتل',
     'install.msg_db_ready'               => 'ډیټابیس چمتو دی. د نصب بشپړولو لپاره خپل د مدیر اکاونټ جوړ کړئ.',
     'install.msg_installation_complete' => 'نصب بشپړ شو.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'د PDO MySQL غځونه',
     'install.req_php'                    => 'PHP 8.0+ (موندل شوی %s)',
     'install.req_probe'                  => 'پدې پروژه کې د فایلونو د جوړولو وړتیا شتون لري',
-    'install.subheading'                 => 'لومړنۍ تنظیمات <strong>یوازې د دې غوښتنلیک پوښۍ لپاره دي</strong>. مهرباني وکړئ یو خالي MySQL ډیټابیس وکاروئ.',
-    'install.back_btn'                   => 'شاته',
-    'install.hide_password'              => 'پټول',
-    'install.lang_label'                 => 'ژبه',
     'install.show_password'              => 'ښودل',
+    'install.subheading'                 => 'لومړنۍ تنظیمات <strong>یوازې د دې غوښتنلیک پوښۍ لپاره دي</strong>. مهرباني وکړئ یو خالي MySQL ډیټابیس وکاروئ.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'د اضطراري لاسرسي فایل لرې کول',
+    'update_database.backup_notice'    => 'کله چې توان ولرئ، د تازه معلوماتو له چلولو دمخه د ډیټابیس بیک اپ واخلئ.',
     'update_database.confirm_prompt'   => 'آیا تاسو د خپل ډیټابیس بیک اپ کړی دی؟ د پاتې بدلونونو د پلي کولو لپاره OK کېکاږئ.',
     'update_database.current_version'  => 'اوسنی جوړښت نسخه:',
     'update_database.err_failed'       => 'تازه کول ناکام شول:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'ډیټابیس دمخه تازه دی.',
     'update_database.page_title'       => 'د سیستم تازه کولو ته اړتیا ده — د کلیسا ریکارډونه',
     'update_database.proceed_login'    => 'د ننوتلو پاڼې ته تلل',
+    'update_database.remove_emergency_file' => 'د اضطراري لاسرسي فایل لرې کول',
     'update_database.subheading'       => 'د غوښتنلیک د ډیټابیس جوړښت زوړ شوی دی، د عادي کار د دوام لپاره نوې بڼې ته اړتیا ده.',
     'update_database.update_btn'       => 'اوس ډیټابیس تازه کول',
-    'index.remove_emergency_file'      => 'د اضطراري لاسرسي فایل لرې کول',
-    'update_database.remove_emergency_file' => 'د اضطراري لاسرسي فایل لرې کول',
-    'update_database.backup_notice'    => 'کله چې توان ولرئ، د تازه معلوماتو له چلولو دمخه د ډیټابیس بیک اپ واخلئ.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'د ریکارډ ID: %d — ارزښت: %s',
     'data_entry.dup_prompt'           => 'آیا غواړئ دا تکراري ریکارډ بیا هم خوندي کړئ؟',
     'data_entry.enter_value_placeholder' => 'ارزښت ولیکئ...',
+    'data_entry.error_loading'        => 'د ریکارډونو په بارولو کې تېروتنه',
     'data_entry.existing_records_heading' => 'د شته ریکارډونو جدول',
     'data_entry.filter_all_option'    => '-- ټول --',
     'data_entry.filter_placeholder'   => 'فلټر کول...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'ډاټا لېږل',
     'data_entry.th_added_by'          => 'زیاتونکی',
     'data_entry.th_date_created'      => 'د جوړولو نېټه',
-    'data_entry.error_loading'        => 'د ریکارډونو په بارولو کې تېروتنه',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'یوازې رضاکاران:',
     'onboarding.attribution_desc1' => 'دا کنټرولوي چې ستاسو نوم په مخکښانو او ریکارډونو کې څنګه وښودل شي.',
     'onboarding.attribution_label' => 'په مخکښانو کې د نوم ښودلو خوښونه:',
-    'onboarding.date_format_label' => 'د نېټې بڼه:',
-    'onboarding.heading'           => 'ټیم ته ښه راغلاست!',
-    'onboarding.page_title'        => 'ښه راغلاست — د اکاونټ تنظیمات',
-    'onboarding.subheading'        => 'د پيل کولو دمخه، مهرباني وکړئ خپل سیمه ایز او محرمیت تنظیمات وټاکئ. تاسو کولی شئ دا هر وخت په خپل پروفایل کې بدل کړئ.',
-    'onboarding.submit_btn'        => 'تنظیمات خوندي کول او مخکې تلل',
-    'onboarding.time_12'          => '12 ساعته AM/PM (لکه 04:07 PM)',
-    'onboarding.time_24'          => '24 ساعته (لکه 16:07)',
-    'onboarding.time_format_label' => 'د ساعت بڼه:',
-    'onboarding.time_none'        => 'یوازې نېټه (ساعت په بشپړ ډول پټول)',
-    'onboarding.timezone_label'    => 'د وخت زون / سیمه:',
     'onboarding.btn_continue_2fa'   => 'دوه پړاوه تصدیق ته دوام ورکول',
     'onboarding.btn_skip_for_now'   => 'د اوس لپاره تیریدل',
     'onboarding.date_fmt_dmy'       => '۲۰۲۶/۰۷/۲۳ (برتانوي سټایل - ورځ/میاشت/ک کال)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '۲۰۲۶.۰۷.۲۳ (پوټکي - ورځ.میاشت.کال)',
     'onboarding.date_fmt_full'      => 'پنجشنبه، د ۲۰۲۶ کال د جولای ۲۳ ( بشپړ متن)',
     'onboarding.date_fmt_mdy'       => '۰۷/۲۳/۲۰۲۶ (امریکایی سټایل - میاشت/ورځ/کال)',
+    'onboarding.date_format_label' => 'د نېټې بڼه:',
     'onboarding.err_names_required' => 'لومړی نوم او تخلص اړین دي.',
     'onboarding.err_save_failed'    => 'د ترتیباتو په خوندي کولو کې پاتې راغی. مهرباني وکړئ بیا هڅه وکړئ.',
+    'onboarding.heading'           => 'ټیم ته ښه راغلاست!',
     'onboarding.lang_site_default'  => 'د سایټ تګلاره',
     'onboarding.language_label'     => 'ژبه',
     'onboarding.msg_welcome'        => 'ښه راغلاست! ستاسو خوښې خوندي شوې.',
+    'onboarding.page_title'        => 'ښه راغلاست — د اکاونټ تنظیمات',
     'onboarding.security_hint'      => 'تاسو کولی شئ په مینو کې په خپل کارن نوم کلیک کولو سره په هر وخت کې شخصي تنظیمات بدل کړئ.',
+    'onboarding.subheading'        => 'د پيل کولو دمخه، مهرباني وکړئ خپل سیمه ایز او محرمیت تنظیمات وټاکئ. تاسو کولی شئ دا هر وخت په خپل پروفایل کې بدل کړئ.',
+    'onboarding.submit_btn'        => 'تنظیمات خوندي کول او مخکې تلل',
+    'onboarding.time_12'          => '12 ساعته AM/PM (لکه 04:07 PM)',
+    'onboarding.time_24'          => '24 ساعته (لکه 16:07)',
+    'onboarding.time_format_label' => 'د ساعت بڼه:',
+    'onboarding.time_none'        => 'یوازې نېټه (ساعت په بشپړ ډول پټول)',
+    'onboarding.timezone_label'    => 'د وخت زون / سیمه:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'برېښنالیک پته',
     'profile.email_unverified'     => '(تایید شوی نه دی - خپل ان باکس وګورئ)',
     'profile.email_verified'       => '(تایید شوی)',
+    'profile.err_personal_update'   => 'شخصي معلوماتو په تازه کولو کې پاتې راغی.',
     'profile.generate_codes_btn'   => 'نوي بیک اپ کوډونه جوړول',
     'profile.generate_codes_confirm' => 'آیا ډاډه یاست؟ دا به پخواني بیک اپ کوډونه لغوه کړي.',
     'profile.heading'              => 'د کاروونکي پروفایل او امنیت',
     'profile.lang_site_default'    => 'د وېبپاڼې اصلي ژبه',
     'profile.language_label'       => 'خوښه ژبه:',
+    'profile.msg_personal_updated'  => 'شخصي معلومات، د وخت زون، او د بڼې تنظیمات په بریالیتوب سره تازه شول!',
     'profile.new_password_label'   => 'نوی پټنوم (لږترلږه 8 توري):',
     'profile.password_heading'     => 'پټنوم بدلول',
     'profile.personal_details_heading' => 'شخصي معلومات',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'شخصي معلومات تازه کول',
     'profile.update_email_btn'     => 'برېښنالیک تازه کول او تایید',
     'profile.update_password_btn'  => 'پټنوم تازه کول',
-    'profile.err_personal_update'   => 'شخصي معلوماتو په تازه کولو کې پاتې راغی.',
-    'profile.msg_personal_updated'  => 'شخصي معلومات، د وخت زون، او د بڼې تنظیمات په بریالیتوب سره تازه شول!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'کاروونکي نوملیکنه',
+    'register.email_label'    => 'د برېښنالیک پته',
     'register.heading'        => 'نوی اکاونټ جوړول',
     'register.submit_btn'     => 'نوملیکنه',
     'register.username_label' => 'کارن نوم:',
-    'register.email_label'    => 'د برېښنالیک پته',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'اوسني ارزښتونه:',
     'suggest_edit.empty_label'          => '(خالي)',
     'suggest_edit.heading_prefix'       => 'د ریکارډ د سمون وړاندیز',
+    'suggest_edit.leave_blank'         => 'دا ساحه تشه پرېږدئ',
     'suggest_edit.proposed_value_label' => 'وړاندیز شوی نوی ارزښت:',
     'suggest_edit.reasoning_label'      => 'سند / دلیل / د سرچینې یادښتونه:',
     'suggest_edit.reasoning_placeholder'=> 'متن، د سرچینې حواله، یا د دې بدلون لامل ولیکئ...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'د بیاکتنې لپاره وړاندیز لېږل',
     'suggest_edit.submit_heading'       => 'نوی وړاندیز شوی ارزښت او سند لېږل',
     'suggest_edit.success_msg_suffix'   => 'تاسو کولی شئ لاندې بل سمون ولېږئ، یا د پورتني لینک په واسطه بېرته لاړ شئ.',
-    'suggest_edit.leave_blank'         => 'دا ساحه تشه پرېږدئ',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'     => 'زما لپاره یو ځانګړی د کاروونکي نوم وټاکئ',
+    'index.check_availability'           => 'شتون وپلټئ',
+    'volunteer.allocate_unique_username' => 'زما لپاره یو ځانګړی د کاروونکي نوم وټاکئ',
     'volunteer.aria_region'              => 'د رضاکار فورمه',
+    'volunteer.check_availability'       => 'شتون وپلټئ',
     'volunteer.honeypot_label'           => 'مهرباني وکړئ دا برخه خالي پریږدئ:',
     'volunteer.multi_select_hint'        => 'د څو توکو د ټاکلو لپاره Ctrl یا Cmd کېکاږئ.',
     'volunteer.required_field_title'     => 'لازمي برخه',
     'volunteer.submit_btn'               => 'د رضاکار غوښتنه لېږل',
-    'index.check_availability'           => 'شتون وپلټئ',
-    'index.allocate_unique_username'     => 'زما لپاره یو ځانګړی د کاروونکي نوم وټاکئ',
-    'volunteer.check_availability'       => 'شتون وپلټئ',
-    'volunteer.allocate_unique_username' => 'زما لپاره یو ځانګړی د کاروونکي نوم وټاکئ',
 ];

@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Адміністратор',
     'nav.data_entry'             => 'Введення даних',
     'nav.feedback'               => 'Зворотний зв’язок',
     'nav.feedback_dashboard'     => 'Панель зворотного зв’язку',
     'nav.high_contrast'          => 'Високий контракт',
     'nav.invite_user'            => 'Запросити користувача',
+    'nav.language_label'         => 'Мова',
     'nav.leaderboard'            => 'Таблиця лідерів',
     'nav.leaderboard_score'      => 'Бали таблиці лідерів',
     'nav.login'                  => 'Увійти',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Керування таблицями',
     'nav.manage_users'           => 'Керування користувачами',
     'nav.moderation'             => 'Модерація',
+    'nav.profile'                => 'Профіль',
     'nav.search'                 => 'Пошук',
+    'nav.select_language'        => 'Вибрати мову',
     'nav.settings'               => 'Системні налаштування',
+    'nav.toggle_navigation'      => 'Перемкнути навігацію',
     'nav.volunteer'              => 'Стати волонтером',
     'nav.volunteer_dashboard'    => 'Панель волонтерів',
     'nav.welcome'                => 'Ласкаво просимо,',
-    'nav.admin'                  => 'Адміністратор',
-    'nav.language_label'         => 'Мова',
-    'nav.profile'                => 'Профіль',
-    'nav.select_language'        => 'Вибрати мову',
-    'nav.toggle_navigation'      => 'Перемкнути навігацію',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Виключити цю колонку з публічного пошуку (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Існуючі колонки для',
     'manage_tables.heading'              => 'Керування таблицями та схемами',
+    'manage_tables.no'                   => 'Ні',
     'manage_tables.no_columns_found'     => 'Для цієї таблиці ще не визначено динамічних колонок.',
     'manage_tables.req_toggle_label'     => 'Зробити цю колонку обов’язковою (примусове введення даних)',
     'manage_tables.save_table_btn'       => 'Зберегти зміни таблиці',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Формат відображення',
     'manage_tables.th_public_search'     => 'Публічний пошук?',
     'manage_tables.type_text_long'       => 'TEXT (Довгий абзац)',
-    'manage_tables.delete_table_btn'     => 'Видалити таблицю',
     'manage_tables.yes'                  => 'Так',
-    'manage_tables.no'                   => 'Ні',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'Зараз редагується:',
     'user_emails.back_to_creation'       => 'Повернутися до створення користувача',
+    'user_emails.currently_editing'      => 'Зараз редагується:',
     'user_emails.desc_invitation'        => 'Надсилається автоматично, коли адміністратор створює або запрошує нового користувача.',
     'user_emails.desc_reset'             => 'Надсилається під час запиту скидання пароля або повторного надсилання посилання доступу.',
     'user_emails.email_body_label'       => 'Тіло листа:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Вміст сповіщення (дозволено HTML/текст):',
+    'notices.active'                     => 'Активно',
+    'notices.add_new'                    => 'Додати нове оголошення',
+    'notices.audience'                   => 'Аудиторія',
+    'notices.content_label'              => 'Вміст',
     'notices.create_heading'             => 'Створити нове сповіщення',
-    'notices.delete_confirm'             => 'Видалити це сповіщення?',
+    'notices.create_notice_btn'          => 'Створити оголошення',
+    'notices.delete_btn'                 => 'Видалити',
+    'notices.delete_confirm'             => 'Видалити це оголошення?',
+    'notices.dismissible'                => 'Можна закрити',
     'notices.dismissible_label'          => "Закривається (містить кнопку закриття 'X')",
+    'notices.display_order'              => 'Порядок відображення',
     'notices.display_order_label'        => 'Порядок відображення:',
     'notices.error_blank'                => 'Заголовок та вміст не можуть бути порожніми.',
+    'notices.everyone'                   => 'Усі',
     'notices.existing_heading'           => 'Активні та існуючі сповіщення',
     'notices.heading'                    => 'Менеджер сповіщень та оголошень сайту',
     'notices.msg_created'                => 'Сповіщення успішно створено!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Модератори',
     'notices.role_public'                => 'Публічний (Гість)',
     'notices.role_users'                 => 'Користувачі',
+    'notices.save_btn'                   => 'Зберегти',
     'notices.subheading'                 => 'Створюйте динамічні оповіщення, привітальні банери або цільові оголошення для певних ролей користувачів.',
     'notices.target_roles_label'         => 'Цільова аудиторія (виберіть ролі або всі):',
     'notices.th_dismissible'             => 'Закривається',
     'notices.th_order'                   => 'Порядок',
     'notices.th_target_roles'            => 'Цільові ролі',
     'notices.th_title'                   => 'Заголовок',
-    'notices.title_label'                => 'Заголовок / Шапка сповіщення:',
-    'notices.yes'                        => 'Так',
-    'notices.add_new'                    => 'Додати нове оголошення',
     'notices.title_label'                => 'Заголовок',
-    'notices.content_label'              => 'Вміст',
-    'notices.display_order'              => 'Порядок відображення',
-    'notices.active'                     => 'Активно',
-    'notices.dismissible'                => 'Можна закрити',
-    'notices.audience'                   => 'Аудиторія',
-    'notices.everyone'                   => 'Усі',
-    'notices.create_notice_btn'          => 'Створити оголошення',
-    'notices.save_btn'                   => 'Зберегти',
-    'notices.delete_btn'                 => 'Видалити',
-    'notices.delete_confirm'             => 'Видалити це оголошення?',
+    'notices.yes'                        => 'Так',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Видалення протермінованих токенів підтвердження та очищення завислих посилань у активованих облікових записах користувачів автоматично або вручну.',
     'settings.cron_maintenance_heading' => 'Автоматичне обслуговування токенів та налаштування Cron',
     'settings.db_updates_heading'        => 'Оновлення бази даних',
+    'settings.default_date_format'       => 'Формат дати за замовчуванням',
     'settings.default_lang_desc'         => 'Використовується для гостей і користувачів, які не вибрали мову. Додайте файли в lang/ (наприклад, uk.php) для підтримки додаткових мов.',
     'settings.default_lang_label'        => 'Мова сайту за замовчуванням:',
+    'settings.default_lang_note'         => 'Мова за замовчуванням уже встановлена вище. Налаштування профілю перезаписують їх для авторизованих користувачів.',
+    'settings.default_time_format'       => 'Формат часу за замовчуванням',
+    'settings.default_timezone'          => 'Часовий пояс за замовчуванням',
+    'settings.delete_btn'                => 'Видалити',
     'settings.delete_role_confirm'      => 'Ви впевнені, що хочете видалити цю роль? Користувачі, яким вона призначена, будуть безпечно переведені на роль користувача за замовчуванням.',
     'settings.download_backup_btn'       => 'Завантажити резервну копію БД',
     'settings.download_backup_desc'      => 'Зберігає повний файл .sql на вашому комп’ютері. Збережіть його в безпечному місці перед виконанням оновлень.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'Автентифікований SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Порт 465)',
     'settings.enc_tls'                   => 'TLS (Порт 587)',
+    'settings.error_log_tab'             => 'Журнал помилок',
     'settings.existing_roles_heading'   => 'Існуючі ролі та керування',
+    'settings.footer_compiled_notice'    => 'Вихідний рядок підвалу',
+    'settings.footer_notice_helper'      => 'Відображається як перший рядок підвалу сайту. Залиште порожнім, щоб використовувати текст за замовчуванням із мовного файлу. Авторські права та дані про програмне забезпечення залишаються незмінними.',
     'settings.hcaptcha_heading'          => 'Налаштування hCaptcha',
     'settings.heading'                   => 'Глобальні налаштування сайту, модулі та дозволи',
     'settings.mail_domain_label'         => 'Поштовий домен системи (Резервний):',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Сповіщення та оголошення сайту',
     'settings.permissions_heading'       => 'Матриця ролей та динамічних дозволів',
     'settings.permissions_subheading'    => 'Дозволи згрупповані за функціями системи. Розгорніть розділи для налаштування можливостей та збережіть матрицю нижче.',
+    'settings.port_label'                => 'Порт:',
     'settings.purge_all_confirm'         => '⚠️ ПОПЕРЕДЖЕННЯ: Це БЕЗПОВОРОТНО ВИДАЛИТЬ УСІ ЖУРНАЛИ АУДИТУ СИСТЕМИ. Ви впевнені?',
     'settings.purge_records_confirm'     => 'Ви впевнені, що хочете очистити всі журнали аудиту, пов’язані із записами?',
     'settings.recaptcha_heading'         => 'Настройки Google reCAPTCHA',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => 'Ключ сайту (Публічний):',
     'settings.smtp_encryption_label'     => 'Шифрування:',
     'settings.smtp_heading'              => 'Налаштування SMTP-сервера',
-    'settings.smtp_host_label'           => 'SMTP Хост:',
+    'settings.smtp_host_label'           => 'Хост SMTP:',
     'settings.smtp_pass_label'           => 'SMTP Пароль (залиште порожнім, щоб зберегти поточний):',
     'settings.smtp_port_label'           => 'Порт:',
     'settings.smtp_user_label'           => 'SMTP Ім’я користувача:',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Мітка часу',
     'settings.turnstile_heading'         => 'Налаштування Cloudflare Turnstile',
     'settings.update_db_btn'             => 'Оновити базу даних',
-    'settings.default_timezone'          => 'Часовий пояс за замовчуванням',
-    'settings.default_date_format'       => 'Формат дати за замовчуванням',
-    'settings.default_time_format'       => 'Формат часу за замовчуванням',
-    'settings.footer_compiled_notice'    => 'Вихідний рядок підвалу',
-    'settings.delete_btn'                => 'Видалити',
-    'settings.error_log_tab'             => 'Журнал помилок',
-    'settings.smtp_host_label'           => 'Хост SMTP:',
-    'settings.port_label'                => 'Порт:',
-    'settings.default_lang_note'         => 'Мова за замовчуванням уже встановлена вище. Налаштування профілю перезаписують їх для авторизованих користувачів.',
-    'settings.footer_notice_helper'      => 'Відображається як перший рядок підвалу сайту. Залиште порожнім, щоб використовувати текст за замовчуванням із мовного файлу. Авторські права та дані про програмне забезпечення залишаються незмінними.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Видалити',
     'admin_users.disabled'               => 'Вимкнено',
     'admin_users.enabled'                => 'Увімкнено',
+    'admin_users.find_user'              => 'Знайти користувача',
     'admin_users.heading'                => 'Керування обліковими записами та модерація таблиці лідерів',
     'admin_users.invite_user_btn'        => 'Запросити нового користувача',
     'admin_users.manage_templates_btn'   => 'Керувати шаблонами листів',
     'admin_users.no'                     => 'Ні',
+    'admin_users.no_search_match'        => 'Немає користувачів, які відповідають цьому запиту.',
     'admin_users.no_users'               => 'Користувачів не знайдено.',
     'admin_users.protected_admin'        => 'Захищений головний адміністратор',
     'admin_users.reactivate_btn'         => 'Розблокувати',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Скинути пароль',
     'admin_users.reset_pwd_confirm'      => 'Надіслати посилання для скидання пароля цьому користувачу?',
     'admin_users.save_email_title'       => 'Зберегти нову адресу електронної пошти',
+    'admin_users.search_help'            => 'Фільтрує список під час введення. Очистіть поле, щоб знову показати всіх.',
+    'admin_users.search_placeholder'     => 'Ім’я користувача, email або роль…',
     'admin_users.set_score_btn'          => 'Встановити бали',
     'admin_users.status_active'          => 'Активний',
     'admin_users.status_suspended'       => 'Заблокований',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Оновити',
     'admin_users.verified_label'         => 'Підтверджено:',
     'admin_users.yes'                    => 'Так',
-    'admin_users.find_user'              => 'Знайти користувача',
-    'admin_users.search_placeholder'     => 'Ім’я користувача, email або роль…',
-    'admin_users.search_help'            => 'Фільтрує список під час введення. Очистіть поле, щоб знову показати всіх.',
-    'admin_users.no_search_match'        => 'Немає користувачів, які відповідають цьому запиту.',
-    'admin_users.delete_btn'             => 'Видалити',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'Повернутися на головну сторінку',
-    'admin_errors.heading'             => 'Журнал помилок',
-    'admin_errors.subheading'          => 'Знайдіть ідентифікатор посилання, вказаний на сторінці помилки (наприклад, E-20260810-A1B2C3). Повні дані зберігаються в системному журналі сервера; відображення подробиць на екрані для відвідувачів залежить від APP_DEBUG.',
-    'admin_errors.label_error_id'      => 'Ідентифікатор помилки',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Знайти',
-    'admin_errors.not_found'           => 'Не знайдено записів у журналі для',
-    'admin_errors.found_heading'       => 'Знайдено:',
-    'admin_errors.time_utc'            => 'Час (UTC)',
-    'admin_errors.local_time'          => 'Ваш місцевий час',
-    'admin_errors.type'                => 'Тип',
-    'admin_errors.message'             => 'Повідомлення',
     'admin_errors.file'                => 'Файл',
+    'admin_errors.found_heading'       => 'Знайдено:',
+    'admin_errors.heading'             => 'Журнал помилок',
+    'admin_errors.label_error_id'      => 'Ідентифікатор помилки',
     'admin_errors.line_prefix'         => 'Рядок',
+    'admin_errors.local_time'          => 'Ваш місцевий час',
+    'admin_errors.message'             => 'Повідомлення',
+    'admin_errors.no_recent'           => 'У структурованому журналі помилок поки немає записів.',
+    'admin_errors.not_found'           => 'Не знайдено записів у журналі для',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Останні помилки',
     'admin_errors.request'             => 'Запит',
     'admin_errors.stack_trace'         => 'Трасування стека',
-    'admin_errors.recent_heading'      => 'Останні помилки',
-    'admin_errors.no_recent'           => 'У структурованому журналі помилок поки немає записів.',
+    'admin_errors.subheading'          => 'Знайдіть ідентифікатор посилання, вказаний на сторінці помилки (наприклад, E-20260810-A1B2C3). Повні дані зберігаються в системному журналі сервера; відображення подробиць на екрані для відвідувачів залежить від APP_DEBUG.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Час',
     'admin_errors.th_message'          => 'Повідомлення',
+    'admin_errors.th_time'             => 'Час',
+    'admin_errors.time_utc'            => 'Час (UTC)',
+    'admin_errors.type'                => 'Тип',
     'error_template.debug_details'     => 'Дебаг-інформація',
-    'error_template.stack_trace'       => 'Трасування стека',
     'error_template.file_label'        => 'Файл:',
     'error_template.line_label'        => 'Рядок',
+    'error_template.return_home_btn'   => 'Повернутися на головну сторінку',
+    'error_template.stack_trace'       => 'Трасування стека',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Пароль адміністратора (мін. 8 символів)',
     'install.admin_subheading'           => 'Це дані для входу на <strong>цей сайт</strong> (не обліковий запис бази даних).',
     'install.admin_username_label'       => 'Ім’я користувача адміністратора',
+    'install.back_btn'                   => 'Назад',
     'install.complete_desc'              => 'Цей сайт уже налаштовано. Інсталятор заблоковано для запобігання повторного запуску.',
     'install.complete_heading'           => 'Встановлення завершено',
     'install.complete_title'             => 'Встановлення завершено',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP не може створювати файли в цій папці проєкту.',
     'install.finish_btn'                 => 'Завершити встановлення',
     'install.heading'                    => 'Встановлення',
+    'install.hide_password'              => 'Приховати',
     'install.home_link'                  => 'Перейти на сайт',
+    'install.lang_label'                 => 'Мова',
     'install.login_link'                 => 'Увійти',
     'install.msg_db_ready'               => 'База даних готова. Створіть свій обліковий запис адміністратора для завершення.',
     'install.msg_installation_complete' => 'Встановлення завершено.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'Розширення PDO MySQL',
     'install.req_php'                    => 'PHP 8.0+ (виявлено %s)',
     'install.req_probe'                  => 'Можливість створення файлів у цій папці проєкту',
-    'install.subheading'                 => 'Початкове налаштування <strong>лише для цієї папки додатка</strong>. Використовуйте порожню базу даних MySQL.',
-    'install.back_btn'                   => 'Назад',
-    'install.hide_password'              => 'Приховати',
-    'install.lang_label'                 => 'Мова',
     'install.show_password'              => 'Показати',
+    'install.subheading'                 => 'Початкове налаштування <strong>лише для цієї папки додатка</strong>. Використовуйте порожню базу даних MySQL.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ---------------------------------------------------               -------
+    'index.remove_emergency_file'      => 'Видалити файл аварійного доступу',
+    'update_database.backup_notice'    => 'За можливості створіть резервну копію бази даних перед виконанням оновлень.',
     'update_database.confirm_prompt'   => 'Ви зробили резервну копію бази даних? Натисніть OK для застосування очікуваних оновлень схеми.',
     'update_database.current_version'  => 'Поточна версія схеми:',
     'update_database.err_failed'       => 'Міграція не вдалася:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'База даних уже актуальна.',
     'update_database.page_title'       => 'Потрібне оновлення системи — База даних парафіяльних записів',
     'update_database.proceed_login'    => 'Перейти на сторінку входу',
+    'update_database.remove_emergency_file' => 'Видалити файл аварійного доступу',
     'update_database.subheading'       => 'Схема бази даних додатка застаріла і вимагає оновлення схеми перед продовженням звичайної роботи.',
     'update_database.update_btn'       => 'Оновити базу даних зараз',
-    'index.remove_emergency_file'      => 'Видалити файл аварійного доступу',
-    'update_database.remove_emergency_file' => 'Видалити файл аварійного доступу',
-    'update_database.backup_notice'    => 'За можливості створіть резервну копію бази даних перед виконанням оновлень.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'ID запису: %d — Значення: %s',
     'data_entry.dup_prompt'           => 'Бажаєте продовжити і все одно зберегти цей дубльований запис?',
     'data_entry.enter_value_placeholder' => 'Введіть значення...',
+    'data_entry.error_loading'        => 'Помилка завантаження записів',
     'data_entry.existing_records_heading' => 'Таблиця існуючих записів',
     'data_entry.filter_all_option'    => '-- Усі --',
     'data_entry.filter_placeholder'   => 'Фільтрувати...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Надіслати дані',
     'data_entry.th_added_by'          => 'Додано ким',
     'data_entry.th_date_created'      => 'Дата створення',
-    'data_entry.error_loading'        => 'Помилка завантаження записів',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'Лише волонтерам:',
     'onboarding.attribution_desc1' => 'Керує тим, як ваше ім’я відображається в публічній таблиці лідерів та записах.',
     'onboarding.attribution_label' => 'Уподобання відображення в таблиці лідерів:',
-    'onboarding.date_format_label' => 'Формат відображення дати:',
-    'onboarding.heading'           => 'Ласкаво просимо до команди!',
-    'onboarding.page_title'        => 'Ласкаво просимо — Майстер налаштування облікового запису',
-    'onboarding.subheading'        => 'Перш ніж почати, приділіть хвилину налаштуванню регіональних уподобань відображення та конфіденційності. Ви можете змінити їх у своєму профілі в будь-який час.',
-    'onboarding.submit_btn'        => 'Зберегти налаштування та продовжити',
-    'onboarding.time_12'          => '12 годин AM/PM (наприклад, 04:07 PM)',
-    'onboarding.time_24'          => '24 години (наприклад, 16:07)',
-    'onboarding.time_format_label' => 'Формат годинника (відображення часу):',
-    'onboarding.time_none'        => 'Лише дата (повністю приховати час)',
-    'onboarding.timezone_label'    => 'Часовий пояс / Регіон:',
     'onboarding.btn_continue_2fa'   => 'Продовжити до 2FA',
     'onboarding.btn_skip_for_now'   => 'Пропустити поки що',
     'onboarding.date_fmt_dmy'       => '23.07.2026 (Британський формат - ДД/ММ/РРРР)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (З крапками - ДД.ММ.РРРР)',
     'onboarding.date_fmt_full'      => 'Четвер, 23 липня 2026 р. (Повний текст)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (Американський стиль - ММ/ДД/РРРР)',
+    'onboarding.date_format_label' => 'Формат відображення дати:',
     'onboarding.err_names_required' => 'Ім’я та прізвище є обов’язковими.',
     'onboarding.err_save_failed'    => 'Не вдалося зберегти налаштування. Будь ласка, спробуйте ще раз.',
+    'onboarding.heading'           => 'Ласкаво просимо до команди!',
     'onboarding.lang_site_default'  => 'Типова для сайту',
     'onboarding.language_label'     => 'Мова',
     'onboarding.msg_welcome'         => 'Ласкаво просимо! Ваші вподобання збережено.',
+    'onboarding.page_title'        => 'Ласкаво просимо — Майстер налаштування облікового запису',
     'onboarding.security_hint'      => 'Ви можете змінити особисті налаштування в будь-який час, натиснувши на своє ім’я користувача в меню.',
+    'onboarding.subheading'        => 'Перш ніж почати, приділіть хвилину налаштуванню регіональних уподобань відображення та конфіденційності. Ви можете змінити їх у своєму профілі в будь-який час.',
+    'onboarding.submit_btn'        => 'Зберегти налаштування та продовжити',
+    'onboarding.time_12'          => '12 годин AM/PM (наприклад, 04:07 PM)',
+    'onboarding.time_24'          => '24 години (наприклад, 16:07)',
+    'onboarding.time_format_label' => 'Формат годинника (відображення часу):',
+    'onboarding.time_none'        => 'Лише дата (повністю приховати час)',
+    'onboarding.timezone_label'    => 'Часовий пояс / Регіон:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'Адреса електронної пошти',
     'profile.email_unverified'     => '(Не підтверджено — перевірте вхідні)',
     'profile.email_verified'       => '(Підтверджено)',
+    'profile.err_personal_update'   => 'Не вдалося оновити особисті дані.',
     'profile.generate_codes_btn'   => 'Згенерувати нові резервні коди',
     'profile.generate_codes_confirm' => 'Ви впевнені? Це анулює будь-які існуючі резервні коди.',
     'profile.heading'              => 'Профіль користувача та безпека',
     'profile.lang_site_default'    => 'За замовчуванням для сайту',
     'profile.language_label'       => 'Бажана мова:',
+    'profile.msg_personal_updated'  => 'Особисті дані, часовий пояс та налаштування формату успішно оновлено!',
     'profile.new_password_label'   => 'Новий пароль (мін. 8 символів):',
     'profile.password_heading'     => 'Змінити пароль',
     'profile.personal_details_heading' => 'Особисті дані',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Оновити особисті дані',
     'profile.update_email_btn'     => 'Оновити email та підтвердити',
     'profile.update_password_btn'  => 'Оновити пароль',
-    'profile.err_personal_update'   => 'Не вдалося оновити особисті дані.',
-    'profile.msg_personal_updated'  => 'Особисті дані, часовий пояс та налаштування формату успішно оновлено!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Реєстрація користувача',
+    'register.email_label'    => 'Адреса електронної пошти',
     'register.heading'        => 'Зареєструвати новий обліковий запис',
     'register.submit_btn'     => 'Зареєструватися',
     'register.username_label' => 'Ім’я користувача:',
-    'register.email_label'    => 'Адреса електронної пошти',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'Поточні значення:',
     'suggest_edit.empty_label'          => '(порожньо)',
     'suggest_edit.heading_prefix'       => 'Запропонувати правку для запису',
+    'suggest_edit.leave_blank'          => 'Залиште це поле порожнім',
     'suggest_edit.proposed_value_label' => 'Пропоноване нове значення:',
     'suggest_edit.reasoning_label'      => 'Джерело / Обґрунтування / Нотатки:',
     'suggest_edit.reasoning_placeholder'=> 'Надайте контекст, цитату джерела або причину для цієї зміни...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'Надіслати пропозицію на розгляд',
     'suggest_edit.submit_heading'       => 'Надіслати нове пропоноване значення та джерело',
     'suggest_edit.success_msg_suffix'   => 'Ви можете надіслати іншу правку нижче або скористатися посиланням повернення вище, коли закінчите.',
-    'suggest_edit.leave_blank'          => 'Залиште це поле порожнім',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Підібрати для мене унікальне ім’я користувача',
+    'index.check_availability'         => 'Перевірити доступність',
+    'volunteer.allocate_unique_username' => 'Підібрати для мене унікальне ім’я користувача',
     'volunteer.aria_region'          => 'Форма волонтера',
+    'volunteer.check_availability'     => 'Перевірити доступність',
     'volunteer.honeypot_label'       => 'Залиште це поле порожнім:',
     'volunteer.multi_select_hint'    => 'Утримуйте Ctrl або Cmd для вибору кількох.',
     'volunteer.required_field_title'=> 'Обов’язкове поле',
     'volunteer.submit_btn'           => 'Надіслати заявку волонтера',
-    'index.check_availability'         => 'Перевірити доступність',
-    'index.allocate_unique_username'   => 'Підібрати для мене унікальне ім’я користувача',
-    'volunteer.check_availability'     => 'Перевірити доступність',
-    'volunteer.allocate_unique_username' => 'Підібрати для мене унікальне ім’я користувача',
 ];

@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => '管理者',
     'nav.data_entry'             => 'データ入力',
     'nav.feedback'               => 'フィードバック',
     'nav.feedback_dashboard'     => 'フィードバックダッシュボード',
     'nav.high_contrast'          => 'ハイコントラスト',
     'nav.invite_user'            => 'ユーザーを招待',
+    'nav.language_label'         => '言語',
     'nav.leaderboard'            => 'リーダーボード',
     'nav.leaderboard_score'      => 'リーダーボードのスコア',
     'nav.login'                  => 'ログイン',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'データテーブル管理',
     'nav.manage_users'           => 'ユーザー管理',
     'nav.moderation'             => 'モデレーション',
+    'nav.profile'                => 'プロフィール',
     'nav.search'                 => '検索',
+    'nav.select_language'        => '言語を選択',
     'nav.settings'               => 'システム設定',
+    'nav.toggle_navigation'      => 'ナビゲーション切り替え',
     'nav.volunteer'              => 'ボランティアに参加',
     'nav.volunteer_dashboard'    => 'ボランティアダッシュボード',
     'nav.welcome'                => 'ようこそ、',
-    'nav.admin'                  => '管理者',
-    'nav.language_label'         => '言語',
-    'nav.profile'                => 'プロフィール',
-    'nav.select_language'        => '言語を選択',
-    'nav.toggle_navigation'      => 'ナビゲーション切り替え',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> '公開検索からこの列を除外 (index.php)',
     'manage_tables.existing_cols_heading_prefix' => '既存の列：',
     'manage_tables.heading'              => '動的テーブルと構造管理',
+    'manage_tables.no'                   => 'いいえ',
     'manage_tables.no_columns_found'     => 'このテーブルには動的列が定義されていません。',
     'manage_tables.req_toggle_label'     => 'この列を必須にする（データの入力を強制）',
     'manage_tables.save_table_btn'       => 'テーブルの変更を保存',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => '表示形式',
     'manage_tables.th_public_search'     => '公開検索？',
     'manage_tables.type_text_long'       => 'TEXT (長い段落)',
-    'manage_tables.delete_table_btn'     => 'テーブルを削除',
     'manage_tables.yes'                  => 'はい',
-    'manage_tables.no'                   => 'いいえ',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => '現在編集中：',
     'user_emails.back_to_creation'       => 'ユーザー作成に戻る',
+    'user_emails.currently_editing'      => '現在編集中：',
     'user_emails.desc_invitation'        => '管理者が新しいユーザーを作成または招待したときに自動送信されます。',
     'user_emails.desc_reset'             => 'パスワードリセットがトリガーされたとき、またはアクセスリンクが再送信されたときに送信されます。',
     'user_emails.email_body_label'       => 'メール本文：',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => '通知の内容（HTML/テキスト許可）：',
+    'notices.active'                     => '有効',
+    'notices.add_new'                    => '新しい通知を追加',
+    'notices.audience'                   => '対象者',
+    'notices.content_label'              => '内容',
     'notices.create_heading'             => '新しい通知を作成',
-    'notices.delete_confirm'             => 'この通知を削除してもよろしいですか？',
+    'notices.create_notice_btn'          => '通知を作成',
+    'notices.delete_btn'                 => '削除',
+    'notices.delete_confirm'             => 'この通知を削除しますか？',
+    'notices.dismissible'                => '閉じる可能',
     'notices.dismissible_label'          => "閉じることができます（'X' 閉じるボタンを含む）",
+    'notices.display_order'              => '表示順',
     'notices.display_order_label'        => '表示順序：',
     'notices.error_blank'                => 'タイトルと内容は空白にできません。',
+    'notices.everyone'                   => '全員',
     'notices.existing_heading'           => 'アクティブおよび既存の通知',
     'notices.heading'                    => 'サイト通知とアナウンスの管理',
     'notices.msg_created'                => '通知が正常に作成されました！',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'モデレーター',
     'notices.role_public'                => '公開（ゲスト）',
     'notices.role_users'                 => 'ユーザー',
+    'notices.save_btn'                   => '保存',
     'notices.subheading'                 => '動的なアラート、ウェルカムバナー、または特定のユーザーロールを対象としたアナウンスを作成します。',
     'notices.target_roles_label'         => 'ターゲットオーディエンス（ロールまたはすべてを選択）：',
     'notices.th_dismissible'             => '閉じることができます',
     'notices.th_order'                   => '順序',
     'notices.th_target_roles'            => 'ターゲットロール',
     'notices.th_title'                   => 'タイトル',
-    'notices.title_label'                => '通知タイトル / ヘッダー：',
-    'notices.yes'                        => 'はい',
-    'notices.add_new'                    => '新しい通知を追加',
     'notices.title_label'                => 'タイトル',
-    'notices.content_label'              => '内容',
-    'notices.display_order'              => '表示順',
-    'notices.active'                     => '有効',
-    'notices.dismissible'                => '閉じる可能',
-    'notices.audience'                   => '対象者',
-    'notices.everyone'                   => '全員',
-    'notices.create_notice_btn'          => '通知を作成',
-    'notices.save_btn'                   => '保存',
-    'notices.delete_btn'                 => '削除',
-    'notices.delete_confirm'             => 'この通知を削除しますか？',
+    'notices.yes'                        => 'はい',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => '期限切れの確認トークンを削除し、有効化されたユーザーアカウントからぶら下がっているリンクを自動または手動でクリーンアップします。',
     'settings.cron_maintenance_heading' => '自動トークンメンテナンスとCron設定',
     'settings.db_updates_heading'        => 'データベースの更新',
+    'settings.default_date_format'       => 'デフォルトの日付形式',
     'settings.default_lang_desc'         => 'ゲストや言語を選択していないユーザーに使用されます。その他のオプションを提供するには、ファイルを lang/ ディレクトリに配置します（例：ja.php）。',
     'settings.default_lang_label'        => 'サイトのデフォルト言語：',
+    'settings.default_lang_note'         => 'デフォルト言語は上記で既に設定されています。ログインユーザーの場合、プロフィール設定がこれらを上書きします。',
+    'settings.default_time_format'       => 'デフォルトの時間形式',
+    'settings.default_timezone'          => 'デフォルトのタイムゾーン',
+    'settings.delete_btn'                => '削除',
     'settings.delete_role_confirm'      => 'この役割を削除してもよろしいですか？割り当てられているユーザーは、安全にデフォルトのユーザーロールに再割り当てされます。',
     'settings.download_backup_btn'       => 'データベースのバックアップをダウンロード',
     'settings.download_backup_desc'      => '完全な .sql ファイルをコンピューターに保存します。更新を実行する前に安全な場所に保管してください。',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => '認証済み SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (ポート 465)',
     'settings.enc_tls'                   => 'TLS (ポート 587)',
+    'settings.error_log_tab'             => 'エラーログ',
     'settings.existing_roles_heading'   => '既存の役割と管理',
+    'settings.footer_compiled_notice'    => 'フッターソース行', 
+    'settings.footer_notice_helper'      => 'サイトフッターの1行目として表示されます。言語ファイルのデフォルトテキストを使用するには空のままにしてください。ソフトウェアのクレジットと著作権表示は固定されます。',
     'settings.hcaptcha_heading'          => 'hCaptcha設定',
     'settings.heading'                   => 'グローバルサイト設定、モジュール、権限',
     'settings.mail_domain_label'         => 'システムメールメイン（フォールバック）：',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'サイトの通知とアナウンス',
     'settings.permissions_heading'       => '動的ロールと権限マトリックス',
     'settings.permissions_subheading'    => '権限はシステム機能ごとにグループ化されています。各セクションを展開して権限を設定し、以下の更新を保存してください。',
+    'settings.port_label'                => 'ポート:',
     'settings.purge_all_confirm'         => '⚠️ 警告：これにより、すべてのシステム監査ログが完全に削除されます。続行してもよろしいですか？',
     'settings.purge_records_confirm'     => 'レコードに関連するすべての監査エントリを消去してもよろしいですか？',
     'settings.recaptcha_heading'         => 'Google reCAPTCHA設定',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => 'サイトキー（公開）：',
     'settings.smtp_encryption_label'     => '暗号化方式：',
     'settings.smtp_heading'              => 'SMTPサーバー設定',
-    'settings.smtp_host_label'           => 'SMTPホスト：',
+    'settings.smtp_host_label'           => 'SMTPホスト:',
     'settings.smtp_pass_label'           => 'SMTPパスワード（空欄の場合は現在のパスワードを維持）：',
     'settings.smtp_port_label'           => 'ポート：',
     'settings.smtp_user_label'           => 'SMTPユーザー名：',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'タイムスタンプ',
     'settings.turnstile_heading'         => 'Cloudflare Turnstile設定',
     'settings.update_db_btn'             => 'データベースを更新',
-    'settings.default_timezone'          => 'デフォルトのタイムゾーン',
-    'settings.default_date_format'       => 'デフォルトの日付形式',
-    'settings.default_time_format'       => 'デフォルトの時間形式',
-    'settings.footer_compiled_notice'    => 'フッターソース行', 
-    'settings.delete_btn'                => '削除',
-    'settings.error_log_tab'             => 'エラーログ',
-    'settings.smtp_host_label'           => 'SMTPホスト:',
-    'settings.port_label'                => 'ポート:',
-    'settings.default_lang_note'         => 'デフォルト言語は上記で既に設定されています。ログインユーザーの場合、プロフィール設定がこれらを上書きします。',
-    'settings.footer_notice_helper'      => 'サイトフッターの1行目として表示されます。言語ファイルのデフォルトテキストを使用するには空のままにしてください。ソフトウェアのクレジットと著作権表示は固定されます。',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => '削除',
     'admin_users.disabled'               => '無効',
     'admin_users.enabled'                => '有効',
+    'admin_users.find_user'              => 'ユーザーを検索',
     'admin_users.heading'                => 'ユーザーアカウント管理とリーダーボードモデレーション',
     'admin_users.invite_user_btn'        => '新しいユーザーを招待',
     'admin_users.manage_templates_btn'   => 'メールテンプレートを管理',
     'admin_users.no'                     => 'いいえ',
+    'admin_users.no_search_match'        => '検索に一致するユーザーがいません。',
     'admin_users.no_users'               => 'ユーザーが見つかりませんでした。',
     'admin_users.protected_admin'        => '保護されたメイン管理者',
     'admin_users.reactivate_btn'         => '再有効化',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'パスワードをリセット',
     'admin_users.reset_pwd_confirm'      => 'このユーザーにパスワードリセットリンクを送信しますか？',
     'admin_users.save_email_title'       => '新しいメールアドレスを保存',
+    'admin_users.search_help'            => '入力に合わせてリストを絞り込みます。ボックスを空にすると、全員が再び表示されます。',
+    'admin_users.search_placeholder'     => 'ユーザー名、メールアドレス、または役割…',
     'admin_users.set_score_btn'          => 'スコアを設定',
     'admin_users.status_active'          => 'アクティブ',
     'admin_users.status_suspended'       => '一時停止中',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => '更新',
     'admin_users.verified_label'         => '確認済み：',
     'admin_users.yes'                    => 'はい',
-    'admin_users.find_user'              => 'ユーザーを検索',
-    'admin_users.search_placeholder'     => 'ユーザー名、メールアドレス、または役割…',
-    'admin_users.search_help'            => '入力に合わせてリストを絞り込みます。ボックスを空にすると、全員が再び表示されます。',
-    'admin_users.no_search_match'        => '検索に一致するユーザーがいません。',
-    'admin_users.delete_btn'             => '削除',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn' => '公開ホームに戻る',
-    'admin_errors.heading'             => 'エラーログ',
-    'admin_errors.subheading'          => 'エラーページに表示された参照IDを検索します（例：E-20260810-A1B2C3）。詳細な情報はサーバーログに保存されます。訪問者向けの画面上の詳細情報は APP_DEBUG に依存します。',
-    'admin_errors.label_error_id'      => 'エラー参照ID',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => '検索',
-    'admin_errors.not_found'           => '次のログエントリが見つかりませんでした:',
-    'admin_errors.found_heading'       => '見つかりました:',
-    'admin_errors.time_utc'            => '時刻 (UTC)',
-    'admin_errors.local_time'          => 'あなたの現地時間',
-    'admin_errors.type'                => 'タイプ',
-    'admin_errors.message'             => 'メッセージ',
     'admin_errors.file'                => 'ファイル',
+    'admin_errors.found_heading'       => '見つかりました:',
+    'admin_errors.heading'             => 'エラーログ',
+    'admin_errors.label_error_id'      => 'エラー参照ID',
     'admin_errors.line_prefix'         => '行',
+    'admin_errors.local_time'          => 'あなたの現地時間',
+    'admin_errors.message'             => 'メッセージ',
+    'admin_errors.no_recent'           => '構造化エラーログのエントリはまだありません。',
+    'admin_errors.not_found'           => '次のログエントリが見つかりませんでした:',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => '最近のエラー',
     'admin_errors.request'             => 'リクエスト',
     'admin_errors.stack_trace'         => 'スタックトレース',
-    'admin_errors.recent_heading'      => '最近のエラー',
-    'admin_errors.no_recent'           => '構造化エラーログのエントリはまだありません。',
+    'admin_errors.subheading'          => 'エラーページに表示された参照IDを検索します（例：E-20260810-A1B2C3）。詳細な情報はサーバーログに保存されます。訪問者向けの画面上の詳細情報は APP_DEBUG に依存します。',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => '時刻',
     'admin_errors.th_message'          => 'メッセージ',
+    'admin_errors.th_time'             => '時刻',
+    'admin_errors.time_utc'            => '時刻 (UTC)',
+    'admin_errors.type'                => 'タイプ',
     'error_template.debug_details'     => 'デバッグ詳細',
-    'error_template.stack_trace'       => 'スタックトレース',
     'error_template.file_label'        => 'ファイル:',
     'error_template.line_label'        => '行',
+    'error_template.return_home_btn' => '公開ホームに戻る',
+    'error_template.stack_trace'       => 'スタックトレース',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => '管理者パスワード（8文字以上）',
     'install.admin_subheading'           => 'これは<strong>本サイト</strong>にログインするためのアカウントです（データベースアカウントではありません）。',
     'install.admin_username_label'       => '管理者ユーザー名',
+    'install.back_btn'                   => '戻る',
     'install.complete_desc'              => 'このサイトはすでに設定されています。再実行を防ぐため、インストーラーはロックされています。',
     'install.complete_heading'           => 'インストールが完了しました',
     'install.complete_title'             => 'インストールが完了しました',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHPはこのプロジェクトフォルダにファイルを作成できません。',
     'install.finish_btn'                 => 'インストールを完了',
     'install.heading'                    => 'インストール',
+    'install.hide_password'              => '非表示',
     'install.home_link'                  => 'サイトへ移動',
+    'install.lang_label'                 => '言語',
     'install.login_link'                 => 'ログイン',
     'install.msg_db_ready'               => 'データベースの準備ができました。管理者をアカウント作成してインストールを完了してください。',
     'install.msg_installation_complete' => 'インストールが完了しました。',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'PDO MySQL 拡張機能',
     'install.req_php'                    => 'PHP 8.0+ (%s が検出されました)',
     'install.req_probe'                  => 'このプロジェクトフォルダにファイルを作成できること',
-    'install.subheading'                 => '初期設定は<strong>このアプリケーションフォルダにのみ適用されます</strong>。空のMySQLデータベースを使用してください。',
-    'install.back_btn'                   => '戻る',
-    'install.hide_password'              => '非表示',
-    'install.lang_label'                 => '言語',
     'install.show_password'              => '表示',
+    'install.subheading'                 => '初期設定は<strong>このアプリケーションフォルダにのみ適用されます</strong>。空のMySQLデータベースを使用してください。',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => '緊急アクセスファイルを削除',
+    'update_database.backup_notice'    => '可能な場合は、アップデートを実行する前にデータベースのバックアップを取ってください。',
     'update_database.confirm_prompt'   => 'データベースのバックアップを作成しましたか？OKをクリックして、保留中のスキーマ更新を適用してください。',
     'update_database.current_version'  => '現在のスキーマバージョン：',
     'update_database.err_failed'       => 'マイグレーションに失敗しました：',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'データベースはすでに最新です。',
     'update_database.page_title'       => 'システム更新が必要です — 教区住民登録簿',
     'update_database.proceed_login'    => 'ログインページへ移動',
+    'update_database.remove_emergency_file' => '緊急アクセスファイルを削除',
     'update_database.subheading'       => 'アプリケーションのデータベース構造が古くなっています。通常の操作を再開する前に、スキーマの更新が必要です。',
     'update_database.update_btn'       => '今すぐデータベースを更新',
-    'index.remove_emergency_file'      => '緊急アクセスファイルを削除',
-    'update_database.remove_emergency_file' => '緊急アクセスファイルを削除',
-    'update_database.backup_notice'    => '可能な場合は、アップデートを実行する前にデータベースのバックアップを取ってください。',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'レコードID: %d — 値: %s',
     'data_entry.dup_prompt'           => 'それでもこの重複エントリを続行して保存しますか？',
     'data_entry.enter_value_placeholder' => '値を入力...',
+    'data_entry.error_loading'         => 'レコードの読み込みエラー',
     'data_entry.existing_records_heading' => '既存のレコードテーブル',
     'data_entry.filter_all_option'    => '-- すべて --',
     'data_entry.filter_placeholder'   => 'フィルター...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'データを送信',
     'data_entry.th_added_by'          => '追加者',
     'data_entry.th_date_created'      => '作成日',
-    'data_entry.error_loading'         => 'レコードの読み込みエラー',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'ボランティアのみ：',
     'onboarding.attribution_desc1' => '公開リーダーボードやレコードでの氏名の表示方法を制御します。',
     'onboarding.attribution_label' => 'リーダーボードと帰属表示の好み：',
-    'onboarding.date_format_label' => '日付表示形式：',
-    'onboarding.heading'           => 'チームへようこそ！',
-    'onboarding.page_title'        => 'ようこそ — アカウント設定ウィザード',
-    'onboarding.subheading'        => '始める前に、地域表示とプライバシーの設定を行う時間を少し取ってください。設定はいつでもプロフィールから変更できます。',
-    'onboarding.submit_btn'        => '設定を保存して続行',
-    'onboarding.time_12'          => '12時間制 午前/午後 (例 04:07 PM)',
-    'onboarding.time_24'          => '24時間制 (例 16:07)',
-    'onboarding.time_format_label' => '時計形式（時間表示）：',
-    'onboarding.time_none'        => '日付のみ (時間を完全に非表示)',
-    'onboarding.timezone_label'    => 'タイムゾーン / 地域：',
     'onboarding.btn_continue_2fa'   => '2段階認証へ進む',
     'onboarding.btn_skip_for_now'   => '今はスキップ',
     'onboarding.date_fmt_dmy'       => '2026/07/23 (UKスラッシュ - DD/MM/YYYY)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '2026.07.23 (ドット区切り - DD.MM.YYYY)',
     'onboarding.date_fmt_full'      => '2026年7月23日木曜日 (フルテキスト)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (USスタイル - MM/DD/YYYY)',
+    'onboarding.date_format_label' => '日付表示形式：',
     'onboarding.err_names_required' => '名と姓は必須です。',
     'onboarding.err_save_failed'    => '初期設定の保存に失敗しました。もう一度お試しください。',
+    'onboarding.heading'           => 'チームへようこそ！',
     'onboarding.lang_site_default'  => 'サイトのデフォルト',
     'onboarding.language_label'     => '言語',
     'onboarding.msg_welcome'        => 'ようこそ！設定が保存されました。',
+    'onboarding.page_title'        => 'ようこそ — アカウント設定ウィザード',
     'onboarding.security_hint'      => 'メニューのユーザー名をクリックすると、いつでも個人設定を変更できます。',
+    'onboarding.subheading'        => '始める前に、地域表示とプライバシーの設定を行う時間を少し取ってください。設定はいつでもプロフィールから変更できます。',
+    'onboarding.submit_btn'        => '設定を保存して続行',
+    'onboarding.time_12'          => '12時間制 午前/午後 (例 04:07 PM)',
+    'onboarding.time_24'          => '24時間制 (例 16:07)',
+    'onboarding.time_format_label' => '時計形式（時間表示）：',
+    'onboarding.time_none'        => '日付のみ (時間を完全に非表示)',
+    'onboarding.timezone_label'    => 'タイムゾーン / 地域：',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'メールアドレス',
     'profile.email_unverified'     => '(未確認 - 受信トレイを確認してください)',
     'profile.email_verified'       => '(確認済み)',
+    'profile.err_personal_update'   => '個人情報の更新に失敗しました。',
     'profile.generate_codes_btn'   => '新しいバックアップコードを生成',
     'profile.generate_codes_confirm' => '本当によろしいですか？既存のバックアップコードが無効になります。',
     'profile.heading'              => 'ユーザープロフィールとセキュリティ',
     'profile.lang_site_default'    => 'サイトのデフォルト',
     'profile.language_label'       => '優先言語：',
+    'profile.msg_personal_updated'  => '個人情報、タイムゾーン、およびフォーマット設定が正常に更新されました！',
     'profile.new_password_label'   => '新しいパスワード（8文字以上）：',
     'profile.password_heading'     => 'パスワードを変更',
     'profile.personal_details_heading' => '個人詳細情報',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => '個人詳細情報を更新',
     'profile.update_email_btn'     => 'メールを更新して確認',
     'profile.update_password_btn'  => 'パスワードを更新',
-    'profile.err_personal_update'   => '個人情報の更新に失敗しました。',
-    'profile.msg_personal_updated'  => '個人情報、タイムゾーン、およびフォーマット設定が正常に更新されました！',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'ユーザー登録',
+    'register.email_label'    => 'メールアドレス',
     'register.heading'        => '新しいアカウントを登録',
     'register.submit_btn'     => '登録',
     'register.username_label' => 'ユーザー名：',
-    'register.email_label'    => 'メールアドレス',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => '現在の値：',
     'suggest_edit.empty_label'          => '(空)',
     'suggest_edit.heading_prefix'       => 'レコードの編集を提案',
+    'suggest_edit.leave_blank'         => 'このフィールドは空のままにしてください',
     'suggest_edit.proposed_value_label' => '提案された新しい値：',
     'suggest_edit.reasoning_label'      => '根拠 / 理由 / ソースノート：',
     'suggest_edit.reasoning_placeholder'=> 'コンテキスト、ソースの引用、またはこの変更を行う理由を提供してください...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => '審査のために提案を送信',
     'suggest_edit.submit_heading'       => '新しい提案値と根拠を送信',
     'suggest_edit.success_msg_suffix'   => 'いつでも以下から他の編集を送信するか、完了したら上の戻るリンクを使用できます。',
-    'suggest_edit.leave_blank'         => 'このフィールドは空のままにしてください',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => '固有のユーザー名を割り当てる',
+    'index.check_availability'         => '空き状況を確認',
+    'volunteer.allocate_unique_username' => '固有のユーザー名を割り当てる',
     'volunteer.aria_region'          => 'ボランティアフォーム',
+    'volunteer.check_availability'     => '空き状況を確認',
     'volunteer.honeypot_label'       => 'このフィールドを空のままにしてください：',
     'volunteer.multi_select_hint'    => 'CtrlまたはCmdキーを押しながら複数選択します。',
     'volunteer.required_field_title'=> '必須フィールド',
     'volunteer.submit_btn'           => 'ボランティア申請を送信',
-    'index.check_availability'         => '空き状況を確認',
-    'index.allocate_unique_username'   => '固有のユーザー名を割り当てる',
-    'volunteer.check_availability'     => '空き状況を確認',
-    'volunteer.allocate_unique_username' => '固有のユーザー名を割り当てる',
 ];

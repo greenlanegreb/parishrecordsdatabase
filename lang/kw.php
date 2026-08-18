@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Menystrer',
     'nav.data_entry'             => 'K ynny Fysseryans',
     'nav.feedback'               => 'Notennow',
     'nav.feedback_dashboard'     => 'Kevren Notennow',
     'nav.high_contrast'          => 'Kontrast Uhel',
     'nav.invite_user'            => 'Gvery devnydhyer',
+    'nav.language_label'         => 'Taves',
     'nav.leaderboard'            => 'Rol voyth',
     'nav.leaderboard_score'      => 'Skor an Rol Voyth',
     'nav.login'                  => 'Koveto',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Skantlya taolennow',
     'nav.manage_users'           => 'Skantlya devnydhyoryon',
     'nav.moderation'             => 'Majiory',
+    'nav.profile'                => 'Profil',
     'nav.search'                 => 'Cwilas',
+    'nav.select_language'        => 'Skiya taves',
     'nav.settings'               => 'Rewlys an Kesva',
+    'nav.toggle_navigation'      => 'Gwrians kevrenni',
     'nav.volunteer'              => 'Gweres',
     'nav.volunteer_dashboard'    => 'Kevren Gweresoryon',
     'nav.welcome'                => 'Geryv,',
-    'nav.admin'                  => 'Menystrer',
-    'nav.language_label'         => 'Taves',
-    'nav.profile'                => 'Profil',
-    'nav.select_language'        => 'Skiya taves',
-    'nav.toggle_navigation'      => 'Gwrians kevrenni',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -207,7 +207,7 @@ return [
     'manage_tables.date_bhv_all'         => 'Oll an devedhyow, menystrek yn marnas',
     'manage_tables.date_bhv_manual'      => 'Devedhyow y\'n database (k ynny dorn anrican)',
     'manage_tables.delete_col_confirm'   => 'GWURLY: Dilea an goloven ma a wra dilea oll an data koloven. Yw ta shilgy?',
-    'manage_tables.delete_table_btn'     => 'Dilea taolen',
+    'manage_tables.delete_table_btn'     => 'Jê kurnuştî',
     'manage_tables.delete_table_confirm' => 'GWURLY: Dilea an daolen ma a wra dilea oll an kolovennow ha rekordys. Yw ta shilgy?',
     'manage_tables.edit_col_summary'     => 'Ewnhe koloven ddinamik:',
     'manage_tables.edit_metadata_btn'    => 'Ewnhe metadata taolen',
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label' => 'Gow magh an goloven ma veih cwilas poblek (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Kolovennow kevys rag',
     'manage_tables.heading'              => 'Skantlya Taolennow ha Schema',
+    'manage_tables.no'                   => 'Na',
     'manage_tables.no_columns_found'     => 'Nyns eus kolovennow dinamik gwrys rag an daolen ma foast.',
     'manage_tables.req_toggle_label'     => 'Jannoo an goloven ma res',
     'manage_tables.save_table_btn'       => 'Gwitha ewnheans taolen',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Aght diskwedhes',
     'manage_tables.th_public_search'     => 'Cwilas poblek?',
     'manage_tables.type_text_long'       => 'TEXT (Skrif hir)',
-    'manage_tables.delete_table_btn'     => 'Jê kurnuştî',
     'manage_tables.yes'                  => 'Erê',
-    'manage_tables.no'                   => 'Na',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'Ow ewnhe nish:',
     'user_emails.back_to_creation'       => 'Dehweles dhe wruthyl devnydhyer',
+    'user_emails.currently_editing'      => 'Ow ewnhe nish:',
     'user_emails.desc_invitation'        => 'Dyllys awtomatek pan wra menystrer gwruthyl kont devnydhyer nowydh.',
     'user_emails.desc_reset'             => 'Dyllys pan wra menystrer gasla daskargya fockle courey po kevren.',
     'user_emails.email_body_label'       => 'Korf post-elektronek:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Korf notenn (HTML/Skrif lhiggit):',
+    'notices.active'                     => 'Çalak',
+    'notices.add_new'                    => 'Nîşaneyeke nû zêde bike',
+    'notices.audience'                   => 'Girsfleçe',
+    'notices.content_label'              => 'Naverok',
     'notices.create_heading'             => 'Gwruthyl notenn nowydh',
-    'notices.delete_confirm'             => 'Dilea an notenn ma?',
+    'notices.create_notice_btn'          => 'Nîşanê biafirîne',
+    'notices.delete_btn'                 => 'Jê bibe',
+    'notices.delete_confirm'             => 'Ev nîşan tê jêbirin?',
+    'notices.dismissible'                => 'Tê girtin',
     'notices.dismissible_label'          => "Lhiggit dilea (Yn korf 'X')",
+    'notices.display_order'              => 'Rêza nîşandayînê',
     'notices.display_order_label'        => 'Aght diskwedhes:',
     'notices.error_blank'                => 'Hanow ha korf ny yll bos gwag.',
+    'notices.everyone'                   => 'Hemû kes',
     'notices.existing_heading'           => 'Notennow bey ha kevys',
     'notices.heading'                    => 'Skantlya Notennow & Kevarhow an Kesva',
     'notices.msg_created'                => 'Notenn gwruthyl der sowen!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Majidoryon',
     'notices.role_public'                => 'Poblek (Gwest)',
     'notices.role_users'                 => 'Devnydhyoryon',
+    'notices.save_btn'                   => 'Tomar bike',
     'notices.subheading'                 => 'Gwruthyl geryv, bannerow fylt, po notennow rag owr devnydhyer.',
     'notices.target_roles_label'         => 'Owr bal (Reynyn owr po oll):',
     'notices.th_dismissible'             => 'Lhiggit dilea',
     'notices.th_order'                   => 'Aght',
     'notices.th_target_roles'            => 'Owr bal',
     'notices.th_title'                   => 'Hanow',
-    'notices.title_label'                => 'Hanow / Penn notenn:',
-    'notices.yes'                        => 'Ya',
-    'notices.add_new'                    => 'Nîşaneyeke nû zêde bike',
     'notices.title_label'                => 'Sernav',
-    'notices.content_label'              => 'Naverok',
-    'notices.display_order'              => 'Rêza nîşandayînê',
-    'notices.active'                     => 'Çalak',
-    'notices.dismissible'                => 'Tê girtin',
-    'notices.audience'                   => 'Girsfleçe',
-    'notices.everyone'                   => 'Hemû kes',
-    'notices.create_notice_btn'          => 'Nîşanê biafirîne',
-    'notices.save_btn'                   => 'Tomar bike',
-    'notices.delete_btn'                 => 'Jê bibe',
-    'notices.delete_confirm'             => 'Ev nîşan tê jêbirin?',
+    'notices.yes'                        => 'Ya',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Gwiria tokenow gwiriaseth re dhevedhys aga prys ha skwardya kevrennowk bit mysk kontsys devnydhoryon gweythys yn emgekrys po der an dorn.',
     'settings.cron_maintenance_heading' => 'Gwithans Tokenow Emgekrys & Settyans Cron',
     'settings.db_updates_heading'        => 'Daskargya Database',
+    'settings.default_date_format'       => 'Formata dîroka bingehîn',
     'settings.default_lang_desc'         => 'Ymmydtit rag gwestyon ha devnydhyoryon nyns eus reynys yeth. Gwruthyl restr y\'n lang/ (m.sh. kw.php).',
     'settings.default_lang_label'        => 'Kernewek / Yeth Kesva:',
+    'settings.default_lang_note'         => 'Zimanê bingehîn jixwe li jor hatiye mîhengkirin. Mîhengên profîlê ji bo bikarhênerên têketî van serûbin dikin.',
+    'settings.default_time_format'       => 'Formata dema bingehîn',
+    'settings.default_timezone'          => 'Gola dema bingehîn',
+    'settings.delete_btn'                => 'Jê bibe',
     'settings.delete_role_confirm'      => 'A wscowgh hwi hwath a vynn distruj an gonis ma? Devnydhoryon re dhedhys dhe vos settys dhe gonis an devnydhyer usadow yn saw.',
     'settings.download_backup_btn'       => 'Iskargya Coodagh Database',
     'settings.download_backup_desc'      => 'Gwitha restr .sql oll war dha gyre. Gwitha a-barth kyns daskargya.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'SMTP foshilit (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Port 465)',
     'settings.enc_tls'                   => 'TLS (Port 587)',
+    'settings.error_log_tab'             => 'Tomara çewtiyan',
     'settings.existing_roles_heading'   => 'Gonisyow an Nor & Menystrans',
+    'settings.footer_compiled_notice'    => 'Rêza jêrê ya malperê', 
+    'settings.footer_notice_helper'      => 'Weke rêza yekem a jêrê ya malperê tê nîşandan. Ji bo bikaranîna têksta bingehîn a ji pelê ziman, vala bihêle. Krediyên nermalavê û mafên kopîkirinê sabît dimînin.',
     'settings.hcaptcha_heading'          => 'Rewlys hCaptcha',
     'settings.heading'                   => 'Rewlys Kesva Ollol, Modulyow & Keadow',
     'settings.mail_domain_label'         => 'Domain Post-Elektronek Kevreyth:',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Notennow & Kevarhow Kesva',
     'settings.permissions_heading'       => 'Skantlya Keadow & Owyryon',
     'settings.permissions_subheading'    => 'Keadow yw reys rish krevow kevreyth. Illi rannow ha gwitha.',
+    'settings.port_label'                => 'Port:',
     'settings.purge_all_confirm'         => '⚠️ GWURLY: Hemm a wra dilea OLL kontys iniuch kevreyth. Yw ta shilgy?',
     'settings.purge_records_confirm'     => 'Yw ta shilgy golghi oll kontys iniuch rekordys?',
     'settings.recaptcha_heading'         => 'Rewlys Google reCAPTCHA',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => 'Coad Kesva (Poblek):',
     'settings.smtp_encryption_label'     => 'Kriptiaght:',
     'settings.smtp_heading'              => 'Rewlys Server SMTP',
-    'settings.smtp_host_label'           => 'Host SMTP:',
+    'settings.smtp_host_label'           => 'Mêvandara SMTP:',
     'settings.smtp_pass_label'           => 'Fockle courey SMTP (Gasla gwag rag gwitha an nish):',
     'settings.smtp_port_label'           => 'Port:',
     'settings.smtp_user_label'           => 'Hanow devnydhyer SMTP:',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Traa',
     'settings.turnstile_heading'         => 'Rewlys Cloudflare Turnstile',
     'settings.update_db_btn'             => 'Daskargya Database',
-    'settings.default_timezone'          => 'Gola dema bingehîn',
-    'settings.default_date_format'       => 'Formata dîroka bingehîn',
-    'settings.default_time_format'       => 'Formata dema bingehîn',
-    'settings.footer_compiled_notice'    => 'Rêza jêrê ya malperê', 
-    'settings.delete_btn'                => 'Jê bibe',
-    'settings.error_log_tab'             => 'Tomara çewtiyan',
-    'settings.smtp_host_label'           => 'Mêvandara SMTP:',
-    'settings.port_label'                => 'Port:',
-    'settings.default_lang_note'         => 'Zimanê bingehîn jixwe li jor hatiye mîhengkirin. Mîhengên profîlê ji bo bikarhênerên têketî van serûbin dikin.',
-    'settings.footer_notice_helper'      => 'Weke rêza yekem a jêrê ya malperê tê nîşandan. Ji bo bikaranîna têksta bingehîn a ji pelê ziman, vala bihêle. Krediyên nermalavê û mafên kopîkirinê sabît dimînin.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Jê bibe',
     'admin_users.disabled'               => 'Dyllys',
     'admin_users.enabled'                => 'Gow er ghloyr',
+    'admin_users.find_user'              => 'Bikarhêner bibîne',
     'admin_users.heading'                => 'Skantlya Kontys Devnydhyoryon & Rol Voyth',
     'admin_users.invite_user_btn'        => 'Gvery devnydhyer nowydh',
     'admin_users.manage_templates_btn'   => 'Skantlya patronow post-elektronek',
     'admin_users.no'                     => 'Na',
+    'admin_users.no_search_match'        => 'Tu bikarhêner bi vê lêgerînê re naguncin.',
     'admin_users.no_users'               => 'Nyns eus devnydhyoryon kevys.',
     'admin_users.protected_admin'        => 'Menystrer penn sauchey',
     'admin_users.reactivate_btn'         => 'Daskargya arta',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Daskargya fockle courey',
     'admin_users.reset_pwd_confirm'      => 'Danvon kevren daskargya fockle courey da\'n devnydhyer ma?',
     'admin_users.save_email_title'       => 'Gwitha enmys post-leacht nowydh',
+    'admin_users.search_help'            => 'Dema ku tu dinivîsî lîsteyê parzûn dike. Qutiyê vala bike da ku hemû kesan dîsa nîşan bide.',
+    'admin_users.search_placeholder'     => 'Navê bikarhêner, e-name an rol…',
     'admin_users.set_score_btn'          => 'Settya skor',
     'admin_users.status_active'          => 'Bey',
     'admin_users.status_suspended'       => 'Kelys',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Daskargya',
     'admin_users.verified_label'         => 'Reent:',
     'admin_users.yes'                    => 'Ya',
-    'admin_users.find_user'              => 'Bikarhêner bibîne',
-    'admin_users.search_placeholder'     => 'Navê bikarhêner, e-name an rol…',
-    'admin_users.search_help'            => 'Dema ku tu dinivîsî lîsteyê parzûn dike. Qutiyê vala bike da ku hemû kesan dîsa nîşan bide.',
-    'admin_users.no_search_match'        => 'Tu bikarhêner bi vê lêgerînê re naguncin.',
-    'admin_users.delete_btn'             => 'Jê bibe',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'Dehweles dhe\'n chi poblek',
-    'admin_errors.heading'             => 'Tomara çewtiyan',
-    'admin_errors.subheading'          => 'Nasnameya referansê ya ku li ser rûpelek çewtiyê tê nîşandan bigerin (mînak E-20260810-A1B2C3). Agahdariya tam di tomara pêşkêşker de tê hilanîn; agahdariya li ser ekranê ji bo mêlihvanan bi APP_DEBUG ve girêdayî ye.',
-    'admin_errors.label_error_id'      => 'Nasnameya referansa çewtiyê',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Bibîne',
-    'admin_errors.not_found'           => 'Ji bo vê tu tomara qeydê nehatiye dîtin',
-    'admin_errors.found_heading'       => 'Hat dîtin:',
-    'admin_errors.time_utc'            => 'Dem (UTC)',
-    'admin_errors.local_time'          => 'Dema te ya herêmî',
-    'admin_errors.type'                => 'Cûr',
-    'admin_errors.message'             => 'Peyam',
     'admin_errors.file'                => 'Pel',
+    'admin_errors.found_heading'       => 'Hat dîtin:',
+    'admin_errors.heading'             => 'Tomara çewtiyan',
+    'admin_errors.label_error_id'      => 'Nasnameya referansa çewtiyê',
     'admin_errors.line_prefix'         => 'Rêz',
+    'admin_errors.local_time'          => 'Dema te ya herêmî',
+    'admin_errors.message'             => 'Peyam',
+    'admin_errors.no_recent'           => 'Hêj di tomara çewtiyên sazkirî de tu qeyd nînin.',
+    'admin_errors.not_found'           => 'Ji bo vê tu tomara qeydê nehatiye dîtin',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Çewtiyên dawî',
     'admin_errors.request'             => 'Daxwaz',
     'admin_errors.stack_trace'         => 'Şopa pelê',
-    'admin_errors.recent_heading'      => 'Çewtiyên dawî',
-    'admin_errors.no_recent'           => 'Hêj di tomara çewtiyên sazkirî de tu qeyd nînin.',
+    'admin_errors.subheading'          => 'Nasnameya referansê ya ku li ser rûpelek çewtiyê tê nîşandan bigerin (mînak E-20260810-A1B2C3). Agahdariya tam di tomara pêşkêşker de tê hilanîn; agahdariya li ser ekranê ji bo mêlihvanan bi APP_DEBUG ve girêdayî ye.',
     'admin_errors.th_id'               => 'Nasname',
-    'admin_errors.th_time'             => 'Dem',
     'admin_errors.th_message'          => 'Peyam',
+    'admin_errors.th_time'             => 'Dem',
+    'admin_errors.time_utc'            => 'Dem (UTC)',
+    'admin_errors.type'                => 'Cûr',
     'error_template.debug_details'     => 'Hûrgiliyên çewtiyên bernameyê',
-    'error_template.stack_trace'       => 'Şopa pelê',
     'error_template.file_label'        => 'Pel:',
     'error_template.line_label'        => 'Rêz',
+    'error_template.return_home_btn'   => 'Dehweles dhe\'n chi poblek',
+    'error_template.stack_trace'       => 'Şopa pelê',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Fockle courey menystrer (min. 8 karakter)',
     'install.admin_subheading'           => 'Hemm yw an koveto rag <strong>kesva ma</strong> (nyns yw an database).',
     'install.admin_username_label'       => 'Hanow devnydhyer menystrer',
+    'install.back_btn'                   => 'Dehweles',
     'install.complete_desc'              => 'Kesva ma yw gwrys. Settyer yw gwithys rag na allos gweythregy arta.',
     'install.complete_heading'           => 'Settya Gwruthyl',
     'install.complete_title'             => 'Settya Gwruthyl',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP nyns eus galloes gwruthyl restr y\'n folder ma.',
     'install.finish_btn'                 => 'Gwruthyl settya',
     'install.heading'                    => 'Settya',
+    'install.hide_password'              => 'Cudha',
     'install.home_link'                  => 'Mos dhe\'n kesva',
+    'install.lang_label'                 => 'Taves',
     'install.login_link'                 => 'Koveto',
     'install.msg_db_ready'               => 'Database yw reydh. Gwruthyl dha gont menystrer rag gwruthyl settya.',
     'install.msg_installation_complete' => 'Settya gwruthyl.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'Kevrennians PDO MySQL',
     'install.req_php'                    => 'PHP 8.0+ (%s kevys)',
     'install.req_probe'                  => 'Galloes gwruthyl restr y\'n folder ma',
-    'install.subheading'                 => 'Settya kynsa termyn <strong>rag an folder app ma ynrican</strong>. Ymmydhy database MySQL gwag.',
-    'install.back_btn'                   => 'Dehweles',
-    'install.hide_password'              => 'Cudha',
-    'install.lang_label'                 => 'Taves',
     'install.show_password'              => 'Diskwedhes',
+    'install.subheading'                 => 'Settya kynsa termyn <strong>rag an folder app ma ynrican</strong>. Ymmydhy database MySQL gwag.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Pela gihîştina lezgîn rake',
+    'update_database.backup_notice'    => 'Dema ku tu dikarî berî xebitandina nûvekirinan kopiyeke ewlehiyê ya databasê bigire.',
     'update_database.confirm_prompt'   => 'A wrug ta gwruthyl coodagh dha database? Posa OK rag daskargya schema.',
     'update_database.current_version'  => 'Reaghys schema nish:',
     'update_database.err_failed'       => 'Migration meamble:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'Database yw cothromagh.',
     'update_database.page_title'       => 'Daskargya Kevreyth Res — Roll Rekordys Parish',
     'update_database.proceed_login'    => 'Mos dhe koveto',
+    'update_database.remove_emergency_file' => 'Pela gihîştina lezgîn rake',
     'update_database.subheading'       => 'Reaghys database app yw coth ha res daskargya schema kyns mos dres.',
     'update_database.update_btn'       => 'Daskargya database nish',
-    'index.remove_emergency_file'      => 'Pela gihîştina lezgîn rake',
-    'update_database.remove_emergency_file' => 'Pela gihîştina lezgîn rake',
-    'update_database.backup_notice'    => 'Dema ku tu dikarî berî xebitandina nûvekirinan kopiyeke ewlehiyê ya databasê bigire.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'ID Rekord: %d — Talvosogeth: %s',
     'data_entry.dup_prompt'           => 'A vynn ta avonsya ha gwitha an rekord nane ma?',
     'data_entry.enter_value_placeholder' => 'K ynny talvosogeth...',
+    'data_entry.error_loading'         => 'Di barkirina qeydan de çewtiyek çêbû',
     'data_entry.existing_records_heading' => 'Taolen rekordys kevys',
     'data_entry.filter_all_option'    => '-- Oll --',
     'data_entry.filter_placeholder'   => 'Skantlya...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Danvon data',
     'data_entry.th_added_by'          => 'Devedhys gans',
     'data_entry.th_date_created'      => 'Devedh gwruthyl',
-    'data_entry.error_loading'         => 'Di barkirina qeydan de çewtiyek çêbû',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'Gweresoryon ynrican:',
     'onboarding.attribution_desc1' => 'Rewlir a-dro dhe dhiskwedhes dha hanow war rol voyth poblek ha kontys.',
     'onboarding.attribution_label' => 'Reynyans diskwedhes war rol voyth & hanow:',
-    'onboarding.date_format_label' => 'Aght diskwedhes devedh:',
-    'onboarding.heading'           => 'Geryv dhe\'n bagas!',
-    'onboarding.page_title'        => 'Geryv - Lught Settya Kont',
-    'onboarding.subheading'        => 'Kyns toshiaght, gwra kemeres termyn rag settya reaghys traa ha kôv. Galloes ta ewnhe an rethyow yn dha brofile.',
-    'onboarding.submit_btn'        => 'Gwitha reaghys & avonsya',
-    'onboarding.time_12'          => '12 our AM/PM (m.sh. 04:07 PM)',
-    'onboarding.time_24'          => '24 our (m.sh. 16:07)',
-    'onboarding.time_format_label' => 'Aght klag (Diskwedhes termyn):',
-    'onboarding.time_none'        => 'Devedh ynrican (Kevys termyn oll)',
-    'onboarding.timezone_label'    => 'Boayl traa / Reeriaght:',
     'onboarding.btn_continue_2fa'   => 'Kendahu dhe 2FA',
     'onboarding.btn_skip_for_now'   => 'Hepkor rag an termyn ma',
     'onboarding.date_fmt_dmy'       => '23/07/2026 (Style Rw - DD/MM/YYYY)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (Powyans - DD.MM.YYYY)',
     'onboarding.date_fmt_full'      => 'Dejow 23 Gortheren 2026 (Testen Len)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (Style SUA - MM/DD/YYYY)',
+    'onboarding.date_format_label' => 'Aght diskwedhes devedh:',
     'onboarding.err_names_required' => 'Res yw an kynsa hanow ha hanow teylu.',
     'onboarding.err_save_failed'    => 'Kabm in gwitha an dowansow. Arbar arta mar pleg.',
+    'onboarding.heading'           => 'Geryv dhe\'n bagas!',
     'onboarding.lang_site_default'  => 'Taves usadow an wiasva',
     'onboarding.language_label'     => 'Taves',
     'onboarding.msg_welcome'        => 'Dynnargh! Gwithys re beu agas dowansow.',
+    'onboarding.page_title'        => 'Geryv - Lught Settya Kont',
     'onboarding.security_hint'      => 'Hwi a yll chanjya ordnansow personel pub eur dre glicha war agas hanow devnydhyer ynn anrol.',
+    'onboarding.subheading'        => 'Kyns toshiaght, gwra kemeres termyn rag settya reaghys traa ha kôv. Galloes ta ewnhe an rethyow yn dha brofile.',
+    'onboarding.submit_btn'        => 'Gwitha reaghys & avonsya',
+    'onboarding.time_12'          => '12 our AM/PM (m.sh. 04:07 PM)',
+    'onboarding.time_24'          => '24 our (m.sh. 16:07)',
+    'onboarding.time_format_label' => 'Aght klag (Diskwedhes termyn):',
+    'onboarding.time_none'        => 'Devedh ynrican (Kevys termyn oll)',
+    'onboarding.timezone_label'    => 'Boayl traa / Reeriaght:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'Enmys post-elektronek',
     'profile.email_unverified'     => '(Neu-reent - Jeigey post-elektronek)',
     'profile.email_verified'       => '(Reent)',
+    'profile.err_personal_update'  => 'Kabm in gweres an manylyon personel.',
     'profile.generate_codes_btn'   => 'Gwruthyl coadyn sauchey nowydh',
     'profile.generate_codes_confirm' => 'Yw ta shilgy? Hemm a wra dilea oll coadyn sauchey.',
     'profile.heading'              => 'Profile Devnydhyer & Sauchey',
     'profile.lang_site_default'    => 'Reaghys Kesva',
     'profile.language_label'       => 'Kernewek reys:',
+    'profile.msg_personal_updated' => 'Manylyon personel, tiredh termyn, hag ordnansow furvys gwithys yn hwethell!',
     'profile.new_password_label'   => 'Fockle courey nowydh (min. 8 karakter):',
     'profile.password_heading'     => 'Ewnhe fockle courey',
     'profile.personal_details_heading' => 'Fysseryans Priveadjagh',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Daskargya fysseryans priveadjagh',
     'profile.update_email_btn'     => 'Daskargya post-elektronek & reent',
     'profile.update_password_btn'  => 'Daskargya fockle courey',
-    'profile.err_personal_update'  => 'Kabm in gweres an manylyon personel.',
-    'profile.msg_personal_updated' => 'Manylyon personel, tiredh termyn, hag ordnansow furvys gwithys yn hwethell!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Clareyr devnydhyer',
+    'register.email_label'    => 'Adress Post-E',
     'register.heading'        => 'Clareyr kont nowydh',
     'register.submit_btn'     => 'Clareyr',
     'register.username_label' => 'Hanow devnydhyer:',
-    'register.email_label'    => 'Adress Post-E',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'Talvosogethow nish:',
     'suggest_edit.empty_label'          => '(wgag)',
     'suggest_edit.heading_prefix'       => 'Keskas ewnheans rag rekord',
+    'suggest_edit.leave_blank'         => 'Vê qadê vala bihêle',
     'suggest_edit.proposed_value_label' => 'Talvosogeth nowydh keskas:',
     'suggest_edit.reasoning_label'      => 'Tust / Fys / Imraa fenten:',
     'suggest_edit.reasoning_placeholder' => 'Gasla kows, imra fenten, po fa rag an ewnheans ma...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'Danvon keskas rag daswelys',
     'suggest_edit.submit_heading'       => 'Danvon talvosogeth keskas nowydh & tust',
     'suggest_edit.success_msg_suffix'   => 'Galloes ta danvon ewnheans arta, po ymmydhy kevren dehweles a-ugh pan wra gasla.',
-    'suggest_edit.leave_blank'         => 'Vê qadê vala bihêle',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Ji bo min navekî bikarhêner ê yekta diyar bike',
+    'index.check_availability'         => 'Binihêre ka heye yan na',
+    'volunteer.allocate_unique_username' => 'Ji bo min navekî bikarhêner ê yekta diyar bike',
     'volunteer.aria_region'          => 'Form Gweresor',
+    'volunteer.check_availability'     => 'Binihêre ka heye yan na',
     'volunteer.honeypot_label'       => 'Gasla an barren ma gwag:',
     'volunteer.multi_select_hint'    => 'Kemer Ctrl po Cmd rag reynya lies stoo.',
     'volunteer.required_field_title'=> 'Barren res',
     'volunteer.submit_btn'           => 'Danvon govynn gweres',
-    'index.check_availability'         => 'Binihêre ka heye yan na',
-    'index.allocate_unique_username'   => 'Ji bo min navekî bikarhêner ê yekta diyar bike',
-    'volunteer.check_availability'     => 'Binihêre ka heye yan na',
-    'volunteer.allocate_unique_username' => 'Ji bo min navekî bikarhêner ê yekta diyar bike',
 ];

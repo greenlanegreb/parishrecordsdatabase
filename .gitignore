@@ -1,3 +1,5 @@
+storage/gh_instance.json
+storage/
 logs/
 *.log
 .DS_Store
@@ -9,8 +11,9 @@ db/INSTALL_LOCK
 config.local.php
 scan_keys.php
 missing_keys_report.txt
-lang/fix_lang.sh
 lang.bk
 **/*.bk
 **/*-pre-split*/
 **/*bk2/
+lang_backup_blocks_*/
+

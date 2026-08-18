@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Mokambi',
     'nav.data_entry'             => 'Kotisa ba donné',
     'nav.feedback'               => 'Biteni ya makanisi',
     'nav.feedback_dashboard'     => 'Esika ya makanisi',
     'nav.high_contrast'          => 'Bokeseni ya likolo',
     'nav.invite_user'            => 'Pɛpisa moto',
+    'nav.language_label'         => 'Liyébá',
     'nav.leaderboard'            => 'Molɔngɔ ya ba mabonzi',
     'nav.leaderboard_score'      => 'Mabonzi ya molɔngɔ',
     'nav.login'                  => 'Kɔtá',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Kokambi mesa',
     'nav.manage_users'           => 'Kokambi bato',
     'nav.moderation'             => 'Bokɛngɛli',
+    'nav.profile'                => 'Profile na ngai',
     'nav.search'                 => 'Boluka',
+    'nav.select_language'        => 'Pona liyébá',
     'nav.settings'               => 'Bokambi ya ebongiseli',
+    'nav.toggle_navigation'      => 'Ebongisi ya botamboli',
     'nav.volunteer'              => 'Kɔtá na basungi',
     'nav.volunteer_dashboard'    => 'Esika ya basungi',
     'nav.welcome'                => 'Mbote,',
-    'nav.admin'                  => 'Mokambi',
-    'nav.language_label'         => 'Liyébá',
-    'nav.profile'                => 'Profile na ngai',
-    'nav.select_language'        => 'Pona liyébá',
-    'nav.toggle_navigation'      => 'Ebongisi ya botamboli',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -207,7 +207,7 @@ return [
     'manage_tables.date_bhv_all'         => 'Mikolo nionso elongo na ya mokambi',
     'manage_tables.date_bhv_manual'      => 'Mikolo ya stɔru (kaka kotisa na loboko)',
     'manage_tables.delete_col_confirm'   => 'EBENGO: Kolongola molɔngɔ oyo ekolongola mpe biloko nionso ya selile na mbonimboni nionso. Ozali na boyokani?',
-    'manage_tables.delete_table_btn'     => 'Longola mesa',
+    'manage_tables.delete_table_btn'     => 'Koliyamá Mésá',
     'manage_tables.delete_table_confirm' => 'EBENGO: Kolongola mesa oyo ekolongola molɔngɔ nionso na biloko ebombami. Ozali na boyokani?',
     'manage_tables.edit_col_summary'     => 'Bongisa molɔngɔ:',
     'manage_tables.edit_metadata_btn'    => 'Bongisa sango ya mesa',
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Bimisa molɔngɔ oyo na boluki ya bato nionso (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Molɔngɔ ezali mpo na:',
     'manage_tables.heading'              => 'Kokambi bamesa na ba sgeema',
+    'manage_tables.no'                   => 'Te',
     'manage_tables.no_columns_found'     => 'Molɔngɔ moko te ezwama mpo na mesa oyo.',
     'manage_tables.req_toggle_label'     => 'Sala molɔngɔ oyo ezala ya ntina (kotisa sango na makasi)',
     'manage_tables.save_table_btn'       => 'Bomba mbongwana ya mesa',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Ndenge ya komonisa',
     'manage_tables.th_public_search'     => 'Boluki ya bato nionso?',
     'manage_tables.type_text_long'       => 'TEXT (Liloba monene)',
-    'manage_tables.delete_table_btn'     => 'Koliyamá Mésá',
     'manage_tables.yes'                  => 'Ɛɛ',
-    'manage_tables.no'                   => 'Te',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'Kobongisa sikoyo:',
     'user_emails.back_to_creation'       => 'Kende na bokeli ya moto',
+    'user_emails.currently_editing'      => 'Kobongisa sikoyo:',
     'user_emails.desc_invitation'        => 'Etindamaka moko na ye moko tango mokambi asali to apɛpisi moto ya sika.',
     'user_emails.desc_reset'             => 'Etindamaka tango ya kobongisa paswedi to kotinda lisusu nzela.',
     'user_emails.email_body_label'       => 'Mwa nzete ya email:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Sango (HTML/Bakomi endimami):',
+    'notices.active'                     => 'Ezali kosala',
+    'notices.add_new'                    => 'Kobakisa eyebisi ya sika',
+    'notices.audience'                   => 'Bayoki / Bato oyo etali',
+    'notices.content_label'              => 'Ezaleli / Makambo',
     'notices.create_heading'             => 'Sala sango ya sika',
-    'notices.delete_confirm'             => 'Longola sango oyo?',
+    'notices.create_notice_btn'          => 'Salá eyebisi',
+    'notices.delete_btn'                 => 'Longolá',
+    'notices.delete_confirm'             => 'Olingi kolongola eyebisi oyo?',
+    'notices.dismissible'                => 'Ekokoki kolongolama',
     'notices.dismissible_label'          => "Ekoki kokangama (Ezali na buzo ya 'X')",
+    'notices.display_order'              => 'Molɔngɔ ya bonisisi',
     'notices.display_order_label'        => 'Molɔngɔ ya komonisa:',
     'notices.error_blank'                => 'Motó na sango ekoki kozala goullo te.',
+    'notices.everyone'                   => 'Moto nyonso',
     'notices.existing_heading'           => 'Sango ya sikoyo',
     'notices.heading'                    => 'Kokambi sango na banzembo ya site',
     'notices.msg_created'                => 'Sango esalemi malamu!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Bakɛngɛli',
     'notices.role_public'                => 'Bato nionso (Migeni)',
     'notices.role_users'                 => 'Bato',
+    'notices.save_btn'                   => 'Lobíka',
     'notices.subheading'                 => 'Sala bokenisi, bafɔlɔ ya boyambi to sango mpo na ba mosala moko.',
     'notices.target_roles_label'         => 'Bato ya ntina (Pɔnɔ mosala to nionso):',
     'notices.th_dismissible'             => 'Ekoki kokangama',
     'notices.th_order'                   => 'Molɔngɔ',
     'notices.th_target_roles'            => 'Ba mosala ya ntina',
     'notices.th_title'                   => 'Motó',
-    'notices.title_label'                => 'Motó ya sango / Mokuse:',
-    'notices.yes'                        => 'Ee',
-    'notices.add_new'                    => 'Kobakisa eyebisi ya sika',
     'notices.title_label'                => 'Motó ya likambo',
-    'notices.content_label'              => 'Ezaleli / Makambo',
-    'notices.display_order'              => 'Molɔngɔ ya bonisisi',
-    'notices.active'                     => 'Ezali kosala',
-    'notices.dismissible'                => 'Ekokoki kolongolama',
-    'notices.audience'                   => 'Bayoki / Bato oyo etali',
-    'notices.everyone'                   => 'Moto nyonso',
-    'notices.create_notice_btn'          => 'Salá eyebisi',
-    'notices.save_btn'                   => 'Lobíka',
-    'notices.delete_btn'                 => 'Longolá',
-    'notices.delete_confirm'             => 'Olingi kolongola eyebisi oyo?',
+    'notices.yes'                        => 'Ee',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Longola ba token ya botangi oyo ekɔtaki na ngambo mpe petola ba lien oyo ebatami na ba compte ya basaleli oyo basili kozwa boyokani na ndenge ya automatique to ya maboko.',
     'settings.cron_maintenance_heading' => 'Bosikiseli ya ba Token ya Automatique & Ebongiseli ya Cron',
     'settings.db_updates_heading'        => 'Mbongwana ya stɔru',
+    'settings.default_date_format'     => 'Lolenge ya mokolo ya liboso',
     'settings.default_lang_desc'         => 'Esalelamaka mpo na migeni na bato oyo bapɔni lokótá te. Tika ba faele na lang/ (na ndakisa ln.php) mpo na makoki ma sika.',
     'settings.default_lang_label'        => 'Lokótá ya site:',
+    'settings.default_lang_note'       => 'Lokota ya liboso ezali juże na likolo. Mayoki ya profile ezali koluta oyo mpo na bato bazali na kati.',
+    'settings.default_time_format'     => 'Lolenge ya ngonga ya liboso',
+    'settings.default_timezone'        => 'Ngonga ya boyokani ya liboso',
+    'settings.delete_btn'              => 'Longolá',
     'settings.delete_role_confirm'      => 'Ozali na bonbon ete olingi kolongola role oyo? Basaleli oyo bapesamaki yango bakozonga na bosikiseli na role ya mosaleli ya liboso na ndenge ya kimya.',
     'settings.download_backup_btn'       => 'Kita kobomba ya stɔru',
     'settings.download_backup_desc'      => 'Bomba faele ya .sql na kompiuta na yo. Bomba na esika ya kimya liboso ya kobongisa.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'SMTP ya bokenisi (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Polo 465)',
     'settings.enc_tls'                   => 'TLS (Polo 587)',
+    'settings.error_log_tab'           => 'Mwa buku ya mabunga',
     'settings.existing_roles_heading'   => 'Ba Role oyo ezali & Bokambi',
+    'settings.footer_compiled_notice'  => 'Molɔngɔ ya nsɔngɔ ya se ya esika', 
+    'settings.footer_notice_helper'    => 'Ezali komonana na molɔngɔ ya liboso ya nsɔngɔ ya se ya esika. Tika mpamba mpo na kosalela maloba ya liboso ya faili ya lokota. Ba-crédits ya logiciel mpe lotomo ya mokomi ezali kobatelama.',
     'settings.hcaptcha_heading'          => 'Bokambi ya hCaptcha',
     'settings.heading'                   => 'Bokambi ya site, ba modu na makoki',
     'settings.mail_domain_label'         => 'Domeni ya email ya ebongiseli:',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Sango na banzembo ya site',
     'settings.permissions_heading'       => 'Matriki ya ba mosala na makoki',
     'settings.permissions_subheading'    => 'Makoki mazali na biteni ya misala. Landa biteni mpo na kobongisa.',
+    'settings.port_label'              => 'Port:',
     'settings.purge_all_confirm'         => '⚠️ EBENGO: Oyo ekolongola LOGI NIONSO YA BOKENISI. Ozali na boyokani?',
     'settings.purge_records_confirm'     => 'Ozali na boyokani ya kolongola logi nionso ya mbonimboni?',
     'settings.recaptcha_heading'         => 'Bokambi ya Google reCAPTCHA',
@@ -421,7 +426,7 @@ return [
     'settings.site_key_label'            => 'Uyi ya site (Pobliki):',
     'settings.smtp_encryption_label'     => 'Bokangi ya sango:',
     'settings.smtp_heading'              => 'Bokambi ya sƐrve ya SMTP',
-    'settings.smtp_host_label'           => 'Sɛrve ya SMTP:',
+    'settings.smtp_host_label'         => 'Esika ya SMTP:',
     'settings.smtp_pass_label'           => 'Paswedi ya SMTP (tika goullo mpo na kobomba ya sikoyo):',
     'settings.smtp_port_label'           => 'Polo (Port):',
     'settings.smtp_user_label'           => 'Kombo ya mosangani ya SMTP:',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Ntango ya sikoyo',
     'settings.turnstile_heading'         => 'Bokambi ya Cloudflare Turnstile',
     'settings.update_db_btn'             => 'Bongisa stɔru',
-    'settings.default_timezone'        => 'Ngonga ya boyokani ya liboso',
-    'settings.default_date_format'     => 'Lolenge ya mokolo ya liboso',
-    'settings.default_time_format'     => 'Lolenge ya ngonga ya liboso',
-    'settings.footer_compiled_notice'  => 'Molɔngɔ ya nsɔngɔ ya se ya esika', 
-    'settings.delete_btn'              => 'Longolá',
-    'settings.error_log_tab'           => 'Mwa buku ya mabunga',
-    'settings.smtp_host_label'         => 'Esika ya SMTP:',
-    'settings.port_label'              => 'Port:',
-    'settings.default_lang_note'       => 'Lokota ya liboso ezali juże na likolo. Mayoki ya profile ezali koluta oyo mpo na bato bazali na kati.',
-    'settings.footer_notice_helper'    => 'Ezali komonana na molɔngɔ ya liboso ya nsɔngɔ ya se ya esika. Tika mpamba mpo na kosalela maloba ya liboso ya faili ya lokota. Ba-crédits ya logiciel mpe lotomo ya mokomi ezali kobatelama.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Longolá',
     'admin_users.disabled'               => 'Epekisami',
     'admin_users.enabled'                => 'Epesami nzela',
+    'admin_users.find_user'              => 'Luka mosaleli',
     'admin_users.heading'                => 'Kokambi konti ya bato na bokɛngɛli ya mabonzi',
     'admin_users.invite_user_btn'        => 'Pɛpisa moto ya sika',
     'admin_users.manage_templates_btn'   => 'Kokambi bafɔlɔ ya email',
     'admin_users.no'                     => 'Te',
+    'admin_users.no_search_match'        => 'Moto moko te azali kowelana na luka oyo.',
     'admin_users.no_users'               => 'Moto moko te ezwama.',
     'admin_users.protected_admin'        => 'Mokambi ya liboso ebatelami',
     'admin_users.reactivate_btn'         => 'Zongisa mosala',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Bongisa paswedi',
     'admin_users.reset_pwd_confirm'      => 'Tinda nzela ya kobongisa paswedi na moto oyo?',
     'admin_users.save_email_title'       => 'Bomba adresi ya email ya sika',
+    'admin_users.search_help'            => 'Ezali kokesena molɔngɔ ntango ozali kokoma. Longolá na sanduku mpo omonisa moto nyonso lisusu.',
+    'admin_users.search_placeholder'     => 'Kombo ya mosaleli, email, to mosala…',
     'admin_users.set_score_btn'          => 'Tia mabonzi',
     'admin_users.status_active'          => 'Ezali kosala',
     'admin_users.status_suspended'       => ' Ekangami mwa moke',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Bongisa',
     'admin_users.verified_label'         => 'Esikisami:',
     'admin_users.yes'                    => 'Ee',
-    'admin_users.find_user'              => 'Luka mosaleli',
-    'admin_users.search_placeholder'     => 'Kombo ya mosaleli, email, to mosala…',
-    'admin_users.search_help'            => 'Ezali kokesena molɔngɔ ntango ozali kokoma. Longolá na sanduku mpo omonisa moto nyonso lisusu.',
-    'admin_users.no_search_match'        => 'Moto moko te azali kowelana na luka oyo.',
-    'admin_users.delete_btn'             => 'Longolá',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn' => 'Zonga na ndako ya bato nionso',
-    'admin_errors.heading'             => 'Mwa buku ya mabunga',
-    'admin_errors.subheading'          => 'Luka ID ya bokebisi oyo emonisami na lokasa ya libunga (na ndakisa E-20260810-A1B2C3). Makambo nyonso ezali na nse ya log ya serveur; makambo ya na esika ya komona mpo na baponi ezali kouta na APP_DEBUG.',
-    'admin_errors.label_error_id'      => 'ID ya bokebisi ya libunga',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Luka',
-    'admin_errors.not_found'           => 'Emonani te mwa kɔntɛ ya log mpo na',
-    'admin_errors.found_heading'       => 'Emonani:',
-    'admin_errors.time_utc'            => 'Ngonga (UTC)',
-    'admin_errors.local_time'          => 'Ngonga na yo ya esika',
-    'admin_errors.type'                => 'Lolenge',
-    'admin_errors.message'             => 'Nsango / Maloba',
     'admin_errors.file'                => 'Faili',
+    'admin_errors.found_heading'       => 'Emonani:',
+    'admin_errors.heading'             => 'Mwa buku ya mabunga',
+    'admin_errors.label_error_id'      => 'ID ya bokebisi ya libunga',
     'admin_errors.line_prefix'         => 'Molɔngɔ',
+    'admin_errors.local_time'          => 'Ngonga na yo ya esika',
+    'admin_errors.message'             => 'Nsango / Maloba',
+    'admin_errors.no_recent'           => 'Bokɔngɔli ya log ya mabunga ezali naino te.',
+    'admin_errors.not_found'           => 'Emonani te mwa kɔntɛ ya log mpo na',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Mabunga ya sika',
     'admin_errors.request'             => 'Esɛngami',
     'admin_errors.stack_trace'         => 'Etelezi ya molɔngɔ',
-    'admin_errors.recent_heading'      => 'Mabunga ya sika',
-    'admin_errors.no_recent'           => 'Bokɔngɔli ya log ya mabunga ezali naino te.',
+    'admin_errors.subheading'          => 'Luka ID ya bokebisi oyo emonisami na lokasa ya libunga (na ndakisa E-20260810-A1B2C3). Makambo nyonso ezali na nse ya log ya serveur; makambo ya na esika ya komona mpo na baponi ezali kouta na APP_DEBUG.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Ngonga',
     'admin_errors.th_message'          => 'Nsango',
+    'admin_errors.th_time'             => 'Ngonga',
+    'admin_errors.time_utc'            => 'Ngonga (UTC)',
+    'admin_errors.type'                => 'Lolenge',
     'error_template.debug_details'     => 'Makambo ya kobongisa mabunga',
-    'error_template.stack_trace'       => 'Etelezi ya molɔngɔ',
     'error_template.file_label'        => 'Faili:',
     'error_template.line_label'        => 'Molɔngɔ',
+    'error_template.return_home_btn' => 'Zonga na ndako ya bato nionso',
+    'error_template.stack_trace'       => 'Etelezi ya molɔngɔ',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Paswedi ya mokambi (bakomi 8 min.)',
     'install.admin_subheading'           => 'Oyo ezali ya kokɔtá mpo na <strong>site oyo</strong> (ezali stɔru te).',
     'install.admin_username_label'       => 'Kombo ya mokambi',
+    'install.back_btn'                   => 'Zonga na sima',
     'install.complete_desc'              => 'Site oyo ebongisami esili. Ebongisi ekangami mpo na kopeka boyei ya mbala mosusu.',
     'install.complete_heading'           => 'Bosali esili',
     'install.complete_title'             => 'Bosali esili',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP ekoki kosala faele te na fɔlɔde ya mosala oyo.',
     'install.finish_btn'                 => 'Silisa bosali',
     'install.heading'                    => 'Bosali',
+    'install.hide_password'              => 'Bomba',
     'install.home_link'                  => 'Kende na site',
+    'install.lang_label'                 => 'Liyébá',
     'install.login_link'                 => 'Kɔtá',
     'install.msg_db_ready'               => 'Stɔru ezuami malamu. Sala konti ya mokambi mpo na kosilisa.',
     'install.msg_installation_complete' => 'Bosali esili.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'Stili ya PDO MySQL',
     'install.req_php'                    => 'PHP 8.0+ (ezwama %s)',
     'install.req_probe'                  => 'Ekoki kosala faele na fɔlɔde ya mosala oyo',
-    'install.subheading'                 => 'Bokambi ya liboso <strong>mpo na fɔlɔde ya apiliki oyo kaka</strong>. Salela stɔru ya MySQL ya goullo.',
-    'install.back_btn'                   => 'Zonga na sima',
-    'install.hide_password'              => 'Bomba',
-    'install.lang_label'                 => 'Liyébá',
     'install.show_password'              => 'Lakisa',
+    'install.subheading'                 => 'Bokambi ya liboso <strong>mpo na fɔlɔde ya apiliki oyo kaka</strong>. Salela stɔru ya MySQL ya goullo.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Longolá faili ya bokɔngɔli ya ntango ya Pupa',
+    'update_database.backup_notice'    => 'Zwá kopi ya base de données liboso ya kosala ba-mises à jour ntango okoki.',
     'update_database.confirm_prompt'   => 'Ozwi kobomba ya stɔru? Finika OK mpo na kosala mbongwana.',
     'update_database.current_version'  => 'Sgeema ya sikoyo:',
     'update_database.err_failed'       => 'Mba epesi te:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'Stɔru ezali ya sika.',
     'update_database.page_title'       => 'Ntina ya mbongwana ya ebongiseli — Stɔru ya Mbonimboni ya Parase',
     'update_database.proceed_login'    => 'Kende na paje ya kokɔtá',
+    'update_database.remove_emergency_file' => 'Longolá faili ya bokɔngɔli ya ntango ya Pupa',
     'update_database.subheading'       => 'Sgeema ya stɔru ya apiliki ezali ya kala, esengi mbongwana liboso ya kokoba.',
     'update_database.update_btn'       => 'Bongisa stɔru sikoyo',
-    'index.remove_emergency_file'      => 'Longolá faili ya bokɔngɔli ya ntango ya Pupa',
-    'update_database.remove_emergency_file' => 'Longolá faili ya bokɔngɔli ya ntango ya Pupa',
-    'update_database.backup_notice'    => 'Zwá kopi ya base de données liboso ya kosala ba-mises à jour ntango okoki.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'ID ya Mbonimboni: %d — Motuya: %s',
     'data_entry.dup_prompt'           => 'Olingi kokoba na kobomba mbonimboni oyo ya kokokana?',
     'data_entry.enter_value_placeholder' => 'Kotisa motuya...',
+    'data_entry.error_loading'         => 'Libunga ntango ezali kotika ba-kɔntɛ',
     'data_entry.existing_records_heading' => 'Mesa ya mbonimboni ezali',
     'data_entry.filter_all_option'    => '-- Nionso --',
     'data_entry.filter_placeholder'   => 'Sala sika...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Tinda sango',
     'data_entry.th_added_by'          => 'Ebakisami na',
     'data_entry.th_date_created'      => 'Mikolo ya bokeli',
-    'data_entry.error_loading'         => 'Libunga ntango ezali kotika ba-kɔntɛ',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'Basungi kaka:',
     'onboarding.attribution_desc1' => 'Kokambi ndenge kombo na yo emonanaka na molɔngɔ ya mabonzi na mbonimboni.',
     'onboarding.attribution_label' => 'Ndenge ya komonisa kombo na mabonzi:',
-    'onboarding.date_format_label' => 'Ndenge ya komonisa mikolo:',
-    'onboarding.heading'           => 'Mbote na libota!',
-    'onboarding.page_title'        => 'Mbote — Fɔlɔ ya bokambi ya konti',
-    'onboarding.subheading'        => 'Liboso ya kobanda, pɛpisa mwa ntina mpo na komonisa ndako na yo na bokenisi. Okoki kobongisa yango ntango nionso.',
-    'onboarding.submit_btn'        => 'Bomba na kokoba',
-    'onboarding.time_12'          => 'Ngonga 12 AM/PM (na ndakisa 04:07 PM)',
-    'onboarding.time_24'          => 'Ngonga 24 (na ndakisa 16:07)',
-    'onboarding.time_none'        => 'Mikolo kaka (Kokanga ngonga mpenza)',
-    'onboarding.timezone_label'    => 'Ntango / Ndako:',
-    'onboarding.time_format_label' => 'Ndenge ya ngonga:',
     'onboarding.btn_continue_2fa'   => 'Koba na 2FA',
     'onboarding.btn_skip_for_now'   => 'Leka sikoyo',
     'onboarding.date_fmt_dmy'       => '23/07/2026 (Lolenge ya UK - Mokolo/Sanza/Mbu)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (Na makomi - Mokolo.Sanza.Mbu)',
     'onboarding.date_fmt_full'      => 'Yenga 23 Sanza ya nsambo 2026 (Maloba mobimba)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (Lolenge ya US - Sanza/Mokolo/Mbu)',
+    'onboarding.date_format_label' => 'Ndenge ya komonisa mikolo:',
     'onboarding.err_names_required' => 'Kombo ya liboso mpe kombo ya libota ezali na ntina.',
     'onboarding.err_save_failed'    => 'Eboyi kobomba banzela na yo. Meka lisusu.',
+    'onboarding.heading'           => 'Mbote na libota!',
     'onboarding.lang_site_default'  => 'Liyébá ya esika ya internet',
     'onboarding.language_label'     => 'Liyébá',
     'onboarding.msg_welcome'         => 'Boyei bolamu! Babombi banzela na yo.',
+    'onboarding.page_title'        => 'Mbote — Fɔlɔ ya bokambi ya konti',
     'onboarding.security_hint'      => 'Okoki kobongola makambo na yo na tango nyonso na kiti na kombo na yo na molongo.',
+    'onboarding.subheading'        => 'Liboso ya kobanda, pɛpisa mwa ntina mpo na komonisa ndako na yo na bokenisi. Okoki kobongisa yango ntango nionso.',
+    'onboarding.submit_btn'        => 'Bomba na kokoba',
+    'onboarding.time_12'          => 'Ngonga 12 AM/PM (na ndakisa 04:07 PM)',
+    'onboarding.time_24'          => 'Ngonga 24 (na ndakisa 16:07)',
+    'onboarding.time_format_label' => 'Ndenge ya ngonga:',
+    'onboarding.time_none'        => 'Mikolo kaka (Kokanga ngonga mpenza)',
+    'onboarding.timezone_label'    => 'Ntango / Ndako:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'Adresi ya email',
     'profile.email_unverified'     => '(Esikisami te - Tala email na yo)',
     'profile.email_verified'       => '(Esikisami)',
+    'profile.err_personal_update'  => 'Eboyi kobongola makambo na yo moko.',
     'profile.generate_codes_btn'   => 'Sala ba uyi ya sika',
     'profile.generate_codes_confirm' => 'Ozali na boyokani? Oyo ekosimba ba uyi ya kala.',
     'profile.heading'              => 'Konti ya moto na Bokenisi',
     'profile.lang_site_default'    => 'Lokótá ya site',
     'profile.language_label'       => 'Lokótá olingi:',
+    'profile.msg_personal_updated' => 'Makambo na yo moko, ngonga, mpe ndenge ya kotanga mikolo ebongolami malamu!',
     'profile.new_password_label'   => 'Paswedi ya sika (bakomi 8 min.):',
     'profile.password_heading'     => 'Bongisa paswedi',
     'profile.personal_details_heading' => 'Sango ya moto moko',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Bongisa sango ya moto',
     'profile.update_email_btn'     => 'Bongisa email na kosikisa',
     'profile.update_password_btn'  => 'Bongisa paswedi',
-    'profile.err_personal_update'  => 'Eboyi kobongola makambo na yo moko.',
-    'profile.msg_personal_updated' => 'Makambo na yo moko, ngonga, mpe ndenge ya kotanga mikolo ebongolami malamu!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Komikoma ya moto',
+    'register.email_label'    => 'Adresi ya Imel',
     'register.heading'        => 'Komikoma konti ya sika',
     'register.submit_btn'     => 'Komikoma',
     'register.username_label' => 'Kombo ya mosangani:',
-    'register.email_label'    => 'Adresi ya Imel',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'Motuya ya sikoyo:',
     'suggest_edit.empty_label'          => '(goullo)',
     'suggest_edit.heading_prefix'       => 'Tinda mbongwana mpo na mbonimboni',
+    'suggest_edit.leave_blank'         => 'Tika esika oyo ezanga eloko',
     'suggest_edit.proposed_value_label' => 'Motuya ya sika esengi:',
     'suggest_edit.reasoning_label'      => 'Mbonimboni / Ntina / Maloba ya stɔru:',
     'suggest_edit.reasoning_placeholder'=> 'Pesa sango to ntina ya mbongwana oyo...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'Tinda mpo na kotalela',
     'suggest_edit.submit_heading'       => 'Tinda motuya ya sika na mbonimboni',
     'suggest_edit.success_msg_suffix'   => 'Okoki kutinda mbongwana mosusu na nse, to kosalela nzela ya kozonga na likolo.',
-    'suggest_edit.leave_blank'         => 'Tika esika oyo ezanga eloko',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Pesá ngai kombo ya mosaleli ya ekeseni',
+    'index.check_availability'         => 'Meka soki ezali',
+    'volunteer.allocate_unique_username' => 'Pesá ngai kombo ya mosaleli ya ekeseni',
     'volunteer.aria_region'            => 'Fɔlɔ ya mosungi',
+    'volunteer.check_availability'     => 'Meka soki ezali',
     'volunteer.honeypot_label'         => 'Tika esika oyo goullo:',
     'volunteer.multi_select_hint'      => 'Finika Ctrl to Cmd mpo na kopona ebele.',
     'volunteer.required_field_title'   => 'Esika ya ntina',
     'volunteer.submit_btn'             => 'Tinda mituna ya mosungi',
-    'index.check_availability'         => 'Meka soki ezali',
-    'index.allocate_unique_username'   => 'Pesá ngai kombo ya mosaleli ya ekeseni',
-    'volunteer.check_availability'     => 'Meka soki ezali',
-    'volunteer.allocate_unique_username' => 'Pesá ngai kombo ya mosaleli ya ekeseni',
 ];

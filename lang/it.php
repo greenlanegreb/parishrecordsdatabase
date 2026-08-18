@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'Amministratore',
     'nav.data_entry'             => 'Inserimento Dati',
     'nav.feedback'               => 'Feedback',
     'nav.feedback_dashboard'     => 'Pannello Feedback',
     'nav.high_contrast'          => 'Alto Contrasto',
     'nav.invite_user'            => 'Invita Utente',
+    'nav.language_label'         => 'Lingua',
     'nav.leaderboard'            => 'Classifica',
     'nav.leaderboard_score'      => 'Punteggio Classifica',
     'nav.login'                  => 'Accedi',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'Gestisci Tabelle',
     'nav.manage_users'           => 'Gestisci Utenti',
     'nav.moderation'             => 'Moderazione',
+    'nav.profile'                => 'Profilo',
     'nav.search'                 => 'Cerca',
+    'nav.select_language'        => 'Seleziona lingua',
     'nav.settings'               => 'Impostazioni di Sistema',
+    'nav.toggle_navigation'      => 'Attiva/disattiva navigazione',
     'nav.volunteer'              => 'Diventa Volontario',
     'nav.volunteer_dashboard'    => 'Pannello Volontari',
     'nav.welcome'                => 'Benvenuto,',
-    'nav.admin'                  => 'Amministratore',
-    'nav.language_label'         => 'Lingua',
-    'nav.profile'                => 'Profilo',
-    'nav.select_language'        => 'Seleziona lingua',
-    'nav.toggle_navigation'      => 'Attiva/disattiva navigazione',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -207,7 +207,7 @@ return [
     'manage_tables.date_bhv_all'         => 'Tutte le date, comprese quelle dell\'amministratore',
     'manage_tables.date_bhv_manual'      => 'Data del database (solo inserimento manuale)',
     'manage_tables.delete_col_confirm'   => 'ATTENZIONE: L\'eliminazione di questa colonna rimuoverà anche tutti i dati di cella associati in ogni record. Sei sicuro?',
-    'manage_tables.delete_table_btn'     => 'Elimina Tabella',
+    'manage_tables.delete_table_btn'     => 'Elimina tabella',
     'manage_tables.delete_table_confirm'=> 'ATTENZIONE: L\'eliminazione di questa tabella rimuoverà permanentemente tutte le colonne e il contenuto salvato. Sei assolutamente sicuro?',
     'manage_tables.edit_col_summary'     => 'Modifica Colonna Dinamica:',
     'manage_tables.edit_metadata_btn'    => 'Modifica Metadati Tabella',
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'Escludi questa colonna dalla ricerca pubblica (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'Colonne esistenti per',
     'manage_tables.heading'              => 'Gestisci Tabelle e Schemi',
+    'manage_tables.no'                   => 'No',
     'manage_tables.no_columns_found'     => 'Nessuna colonna dinamica definita per questa tabella.',
     'manage_tables.req_toggle_label'     => 'Rendi questa colonna obbligatoria (inserimento dati obbligatorio)',
     'manage_tables.save_table_btn'       => 'Salva Modifiche Tabella',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'Formato di Visualizzazione',
     'manage_tables.th_public_search'     => 'Ricerca Pubblica?',
     'manage_tables.type_text_long'       => 'TEXT (Paragrafo Lungo)',
-    'manage_tables.delete_table_btn'     => 'Elimina tabella',
     'manage_tables.yes'                  => 'Sì',
-    'manage_tables.no'                   => 'No',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'Modifica in corso:',
     'user_emails.back_to_creation'       => 'Torna alla Creazione Utente',
+    'user_emails.currently_editing'      => 'Modifica in corso:',
     'user_emails.desc_invitation'        => 'Inviato automaticamente quando un amministratore crea o invita un nuovo utente.',
     'user_emails.desc_reset'             => 'Inviato quando viene richiesto il reset della password o l\'invio di un link di accesso.',
     'user_emails.email_body_label'       => 'Corpo Email:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'Contenuto Avviso (consentito HTML/Testo):',
+    'notices.active'                     => 'Attivo',
+    'notices.add_new'                    => 'Aggiungi nuovo avviso',
+    'notices.audience'                   => 'Pubblico',
+    'notices.content_label'              => 'Contenuto',
     'notices.create_heading'             => 'Crea Nuovo Avviso',
+    'notices.create_notice_btn'          => 'Crea avviso',
+    'notices.delete_btn'                 => 'Elimina',
     'notices.delete_confirm'             => 'Eliminare questo avviso?',
+    'notices.dismissible'                => 'Ignorabile',
     'notices.dismissible_label'          => "Ignorabile (include il pulsante di chiusura 'X')",
+    'notices.display_order'              => 'Ordine di visualizzazione',
     'notices.display_order_label'        => 'Ordine di Visualizzazione:',
     'notices.error_blank'                => 'Il titolo e il contenuto non possono essere vuoti.',
+    'notices.everyone'                   => 'Tutti',
     'notices.existing_heading'           => 'Avvisi Attivi ed Esistenti',
     'notices.heading'                    => 'Gestore Avvisi e Annunci del Sito',
     'notices.msg_created'                => 'Avviso creato con successo!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'Moderatori',
     'notices.role_public'                => 'Pubblico (Ospite)',
     'notices.role_users'                 => 'Utenti',
+    'notices.save_btn'                   => 'Salva',
     'notices.subheading'                 => 'Crea avvisi dinamici, banner di benvenuto o annunci mirati per ruoli utente specifici.',
     'notices.target_roles_label'         => 'Pubblico di destinazione (seleziona ruoli o tutti):',
     'notices.th_dismissible'             => 'Ignorabile',
     'notices.th_order'                   => 'Ordine',
     'notices.th_target_roles'            => 'Ruoli di Destinazione',
     'notices.th_title'                   => 'Titolo',
-    'notices.title_label'                => 'Titolo / Intestazione Avviso:',
-    'notices.yes'                        => 'Sì',
-    'notices.add_new'                    => 'Aggiungi nuovo avviso',
     'notices.title_label'                => 'Titolo',
-    'notices.content_label'              => 'Contenuto',
-    'notices.display_order'              => 'Ordine di visualizzazione',
-    'notices.active'                     => 'Attivo',
-    'notices.dismissible'                => 'Ignorabile',
-    'notices.audience'                   => 'Pubblico',
-    'notices.everyone'                   => 'Tutti',
-    'notices.create_notice_btn'          => 'Crea avviso',
-    'notices.save_btn'                   => 'Salva',
-    'notices.delete_btn'                 => 'Elimina',
-    'notices.delete_confirm'             => 'Eliminare questo avviso?',
+    'notices.yes'                        => 'Sì',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'Elimina i token di verifica scaduti e pulisci i collegamenti pendenti dagli account utente attivati automaticamente o manualmente.',
     'settings.cron_maintenance_heading' => 'Manutenzione automatizzata dei token e configurazione Cron',
     'settings.db_updates_heading'        => 'Aggiornamenti del Database',
+    'settings.default_date_format'       => 'Formato data predefinito',
     'settings.default_lang_desc'         => 'Usata per i visitatori e gli utenti senza lingua preferita. Aggiungi file in lang/ (es. it.php) per altre opzioni.',
     'settings.default_lang_label'        => 'Lingua Predefinita del Sito:',
+    'settings.default_lang_note'         => 'La lingua predefinita è già impostata sopra. Le impostazioni del profilo sovrascrivono queste per gli utenti connessi.',
+    'settings.default_time_format'       => 'Formato ora predefinito',
+    'settings.default_timezone'          => 'Fuso orario predefinito',
+    'settings.delete_btn'                => 'Elimina',
     'settings.delete_role_confirm'      => 'Sei sicuro di voler eliminare questo ruolo? Gli utenti ad esso assegnati verranno riassegnati in modo sicuro al ruolo utente predefinito.',
     'settings.download_backup_btn'       => 'Scarica Backup del Database',
     'settings.download_backup_desc'      => 'Salva un file .sql completo sul tuo computer. Conservalo in un luogo sicuro prima di eseguire gli aggiornamenti.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'SMTP Autenticato (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (Porta 465)',
     'settings.enc_tls'                   => 'TLS (Porta 587)',
+    'settings.error_log_tab'             => 'Registro errori',
     'settings.existing_roles_heading'   => 'Ruoli esistenti e gestione',
+    'settings.footer_compiled_notice'    => 'Riga piè di pagina', 
+    'settings.footer_notice_helper'      => 'Mostrato come prima riga del piè di pagina del sito. Lascia vuoto per usare il testo predefinito dal file di lingua. I crediti del software e il copyright rimangono fissi.',
     'settings.hcaptcha_heading'          => 'Impostazioni hCaptcha',
     'settings.heading'                   => 'Impostazioni Globali del Sito, Moduli e Permessi',
     'settings.mail_domain_label'         => 'Dominio Email del Sistema (Fallback):',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'Avvisi e Annunci del Sito',
     'settings.permissions_heading'       => 'Matrice dei Ruoli e dei Permessi Dinamici',
     'settings.permissions_subheading'    => 'I permessi sono raggruppati per funzionalità di sistema. Espandi le sezioni per configurare le capacità e salva le modifiche sotto.',
+    'settings.port_label'                => 'Porta:',
     'settings.purge_all_confirm'         => '⚠️ ATTENZIONE: Questo eliminerà PERMANENTEMENTE TUTTI I REGISTRI DI AUDIT DEL SISTEMA. Sei sicuro?',
     'settings.purge_records_confirm'     => 'Sei sicuro di voler cancellare tutti i registri di audit relativi ai record?',
     'settings.recaptcha_heading'         => 'Impostazioni Google reCAPTCHA',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'Marca Temporale',
     'settings.turnstile_heading'         => 'Impostazioni Cloudflare Turnstile',
     'settings.update_db_btn'             => 'Aggiorna Database',
-    'settings.default_timezone'          => 'Fuso orario predefinito',
-    'settings.default_date_format'       => 'Formato data predefinito',
-    'settings.default_time_format'       => 'Formato ora predefinito',
-    'settings.footer_compiled_notice'    => 'Riga piè di pagina', 
-    'settings.delete_btn'                => 'Elimina',
-    'settings.error_log_tab'             => 'Registro errori',
-    'settings.smtp_host_label'           => 'Host SMTP:',
-    'settings.port_label'                => 'Porta:',
-    'settings.default_lang_note'         => 'La lingua predefinita è già impostata sopra. Le impostazioni del profilo sovrascrivono queste per gli utenti connessi.',
-    'settings.footer_notice_helper'      => 'Mostrato come prima riga del piè di pagina del sito. Lascia vuoto per usare il testo predefinito dal file di lingua. I crediti del software e il copyright rimangono fissi.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'Elimina',
     'admin_users.disabled'               => 'Disattivato',
     'admin_users.enabled'                => 'Attivato',
+    'admin_users.find_user'              => 'Trova utente',
     'admin_users.heading'                => 'Gestione Account Utente e Moderazione Classifica',
     'admin_users.invite_user_btn'        => 'Invita Nuovo Utente',
     'admin_users.manage_templates_btn'   => 'Gestisci Modelli Email',
     'admin_users.no'                     => 'No',
+    'admin_users.no_search_match'        => 'Nessun utente corrisponde a questa ricerca.',
     'admin_users.no_users'               => 'Nessun utente trovato.',
     'admin_users.protected_admin'        => 'Amministratore principale protetto',
     'admin_users.reactivate_btn'         => 'Riattiva',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'Reimposta Password',
     'admin_users.reset_pwd_confirm'      => 'Inviare un link di reset password a questo utente?',
     'admin_users.save_email_title'       => 'Salva Nuovo Indirizzo Email',
+    'admin_users.search_help'            => 'Filtra l\'elenco mentre digiti. Cancella il campo per mostrare di nuovo tutti.',
+    'admin_users.search_placeholder'     => 'Nome utente, email o ruolo…',
     'admin_users.set_score_btn'          => 'Imposta Punteggio',
     'admin_users.status_active'          => 'Attivo',
     'admin_users.status_suspended'       => 'Sospeso',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'Aggiorna',
     'admin_users.verified_label'         => 'Verificato:',
     'admin_users.yes'                    => 'Sì',
-    'admin_users.find_user'              => 'Trova utente',
-    'admin_users.search_placeholder'     => 'Nome utente, email o ruolo…',
-    'admin_users.search_help'            => 'Filtra l\'elenco mentre digiti. Cancella il campo per mostrare di nuovo tutti.',
-    'admin_users.no_search_match'        => 'Nessun utente corrisponde a questa ricerca.',
-    'admin_users.delete_btn'             => 'Elimina',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn' => 'Torna alla Pagina Iniziale Pubblica',
-    'admin_errors.heading'             => 'Registro errori',
-    'admin_errors.subheading'          => 'Cerca un ID di riferimento mostrato su una pagina di errore (es. E-20260810-A1B2C3). I dettagli completi sono memorizzati nel log del server; i dettagli a schermo per i visitatori dipendono da APP_DEBUG.',
-    'admin_errors.label_error_id'      => 'ID di riferimento errore',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'Trova',
-    'admin_errors.not_found'           => 'Nessuna voce di log trovata per',
-    'admin_errors.found_heading'       => 'Trovato:',
-    'admin_errors.time_utc'            => 'Orario (UTC)',
-    'admin_errors.local_time'          => 'Il tuo orario locale',
-    'admin_errors.type'                => 'Tipo',
-    'admin_errors.message'             => 'Messaggio',
     'admin_errors.file'                => 'File',
+    'admin_errors.found_heading'       => 'Trovato:',
+    'admin_errors.heading'             => 'Registro errori',
+    'admin_errors.label_error_id'      => 'ID di riferimento errore',
     'admin_errors.line_prefix'         => 'Riga',
+    'admin_errors.local_time'          => 'Il tuo orario locale',
+    'admin_errors.message'             => 'Messaggio',
+    'admin_errors.no_recent'           => 'Nessuna voce nel registro errori strutturato.',
+    'admin_errors.not_found'           => 'Nessuna voce di log trovata per',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'Errori recenti',
     'admin_errors.request'             => 'Richiesta',
     'admin_errors.stack_trace'         => 'Traccia dello stack',
-    'admin_errors.recent_heading'      => 'Errori recenti',
-    'admin_errors.no_recent'           => 'Nessuna voce nel registro errori strutturato.',
+    'admin_errors.subheading'          => 'Cerca un ID di riferimento mostrato su una pagina di errore (es. E-20260810-A1B2C3). I dettagli completi sono memorizzati nel log del server; i dettagli a schermo per i visitatori dipendono da APP_DEBUG.',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => 'Orario',
     'admin_errors.th_message'          => 'Messaggio',
+    'admin_errors.th_time'             => 'Orario',
+    'admin_errors.time_utc'            => 'Orario (UTC)',
+    'admin_errors.type'                => 'Tipo',
     'error_template.debug_details'     => 'Dettagli di debug',
-    'error_template.stack_trace'       => 'Traccia dello stack',
     'error_template.file_label'        => 'File:',
     'error_template.line_label'        => 'Riga',
+    'error_template.return_home_btn' => 'Torna alla Pagina Iniziale Pubblica',
+    'error_template.stack_trace'       => 'Traccia dello stack',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'Password Amministratore (min. 8 caratteri)',
     'install.admin_subheading'           => 'Queste sono le credenziali di accesso per <strong>questo sito</strong> (non per il database).',
     'install.admin_username_label'       => 'Nome Utente Amministratore',
+    'install.back_btn'                   => 'Indietro',
     'install.complete_desc'              => 'Questo sito è già configurato. L\'installatore è stato bloccato per evitarne la riesecuzione.',
     'install.complete_heading'           => 'Installazione Completata',
     'install.complete_title'             => 'Installazione Completata',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP non può creare file in questa cartella del progetto.',
     'install.finish_btn'                 => 'Completa Installazione',
     'install.heading'                    => 'Installazione',
+    'install.hide_password'              => 'Nascondi',
     'install.home_link'                  => 'Vai al Sito',
+    'install.lang_label'                 => 'Lingua',
     'install.login_link'                 => 'Accedi',
     'install.msg_db_ready'               => 'Database pronto. Crea il tuo account amministratore per completare.',
     'install.msg_installation_complete' => 'Installazione completata.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'Estensione PDO MySQL',
     'install.req_php'                    => 'PHP 8.0+ (rilevato %s)',
     'install.req_probe'                  => 'Capacità di creare file in questa cartella del progetto',
-    'install.subheading'                 => 'Configurazione iniziale <strong>solo per questa cartella dell\'applicazione</strong>. Usa un database MySQL vuoto.',
-    'install.back_btn'                   => 'Indietro',
-    'install.hide_password'              => 'Nascondi',
-    'install.lang_label'                 => 'Lingua',
     'install.show_password'              => 'Mostra',
+    'install.subheading'                 => 'Configurazione iniziale <strong>solo per questa cartella dell\'applicazione</strong>. Usa un database MySQL vuoto.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'Rimuovi file di accesso di emergenza',
+    'update_database.backup_notice'    => 'Esegui un backup del database prima di eseguire gli aggiornamenti quando possibile.',
     'update_database.confirm_prompt'   => 'Hai eseguito il backup del database? Premi OK per applicare gli aggiornamenti di schema in sospeso.',
     'update_database.current_version'  => 'Versione schema attuale:',
     'update_database.err_failed'       => 'Migrazione fallita:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'Il database è già aggiornato.',
     'update_database.page_title'       => 'Aggiornamento di Sistema Necessario — Registro Parrocchiale',
     'update_database.proceed_login'    => 'Vai alla Pagina di Accesso',
+    'update_database.remove_emergency_file' => 'Rimuovi file di accesso di emergenza',
     'update_database.subheading'       => 'Lo schema del database dell\'applicazione è obsoleto e richiede un aggiornamento dello schema prima di procedere.',
     'update_database.update_btn'       => 'Aggiorna Database Ora',
-    'index.remove_emergency_file'      => 'Rimuovi file di accesso di emergenza',
-    'update_database.remove_emergency_file' => 'Rimuovi file di accesso di emergenza',
-    'update_database.backup_notice'    => 'Esegui un backup del database prima di eseguire gli aggiornamenti quando possibile.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'ID Record: %d — Valore: %s',
     'data_entry.dup_prompt'           => 'Desideri procedere e salvare comunque questo duplicato?',
     'data_entry.enter_value_placeholder' => 'Inserisci valore...',
+    'data_entry.error_loading'        => 'Errore durante il caricamento dei record',
     'data_entry.existing_records_heading' => 'Tabella dei Record Esistenti',
     'data_entry.filter_all_option'    => '-- Tutti --',
     'data_entry.filter_placeholder'   => 'Filtra...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'Invia Dati',
     'data_entry.th_added_by'          => 'Aggiunto da',
     'data_entry.th_date_created'      => 'Data di Creazione',
-    'data_entry.error_loading'        => 'Errore durante il caricamento dei record',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => 'Solo Volontari:',
     'onboarding.attribution_desc1' => 'Controlla come appare il tuo nome nella classifica pubblica e nei record.',
     'onboarding.attribution_label' => 'Preferenza di visualizzazione in classifica:',
-    'onboarding.date_format_label' => 'Formato di Visualizzazione Data:',
-    'onboarding.heading'           => 'Benvenuto nel team!',
-    'onboarding.page_title'        => 'Benvenuto — Configurazione Account',
-    'onboarding.subheading'        => 'Prima di iniziare, prenditi un momento per configurare le preferenze di visualizzazione regionale e la privacy.',
-    'onboarding.submit_btn'        => 'Salva Preferenze e Continua',
-    'onboarding.time_12'          => '12 ore AM/PM (es. 04:07 PM)',
-    'onboarding.time_24'          => '24 ore (es. 16:07)',
-    'onboarding.time_format_label' => 'Formato Orologio (Visualizzazione Ora):',
-    'onboarding.time_none'        => 'Solo Data (Nascondi completamente l\'ora)',
-    'onboarding.timezone_label'    => 'Fuso Orario / Regione:',
     'onboarding.btn_continue_2fa'   => 'Continua a 2FA',
     'onboarding.btn_skip_for_now'   => 'Salta per ora',
     'onboarding.date_fmt_dmy'       => '23/07/2026 (Stile UK - GG/MM/AAAA)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '23.07.2026 (Punti - GG.MM.AAAA)',
     'onboarding.date_fmt_full'      => 'Giovedì 23 luglio 2026 (Testo completo)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (Stile USA - MM/GG/AAAA)',
+    'onboarding.date_format_label' => 'Formato di Visualizzazione Data:',
     'onboarding.err_names_required' => 'Nome e cognome sono obbligatori.',
     'onboarding.err_save_failed'    => 'Salvataggio delle preferenze non riuscito. Riprova.',
+    'onboarding.heading'           => 'Benvenuto nel team!',
     'onboarding.lang_site_default'  => 'Predefinito del sito',
     'onboarding.language_label'     => 'Lingua',
     'onboarding.msg_welcome'        => 'Benvenuto a bordo! Le tue preferenze sono state salvate.',
+    'onboarding.page_title'        => 'Benvenuto — Configurazione Account',
     'onboarding.security_hint'      => 'Puoi modificare le impostazioni personali in qualsiasi momento facendo clic sul tuo nome utente nel menu.',
+    'onboarding.subheading'        => 'Prima di iniziare, prenditi un momento per configurare le preferenze di visualizzazione regionale e la privacy.',
+    'onboarding.submit_btn'        => 'Salva Preferenze e Continua',
+    'onboarding.time_12'          => '12 ore AM/PM (es. 04:07 PM)',
+    'onboarding.time_24'          => '24 ore (es. 16:07)',
+    'onboarding.time_format_label' => 'Formato Orologio (Visualizzazione Ora):',
+    'onboarding.time_none'        => 'Solo Data (Nascondi completamente l\'ora)',
+    'onboarding.timezone_label'    => 'Fuso Orario / Regione:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'Indirizzo Email',
     'profile.email_unverified'     => '(Non verificato - Controlla la tua casella di posta)',
     'profile.email_verified'       => '(Verificato)',
+    'profile.err_personal_update'   => 'Aggiornamento dei dati personali non riuscito.',
     'profile.generate_codes_btn'   => 'Genera Nuovi Codici di Backup',
     'profile.generate_codes_confirm' => 'Sei sicuro? Questo invaliderà qualsiasi codice di backup esistente.',
     'profile.heading'              => 'Profilo Utente e Sicurezza',
     'profile.lang_site_default'    => 'Predefinita del Sito',
     'profile.language_label'       => 'Lingua Preferita:',
+    'profile.msg_personal_updated'  => 'Dati personali, fuso orario e impostazioni di formato aggiornati con successo!',
     'profile.new_password_label'   => 'Nuova Password (min. 8 caratteri):',
     'profile.password_heading'     => 'Modifica Password',
     'profile.personal_details_heading' => 'Dettagli Personali',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'Aggiorna Dettagli Personali',
     'profile.update_email_btn'     => 'Aggiorna Email e Verifica',
     'profile.update_password_btn'  => 'Aggiorna Password',
-    'profile.err_personal_update'   => 'Aggiornamento dei dati personali non riuscito.',
-    'profile.msg_personal_updated'  => 'Dati personali, fuso orario e impostazioni di formato aggiornati con successo!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'Registrazione Utente',
+    'register.email_label'    => 'Indirizzo email',
     'register.heading'        => 'Registra Nuovo Account',
     'register.submit_btn'     => 'Registrati',
     'register.username_label' => 'Nome Utente:',
-    'register.email_label'    => 'Indirizzo email',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'Valori Attuali:',
     'suggest_edit.empty_label'          => '(vuoto)',
     'suggest_edit.heading_prefix'       => 'Suggerisci Modifica per il Record',
+    'suggest_edit.leave_blank'         => 'Lascia questo campo vuoto',
     'suggest_edit.proposed_value_label' => 'Nuovo valore proposto:',
     'suggest_edit.reasoning_label'      => 'Prova / Motivazione / Note sulla Fonte:',
     'suggest_edit.reasoning_placeholder'=> 'Fornisci contesto, citazione della fonte o ragione per questa modifica...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'Invia Suggerimento per la Revisione',
     'suggest_edit.submit_heading'       => 'Invia Nuovo Valore Proposto e Prove',
     'suggest_edit.success_msg_suffix'   => 'Puoi inviare un\'altra modifica qui sotto o usare il link di ritorno sopra quando hai finito.',
-    'suggest_edit.leave_blank'         => 'Lascia questo campo vuoto',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'Assegnami un nome utente univoco',
+    'index.check_availability'         => 'Verifica disponibilità',
+    'volunteer.allocate_unique_username' => 'Assegnami un nome utente univoco',
     'volunteer.aria_region'          => 'Modulo Volontario',
+    'volunteer.check_availability'     => 'Verifica disponibilità',
     'volunteer.honeypot_label'       => 'Lascia questo campo vuoto:',
     'volunteer.multi_select_hint'    => 'Premi Ctrl o Cmd per selezionare più elementi.',
     'volunteer.required_field_title'=> 'Campo Obbligatorio',
     'volunteer.submit_btn'           => 'Invia Candidatura Volontario',
-    'index.check_availability'         => 'Verifica disponibilità',
-    'index.allocate_unique_username'   => 'Assegnami un nome utente univoco',
-    'volunteer.check_availability'     => 'Verifica disponibilità',
-    'volunteer.allocate_unique_username' => 'Assegnami un nome utente univoco',
 ];

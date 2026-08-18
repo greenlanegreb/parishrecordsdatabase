@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => 'مدیر سیستم',
     'nav.data_entry'             => 'ورود اطلاعات',
     'nav.feedback'               => 'بازخورد',
     'nav.feedback_dashboard'     => 'داشبورد بازخوردها',
     'nav.high_contrast'          => 'کنتراست بالا',
     'nav.invite_user'            => 'دعوت از کاربر',
+    'nav.language_label'         => 'زبان',
     'nav.leaderboard'            => 'جدول برترین‌ها',
     'nav.leaderboard_score'      => 'امتیاز جدول برترین‌ها',
     'nav.login'                  => 'ورود',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => 'مدیریت جدول‌ها',
     'nav.manage_users'           => 'مدیریت کاربران',
     'nav.moderation'             => 'پالایش و بررسی',
+    'nav.profile'                => 'پروفایل',
     'nav.search'                 => 'جستجو',
+    'nav.select_language'        => 'انتخاب زبان',
     'nav.settings'               => 'تنظیمات سایت',
+    'nav.toggle_navigation'      => 'تغییر وضعیت ناوبری',
     'nav.volunteer'              => 'داوطلب‌شدن',
     'nav.volunteer_dashboard'    => 'داشبورد داوطلبان',
     'nav.welcome'                => 'خوش آمدید،',
-    'nav.admin'                  => 'مدیر سیستم',
-    'nav.language_label'         => 'زبان',
-    'nav.profile'                => 'پروفایل',
-    'nav.select_language'        => 'انتخاب زبان',
-    'nav.toggle_navigation'      => 'تغییر وضعیت ناوبری',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -207,7 +207,7 @@ return [
     'manage_tables.date_bhv_all'         => 'همه تاریخ‌ها از جمله مدیریتی',
     'manage_tables.date_bhv_manual'      => 'تاریخ‌ها در پایگاه داده (فقط ورود دستی)',
     'manage_tables.delete_col_confirm'   => 'هشدار: حذف این ستون همچنین تمام داده‌های سلولی مرتبط را در تمامی رکوردها پاک می‌کند. آیا مطمئن هستید؟',
-    'manage_tables.delete_table_btn'     => 'حذف جدول',
+    'manage_tables.delete_table_btn'   => 'حذف جدول',
     'manage_tables.delete_table_confirm'=> 'هشدار: حذف این جدول تمامی ستون‌ها و محتوای ذخیره شده آن را به طور دائم پاک می‌کند. آیا کاملاً مطمئن هستید؟',
     'manage_tables.edit_col_summary'     => 'ویرایش ستون پویا:',
     'manage_tables.edit_metadata_btn'    => 'ویرایش فراداده جدول',
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> 'عدم لحاظ این ستون در جستجوی عمومی (index.php)',
     'manage_tables.existing_cols_heading_prefix' => 'ستون‌های موجود برای',
     'manage_tables.heading'              => 'مدیریت پویای جدول‌ها و طرح‌ها',
+    'manage_tables.no'                 => 'خیر',
     'manage_tables.no_columns_found'     => 'هنوز هیچ ستون پویایی برای این جدول تعریف نشده است.',
     'manage_tables.req_toggle_label'     => 'اجباری کردن این ستون (ورود اجباری داده)',
     'manage_tables.save_table_btn'       => 'ذخیره تغییرات جدول',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => 'فرمت نمایش',
     'manage_tables.th_public_search'     => 'جستجوی عمومی؟',
     'manage_tables.type_text_long'       => 'TEXT (پاراگراف بلند)',
-    'manage_tables.delete_table_btn'   => 'حذف جدول',
     'manage_tables.yes'                => 'بله',
-    'manage_tables.no'                 => 'خیر',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => 'در حال ویرایش:',
     'user_emails.back_to_creation'       => 'بازگشت به ایجاد کاربر',
+    'user_emails.currently_editing'      => 'در حال ویرایش:',
     'user_emails.desc_invitation'        => 'هنگامی که یک مدیر حساب کاربری جدیدی ایجاد کرده یا دعوت می‌کند، به طور خودکار ارسال می‌شود.',
     'user_emails.desc_reset'             => 'هنگامی که یک مدیر بازنشانی رمز عبور را فعال می‌کند یا پیوند دسترسی را مجدداً می‌فرستد، ارسال می‌شود.',
     'user_emails.email_body_label'       => 'متن ایمیل:',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => 'محتوای اعلان (HTML/متن مجاز است):',
+    'notices.active'                   => 'فعال',
+    'notices.add_new'                  => 'افزودن اطلاعیه جدید',
+    'notices.audience'                 => 'مخاطبان',
+    'notices.content_label'            => 'محتوا',
     'notices.create_heading'             => 'ایجاد اعلان جدید',
-    'notices.delete_confirm'             => 'این اعلان حذف شود؟',
+    'notices.create_notice_btn'        => 'ایجاد اطلاعیه',
+    'notices.delete_btn'               => 'حذف',
+    'notices.delete_confirm'           => 'آیا از حذف این اطلاعیه اطمینان دارید؟',
+    'notices.dismissible'              => 'قابل بستن',
     'notices.dismissible_label'          => "قابل بستن (شامل دکمه بستن 'X')",
+    'notices.display_order'            => 'ترتیب نمایش',
     'notices.display_order_label'        => 'ترتیب نمایش:',
     'notices.error_blank'                => 'عنوان و محتوا نمی‌توانند خالی باشند.',
+    'notices.everyone'                 => 'همه',
     'notices.existing_heading'           => 'اعلان‌های فعال و موجود',
     'notices.heading'                    => 'مدیریت اعلان‌ها و اطلاعیه‌های سایت',
     'notices.msg_created'                => 'اعلان با موفقیت ایجاد شد!',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => 'مدیران پالایش',
     'notices.role_public'                => 'عمومی (مهمانان)',
     'notices.role_users'                 => 'کاربران',
+    'notices.save_btn'                 => 'ذخیره',
     'notices.subheading'                 => 'ایجاد هشدارهای پویا، بنرهای خوش‌آمدگویی یا اعلان‌های هدفمند برای نقش‌های کاربری خاص.',
     'notices.target_roles_label'         => 'مخاطبان هدف (انتخاب نقش‌ها یا همه):',
     'notices.th_dismissible'             => 'قابل بستن',
     'notices.th_order'                   => 'ترتیب',
     'notices.th_target_roles'            => 'نقش‌های هدف',
     'notices.th_title'                   => 'عنوان',
-    'notices.title_label'                => 'عنوان / سرتیتر اعلان:',
-    'notices.yes'                        => 'بله',
-    'notices.add_new'                  => 'افزودن اطلاعیه جدید',
     'notices.title_label'              => 'عنوان',
-    'notices.content_label'            => 'محتوا',
-    'notices.display_order'            => 'ترتیب نمایش',
-    'notices.active'                   => 'فعال',
-    'notices.dismissible'              => 'قابل بستن',
-    'notices.audience'                 => 'مخاطبان',
-    'notices.everyone'                 => 'همه',
-    'notices.create_notice_btn'        => 'ایجاد اطلاعیه',
-    'notices.save_btn'                 => 'ذخیره',
-    'notices.delete_btn'               => 'حذف',
-    'notices.delete_confirm'           => 'آیا از حذف این اطلاعیه اطمینان دارید؟',
+    'notices.yes'                        => 'بله',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => 'پاکسازی توکن‌های تأیید منقضی شده و حذف پیوندهای معلق از حساب‌های کاربری فعال به صورت خودکار یا دستی.',
     'settings.cron_maintenance_heading' => 'نگهداری خودکار توکن‌ها و تنظیمات کرون (Cron)',
     'settings.db_updates_heading'        => 'به‌روزرسانی‌های پایگاه داده',
+    'settings.default_date_format'       => 'فرمت تاریخ پیش‌فرض',
     'settings.default_lang_desc'         => 'برای مهمانان و کاربرانی که زبانی را انتخاب نکرده‌اند استفاده می‌شود. برای ارائه گزینه‌های بیشتر، فایل‌هایی را در پوشه lang/ اضافه کنید (مثلاً fa.php).',
     'settings.default_lang_label'        => 'زبان پیش‌فرض سایت:',
+    'settings.default_lang_note'         => 'زبان پیش‌فرض در بالا تنظیم شده است. تنظیمات پروفایل برای کاربران وارد شده جایگزین این موارد می‌شود.',
+    'settings.default_time_format'       => 'فرمت زمان پیش‌فرض',
+    'settings.default_timezone'          => 'منطقه زمانی پیش‌فرض',
+    'settings.delete_btn'                => 'حذف',
     'settings.delete_role_confirm'      => 'آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟ کاربرانی که به آن اختصاص یافته‌اند، به طور ایمن به نقش پیش‌فرض کاربر بازگردانده خواهند شد.',
     'settings.download_backup_btn'       => 'دانلود نسخه پشتیبان پایگاه داده',
     'settings.download_backup_desc'      => 'یک فایل .sql کامل روی رایانه شما ذخیره می‌کند. پیش از اجرای به‌روزرسانی‌ها، آن را در مکانی امن نگه دارید.',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => 'SMTP احراز هویت شده (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (پورت 465)',
     'settings.enc_tls'                   => 'TLS (پورت 587)',
+    'settings.error_log_tab'             => 'گزارش خطاها',
     'settings.existing_roles_heading'   => 'نقش‌های موجود و مدیریت',
+    'settings.footer_compiled_notice'    => 'خط فوتر',
+    'settings.footer_notice_helper'      => 'به عنوان خط اول فوتر سایت نمایش داده می‌شود. برای استفاده از متن پیش‌فرض فایل زبانی، آن را خالی بگذارید. اعتبار نرم‌افزار و حق چاپ ثابت می‌مانند.',
     'settings.hcaptcha_heading'          => 'تنظیمات اچ‌کپچا',
     'settings.heading'                   => 'تنظیمات سراسری سایت، ماژول‌ها و دسترسی‌ها',
     'settings.mail_domain_label'         => 'دامنه ایمیل سیستم (پیش‌فرض جایگزین):',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => 'اعلان‌ها و اطلاعیه‌های سایت',
     'settings.permissions_heading'       => 'ماتریس پویای نقش‌ها و دسترسی‌ها',
     'settings.permissions_subheading'    => 'دسترسی‌ها بر اساس عملکردهای سیستم گروه‌بندی شده‌اند. برای پیکربندی قابلیت‌ها، بخش‌ها را باز کرده و سپس به‌روزرسانی‌های خود را در پایین ذخیره کنید.',
+    'settings.port_label'                => 'پورت:',
     'settings.purge_all_confirm'         => '⚠️ هشدار: این کار تمام گزارش‌های حسابرسی سیستم را به طور دائم پاک می‌کند. آیا مطمئن هستید که می‌خواهید ادامه دهید؟',
     'settings.purge_records_confirm'     => 'آیا واقعاً می‌خواهید تمام ورودی‌های حسابرسی مرتبط با رکوردها را پاک کنید؟',
     'settings.recaptcha_heading'         => 'تنظیمات گوگل ریکپچا',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => 'برچسب زمانی',
     'settings.turnstile_heading'         => 'تنظیمات کلادفلر تورنستایل',
     'settings.update_db_btn'             => 'به‌روزرسانی پایگاه داده',
-    'settings.default_timezone'          => 'منطقه زمانی پیش‌فرض',
-    'settings.default_date_format'       => 'فرمت تاریخ پیش‌فرض',
-    'settings.default_time_format'       => 'فرمت زمان پیش‌فرض',
-    'settings.footer_compiled_notice'    => 'خط فوتر',
-    'settings.delete_btn'                => 'حذف',
-    'settings.error_log_tab'             => 'گزارش خطاها',
-    'settings.smtp_host_label'           => 'میزبان SMTP:',
-    'settings.port_label'                => 'پورت:',
-    'settings.default_lang_note'         => 'زبان پیش‌فرض در بالا تنظیم شده است. تنظیمات پروفایل برای کاربران وارد شده جایگزین این موارد می‌شود.',
-    'settings.footer_notice_helper'      => 'به عنوان خط اول فوتر سایت نمایش داده می‌شود. برای استفاده از متن پیش‌فرض فایل زبانی، آن را خالی بگذارید. اعتبار نرم‌افزار و حق چاپ ثابت می‌مانند.',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => 'حذف',
     'admin_users.disabled'               => 'غیرفعال‌شده',
     'admin_users.enabled'                => 'فعال‌شده',
+    'admin_users.find_user'              => 'یافتن کاربر',
     'admin_users.heading'                => 'مدیریت حساب‌های کاربری و پالایش جدول برترین‌ها',
     'admin_users.invite_user_btn'        => 'دعوت کاربر جدید',
     'admin_users.manage_templates_btn'   => 'مدیریت قالب‌های ایمیل',
     'admin_users.no'                     => 'خیر',
+    'admin_users.no_search_match'        => 'هیچ کاربری با این جستجو مطابقت ندارد.',
     'admin_users.no_users'               => 'هیچ کاربری یافت نشد.',
     'admin_users.protected_admin'        => 'مدیر اصلی محافظت‌شده',
     'admin_users.reactivate_btn'         => 'فعال‌سازی مجدد',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => 'بازنشانی رمز عبور',
     'admin_users.reset_pwd_confirm'      => 'ارسال پیوند بازنشانی رمز عبور به این کاربر؟',
     'admin_users.save_email_title'       => 'ذخیره آدرس ایمیل جدید',
+    'admin_users.search_help'            => 'با تایپ کردن، فهرست را فیلتر می‌کند. برای نمایش مجدد همه، کادر را پاک کنید.',
+    'admin_users.search_placeholder'     => 'نام کاربری، ایمیل، یا نقش...',
     'admin_users.set_score_btn'          => 'تعیین امتیاز',
     'admin_users.status_active'          => 'فعال',
     'admin_users.status_suspended'       => 'مسدود شده',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => 'به‌روزرسانی',
     'admin_users.verified_label'         => 'تایید شده:',
     'admin_users.yes'                    => 'بله',
-    'admin_users.find_user'              => 'یافتن کاربر',
-    'admin_users.search_placeholder'     => 'نام کاربری، ایمیل، یا نقش...',
-    'admin_users.search_help'            => 'با تایپ کردن، فهرست را فیلتر می‌کند. برای نمایش مجدد همه، کادر را پاک کنید.',
-    'admin_users.no_search_match'        => 'هیچ کاربری با این جستجو مطابقت ندارد.',
-    'admin_users.delete_btn'             => 'حذف',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => 'بازگشت به صفحه اصلی عمومی',
-    'admin_errors.heading'             => 'گزارش خطاها',
-    'admin_errors.subheading'          => 'شناسه مرجع نمایش داده شده در صفحه خطا را جستجو کنید (مانند E-20260810-A1B2C3). جزئیات کامل در گزارش سرور ذخیره می‌شود؛ جزئیات روی صفحه برای بازدیدکنندگان به APP_DEBUG بستگی دارد.',
-    'admin_errors.label_error_id'      => 'شناسه مرجع خطا',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => 'جستجو',
-    'admin_errors.not_found'           => 'هیچ موردی برای این یافت نشد',
-    'admin_errors.found_heading'       => 'یافت شد:',
-    'admin_errors.time_utc'            => 'زمان (UTC)',
-    'admin_errors.local_time'          => 'زمان محلی شما',
-    'admin_errors.type'                => 'نوع',
-    'admin_errors.message'             => 'پیام',
     'admin_errors.file'                => 'فایل',
+    'admin_errors.found_heading'       => 'یافت شد:',
+    'admin_errors.heading'             => 'گزارش خطاها',
+    'admin_errors.label_error_id'      => 'شناسه مرجع خطا',
     'admin_errors.line_prefix'         => 'خط',
+    'admin_errors.local_time'          => 'زمان محلی شما',
+    'admin_errors.message'             => 'پیام',
+    'admin_errors.no_recent'           => 'هنوز هیچ ورودی در گزارش خطای ساختاریافته وجود ندارد.',
+    'admin_errors.not_found'           => 'هیچ موردی برای این یافت نشد',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => 'خطاهای اخیر',
     'admin_errors.request'             => 'درخواست',
     'admin_errors.stack_trace'         => 'ردیابی پشته',
-    'admin_errors.recent_heading'      => 'خطاهای اخیر',
-    'admin_errors.no_recent'           => 'هنوز هیچ ورودی در گزارش خطای ساختاریافته وجود ندارد.',
+    'admin_errors.subheading'          => 'شناسه مرجع نمایش داده شده در صفحه خطا را جستجو کنید (مانند E-20260810-A1B2C3). جزئیات کامل در گزارش سرور ذخیره می‌شود؛ جزئیات روی صفحه برای بازدیدکنندگان به APP_DEBUG بستگی دارد.',
     'admin_errors.th_id'               => 'شناسه',
-    'admin_errors.th_time'             => 'زمان',
     'admin_errors.th_message'          => 'پیام',
+    'admin_errors.th_time'             => 'زمان',
+    'admin_errors.time_utc'            => 'زمان (UTC)',
+    'admin_errors.type'                => 'نوع',
     'error_template.debug_details'     => 'جزئیات اشکال‌زدایی',
-    'error_template.stack_trace'       => 'ردیابی پشته',
     'error_template.file_label'        => 'فایل:',
     'error_template.line_label'        => 'خط',
+    'error_template.return_home_btn'   => 'بازگشت به صفحه اصلی عمومی',
+    'error_template.stack_trace'       => 'ردیابی پشته',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => 'رمز عبور مدیر (حداقل ۸ کاراکتر)',
     'install.admin_subheading'           => 'این مشخصات ورود برای <strong>این وب‌سایت</strong> است (نه پایگاه داده).',
     'install.admin_username_label'       => 'نام کاربری مدیر',
+    'install.back_btn'                   => 'بازگشت',
     'install.complete_desc'              => 'این سایت قبلاً پیکربندی شده است. برنامه نصب قفل شده است تا به اشتباه دوباره اجرا نشود.',
     'install.complete_heading'           => 'نصب کامل شد',
     'install.complete_title'             => 'نصب کامل شد',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP نمی‌تواند در این پوشه پروژه فایل ایجاد کند.',
     'install.finish_btn'                 => 'اتمام نصب',
     'install.heading'                    => 'نصب',
+    'install.hide_password'              => 'پنهان کردن',
     'install.home_link'                  => 'رفتن به سایت',
+    'install.lang_label'                 => 'زبان',
     'install.login_link'                 => 'ورود',
     'install.msg_db_ready'               => 'پایگاه داده آماده است. برای اتمام راه‌اندازی، حساب کاربری مدیر خود را ایجاد کنید.',
     'install.msg_installation_complete' => 'نصب کامل شد.',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'افزونه PDO MySQL',
     'install.req_php'                    => 'نسخه PHP 8.0+ (%s پیدا شد)',
     'install.req_probe'                  => 'امکان ایجاد فایل در این پوشه پروژه وجود دارد',
-    'install.subheading'                 => 'راه‌اندازی اولیه <strong>فقط برای این پوشه برنامه</strong>. از یک پایگاه داده MySQL خالی استفاده کنید.',
-    'install.back_btn'                   => 'بازگشت',
-    'install.hide_password'              => 'پنهان کردن',
-    'install.lang_label'                 => 'زبان',
     'install.show_password'              => 'نمایش',
+    'install.subheading'                 => 'راه‌اندازی اولیه <strong>فقط برای این پوشه برنامه</strong>. از یک پایگاه داده MySQL خالی استفاده کنید.',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => 'حذف فایل دسترسی اضطراری',
+    'update_database.backup_notice'    => 'در صورت امکان، قبل از اجرای به‌روزرسانی‌ها از پایگاه داده پشتیبان تهیه کنید.',
     'update_database.confirm_prompt'   => 'آیا از پایگاه داده خود نسخه پشتیبان تهیه کرده‌اید؟ برای اعمال به‌روزرسانی‌های معلق طرح، روی تایید کلیک کنید.',
     'update_database.current_version'  => 'نسخه طرح فعلی:',
     'update_database.err_failed'       => 'مهاجرت ناموفق بود:',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => 'پایگاه داده از قبل به‌روز است.',
     'update_database.page_title'       => 'به‌روزرسانی سیستم لازم است — دایرکتوری اسناد کلیسایی',
     'update_database.proceed_login'    => 'رفتن به صفحه ورود',
+    'update_database.remove_emergency_file' => 'حذف فایل دسترسی اضطراری',
     'update_database.subheading'       => 'ساختار پایگاه داده برنامه قدیمی است و پیش از ادامه کار عادی، نیازمند به‌روزرسانی طرح است.',
     'update_database.update_btn'       => 'به‌روزرسانی پایگاه داده اکنون',
-    'index.remove_emergency_file'      => 'حذف فایل دسترسی اضطراری',
-    'update_database.remove_emergency_file' => 'حذف فایل دسترسی اضطراری',
-    'update_database.backup_notice'    => 'در صورت امکان، قبل از اجرای به‌روزرسانی‌ها از پایگاه داده پشتیبان تهیه کنید.',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => 'شناسه رکورد: %d — مقدار: %s',
     'data_entry.dup_prompt'           => 'آیا باز هم می‌خواهید این ورودی تکراری را ذخیره کنید؟',
     'data_entry.enter_value_placeholder' => 'وارد کردن مقدار...',
+    'data_entry.error_loading'        => 'خطا در بارگذاری رکوردها',
     'data_entry.existing_records_heading' => 'جدول رکوردهای موجود',
     'data_entry.filter_all_option'    => '-- همه --',
     'data_entry.filter_placeholder'   => 'فیلتر...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => 'ارسال داده‌ها',
     'data_entry.th_added_by'          => 'افزوده شده توسط',
     'data_entry.th_date_created'      => 'تاریخ ایجاد',
-    'data_entry.error_loading'        => 'خطا در بارگذاری رکوردها',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'   => 'فقط داوطلبان:',
     'onboarding.attribution_desc1' => 'نحوه نمایش نام شما در جدول برترین‌های عمومی و گزارش‌های رکورد را کنترل می‌کند.',
     'onboarding.attribution_label' => 'ترجیح نمایش در جدول برترین‌ها و انتساب نام:',
-    'onboarding.date_format_label' => 'فرمت نمایش تاریخ:',
-    'onboarding.heading'           => 'به تیم خوش آمدید!',
-    'onboarding.page_title'        => 'خوش آمدید - جادوگر راه‌اندازی حساب کاربری',
-    'onboarding.subheading'        => 'پیش از شروع، لطفاً لحظه‌ای وقت بگذارید تا منطقه زمانی، قالب تاریخ و تنظیمات حریم خصوصی خود را پیکربندی کنید. هر زمان خواستید می‌توانید آن‌ها را در پروفایل خود تغییر دهید.',
-    'onboarding.submit_btn'        => 'ذخیره ترجیحات و ادامه',
-    'onboarding.time_12'          => '۱۲ ساعته ق.ظ/ب.ظ (مثلاً ۰۴:۰۷ ب.ظ)',
-    'onboarding.time_24'          => '۲۴ ساعته (مثلاً ۱۶:۰۷)',
-    'onboarding.time_format_label' => 'فرمت ساعت (نمایش زمان):',
-    'onboarding.time_none'        => 'فقط تاریخ (پنهان کردن کامل زمان)',
-    'onboarding.timezone_label'    => 'منطقه زمانی / منطقه:',
     'onboarding.btn_continue_2fa'   => 'ادامه به احراز هویت دو مرحله‌ای',
     'onboarding.btn_skip_for_now'   => 'رد کردن فعلاً',
     'onboarding.date_fmt_dmy'       => '۲۰۲۶/۰۷/۲۳ (فرمت بریتانیایی - روز/ماه/سال)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '۲۰۲۶.۰۷.۲۳ (با نقطه - روز.ماه.سال)',
     'onboarding.date_fmt_full'      => 'پنج‌شنبه ۲۳ ژوئیه ۲۰۲۶ (متن کامل)',
     'onboarding.date_fmt_mdy'       => '۰۷/۲۳/۲۰۲۶ (فرمت آمریکایی - ماه/روز/سال)',
+    'onboarding.date_format_label' => 'فرمت نمایش تاریخ:',
     'onboarding.err_names_required' => 'نام و نام خانوادگی الزامی هستند.',
     'onboarding.err_save_failed'    => 'ذخیره تنظیمات اولیه انجام نشد. لطفاً دوباره تلاش کنید.',
+    'onboarding.heading'           => 'به تیم خوش آمدید!',
     'onboarding.lang_site_default'  => 'پیش‌فرض سایت',
     'onboarding.language_label'     => 'زبان',
     'onboarding.msg_welcome'        => 'خوش آمدید! ترجیحات شما ذخیره شد.',
+    'onboarding.page_title'        => 'خوش آمدید - جادوگر راه‌اندازی حساب کاربری',
     'onboarding.security_hint'      => 'شما می‌توانید در هر زمان با کلیک بر روی نام کاربری خود در منو، تنظیمات شخصی را تغییر دهید.',
+    'onboarding.subheading'        => 'پیش از شروع، لطفاً لحظه‌ای وقت بگذارید تا منطقه زمانی، قالب تاریخ و تنظیمات حریم خصوصی خود را پیکربندی کنید. هر زمان خواستید می‌توانید آن‌ها را در پروفایل خود تغییر دهید.',
+    'onboarding.submit_btn'        => 'ذخیره ترجیحات و ادامه',
+    'onboarding.time_12'          => '۱۲ ساعته ق.ظ/ب.ظ (مثلاً ۰۴:۰۷ ب.ظ)',
+    'onboarding.time_24'          => '۲۴ ساعته (مثلاً ۱۶:۰۷)',
+    'onboarding.time_format_label' => 'فرمت ساعت (نمایش زمان):',
+    'onboarding.time_none'        => 'فقط تاریخ (پنهان کردن کامل زمان)',
+    'onboarding.timezone_label'    => 'منطقه زمانی / منطقه:',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => 'آدرس ایمیل',
     'profile.email_unverified'     => '(تایید نشده - صندوق ورودی خود را بررسی کنید)',
     'profile.email_verified'       => '(تایید شده)',
+    'profile.err_personal_update'   => 'به‌روزرسانی مشخصات شخصی انجام نشد.',
     'profile.generate_codes_btn'   => 'تولید کدهای پشتیبان جدید',
     'profile.generate_codes_confirm' => 'آیا مطمئن هستید؟ این کار تمامی کدهای پشتیبان موجود را باطل خواهد کرد.',
     'profile.heading'              => 'پروفایل کاربر و امنیت',
     'profile.lang_site_default'    => 'پیش‌فرض سایت',
     'profile.language_label'       => 'زبان ترجیحی:',
+    'profile.msg_personal_updated'  => 'مشخصات شخصی، منطقه زمانی و تنظیمات فرمت با موفقیت به‌روزرسانی شدند!',
     'profile.new_password_label'   => 'رمز عبور جدید (حداقل ۸ کاراکتر):',
     'profile.password_heading'     => 'تغییر رمز عبور',
     'profile.personal_details_heading' => 'اطلاعات شخصی',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => 'به‌روزرسانی اطلاعات شخصی',
     'profile.update_email_btn'     => 'به‌روزرسانی ایمیل و تایید',
     'profile.update_password_btn'  => 'به‌روزرسانی رمز عبور',
-    'profile.err_personal_update'   => 'به‌روزرسانی مشخصات شخصی انجام نشد.',
-    'profile.msg_personal_updated'  => 'مشخصات شخصی، منطقه زمانی و تنظیمات فرمت با موفقیت به‌روزرسانی شدند!',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => 'ثبت‌نام کاربر',
+    'register.email_label'    => 'آدرس ایمیل',
     'register.heading'        => 'ثبت‌نام حساب کاربری جدید',
     'register.submit_btn'     => 'ثبت‌نام',
     'register.username_label' => 'نام کاربری:',
-    'register.email_label'    => 'آدرس ایمیل',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => 'مقدارهای فعلی:',
     'suggest_edit.empty_label'          => '(خالی)',
     'suggest_edit.heading_prefix'       => 'پیشنهاد ویرایش برای رکورد',
+    'suggest_edit.leave_blank'          => 'این فیلد را خالی بگذارید',
     'suggest_edit.proposed_value_label' => 'مقدار جدید پیشنهادی:',
     'suggest_edit.reasoning_label'      => 'مدرک / توجیه / یادداشت‌های منبع:',
     'suggest_edit.reasoning_placeholder'=> 'متن زمینه، استناد به منابع یا دلایل این تغییر را ارائه دهید...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => 'ارسال پیشنهاد برای بررسی',
     'suggest_edit.submit_heading'       => 'ارسال مقدار پیشنهادی جدید و مستندات',
     'suggest_edit.success_msg_suffix'   => 'می‌توانید تغییر دیگری را در زیر ارسال کنید، یا پس از اتمام از پیوند بازگشت در بالا استفاده کنید.',
-    'suggest_edit.leave_blank'          => 'این فیلد را خالی بگذارید',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => 'اختصاص نام کاربری یکتا برای من',
+    'index.check_availability'         => 'بررسی دسترسی',
+    'volunteer.allocate_unique_username' => 'اختصاص نام کاربری یکتا برای من',
     'volunteer.aria_region'          => 'فرم داوطلبی',
+    'volunteer.check_availability'     => 'بررسی دسترسی',
     'volunteer.honeypot_label'       => 'این فیلد را خالی بگذارید:',
     'volunteer.multi_select_hint'    => 'برای انتخاب چند مورد، کلید Ctrl یا Cmd را نگه دارید.',
     'volunteer.required_field_title'=> 'فیلد اجباری',
     'volunteer.submit_btn'           => 'ارسال تمایل به داوطلبی',
-    'index.check_availability'         => 'بررسی دسترسی',
-    'index.allocate_unique_username'   => 'اختصاص نام کاربری یکتا برای من',
-    'volunteer.check_availability'     => 'بررسی دسترسی',
-    'volunteer.allocate_unique_username' => 'اختصاص نام کاربری یکتا برای من',
 ];

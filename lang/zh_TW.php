@@ -6,11 +6,13 @@ return [
     // ------------------------------------------------------------------
     // Navigation
     // ------------------------------------------------------------------
+    'nav.admin'                  => '管理員',
     'nav.data_entry'             => '資料輸入',
     'nav.feedback'               => '意見回饋',
     'nav.feedback_dashboard'     => '意見回饋儀表板',
     'nav.high_contrast'          => '高對比',
     'nav.invite_user'            => '邀請使用者',
+    'nav.language_label'         => '語言',
     'nav.leaderboard'            => '排行榜',
     'nav.leaderboard_score'      => '排行榜分數',
     'nav.login'                  => '登入',
@@ -19,16 +21,14 @@ return [
     'nav.manage_tables'          => '管理資料表',
     'nav.manage_users'           => '管理使用者',
     'nav.moderation'             => '審核',
+    'nav.profile'                => '個人資料',
     'nav.search'                 => '搜尋',
+    'nav.select_language'        => '選擇語言',
     'nav.settings'               => '系統設定',
+    'nav.toggle_navigation'      => '切換導覽',
     'nav.volunteer'              => '成為志工',
     'nav.volunteer_dashboard'    => '志工儀表板',
     'nav.welcome'                => '歡迎，',
-    'nav.admin'                  => '管理員',
-    'nav.language_label'         => '語言',
-    'nav.profile'                => '個人資料',
-    'nav.select_language'        => '選擇語言',
-    'nav.toggle_navigation'      => '切換導覽',
 
     // ------------------------------------------------------------------
     // Public search (index)
@@ -215,6 +215,7 @@ return [
     'manage_tables.exclude_search_label'=> '從公開搜尋中排除此欄位 (index.php)',
     'manage_tables.existing_cols_heading_prefix' => '現有欄位：',
     'manage_tables.heading'              => '管理資料表與綱要',
+    'manage_tables.no'                   => '否',
     'manage_tables.no_columns_found'     => '此資料表尚未定義任何動態欄位。',
     'manage_tables.req_toggle_label'     => '將此欄位設為必填（強制資料輸入）',
     'manage_tables.save_table_btn'       => '儲存資料表變更',
@@ -227,15 +228,13 @@ return [
     'manage_tables.th_display_format'    => '顯示格式',
     'manage_tables.th_public_search'     => '公開搜尋？',
     'manage_tables.type_text_long'       => 'TEXT (長段落)',
-    'manage_tables.delete_table_btn'     => '刪除資料表',
     'manage_tables.yes'                  => '是',
-    'manage_tables.no'                   => '否',
 
     // ------------------------------------------------------------------
     // Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
-    'user_emails.currently_editing'      => '目前正在編輯：',
     'user_emails.back_to_creation'       => '返回建立使用者',
+    'user_emails.currently_editing'      => '目前正在編輯：',
     'user_emails.desc_invitation'        => '當管理員建立或邀請新使用者時自動傳送。',
     'user_emails.desc_reset'             => '當觸發密碼重設或重新發送存取連結時傳送。',
     'user_emails.email_body_label'       => '郵件內文：',
@@ -300,12 +299,20 @@ return [
     // ------------------------------------------------------------------
     // Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
-    'notices.content_label'              => '公告內容（允許 HTML/文字）：',
+    'notices.active'                     => '啟用',
+    'notices.add_new'                    => '新增公告',
+    'notices.audience'                   => '目標對象',
+    'notices.content_label'              => '內容',
     'notices.create_heading'             => '建立新公告',
+    'notices.create_notice_btn'          => '建立公告',
+    'notices.delete_btn'                 => '刪除',
     'notices.delete_confirm'             => '確定要刪除此公告嗎？',
+    'notices.dismissible'                => '可關閉',
     'notices.dismissible_label'          => "可關閉（包含 'X' 關閉按鈕）",
+    'notices.display_order'              => '顯示順序',
     'notices.display_order_label'        => '顯示順序：',
     'notices.error_blank'                => '標題與內容不得為空白。',
+    'notices.everyone'                   => '所有人',
     'notices.existing_heading'           => '主動與現有公告',
     'notices.heading'                    => '網站公告與通知管理員',
     'notices.msg_created'                => '公告已成功建立！',
@@ -318,26 +325,15 @@ return [
     'notices.role_moderators'            => '審核員',
     'notices.role_public'                => '大眾 (訪客)',
     'notices.role_users'                 => '使用者',
+    'notices.save_btn'                   => '儲存',
     'notices.subheading'                 => '建立動態警示、歡迎橫幅或針對特定使用者角色的目標公告。',
     'notices.target_roles_label'         => '目標受眾（選擇角色或全部）：',
     'notices.th_dismissible'             => '可關閉',
     'notices.th_order'                   => '順序',
     'notices.th_target_roles'            => '目標角色',
     'notices.th_title'                   => '標題',
-    'notices.title_label'                => '公告標題：',
-    'notices.yes'                        => '是',
-    'notices.add_new'                    => '新增公告',
     'notices.title_label'                => '標題',
-    'notices.content_label'              => '內容',
-    'notices.display_order'              => '顯示順序',
-    'notices.active'                     => '啟用',
-    'notices.dismissible'                => '可關閉',
-    'notices.audience'                   => '目標對象',
-    'notices.everyone'                   => '所有人',
-    'notices.create_notice_btn'          => '建立公告',
-    'notices.save_btn'                   => '儲存',
-    'notices.delete_btn'                 => '刪除',
-    'notices.delete_confirm'             => '確定要刪除此公告嗎？',
+    'notices.yes'                        => '是',
 
     // ------------------------------------------------------------------
     // Admin: Global Site Settings, Modules & Permissions
@@ -361,8 +357,13 @@ return [
     'settings.cron_maintenance_desc'    => '清理過期的驗證權杖，並自動或手動清除已啟用使用者帳號中的掛起連結。',
     'settings.cron_maintenance_heading' => '自動化權杖維護與 Cron 設定',
     'settings.db_updates_heading'        => '資料庫更新',
+    'settings.default_date_format'       => '預設日期格式',
     'settings.default_lang_desc'         => '用於訪客和未設定偏好語言的使用者。如需更多選項，請將檔案加入 lang/ (例如 zh_TW.php)。',
     'settings.default_lang_label'        => '網站預設語言：',
+    'settings.default_lang_note'         => '預設語言已於上方設定。對於已登入的使用者，個人檔案設定將會覆蓋這些設定。',
+    'settings.default_time_format'       => '預設時間格式',
+    'settings.default_timezone'          => '預設時區',
+    'settings.delete_btn'                => '刪除',
     'settings.delete_role_confirm'      => '確定要刪除此角色嗎？指派給該角色的使用者將被安全地重新指派到預設使用者角色。',
     'settings.download_backup_btn'       => '下載資料庫備份',
     'settings.download_backup_desc'      => '將完整的 .sql 檔案儲存至您的電腦。在執行更新之前，請將其保存在安全的地方。',
@@ -370,7 +371,10 @@ return [
     'settings.driver_smtp'               => '已驗證的 SMTP (PHPMailer)',
     'settings.enc_ssl'                   => 'SSL (連接埠 465)',
     'settings.enc_tls'                   => 'TLS (連接埠 587)',
+    'settings.error_log_tab'             => '錯誤記錄',
     'settings.existing_roles_heading'   => '現有角色與管理',
+    'settings.footer_compiled_notice'    => '頁尾來源行', 
+    'settings.footer_notice_helper'      => '顯示為網站頁尾的第一行。若要使用語言檔案中的預設文字，請保持空白。軟體版權與致謝資訊保持固定。',
     'settings.hcaptcha_heading'          => 'hCaptcha 設定',
     'settings.heading'                   => '全站設定、模組與權限',
     'settings.mail_domain_label'         => '系統郵件網域 (備用)：',
@@ -402,6 +406,7 @@ return [
     'settings.notices_heading'           => '網站公告與通知',
     'settings.permissions_heading'       => '動態角色與權限矩陣',
     'settings.permissions_subheading'    => '權限依系統功能分組。展開區段以設定功能，然後儲存下方的矩陣。',
+    'settings.port_label'                => '連接埠：',
     'settings.purge_all_confirm'         => '⚠️ 警告：這將永久刪除所有系統稽核記錄。您確定嗎？',
     'settings.purge_records_confirm'     => '確定要清除所有與記錄相關的稽核記錄嗎？',
     'settings.recaptcha_heading'         => 'Google reCAPTCHA 設定',
@@ -450,26 +455,19 @@ return [
     'settings.th_timestamp'              => '時間戳記',
     'settings.turnstile_heading'         => 'Cloudflare Turnstile 設定',
     'settings.update_db_btn'             => '更新資料庫',
-    'settings.default_timezone'          => '預設時區',
-    'settings.default_date_format'       => '預設日期格式',
-    'settings.default_time_format'       => '預設時間格式',
-    'settings.footer_compiled_notice'    => '頁尾來源行', 
-    'settings.delete_btn'                => '刪除',
-    'settings.error_log_tab'             => '錯誤記錄',
-    'settings.smtp_host_label'           => 'SMTP 主機：',
-    'settings.port_label'                => '連接埠：',
-    'settings.default_lang_note'         => '預設語言已於上方設定。對於已登入的使用者，個人檔案設定將會覆蓋這些設定。',
-    'settings.footer_notice_helper'      => '顯示為網站頁尾的第一行。若要使用語言檔案中的預設文字，請保持空白。軟體版權與致謝資訊保持固定。',
 
     // ------------------------------------------------------------------
     // Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
+    'admin_users.delete_btn'             => '刪除',
     'admin_users.disabled'               => '已停用',
     'admin_users.enabled'                => '已啟用',
+    'admin_users.find_user'              => '尋找使用者',
     'admin_users.heading'                => '使用者帳號管理與排行榜審核',
     'admin_users.invite_user_btn'        => '邀請新使用者',
     'admin_users.manage_templates_btn'   => '管理電子郵件範本',
     'admin_users.no'                     => '否',
+    'admin_users.no_search_match'        => '找不到符合該搜尋的使用者。',
     'admin_users.no_users'               => '找不到使用者。',
     'admin_users.protected_admin'        => '受保護的主管理員',
     'admin_users.reactivate_btn'         => '重新啟用',
@@ -480,6 +478,8 @@ return [
     'admin_users.reset_password_btn'     => '重設密碼',
     'admin_users.reset_pwd_confirm'      => '要發送密碼重設連結給此使用者嗎？',
     'admin_users.save_email_title'       => '儲存新電子郵件地址',
+    'admin_users.search_help'            => '輸入時自動篩選清單。清除欄位以重新顯示所有人。',
+    'admin_users.search_placeholder'     => '使用者名稱、電子郵件或角色…',
     'admin_users.set_score_btn'          => '設定分數',
     'admin_users.status_active'          => '主動',
     'admin_users.status_suspended'       => '已停權',
@@ -496,11 +496,6 @@ return [
     'admin_users.update_btn'             => '更新',
     'admin_users.verified_label'         => '已驗證：',
     'admin_users.yes'                    => '是',
-    'admin_users.find_user'              => '尋找使用者',
-    'admin_users.search_placeholder'     => '使用者名稱、電子郵件或角色…',
-    'admin_users.search_help'            => '輸入時自動篩選清單。清除欄位以重新顯示所有人。',
-    'admin_users.no_search_match'        => '找不到符合該搜尋的使用者。',
-    'admin_users.delete_btn'             => '刪除',
 
     // ------------------------------------------------------------------
     // Admin: View Ticket & Threaded Dialogue
@@ -566,31 +561,31 @@ return [
     // ------------------------------------------------------------------
     // Errors & HTTP Templates
     // ------------------------------------------------------------------
-    'error_template.return_home_btn'   => '返回公開首頁',
-    'admin_errors.heading'             => '錯誤記錄',
-    'admin_errors.subheading'          => '尋找錯誤頁面上顯示的參考 ID（例如 E-20260810-A1B2C3）。完整詳細資料會儲存于伺服器記錄中；訪客在畫面看到的詳細資料取決於 APP_DEBUG 設定。',
-    'admin_errors.label_error_id'      => '錯誤參考 ID',
-    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
     'admin_errors.btn_find'            => '尋找',
-    'admin_errors.not_found'           => '找不到相關的記錄項目',
-    'admin_errors.found_heading'       => '找到：',
-    'admin_errors.time_utc'            => '時間 (UTC)',
-    'admin_errors.local_time'          => '您的當地時間',
-    'admin_errors.type'                => '類型',
-    'admin_errors.message'             => '訊息',
     'admin_errors.file'                => '檔案',
+    'admin_errors.found_heading'       => '找到：',
+    'admin_errors.heading'             => '錯誤記錄',
+    'admin_errors.label_error_id'      => '錯誤參考 ID',
     'admin_errors.line_prefix'         => '行',
+    'admin_errors.local_time'          => '您的當地時間',
+    'admin_errors.message'             => '訊息',
+    'admin_errors.no_recent'           => '結構化錯誤記錄中尚無項目。',
+    'admin_errors.not_found'           => '找不到相關的記錄項目',
+    'admin_errors.placeholder_id'      => 'E-YYYYMMDD-XXXXXX',
+    'admin_errors.recent_heading'      => '最近錯誤',
     'admin_errors.request'             => '請求',
     'admin_errors.stack_trace'         => '堆疊追蹤',
-    'admin_errors.recent_heading'      => '最近錯誤',
-    'admin_errors.no_recent'           => '結構化錯誤記錄中尚無項目。',
+    'admin_errors.subheading'          => '尋找錯誤頁面上顯示的參考 ID（例如 E-20260810-A1B2C3）。完整詳細資料會儲存于伺服器記錄中；訪客在畫面看到的詳細資料取決於 APP_DEBUG 設定。',
     'admin_errors.th_id'               => 'ID',
-    'admin_errors.th_time'             => '時間',
     'admin_errors.th_message'          => '訊息',
+    'admin_errors.th_time'             => '時間',
+    'admin_errors.time_utc'            => '時間 (UTC)',
+    'admin_errors.type'                => '類型',
     'error_template.debug_details'     => '偵錯詳細資料',
-    'error_template.stack_trace'       => '堆疊追蹤',
     'error_template.file_label'        => '檔案：',
     'error_template.line_label'        => '行',
+    'error_template.return_home_btn'   => '返回公開首頁',
+    'error_template.stack_trace'       => '堆疊追蹤',
 
     // ------------------------------------------------------------------
     // Public: Ticket Intake & Feedback Portal
@@ -624,6 +619,7 @@ return [
     'install.admin_password_label'       => '管理員密碼（至少 8 個字元）',
     'install.admin_subheading'           => '這是登入<strong>此網站</strong>的憑證（並非資料庫帳號）。',
     'install.admin_username_label'       => '管理員使用者名稱',
+    'install.back_btn'                   => '返回',
     'install.complete_desc'              => '此網站已經設定完成。安裝程式已被鎖定以防止重複執行。',
     'install.complete_heading'           => 'Installation Complete',
     'install.complete_title'             => '安裝完成',
@@ -651,7 +647,9 @@ return [
     'install.err_write_permission'       => 'PHP 無法在此專案資料夾中建立檔案。',
     'install.finish_btn'                 => '完成安裝',
     'install.heading'                    => '安裝',
+    'install.hide_password'              => '隱藏',
     'install.home_link'                  => '前往網站',
+    'install.lang_label'                 => '語言',
     'install.login_link'                 => '登入',
     'install.msg_db_ready'               => '資料庫已準備就緒。請建立您的管理員帳號以完成設定。',
     'install.msg_installation_complete' => '安裝完成。',
@@ -663,11 +661,8 @@ return [
     'install.req_pdo'                    => 'PDO MySQL 擴充功能',
     'install.req_php'                    => 'PHP 8.0+ (偵測到 %s)',
     'install.req_probe'                  => '在此專案資料夾中建立檔案的能力',
-    'install.subheading'                 => '初始設定<strong>僅適用於此應用程式資料夾</strong>。請使用空白的 MySQL 資料庫。',
-    'install.back_btn'                   => '返回',
-    'install.hide_password'              => '隱藏',
-    'install.lang_label'                 => '語言',
     'install.show_password'              => '顯示',
+    'install.subheading'                 => '初始設定<strong>僅適用於此應用程式資料夾</strong>。請使用空白的 MySQL 資料庫。',
 
     // ------------------------------------------------------------------
     // Leaderboard
@@ -734,6 +729,8 @@ return [
     // ------------------------------------------------------------------
     // Standalone Update Database Gateway
     // ------------------------------------------------------------------
+    'index.remove_emergency_file'      => '移除緊急存取檔案',
+    'update_database.backup_notice'    => '若條件允許，請在執行更新前備份資料庫。',
     'update_database.confirm_prompt'   => '您是否已備份資料庫？按一下「確定」以套用未完成的綱要更新。',
     'update_database.current_version'  => '目前綱要版本：',
     'update_database.err_failed'       => '遷移失敗：',
@@ -743,11 +740,9 @@ return [
     'update_database.msg_uptodate'     => '資料庫已是最新版本。',
     'update_database.page_title'       => '需要系統更新 — 教區記錄資料庫',
     'update_database.proceed_login'    => '前往登入頁面',
+    'update_database.remove_emergency_file' => '移除緊急存取檔案',
     'update_database.subheading'       => '應用程式資料庫綱要已過期，在繼續正常運作之前需要進行綱要更新。',
     'update_database.update_btn'       => '立即更新資料庫',
-    'index.remove_emergency_file'      => '移除緊急存取檔案',
-    'update_database.remove_emergency_file' => '移除緊急存取檔案',
-    'update_database.backup_notice'    => '若條件允許，請在執行更新前備份資料庫。',
 
     // ------------------------------------------------------------------
     // User Authentication Action
@@ -805,6 +800,7 @@ return [
     'data_entry.dup_item_format'      => '記錄 ID：%d — 數值：%s',
     'data_entry.dup_prompt'           => '是否仍要繼續並儲存此重複記錄？',
     'data_entry.enter_value_placeholder' => '輸入數值...',
+    'data_entry.error_loading'        => '載入記錄時發生錯誤',
     'data_entry.existing_records_heading' => '現有記錄資料表',
     'data_entry.filter_all_option'    => '-- 全部 --',
     'data_entry.filter_placeholder'   => '篩選...',
@@ -824,7 +820,6 @@ return [
     'data_entry.submit_data_btn'      => '送出資料',
     'data_entry.th_added_by'          => '新增者',
     'data_entry.th_date_created'      => '建立日期',
-    'data_entry.error_loading'        => '載入記錄時發生錯誤',
 
     // ------------------------------------------------------------------
     // Forgot Password
@@ -860,16 +855,6 @@ return [
     'onboarding.attr_vol_title'    => '僅限志工：',
     'onboarding.attribution_desc1' => '控制您的名稱在公開排行榜與記錄中的顯示方式。',
     'onboarding.attribution_label' => '排行榜顯示偏好：',
-    'onboarding.date_format_label' => '日期顯示格式：',
-    'onboarding.heading'           => '歡迎加入團隊！',
-    'onboarding.page_title'        => '歡迎 — 帳號設定精靈',
-    'onboarding.subheading'        => '在開始之前，請花點時間設定您的地區顯示與隱私偏好。您可以隨時在個人資料中變更這些設定。',
-    'onboarding.submit_btn'        => '儲存偏好設定並繼續',
-    'onboarding.time_12'          => '12 小時制 AM/PM (例如 04:07 PM)',
-    'onboarding.time_24'          => '24 小時制 (例如 16:07)',
-    'onboarding.time_none'        => '僅顯示日期 (完全隱藏時間)',
-    'onboarding.timezone_label'    => '時區 / 地區：',
-    'onboarding.time_format_label' => '時鐘格式（時間顯示）：',
     'onboarding.btn_continue_2fa'   => '繼續進行雙重驗證 (2FA)',
     'onboarding.btn_skip_for_now'   => '暫時略過',
     'onboarding.date_fmt_dmy'       => '2026/07/23 (英國斜線 - 日/月/年)',
@@ -877,12 +862,22 @@ return [
     'onboarding.date_fmt_dots'      => '2026.07.23 (點分隔 - 日.月.年)',
     'onboarding.date_fmt_full'      => '2026年7月23日 星期四 (完整文字)',
     'onboarding.date_fmt_mdy'       => '07/23/2026 (美國風格 - 月/日/年)',
+    'onboarding.date_format_label' => '日期顯示格式：',
     'onboarding.err_names_required' => '名字與姓氏為必填項。',
     'onboarding.err_save_failed'    => '儲存設定偏好失敗，請再試一次。',
+    'onboarding.heading'           => '歡迎加入團隊！',
     'onboarding.lang_site_default'  => '網站預設',
     'onboarding.language_label'     => '語言',
     'onboarding.msg_welcome'        => '歡迎加入！您的偏好設定已儲存。',
+    'onboarding.page_title'        => '歡迎 — 帳號設定精靈',
     'onboarding.security_hint'      => '您可以隨時透過點擊選單中的使用者名稱來變更個人設定。',
+    'onboarding.subheading'        => '在開始之前，請花點時間設定您的地區顯示與隱私偏好。您可以隨時在個人資料中變更這些設定。',
+    'onboarding.submit_btn'        => '儲存偏好設定並繼續',
+    'onboarding.time_12'          => '12 小時制 AM/PM (例如 04:07 PM)',
+    'onboarding.time_24'          => '24 小時制 (例如 16:07)',
+    'onboarding.time_format_label' => '時鐘格式（時間顯示）：',
+    'onboarding.time_none'        => '僅顯示日期 (完全隱藏時間)',
+    'onboarding.timezone_label'    => '時區 / 地區：',
 
     // ------------------------------------------------------------------
     // User Profile & Security Settings
@@ -898,11 +893,13 @@ return [
     'profile.email_heading'        => '電子郵件地址',
     'profile.email_unverified'     => '(未驗證 - 請檢查您的收件匣)',
     'profile.email_verified'       => '(已驗證)',
+    'profile.err_personal_update'   => '更新個人資訊失敗。',
     'profile.generate_codes_btn'   => '產生新備用代碼',
     'profile.generate_codes_confirm' => '您確定嗎？這將使任何現有的備用代碼失效。',
     'profile.heading'              => '使用者個人資料與安全性',
     'profile.lang_site_default'    => '網站預設語言',
     'profile.language_label'       => '偏好語言：',
+    'profile.msg_personal_updated'  => '個人資訊、時區與格式設定已成功更新！',
     'profile.new_password_label'   => '新密碼（至少 8 個字元）：',
     'profile.password_heading'     => '變更密碼',
     'profile.personal_details_heading' => '個人詳細資料',
@@ -916,17 +913,15 @@ return [
     'profile.update_details_btn'   => '更新個人詳細資料',
     'profile.update_email_btn'     => '更新電子郵件並驗證',
     'profile.update_password_btn'  => '更新密碼',
-    'profile.err_personal_update'   => '更新個人資訊失敗。',
-    'profile.msg_personal_updated'  => '個人資訊、時區與格式設定已成功更新！',
 
     // ------------------------------------------------------------------
     // User Registration
     // ------------------------------------------------------------------
     'register.aria_region'    => '使用者註冊',
+    'register.email_label'    => '電子郵件地址',
     'register.heading'        => '註冊新帳號',
     'register.submit_btn'     => '註冊',
     'register.username_label' => '使用者名稱：',
-    'register.email_label'    => '電子郵件地址',
 
     // ------------------------------------------------------------------
     // Set Password via Secure Token
@@ -966,6 +961,7 @@ return [
     'suggest_edit.current_values_heading' => '目前數值：',
     'suggest_edit.empty_label'          => '(空白)',
     'suggest_edit.heading_prefix'       => '建議編輯記錄',
+    'suggest_edit.leave_blank'         => '請將此欄位留空',
     'suggest_edit.proposed_value_label' => '建議的新數值：',
     'suggest_edit.reasoning_label'      => '佐證 / 理由 / 來源備忘：',
     'suggest_edit.reasoning_placeholder'=> '提供上下文、來源引文或變更此項目的原因...',
@@ -974,7 +970,6 @@ return [
     'suggest_edit.submit_btn'           => '送出建議以供審核',
     'suggest_edit.submit_heading'       => '送出新建議數值與佐證',
     'suggest_edit.success_msg_suffix'   => '您可以在下方提交另一筆編輯，或在完成時使用上方的返回連結。',
-    'suggest_edit.leave_blank'         => '請將此欄位留空',
 
     // ------------------------------------------------------------------
     // Verify 2FA Login Challenge
@@ -1002,13 +997,13 @@ return [
     // ------------------------------------------------------------------
     // Volunteer Form View
     // ------------------------------------------------------------------
+    'index.allocate_unique_username'   => '為我分配一個唯一的使用者名稱',
+    'index.check_availability'         => '檢查可用性',
+    'volunteer.allocate_unique_username' => '為我分配一個唯一的使用者名稱',
     'volunteer.aria_region'          => '志工表單',
+    'volunteer.check_availability'     => '檢查可用性',
     'volunteer.honeypot_label'       => '請將此欄位保持空白：',
     'volunteer.multi_select_hint'    => '按住 Ctrl 或 Cmd 鍵可進行多選。',
     'volunteer.required_field_title'=> '必填欄位',
     'volunteer.submit_btn'           => '送出志工申請',
-    'index.check_availability'         => '檢查可用性',
-    'index.allocate_unique_username'   => '為我分配一個唯一的使用者名稱',
-    'volunteer.check_availability'     => '檢查可用性',
-    'volunteer.allocate_unique_username' => '為我分配一個唯一的使用者名稱',
 ];
