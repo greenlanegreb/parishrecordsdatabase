@@ -4,7 +4,8 @@
  *
  * Fresh install (empty DB only):
  *   schema_baseline.sql → seed_baseline.sql → permissions bootstrap
- *   → seed_defaults.php → stamp schema_version → create admin → lock
+ *   → seed_defaults.php → stamp schema_version → create admin
+ *   → optional demo packs → lock
  *
  * Does NOT re-run db/migrations on fresh install (baseline is current).
  * Does NOT overwrite committed db/db.php — only writes config.local.php.
@@ -75,6 +76,8 @@ if ($serverMethod === 'POST' && isset($_POST['action']) && $_POST['action'] === 
         $step = 2;
     } elseif ($step === 5) {
         $step = 2;
+    } elseif ($step === 4) {
+        $step = 5;
     }
 }
 
@@ -351,15 +354,14 @@ if (is_file($configLocal) && $serverMethod !== 'POST' && (!isset($_POST['action'
         if ($userCount > 0) {
             install_bootstrap_permissions($pdo);
             install_seed_defaults($pdo, $root);
-            if (!is_dir($root . '/db')) {
-                @mkdir($root . '/db', 0755, true);
-            }
-            file_put_contents($lockFile, 'Installed ' . gmdate('c') . " (lock backfilled)\n");
-            install_show_complete_page();
+            $_SESSION['install_db_ok'] = true;
+            $step = 4;
+            $message = __('install.msg_db_ready');
+        } else {
+            $_SESSION['install_db_ok'] = true;
+            $step = 5;
+            $message = __('install.msg_db_ready');
         }
-        $_SESSION['install_db_ok'] = true;
-        $step = 5;
-        $message = __('install.msg_db_ready');
     } catch (Throwable $e) {
         $error = __('install.err_config_load') . ' ' . $e->getMessage();
     }
@@ -479,11 +481,49 @@ if (
             install_bootstrap_permissions($pdo);
             install_seed_defaults($pdo, $root);
 
+            $idStmt = $pdo->prepare('SELECT id FROM users WHERE username = ? LIMIT 1');
+            $idStmt->execute([$username]);
+            $_SESSION['install_admin_id'] = (int) $idStmt->fetchColumn();
+            $step = 4;
+            $message = function_exists('__') ? __('install.msg_admin_created') : 'Administrator account created. You can add optional demo packs, or skip.';
+        } elseif ($step === 4) {
+            if (empty($_SESSION['install_db_ok']) || !is_file($configLocal)) {
+                throw new RuntimeException(__('install.err_complete_db_first'));
+            }
+            $pdo = install_load_pdo_from_config($configLocal);
+            $skipDemo = isset($_POST['demo_skip']) && (string) $_POST['demo_skip'] === '1';
+            if (!$skipDemo) {
+                $slugs = isset($_POST['packs']) && is_array($_POST['packs']) ? $_POST['packs'] : [];
+                $clean = [];
+                foreach ($slugs as $s) {
+                    if (is_string($s) && $s !== '') {
+                        $clean[] = $s;
+                    }
+                }
+                if ($clean !== []) {
+                    $withData = isset($_POST['with_data']) && (string) $_POST['with_data'] === '1';
+                    $adminId = isset($_SESSION['install_admin_id']) ? (int) $_SESSION['install_admin_id'] : 0;
+                    if ($adminId < 1) {
+                        $aid = $pdo->query('SELECT id FROM users ORDER BY id ASC LIMIT 1');
+                        $adminId = $aid !== false ? (int) $aid->fetchColumn() : 0;
+                    }
+                    $svcPath = $root . '/app/Services/DemoPackService.php';
+                    $tblPath = $root . '/app/Services/TableService.php';
+                    if (!is_file($svcPath) || !is_file($tblPath)) {
+                        throw new RuntimeException('Demo pack service is not installed.');
+                    }
+                    require_once $tblPath;
+                    require_once $svcPath;
+                    $service = new \App\Services\DemoPackService($pdo);
+                    $service->installPacks($clean, $withData, ['id' => $adminId]);
+                }
+            }
+
             if (!is_dir($root . '/db')) {
                 @mkdir($root . '/db', 0755, true);
             }
             file_put_contents($lockFile, 'Installed ' . gmdate('c') . "\n");
-            unset($_SESSION['install_db_ok'], $_SESSION['install_db']);
+            unset($_SESSION['install_db_ok'], $_SESSION['install_db'], $_SESSION['install_admin_id']);
             $step = 6;
             $message = __('install.msg_installation_complete');
         }
@@ -539,6 +579,7 @@ $t = static function (string $key) : string {
     $decoded = html_entity_decode($raw, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     return htmlspecialchars($decoded, ENT_QUOTES, 'UTF-8');
 };
+$closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('install.close_alert') : 'Close';
 ?>
 <!DOCTYPE html>
 <html lang="<?= htmlspecialchars($currentActiveLang, ENT_QUOTES, 'UTF-8') ?>">
@@ -550,22 +591,22 @@ $t = static function (string $key) : string {
 </head>
 <body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-5">
     <div class="container" style="max-width: 600px;">
-        <div class="card border-0 shadow-sm p-4 bg-white">
+        <div class="card border-0 shadow-sm p-4 bg-white" role="region" aria-labelledby="installStepHeading">
             <?php if ($error !== ''): ?>
                 <div class="alert alert-danger alert-dismissible fade show shadow-sm small" role="alert">
                     <strong><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<?= htmlspecialchars($closeLabel, ENT_QUOTES, 'UTF-8') ?>"></button>
                 </div>
             <?php endif; ?>
             <?php if ($message !== '' && $step !== 6): ?>
-                <div class="alert alert-success alert-dismissible fade show shadow-sm small" role="alert">
+                <div class="alert alert-success alert-dismissible fade show shadow-sm small" role="status">
                     <strong><?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?></strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<?= htmlspecialchars($closeLabel, ENT_QUOTES, 'UTF-8') ?>"></button>
                 </div>
             <?php endif; ?>
 
             <?php if ($step === 6): ?>
-                <h2 class="h5 fw-bold text-success mb-2"><?= htmlspecialchars(__('install.done_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
+                <h1 class="h5 fw-bold text-success mb-2" id="installStepHeading"><?= htmlspecialchars(__('install.done_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
                 <p class="text-secondary small mb-3"><?= htmlspecialchars(__('install.done_message'), ENT_QUOTES, 'UTF-8') ?></p>
                 <p class="small mb-0">
                     <a href="<?= htmlspecialchars($basePath . '/login', ENT_QUOTES, 'UTF-8') ?>" class="text-decoration-none fw-bold"><?= htmlspecialchars(__('install.login_link'), ENT_QUOTES, 'UTF-8') ?></a>
@@ -574,10 +615,49 @@ $t = static function (string $key) : string {
                 </p>
                 <p class="small text-muted mt-3 mb-0"><em><?= __('install.delete_folder_hint') ?></em></p>
 
+            <?php elseif ($step === 4): ?>
+                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.demo_heading') !== 'install.demo_heading' ? __('install.demo_heading') : 'Optional demo packs', ENT_QUOTES, 'UTF-8') ?></h1>
+                <p class="text-muted small mb-3" id="installDemoHelp"><?= htmlspecialchars(__('install.demo_help') !== 'install.demo_help' ? __('install.demo_help') : 'You can add starter tables for parish registers and/or a book library. Choose tables and columns only, or include a few made-up sample rows. You can skip this and add or remove packs later in Settings. Removing a pack later also deletes any extra rows you added in those demo tables.', ENT_QUOTES, 'UTF-8') ?></p>
+                <form method="post" aria-labelledby="installStepHeading" aria-describedby="installDemoHelp">
+                    <input type="hidden" name="step" value="4">
+                    <fieldset class="mb-3">
+                        <legend class="form-label fw-bold small"><?= htmlspecialchars(__('install.demo_choose') !== 'install.demo_choose' ? __('install.demo_choose') : 'Which packs', ENT_QUOTES, 'UTF-8') ?></legend>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="packs[]" value="parish" id="install_pack_parish" aria-describedby="install_pack_parish_desc">
+                            <label class="form-check-label" for="install_pack_parish">
+                                <strong><?= htmlspecialchars(__('install.demo_parish') !== 'install.demo_parish' ? __('install.demo_parish') : 'Parish registers', ENT_QUOTES, 'UTF-8') ?></strong>
+                                <span class="d-block small text-muted" id="install_pack_parish_desc"><?= htmlspecialchars(__('install.demo_parish_desc') !== 'install.demo_parish_desc' ? __('install.demo_parish_desc') : 'Baptisms, marriages, and burials — the workflow pRD was first built for.', ENT_QUOTES, 'UTF-8') ?></span>
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="packs[]" value="library" id="install_pack_library" aria-describedby="install_pack_library_desc">
+                            <label class="form-check-label" for="install_pack_library">
+                                <strong><?= htmlspecialchars(__('install.demo_library') !== 'install.demo_library' ? __('install.demo_library') : 'Book library', ENT_QUOTES, 'UTF-8') ?></strong>
+                                <span class="d-block small text-muted" id="install_pack_library_desc"><?= htmlspecialchars(__('install.demo_library_desc') !== 'install.demo_library_desc' ? __('install.demo_library_desc') : 'A simple catalogue of titles, authors, and shelf location.', ENT_QUOTES, 'UTF-8') ?></span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="mb-3">
+                        <legend class="form-label fw-bold small"><?= htmlspecialchars(__('install.demo_what') !== 'install.demo_what' ? __('install.demo_what') : 'What to add', ENT_QUOTES, 'UTF-8') ?></legend>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="with_data" id="installDemoSchemaOnly" value="0" checked>
+                            <label class="form-check-label" for="installDemoSchemaOnly"><?= htmlspecialchars(__('install.demo_schema_only') !== 'install.demo_schema_only' ? __('install.demo_schema_only') : 'Tables and columns only (no sample rows)', ENT_QUOTES, 'UTF-8') ?></label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="with_data" id="installDemoSchemaData" value="1">
+                            <label class="form-check-label" for="installDemoSchemaData"><?= htmlspecialchars(__('install.demo_schema_data') !== 'install.demo_schema_data' ? __('install.demo_schema_data') : 'Tables, columns, and sample data', ENT_QUOTES, 'UTF-8') ?></label>
+                        </div>
+                    </fieldset>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <button type="submit" name="demo_skip" value="1" class="btn btn-outline-secondary btn-sm px-3"><?= htmlspecialchars(__('install.demo_skip') !== 'install.demo_skip' ? __('install.demo_skip') : 'Skip for now', ENT_QUOTES, 'UTF-8') ?></button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.demo_continue') !== 'install.demo_continue' ? __('install.demo_continue') : 'Add selected packs and finish', ENT_QUOTES, 'UTF-8') ?></button>
+                    </div>
+                </form>
+
             <?php elseif ($step === 5): ?>
-                <h2 class="h5 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.admin_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
-                <p class="text-muted small mb-3"><?= __('install.admin_subheading') ?></p>
-                <form method="post">
+                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.admin_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <p class="text-muted small mb-3" id="installAdminHelp"><?= __('install.admin_subheading') ?></p>
+                <form method="post" aria-labelledby="installStepHeading" aria-describedby="installAdminHelp">
                     <input type="hidden" name="step" value="5">
                     <div class="mb-3">
                         <label for="admin_username" class="form-label small fw-bold"><?= htmlspecialchars(__('install.admin_username_label'), ENT_QUOTES, 'UTF-8') ?></label>
@@ -591,14 +671,14 @@ $t = static function (string $key) : string {
                         <label for="admin_password" class="form-label small fw-bold"><?= htmlspecialchars(__('install.admin_password_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <div class="input-group input-group-sm">
                             <input id="admin_password" name="admin_password" type="password" required autocomplete="new-password" class="form-control">
-                            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('admin_password', this)"><?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?></button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('admin_password', this)" aria-pressed="false" aria-controls="admin_password" aria-label="<?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?></button>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="admin_password_confirm" class="form-label small fw-bold"><?= htmlspecialchars(__('install.admin_confirm_password_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <div class="input-group input-group-sm">
                             <input id="admin_password_confirm" name="admin_password_confirm" type="password" required autocomplete="new-password" class="form-control">
-                            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('admin_password_confirm', this)"><?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?></button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('admin_password_confirm', this)" aria-pressed="false" aria-controls="admin_password_confirm" aria-label="<?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?></button>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -608,9 +688,9 @@ $t = static function (string $key) : string {
                 </form>
 
             <?php elseif ($step === 3 || $showDbForm): ?>
-                <h2 class="h5 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.db_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
-                <p class="text-muted small mb-3"><?= __('install.db_hint') ?></p>
-                <form method="post">
+                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.db_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <p class="text-muted small mb-3" id="installDbHelp"><?= __('install.db_hint') ?></p>
+                <form method="post" aria-labelledby="installStepHeading" aria-describedby="installDbHelp">
                     <input type="hidden" name="step" value="3">
                     <div class="mb-3">
                         <label for="db_host" class="form-label small fw-bold"><?= htmlspecialchars(__('install.db_host_label'), ENT_QUOTES, 'UTF-8') ?></label>
@@ -628,7 +708,7 @@ $t = static function (string $key) : string {
                         <label for="db_pass" class="form-label small fw-bold"><?= htmlspecialchars(__('install.db_pass_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <div class="input-group input-group-sm">
                             <input id="db_pass" name="db_pass" type="password" value="<?= htmlspecialchars($dbPassVal, ENT_QUOTES, 'UTF-8') ?>" autocomplete="new-password" class="form-control" <?= $dbFieldsLocked ? 'readonly' : '' ?>>
-                            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('db_pass', this)"><?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?></button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('db_pass', this)" aria-pressed="false" aria-controls="db_pass" aria-label="<?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(__('install.show_password'), ENT_QUOTES, 'UTF-8') ?></button>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -638,11 +718,11 @@ $t = static function (string $key) : string {
                 </form>
 
             <?php elseif ($step === 2): ?>
-                <h2 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('install.req_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
+                <h1 class="h5 fw-bold text-dark mb-3" id="installStepHeading"><?= htmlspecialchars(__('install.req_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
                 <ul class="list-group list-group-flush mb-4 small">
                     <li class="list-group-item d-flex justify-content-between align-items-center <?= $phpOk ? 'text-success' : 'text-danger' ?>">
                         <span><?= htmlspecialchars(sprintf(__('install.req_php'), PHP_VERSION), ENT_QUOTES, 'UTF-8') ?></span>
-                        <span><?= $phpOk ? '✓' : '✗' ?></span>
+                        <span><?= $phpOk ? '✓' : '✗' ?><span class="visually-hidden"> <?= $phpOk ? htmlspecialchars(__('install.req_pass') !== 'install.req_pass' ? __('install.req_pass') : 'Passed', ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('install.req_fail') !== 'install.req_fail' ? __('install.req_fail') : 'Failed', ENT_QUOTES, 'UTF-8') ?></span></span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center <?= $pdoOk ? 'text-success' : 'text-danger' ?>">
                         <span><?= htmlspecialchars(__('install.req_pdo'), ENT_QUOTES, 'UTF-8') ?></span>
@@ -662,7 +742,7 @@ $t = static function (string $key) : string {
                         <span><?= $probeOk ? '✓' : '✗' ?></span>
                     </li>
                 </ul>
-                <form method="post">
+                <form method="post" aria-labelledby="installStepHeading">
                     <input type="hidden" name="step" value="2">
                     <div class="d-flex justify-content-between align-items-center">
                         <button type="submit" name="action" value="back" formnovalidate class="btn btn-outline-secondary btn-sm px-3">&larr; <?= htmlspecialchars(__('install.back_btn'), ENT_QUOTES, 'UTF-8') ?></button>
@@ -674,9 +754,9 @@ $t = static function (string $key) : string {
                 <?php endif; ?>
 
             <?php else: ?>
-                <h1 class="h5 fw-bold text-dark mb-1"><?= htmlspecialchars(__('install.heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.heading'), ENT_QUOTES, 'UTF-8') ?></h1>
                 <p class="text-muted small mb-3"><?= __('install.subheading') ?></p>
-                <form method="post" id="install-lang-form">
+                <form method="post" id="install-lang-form" aria-labelledby="installStepHeading">
                     <input type="hidden" name="step" value="1">
                     <input type="hidden" name="apply_lang_only" id="apply_lang_only" value="0">
                     <div class="mb-4">
@@ -703,9 +783,13 @@ $t = static function (string $key) : string {
         if (el.type === 'password') {
             el.type = 'text';
             btn.textContent = hideLabel;
+            btn.setAttribute('aria-label', hideLabel);
+            btn.setAttribute('aria-pressed', 'true');
         } else {
             el.type = 'password';
             btn.textContent = showLabel;
+            btn.setAttribute('aria-label', showLabel);
+            btn.setAttribute('aria-pressed', 'false');
         }
     }
     </script>

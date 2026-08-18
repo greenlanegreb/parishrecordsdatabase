@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\DemoPackService;
 use App\Services\SettingsService;
 use Exception;
 use PDO;
@@ -140,6 +141,20 @@ class AdminSettingsController
             ? $currentUser['timezone'] : 'UTC';
         $fullFormatStr = get_user_datetime_format($currentUser);
         $basePath      = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+
+        $demoPacks = [];
+        $showDemoPacksTab = true;
+        try {
+            $demoPacks = (new DemoPackService($this->pdo))->listPacks();
+            foreach ($demoPacks as $pack) {
+                if (!empty($pack['installed'])) {
+                    $showDemoPacksTab = true;
+                    break;
+                }
+            }
+        } catch (Exception $e) {
+            $showDemoPacksTab = false;
+        }
 
         require_once __DIR__ . '/../Views/admin/settings.php';
     }

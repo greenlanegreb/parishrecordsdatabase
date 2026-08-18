@@ -61,6 +61,10 @@ $canViewErrorLogs = $canViewErrorLogs ?? false;
 $recentErrors     = $recentErrors ?? [];
 $lookedUpError    = $lookedUpError ?? null;
 $errorLookupId    = $errorLookupId ?? '';
+/** @var bool $showDemoPacksTab */
+$showDemoPacksTab = $showDemoPacksTab ?? false;
+/** @var list<array{slug: string, label: string, summary: string, installed: bool, has_demo_data: bool}> $demoPacks */
+$demoPacks = $demoPacks ?? [];
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
@@ -119,6 +123,11 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <button class="nav-link fw-bold text-secondary" id="tab-errors" data-bs-toggle="tab" data-bs-target="#panel-errors" type="button" role="tab" aria-controls="panel-errors" aria-selected="false"><?= htmlspecialchars($__t('settings.error_log_tab', 'Error Log'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
         <?php endif; ?>
+        <?php if (!empty($showDemoPacksTab)): ?>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold text-secondary" id="tab-demo" data-bs-toggle="tab" data-bs-target="#panel-demo" type="button" role="tab" aria-controls="panel-demo" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_demo', 'Demo packs'), ENT_QUOTES, 'UTF-8') ?></button>
+        </li>
+        <?php endif; ?>
     </ul>
     <div class="tab-content">
         <?php require __DIR__ . '/settings_parts/core.php'; ?>
@@ -129,6 +138,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <?php require __DIR__ . '/settings_parts/audit.php'; ?>
         <?php if ($canViewErrorLogs): ?>
             <?php require __DIR__ . '/settings_parts/errors.php'; ?>
+        <?php endif; ?>
+        <?php if (!empty($showDemoPacksTab)): ?>
+            <?php require __DIR__ . '/settings_parts/demo.php'; ?>
         <?php endif; ?>
     </div>
 </div>
@@ -191,6 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
         targetTab = 'tab-maintenance';
     } else if (hash === '#tab-errors' || urlParams.get('tab') === 'errors') {
         targetTab = 'tab-errors';
+    } else if (hash === '#tab-demo' || urlParams.get('tab') === 'demo') {
+        targetTab = 'tab-demo';
     }
 
     const tabTriggerEl = document.querySelector('#' + targetTab);

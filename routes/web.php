@@ -43,6 +43,7 @@ return function (RouteCollector $r): void {
     $r->addRoute('POST', '/admin/settings', ['App\Controllers\AdminSettingsController', 'store']);
     $r->addRoute('POST', '/admin/settings/store', ['App\Controllers\AdminSettingsController', 'store']);
     $r->addRoute('GET', '/admin/settings', ['App\Controllers\AdminSettingsController', 'index']);
+    $r->addRoute('POST', '/admin/demo-packs', ['App\Controllers\AdminDemoPacksController', 'handle']);
 
     // Users
     $r->addRoute('GET', '/admin/users', ['App\Controllers\AdminUsersController', 'index']);
