@@ -64,6 +64,34 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
         </div>
     <?php endif; ?>
 
+    <?php if (!empty($duplicateWarning) && !empty($matches)): ?>
+        <div class="alert alert-warning shadow-sm border-0 mb-4 p-3" role="region" aria-labelledby="suggestDupHeading">
+            <h2 class="h5 fw-bold mb-3" id="suggestDupHeading"><?= htmlspecialchars(__('data_entry.dup_heading') !== 'data_entry.dup_heading' ? __('data_entry.dup_heading') : 'This looks similar to something already saved', ENT_QUOTES, 'UTF-8') ?></h2>
+            <div class="row g-3">
+                <?php foreach ($matches as $match): ?>
+                    <?php
+                        $mId = isset($match['id']) ? (int) $match['id'] : 0;
+                        $bucket = isset($match['bucket']) ? (int) $match['bucket'] : 25;
+                        $title = __('data_entry.dup_similar') !== 'data_entry.dup_similar'
+                            ? sprintf(__('data_entry.dup_similar'), (string) $bucket, (string) $mId)
+                            : sprintf('This looks %s%% similar to record #%s', (string) $bucket, (string) $mId);
+                        $overview = isset($match['overview']) && is_array($match['overview']) ? $match['overview'] : [];
+                    ?>
+                    <div class="col-12 col-md-6">
+                        <article class="card h-100 border-0 shadow-sm" aria-labelledby="sDup<?= $mId ?>">
+                            <div class="card-body">
+                                <h3 class="h6 fw-bold" id="sDup<?= $mId ?>"><span class="badge text-bg-warning me-1"><?= $bucket ?>%</span> <?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h3>
+                                <?php foreach ($overview as $field): ?>
+                                    <p class="small mb-1"><strong><?= htmlspecialchars((string) ($field['label'] ?? ''), ENT_QUOTES, 'UTF-8') ?>:</strong> <?= htmlspecialchars((string) ($field['value'] ?? ''), ENT_QUOTES, 'UTF-8') ?></p>
+                                <?php endforeach; ?>
+                            </div>
+                        </article>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="card shadow-sm border-0 p-4 mb-4">
         <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('suggest_edit.current_values_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
         <ul class="list-unstyled mb-0">
@@ -124,6 +152,7 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                 </select>
             </div>
 
+            <input type="hidden" name="proposed_value" id="proposed_value_posted" value="">
             <div id="input-container" class="mb-3">
                 <!-- Dynamic input field rendered via JavaScript depending on column type -->
             </div>
@@ -140,6 +169,20 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                     echo render_form_captcha_widget($pdoInstance);
                 }
                 ?>
+            <?php endif; ?>
+
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="report_duplicate" value="1" id="report_duplicate">
+                    <label class="form-check-label" for="report_duplicate"><?= htmlspecialchars(__('suggest_edit.report_dup') !== 'suggest_edit.report_dup' ? __('suggest_edit.report_dup') : 'I think this record is a duplicate of another one', ENT_QUOTES, 'UTF-8') ?></label>
+                </div>
+                <label class="form-label small mt-2" for="duplicate_of"><?= htmlspecialchars(__('suggest_edit.dup_of_label') !== 'suggest_edit.dup_of_label' ? __('suggest_edit.dup_of_label') : 'If you know the other record number, you can add it here', ENT_QUOTES, 'UTF-8') ?></label>
+                <input type="number" min="1" step="1" name="duplicate_of" id="duplicate_of" class="form-control form-control-sm" style="max-width: 10rem;" inputmode="numeric" aria-describedby="dupOfHelp">
+                <div class="form-text" id="dupOfHelp"><?= htmlspecialchars(__('suggest_edit.dup_of_help') !== 'suggest_edit.dup_of_help' ? __('suggest_edit.dup_of_help') : 'Optional. Moderators will see this note.', ENT_QUOTES, 'UTF-8') ?></div>
+            </div>
+
+            <?php if (!empty($duplicateWarning) && !empty($matches) && (!isset($duplicateMode) || $duplicateMode !== 'block')): ?>
+                <input type="hidden" name="confirm_duplicate" value="1">
             <?php endif; ?>
 
             <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('suggest_edit.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>
@@ -184,18 +227,45 @@ function renderInputType() {
 
         container.innerHTML = `
             <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
-            <select id="proposed_value" name="proposed_value" required class="form-select form-select-sm">
+            <select id="proposed_value" required class="form-select form-select-sm">
                 <option value="">${selectPlaceholder}</option>
                 <option value="1" ${currentValue === '1' ? 'selected' : ''}>${opt1Text}</option>
                 <option value="0" ${currentValue === '0' ? 'selected' : ''}>${opt2Text}</option>
             </select>
+        `;
+    } else if (col.data_type === 'SELECT') {
+        const rawOpts = String(col.field_options || '').split(/\r\n|\r|\n/).map(s => s.trim()).filter(Boolean);
+        const multi = String(col.allow_multiple) === '1' || col.allow_multiple === true || col.allow_multiple === 1;
+        const current = String(col.value_content || '').split(',').map(s => s.trim());
+        const req = (String(col.is_required) === '1' || col.is_required === true) ? 'required' : '';
+        let optsHtml = '';
+        if (!multi) {
+            optsHtml += `<option value="">${selectPlaceholder}</option>`;
+        }
+        rawOpts.forEach(opt => {
+            const sel = current.includes(opt) ? 'selected' : '';
+            optsHtml += `<option value="${escapeHtml(opt)}" ${sel}>${escapeHtml(opt)}</option>`;
+        });
+        container.innerHTML = `
+            <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
+            <select id="proposed_value" class="form-select form-select-sm" ${multi ? 'multiple aria-multiselectable="true"' : ''} ${req}>
+                ${optsHtml}
+            </select>
+        `;
+    } else if (col.data_type === 'INT') {
+        const min = (col.min_value !== null && col.min_value !== undefined && col.min_value !== '') ? `min="${escapeHtml(String(col.min_value))}"` : '';
+        const max = (col.max_value !== null && col.max_value !== undefined && col.max_value !== '') ? `max="${escapeHtml(String(col.max_value))}"` : '';
+        const req = (String(col.is_required) === '1' || col.is_required === true) ? 'required' : '';
+        container.innerHTML = `
+            <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
+            <input type="number" id="proposed_value" value="${escapeHtml(col.value_content || '')}" class="form-control form-control-sm" ${min} ${max} ${req}>
         `;
     } else {
         // Use the pre-formatted value for dates, or raw value for text fields
         let currentValue = (col.data_type === 'DATE') ? (col.value_content_formatted || col.value_content) : col.value_content;
         container.innerHTML = `
             <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
-            <textarea id="proposed_value" name="proposed_value" rows="3" required class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;">${escapeHtml(currentValue)}</textarea>
+            <textarea id="proposed_value" rows="3" required class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;">${escapeHtml(currentValue)}</textarea>
         `;
         const textarea = document.getElementById('proposed_value');
         if (textarea) {
@@ -222,6 +292,17 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', function(e) {
             const select = document.getElementById('column_id');
             const proposedInput = document.getElementById('proposed_value');
+            const posted = document.getElementById('proposed_value_posted');
+            if (proposedInput && posted) {
+                if (proposedInput.tagName === 'SELECT') {
+                    posted.value = Array.from(proposedInput.selectedOptions)
+                        .map(function (o) { return o.value.trim(); })
+                        .filter(Boolean)
+                        .join(', ');
+                } else {
+                    posted.value = proposedInput.value || '';
+                }
+            }
             if (!select || !proposedInput) return;
 
             const selectedColId = select.value;

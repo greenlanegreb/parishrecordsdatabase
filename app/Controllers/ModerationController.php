@@ -66,7 +66,7 @@ class ModerationController
         $pendingStmt = $this->pdo->query("
             SELECT es.*, r.table_id, dt.table_name, 
                    u.id as suggestor_id, u.username as suggestor_name, u.first_name as suggestor_first, u.surname as suggestor_surname, u.attribution_display_mode as suggestor_mode,
-                   rv.value_content as current_live_value, tc.is_required, tc.data_type, tc.boolean_display_format, tc.date_search_behavior
+                   rv.value_content as current_live_value, tc.is_required, tc.data_type, tc.boolean_display_format, tc.date_search_behavior, tc.field_options, tc.allow_multiple, tc.min_value, tc.max_value
             FROM edit_suggestions es
             JOIN records r ON es.record_id = r.id
             JOIN dynamic_tables dt ON r.table_id = dt.id
@@ -93,6 +93,31 @@ class ModerationController
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
         unset($_SESSION['message'], $_SESSION['error']);
+
+        $dupTab = isset($_GET['tab']) && (string) $_GET['tab'] === 'similar';
+        $dupQueue = [];
+        $dupTables = [];
+        try {
+            $reviewService = new \App\Services\DuplicateReviewService($this->pdo);
+            $allQueue = $reviewService->pendingQueue();
+            foreach ($allQueue as $row) {
+                $tId = isset($row['table_id']) ? (int) $row['table_id'] : 0;
+                if ($isAdmin || \has_permission($this->pdo, 'moderate_table_' . $tId)) {
+                    $dupQueue[] = $row;
+                }
+            }
+            $tStmt = $this->pdo->query('SELECT id, table_name FROM dynamic_tables ORDER BY table_name ASC');
+            $allTables = $tStmt !== false ? $tStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+            foreach ($allTables as $t) {
+                $tId = isset($t['id']) ? (int) $t['id'] : 0;
+                if ($isAdmin || \has_permission($this->pdo, 'moderate_table_' . $tId)) {
+                    $dupTables[] = $t;
+                }
+            }
+        } catch (Exception $e) {
+            $dupQueue = [];
+            $dupTables = [];
+        }
 
         require_once __DIR__ . '/../Views/admin/moderate.php';
     }
@@ -123,8 +148,12 @@ class ModerationController
         $suggestionId = isset($post['suggestion_id']) ? (int)$post['suggestion_id'] : null;
         $action = isset($post['action']) && is_string($post['action']) ? $post['action'] : '';
 
+        if (!function_exists('flatten_posted_column_value')) {
+            require_once dirname(__DIR__, 2) . '/includes/column_options.php';
+        }
         $rawFinal = isset($post['final_value']) ? $post['final_value'] : '';
-        $finalValue = ($rawFinal === '0' || $rawFinal === 0) ? '0' : \sanitize_incoming_text(is_string($rawFinal) ? $rawFinal : '');
+        $flatFinal = flatten_posted_column_value($rawFinal);
+        $finalValue = ($flatFinal === '0') ? '0' : \sanitize_incoming_text($flatFinal);
 
         if ($suggestionId !== null && $finalValue !== '') {
             $typeChk = $this->pdo->prepare("

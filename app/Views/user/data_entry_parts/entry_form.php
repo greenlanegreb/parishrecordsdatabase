@@ -7,7 +7,6 @@ if (!function_exists('parse_column_options')) {
     }
 }
 ?>
-<?php if (!$duplicateWarning): ?>
     <div class="card shadow-sm border-0 mb-4 bg-light">
         <div class="card-body">
             <details id="add-entry-details" open>
@@ -145,4 +144,3 @@ if (!function_exists('parse_column_options')) {
         }
     });
     </script>
-<?php endif; ?>

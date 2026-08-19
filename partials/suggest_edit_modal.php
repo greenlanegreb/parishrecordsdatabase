@@ -69,9 +69,10 @@ $suggestAction = (strpos($serverSelf, '/user/') !== false)
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    <input type="hidden"  id="modal_proposed_value_posted" name="proposed_value" value="">
+                    <div class="mb-3" id="modal_proposed_container">
                         <label for="modal_proposed_value" class="form-label small fw-bold"><?= htmlspecialchars(__('index.modal_proposed_value'), ENT_QUOTES, 'UTF-8') ?></label>
-                        <input type="text" name="proposed_value" id="modal_proposed_value"
+                        <input type="text" id="modal_proposed_value"
                                placeholder="<?= htmlspecialchars(__('index.modal_input_placeholder'), ENT_QUOTES, 'UTF-8') ?>"
                                class="form-control" required>
                     </div>
@@ -131,4 +132,73 @@ function closeSuggestModal() {
         }
     }
 }
+
+const modalColumnMeta = <?= json_encode(array_values($columns), JSON_UNESCAPED_UNICODE) ?>;
+const modalSelectPlaceholder = <?= json_encode(__('feedback.select_placeholder'), JSON_UNESCAPED_UNICODE) ?>;
+const modalMultiHint = <?= json_encode(__('data_entry.multiselect_hint') !== 'data_entry.multiselect_hint' ? __('data_entry.multiselect_hint') : 'Hold Ctrl (or Cmd) to choose more than one.', JSON_UNESCAPED_UNICODE) ?>;
+
+function escapeModalHtml(text) {
+    return String(text).replace(/[&<>"']/g, function (m) {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]);
+    });
+}
+
+function renderModalProposedInput() {
+    const select = document.getElementById('modal_column_id');
+    const wrap = document.getElementById('modal_proposed_container');
+    if (!select || !wrap) return;
+    const col = (modalColumnMeta || []).find(function (c) { return String(c.id) === String(select.value); });
+    const label = <?= json_encode(__('index.modal_proposed_value'), JSON_UNESCAPED_UNICODE) ?>;
+    const placeholder = <?= json_encode(__('index.modal_input_placeholder'), JSON_UNESCAPED_UNICODE) ?>;
+    if (!col) return;
+    const type = col.data_type || '';
+    if (type === 'SELECT') {
+        const rawOpts = String(col.field_options || '').split(/\r\n|\r|\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+        const multi = String(col.allow_multiple) === '1' || col.allow_multiple === true || col.allow_multiple === 1;
+        const req = (String(col.is_required) === '1' || col.is_required) ? 'required' : '';
+        let opts = multi ? '' : '<option value="">' + escapeModalHtml(modalSelectPlaceholder) + '</option>';
+        rawOpts.forEach(function (opt) {
+            opts += '<option value="' + escapeModalHtml(opt) + '">' + escapeModalHtml(opt) + '</option>';
+        });
+        wrap.innerHTML = '<label for="modal_proposed_value" class="form-label small fw-bold">' + escapeModalHtml(label) + '</label>' +
+            '<select  id="modal_proposed_value" class="form-select" ' + (multi ? 'multiple aria-multiselectable="true" ' : '') + req + '>' + opts + '</select>' +
+            (multi ? '<div class="form-text">' + escapeModalHtml(modalMultiHint) + '</div>' : '');
+    } else if (type === 'INT') {
+        const min = (col.min_value !== null && col.min_value !== undefined && col.min_value !== '') ? ' min="' + escapeModalHtml(String(col.min_value)) + '"' : '';
+        const max = (col.max_value !== null && col.max_value !== undefined && col.max_value !== '') ? ' max="' + escapeModalHtml(String(col.max_value)) + '"' : '';
+        const req = (String(col.is_required) === '1' || col.is_required) ? ' required' : '';
+        wrap.innerHTML = '<label for="modal_proposed_value" class="form-label small fw-bold">' + escapeModalHtml(label) + '</label>' +
+            '<input type="number"  id="modal_proposed_value" class="form-control"' + min + max + req + '>';
+    } else if (type === 'BOOLEAN') {
+        wrap.innerHTML = '<label for="modal_proposed_value" class="form-label small fw-bold">' + escapeModalHtml(label) + '</label>' +
+            '<select  id="modal_proposed_value" class="form-select" required>' +
+            '<option value="">' + escapeModalHtml(modalSelectPlaceholder) + '</option>' +
+            '<option value="1">1</option><option value="0">0</option></select>';
+    } else {
+        wrap.innerHTML = '<label for="modal_proposed_value" class="form-label small fw-bold">' + escapeModalHtml(label) + '</label>' +
+            '<input type="text"  id="modal_proposed_value" placeholder="' + escapeModalHtml(placeholder) + '" class="form-control" required>';
+    }
+}
+
+function syncModalProposedValue() {
+    const ui = document.getElementById('modal_proposed_value');
+    const posted = document.getElementById('modal_proposed_value_posted');
+    if (!ui || !posted) return;
+    if (ui.tagName === 'SELECT') {
+        posted.value = Array.from(ui.selectedOptions).map(function (o) { return o.value.trim(); }).filter(Boolean).join(', ');
+    } else {
+        posted.value = ui.value || '';
+    }
+}
+document.addEventListener('DOMContentLoaded', function () {
+    const select = document.getElementById('modal_column_id');
+    if (select) {
+        select.addEventListener('change', renderModalProposedInput);
+        renderModalProposedInput();
+    }
+    const form = document.querySelector('#suggestModal form');
+    if (form) {
+        form.addEventListener('submit', syncModalProposedValue);
+    }
+});
 </script>

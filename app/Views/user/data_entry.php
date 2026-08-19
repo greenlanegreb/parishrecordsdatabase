@@ -82,8 +82,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     <?php else: ?>
 
         <?php require __DIR__ . '/data_entry_parts/table_selector.php'; ?>
-        <?php require __DIR__ . '/data_entry_parts/entry_form.php'; ?>
         <?php require __DIR__ . '/data_entry_parts/duplicate_modal.php'; ?>
+        <?php require __DIR__ . '/data_entry_parts/entry_form.php'; ?>
         <?php require __DIR__ . '/data_entry_parts/filter_panel.php'; ?>
 
         <script>

@@ -1,5 +1,11 @@
 <?php
 declare(strict_types=1);
+if (!function_exists('parse_column_options')) {
+    $optHelper = dirname(__DIR__, 3) . '/includes/column_options.php';
+    if (is_file($optHelper)) {
+        require_once $optHelper;
+    }
+}
 
 /** @array<string, mixed> $s */
 /** @array{id: int, username: string, date_format?: string} $currentUser */
@@ -114,6 +120,28 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
                     }
                 ?>
                 <input type="text" id="final_value_<?= $sId ?>" name="final_value" value="<?= htmlspecialchars($propDisplay, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars($placeholder, ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?> class="form-control form-control-sm mb-2" title="<?= htmlspecialchars(__('moderate.historical_dates_title'), ENT_QUOTES, 'UTF-8') ?>">
+            <?php elseif ($dataType === 'SELECT'): ?>
+                <?php
+                    $rawOpts = isset($s['field_options']) && is_string($s['field_options']) ? $s['field_options'] : '';
+                    $choiceOptions = function_exists('parse_column_options')
+                        ? parse_column_options($rawOpts)
+                        : array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawOpts) ?: [])));
+                    $allowMultiple = !empty($s['allow_multiple']);
+                    $propChoices = $propVal === '' ? [] : array_map('trim', explode(',', $propVal));
+                ?>
+                <select id="final_value_<?= $sId ?>" name="final_value<?= $allowMultiple ? '[]' : '' ?>" class="form-select form-select-sm mb-2" <?= $allowMultiple ? 'multiple' : '' ?> <?= $isRequired ? 'required' : '' ?>>
+                    <?php if (!$allowMultiple): ?>
+                        <option value=""><?= htmlspecialchars(__('moderate.select_placeholder'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <?php endif; ?>
+                    <?php foreach ($choiceOptions as $opt): ?>
+                        <option value="<?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?>" <?= in_array($opt, $propChoices, true) ? 'selected' : '' ?>><?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?></option>
+                    <?php endforeach; ?>
+                </select>
+            <?php elseif ($dataType === 'INT'): ?>
+                <input type="number" id="final_value_<?= $sId ?>" name="final_value" value="<?= htmlspecialchars($propVal, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm mb-2"
+                    <?= isset($s['min_value']) && $s['min_value'] !== null && $s['min_value'] !== '' ? 'min="' . (int)$s['min_value'] . '"' : '' ?>
+                    <?= isset($s['max_value']) && $s['max_value'] !== null && $s['max_value'] !== '' ? 'max="' . (int)$s['max_value'] . '"' : '' ?>
+                    <?= $isRequired ? 'required' : '' ?>>
             <?php else: ?>
                 <input type="text" id="final_value_<?= $sId ?>" name="final_value" value="<?= htmlspecialchars($propVal, ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?> class="form-control form-control-sm mb-2">
             <?php endif; ?>
@@ -123,7 +151,7 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
                 <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger" onclick="return confirm('<?= htmlspecialchars(__('moderate.decline_confirm'), ENT_QUOTES, 'UTF-8') ?>');"><?= htmlspecialchars(__('moderate.decline_btn'), ENT_QUOTES, 'UTF-8') ?></button>
             </div>
         </form>
-    </div>
+    </td>
 </tr>
 
 <script>
@@ -136,7 +164,7 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
         if (actionBtn === 'reject') return;
 
         const dataType = form.getAttribute('data-datatype');
-        const input = form.querySelector('input[name="final_value"]');
+        const input = form.querySelector('[name="final_value"], [name="final_value[]"]');
 
         if (dataType === 'DATE' && input && input.value.trim() !== '') {
             const val = input.value.trim();

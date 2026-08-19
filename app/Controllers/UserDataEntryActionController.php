@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\DuplicateCheckService;
 use Exception;
 use PDO;
 
@@ -134,43 +135,44 @@ class UserDataEntryActionController
             }
 
             if ($hasContent) {
-                $firstColVal = '';
-                $firstColId = 0;
-                foreach ($sanitizedInputs as $cid => $cval) {
-                    $dataType = isset($colsMap[$cid]) ? (string)($colsMap[$cid]['data_type'] ?? '') : '';
-                    // Skip boolean columns for duplicate checking to avoid false positives on '0' or '1'
-                    if ($cval !== '' && $dataType !== 'BOOLEAN') {
-                        $firstColId = $cid;
-                        $firstColVal = $cval;
-                        break;
-                    }
-                }
-
                 try {
-                    $this->pdo->beginTransaction();
+                    $dupMode = function_exists('get_setting')
+                        ? get_setting($this->pdo, 'duplicate_mode', 'warn') : 'warn';
+                    $dupPicky = function_exists('get_setting')
+                        ? get_setting($this->pdo, 'duplicate_picky', 'similar') : 'similar';
+                    if (!in_array($dupMode, ['off', 'warn', 'block', 'flag'], true)) {
+                        $dupMode = 'warn';
+                    }
 
-                    // Check for duplicates within the same table if not confirmed
-                    if (!$confirmedDuplicate && $firstColVal !== '') {
-                        $checkStmt = $this->pdo->prepare("
-                            SELECT r.id, rv.value_content, u.username 
-                            FROM record_values rv
-                            JOIN records r ON rv.record_id = r.id
-                            LEFT JOIN users u ON r.created_by = u.id
-                            WHERE r.table_id = ? AND rv.column_id = ? AND rv.value_content = ?
-                            FOR UPDATE
-                        ");
-                        $checkStmt->execute([$tableId, $firstColId, $firstColVal]);
-                        /** @var array<int, array<string, mixed>> $existingMatches */
-                        $existingMatches = $checkStmt->fetchAll(PDO::FETCH_ASSOC);
-
-                        if (count($existingMatches) > 0) {
-                            $this->pdo->rollBack();
+                    if ($dupMode !== 'off' && !($confirmedDuplicate && $dupMode !== 'block')) {
+                        $dupes = (new DuplicateCheckService($this->pdo))->findMatches(
+                            $tableId,
+                            $sanitizedInputs,
+                            $colsMap,
+                            $dupPicky === 'exact' ? 'exact' : 'similar'
+                        );
+                        if ($dupes !== []) {
                             $_SESSION['duplicate_warning'] = true;
-                            $_SESSION['duplicate_matches'] = $existingMatches;
+                            $_SESSION['duplicate_matches'] = $dupes;
+                            $_SESSION['duplicate_mode'] = $dupMode;
                             header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                             exit;
                         }
                     }
+
+                    if ($confirmedDuplicate && $dupMode === 'flag' && function_exists('audit')) {
+                        $remote = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR'])
+                            ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+                        audit(
+                            $this->pdo,
+                            (int) $currentUser['id'],
+                            'DUPLICATE_SAVED',
+                            'A similar record was saved after a warning for table ' . $tableId,
+                            $remote
+                        );
+                    }
+
+                    $this->pdo->beginTransaction();
 
                     // Proceed with insertion bound to the active table ID
                     $recStmt = $this->pdo->prepare("INSERT INTO records (table_id, created_by) VALUES (?, ?)");

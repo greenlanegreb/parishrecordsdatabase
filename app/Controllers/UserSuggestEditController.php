@@ -51,6 +51,11 @@ class UserSuggestEditController
                 tc.column_name,
                 tc.data_type,
                 tc.boolean_display_format,
+                tc.field_options,
+                tc.allow_multiple,
+                tc.min_value,
+                tc.max_value,
+                tc.is_required,
                 COALESCE(rv.value_content, '') AS value_content
             FROM records r
             JOIN table_columns tc ON tc.table_id = r.table_id
@@ -74,6 +79,12 @@ class UserSuggestEditController
 
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
+        $duplicateWarning = !empty($_SESSION['suggest_dup_warning']);
+        /** @var array<int, array<string, mixed>> $matches */
+        $matches = isset($_SESSION['suggest_dup_matches']) && is_array($_SESSION['suggest_dup_matches'])
+            ? $_SESSION['suggest_dup_matches'] : [];
+        $duplicateMode = isset($_SESSION['suggest_dup_mode']) && is_string($_SESSION['suggest_dup_mode'])
+            ? $_SESSION['suggest_dup_mode'] : 'warn';
         unset($_SESSION['message'], $_SESSION['error']);
 
         require_once __DIR__ . '/../Views/user/suggest_edit.php';

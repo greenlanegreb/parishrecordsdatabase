@@ -6,6 +6,12 @@
  * Migrated Date: 2026-08-05 06:40:21
  */
 declare(strict_types=1);
+if (!function_exists('parse_column_options')) {
+    $optHelper = dirname(__DIR__, 3) . '/includes/column_options.php';
+    if (is_file($optHelper)) {
+        require_once $optHelper;
+    }
+}
 
 /**
  * @var \PDO $pdo
@@ -146,6 +152,30 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                     <option value="0"><?= htmlspecialchars($opt2, ENT_QUOTES, 'UTF-8') ?></option>
                                 </select>
 
+                            <?php elseif ($dataType === 'SELECT'): ?>
+                                <?php
+                                    $rawOpts = isset($col['field_options']) && is_string($col['field_options']) ? $col['field_options'] : '';
+                                    $choiceOptions = function_exists('parse_column_options')
+                                        ? parse_column_options($rawOpts)
+                                        : array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawOpts) ?: [])));
+                                ?>
+                                <select id="filter_<?= $cId ?>"
+                                        name="filters[<?= $cId ?>]"
+                                        class="form-select form-select-sm"
+                                        aria-label="<?= htmlspecialchars(__('index.filter_aria') !== 'index.filter_aria' ? __('index.filter_aria') : 'Search filter for', ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
+                                    <option value=""><?= htmlspecialchars(__('index.option_all'), ENT_QUOTES, 'UTF-8') ?></option>
+                                    <?php foreach ($choiceOptions as $opt): ?>
+                                        <option value="<?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            <?php elseif ($dataType === 'INT'): ?>
+                                <input type="number"
+                                       id="filter_<?= $cId ?>"
+                                       name="filters[<?= $cId ?>]"
+                                       class="form-control form-control-sm"
+                                       <?= isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '' ? 'min="' . (int)$col['min_value'] . '"' : '' ?>
+                                       <?= isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '' ? 'max="' . (int)$col['max_value'] . '"' : '' ?>
+                                       aria-label="<?= htmlspecialchars(__('index.filter_aria') !== 'index.filter_aria' ? __('index.filter_aria') : 'Search filter for', ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
                             <?php elseif ($dataType === 'DATE'): ?>
                                 <div class="input-group input-group-sm">
                                     <input type="text"

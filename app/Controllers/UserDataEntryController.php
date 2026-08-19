@@ -105,6 +105,15 @@ class UserDataEntryController
             generate_csv_export($this->pdo, 'data-entry-records-export');
         }
 
+        $queryGet = isset($queryGet) && is_array($queryGet) ? $queryGet : $_GET;
+        if (isset($queryGet['dismiss_duplicate']) && (string) $queryGet['dismiss_duplicate'] === '1') {
+            unset($_SESSION['duplicate_warning'], $_SESSION['duplicate_matches'], $_SESSION['duplicate_mode']);
+            $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
+            $tid = isset($queryGet['table_id']) ? (int) $queryGet['table_id'] : 0;
+            header('Location: ' . $basePath . '/data-entry' . ($tid > 0 ? ('?table_id=' . $tid) : ''));
+            exit;
+        }
+
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
         $duplicateWarning = $_SESSION['duplicate_warning'] ?? false;

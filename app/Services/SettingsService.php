@@ -300,6 +300,19 @@ class SettingsService
         }
         $stmt->execute(['smtp_encryption', $smtpEncryption, $smtpEncryption]);
 
+        $dupMode = isset($post['duplicate_mode']) && is_string($post['duplicate_mode'])
+            ? trim($post['duplicate_mode']) : 'warn';
+        if (!in_array($dupMode, ['off', 'warn', 'block', 'flag'], true)) {
+            $dupMode = 'warn';
+        }
+        $dupPicky = isset($post['duplicate_picky']) && is_string($post['duplicate_picky'])
+            ? trim($post['duplicate_picky']) : 'similar';
+        if (!in_array($dupPicky, ['exact', 'similar'], true)) {
+            $dupPicky = 'similar';
+        }
+        $stmt->execute(['duplicate_mode', $dupMode, $dupMode]);
+        $stmt->execute(['duplicate_picky', $dupPicky, $dupPicky]);
+
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR'])
             ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
         audit(

@@ -127,6 +127,35 @@ $__t = static function (string $key, string $fallback = ''): string {
                  <?= htmlspecialchars($__t('settings.footer_notice_helper', 'Shown as the first line of the site footer. Leave blank to use the default text from the language file. Software credit and copyright stay fixed.'), ENT_QUOTES, 'UTF-8') ?>
               </div>
           </div>
+
+            <fieldset class="mb-4">
+                <legend class="form-label fw-bold"><?= htmlspecialchars($__t('settings.dup_heading', 'Duplicate Records Management'), ENT_QUOTES, 'UTF-8') ?></legend>
+                <p class="form-text mt-0 mb-2"><?= htmlspecialchars($__t('settings.dup_help', 'If a new record looks like one you already have, pRD can compare it with other rows in the same table. You can warn people, stop the save, or switch this off.'), ENT_QUOTES, 'UTF-8') ?></p>
+                <?php $currentDuplicateMode = $currentDuplicateMode ?? 'warn'; ?>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="duplicate_mode" id="dup_mode_off" value="off" <?= $currentDuplicateMode === 'off' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="dup_mode_off"><?= htmlspecialchars($__t('settings.dup_mode_off', 'Do not check for similar records'), ENT_QUOTES, 'UTF-8') ?></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="duplicate_mode" id="dup_mode_warn" value="warn" <?= $currentDuplicateMode === 'warn' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="dup_mode_warn"><?= htmlspecialchars($__t('settings.dup_mode_warn', 'Show a warning — they can still save'), ENT_QUOTES, 'UTF-8') ?></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="duplicate_mode" id="dup_mode_block" value="block" <?= $currentDuplicateMode === 'block' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="dup_mode_block"><?= htmlspecialchars($__t('settings.dup_mode_block', 'Do not allow them to save'), ENT_QUOTES, 'UTF-8') ?></label>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="duplicate_mode" id="dup_mode_flag" value="flag" <?= $currentDuplicateMode === 'flag' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="dup_mode_flag"><?= htmlspecialchars($__t('settings.dup_mode_flag', 'Warn them, and note it for a moderator if they save anyway'), ENT_QUOTES, 'UTF-8') ?></label>
+                </div>
+                <?php $currentDuplicatePicky = $currentDuplicatePicky ?? 'similar'; ?>
+                <label class="form-label fw-bold" for="duplicate_picky"><?= htmlspecialchars($__t('settings.dup_picky_label', 'How picky should the check be?'), ENT_QUOTES, 'UTF-8') ?></label>
+                <select id="duplicate_picky" name="duplicate_picky" class="form-select max-width-320">
+                    <option value="similar" <?= $currentDuplicatePicky === 'similar' ? 'selected' : '' ?>><?= htmlspecialchars($__t('settings.dup_picky_similar', 'Also catch near-misses (similar spelling)'), ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="exact" <?= $currentDuplicatePicky === 'exact' ? 'selected' : '' ?>><?= htmlspecialchars($__t('settings.dup_picky_exact', 'Only when the words match closely'), ENT_QUOTES, 'UTF-8') ?></option>
+                </select>
+            </fieldset>
+
             <!-- CAPTCHA Configuration Settings -->
             <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('settings.captcha_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
             <div class="mb-3">

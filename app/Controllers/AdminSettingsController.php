@@ -52,6 +52,9 @@ class AdminSettingsController
         $maintenanceEta    = $this->settingsService->getSettingVal('maintenance_eta', 'Shortly');
 
         // Language
+        $currentDuplicateMode  = $this->settingsService->getSettingVal('duplicate_mode', 'warn');
+        $currentDuplicatePicky = $this->settingsService->getSettingVal('duplicate_picky', 'similar');
+
         $currentDefaultLanguage = $this->settingsService->getSettingVal('default_language', 'en');
         $currentDefaultTimezone   = $this->settingsService->getSettingVal('default_timezone', 'UTC');
         $currentDefaultDateFormat = $this->settingsService->getSettingVal('default_date_format', 'd/m/Y');
@@ -143,7 +146,7 @@ class AdminSettingsController
         $basePath      = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
 
         $demoPacks = [];
-        $showDemoPacksTab = true;
+        $showDemoPacksTab = false;
         try {
             $demoPacks = (new DemoPackService($this->pdo))->listPacks();
             foreach ($demoPacks as $pack) {

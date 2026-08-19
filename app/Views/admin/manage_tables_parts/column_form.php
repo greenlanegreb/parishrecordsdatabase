@@ -119,4 +119,16 @@ function toggleFieldOptions(val) {
     if (choiceWrapper) choiceWrapper.style.display = (val === 'SELECT') ? 'block' : 'none';
     if (intWrapper) intWrapper.style.display = (val === 'INT') ? 'block' : 'none';
 }
+<?php if ($keepColumnFormOpen): ?>
+document.addEventListener('DOMContentLoaded', function () {
+    var box = document.getElementById('create-column-details');
+    var name = document.getElementById('column_name');
+    if (box && typeof box.scrollIntoView === 'function') {
+        box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (name && !name.value) {
+        name.focus({ preventScroll: false });
+    }
+});
+<?php endif; ?>
 </script>

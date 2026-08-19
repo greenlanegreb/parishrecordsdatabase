@@ -182,6 +182,18 @@ class DemoPackService
                 if (!empty($col['is_required'])) {
                     $post['is_required'] = '1';
                 }
+                if (isset($col['field_options']) && is_string($col['field_options']) && $col['field_options'] !== '') {
+                    $post['field_options'] = $col['field_options'];
+                }
+                if (!empty($col['allow_multiple'])) {
+                    $post['allow_multiple'] = '1';
+                }
+                if (isset($col['min_value']) && $col['min_value'] !== '') {
+                    $post['min_value'] = (string) $col['min_value'];
+                }
+                if (isset($col['max_value']) && $col['max_value'] !== '') {
+                    $post['max_value'] = (string) $col['max_value'];
+                }
                 $tables->saveColumn('create', $tableId, $post, $currentUser);
                 $q = $this->pdo->prepare(
                     'SELECT id FROM table_columns WHERE table_id = ? AND column_name = ? ORDER BY id DESC LIMIT 1'

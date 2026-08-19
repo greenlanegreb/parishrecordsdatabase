@@ -13,7 +13,12 @@ return [
             'table_name' => 'Parish registers (demo)',
             'description' => 'Demo table for parish-style events. Safe to delete via Demo packs.',
             'columns' => [
-                ['column_name' => 'Event type', 'data_type' => 'VARCHAR', 'max_length' => 40, 'is_required' => 1],
+                [
+                    'column_name' => 'Event type',
+                    'data_type' => 'SELECT',
+                    'is_required' => 1,
+                    'field_options' => "Baptism\nMarriage\nBurial",
+                ],
                 ['column_name' => 'Forename', 'data_type' => 'VARCHAR', 'max_length' => 80, 'is_required' => 1],
                 ['column_name' => 'Surname', 'data_type' => 'VARCHAR', 'max_length' => 80, 'is_required' => 1],
                 ['column_name' => 'Event date', 'data_type' => 'DATE', 'date_search_behavior' => 'range', 'is_required' => 0],

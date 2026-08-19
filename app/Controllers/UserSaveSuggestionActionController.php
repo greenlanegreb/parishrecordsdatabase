@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\DuplicateCheckService;
 use Exception;
 use PDO;
 
@@ -89,8 +90,11 @@ class UserSaveSuggestionActionController
         $columnId = isset($post['column_id']) ? (int)$post['column_id'] : 0;
         $columnName = isset($post['column_name']) && is_string($post['column_name']) ? trim($post['column_name']) : '';
         
+        if (!function_exists('flatten_posted_column_value')) {
+            require_once dirname(__DIR__, 2) . '/includes/column_options.php';
+        }
         $rawPropVal = isset($post['proposed_value']) ? $post['proposed_value'] : '';
-        $proposedValue = sanitize_incoming_text(is_string($rawPropVal) ? $rawPropVal : '');
+        $proposedValue = sanitize_incoming_text(flatten_posted_column_value($rawPropVal));
         
         $rawReasoning = isset($post['reasoning']) ? $post['reasoning'] : '';
         $reasoning = sanitize_incoming_text(is_string($rawReasoning) ? $rawReasoning : '');
@@ -123,11 +127,11 @@ class UserSaveSuggestionActionController
         /** @var array{id: int|string, column_name: string, data_type: string, is_required?: int|string, boolean_display_format?: string}|false $col */
         $col = false;
         if ($columnId > 0) {
-            $c = $this->pdo->prepare("SELECT id, column_name, data_type, is_required, boolean_display_format FROM table_columns WHERE id = ? AND table_id = ?");
+            $c = $this->pdo->prepare("SELECT id, column_name, data_type, is_required, boolean_display_format, field_options, allow_multiple, min_value, max_value FROM table_columns WHERE id = ? AND table_id = ?");
             $c->execute([$columnId, $tableId]);
             $col = $c->fetch(PDO::FETCH_ASSOC);
         } elseif ($columnName !== '') {
-            $c = $this->pdo->prepare("SELECT id, column_name, data_type, is_required, boolean_display_format FROM table_columns WHERE column_name = ? AND table_id = ?");
+            $c = $this->pdo->prepare("SELECT id, column_name, data_type, is_required, boolean_display_format, field_options, allow_multiple, min_value, max_value FROM table_columns WHERE column_name = ? AND table_id = ?");
             $c->execute([$columnName, $tableId]);
             $col = $c->fetch(PDO::FETCH_ASSOC);
         }
@@ -142,6 +146,39 @@ class UserSaveSuggestionActionController
             $proposedValue = normalize_incoming_date($proposedValue);
         }
 
+        $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
+        if ($dataType === 'SELECT') {
+            $opts = parse_column_options($col['field_options'] ?? '');
+            $multi = !empty($col['allow_multiple']);
+            if ($proposedValue !== '' && !column_values_are_allowed($proposedValue, $opts, $multi)) {
+                $_SESSION['error'] = __('save_data_entry.err_invalid_choice') !== 'save_data_entry.err_invalid_choice'
+                    ? sprintf(__('save_data_entry.err_invalid_choice'), (string) ($col['column_name'] ?? ''))
+                    : 'Please choose a listed option.';
+                $suggestionRedirect($returnUrl);
+            }
+        } elseif ($dataType === 'INT' && $proposedValue !== '') {
+            if (!preg_match('/^-?\d+$/', $proposedValue)) {
+                $_SESSION['error'] = __('save_data_entry.err_not_number') !== 'save_data_entry.err_not_number'
+                    ? sprintf(__('save_data_entry.err_not_number'), (string) ($col['column_name'] ?? ''))
+                    : 'That field must be a whole number.';
+                $suggestionRedirect($returnUrl);
+            } else {
+                $n = (int) $proposedValue;
+                if (isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '' && $n < (int)$col['min_value']) {
+                    $_SESSION['error'] = __('save_data_entry.err_min') !== 'save_data_entry.err_min'
+                        ? sprintf(__('save_data_entry.err_min'), (string) ($col['column_name'] ?? ''))
+                        : 'That value is below the minimum.';
+                    $suggestionRedirect($returnUrl);
+                }
+                if (isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '' && $n > (int)$col['max_value']) {
+                    $_SESSION['error'] = __('save_data_entry.err_max') !== 'save_data_entry.err_max'
+                        ? sprintf(__('save_data_entry.err_max'), (string) ($col['column_name'] ?? ''))
+                        : 'That value is above the maximum.';
+                    $suggestionRedirect($returnUrl);
+                }
+            }
+        }
+
         $isRequired = !empty($col['is_required']);
         if ($isRequired && $proposedValue === '') {
             $_SESSION['error'] = 'That field is required.';
@@ -153,6 +190,61 @@ class UserSaveSuggestionActionController
             // Optional empty still not useful as a suggestion
             $_SESSION['error'] = 'Please enter a proposed value.';
             $suggestionRedirect($returnUrl);
+        }
+
+        $confirmedDuplicate = isset($post['confirm_duplicate']) && $post['confirm_duplicate'] === '1';
+        $reportDuplicate = isset($post['report_duplicate']) && $post['report_duplicate'] === '1';
+        $duplicateOf = isset($post['duplicate_of']) ? (int) $post['duplicate_of'] : 0;
+        if ($reportDuplicate) {
+            $note = $duplicateOf > 0
+                ? sprintf('This looks like a duplicate of record #%d.', $duplicateOf)
+                : 'This looks like a duplicate of another record.';
+            $reasoning = trim($reasoning === '' ? $note : $reasoning . "\n" . $note);
+        }
+
+        $dupMode = function_exists('get_setting') ? get_setting($this->pdo, 'duplicate_mode', 'warn') : 'warn';
+        $dupPicky = function_exists('get_setting') ? get_setting($this->pdo, 'duplicate_picky', 'similar') : 'similar';
+        if (!in_array($dupMode, ['off', 'warn', 'block', 'flag'], true)) {
+            $dupMode = 'warn';
+        }
+
+        if ($dupMode !== 'off' && !($confirmedDuplicate && $dupMode !== 'block')) {
+            $colsStmt = $this->pdo->prepare('SELECT * FROM table_columns WHERE table_id = ?');
+            $colsStmt->execute([$tableId]);
+            $colsMap = [];
+            $valuesByCol = [];
+            foreach ($colsStmt->fetchAll(PDO::FETCH_ASSOC) as $cRow) {
+                $cid = isset($cRow['id']) ? (int) $cRow['id'] : 0;
+                if ($cid < 1) {
+                    continue;
+                }
+                $colsMap[$cid] = $cRow;
+                $valuesByCol[$cid] = '';
+            }
+            $rvStmt = $this->pdo->prepare('SELECT column_id, value_content FROM record_values WHERE record_id = ?');
+            $rvStmt->execute([$recordId]);
+            while ($rv = $rvStmt->fetch(PDO::FETCH_ASSOC)) {
+                $cid = isset($rv['column_id']) ? (int) $rv['column_id'] : 0;
+                $valuesByCol[$cid] = isset($rv['value_content']) && is_string($rv['value_content']) ? $rv['value_content'] : '';
+            }
+            $valuesByCol[(int) $col['id']] = $proposedValue;
+
+            $dupes = (new DuplicateCheckService($this->pdo))->findMatches(
+                $tableId,
+                $valuesByCol,
+                $colsMap,
+                $dupPicky === 'exact' ? 'exact' : 'similar',
+                $recordId
+            );
+            if ($dupes !== []) {
+                $_SESSION['suggest_dup_warning'] = true;
+                $_SESSION['suggest_dup_matches'] = $dupes;
+                $_SESSION['suggest_dup_mode'] = $dupMode;
+                $_SESSION['error'] = $dupMode === 'block'
+                    ? (__('data_entry.dup_blocked') !== 'data_entry.dup_blocked' ? __('data_entry.dup_blocked') : 'This record is too similar to one already saved, so it cannot be added.')
+                    : (__('suggest_edit.dup_please_check') !== 'suggest_edit.dup_please_check' ? __('suggest_edit.dup_please_check') : 'This change would look very similar to another record. Please check below.');
+                $suggestionRedirect($returnUrl);
+            }
         }
 
         $suggestedBy = ($currentUser !== false && $currentUser !== null && isset($currentUser['id'])) ? $currentUser['id'] : null;
@@ -176,6 +268,7 @@ class UserSaveSuggestionActionController
                 $createdAt,
             ]);
             $_SESSION['message'] = 'Your suggestion was submitted for review.';
+            unset($_SESSION['suggest_dup_warning'], $_SESSION['suggest_dup_matches'], $_SESSION['suggest_dup_mode']);
         } catch (Exception $e) {
             // Fallback if reasoning/points columns missing on very old DB
             try {
@@ -193,6 +286,7 @@ class UserSaveSuggestionActionController
                     $createdAt,
                 ]);
                 $_SESSION['message'] = 'Your suggestion was submitted for review.';
+            unset($_SESSION['suggest_dup_warning'], $_SESSION['suggest_dup_matches'], $_SESSION['suggest_dup_mode']);
             } catch (Exception $e2) {
                 error_log('save_suggestion failed: ' . $e2->getMessage());
                 $_SESSION['error'] = 'Could not save your suggestion.';
