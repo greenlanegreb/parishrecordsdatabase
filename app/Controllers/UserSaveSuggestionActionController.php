@@ -98,6 +98,8 @@ class UserSaveSuggestionActionController
         
         $rawReasoning = isset($post['reasoning']) ? $post['reasoning'] : '';
         $reasoning = sanitize_incoming_text(is_string($rawReasoning) ? $rawReasoning : '');
+        $notifyOutcome = isset($post['notify_outcome']) ? 1 : 0;
+        $notifyEmail = '';
 
         if ($recordId < 1) {
             $_SESSION['error'] = 'Invalid record.';
@@ -121,6 +123,20 @@ class UserSaveSuggestionActionController
         if (!user_can_view_table($this->pdo, $tableId, $currentUser)) {
             $_SESSION['error'] = 'You are not allowed to suggest edits for this record.';
             $suggestionRedirect($returnUrl);
+        }
+
+        if ($notifyOutcome === 1) {
+            $rawNotify = isset($post['notify_email']) && is_string($post['notify_email']) ? trim($post['notify_email']) : '';
+            $notifyEmail = filter_var($rawNotify, FILTER_VALIDATE_EMAIL) ? $rawNotify : '';
+            if ($notifyEmail === '' && $currentUser !== null && isset($currentUser['email']) && is_string($currentUser['email'])) {
+                $notifyEmail = filter_var(trim($currentUser['email']), FILTER_VALIDATE_EMAIL) ?: '';
+            }
+            if ($notifyEmail === '') {
+                $_SESSION['error'] = __('suggest_edit.err_notify_email') !== 'suggest_edit.err_notify_email'
+                    ? __('suggest_edit.err_notify_email')
+                    : 'Please enter an email address if you would like to hear the outcome.';
+                $suggestionRedirect($returnUrl);
+            }
         }
 
         // Resolve column (prefer id; else name scoped to this table)
@@ -255,9 +271,9 @@ class UserSaveSuggestionActionController
         try {
             $ins = $this->pdo->prepare("
                 INSERT INTO edit_suggestions
-                    (record_id, suggested_by, column_name, proposed_value, reasoning, status, points_awarded, created_at)
+                    (record_id, suggested_by, column_name, proposed_value, reasoning, notify_outcome, notify_email, status, points_awarded, created_at)
                 VALUES
-                    (?, ?, ?, ?, ?, 'pending', 0, ?)
+                    (?, ?, ?, ?, ?, ?, ?, 'pending', 0, ?)
             ");
             $ins->execute([
                 $recordId,
@@ -265,6 +281,8 @@ class UserSaveSuggestionActionController
                 $col['column_name'],
                 $proposedValue,
                 $reasoning !== '' ? $reasoning : null,
+                $notifyOutcome,
+                $notifyEmail !== '' ? $notifyEmail : null,
                 $createdAt,
             ]);
             $_SESSION['message'] = 'Your suggestion was submitted for review.';

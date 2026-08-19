@@ -177,7 +177,12 @@ class ModerationController
         if ($suggestionId !== null && in_array($action, ['approve', 'reject'], true)) {
             try {
                 $moderationService = new ModerationService($this->pdo);
-                $moderationService->handleSuggestion($suggestionId, $action, $finalValue, $currentUser, $remoteAddr);
+                $rawRationale = isset($post['moderator_rationale']) && is_string($post['moderator_rationale'])
+                    ? trim($post['moderator_rationale']) : '';
+                $rationale = function_exists('sanitize_incoming_text')
+                    ? sanitize_incoming_text($rawRationale)
+                    : $rawRationale;
+                $moderationService->handleSuggestion($suggestionId, $action, $finalValue, $currentUser, $remoteAddr, $rationale);
             } catch (Exception $e) {
                 $_SESSION['error'] = $e->getMessage();
             }

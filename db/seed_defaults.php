@@ -63,6 +63,12 @@ function seed_default_user_email_templates(PDO $pdo): void
             'Password reset request for {system_name}',
             "Hello {first_name},\n\nA request has been made to reset your password or access your account on {system_name}.\n\nPlease click the secure link below to set a new password (valid for 24 hours):\n\n{invite_link}\n\nIf you did not request this, please ignore this email.\n\nBest regards,\nThe Team",
         ],
+        [
+            'suggestion_outcome',
+            'Suggest-edit outcome',
+            'Update on your suggested change — {system_name}',
+            "Hello {first_name},\n\nA moderator has reviewed the change you suggested on {system_name}.\n\nDecision: {decision}\nField: {column_name}\nYour suggestion: {proposed_value}\n\nTheir note:\n{moderator_rationale}\n\nIf you would like to discuss this further, you can open a support ticket here:\n{feedback_link}\n\nThank you for helping to keep the records accurate.\n\n{system_name}",
+        ],
     ];
 
     try {

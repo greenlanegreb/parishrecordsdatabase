@@ -44,6 +44,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <select id="trigger_event" name="trigger_event" class="form-select" onchange="this.form.submit()">
                     <option value="user_invitation" <?= ($triggerEvent === 'user_invitation') ? 'selected' : '' ?>><?= htmlspecialchars(__('user_emails.opt_invitation') ?? 'User Invitation', ENT_QUOTES, 'UTF-8') ?></option>
                     <option value="password_reset" <?= ($triggerEvent === 'password_reset') ? 'selected' : '' ?>><?= htmlspecialchars(__('user_emails.opt_reset') ?? 'Password Reset', ENT_QUOTES, 'UTF-8') ?></option>
+                                    <option value="suggestion_outcome" <?= ($triggerEvent === 'suggestion_outcome') ? 'selected' : '' ?>><?= htmlspecialchars(__('user_emails.opt_suggestion_outcome') !== 'user_emails.opt_suggestion_outcome' ? __('user_emails.opt_suggestion_outcome') : 'Suggest-edit outcome', ENT_QUOTES, 'UTF-8') ?></option>
                 </select>
             </form>
         </div>

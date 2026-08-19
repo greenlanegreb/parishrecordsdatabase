@@ -77,6 +77,8 @@ if ($serverMethod === 'POST' && isset($_POST['action']) && $_POST['action'] === 
     } elseif ($step === 5) {
         $step = 2;
     } elseif ($step === 4) {
+        $step = 7;
+    } elseif ($step === 7) {
         $step = 5;
     }
 }
@@ -262,6 +264,27 @@ function install_seed_defaults(PDO $pdo, string $root): void
     require_once $path;
     if (function_exists('seed_application_defaults')) {
         seed_application_defaults($pdo);
+    }
+}
+
+
+function install_save_modules(PDO $pdo): void
+{
+    $modules = ['moderation', 'volunteers', 'feedback', 'users', 'leaderboard'];
+    $usersOn = isset($_POST['module_users_enabled']);
+    $stmt = $pdo->prepare(
+        "INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?)
+         ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)"
+    );
+    foreach ($modules as $mod) {
+        $key = 'module_' . $mod . '_enabled';
+        $val = '0';
+        if ($mod === 'leaderboard') {
+            $val = ($usersOn && isset($_POST[$key])) ? '1' : '0';
+        } elseif (isset($_POST[$key])) {
+            $val = '1';
+        }
+        $stmt->execute([$key, $val]);
     }
 }
 
@@ -484,8 +507,16 @@ if (
             $idStmt = $pdo->prepare('SELECT id FROM users WHERE username = ? LIMIT 1');
             $idStmt->execute([$username]);
             $_SESSION['install_admin_id'] = (int) $idStmt->fetchColumn();
+            $step = 7;
+            $message = function_exists('__') ? __('install.msg_admin_created') : 'Administrator account created. You can choose which features to turn on.';
+        } elseif ($step === 7) {
+            if (empty($_SESSION['install_db_ok']) || !is_file($configLocal)) {
+                throw new RuntimeException(__('install.err_complete_db_first'));
+            }
+            $pdo = install_load_pdo_from_config($configLocal);
+            install_save_modules($pdo);
             $step = 4;
-            $message = function_exists('__') ? __('install.msg_admin_created') : 'Administrator account created. You can add optional demo packs, or skip.';
+            $message = function_exists('__') ? __('install.msg_modules_saved') : 'Your feature choices have been saved. You can add optional demo packs, or skip.';
         } elseif ($step === 4) {
             if (empty($_SESSION['install_db_ok']) || !is_file($configLocal)) {
                 throw new RuntimeException(__('install.err_complete_db_first'));
@@ -653,6 +684,57 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                         <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.demo_continue') !== 'install.demo_continue' ? __('install.demo_continue') : 'Add selected packs and finish', ENT_QUOTES, 'UTF-8') ?></button>
                     </div>
                 </form>
+
+
+            <?php elseif ($step === 7): ?>
+                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.modules_heading') !== 'install.modules_heading' ? __('install.modules_heading') : 'Which parts of pRD would you like to use?', ENT_QUOTES, 'UTF-8') ?></h1>
+                <p class="text-muted small mb-3" id="installModulesHelp"><?= htmlspecialchars(__('install.modules_help') !== 'install.modules_help' ? __('install.modules_help') : 'Tick the features you want on day one. You can change this later under Admin → Settings.', ENT_QUOTES, 'UTF-8') ?></p>
+                <form method="post" aria-labelledby="installStepHeading" aria-describedby="installModulesHelp">
+                    <input type="hidden" name="step" value="7">
+                    <fieldset class="border-0 p-0 mb-3">
+                        <legend class="visually-hidden"><?= htmlspecialchars(__('install.modules_heading') !== 'install.modules_heading' ? __('install.modules_heading') : 'Which parts of pRD would you like to use?', ENT_QUOTES, 'UTF-8') ?></legend>
+                        <?php
+                        $modList = [
+                            ['users', 'install.mod_users', 'User accounts', 'install.mod_users_desc', 'Let people register and sign in.'],
+                            ['moderation', 'install.mod_moderation', 'Moderation', 'install.mod_moderation_desc', 'Review suggested edits before they change a record.'],
+                            ['feedback', 'install.mod_feedback', 'Feedback and tickets', 'install.mod_feedback_desc', 'A public form for questions and support tickets.'],
+                            ['volunteers', 'install.mod_volunteers', 'Volunteer interest', 'install.mod_volunteers_desc', 'A public form for people who want to help.'],
+                            ['leaderboard', 'install.mod_leaderboard', 'Leaderboard', 'install.mod_leaderboard_desc', 'Optional points table. Needs user accounts to be on.'],
+                        ];
+                        foreach ($modList as $mod):
+                            $id = 'install_mod_' . $mod[0];
+                            $name = 'module_' . $mod[0] . '_enabled';
+                            $label = (__($mod[1]) !== $mod[1]) ? __($mod[1]) : $mod[2];
+                            $desc = (__($mod[3]) !== $mod[3]) ? __($mod[3]) : $mod[4];
+                        ?>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>" value="1" id="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>" <?= $mod[0] === 'leaderboard' ? '' : 'checked' ?> <?= $mod[0] === 'leaderboard' ? 'data-needs-users="1"' : '' ?>>
+                            <label class="form-check-label" for="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>">
+                                <span class="fw-bold"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?></span>
+                                <span class="d-block small text-muted"><?= htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') ?></span>
+                            </label>
+                        </div>
+                        <?php endforeach; ?>
+                    </fieldset>
+                    <p class="small text-muted" id="installModulesLater"><?= htmlspecialchars(__('install.modules_later') !== 'install.modules_later' ? __('install.modules_later') : 'You can turn any of these on or off later in Admin → Settings.', ENT_QUOTES, 'UTF-8') ?></p>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" name="action" value="back" class="btn btn-outline-secondary btn-sm"><?= htmlspecialchars(__('install.back_btn'), ENT_QUOTES, 'UTF-8') ?></button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold"><?= htmlspecialchars(__('install.modules_continue') !== 'install.modules_continue' ? __('install.modules_continue') : 'Save and continue', ENT_QUOTES, 'UTF-8') ?></button>
+                    </div>
+                </form>
+                <script>
+                (function () {
+                    var users = document.getElementById('install_mod_users');
+                    var board = document.getElementById('install_mod_leaderboard');
+                    if (!users || !board) return;
+                    function sync() {
+                        board.disabled = !users.checked;
+                        if (!users.checked) board.checked = false;
+                    }
+                    users.addEventListener('change', sync);
+                    sync();
+                })();
+                </script>
 
             <?php elseif ($step === 5): ?>
                 <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.admin_heading'), ENT_QUOTES, 'UTF-8') ?></h1>

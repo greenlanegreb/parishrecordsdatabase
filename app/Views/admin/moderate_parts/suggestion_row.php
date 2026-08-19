@@ -146,6 +146,14 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
                 <input type="text" id="final_value_<?= $sId ?>" name="final_value" value="<?= htmlspecialchars($propVal, ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?> class="form-control form-control-sm mb-2">
             <?php endif; ?>
             
+            <?php if (!empty($s['notify_outcome'])): ?>
+                <p class="small text-muted mb-1"><?= htmlspecialchars(__('moderate.rationale_will_be_sent') !== 'moderate.rationale_will_be_sent' ? __('moderate.rationale_will_be_sent') : 'They asked to be emailed. Your note below will be sent as you write it, so please keep the tone kind and clear.', ENT_QUOTES, 'UTF-8') ?></p>
+            <?php else: ?>
+                <p class="small text-muted mb-1"><?= htmlspecialchars(__('moderate.rationale_optional') !== 'moderate.rationale_optional' ? __('moderate.rationale_optional') : 'Optional note (kept on the record).', ENT_QUOTES, 'UTF-8') ?></p>
+            <?php endif; ?>
+            <label class="visually-hidden" for="moderator_rationale_<?= $sId ?>"><?= htmlspecialchars(__('moderate.rationale_label') !== 'moderate.rationale_label' ? __('moderate.rationale_label') : 'Note for the person who suggested this', ENT_QUOTES, 'UTF-8') ?></label>
+            <textarea id="moderator_rationale_<?= $sId ?>" name="moderator_rationale" rows="2" class="form-control form-control-sm mb-2" placeholder="<?= htmlspecialchars(__('moderate.rationale_placeholder') !== 'moderate.rationale_placeholder' ? __('moderate.rationale_placeholder') : 'Why you accepted or declined this change', ENT_QUOTES, 'UTF-8') ?>"></textarea>
+
             <div class="d-flex gap-1 justify-content-end">
                 <button type="submit" name="action" value="approve" class="btn btn-sm btn-success approve-btn"><?= htmlspecialchars(__('moderate.approve_btn'), ENT_QUOTES, 'UTF-8') ?></button>
                 <button type="submit" name="action" value="reject" class="btn btn-sm btn-danger" onclick="return confirm('<?= htmlspecialchars(__('moderate.decline_confirm'), ENT_QUOTES, 'UTF-8') ?>');"><?= htmlspecialchars(__('moderate.decline_btn'), ENT_QUOTES, 'UTF-8') ?></button>

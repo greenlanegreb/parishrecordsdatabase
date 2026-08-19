@@ -46,6 +46,25 @@ class UserSavePublicSuggestionActionController
         
         // Determine user ID if logged in, otherwise null for public guest
         $suggestedBy = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
+        $notifyOutcome = isset($post['notify_outcome']) ? 1 : 0;
+        $notifyEmail = '';
+        if ($notifyOutcome === 1) {
+            $rawNotify = isset($post['notify_email']) && is_string($post['notify_email']) ? trim($post['notify_email']) : '';
+            $notifyEmail = filter_var($rawNotify, FILTER_VALIDATE_EMAIL) ? $rawNotify : '';
+            if ($notifyEmail === '' && $suggestedBy) {
+                $em = $this->pdo->prepare('SELECT email FROM users WHERE id = ?');
+                $em->execute([$suggestedBy]);
+                $found = $em->fetchColumn();
+                $notifyEmail = is_string($found) && filter_var($found, FILTER_VALIDATE_EMAIL) ? $found : '';
+            }
+            if ($notifyEmail === '') {
+                $_SESSION['error'] = __('suggest_edit.err_notify_email') !== 'suggest_edit.err_notify_email'
+                    ? __('suggest_edit.err_notify_email')
+                    : 'Please enter an email address if you would like to hear the outcome.';
+                header('Location: ' . $basePath . '/');
+                exit;
+            }
+        }
 
         if ($recordId > 0 && $columnName !== '') {
             // Verify the column actually exists to prevent fake column injection and check data type
@@ -69,10 +88,10 @@ class UserSavePublicSuggestionActionController
 
                 // Insert into edit_suggestions table (which feeds admin/moderate.php)
                 $stmt = $this->pdo->prepare("
-                    INSERT INTO edit_suggestions (record_id, column_name, proposed_value, suggested_by, status, created_at) 
-                    VALUES (?, ?, ?, ?, 'pending', NOW())
+                    INSERT INTO edit_suggestions (record_id, column_name, proposed_value, suggested_by, notify_outcome, notify_email, status, created_at) 
+                    VALUES (?, ?, ?, ?, ?, ?, 'pending', NOW())
                 ");
-                if ($stmt->execute([$recordId, $columnName, $proposedValue, $suggestedBy])) {
+                if ($stmt->execute([$recordId, $columnName, $proposedValue, $suggestedBy, $notifyOutcome, $notifyEmail !== '' ? $notifyEmail : null])) {
                     $_SESSION['message'] = __('save_public_suggestion.msg_success');
                 } else {
                     $_SESSION['error'] = __('save_public_suggestion.err_failed_submit');

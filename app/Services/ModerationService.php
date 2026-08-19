@@ -15,7 +15,7 @@ class ModerationService
         $this->pdo = $pdo;
     }
 
-    public function handleSuggestion(int $suggestionId, string $action, string $finalValue, array $currentUser, string $remoteAddr): void
+    public function handleSuggestion(int $suggestionId, string $action, string $finalValue, array $currentUser, string $remoteAddr, string $rationale = ''): void
     {
         if (!in_array($action, ['approve', 'reject'], true)) {
             throw new Exception("Invalid moderation action.");
@@ -165,8 +165,8 @@ class ModerationService
                     }
                 }
 
-                $statusStmt = $this->pdo->prepare("UPDATE edit_suggestions SET status = 'approved', points_awarded = 1 WHERE id = ?");
-                $statusStmt->execute([$suggestionId]);
+                $statusStmt = $this->pdo->prepare("UPDATE edit_suggestions SET status = 'approved', points_awarded = 1, moderator_rationale = ? WHERE id = ?");
+                $statusStmt->execute([$rationale !== '' ? $rationale : null, $suggestionId]);
 
                 if (!$alreadyProcessed) {
                     \adjust_user_points($this->pdo, (int)$currentUser['id'], 1);
@@ -184,8 +184,8 @@ class ModerationService
                     $_SESSION['message'] = "Suggestion #{$suggestionId} approved and applied.";
                 }
             } else {
-                $statusStmt = $this->pdo->prepare("UPDATE edit_suggestions SET status = 'rejected', points_awarded = 1 WHERE id = ?");
-                $statusStmt->execute([$suggestionId]);
+                $statusStmt = $this->pdo->prepare("UPDATE edit_suggestions SET status = 'rejected', points_awarded = 1, moderator_rationale = ? WHERE id = ?");
+                $statusStmt->execute([$rationale !== '' ? $rationale : null, $suggestionId]);
 
                 if (!$alreadyProcessed && $suggestorId !== null) {
                     \adjust_user_points($this->pdo, (int)$suggestorId, -1);
@@ -198,6 +198,15 @@ class ModerationService
             $audit->execute([$currentUser['id'], strtoupper($action) . '_SUGGESTION', $suggestion['record_id'], "Handled suggestion ID: {$suggestionId} in table ID {$tableId}", $remoteAddr]);
 
             $this->pdo->commit();
+
+            $mailHelper = dirname(__DIR__, 2) . '/includes/suggestion_outcome_mail.php';
+            if (is_file($mailHelper)) {
+                require_once $mailHelper;
+            }
+            if (function_exists('send_suggestion_outcome_mail')) {
+                $suggestion['moderator_rationale'] = $rationale;
+                send_suggestion_outcome_mail($this->pdo, $suggestion, $action);
+            }
         } catch (Exception $e) {
             if ($this->pdo->inTransaction()) {
                 $this->pdo->rollBack();

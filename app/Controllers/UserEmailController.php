@@ -39,7 +39,7 @@ class UserEmailController
         // Determine active template trigger (default to 'user_invitation')
         $get = $_GET;
         $triggerEvent = isset($get['trigger_event']) && is_string($get['trigger_event']) ? $get['trigger_event'] : 'user_invitation';
-        if (!in_array($triggerEvent, ['user_invitation', 'password_reset'], true)) {
+        if (!in_array($triggerEvent, ['user_invitation', 'password_reset', 'suggestion_outcome'], true)) {
             $triggerEvent = 'user_invitation';
         }
 
@@ -87,7 +87,7 @@ class UserEmailController
         }
 
         // Support updating either invitation or password reset templates dynamically based on trigger event
-        if (!in_array($triggerEvent, ['user_invitation', 'password_reset'], true)) {
+        if (!in_array($triggerEvent, ['user_invitation', 'password_reset', 'suggestion_outcome'], true)) {
             $triggerEvent = 'user_invitation';
         }
 

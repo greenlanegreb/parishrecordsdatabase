@@ -162,6 +162,18 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                 <textarea id="reasoning" name="reasoning" rows="3" placeholder="<?= htmlspecialchars(__('suggest_edit.reasoning_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"></textarea>
             </div>
 
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="notify_outcome" value="1" id="notify_outcome">
+                    <label class="form-check-label" for="notify_outcome"><?= htmlspecialchars(__('suggest_edit.notify_label') !== 'suggest_edit.notify_label' ? __('suggest_edit.notify_label') : 'Email me when a moderator has decided', ENT_QUOTES, 'UTF-8') ?></label>
+                </div>
+                <?php if (empty($_SESSION['user_id'])): ?>
+                    <label class="form-label small mt-2" for="notify_email"><?= htmlspecialchars(__('suggest_edit.notify_email_label') !== 'suggest_edit.notify_email_label' ? __('suggest_edit.notify_email_label') : 'Your email address', ENT_QUOTES, 'UTF-8') ?></label>
+                    <input type="email" name="notify_email" id="notify_email" class="form-control form-control-sm" autocomplete="email" maxlength="255">
+                    <div class="form-text"><?= htmlspecialchars(__('suggest_edit.notify_email_help') !== 'suggest_edit.notify_email_help' ? __('suggest_edit.notify_email_help') : 'Used only to tell you the outcome. It is not shown on the public record.', ENT_QUOTES, 'UTF-8') ?></div>
+                <?php endif; ?>
+            </div>
+
             <?php if (empty($_SESSION['user_id'])): ?>
                 <?php
                 $pdoInstance = (isset($pdo) && $pdo instanceof PDO) ? $pdo : null;
