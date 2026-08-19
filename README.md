@@ -1,4 +1,4 @@
-﻿# Parish Records Directory (PRD)
+﻿# Parish Records Directory (pRD)
 
 A lightweight, shared-hosting-friendly modern PHP MVC application, transcribed into over 30 languages, for building and publishing searchable and exportable public or private record directories with granular collaborative roles ACL management and gamification.
 
