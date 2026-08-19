@@ -12,18 +12,22 @@ $fullFormatStr = $fullFormatStr ?? 'd/m/Y H:i';
         <table class="table table-hover align-middle mb-0" id="data-entry-table" role="table">
             <thead class="table-light">
                 <tr>
-                    <?php foreach ($columns as $col): ?>
+                    <?php foreach (($visibleColumns ?? $columns) as $col): ?>
                         <?php $cName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : ''; ?>
-                        <th scope="col" class="py-3"><?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3" style="max-width: 14rem;"><?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?></th>
                     <?php endforeach; ?>
+                    <?php if (!isset($activeTableId) || !function_exists('show_created_by_column') || show_created_by_column((int)$activeTableId)): ?>
                     <th scope="col" class="py-3"><?= htmlspecialchars(__('data_entry.th_added_by'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <?php endif; ?>
+                    <?php if (!isset($activeTableId) || !function_exists('show_created_at_column') || show_created_at_column((int)$activeTableId)): ?>
                     <th scope="col" class="py-3"><?= htmlspecialchars(__('data_entry.th_date_created'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <?php endif; ?>
                     <th scope="col" class="py-3 text-end pe-3"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></th>
                 </tr>
             </thead>
             <tbody id="data-entry-table-body">
                 <tr>
-                    <td colspan="<?= count($columns) + 3 ?>" class="text-center py-4 text-muted">
+                    <td colspan="<?= count($visibleColumns ?? $columns) + 3 ?>" class="text-center py-4 text-muted">
                         <?= htmlspecialchars(__('data_entry.loading_records') ?: 'Loading…', ENT_QUOTES, 'UTF-8') ?>
                     </td>
                 </tr>

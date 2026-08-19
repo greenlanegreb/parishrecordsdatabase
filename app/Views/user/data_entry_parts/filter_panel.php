@@ -98,6 +98,9 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                         <button type="button" id="copy-clipboard-btn" class="btn btn-sm btn-outline-secondary">
                             <?= htmlspecialchars(__('data_entry.copy_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
                         </button>
+                        <a href="#" id="print-records-btn" class="btn btn-sm btn-outline-secondary text-decoration-none">
+                            <?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?>
+                        </a>
                     </div>
                 </form>
             </div>

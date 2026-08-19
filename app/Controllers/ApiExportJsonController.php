@@ -54,6 +54,14 @@ class ApiExportJsonController
         $colsStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $columns */
         $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        $visHelper = dirname(__DIR__, 2) . '/includes/column_visibility.php';
+        if (is_file($visHelper)) {
+            require_once $visHelper;
+        }
+        if (function_exists('resolve_visible_columns')) {
+            $columns = resolve_visible_columns($columns, $tableId);
+        }
+
 
         /** @var array<mixed, mixed> $searchFilters */
         $searchFilters = isset($queryGet['filters']) && is_array($queryGet['filters']) ? $queryGet['filters'] : [];
@@ -99,13 +107,17 @@ class ApiExportJsonController
                 }
 
                 $createdById = isset($rec['created_by']) ? (int) $rec['created_by'] : 0;
-                if ($createdById > 0 && function_exists('format_user_display_name_by_id')) {
-                    $row['created_by'] = format_user_display_name_by_id($this->pdo, $createdById, $currentUser);
-                } else {
-                    $row['created_by'] = 'User_Anon';
+                if (!function_exists('show_created_by_column') || show_created_by_column($tableId)) {
+                    if ($createdById > 0 && function_exists('format_user_display_name_by_id')) {
+                        $row['created_by'] = format_user_display_name_by_id($this->pdo, $createdById, $currentUser);
+                    } else {
+                        $row['created_by'] = 'User_Anon';
+                    }
                 }
-                $row['date_added'] = isset($rec['created_at']) && is_string($rec['created_at'])
-                    ? $rec['created_at'] : '';
+                if (!function_exists('show_created_at_column') || show_created_at_column($tableId)) {
+                    $row['date_added'] = isset($rec['created_at']) && is_string($rec['created_at'])
+                        ? $rec['created_at'] : '';
+                }
                 $exportData[] = $row;
             }
         }

@@ -100,6 +100,13 @@ class UserDataEntryController
         $colsStmt->execute([$activeTableId]);
         /** @var array<int, array<string, mixed>> $columns */
         $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        $visHelper = dirname(__DIR__, 2) . '/includes/column_visibility.php';
+        if (is_file($visHelper)) {
+            require_once $visHelper;
+        }
+        $visibleColumns = function_exists('resolve_visible_columns')
+            ? resolve_visible_columns($columns, $activeTableId)
+            : $columns;
 
         if (isset($queryGet['export_csv']) && $queryGet['export_csv'] === '1') {
             generate_csv_export($this->pdo, 'data-entry-records-export');

@@ -211,9 +211,12 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     <a href="#" id="export-csv-btn" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('index.download_entire_csv'), ENT_QUOTES, 'UTF-8') ?></a>
                     <a href="#" id="export-json-btn" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('index.download_entire_json'), ENT_QUOTES, 'UTF-8') ?></a>
                     <button type="button" id="copy-clipboard-btn" class="btn btn-outline-secondary btn-sm px-3"><?= htmlspecialchars(__('index.copy_entire_table'), ENT_QUOTES, 'UTF-8') ?></button>
+                    <a href="#" id="print-records-btn" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?></a>
                 </div>
             </form>
         </section>
+
+        <?php require dirname(__DIR__, 3) . '/partials/column_visibility_bar.php'; ?>
 
         <!-- LIVE DATA TABLE -->
         <div class="card border-0 shadow-sm mb-4 bg-white overflow-hidden">
@@ -221,17 +224,21 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <table id="data-table" class="table table-hover align-middle mb-0" role="table">
                     <thead class="table-light">
                         <tr>
-                            <?php foreach ($columns as $col): ?>
+                            <?php foreach (($visibleColumns ?? $columns) as $col): ?>
                                 <?php 
                                     $cId = isset($col['id']) ? (int)$col['id'] : 0;
                                     $cName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : '';
                                 ?>
-                                <th class="sortable py-3 px-3" data-sort="col_<?= $cId ?>" scope="col" style="cursor: pointer;">
+                                <th class="sortable py-3 px-3" data-sort="col_<?= $cId ?>" scope="col" style="cursor: pointer; max-width: 14rem;">
                                     <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?> ↕
                                 </th>
                             <?php endforeach; ?>
+                            <?php if (!isset($activeTableId) || !function_exists('show_created_by_column') || show_created_by_column((int)$activeTableId)): ?>
                             <th class="py-3 px-3" scope="col"><?= htmlspecialchars(__('index.th_created_by'), ENT_QUOTES, 'UTF-8') ?></th>
+                            <?php endif; ?>
+                            <?php if (!isset($activeTableId) || !function_exists('show_created_at_column') || show_created_at_column((int)$activeTableId)): ?>
                             <th class="sortable py-3 px-3" data-sort="date" scope="col" style="cursor: pointer;"><?= htmlspecialchars(__('index.th_date_added'), ENT_QUOTES, 'UTF-8') ?> ↕</th>
+                            <?php endif; ?>
                             <th class="py-3 text-end pe-3" scope="col"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></th>
                         </tr>
                     </thead>
@@ -253,6 +260,60 @@ let currentDir = 'DESC';
 let currentPage = 1;
 const basePath = '<?= $basePath ?>';
 const searchForm = document.getElementById('search-form');
+function rebuildVisibleHeaders() {
+    const row = document.querySelector('#data-table thead tr');
+    if (!row) return;
+    const extras = [
+        { html: <?= json_encode(__('index.th_created_by'), JSON_UNESCAPED_UNICODE) ?>, sort: '', token: 'created_by' },
+        { html: <?= json_encode(__('index.th_date_added') . ' ↕', JSON_UNESCAPED_UNICODE) ?>, sort: 'date', token: 'created_at' },
+        { html: <?= json_encode(__('index.th_actions'), JSON_UNESCAPED_UNICODE) ?>, sort: '', extraClass: 'text-end pe-3' }
+    ];
+    row.innerHTML = '';
+    document.querySelectorAll('.js-col-vis:checked').forEach(cb => {
+        if (cb.value === 'created_by' || cb.value === 'created_at') return;
+        const th = document.createElement('th');
+        th.className = 'sortable py-3 px-3';
+        th.scope = 'col';
+        th.style.cursor = 'pointer';
+        th.style.maxWidth = '14rem';
+        th.dataset.sort = 'col_' + cb.value;
+        const lab = document.querySelector('label[for="' + cb.id + '"]');
+        th.textContent = ((lab ? lab.textContent : '') + ' ↕').trim();
+        row.appendChild(th);
+    });
+    extras.forEach(item => {
+        if (item.token) {
+            const box = document.getElementById('colvis_' + item.token);
+            if (box && !box.checked) return;
+        }
+        const th = document.createElement('th');
+        th.className = 'py-3 px-3 ' + (item.extraClass || '');
+        th.scope = 'col';
+        if (item.sort) {
+            th.classList.add('sortable');
+            th.style.cursor = 'pointer';
+            th.dataset.sort = item.sort;
+        }
+        th.textContent = item.html;
+        row.appendChild(th);
+    });
+    document.querySelectorAll('#data-table th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+            const sortKey = th.getAttribute('data-sort');
+            if (!sortKey) return;
+            if (currentSort === sortKey) currentDir = currentDir === 'ASC' ? 'DESC' : 'ASC';
+            else { currentSort = sortKey; currentDir = 'ASC'; }
+            fetchFilteredData(1);
+        });
+    });
+}
+document.querySelectorAll('.js-col-vis').forEach(cb => {
+    cb.addEventListener('change', () => {
+        rebuildVisibleHeaders();
+        fetchFilteredData(1);
+    });
+});
+
 
 // -------------------------------------------------
 // Debounce helper
@@ -275,6 +336,7 @@ function fetchFilteredData(page = 1) {
     if (searchForm) {
         const tableIdInput = searchForm.querySelector('input[name="table_id"]');
         if (tableIdInput) formData.append('table_id', tableIdInput.value);
+    document.querySelectorAll('.js-col-vis:checked').forEach(cb => formData.append('cols[]', cb.value));
 
         searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
             if (input.value.trim() !== '') {
@@ -287,6 +349,8 @@ function fetchFilteredData(page = 1) {
     const exportJsonBtn = document.getElementById('export-json-btn');
     if (exportCsvBtn) exportCsvBtn.href = basePath + '/api/export?' + formData.toString();
     if (exportJsonBtn) exportJsonBtn.href = basePath + '/api/export-json?' + formData.toString();
+    const printBtn = document.getElementById('print-records-btn');
+    if (printBtn) printBtn.href = basePath + '/print/records?' + formData.toString();
 
     fetch(basePath + '/api/search?' + formData.toString())
         .then(r => {
@@ -361,6 +425,10 @@ function updateActionButtonsState() {
     if (csvBtn) csvBtn.textContent = hasActiveFilter ? '<?= __('index.download_filtered_csv') ?>' : '<?= __('index.download_entire_csv') ?>';
     if (jsonBtn) jsonBtn.textContent = hasActiveFilter ? '<?= __('index.download_filtered_json') ?>' : '<?= __('index.download_entire_json') ?>';
     if (copyBtn) copyBtn.textContent = hasActiveFilter ? '<?= __('index.copy_filtered_table') ?>' : '<?= __('index.copy_entire_table') ?>';
+    const printBtn = document.getElementById('print-records-btn');
+    if (printBtn) printBtn.textContent = hasActiveFilter
+        ? <?= json_encode(__('cols.print_filtered') !== 'cols.print_filtered' ? __('cols.print_filtered') : 'Print filtered') ?>
+        : <?= json_encode(__('cols.print_entire') !== 'cols.print_entire' ? __('cols.print_entire') : 'Print all') ?>;
 }
 
 if (searchForm) {

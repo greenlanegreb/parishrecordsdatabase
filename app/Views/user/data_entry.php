@@ -186,8 +186,24 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 // Update export and button links
                 const csvBtn = document.getElementById('export-csv-btn');
                 const jsonBtn = document.getElementById('export-json-btn');
+                document.querySelectorAll('.js-col-vis:checked').forEach(cb => formData.append('cols[]', cb.value));
                 if (csvBtn) csvBtn.href = basePath + '/api/export?' + formData.toString();
                 if (jsonBtn) jsonBtn.href = basePath + '/api/export-json?' + formData.toString();
+                const printBtn = document.getElementById('print-records-btn');
+                if (printBtn) printBtn.href = basePath + '/print/records?' + formData.toString();
+                let hasActiveFilter = false;
+                if (searchForm) {
+                    searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
+                        if (input.name && input.name !== 'table_id' && input.value.trim() !== '') {
+                            hasActiveFilter = true;
+                        }
+                    });
+                }
+                if (printBtn) {
+                    printBtn.textContent = hasActiveFilter
+                        ? <?= json_encode(__('cols.print_filtered') !== 'cols.print_filtered' ? __('cols.print_filtered') : 'Print filtered') ?>
+                        : <?= json_encode(__('cols.print_entire') !== 'cols.print_entire' ? __('cols.print_entire') : 'Print all') ?>;
+                }
 
                 fetch(basePath + '/api/search?' + formData.toString())
                     .then(r => {
@@ -303,6 +319,43 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 }
             });
 
+                        function rebuildVisibleHeaders() {
+                const row = document.querySelector('#data-entry-table thead tr');
+                if (!row) return;
+                row.innerHTML = '';
+                document.querySelectorAll('.js-col-vis:checked').forEach(cb => {
+                    if (cb.value === 'created_by' || cb.value === 'created_at') return;
+                    const th = document.createElement('th');
+                    th.scope = 'col';
+                    th.className = 'py-3';
+                    th.style.maxWidth = '14rem';
+                    const lab = document.querySelector('label[for="' + cb.id + '"]');
+                    th.textContent = lab ? lab.textContent.trim() : '';
+                    row.appendChild(th);
+                });
+                [
+                    { label: <?= json_encode(__('data_entry.th_added_by'), JSON_UNESCAPED_UNICODE) ?>, token: 'created_by' },
+                    { label: <?= json_encode(__('data_entry.th_date_created'), JSON_UNESCAPED_UNICODE) ?>, token: 'created_at' },
+                    { label: <?= json_encode(__('index.th_actions'), JSON_UNESCAPED_UNICODE) ?>, token: '' }
+                ].forEach((item, i) => {
+                    if (item.token) {
+                        const box = document.getElementById('colvis_' + item.token);
+                        if (box && !box.checked) return;
+                    }
+                    const th = document.createElement('th');
+                    th.scope = 'col';
+                    th.className = item.token === '' ? 'py-3 text-end pe-3' : 'py-3';
+                    th.textContent = item.label;
+                    row.appendChild(th);
+                });
+            }
+            document.querySelectorAll('.js-col-vis').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    rebuildVisibleHeaders();
+                    fetchFilteredData(currentPage);
+                });
+            });
+
             // Initial load
             fetchFilteredData(1);
         });
@@ -310,6 +363,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
         <hr class="my-4">
 
+        <?php require dirname(__DIR__, 3) . '/partials/column_visibility_bar.php'; ?>
         <?php require __DIR__ . '/data_entry_parts/records_table.php'; ?>
 
     <?php endif; ?>

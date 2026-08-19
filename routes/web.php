@@ -110,6 +110,7 @@ return function (RouteCollector $r): void {
     $r->addRoute('GET', '/api/export', ['App\Controllers\ApiExportController', 'export']);
     $r->addRoute('GET', '/api/export-json', ['App\Controllers\ApiExportJsonController', 'export']);
     $r->addRoute('GET', '/api/search', ['App\Controllers\ApiSearchController', 'search']);
+    $r->addRoute('GET', '/print/records', ['App\Controllers\\PrintRecordsController', 'index']);
     $r->addRoute('POST', '/purge_audit_entry', ['App\Controllers\UserPurgeAuditEntryActionController', 'purge']);
     $r->addRoute('POST', '/admin/backup/download', ['App\Controllers\AdminBackupController', 'downloadBackup']);
     $r->addRoute('POST', '/admin/audit/purge', ['App\Controllers\AdminAuditController', 'purge']);

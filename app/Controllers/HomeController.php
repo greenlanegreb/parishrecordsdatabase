@@ -122,6 +122,13 @@ class HomeController
             );
             $colsStmt->execute([$activeTableId]);
             $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+            $visHelper = dirname(__DIR__, 2) . '/includes/column_visibility.php';
+            if (is_file($visHelper)) {
+                require_once $visHelper;
+            }
+            $visibleColumns = function_exists('resolve_visible_columns')
+                ? resolve_visible_columns($columns, $activeTableId)
+                : $columns;
         }
 
         $systemName = get_system_name($this->pdo);

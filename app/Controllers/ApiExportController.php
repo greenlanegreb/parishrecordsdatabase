@@ -61,6 +61,14 @@ class ApiExportController
         $colsStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $columns */
         $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        $visHelper = dirname(__DIR__, 2) . '/includes/column_visibility.php';
+        if (is_file($visHelper)) {
+            require_once $visHelper;
+        }
+        if (function_exists('resolve_visible_columns')) {
+            $columns = resolve_visible_columns($columns, $tableId);
+        }
+
 
         /** @var array<mixed, mixed> $searchFilters */
         $searchFilters = isset($queryGet['filters']) && is_array($queryGet['filters']) ? $queryGet['filters'] : [];
@@ -115,8 +123,12 @@ class ApiExportController
             $colName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : '';
             $headerRow[] = $colName;
         }
-        $headerRow[] = 'Created By';
-        $headerRow[] = 'Date Added';
+        if (!function_exists('show_created_by_column') || show_created_by_column($tableId)) {
+            $headerRow[] = 'Created By';
+        }
+        if (!function_exists('show_created_at_column') || show_created_at_column($tableId)) {
+            $headerRow[] = 'Date Added';
+        }
         fputcsv($output, $headerRow, ',', '"', '\\');
 
         $userDateFormat = isset($currentUser['date_format']) && is_string($currentUser['date_format'])
@@ -150,8 +162,12 @@ class ApiExportController
                 }
                 $recCreatedAt = isset($rec['created_at']) && is_string($rec['created_at']) ? $rec['created_at'] : '';
 
-                $row[] = $createdByLabel;
-                $row[] = $recCreatedAt;
+                if (!function_exists('show_created_by_column') || show_created_by_column($tableId)) {
+                    $row[] = $createdByLabel;
+                }
+                if (!function_exists('show_created_at_column') || show_created_at_column($tableId)) {
+                    $row[] = $recCreatedAt;
+                }
                 fputcsv($output, $row, ',', '"', '\\');
             }
         }

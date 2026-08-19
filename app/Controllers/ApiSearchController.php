@@ -70,6 +70,14 @@ class ApiSearchController
         $colsStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $columns */
         $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        $visHelper = dirname(__DIR__, 2) . '/includes/column_visibility.php';
+        if (is_file($visHelper)) {
+            require_once $visHelper;
+        }
+        if (function_exists('resolve_visible_columns')) {
+            $columns = resolve_visible_columns($columns, $tableId);
+        }
+
 
         /** @var array<mixed, mixed> $searchFilters */
         $searchFilters = isset($queryGet['filters']) && is_array($queryGet['filters']) ? $queryGet['filters'] : [];
@@ -185,8 +193,12 @@ class ApiSearchController
                 } else {
                     $createdByLabel = 'System';
                 }
-                echo '<td>' . htmlspecialchars($createdByLabel, ENT_QUOTES, 'UTF-8') . '</td>';
-                echo '<td>' . format_user_time($recCreatedAt, $userTimezone, $fullFormatStr) . '</td>';
+                if (!function_exists('show_created_by_column') || show_created_by_column($tableId)) {
+                    echo '<td>' . htmlspecialchars($createdByLabel, ENT_QUOTES, 'UTF-8') . '</td>';
+                }
+                if (!function_exists('show_created_at_column') || show_created_at_column($tableId)) {
+                    echo '<td>' . htmlspecialchars(format_user_time($recCreatedAt, $userTimezone, $fullFormatStr), ENT_QUOTES, 'UTF-8') . '</td>';
+                }
 
                 echo '<td class="text-end pe-3 text-nowrap">';
                 echo '<a href="record_history.php?record_id=' . $recId
