@@ -49,7 +49,7 @@ class UserForgotPasswordActionController
                 $token = bin2hex(random_bytes(32));
                 $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
-                $upd = $this->pdo->prepare("UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?");
+                $upd = $this->pdo->prepare("UPDATE users SET reset_token = ?, reset_expires_at = ? WHERE id = ?");
                 if ($upd->execute([$token, $expires, $user['id']])) {
                     // Send custom reset email
                     $systemName = get_system_name($this->pdo);
