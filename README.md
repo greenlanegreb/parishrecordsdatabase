@@ -1,10 +1,12 @@
 ﻿# Parish Records Directory (PRD)
 
-A lightweight, shared-hosting-friendly PHP application for building and publishing searchable record directories.
+A lightweight, shared-hosting-friendly modern PHP MVC application, transcribed into over 30 languages, for building and publishing searchable and exportable public or private record directories with granular collaborative roles ACL management and gamification.
 
-Create your own tables and columns from the admin UI, control who can view or edit them, and offer a clean public search — no frameworks, no Composer for end users. Originally built for parish and historical records, but suitable for any structured collection you want to catalogue and share (local history, membership lists, inventories, research datasets, and similar).
+You can create your own tables and columns from the admin UI, control who can contribute, edit and view them, — no frameworks and no PHP Composer or Terminal Access required for end users. Originally built for parish and historical records, but suitable for any structured collection you want to catalogue and share (local history, membership lists, inventories, research datasets, and similar).
 
-Built to run on ordinary PHP + MySQL/MariaDB hosting with **no Composer requirement for end users**. We ship the /vendor directory and dependencies with the app.
+Built to run on ordinary PHP + MySQL/MariaDB hosting with **no Composer requirement for end users**. We ship the /vendor directory and dependencies with the app, particularly to assist people who wish to contribute to the codebase.
+
+---
 
 ## Features
 
@@ -16,6 +18,8 @@ Built to run on ordinary PHP + MySQL/MariaDB hosting with **no Composer requirem
 - Leaderboard / points (optional)
 - 2FA, onboarding, audit logs
 - Maintenance mode and site notices
+- Transcribed into 30+ Languages including representation for some of the poorest countries across the world.
+---
 
 ## Requirements
 
@@ -23,20 +27,26 @@ Built to run on ordinary PHP + MySQL/MariaDB hosting with **no Composer requirem
 - MySQL or MariaDB
 - Apache or Nginx (Apache `.htaccess` included)
 
+---
+
 ## Installation (manual)
 
-1. Upload the project files to your web space.
-2. Create an empty MySQL/MariaDB database and a user with full rights on it.
-3. Run install/index.php.
-4. Visit the site in a browser and log in with your admin account created during the install process.
+1. Please upload the project files to your web space.
+2. Please create an empty MySQL/MariaDB database and a user with full rights on it.
+3. Please run install/index.php.
+4. Please visit the site in a browser and log in with your admin account created during the install process.
 
 **Important:** If Helping to Develop - Please never commit `/config.local.php` — it contains credentials. It is listed in `.gitignore`.
 
+---
+
 ## Configuration
 
-- **Site settings, modules, and the permission matrix:** Admin → Site Settings  
-- **Public access:** grant or revoke `view_as_guest` (and related keys) on the **guest** role  
-- **Modules:** turn features on/off under Settings → Modules  
+- **Site settings, modules, and the permission matrix:** can be found by going to Admin → Site Settings  
+- **Public access:** you can grant or revoke `view_as_guest` (and related keys) on the **guest** role  
+- **Modules:** you can turn features on/off under Settings → Modules  
+
+---
 
 ## Project layout (high level)
 
@@ -70,13 +80,38 @@ vendor/         Contains third party packages that ship with PRD to allow PRD to
 -   Guest public access is controlled only through the **guest** role permissions
     
 -   Credentials live only in `config.local.php` (not in the repo)
+  
+
+## Emergency database updates (cannot log in)
+
+If a bad migration or config issue blocks login, but PHP can still reach MySQL:
+
+1. On the server, please create an empty flag file:
+
+   `touch db/ALLOW_EMERGENCY_MIGRATE`
+
+   (or create empty file `db/ALLOW_EMERGENCY_MIGRATE` via FTP/cPanel)
+
+2. Please visit: https://your-site.example/update-database
+   (include any subfolder, e.g. /projects/prd/update-database)
+
+3. Please run pending migrations from that screen.
+
+4. When finished, please remove the flag (UI button if shown, or delete the file):
+
+   `rm db/ALLOW_EMERGENCY_MIGRATE`
+
+Please do not leave this file in place on a public server. It allows
+unauthenticated access to the migrator only while the file exists.
+
+**Please Never commit it to git**.
     
 
 ## Contributing
 
-<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+<p>Please see <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
 
 
 ## Licence
 
-<p>MIT — see <a href="LICENSE">LICENSE</a>.</p>
+<p>MIT — Please see <a href="LICENSE">LICENSE</a>.</p>
