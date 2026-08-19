@@ -21,7 +21,10 @@ class TableService
         $description = isset($post['description']) && is_string($post['description']) ? trim($post['description']) : '';
 
         if ($tableName === '') {
-            throw new Exception("Table name cannot be empty.");
+            throw new Exception($this->msg('manage_tables.err_table_name_empty', 'Please enter a table name.'));
+        }
+        if ($this->tableNameTaken($tableName)) {
+            throw new Exception($this->msg('manage_tables.err_table_name_taken', 'There is already a table called %s. Please choose a different name.', $tableName));
         }
 
         $stmt = $this->pdo->prepare("INSERT INTO dynamic_tables (table_name, description, created_by) VALUES (?, ?, ?)");
@@ -95,7 +98,10 @@ class TableService
             throw new Exception("Invalid table selected for editing.");
         }
         if ($tableName === '') {
-            throw new Exception("Table name cannot be empty.");
+            throw new Exception($this->msg('manage_tables.err_table_name_empty', 'Please enter a table name.'));
+        }
+        if ($this->tableNameTaken($tableName, $tableId)) {
+            throw new Exception($this->msg('manage_tables.err_table_name_taken', 'There is already a table called %s. Please choose a different name.', $tableName));
         }
 
         $stmt = $this->pdo->prepare("UPDATE dynamic_tables SET table_name = ?, description = ? WHERE id = ?");
@@ -217,7 +223,11 @@ class TableService
         }
 
         if ($columnName === '') {
-            throw new Exception("Column name cannot be empty.");
+            throw new Exception($this->msg('manage_tables.err_col_name_empty', 'Please enter a column name.'));
+        }
+        $excludeColId = ($action === 'create') ? 0 : (isset($post['column_id']) ? (int) $post['column_id'] : 0);
+        if ($this->columnNameTaken($tableId, $columnName, $excludeColId)) {
+            throw new Exception($this->msg('manage_tables.err_col_name_taken', 'This table already has a column called %s. Please choose a different name.', $columnName));
         }
 
         $ip = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
@@ -301,4 +311,40 @@ class TableService
 
         return "Column '{$colName}' and its associated data entries were successfully deleted.";
     }
+
+    private function tableNameTaken(string $name, int $exceptId = 0): bool
+    {
+        $sql = 'SELECT id FROM dynamic_tables WHERE LOWER(table_name) = LOWER(?)';
+        $params = [$name];
+        if ($exceptId > 0) {
+            $sql .= ' AND id <> ?';
+            $params[] = $exceptId;
+        }
+        $stmt = $this->pdo->prepare($sql . ' LIMIT 1');
+        $stmt->execute($params);
+        return $stmt->fetchColumn() !== false;
+    }
+
+    private function columnNameTaken(int $tableId, string $name, int $exceptId = 0): bool
+    {
+        $sql = 'SELECT id FROM table_columns WHERE table_id = ? AND LOWER(column_name) = LOWER(?)';
+        $params = [$tableId, $name];
+        if ($exceptId > 0) {
+            $sql .= ' AND id <> ?';
+            $params[] = $exceptId;
+        }
+        $stmt = $this->pdo->prepare($sql . ' LIMIT 1');
+        $stmt->execute($params);
+        return $stmt->fetchColumn() !== false;
+    }
+
+    private function msg(string $key, string $fallback, string $name = ''): string
+    {
+        $text = (function_exists('__') && __($key) !== $key) ? __($key) : $fallback;
+        if ($name !== '' && str_contains($text, '%s')) {
+            return sprintf($text, $name);
+        }
+        return $text;
+    }
+
 }
