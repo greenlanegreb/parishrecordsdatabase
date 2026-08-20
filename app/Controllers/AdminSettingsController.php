@@ -146,7 +146,7 @@ class AdminSettingsController
         $basePath      = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
 
         $demoPacks = [];
-        $showDemoPacksTab = false;
+        $showDemoPacksTab = true;
         try {
             $demoPacks = (new DemoPackService($this->pdo))->listPacks();
             foreach ($demoPacks as $pack) {
