@@ -21,12 +21,25 @@ class AdminSettingsController
 
     public function index(): void
     {
-        /** @var array{id: int, username: string, timezone?: string} $currentUser */
-        $currentUser = require_user_admin(
-            $this->pdo,
-            'manage_settings',
-            'Manage global site settings, mail drivers, and maintenance mode'
-        );
+        $graphEarly = dirname(__DIR__, 2) . '/includes/permission_graph.php';
+        if (is_file($graphEarly)) {
+            require_once $graphEarly;
+        }
+        if (!isset($_SESSION['user_id'])) {
+            $base = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
+            header('Location: ' . $base . '/login');
+            exit;
+        }
+        if (!function_exists('user_can_open_settings') || !user_can_open_settings($this->pdo)) {
+            require_once dirname(__DIR__, 2) . '/public/403.php';
+            exit;
+        }
+        /** @var array{id: int, username: string, timezone?: string}|null $currentUser */
+        $currentUser = get_current_user_data($this->pdo);
+        if ($currentUser === null) {
+            require_once dirname(__DIR__, 2) . '/public/403.php';
+            exit;
+        }
 
         $message = $_SESSION['message'] ?? '';
         $error   = $_SESSION['error'] ?? '';
@@ -34,6 +47,18 @@ class AdminSettingsController
 
         // Auto-register table-scoped permissions
         $this->settingsService->autoRegisterTablePermissions();
+
+        $graph = dirname(__DIR__, 2) . '/includes/permission_graph.php';
+        if (is_file($graph)) {
+            require_once $graph;
+        }
+        if (function_exists('prune_guest_role_permissions')) {
+            try {
+                prune_guest_role_permissions($this->pdo);
+            } catch (Exception $e) {
+                // ignore if tables are missing
+            }
+        }
 
         $currentSystemName = get_system_name($this->pdo);
 
@@ -146,16 +171,18 @@ class AdminSettingsController
         $basePath      = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
 
         $demoPacks = [];
-        $showDemoPacksTab = true;
+        $showDemoPacksTab = false;
         try {
             $demoPacks = (new DemoPackService($this->pdo))->listPacks();
-            foreach ($demoPacks as $pack) {
-                if (!empty($pack['installed'])) {
-                    $showDemoPacksTab = true;
-                    break;
-                }
-            }
+            $showDemoPacksTab = $demoPacks !== [];
         } catch (Exception $e) {
+            $showDemoPacksTab = false;
+        }
+
+        $canManageSettings = has_permission($this->pdo, 'manage_settings');
+        $canAuditLogs = has_permission($this->pdo, 'manage_audit_logs') || has_permission($this->pdo, 'purge_audit_entry');
+        $canManageNotices = has_permission($this->pdo, 'manage_notices');
+        if (!$canManageSettings) {
             $showDemoPacksTab = false;
         }
 

@@ -39,6 +39,29 @@ class AdminPermissionsActionController
         $submittedMatrix = isset($post['permissions']) && is_array($post['permissions']) ? $post['permissions'] : []; // Format: role_permissions[role_id][permission_id] = 1
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 
+        $graph = dirname(__DIR__, 2) . '/includes/permission_graph.php';
+        if (is_file($graph)) {
+            require_once $graph;
+        }
+
+        $guestRoleId = 0;
+        $guestStmt = $this->pdo->query("SELECT id FROM roles WHERE LOWER(role_name) = 'guest' LIMIT 1");
+        if ($guestStmt !== false) {
+            $guestRoleId = (int) $guestStmt->fetchColumn();
+        }
+        $guestAllowed = function_exists('guest_allowed_permission_keys') ? guest_allowed_permission_keys() : [];
+        $keyById = [];
+        $idByKey = [];
+        $keysStmt = $this->pdo->query('SELECT id, permission_key FROM permissions');
+        if ($keysStmt !== false) {
+            foreach ($keysStmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $id = (int) $row['id'];
+                $key = (string) $row['permission_key'];
+                $keyById[$id] = $key;
+                $idByKey[$key] = $id;
+            }
+        }
+
         try {
             $this->pdo->beginTransaction();
 
@@ -47,14 +70,35 @@ class AdminPermissionsActionController
 
             if (!empty($submittedMatrix)) {
                 $insertStmt = $this->pdo->prepare("INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)");
-                
+
                 foreach ($submittedMatrix as $roleId => $permissionIds) {
-                    if (is_array($permissionIds)) {
-                        foreach ($permissionIds as $permissionId => $val) {
-                            if ((string)$val === '1') {
-                                $insertStmt->execute([(int)$roleId, (int)$permissionId]);
-                            }
+                    if (!is_array($permissionIds)) {
+                        continue;
+                    }
+                    $roleId = (int) $roleId;
+                    $accepted = [];
+                    foreach ($permissionIds as $permissionId => $val) {
+                        if ((string) $val !== '1') {
+                            continue;
                         }
+                        $permissionId = (int) $permissionId;
+                        $key = $keyById[$permissionId] ?? '';
+                        if ($key === '') {
+                            continue;
+                        }
+                        if ($guestRoleId > 0 && $roleId === $guestRoleId && $guestAllowed !== [] && !in_array($key, $guestAllowed, true)) {
+                            continue;
+                        }
+                        $accepted[$key] = $permissionId;
+                    }
+                    foreach ($accepted as $key => $permissionId) {
+                        $parent = function_exists('permission_parent_key') ? permission_parent_key($key) : null;
+                        if ($parent !== null && !isset($accepted[$parent]) && isset($idByKey[$parent])) {
+                            $accepted[$parent] = $idByKey[$parent];
+                        }
+                    }
+                    foreach ($accepted as $permissionId) {
+                        $insertStmt->execute([$roleId, (int) $permissionId]);
                     }
                 }
             }

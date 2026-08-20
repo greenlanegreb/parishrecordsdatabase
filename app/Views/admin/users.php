@@ -103,6 +103,9 @@ if ($basePath === '') {
                                     <?php
                                         $rId = isset($r['id']) ? (int)$r['id'] : 0;
                                         $rName = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
+                                        if (strtolower($rName) === 'guest') {
+                                            continue;
+                                        }
                                     ?>
                                     <option value="<?= $rId ?>" <?= ($rName === 'user') ? 'selected' : '' ?>>
                                         <?= htmlspecialchars(ucwords($rName), ENT_QUOTES, 'UTF-8') ?>
@@ -198,6 +201,9 @@ if ($basePath === '') {
                                                     <?php
                                                         $rId = isset($r['id']) ? (int)$r['id'] : 0;
                                                         $rName = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
+                                                        if (strtolower($rName) === 'guest') {
+                                                            continue;
+                                                        }
                                                     ?>
                                                     <option value="<?= $rId ?>" <?= ($uRoleId === $rId) ? 'selected' : '' ?>>
                                                         <?= htmlspecialchars(ucwords($rName), ENT_QUOTES, 'UTF-8') ?>

@@ -63,6 +63,9 @@ $lookedUpError    = $lookedUpError ?? null;
 $errorLookupId    = $errorLookupId ?? '';
 /** @var bool $showDemoPacksTab */
 $showDemoPacksTab = $showDemoPacksTab ?? false;
+$canManageSettings = $canManageSettings ?? (function_exists('has_permission') && isset($pdo) && $pdo instanceof PDO && has_permission($pdo, 'manage_settings'));
+$canAuditLogs = $canAuditLogs ?? (function_exists('has_permission') && isset($pdo) && $pdo instanceof PDO && has_permission($pdo, 'manage_audit_logs'));
+$canManageNotices = $canManageNotices ?? (function_exists('has_permission') && isset($pdo) && $pdo instanceof PDO && has_permission($pdo, 'manage_notices'));
 /** @var list<array{slug: string, label: string, summary: string, installed: bool, has_demo_data: bool}> $demoPacks */
 $demoPacks = $demoPacks ?? [];
 require_once ROOT_PATH . '/partials/header.php';
@@ -100,24 +103,36 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     <p class="text-muted mb-4"><?= htmlspecialchars(__('settings.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
     <!-- Accessible Bootstrap Nav Tabs -->
     <ul class="nav nav-tabs mb-4" role="tablist" aria-label="Settings Sections">
+        <?php if (!empty($canManageSettings)): ?>
         <li class="nav-item" role="presentation">
-            <button class="nav-link active fw-bold" id="tab-core" data-bs-toggle="tab" data-bs-target="#panel-core" type="button" role="tab" aria-controls="panel-core" aria-selected="true"><?= htmlspecialchars($__t('settings.tab_core', 'Core'), ENT_QUOTES, 'UTF-8') ?></button>
+            <button class="nav-link fw-bold" id="tab-core" data-bs-toggle="tab" data-bs-target="#panel-core" type="button" role="tab" aria-controls="panel-core" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_core', 'Core'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <?php endif; ?>
+        <?php if (!empty($canManageSettings)): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold text-secondary" id="tab-modules" data-bs-toggle="tab" data-bs-target="#panel-modules" type="button" role="tab" aria-controls="panel-modules" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_modules', 'Modules'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <?php endif; ?>
+        <?php if (!empty($canManageSettings)): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold text-secondary" id="tab-maintenance" data-bs-toggle="tab" data-bs-target="#panel-maintenance" type="button" role="tab" aria-controls="panel-maintenance" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_maintenance', 'Maintenance'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <?php endif; ?>
+        <?php if (!empty($canManageNotices)): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold text-secondary" id="tab-notices" data-bs-toggle="tab" data-bs-target="#panel-notices" type="button" role="tab" aria-controls="panel-notices" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_notices', 'Notices'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <?php endif; ?>
+        <?php if (!empty($canManageSettings)): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold text-secondary" id="tab-permissions" data-bs-toggle="tab" data-bs-target="#panel-permissions" type="button" role="tab" aria-controls="panel-permissions" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_permissions', 'Permissions'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <?php endif; ?>
+        <?php if (!empty($canAuditLogs)): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold text-secondary" id="tab-audit" data-bs-toggle="tab" data-bs-target="#panel-audit" type="button" role="tab" aria-controls="panel-audit" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_audit', 'Audit Log'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <?php endif; ?>
         <?php if ($canViewErrorLogs): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold text-secondary" id="tab-errors" data-bs-toggle="tab" data-bs-target="#panel-errors" type="button" role="tab" aria-controls="panel-errors" aria-selected="false"><?= htmlspecialchars($__t('settings.error_log_tab', 'Error Log'), ENT_QUOTES, 'UTF-8') ?></button>
@@ -130,12 +145,18 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <?php endif; ?>
     </ul>
     <div class="tab-content">
-        <?php require __DIR__ . '/settings_parts/core.php'; ?>
-        <?php require __DIR__ . '/settings_parts/modules.php'; ?>
-        <?php require __DIR__ . '/settings_parts/maintenance.php'; ?>
-        <?php require __DIR__ . '/settings_parts/notices.php'; ?>
-        <?php require __DIR__ . '/settings_parts/permissions.php'; ?>
-        <?php require __DIR__ . '/settings_parts/audit.php'; ?>
+        <?php if (!empty($canManageSettings)): ?>
+            <?php require __DIR__ . '/settings_parts/core.php'; ?>
+            <?php require __DIR__ . '/settings_parts/modules.php'; ?>
+            <?php require __DIR__ . '/settings_parts/maintenance.php'; ?>
+            <?php require __DIR__ . '/settings_parts/permissions.php'; ?>
+        <?php endif; ?>
+        <?php if (!empty($canManageNotices)): ?>
+            <?php require __DIR__ . '/settings_parts/notices.php'; ?>
+        <?php endif; ?>
+        <?php if (!empty($canAuditLogs)): ?>
+            <?php require __DIR__ . '/settings_parts/audit.php'; ?>
+        <?php endif; ?>
         <?php if ($canViewErrorLogs): ?>
             <?php require __DIR__ . '/settings_parts/errors.php'; ?>
         <?php endif; ?>
@@ -185,6 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
 
     let targetTab = 'tab-core';
+    if (!document.getElementById(targetTab)) {
+        const first = document.querySelector('.nav-tabs .nav-link');
+        if (first && first.id) targetTab = first.id;
+    }
     if (hash === '#test-mail-section') {
         targetTab = 'tab-core';
         setTimeout(() => {

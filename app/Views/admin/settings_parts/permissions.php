@@ -114,22 +114,47 @@ $st = static function (string $key, string $fallback): string {
                                                                 $pLabel = ucwords(str_replace('_', ' ', $pkey));
                                                                 $isChecked = isset($activeMappings[$rId][$pId]);
                                                                 $isLockedAdmin = ($rId === 1 && $isChecked);
+                                                                $isGuestRole = function_exists('is_guest_role_name') && is_guest_role_name($rName);
+                                                                $guestOk = !$isGuestRole || (function_exists('guest_allowed_permission_keys') && in_array($pkey, guest_allowed_permission_keys(), true));
+                                                                if (!$guestOk) {
+                                                                    continue;
+                                                                }
+                                                                $parentKey = function_exists('permission_parent_key') ? permission_parent_key($pkey) : null;
+                                                                $needsHint = $parentKey !== null
+                                                                    ? ($st('settings.perm_needs', 'Requires') . ': ' . ucwords(str_replace('_', ' ', $parentKey)) . ' permission.')
+                                                                    : '';
+                                                                if ($pkey === 'export_data') {
+                                                                    $needsHint = $st('settings.perm_export_needs_view', 'Requires permission to view the table being exported.');
+                                                                }
+                                                                $infoText = trim($pDesc . ($needsHint !== '' ? ' — ' . $needsHint : ''));
+                                                                if ($infoText === '') {
+                                                                    $infoText = $pLabel;
+                                                                }
                                                             ?>
-                                                            <label class="d-inline-flex align-items-center gap-2 bg-light border rounded px-2 py-1 mb-0"
-                                                                   style="white-space: nowrap;"
-                                                                   title="<?= htmlspecialchars($pDesc !== '' ? $pDesc : $pkey, ENT_QUOTES, 'UTF-8') ?>">
-                                                                <input type="checkbox"
-                                                                       name="permissions[<?= $rId ?>][<?= $pId ?>]"
-                                                                       value="1"
-                                                                       class="form-check-input m-0 flex-shrink-0"
-                                                                       style="float: none; position: static;"
-                                                                       <?= $isChecked ? 'checked' : '' ?>
-                                                                       <?= $isLockedAdmin ? 'disabled' : '' ?>>
-                                                                <?php if ($isLockedAdmin): ?>
-                                                                    <input type="hidden" name="permissions[<?= $rId ?>][<?= $pId ?>]" value="1">
-                                                                <?php endif; ?>
-                                                                <span class="small"><?= htmlspecialchars($pLabel, ENT_QUOTES, 'UTF-8') ?></span>
-                                                            </label>
+                                                            <span class="d-inline-flex flex-wrap align-items-center gap-1 bg-light border rounded px-2 py-1 mb-0 perm-chip">
+                                                                <label class="d-inline-flex align-items-center gap-2 mb-0" style="white-space: nowrap;">
+                                                                    <input type="checkbox"
+                                                                           name="permissions[<?= $rId ?>][<?= $pId ?>]"
+                                                                           value="1"
+                                                                           class="form-check-input m-0 flex-shrink-0 js-perm"
+                                                                           style="float: none; position: static;"
+                                                                           data-role="<?= $rId ?>"
+                                                                           data-key="<?= htmlspecialchars($pkey, ENT_QUOTES, 'UTF-8') ?>"
+                                                                           <?= $parentKey ? 'data-requires="' . htmlspecialchars($parentKey, ENT_QUOTES, 'UTF-8') . '"' : '' ?>
+                                                                           <?= $isChecked ? 'checked' : '' ?>
+                                                                           <?= $isLockedAdmin ? 'disabled' : '' ?>>
+                                                                    <?php if ($isLockedAdmin): ?>
+                                                                        <input type="hidden" name="permissions[<?= $rId ?>][<?= $pId ?>]" value="1">
+                                                                    <?php endif; ?>
+                                                                    <span class="small"><?= htmlspecialchars($pLabel, ENT_QUOTES, 'UTF-8') ?></span>
+                                                                </label>
+                                                                <button type="button"
+                                                                        class="btn btn-sm btn-outline-secondary rounded-circle p-0 js-perm-info"
+                                                                        style="width:1.35rem;height:1.35rem;line-height:1.2;font-size:0.75rem;"
+                                                                        aria-expanded="false"
+                                                                        aria-label="<?= htmlspecialchars($st('settings.perm_more_info', 'More about') . ' ' . $pLabel, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($st('settings.perm_info_mark', 'i'), ENT_QUOTES, 'UTF-8') ?></button>
+                                                                <span class="perm-hint d-none small text-muted mt-1 w-100" role="note"></span>
+                                                            </span>
                                                         <?php endforeach; ?>
                                                     </div>
                                                 </td>
@@ -148,4 +173,88 @@ $st = static function (string $key, string $fallback): string {
             <button type="submit" class="btn btn-primary"><?= htmlspecialchars($st('settings.save_permissions_btn', 'Save permissions'), ENT_QUOTES, 'UTF-8') ?></button>
         </div>
     </form>
+    <script>
+    (function () {
+        var needsWord = <?= json_encode($st('settings.perm_needs', 'Requires')) ?>;
+        var usedByWord = <?= json_encode($st('settings.perm_used_by', 'Required by')) ?>;
+        var lockedWord = <?= json_encode($st('settings.perm_locked', 'This permission is mandatory for Administrators.')) ?>;
+        var offWord = <?= json_encode($st('settings.perm_needs_parent', 'Please turn that on first.')) ?>;
+
+        function box(role, key) {
+            return document.querySelector('.js-perm[data-role="' + role + '"][data-key="' + key + '"]');
+        }
+        function labelFor(cb) {
+            var span = cb.closest('label');
+            if (!span) return cb.getAttribute('data-key');
+            var t = span.querySelector('span.small');
+            return t ? t.textContent.trim() : cb.getAttribute('data-key');
+        }
+        function childrenOf(role, key) {
+            return Array.prototype.slice.call(document.querySelectorAll('.js-perm[data-role="' + role + '"][data-requires="' + key + '"]'));
+        }
+        function syncRole(role) {
+            document.querySelectorAll('.js-perm[data-role="' + role + '"][data-requires]').forEach(function (child) {
+                if (child.dataset.locked === '1') return;
+                var parent = box(role, child.getAttribute('data-requires'));
+                if (!parent) return;
+                var ok = parent.checked;
+                child.disabled = !ok;
+                if (!ok) child.checked = false;
+                var lab = child.closest('label');
+                if (lab) lab.classList.toggle('text-muted', !ok);
+            });
+        }
+        function hintText(cb) {
+            var parts = [];
+            var req = cb.getAttribute('data-requires');
+            var role = cb.getAttribute('data-role');
+            if (cb.disabled && cb.dataset.locked === '1') parts.push(lockedWord);
+            if (cb.getAttribute('data-key') === 'export_data') {
+                parts.push(<?= json_encode($st('settings.perm_export_needs_view', 'Requires permission to view the table being exported.')) ?>);
+            }
+            if (req) {
+                var parent = box(role, req);
+                var pname = parent ? labelFor(parent) : req;
+                var line = needsWord + ': ' + pname + ' permission.';
+                if (!parent || !parent.checked) line += ' ' + offWord;
+                parts.push(line);
+            }
+            var kids = childrenOf(role, cb.getAttribute('data-key')).map(labelFor);
+            if (kids.length) parts.push(usedByWord + ': ' + kids.join(', ') + '.');
+            return parts.join('. ');
+        }
+        document.querySelectorAll('.js-perm').forEach(function (cb) {
+            if (cb.disabled && cb.nextElementSibling && cb.nextElementSibling.type === 'hidden') {
+                cb.dataset.locked = '1';
+            }
+            cb.addEventListener('change', function () {
+                var role = cb.getAttribute('data-role');
+                if (cb.checked && cb.getAttribute('data-requires')) {
+                    var parent = box(role, cb.getAttribute('data-requires'));
+                    if (parent && !parent.disabled) parent.checked = true;
+                }
+                syncRole(role);
+            });
+        });
+        document.querySelectorAll('.js-perm-info').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                var chip = btn.closest('.perm-chip');
+                var cb = chip ? chip.querySelector('.js-perm') : null;
+                var hint = chip ? chip.querySelector('.perm-hint') : null;
+                if (!hint || !cb) return;
+                var open = !hint.classList.contains('d-none');
+                document.querySelectorAll('.perm-hint').forEach(function (h) { h.classList.add('d-none'); h.textContent = ''; });
+                document.querySelectorAll('.js-perm-info').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
+                if (open) return;
+                hint.textContent = hintText(cb) || <?= json_encode($st('settings.perm_no_links', 'This permission does not depend on another one.')) ?>;
+                hint.classList.remove('d-none');
+                btn.setAttribute('aria-expanded', 'true');
+            });
+        });
+        var roles = {};
+        document.querySelectorAll('.js-perm').forEach(function (cb) { roles[cb.getAttribute('data-role')] = true; });
+        Object.keys(roles).forEach(syncRole);
+    })();
+    </script>
 </div>

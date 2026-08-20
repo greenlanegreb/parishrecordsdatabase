@@ -30,7 +30,9 @@ class PrintRecordsController
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
         $canView = ($currentUser !== null && function_exists('has_permission') && has_permission($this->pdo, 'view_table_' . $tableId))
             || (function_exists('guest_has_permission') && guest_has_permission($this->pdo, 'view_as_guest'));
-        if (!$canView) {
+        $canExport = ($currentUser !== null && function_exists('has_permission') && has_permission($this->pdo, 'export_data'))
+            || (function_exists('guest_has_permission') && guest_has_permission($this->pdo, 'export_data'));
+        if (!$canView || !$canExport) {
             require_once dirname(__DIR__, 2) . '/public/403.php';
             exit;
         }

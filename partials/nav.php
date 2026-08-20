@@ -121,7 +121,13 @@ $canManageUsers = $pdoOk && $modUsers && has_permission($pdo, 'manage_users');
 $canManageCols = $pdoOk && has_permission($pdo, 'manage_columns');
 $canManageVols = $pdoOk && $modVolunteers && has_permission($pdo, 'manage_volunteers');
 $canManageFeed = $pdoOk && $modFeedback && has_permission($pdo, 'manage_feedback');
-$canManageSets = $pdoOk && has_permission($pdo, 'manage_settings');
+$canManageSets = $pdoOk && (
+    has_permission($pdo, 'manage_settings')
+    || has_permission($pdo, 'manage_audit_logs')
+    || has_permission($pdo, 'view_error_logs')
+    || has_permission($pdo, 'manage_notices')
+    || has_permission($pdo, 'purge_audit_entry')
+);
 $showAdminMenu = $canManageUsers || $canManageCols || $canManageVols || $canManageFeed || $canManageSets;
 
 $baseUrl = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
