@@ -101,6 +101,9 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                         <button type="button" id="clear-search" class="btn btn-sm btn-secondary">
                             <?= htmlspecialchars(__('data_entry.reset_filter_btn'), ENT_QUOTES, 'UTF-8') ?>
                         </button>
+                    <?php if (!empty($tableHasMap)): ?>
+                    <a class="btn btn-sm btn-outline-secondary" href="<?= htmlspecialchars($basePath ?? $baseUrl ?? '', ENT_QUOTES, 'UTF-8') ?>/tables/<?= (int)$activeTableId ?>/map"><?= htmlspecialchars(__('map.open_btn') !== 'map.open_btn' ? __('map.open_btn') : 'Map', ENT_QUOTES, 'UTF-8') ?></a>
+                    <?php endif; ?>
                         <button type="button" id="export-csv-btn" class="btn btn-sm btn-outline-secondary ">
                             <?= htmlspecialchars(__('data_entry.csv_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
                         </button>

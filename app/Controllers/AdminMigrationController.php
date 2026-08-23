@@ -48,7 +48,7 @@ class AdminMigrationController
                 $_SESSION['message'] = "Database updated from version {$before} to {$result['current']}. Applied: {$lines}";
 
                 $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
-                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip address`, `created at`) VALUES (?, 'RUN_MIGRATIONS', ?, ?, NOW())");
+                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES (?, 'RUN_MIGRATIONS', ?, ?, NOW())");
                 $audit->execute([$currentUser['id'], "Applied database migrations up to version {$result['current']} ({$lines})", $remoteAddr]);
             }
         } catch (Throwable $e) {

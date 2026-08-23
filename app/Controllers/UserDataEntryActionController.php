@@ -79,6 +79,7 @@ class UserDataEntryActionController
                 $isDate = ($dataType === 'DATE');
                 $isSelect = ($dataType === 'SELECT');
                 $isInt = ($dataType === 'INT');
+                $isLocation = ($dataType === 'LOCATION');
                 $colName = isset($colsMap[$cid]['column_name']) && is_string($colsMap[$cid]['column_name']) ? $colsMap[$cid]['column_name'] : 'Field';
 
                 if ($isBool) {
@@ -119,6 +120,19 @@ class UserDataEntryActionController
                             header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                             exit;
                         }
+                    }
+                } elseif ($isLocation) {
+                    $postedLoc = is_array($val) ? $val : [];
+                    $locData = \App\Services\LocationValueService::fromPosted($postedLoc);
+                    if ($locData === null) {
+                        $cleanVal = '';
+                    } elseif (!\App\Services\LocationValueService::isComplete($locData)) {
+                        $_SESSION['error'] = sprintf(__('save_data_entry.err_location') !== 'save_data_entry.err_location' ? __('save_data_entry.err_location') : 'Choose a place from the list and add a title and short text for %s.', $colName);
+                        remember_field_error($cid, $_SESSION['error']);
+                        header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
+                        exit;
+                    } else {
+                        $cleanVal = \App\Services\LocationValueService::encode($locData);
                     }
                 } else {
                     $cleanVal = sanitize_incoming_text(is_scalar($val) ? (string)$val : flatten_posted_column_value($val));
@@ -192,6 +206,12 @@ class UserDataEntryActionController
                         if ($valueContent !== '') {
                             $valStmt = $this->pdo->prepare("INSERT INTO record_values (record_id, column_id, value_content) VALUES (?, ?, ?)");
                             $valStmt->execute([$recordId, $columnId, $valueContent]);
+                            if (isset($colsMap[$columnId]['data_type']) && $colsMap[$columnId]['data_type'] === 'LOCATION') {
+                                $pin = \App\Services\LocationValueService::decode($valueContent);
+                                if ($pin !== null) {
+                                    \App\Services\LocationValueService::upsertPin($this->pdo, $tableId, $recordId, (int) $columnId, $pin);
+                                }
+                            }
 
                             // Build readable summary for audit details
                             if (isset($colsMap[$columnId])) {

@@ -257,6 +257,10 @@ CREATE TABLE IF NOT EXISTS `table_columns` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `date_search_behavior` varchar(50) DEFAULT 'manual_only',
   `exclude_from_public_search` tinyint(1) DEFAULT 0,
+  `field_options` text DEFAULT NULL,
+  `allow_multiple` tinyint(1) NOT NULL DEFAULT 0,
+  `min_value` int(11) DEFAULT NULL,
+  `max_value` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `created_by` (`created_by`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

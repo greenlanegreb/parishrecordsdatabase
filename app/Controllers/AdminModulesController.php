@@ -37,7 +37,7 @@ class AdminModulesController
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 
         try {
-            $modules = ['moderation', 'volunteers', 'feedback', 'users', 'leaderboard'];
+            $modules = ['moderation', 'volunteers', 'feedback', 'users', 'leaderboard', 'maps'];
             $stmt = $this->pdo->prepare("INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
 
             foreach ($modules as $mod) {

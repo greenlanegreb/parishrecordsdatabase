@@ -217,6 +217,9 @@ $__t = static function (string $key, string $fallback = ''): string {
                 <label for="mail_from" class="form-label fw-bold"><?= htmlspecialchars(__('settings.mail_from_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="email" id="mail_from" name="mail_from" value="<?= htmlspecialchars($currentMailFrom, ENT_QUOTES, 'UTF-8') ?>" placeholder="e.g. notifications@example.com" class="form-control">
                 <div class="form-text"><?= htmlspecialchars(__('settings.mail_from_desc'), ENT_QUOTES, 'UTF-8') ?></div>
+                <label for="map_tile_url" class="form-label fw-bold mt-3"><?= htmlspecialchars(__('settings.map_tile_url') !== 'settings.map_tile_url' ? __('settings.map_tile_url') : 'Map picture address (optional)', ENT_QUOTES, 'UTF-8') ?></label>
+                <input type="text" id="map_tile_url" name="map_tile_url" value="<?= htmlspecialchars($currentMapTileUrl ?? '', ENT_QUOTES, 'UTF-8') ?>" class="form-control" placeholder="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" autocomplete="off">
+                <div class="form-text"><?= htmlspecialchars(__('settings.map_tile_url_help') !== 'settings.map_tile_url_help' ? __('settings.map_tile_url_help') : 'Leave blank for the free OpenStreetMap pictures. Paid map services can go here; pRD does not ship a key.', ENT_QUOTES, 'UTF-8') ?></div>
             </div>
 
             <div class="mb-3">

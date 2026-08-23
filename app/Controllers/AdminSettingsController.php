@@ -66,6 +66,7 @@ class AdminSettingsController
         // Mail settings
         $currentMailDomain     = $this->settingsService->getSettingVal('mail_domain', '');
         $currentMailFrom       = $this->settingsService->getSettingVal('mail_from', '');
+        $currentMapTileUrl     = $this->settingsService->getSettingVal('map_tile_url', '');
         $currentMailDriver     = $this->settingsService->getSettingVal('mail_driver', 'mail');
         $currentSmtpHost       = $this->settingsService->getSettingVal('smtp_host', '');
         $currentSmtpPort       = $this->settingsService->getSettingVal('smtp_port', '587');
@@ -109,6 +110,7 @@ class AdminSettingsController
         $modFeedbackVal    = $this->settingsService->getSettingVal('module_feedback_enabled', '1');
         $modUsersVal       = $this->settingsService->getSettingVal('module_users_enabled', '1');
         $modLeaderboardVal = $this->settingsService->getSettingVal('module_leaderboard_enabled', '1');
+        $modMapsVal        = $this->settingsService->getSettingVal('module_maps_enabled', '1');
 
         // Notices + Audit
         $notices         = $this->settingsService->getNotices();

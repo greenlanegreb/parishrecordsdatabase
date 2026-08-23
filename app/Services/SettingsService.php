@@ -291,6 +291,8 @@ class SettingsService
 
         $stmt->execute(['mail_domain', $mailDomain, $mailDomain]);
         $stmt->execute(['mail_from', $mailFrom, $mailFrom]);
+        $tile = isset($post['map_tile_url']) && is_string($post['map_tile_url']) ? trim($post['map_tile_url']) : '';
+        $stmt->execute(['map_tile_url', $tile, $tile]);
         $stmt->execute(['mail_driver', $mailDriver, $mailDriver]);
         $stmt->execute(['smtp_host', $smtpHost, $smtpHost]);
         $stmt->execute(['smtp_port', (string) $smtpPort, (string) $smtpPort]);

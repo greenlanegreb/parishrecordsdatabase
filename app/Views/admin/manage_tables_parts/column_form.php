@@ -26,6 +26,7 @@ $keepColumnFormOpen = $editCol || (isset($_GET['add_column']) && (string) $_GET[
 
                     <div class="mb-3">
                         <label for="data_type" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.data_type_label'), ENT_QUOTES, 'UTF-8') ?></label>
+                        <p class="form-text small" id="location_type_help" style="display:none;"><?= htmlspecialchars(__('manage_tables.type_location_help') !== 'manage_tables.type_location_help' ? __('manage_tables.type_location_help') : 'Places must be chosen from the lookup so they can appear on this table\'s map. Use a normal text column if you only need a written place name.', ENT_QUOTES, 'UTF-8') ?></p>
                         <select id="data_type" name="data_type" class="form-select max-width-400" onchange="toggleFieldOptions(this.value)">
                             <option value="VARCHAR" <?= ($editCol && ($editCol['data_type'] ?? '') === 'VARCHAR') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_varchar'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="TEXT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'TEXT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_text_long'), ENT_QUOTES, 'UTF-8') ?></option>
@@ -33,6 +34,7 @@ $keepColumnFormOpen = $editCol || (isset($_GET['add_column']) && (string) $_GET[
                             <option value="BOOLEAN" <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="DATE" <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="SELECT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="LOCATION" <?= ($editCol && ($editCol['data_type'] ?? '') === 'LOCATION') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 
@@ -118,6 +120,8 @@ function toggleFieldOptions(val) {
     if (dateWrapper) dateWrapper.style.display = (val === 'DATE') ? 'block' : 'none';
     if (choiceWrapper) choiceWrapper.style.display = (val === 'SELECT') ? 'block' : 'none';
     if (intWrapper) intWrapper.style.display = (val === 'INT') ? 'block' : 'none';
+    var locHelp = document.getElementById('location_type_help');
+    if (locHelp) locHelp.style.display = (val === 'LOCATION') ? 'block' : 'none';
 }
 <?php if ($keepColumnFormOpen): ?>
 document.addEventListener('DOMContentLoaded', function () {

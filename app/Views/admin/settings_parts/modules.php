@@ -54,6 +54,15 @@ declare(strict_types=1);
                 </div>
             </div>
 
+            
+                <div class="card bg-light border-0 p-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="module_maps_enabled" id="module_maps_enabled" value="1" <?= ($modMapsVal === '1') ? 'checked' : '' ?> class="form-check-input fs-5">
+                        <label for="module_maps_enabled" class="form-check-label fw-bold text-dark"><?= htmlspecialchars(__('settings.mod_maps') !== 'settings.mod_maps' ? __('settings.mod_maps') : 'Maps', ENT_QUOTES, 'UTF-8') ?></label>
+                    </div>
+                    <p class="text-muted small mb-0 mt-1 ms-4"><?= htmlspecialchars(__('settings.mod_maps_desc') !== 'settings.mod_maps_desc' ? __('settings.mod_maps_desc') : 'Show a map for each table that has a location column.', ENT_QUOTES, 'UTF-8') ?></p>
+                </div>
+
             <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('settings.save_modules_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
     </div>

@@ -46,21 +46,21 @@ class AdminAuditController
                 $_SESSION['message'] = "The entire audit log has been successfully cleared.";
 
                 // Log the purge action itself
-                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip address`, `created at`) VALUES (?, 'PURGE_AUDIT_LOGS', 'Cleared the entire audit log', ?, NOW())");
+                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES (?, 'PURGE_AUDIT_LOGS', 'Cleared the entire audit log', ?, NOW())");
                 $audit->execute([$currentUser['id'], $remoteAddr]);
             } elseif ($purgeType === 'records_only') {
                 $stmt = $this->pdo->prepare("DELETE FROM audit_logs WHERE action IN ('INSERT', 'PURGE_RECORD', 'EDIT_SUGGESTION', 'APPROVE_SUGGESTION', 'REJECT_SUGGESTION')");
                 $stmt->execute();
                 $_SESSION['message'] = "All records-related audit logs have been successfully cleared.";
 
-                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip address`, `created at`) VALUES (?, 'PURGE_AUDIT_LOGS', 'Cleared records-related audit logs', ?, NOW())");
+                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES (?, 'PURGE_AUDIT_LOGS', 'Cleared records-related audit logs', ?, NOW())");
                 $audit->execute([$currentUser['id'], $remoteAddr]);
             } elseif ($purgeType !== '') {
                 $stmt = $this->pdo->prepare("DELETE FROM audit_logs WHERE action = ?");
                 $stmt->execute([$purgeType]);
                 $_SESSION['message'] = "Audit logs for action type '{$purgeType}' have been successfully cleared.";
 
-                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip address`, `created at`) VALUES (?, 'PURGE_AUDIT_LOGS', ?, ?, NOW())");
+                $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES (?, 'PURGE_AUDIT_LOGS', ?, ?, NOW())");
                 $audit->execute([$currentUser['id'], "Cleared audit logs for action type: {$purgeType}", $remoteAddr]);
             } else {
                 $_SESSION['error'] = "Invalid purge action specified.";

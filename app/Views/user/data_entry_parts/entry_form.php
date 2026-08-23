@@ -51,7 +51,7 @@ $fieldErrors = $fieldErrors ?? [];
                                     $inv = function_exists('field_invalid_attr') ? field_invalid_attr($fieldErrors, $colId, $errId) : '';
                                     $invClass = function_exists('field_has_error') && field_has_error($fieldErrors, $colId) ? ' is-invalid' : '';
                                 ?>
-                                <div class="col-md-4">
+                                <div class="<?= $dataType === 'LOCATION' ? 'col-12' : 'col-md-4' ?>">
                                     <label for="col_<?= $colId ?>" class="form-label small fw-bold">
                                         <?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?>:
                                         <?php if ($isRequired): ?>
@@ -93,6 +93,37 @@ $fieldErrors = $fieldErrors ?? [];
                                         <?php if ($allowMultiple): ?>
                                             <div class="form-text"><?= htmlspecialchars(__('data_entry.multiselect_hint') !== 'data_entry.multiselect_hint' ? __('data_entry.multiselect_hint') : 'Hold Ctrl (or Cmd) to choose more than one.', ENT_QUOTES, 'UTF-8') ?></div>
                                         <?php endif; ?>
+                                    <?php elseif ($dataType === 'LOCATION'): ?>
+                                        <?php
+                                            $loc = \App\Services\LocationValueService::decode($savedVal !== '' ? $savedVal : null);
+                                            $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
+                                        ?>
+                                        <p class="form-text small"><?= htmlspecialchars(__('data_entry.location_help') !== 'data_entry.location_help' ? __('data_entry.location_help') : 'Search for the place as it is known today, pick a match, then you may word the label as the old name. Title and short text are required for the map popup.', ENT_QUOTES, 'UTF-8') ?></p>
+                                        <label class="form-label small" for="loc_q_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_search') !== 'data_entry.location_search' ? __('data_entry.location_search') : 'Find place', ENT_QUOTES, 'UTF-8') ?></label>
+                                        <div class="input-group input-group-sm mb-2">
+                                            <input type="text" id="loc_q_<?= $colId ?>" class="form-control js-loc-q" autocomplete="off">
+                                            <button type="button" class="btn btn-outline-secondary js-loc-search" data-col="<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_search_btn') !== 'data_entry.location_search_btn' ? __('data_entry.location_search_btn') : 'Search', ENT_QUOTES, 'UTF-8') ?></button>
+                                        </div>
+                                        <div id="loc_results_<?= $colId ?>" class="list-group mb-2 small" role="listbox" aria-label="<?= htmlspecialchars(__('data_entry.location_results') !== 'data_entry.location_results' ? __('data_entry.location_results') : 'Did you mean', ENT_QUOTES, 'UTF-8') ?>"></div>
+                                        <input type="hidden" name="filters[<?= $colId ?>][q]" id="loc_hid_q_<?= $colId ?>" value="<?= htmlspecialchars($loc['q'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="hidden" name="filters[<?= $colId ?>][lat]" id="loc_lat_<?= $colId ?>" value="<?= htmlspecialchars((string) ($loc['lat'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="hidden" name="filters[<?= $colId ?>][lng]" id="loc_lng_<?= $colId ?>" value="<?= htmlspecialchars((string) ($loc['lng'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+                                        <label class="form-label small" for="loc_label_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_label') !== 'data_entry.location_label' ? __('data_entry.location_label') : 'Name to show (you may use the historic name)', ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="loc_label_<?= $colId ?>" name="filters[<?= $colId ?>][label]" value="<?= htmlspecialchars($loc['label'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                                        <label class="form-label small" for="loc_title_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_title') !== 'data_entry.location_title' ? __('data_entry.location_title') : 'Popup title', ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="loc_title_<?= $colId ?>" name="filters[<?= $colId ?>][title]" value="<?= htmlspecialchars($loc['title'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
+                                        <label class="form-label small" for="loc_body_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_body') !== 'data_entry.location_body' ? __('data_entry.location_body') : 'Popup text', ENT_QUOTES, 'UTF-8') ?></label>
+                                        <textarea class="form-control form-control-sm mb-2" id="loc_body_<?= $colId ?>" name="filters[<?= $colId ?>][body]" rows="2" required><?= htmlspecialchars($loc['body'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+                                        <fieldset class="mb-2">
+                                            <legend class="form-label small"><?= htmlspecialchars(__('data_entry.location_color') !== 'data_entry.location_color' ? __('data_entry.location_color') : 'Pin colour', ENT_QUOTES, 'UTF-8') ?></legend>
+                                            <?php foreach (\App\Services\LocationValueService::palette() as $sw): ?>
+                                                <label class="me-2 small">
+                                                    <input type="radio" name="filters[<?= $colId ?>][color]" value="<?= htmlspecialchars($sw['hex'], ENT_QUOTES, 'UTF-8') ?>" <?= (($loc['color'] ?? '') === $sw['hex'] || (($loc['color'] ?? '') === '' && $sw['hex'] === \App\Services\LocationValueService::defaultColor())) ? 'checked' : '' ?>>
+                                                    <span style="display:inline-block;width:0.9rem;height:0.9rem;background:<?= htmlspecialchars($sw['hex'], ENT_QUOTES, 'UTF-8') ?>;border:1px solid #000;vertical-align:middle;" title="<?= htmlspecialchars($sw['label'], ENT_QUOTES, 'UTF-8') ?>"></span>
+                                                    <span class="visually-hidden"><?= htmlspecialchars($sw['label'], ENT_QUOTES, 'UTF-8') ?></span>
+                                                </label>
+                                            <?php endforeach; ?>
+                                        </fieldset>
                                     <?php elseif ($dataType === 'INT'): ?>
                                         <input type="number" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm<?= $invClass ?>"
                                                <?= isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '' ? 'min="' . (int)$col['min_value'] . '"' : '' ?>
@@ -154,5 +185,43 @@ $fieldErrors = $fieldErrors ?? [];
                 });
             });
         }
+        document.querySelectorAll('.js-loc-search').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const col = btn.getAttribute('data-col');
+                const qEl = document.getElementById('loc_q_' + col);
+                const box = document.getElementById('loc_results_' + col);
+                const q = qEl ? qEl.value.trim() : '';
+                if (q.length < 2 || !box) return;
+                box.textContent = '';
+                const base = <?= json_encode(defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '') ?>;
+                fetch(base + '/api/geocode?q=' + encodeURIComponent(q), { credentials: 'same-origin' })
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        const hits = data.results || [];
+                        if (!hits.length) {
+                            box.innerHTML = '<div class="text-danger"><?= htmlspecialchars(__('data_entry.location_none') !== 'data_entry.location_none' ? __('data_entry.location_none') : 'No matching place. Try a nearby town.', ENT_QUOTES, 'UTF-8') ?></div>';
+                            return;
+                        }
+                        hits.forEach(function (h) {
+                            const b = document.createElement('button');
+                            b.type = 'button';
+                            b.className = 'list-group-item list-group-item-action';
+                            b.textContent = h.label;
+                            b.addEventListener('click', function () {
+                                document.getElementById('loc_hid_q_' + col).value = h.q || q;
+                                document.getElementById('loc_lat_' + col).value = h.lat;
+                                document.getElementById('loc_lng_' + col).value = h.lng;
+                                const lab = document.getElementById('loc_label_' + col);
+                                if (lab && lab.value.trim() === '') lab.value = h.label;
+                                box.innerHTML = '';
+                            });
+                            box.appendChild(b);
+                        });
+                    })
+                    .catch(function () {
+                        box.innerHTML = '<div class="text-danger"><?= htmlspecialchars(__('data_entry.location_busy') !== 'data_entry.location_busy' ? __('data_entry.location_busy') : 'Place search is busy. Try again in a minute.', ENT_QUOTES, 'UTF-8') ?></div>';
+                    });
+            });
+        });
     });
     </script>

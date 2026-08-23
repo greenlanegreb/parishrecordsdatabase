@@ -97,7 +97,7 @@ class AdminBackupController
         // Audit log the successful backup generation
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
         try {
-            $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip address`, `created at`) VALUES (?, 'DOWNLOAD_DATABASE_BACKUP', ?, ?, NOW())");
+            $audit = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES (?, 'DOWNLOAD_DATABASE_BACKUP', ?, ?, NOW())");
             $audit->execute([$currentUser['id'], "Downloaded full SQL database backup ({$filename})", $remoteAddr]);
         } catch (Exception $e) {
             // Suppress audit logging failure if stream is already closed/sent

@@ -123,4 +123,10 @@ return function (RouteCollector $r): void {
     $r->addRoute('GET',  '/admin/notices', ['App\Controllers\NoticeController', 'index']);
     $r->addRoute('POST', '/admin/notices', ['App\Controllers\NoticeController', 'store']);
     $r->addRoute('POST', '/admin/permissions/save', ['App\Controllers\AdminPermissionsActionController', 'save']);
+
+    //Map System
+    $r->addRoute('GET', '/api/geocode', ['App\Controllers\ApiGeocodeController', 'search']);
+    $r->addRoute('GET', '/api/map-points', ['App\Controllers\ApiMapPointsController', 'index']);
+    $r->addRoute('GET', '/tables/{id:\d+}/map', ['App\Controllers\TableMapController', 'show']);
+    $r->addRoute('GET', '/map', ['App\Controllers\TableMapController', 'show']);
 };
