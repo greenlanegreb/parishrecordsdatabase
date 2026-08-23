@@ -205,7 +205,15 @@ class ModerationService
             }
             if (function_exists('send_suggestion_outcome_mail')) {
                 $suggestion['moderator_rationale'] = $rationale;
-                send_suggestion_outcome_mail($this->pdo, $suggestion, $action);
+                $wanted = (($suggestion['notify_outcome'] ?? 0) === 1
+                    || ($suggestion['notify_outcome'] ?? '') === '1');
+                $sent = send_suggestion_outcome_mail($this->pdo, $suggestion, $action);
+                if ($wanted && $sent) {
+                    $_SESSION['message'] = (isset($_SESSION['message']) ? $_SESSION['message'] . ' ' : '')
+                        . 'An outcome email was sent to the person who suggested this.';
+                } elseif ($wanted && !$sent) {
+                    $_SESSION['error'] = 'The change was saved, but the outcome email could not be sent. Please check Mail settings and that the suggest-edit template exists.';
+                }
             }
         } catch (Exception $e) {
             if ($this->pdo->inTransaction()) {

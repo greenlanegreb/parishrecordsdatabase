@@ -8,7 +8,8 @@ declare(strict_types=1);
  */
 function send_suggestion_outcome_mail(PDO $pdo, array $suggestion, string $decision): bool
 {
-    $notify = !empty($suggestion['notify_outcome']);
+    $notifyRaw = $suggestion['notify_outcome'] ?? 0;
+    $notify = ($notifyRaw === 1 || $notifyRaw === '1' || $notifyRaw === true);
     if (!$notify) {
         return false;
     }
@@ -41,11 +42,19 @@ function send_suggestion_outcome_mail(PDO $pdo, array $suggestion, string $decis
         require_once $helper;
     }
 
-    $tplStmt = $pdo->prepare('SELECT subject, body FROM user_email_templates WHERE trigger_event = ?');
-    $tplStmt->execute(['suggestion_outcome']);
-    $tpl = $tplStmt->fetch(PDO::FETCH_ASSOC);
-    if (!is_array($tpl)) {
-        return false;
+    $tpl = false;
+    try {
+        $tplStmt = $pdo->prepare('SELECT subject, body FROM user_email_templates WHERE trigger_event = ?');
+        $tplStmt->execute(['suggestion_outcome']);
+        $tpl = $tplStmt->fetch(PDO::FETCH_ASSOC);
+    } catch (\Throwable $e) {
+        $tpl = false;
+    }
+    if (!is_array($tpl) || trim((string) ($tpl['subject'] ?? '')) === '' || trim((string) ($tpl['body'] ?? '')) === '') {
+        $tpl = [
+            'subject' => 'Update on your suggested change — {system_name}',
+            'body' => "Hello {first_name},\n\nA moderator has reviewed the change you suggested on {system_name}.\n\nDecision: {decision}\nField: {column_name}\nYour suggestion: {proposed_value}\n\nTheir note:\n{moderator_rationale}\n\nIf you would like to discuss this further, you can open a support ticket here:\n{feedback_link}\n\nThank you for helping to keep the records accurate.\n\n{system_name}",
+        ];
     }
 
     $systemName = function_exists('get_system_name') ? get_system_name($pdo) : 'pRD';
