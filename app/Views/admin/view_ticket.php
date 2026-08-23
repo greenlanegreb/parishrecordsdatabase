@@ -59,7 +59,7 @@ $ticketEmail = isset($ticket['email']) && is_string($ticket['email']) ? $ticket[
 
         <?php if (!empty($dynValues)): ?>
             <div class="mt-3 pt-3 border-top">
-                <h5 class="h6 fw-bold text-dark mb-2"><?= htmlspecialchars(__('view_ticket.submitted_fields') ?? 'Additional Information', ENT_QUOTES, 'UTF-8') ?></h5>
+                <h4 class="h6 fw-bold text-dark mb-2"><?= htmlspecialchars(__('view_ticket.submitted_fields') ?? 'Additional Information', ENT_QUOTES, 'UTF-8') ?></h4>
                 <ul class="list-unstyled mb-0">
                     <?php foreach ($dynValues as $dv): ?>
                         <?php

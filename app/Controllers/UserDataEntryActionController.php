@@ -13,6 +13,8 @@ use App\Services\DuplicateCheckService;
 use Exception;
 use PDO;
 
+require_once dirname(__DIR__, 2) . '/includes/form_fields.php';
+
 require_once dirname(__DIR__, 2) . '/includes/column_options.php';
 
 class UserDataEntryActionController
@@ -89,6 +91,7 @@ class UserDataEntryActionController
                     $multi = !empty($colsMap[$cid]['allow_multiple']);
                     if ($cleanVal !== '' && !column_values_are_allowed($cleanVal, $opts, $multi)) {
                         $_SESSION['error'] = sprintf(__('save_data_entry.err_invalid_choice') !== 'save_data_entry.err_invalid_choice' ? __('save_data_entry.err_invalid_choice') : 'Please choose a listed option for %s.', $colName);
+                        remember_field_error($cid, $_SESSION['error']);
                         header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                         exit;
                     }
@@ -97,6 +100,7 @@ class UserDataEntryActionController
                     if ($cleanVal !== '') {
                         if (!preg_match('/^-?\d+$/', $cleanVal)) {
                             $_SESSION['error'] = sprintf(__('save_data_entry.err_not_number') !== 'save_data_entry.err_not_number' ? __('save_data_entry.err_not_number') : '%s must be a whole number.', $colName);
+                            remember_field_error($cid, $_SESSION['error']);
                             header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                             exit;
                         }
@@ -105,11 +109,13 @@ class UserDataEntryActionController
                         $max = $colsMap[$cid]['max_value'] ?? null;
                         if ($min !== null && $min !== '' && $n < (int)$min) {
                             $_SESSION['error'] = sprintf(__('save_data_entry.err_min') !== 'save_data_entry.err_min' ? __('save_data_entry.err_min') : '%s is below the minimum.', $colName);
+                            remember_field_error($cid, $_SESSION['error']);
                             header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                             exit;
                         }
                         if ($max !== null && $max !== '' && $n > (int)$max) {
                             $_SESSION['error'] = sprintf(__('save_data_entry.err_max') !== 'save_data_entry.err_max' ? __('save_data_entry.err_max') : '%s is above the maximum.', $colName);
+                            remember_field_error($cid, $_SESSION['error']);
                             header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                             exit;
                         }
@@ -123,6 +129,7 @@ class UserDataEntryActionController
                 if (isset($colsMap[$cid]) && !empty($colsMap[$cid]['is_required'])) {
                     if ($cleanVal === '') {
                         $_SESSION['error'] = sprintf(__('save_data_entry.err_required_field'), $colName);
+                        remember_field_error($cid, $_SESSION['error']);
                         header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
                         exit;
                     }

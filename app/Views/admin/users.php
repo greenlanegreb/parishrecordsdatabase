@@ -180,7 +180,8 @@ if ($basePath === '') {
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="update_email">
                                         <input type="hidden" name="target_user_id" value="<?= $uId ?>">
-                                        <input type="email" name="new_email" value="<?= htmlspecialchars($uEmail, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" style="width: 170px;" required aria-label="Email for <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>">
+                                        <label class="visually-hidden" for="new_email_<?= (int)$uId ?>"><?= htmlspecialchars((__('admin_users.email_for') !== 'admin_users.email_for' ? __('admin_users.email_for') : 'Email for') . ' ' . $uUsername, ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="email" id="new_email_<?= (int)$uId ?>" name="new_email" value="<?= htmlspecialchars($uEmail, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" style="width: 170px;" required aria-label="<?= htmlspecialchars((__('admin_users.email_for') !== 'admin_users.email_for' ? __('admin_users.email_for') : 'Email for') . ' ' . $uUsername, ENT_QUOTES, 'UTF-8') ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" title="<?= htmlspecialchars($__t('admin_users.save_email_title', 'Save Email'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($__t('btn.save', 'Save'), ENT_QUOTES, 'UTF-8') ?></button>
                                     </form>
                                     <small class="text-muted"><?= htmlspecialchars($__t('admin_users.verified_label', 'Verified:'), ENT_QUOTES, 'UTF-8') ?> <?= $uVerified ? htmlspecialchars($__t('admin_users.yes', 'Yes'), ENT_QUOTES, 'UTF-8') : htmlspecialchars($__t('admin_users.no', 'No'), ENT_QUOTES, 'UTF-8') ?></small>
@@ -229,7 +230,8 @@ if ($basePath === '') {
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="action" value="override_points">
                                             <input type="hidden" name="target_user_id" value="<?= $uId ?>">
-                                            <input type="number" name="new_points" value="<?= $uPoints ?>" class="form-control form-control-sm" style="width: 75px; padding: 0.1rem 0.3rem;" aria-label="Points for <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>">
+                                            <label class="visually-hidden" for="new_points_<?= (int)$uId ?>"><?= htmlspecialchars((__('admin_users.points_for') !== 'admin_users.points_for' ? __('admin_users.points_for') : 'Points for') . ' ' . $uUsername, ENT_QUOTES, 'UTF-8') ?></label>
+                                            <input type="number" id="new_points_<?= (int)$uId ?>" name="new_points" value="<?= $uPoints ?>" class="form-control form-control-sm" style="width: 75px; padding: 0.1rem 0.3rem;" aria-label="<?= htmlspecialchars((__('admin_users.points_for') !== 'admin_users.points_for' ? __('admin_users.points_for') : 'Points for') . ' ' . $uUsername, ENT_QUOTES, 'UTF-8') ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;"><?= htmlspecialchars($__t('admin_users.set_score_btn', 'Set'), ENT_QUOTES, 'UTF-8') ?></button>
                                         </form>
                                         <div class="d-flex flex-wrap gap-1">

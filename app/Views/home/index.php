@@ -123,9 +123,11 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                             $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                         ?>
                         <div class="col-md-4 col-sm-6">
+                            <?php if ($dataType !== 'DATE'): ?>
                             <label for="filter_<?= $cId ?>" class="form-label small fw-bold">
-                                <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>:
+                                <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>
                             </label>
+                            <?php endif; ?>
 
                             <?php if ($dataType === 'BOOLEAN'): ?>
                                 <?php
@@ -146,7 +148,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <select id="filter_<?= $cId ?>"
                                         name="filters[<?= $cId ?>]"
                                         class="form-select form-select-sm"
-                                        aria-label="Search filter for <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
+                                        aria-label="<?= htmlspecialchars((__('index.filter_aria') !== 'index.filter_aria' ? __('index.filter_aria') : 'Search filter for') . ' ' . $cName, ENT_QUOTES, 'UTF-8') ?>">
                                     <option value=""><?= htmlspecialchars(__('index.option_all'), ENT_QUOTES, 'UTF-8') ?></option>
                                     <option value="1"><?= htmlspecialchars($opt1, ENT_QUOTES, 'UTF-8') ?></option>
                                     <option value="0"><?= htmlspecialchars($opt2, ENT_QUOTES, 'UTF-8') ?></option>
@@ -177,21 +179,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                        <?= isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '' ? 'max="' . (int)$col['max_value'] . '"' : '' ?>
                                        aria-label="<?= htmlspecialchars(__('index.filter_aria') !== 'index.filter_aria' ? __('index.filter_aria') : 'Search filter for', ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
                             <?php elseif ($dataType === 'DATE'): ?>
-                                <div class="input-group input-group-sm">
-                                    <input type="text"
-                                           name="date_filters[<?= $cId ?>][from]"
-                                           placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>"
-                                           title="From Date (<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>)"
-                                           class="form-control"
-                                           aria-label="From date filter for <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
-                                    <span class="input-group-text bg-light text-muted small px-2"><?= htmlspecialchars(__('index.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
-                                    <input type="text"
-                                           name="date_filters[<?= $cId ?>][to]"
-                                           placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>"
-                                           title="To Date (<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>)"
-                                           class="form-control"
-                                           aria-label="To date filter for <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
-                                </div>
+                                <fieldset class="border-0 p-0 m-0">
+                                    <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?></legend>
+                                    <div class="input-group input-group-sm">
+                                        <label class="visually-hidden" for="date_from_<?= $cId ?>"><?= htmlspecialchars($cName . ' — ' . (__('index.date_from_label') !== 'index.date_from_label' ? __('index.date_from_label') : 'From'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="text"
+                                               id="date_from_<?= $cId ?>"
+                                               name="date_filters[<?= $cId ?>][from]"
+                                               placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>"
+                                               class="form-control"
+                                               autocomplete="off">
+                                        <span class="input-group-text bg-light text-muted small px-2" aria-hidden="true"><?= htmlspecialchars(__('index.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
+                                        <label class="visually-hidden" for="date_to_<?= $cId ?>"><?= htmlspecialchars($cName . ' — ' . (__('index.date_to_label') !== 'index.date_to_label' ? __('index.date_to_label') : 'To'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="text"
+                                               id="date_to_<?= $cId ?>"
+                                               name="date_filters[<?= $cId ?>][to]"
+                                               placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>"
+                                               class="form-control"
+                                               autocomplete="off">
+                                    </div>
+                                </fieldset>
 
                             <?php else: ?>
                                 <input type="text"
@@ -199,7 +206,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                        name="filters[<?= $cId ?>]"
                                        placeholder="<?= htmlspecialchars(__('index.search_placeholder'), ENT_QUOTES, 'UTF-8') ?>"
                                        class="form-control form-control-sm"
-                                       aria-label="Search filter for <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
+                                       aria-label="<?= htmlspecialchars((__('index.filter_aria') !== 'index.filter_aria' ? __('index.filter_aria') : 'Search filter for') . ' ' . $cName, ENT_QUOTES, 'UTF-8') ?>">
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -208,10 +215,10 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <!-- Action Bar -->
                 <div class="d-flex gap-2 flex-wrap align-items-center pt-2 border-top">
                     <button type="button" id="clear-search" class="btn btn-secondary btn-sm px-3"><?= htmlspecialchars(__('search.reset'), ENT_QUOTES, 'UTF-8') ?></button>
-                    <a href="#" id="export-csv-btn" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('index.download_entire_csv'), ENT_QUOTES, 'UTF-8') ?></a>
-                    <a href="#" id="export-json-btn" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('index.download_entire_json'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <button type="button" id="export-csv-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('index.download_entire_csv'), ENT_QUOTES, 'UTF-8') ?></button>
+                    <button type="button" id="export-json-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('index.download_entire_json'), ENT_QUOTES, 'UTF-8') ?></button>
                     <button type="button" id="copy-clipboard-btn" class="btn btn-outline-secondary btn-sm px-3"><?= htmlspecialchars(__('index.copy_entire_table'), ENT_QUOTES, 'UTF-8') ?></button>
-                    <a href="#" id="print-records-btn" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?></a>
+                    <button type="button" id="print-records-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?></button>
                 </div>
             </form>
         </section>

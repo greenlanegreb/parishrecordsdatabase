@@ -19,8 +19,10 @@ declare(strict_types=1);
 /** @array{id: int|string, username: string, email: string, email_verified?: int|string, first_name?: string, surname?: string, timezone?: string, date_format?: string, time_format?: string, attribution_display_mode?: string, language?: string, two_fa_enabled?: int|string} $currentUser */
 /** @array<int, string> $profileLanguages */
 /** @string $userLanguage */
+require_once ROOT_PATH . '/includes/form_fields.php';
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
+$fieldErrors = $fieldErrors ?? [];
 ?>
 <div class="container py-4" style="max-width: 800px;" role="region" aria-label="<?= htmlspecialchars(__('profile.aria_region'), ENT_QUOTES, 'UTF-8') ?>">
     <h3 class="fw-bold text-dark mb-4"><?= htmlspecialchars(__('profile.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
@@ -45,11 +47,13 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <input type="hidden" name="apply_language" id="apply_language" value="0">
             <div class="mb-3">
                 <label for="first_name" class="form-label small fw-bold"><?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($currentUser['first_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="given-name" class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($currentUser['first_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="given-name" class="form-control form-control-sm<?= field_has_error($fieldErrors, 'first_name') ? ' is-invalid' : '' ?>" aria-label="<?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?>" <?= field_invalid_attr($fieldErrors, 'first_name', 'first_name_error') ?>>
+                <?= field_error_html($fieldErrors, 'first_name', 'first_name_error') ?>
             </div>
             <div class="mb-3">
                 <label for="surname" class="form-label small fw-bold"><?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="surname" name="surname" value="<?= htmlspecialchars($currentUser['surname'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="family-name" class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="text" id="surname" name="surname" value="<?= htmlspecialchars($currentUser['surname'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required autocomplete="family-name" class="form-control form-control-sm<?= field_has_error($fieldErrors, 'surname') ? ' is-invalid' : '' ?>" aria-label="<?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?>" <?= field_invalid_attr($fieldErrors, 'surname', 'surname_error') ?>>
+                <?= field_error_html($fieldErrors, 'surname', 'surname_error') ?>
             </div>
             <div class="mb-3">
                 <label for="language" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.language_label'), ENT_QUOTES, 'UTF-8') ?></label>
@@ -161,7 +165,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <input type="hidden" name="action" value="update_email">
             <div class="mb-3">
                 <label for="email" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.change_email_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="email" id="email" name="email" required autocomplete="email" class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('profile.aria_new_email'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="email" id="email" name="email" required autocomplete="email" class="form-control form-control-sm<?= field_has_error($fieldErrors, 'email') ? ' is-invalid' : '' ?>" aria-label="<?= htmlspecialchars(__('profile.aria_new_email'), ENT_QUOTES, 'UTF-8') ?>" <?= field_invalid_attr($fieldErrors, 'email', 'email_error') ?>>
+                <?= field_error_html($fieldErrors, 'email', 'email_error') ?>
             </div>
             <button type="submit" class="btn btn-sm btn-primary"><?= htmlspecialchars(__('profile.update_email_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
@@ -175,15 +180,18 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <input type="text" name="username" value="<?= htmlspecialchars($currentUser['username'], ENT_QUOTES, 'UTF-8') ?>" autocomplete="username" class="d-none" aria-hidden="true">
             <div class="mb-3">
                 <label for="current_password" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.current_password_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="password" id="current_password" name="current_password" autocomplete="current-password" required class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('profile.current_password_label'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="password" id="current_password" name="current_password" autocomplete="current-password" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'current_password') ? ' is-invalid' : '' ?>" aria-label="<?= htmlspecialchars(__('profile.current_password_label'), ENT_QUOTES, 'UTF-8') ?>" <?= field_invalid_attr($fieldErrors, 'current_password', 'current_password_error') ?>>
+                <?= field_error_html($fieldErrors, 'current_password', 'current_password_error') ?>
             </div>
             <div class="mb-3">
                 <label for="new_password" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.new_password_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="password" id="new_password" name="new_password" autocomplete="new-password" required class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('profile.new_password_label'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="password" id="new_password" name="new_password" autocomplete="new-password" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'new_password') ? ' is-invalid' : '' ?>" aria-label="<?= htmlspecialchars(__('profile.new_password_label'), ENT_QUOTES, 'UTF-8') ?>" <?= field_invalid_attr($fieldErrors, 'new_password', 'new_password_error') ?>>
+                <?= field_error_html($fieldErrors, 'new_password', 'new_password_error') ?>
             </div>
             <div class="mb-3">
                 <label for="confirm_password" class="form-label small fw-bold"><?= htmlspecialchars(__('profile.confirm_password_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required class="form-control form-control-sm" aria-label="<?= htmlspecialchars(__('profile.confirm_password_label'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'confirm_password') ? ' is-invalid' : '' ?>" aria-label="<?= htmlspecialchars(__('profile.confirm_password_label'), ENT_QUOTES, 'UTF-8') ?>" <?= field_invalid_attr($fieldErrors, 'confirm_password', 'confirm_password_error') ?>>
+                <?= field_error_html($fieldErrors, 'confirm_password', 'confirm_password_error') ?>
             </div>
             <div class="form-check mb-3">
                 <input type="checkbox" id="show_passwords" class="form-check-input" onclick="

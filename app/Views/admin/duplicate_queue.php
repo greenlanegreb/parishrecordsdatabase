@@ -36,10 +36,10 @@ $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
                 <caption class="visually-hidden"><?= htmlspecialchars(__('dup_queue.heading') !== 'dup_queue.heading' ? __('dup_queue.heading') : 'Similar records to review', ENT_QUOTES, 'UTF-8') ?></caption>
                 <thead>
                     <tr>
-                        <th><?= htmlspecialchars(__('dup_queue.col_table') !== 'dup_queue.col_table' ? __('dup_queue.col_table') : 'Table', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th><?= htmlspecialchars(__('dup_queue.col_records') !== 'dup_queue.col_records' ? __('dup_queue.col_records') : 'Records', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th><?= htmlspecialchars(__('dup_queue.col_score') !== 'dup_queue.col_score' ? __('dup_queue.col_score') : 'How similar', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th><?= htmlspecialchars(__('dup_queue.col_actions') !== 'dup_queue.col_actions' ? __('dup_queue.col_actions') : 'What to do', ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars(__('dup_queue.col_table') !== 'dup_queue.col_table' ? __('dup_queue.col_table') : 'Table', ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars(__('dup_queue.col_records') !== 'dup_queue.col_records' ? __('dup_queue.col_records') : 'Records', ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars(__('dup_queue.col_score') !== 'dup_queue.col_score' ? __('dup_queue.col_score') : 'How similar', ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars(__('dup_queue.col_actions') !== 'dup_queue.col_actions' ? __('dup_queue.col_actions') : 'What to do', ENT_QUOTES, 'UTF-8') ?></th>
                     </tr>
                 </thead>
                 <tbody>

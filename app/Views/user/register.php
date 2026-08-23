@@ -17,6 +17,7 @@ declare(strict_types=1);
 /** @string $message */
 /** @string $error */
 
+require_once ROOT_PATH . '/includes/form_fields.php';
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
@@ -42,17 +43,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <?= csrf_field() ?>
             <div class="mb-3">
                 <label for="username" class="form-label small fw-bold"><?= htmlspecialchars(__('register.username_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="username" name="username" required class="form-control">
+                <?php $fieldErrors = $fieldErrors ?? []; $oldUsername = $oldUsername ?? ''; $oldEmail = $oldEmail ?? ''; ?>
+                <input type="text" id="username" name="username" required class="form-control<?= field_has_error($fieldErrors, 'username') ? ' is-invalid' : '' ?>"
+                       value="<?= htmlspecialchars((string)$oldUsername, ENT_QUOTES, 'UTF-8') ?>"
+                       <?= field_invalid_attr($fieldErrors, 'username', 'username_error') ?>>
+                <?= field_error_html($fieldErrors, 'username', 'username_error') ?>
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label small fw-bold"><?= htmlspecialchars(__('register.email_label', 'Email Address'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="email" id="email" name="email" required class="form-control">
+                <input type="email" id="email" name="email" required class="form-control<?= field_has_error($fieldErrors, 'email') ? ' is-invalid' : '' ?>"
+                       value="<?= htmlspecialchars((string)$oldEmail, ENT_QUOTES, 'UTF-8') ?>"
+                       <?= field_invalid_attr($fieldErrors, 'email', 'email_error') ?>>
+                <?= field_error_html($fieldErrors, 'email', 'email_error') ?>
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label small fw-bold"><?= htmlspecialchars(__('login.password_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="password" id="password" name="password" required class="form-control">
+                <input type="password" id="password" name="password" required class="form-control<?= field_has_error($fieldErrors, 'password') ? ' is-invalid' : '' ?>"
+                       <?= field_invalid_attr($fieldErrors, 'password', 'password_error') ?>>
+                <?= field_error_html($fieldErrors, 'password', 'password_error') ?>
             </div>
 
             <button type="submit" class="btn btn-primary w-100 mt-2"><?= htmlspecialchars(__('register.submit_btn'), ENT_QUOTES, 'UTF-8') ?></button>

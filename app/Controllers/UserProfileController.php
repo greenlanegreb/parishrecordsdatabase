@@ -34,7 +34,8 @@ class UserProfileController
 
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
-        unset($_SESSION['message'], $_SESSION['error']);
+        $fieldErrors = $_SESSION['field_errors'] ?? [];
+        unset($_SESSION['message'], $_SESSION['error'], $_SESSION['field_errors']);
 
         $profileLanguages = \user_available_language_codes();
         $userLanguage = isset($currentUser['language']) && is_string($currentUser['language'])

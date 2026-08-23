@@ -12,6 +12,9 @@ namespace App\Controllers;
 use Exception;
 use PDO;
 
+require_once dirname(__DIR__, 2) . '/includes/form_fields.php';
+
+
 class UserSavePublicTicketActionController
 {
     private PDO $pdo;
@@ -57,11 +60,16 @@ class UserSavePublicTicketActionController
 
         if ($firstName === '' || $surname === '' || $email === '' || $subject === '') {
             $_SESSION['error'] = "First name, surname, email address, and subject are mandatory fields.";
+            if ($firstName === '') { remember_field_error('feedback_first_name', $_SESSION['error']); }
+            if ($surname === '') { remember_field_error('feedback_surname', $_SESSION['error']); }
+            if ($email === '') { remember_field_error('feedback_email', $_SESSION['error']); }
+            if ($subject === '') { remember_field_error('feedback_subject', $_SESSION['error']); }
             header('Location: ' . $basePath . '/feedback');
             exit;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Invalid email format.";
+            remember_field_error('feedback_email', $_SESSION['error']);
             header('Location: ' . $basePath . '/feedback');
             exit;
         }
@@ -97,6 +105,7 @@ class UserSavePublicTicketActionController
                 if ($isEmpty) {
                     $colName = isset($colMeta['column_name']) && is_string($colMeta['column_name']) ? $colMeta['column_name'] : 'Field';
                     $_SESSION['error'] = "The field '{$colName}' is mandatory.";
+                    remember_field_error('field_' . $cId, $_SESSION['error']);
                     header('Location: ' . $basePath . '/feedback');
                     exit;
                 }

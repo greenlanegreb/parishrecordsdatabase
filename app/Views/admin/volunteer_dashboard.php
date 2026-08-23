@@ -185,7 +185,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <input type="hidden" name="action" value="update_interview">
                 <input type="hidden" name="volunteer_id" id="modal_volunteer_id">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold" id="interviewModalLabel"><?= htmlspecialchars(__('volunteer_dashboard.modal_heading'), ENT_QUOTES, 'UTF-8') ?></h5>
+                    <h4 class="modal-title h5 fw-bold" id="interviewModalLabel"><?= htmlspecialchars(__('volunteer_dashboard.modal_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

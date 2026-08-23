@@ -6,6 +6,13 @@ if (!function_exists('parse_column_options')) {
         require_once $optHelper;
     }
 }
+if (!function_exists('field_error_html')) {
+    $ff = dirname(__DIR__, 3) . '/includes/form_fields.php';
+    if (is_file($ff)) {
+        require_once $ff;
+    }
+}
+$fieldErrors = $fieldErrors ?? [];
 ?>
     <div class="card shadow-sm border-0 mb-4 bg-light">
         <div class="card-body">
@@ -40,6 +47,9 @@ if (!function_exists('parse_column_options')) {
                                             : array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawOpts) ?: [])));
                                     }
                                     $savedChoices = $savedVal === '' ? [] : array_map('trim', explode(',', $savedVal));
+                                    $errId = 'col_err_' . $colId;
+                                    $inv = function_exists('field_invalid_attr') ? field_invalid_attr($fieldErrors, $colId, $errId) : '';
+                                    $invClass = function_exists('field_has_error') && field_has_error($fieldErrors, $colId) ? ' is-invalid' : '';
                                 ?>
                                 <div class="col-md-4">
                                     <label for="col_<?= $colId ?>" class="form-label small fw-bold">
@@ -58,20 +68,21 @@ if (!function_exists('parse_column_options')) {
                                             elseif ($displayFormat === 'true_false') { $opt1Text = __('data_entry.bool_true'); $opt2Text = __('data_entry.bool_false'); }
                                             elseif ($displayFormat === 'tick_cross') { $opt1Text = __('data_entry.bool_tick'); $opt2Text = __('data_entry.bool_cross'); }
                                         ?>
-                                        <select id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" class="form-select form-select-sm" <?= $isRequired ? 'required' : '' ?>>
+                                        <select id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" class="form-select form-select-sm<?= $invClass ?>" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
                                             <option value=""><?= htmlspecialchars(__('feedback.select_placeholder'), ENT_QUOTES, 'UTF-8') ?></option>
                                             <option value="1" <?= ($savedVal === '1') ? 'selected' : '' ?>><?= $opt1Text ?></option>
                                             <option value="0" <?= ($savedVal === '0') ? 'selected' : '' ?>><?= $opt2Text ?></option>
                                         </select>
                                     <?php elseif ($dataType === 'DATE'): ?>
-                                        <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(get_date_placeholder($currentUser['date_format'] ?? null), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm date-input" title="<?= htmlspecialchars(__('data_entry.date_title_hint'), ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?>>
+                                        <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(get_date_placeholder($currentUser['date_format'] ?? null), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm date-input<?= $invClass ?>" title="<?= htmlspecialchars(__('data_entry.date_title_hint'), ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
                                     <?php elseif ($dataType === 'SELECT'): ?>
                                         <select id="col_<?= $colId ?>"
                                                 name="filters[<?= $colId ?>]<?= $allowMultiple ? '[]' : '' ?>"
-                                                class="form-select form-select-sm"
+                                                class="form-select form-select-sm<?= $invClass ?>"
                                                 <?= $allowMultiple ? 'multiple' : '' ?>
                                                 <?= $isRequired ? 'required' : '' ?>
-                                                <?= $allowMultiple ? 'aria-multiselectable="true"' : '' ?>>
+                                                <?= $allowMultiple ? 'aria-multiselectable="true"' : '' ?>
+                                                <?= $inv ?>>
                                             <?php if (!$allowMultiple): ?>
                                                 <option value=""><?= htmlspecialchars(__('feedback.select_placeholder'), ENT_QUOTES, 'UTF-8') ?></option>
                                             <?php endif; ?>
@@ -83,13 +94,14 @@ if (!function_exists('parse_column_options')) {
                                             <div class="form-text"><?= htmlspecialchars(__('data_entry.multiselect_hint') !== 'data_entry.multiselect_hint' ? __('data_entry.multiselect_hint') : 'Hold Ctrl (or Cmd) to choose more than one.', ENT_QUOTES, 'UTF-8') ?></div>
                                         <?php endif; ?>
                                     <?php elseif ($dataType === 'INT'): ?>
-                                        <input type="number" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm"
+                                        <input type="number" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm<?= $invClass ?>"
                                                <?= isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '' ? 'min="' . (int)$col['min_value'] . '"' : '' ?>
                                                <?= isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '' ? 'max="' . (int)$col['max_value'] . '"' : '' ?>
-                                               <?= $isRequired ? 'required' : '' ?>>
+                                               <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
                                     <?php else: ?>
-                                        <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(__('data_entry.enter_value_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" <?= $isRequired ? 'required' : '' ?>>
+                                        <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(__('data_entry.enter_value_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm<?= $invClass ?>" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
                                     <?php endif; ?>
+                                    <?= function_exists('field_error_html') ? field_error_html($fieldErrors, $colId, $errId) : '' ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>

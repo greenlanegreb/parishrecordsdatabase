@@ -17,6 +17,7 @@ declare(strict_types=1);
 /** @string $error */
 /** @string $message */
 
+require_once ROOT_PATH . '/includes/form_fields.php';
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
@@ -40,14 +41,25 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
         <form method="POST" action="<?= $basePath ?>/login">
             <?= function_exists('csrf_field') ? csrf_field() : '' ?>
+            <?php
+                $fieldErrors = $fieldErrors ?? [];
+                $oldUsername = $oldUsername ?? '';
+            ?>
             <div class="mb-3">
                 <label for="username" class="form-label small fw-bold"><?= htmlspecialchars(__('login.username_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="username" name="username" required class="form-control">
+                <input type="text" id="username" name="username" required class="form-control<?= field_has_error($fieldErrors, 'username') ? ' is-invalid' : '' ?>"
+                       value="<?= htmlspecialchars((string)$oldUsername, ENT_QUOTES, 'UTF-8') ?>"
+                       autocomplete="username"
+                       <?= field_invalid_attr($fieldErrors, 'username', 'username_error') ?>>
+                <?= field_error_html($fieldErrors, 'username', 'username_error') ?>
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label small fw-bold"><?= htmlspecialchars(__('login.password_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="password" id="password" name="password" required class="form-control">
+                <input type="password" id="password" name="password" required class="form-control<?= field_has_error($fieldErrors, 'password') ? ' is-invalid' : '' ?>"
+                       autocomplete="current-password"
+                       <?= field_invalid_attr($fieldErrors, 'password', 'password_error') ?>>
+                <?= field_error_html($fieldErrors, 'password', 'password_error') ?>
             </div>
 
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">

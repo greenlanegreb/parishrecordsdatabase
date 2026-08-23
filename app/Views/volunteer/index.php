@@ -6,6 +6,14 @@
  * Migrated Date: 2026-08-05 07:01:53
  */
 declare(strict_types=1);
+$fieldErrors = $fieldErrors ?? [];
+if (!function_exists('field_error_html')) {
+    $ff = dirname(__DIR__, 3) . '/includes/form_fields.php';
+    if (is_file($ff)) {
+        require_once $ff;
+    }
+}
+
 /** Translate with fallback when lang key is missing. @return string */
 $__t = static function (string $key, string $fallback = ''): string {
     $v = function_exists('__') ? (string) __($key) : $key;
@@ -62,13 +70,15 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     <label for="volunteer_first_name" class="form-label small fw-bold">
                         <?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span>
                     </label>
-                    <input type="text" id="volunteer_first_name" name="volunteer_first_name" value="<?= htmlspecialchars($submittedFirst, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
+                    <input type="text" id="volunteer_first_name" name="volunteer_first_name" value="<?= htmlspecialchars($submittedFirst, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'volunteer_first_name') ? ' is-invalid' : '' ?>" <?= field_invalid_attr($fieldErrors, 'volunteer_first_name', 'volunteer_first_name_error') ?>>
+                    <?= field_error_html($fieldErrors, 'volunteer_first_name', 'volunteer_first_name_error') ?>
                 </div>
                 <div class="col-md-6">
                     <label for="volunteer_surname" class="form-label small fw-bold">
                         <?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span>
                     </label>
-                    <input type="text" id="volunteer_surname" name="volunteer_surname" value="<?= htmlspecialchars($submittedSurname, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
+                    <input type="text" id="volunteer_surname" name="volunteer_surname" value="<?= htmlspecialchars($submittedSurname, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'volunteer_surname') ? ' is-invalid' : '' ?>" <?= field_invalid_attr($fieldErrors, 'volunteer_surname', 'volunteer_surname_error') ?>>
+                    <?= field_error_html($fieldErrors, 'volunteer_surname', 'volunteer_surname_error') ?>
                 </div>
             </div>
 
@@ -76,7 +86,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <label for="volunteer_email" class="form-label small fw-bold">
                     <?= htmlspecialchars(__('forgot_password.email_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span>
                 </label>
-                <input type="email" id="volunteer_email" name="volunteer_email" value="<?= htmlspecialchars($submittedEmail, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
+                <input type="email" id="volunteer_email" name="volunteer_email" value="<?= htmlspecialchars($submittedEmail, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'volunteer_email') ? ' is-invalid' : '' ?>" <?= field_invalid_attr($fieldErrors, 'volunteer_email', 'volunteer_email_error') ?>>
+                    <?= field_error_html($fieldErrors, 'volunteer_email', 'volunteer_email_error') ?>
             </div>
 
             <div class="mb-3">

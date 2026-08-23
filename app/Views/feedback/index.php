@@ -6,6 +6,14 @@
  * Migrated Date: 2026-08-05 06:58:54
  */
 declare(strict_types=1);
+$fieldErrors = $fieldErrors ?? [];
+if (!function_exists('field_error_html')) {
+    $ff = dirname(__DIR__, 3) . '/includes/form_fields.php';
+    if (is_file($ff)) {
+        require_once $ff;
+    }
+}
+
 
 /**
  * @var \PDO $pdo
@@ -59,13 +67,15 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     <label for="feedback_first_name" class="form-label small fw-bold">
                         <?= htmlspecialchars(__('feedback.first_name_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span>
                     </label>
-                    <input type="text" id="feedback_first_name" name="feedback_first_name" value="<?= htmlspecialchars($submittedFirst, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
+                    <input type="text" id="feedback_first_name" name="feedback_first_name" value="<?= htmlspecialchars($submittedFirst, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'feedback_first_name') ? ' is-invalid' : '' ?>" <?= field_invalid_attr($fieldErrors, 'feedback_first_name', 'feedback_first_name_error') ?>>
+                    <?= field_error_html($fieldErrors, 'feedback_first_name', 'feedback_first_name_error') ?>
                 </div>
                 <div class="col-md-6">
                     <label for="feedback_surname" class="form-label small fw-bold">
                         <?= htmlspecialchars(__('feedback.surname_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span>
                     </label>
-                    <input type="text" id="feedback_surname" name="feedback_surname" value="<?= htmlspecialchars($submittedSurname, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
+                    <input type="text" id="feedback_surname" name="feedback_surname" value="<?= htmlspecialchars($submittedSurname, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'feedback_surname') ? ' is-invalid' : '' ?>" <?= field_invalid_attr($fieldErrors, 'feedback_surname', 'feedback_surname_error') ?>>
+                    <?= field_error_html($fieldErrors, 'feedback_surname', 'feedback_surname_error') ?>
                 </div>
             </div>
 
@@ -73,14 +83,16 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <label for="feedback_email" class="form-label small fw-bold">
                     <?= htmlspecialchars(__('feedback.email_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span>
                 </label>
-                <input type="email" id="feedback_email" name="feedback_email" value="<?= htmlspecialchars($submittedEmail, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
+                <input type="email" id="feedback_email" name="feedback_email" value="<?= htmlspecialchars($submittedEmail, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'feedback_email') ? ' is-invalid' : '' ?>" <?= field_invalid_attr($fieldErrors, 'feedback_email', 'feedback_email_error') ?>>
+                    <?= field_error_html($fieldErrors, 'feedback_email', 'feedback_email_error') ?>
             </div>
 
             <div class="mb-4">
                 <label for="feedback_subject" class="form-label small fw-bold">
                     <?= htmlspecialchars(__('feedback.subject_label'), ENT_QUOTES, 'UTF-8') ?> <span class="text-danger">*</span>
                 </label>
-                <input type="text" id="feedback_subject" name="feedback_subject" value="<?= htmlspecialchars($submittedSubject, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm">
+                <input type="text" id="feedback_subject" name="feedback_subject" value="<?= htmlspecialchars($submittedSubject, ENT_QUOTES, 'UTF-8') ?>" required class="form-control form-control-sm<?= field_has_error($fieldErrors, 'feedback_subject') ? ' is-invalid' : '' ?>" <?= field_invalid_attr($fieldErrors, 'feedback_subject', 'feedback_subject_error') ?>>
+                    <?= field_error_html($fieldErrors, 'feedback_subject', 'feedback_subject_error') ?>
             </div>
 
             <hr class="text-muted my-4">

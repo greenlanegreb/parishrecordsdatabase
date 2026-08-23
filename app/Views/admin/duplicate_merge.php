@@ -32,9 +32,9 @@ $score = (int) ($review['score_percent'] ?? 0);
                 <caption class="visually-hidden"><?= htmlspecialchars(__('dup_merge.fields_caption') !== 'dup_merge.fields_caption' ? __('dup_merge.fields_caption') : 'Choose a value for each field', ENT_QUOTES, 'UTF-8') ?></caption>
                 <thead>
                     <tr>
-                        <th><?= htmlspecialchars(__('dup_merge.col_field') !== 'dup_merge.col_field' ? __('dup_merge.col_field') : 'Field', ENT_QUOTES, 'UTF-8') ?></th>
-                        <th><?= htmlspecialchars(sprintf(__('dup_merge.col_a') !== 'dup_merge.col_a' ? __('dup_merge.col_a') : 'Record #%s', (string) $aId), ENT_QUOTES, 'UTF-8') ?></th>
-                        <th><?= htmlspecialchars(sprintf(__('dup_merge.col_b') !== 'dup_merge.col_b' ? __('dup_merge.col_b') : 'Record #%s', (string) $bId), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars(__('dup_merge.col_field') !== 'dup_merge.col_field' ? __('dup_merge.col_field') : 'Field', ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars(sprintf(__('dup_merge.col_a') !== 'dup_merge.col_a' ? __('dup_merge.col_a') : 'Record #%s', (string) $aId), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars(sprintf(__('dup_merge.col_b') !== 'dup_merge.col_b' ? __('dup_merge.col_b') : 'Record #%s', (string) $bId), ENT_QUOTES, 'UTF-8') ?></th>
                     </tr>
                 </thead>
                 <tbody>

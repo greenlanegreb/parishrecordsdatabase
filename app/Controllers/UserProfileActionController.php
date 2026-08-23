@@ -14,6 +14,9 @@ namespace App\Controllers;
 
 use PDO;
 
+require_once dirname(__DIR__, 2) . '/includes/form_fields.php';
+
+
 class UserProfileActionController
 {
     private PDO $pdo;
@@ -66,6 +69,10 @@ class UserProfileActionController
             if ($err !== '') {
                 \user_store_personal_draft('profile_personal_draft', $normalized);
                 $_SESSION['error'] = $err;
+                $fn = trim((string)($normalized['first_name'] ?? ''));
+                $sn = trim((string)($normalized['surname'] ?? ''));
+                if ($fn === '') { remember_field_error('first_name', $err); }
+                if ($sn === '') { remember_field_error('surname', $err); }
                 header('Location: ' . $basePath . '/profile');
                 exit;
             }
@@ -94,8 +101,10 @@ class UserProfileActionController
                 http_response_code(403);
                 error_log("Failed email update attempt (invalid format) for user ID: {$userId} from IP: " . $remoteAddr);
                 $_SESSION['error'] = 'Please provide a valid email address.';
+                remember_field_error('email', $_SESSION['error']);
             } elseif ($newEmail === $currentUser['email']) {
                 $_SESSION['error'] = 'The new email address matches your current email.';
+                remember_field_error('email', $_SESSION['error']);
             } else {
                 $chk = $this->pdo->prepare('SELECT id FROM users WHERE email = ? AND id != ?');
                 $chk->execute([$newEmail, $userId]);
@@ -103,6 +112,7 @@ class UserProfileActionController
                     http_response_code(403);
                     error_log("Failed email update attempt (email already registered) for user ID: {$userId} from IP: " . $remoteAddr);
                     $_SESSION['error'] = 'That email address is already registered to another account.';
+                remember_field_error('email', $_SESSION['error']);
                 } else {
                     $token = bin2hex(random_bytes(32));
                     $expires = date('Y-m-d H:i:s', strtotime('+24 hours'));
@@ -141,14 +151,21 @@ class UserProfileActionController
 
             if ($currentPassword === '' || $newPassword === '' || $confirmPassword === '') {
                 $_SESSION['error'] = 'All password fields are required.';
+                if ($currentPassword === '') { remember_field_error('current_password', $_SESSION['error']); }
+                if ($newPassword === '') { remember_field_error('new_password', $_SESSION['error']); }
+                if ($confirmPassword === '') { remember_field_error('confirm_password', $_SESSION['error']); }
             } elseif ($passwordHash === false || $passwordHash === null || !password_verify($currentPassword, (string) $passwordHash)) {
                 http_response_code(403);
                 error_log("Failed password change attempt (incorrect current password) for user ID: {$userId} from IP: " . $remoteAddr);
                 $_SESSION['error'] = 'Your current password was incorrect.';
+                remember_field_error('current_password', $_SESSION['error']);
             } elseif ($newPassword !== $confirmPassword) {
                 $_SESSION['error'] = 'The new passwords do not match.';
+                remember_field_error('new_password', $_SESSION['error']);
+                remember_field_error('confirm_password', $_SESSION['error']);
             } elseif (strlen($newPassword) < 8) {
                 $_SESSION['error'] = 'New password must be at least 8 characters long.';
+                remember_field_error('new_password', $_SESSION['error']);
             } else {
                 $newHash = password_hash($newPassword, PASSWORD_DEFAULT);
                 $updPwd = $this->pdo->prepare('UPDATE users SET password_hash = ? WHERE id = ?');

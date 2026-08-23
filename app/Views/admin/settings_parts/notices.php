@@ -32,19 +32,19 @@ $nt = static function (string $key, string $fallback): string {
                         <input type="hidden" name="update_action" value="create">
 
                         <div class="mb-2">
-                            <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.title_label', 'Title'), ENT_QUOTES, 'UTF-8') ?></label>
-                            <input type="text" name="title" class="form-control form-control-sm" required>
+                            <label class="form-label small fw-bold" for="notice_title_new"><?= htmlspecialchars($nt('notices.title_label', 'Title'), ENT_QUOTES, 'UTF-8') ?></label>
+                            <input type="text" id="notice_title_new" name="title" class="form-control form-control-sm" required>
                         </div>
 
                         <div class="mb-2">
-                            <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.content_label', 'Content'), ENT_QUOTES, 'UTF-8') ?></label>
-                            <textarea name="content" rows="3" class="form-control form-control-sm" required></textarea>
+                            <label class="form-label small fw-bold" for="notice_content_new"><?= htmlspecialchars($nt('notices.content_label', 'Content'), ENT_QUOTES, 'UTF-8') ?></label>
+                            <textarea id="notice_content_new" name="content" rows="3" class="form-control form-control-sm" required></textarea>
                         </div>
 
                         <div class="row g-2 mb-2">
                             <div class="col-6">
-                                <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.display_order', 'Display order'), ENT_QUOTES, 'UTF-8') ?></label>
-                                <input type="number" name="display_order" value="0" class="form-control form-control-sm">
+                                <label class="form-label small fw-bold" for="notice_order_new"><?= htmlspecialchars($nt('notices.display_order', 'Display order'), ENT_QUOTES, 'UTF-8') ?></label>
+                                <input type="number" id="notice_order_new" name="display_order" value="0" class="form-control form-control-sm">
                             </div>
                             <div class="col-6 d-flex align-items-end gap-3 pb-1">
                                 <div class="form-check mb-0">
@@ -127,19 +127,19 @@ $nt = static function (string $key, string $fallback): string {
                                     <input type="hidden" name="notice_id" value="<?= $noticeId ?>">
 
                                     <div class="mb-2">
-                                        <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.title_label', 'Title'), ENT_QUOTES, 'UTF-8') ?></label>
-                                        <input type="text" name="title" value="<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" required>
+                                        <label class="form-label small fw-bold" for="notice_title_<?= $noticeId ?>"><?= htmlspecialchars($nt('notices.title_label', 'Title'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="text" id="notice_title_<?= $noticeId ?>" name="title" value="<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" required>
                                     </div>
 
                                     <div class="mb-2">
-                                        <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.content_label', 'Content'), ENT_QUOTES, 'UTF-8') ?></label>
-                                        <textarea name="content" rows="3" class="form-control form-control-sm" required><?= htmlspecialchars($content, ENT_QUOTES, 'UTF-8') ?></textarea>
+                                        <label class="form-label small fw-bold" for="notice_content_<?= $noticeId ?>"><?= htmlspecialchars($nt('notices.content_label', 'Content'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <textarea id="notice_content_<?= $noticeId ?>" name="content" rows="3" class="form-control form-control-sm" required><?= htmlspecialchars($content, ENT_QUOTES, 'UTF-8') ?></textarea>
                                     </div>
 
                                     <div class="row g-2 mb-2">
                                         <div class="col-6">
-                                            <label class="form-label small fw-bold"><?= htmlspecialchars($nt('notices.display_order', 'Display order'), ENT_QUOTES, 'UTF-8') ?></label>
-                                            <input type="number" name="display_order" value="<?= $displayOrder ?>" class="form-control form-control-sm">
+                                            <label class="form-label small fw-bold" for="notice_order_<?= $noticeId ?>"><?= htmlspecialchars($nt('notices.display_order', 'Display order'), ENT_QUOTES, 'UTF-8') ?></label>
+                                            <input type="number" id="notice_order_<?= $noticeId ?>" name="display_order" value="<?= $displayOrder ?>" class="form-control form-control-sm">
                                         </div>
                                         <div class="col-6 d-flex align-items-end gap-3 pb-1">
                                             <div class="form-check mb-0">

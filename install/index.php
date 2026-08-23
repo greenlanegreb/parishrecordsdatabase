@@ -620,9 +620,11 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
     <title><?= htmlspecialchars(__('install.page_title'), ENT_QUOTES, 'UTF-8') ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-5">
     <div class="container" style="max-width: 600px;">
         <div class="card border-0 shadow-sm p-4 bg-white" role="region" aria-labelledby="installStepHeading">
+            <h1 class="visually-hidden"><?= htmlspecialchars(__('install.page_title'), ENT_QUOTES, 'UTF-8') ?></h1>
             <?php if ($error !== ''): ?>
                 <div class="alert alert-danger alert-dismissible fade show shadow-sm small" role="alert">
                     <strong><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></strong>
@@ -637,7 +639,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
             <?php endif; ?>
 
             <?php if ($step === 6): ?>
-                <h1 class="h5 fw-bold text-success mb-2" id="installStepHeading"><?= htmlspecialchars(__('install.done_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <h2 class="h5 fw-bold text-success mb-2" id="installStepHeading"><?= htmlspecialchars(__('install.done_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
                 <p class="text-secondary small mb-3"><?= htmlspecialchars(__('install.done_message'), ENT_QUOTES, 'UTF-8') ?></p>
                 <p class="small mb-0">
                     <a href="<?= htmlspecialchars($basePath . '/login', ENT_QUOTES, 'UTF-8') ?>" class="text-decoration-none fw-bold"><?= htmlspecialchars(__('install.login_link'), ENT_QUOTES, 'UTF-8') ?></a>
@@ -647,7 +649,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                 <p class="small text-muted mt-3 mb-0"><em><?= __('install.delete_folder_hint') ?></em></p>
 
             <?php elseif ($step === 4): ?>
-                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.demo_heading') !== 'install.demo_heading' ? __('install.demo_heading') : 'Optional demo packs', ENT_QUOTES, 'UTF-8') ?></h1>
+                <h2 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.demo_heading') !== 'install.demo_heading' ? __('install.demo_heading') : 'Optional demo packs', ENT_QUOTES, 'UTF-8') ?></h2>
                 <p class="text-muted small mb-3" id="installDemoHelp"><?= htmlspecialchars(__('install.demo_help') !== 'install.demo_help' ? __('install.demo_help') : 'You can add starter tables for parish registers and/or a book library. Choose tables and columns only, or include a few made-up sample rows. You can skip this and add or remove packs later in Settings. Removing a pack later also deletes any extra rows you added in those demo tables.', ENT_QUOTES, 'UTF-8') ?></p>
                 <form method="post" aria-labelledby="installStepHeading" aria-describedby="installDemoHelp">
                     <input type="hidden" name="step" value="4">
@@ -687,7 +689,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
 
 
             <?php elseif ($step === 7): ?>
-                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.modules_heading') !== 'install.modules_heading' ? __('install.modules_heading') : 'Which parts of pRD would you like to use?', ENT_QUOTES, 'UTF-8') ?></h1>
+                <h2 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.modules_heading') !== 'install.modules_heading' ? __('install.modules_heading') : 'Which parts of pRD would you like to use?', ENT_QUOTES, 'UTF-8') ?></h2>
                 <p class="text-muted small mb-3" id="installModulesHelp"><?= htmlspecialchars(__('install.modules_help') !== 'install.modules_help' ? __('install.modules_help') : 'Tick the features you want on day one. You can change this later under Admin → Settings.', ENT_QUOTES, 'UTF-8') ?></p>
                 <form method="post" aria-labelledby="installStepHeading" aria-describedby="installModulesHelp">
                     <input type="hidden" name="step" value="7">
@@ -737,7 +739,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                 </script>
 
             <?php elseif ($step === 5): ?>
-                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.admin_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <h2 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.admin_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
                 <p class="text-muted small mb-3" id="installAdminHelp"><?= __('install.admin_subheading') ?></p>
                 <form method="post" aria-labelledby="installStepHeading" aria-describedby="installAdminHelp">
                     <input type="hidden" name="step" value="5">
@@ -770,7 +772,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                 </form>
 
             <?php elseif ($step === 3 || $showDbForm): ?>
-                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.db_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <h2 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.db_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
                 <p class="text-muted small mb-3" id="installDbHelp"><?= __('install.db_hint') ?></p>
                 <form method="post" aria-labelledby="installStepHeading" aria-describedby="installDbHelp">
                     <input type="hidden" name="step" value="3">
@@ -800,7 +802,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                 </form>
 
             <?php elseif ($step === 2): ?>
-                <h1 class="h5 fw-bold text-dark mb-3" id="installStepHeading"><?= htmlspecialchars(__('install.req_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <h2 class="h5 fw-bold text-dark mb-3" id="installStepHeading"><?= htmlspecialchars(__('install.req_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
                 <ul class="list-group list-group-flush mb-4 small">
                     <li class="list-group-item d-flex justify-content-between align-items-center <?= $phpOk ? 'text-success' : 'text-danger' ?>">
                         <span><?= htmlspecialchars(sprintf(__('install.req_php'), PHP_VERSION), ENT_QUOTES, 'UTF-8') ?></span>
@@ -836,7 +838,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                 <?php endif; ?>
 
             <?php else: ?>
-                <h1 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.heading'), ENT_QUOTES, 'UTF-8') ?></h1>
+                <h2 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.heading'), ENT_QUOTES, 'UTF-8') ?></h2>
                 <p class="text-muted small mb-3"><?= __('install.subheading') ?></p>
                 <form method="post" id="install-lang-form" aria-labelledby="installStepHeading">
                     <input type="hidden" name="step" value="1">

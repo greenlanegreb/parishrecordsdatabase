@@ -10,6 +10,9 @@ declare(strict_types=1);
 namespace App\Controllers\Public;
 
 use PDO;
+
+require_once dirname(__DIR__, 3) . '/includes/form_fields.php';
+
 use Exception;
 
 class FeedbackController
@@ -50,6 +53,8 @@ class FeedbackController
 
         $message = isset($_SESSION['message']) && is_string($_SESSION['message']) ? $_SESSION['message'] : '';
         $error = isset($_SESSION['error']) && is_string($_SESSION['error']) ? $_SESSION['error'] : '';
+        $fieldErrors = $_SESSION['field_errors'] ?? [];
+
         
         $submittedData = isset($_SESSION['submitted_feedback_fields']) && is_array($_SESSION['submitted_feedback_fields']) ? $_SESSION['submitted_feedback_fields'] : [];
         $submittedFirst = isset($_SESSION['submitted_feedback_first']) && is_string($_SESSION['submitted_feedback_first']) ? $_SESSION['submitted_feedback_first'] : '';
@@ -59,7 +64,7 @@ class FeedbackController
 
         unset(
             $_SESSION['message'], 
-            $_SESSION['error'], 
+            $_SESSION['error'], $_SESSION['field_errors'], 
             $_SESSION['submitted_feedback_fields'], 
             $_SESSION['submitted_feedback_first'], 
             $_SESSION['submitted_feedback_surname'], 
@@ -124,11 +129,16 @@ class FeedbackController
 
         if ($firstName === '' || $surname === '' || $email === '' || $subject === '') {
             $_SESSION['error'] = "First name, surname, email address, and subject are mandatory fields.";
+            if ($firstName === '') { remember_field_error('feedback_first_name', $_SESSION['error']); }
+            if ($surname === '') { remember_field_error('feedback_surname', $_SESSION['error']); }
+            if ($email === '') { remember_field_error('feedback_email', $_SESSION['error']); }
+            if ($subject === '') { remember_field_error('feedback_subject', $_SESSION['error']); }
             header('Location: ' . $basePath . '/feedback');
             exit;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Invalid email format.";
+            remember_field_error('feedback_email', $_SESSION['error']);
             header('Location: ' . $basePath . '/feedback');
             exit;
         }

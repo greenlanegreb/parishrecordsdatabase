@@ -22,7 +22,9 @@ class UserLoginController
 
         $error = $_SESSION['error'] ?? '';
         $message = $_SESSION['message'] ?? '';
-        unset($_SESSION['error'], $_SESSION['message']);
+        $fieldErrors = $_SESSION['field_errors'] ?? [];
+        $oldUsername = $_SESSION['old_username'] ?? '';
+        unset($_SESSION['error'], $_SESSION['message'], $_SESSION['field_errors'], $_SESSION['old_username']);
 
         require_once __DIR__ . '/../Views/user/login.php';
     }

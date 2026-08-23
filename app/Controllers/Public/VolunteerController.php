@@ -11,6 +11,8 @@ namespace App\Controllers\Public;
 
 use PDO;
 
+require_once dirname(__DIR__, 3) . '/includes/form_fields.php';
+
 class VolunteerController
 {
     private PDO $pdo;
@@ -57,6 +59,8 @@ class VolunteerController
 
         $message = isset($_SESSION['message']) && is_string($_SESSION['message']) ? $_SESSION['message'] : '';
         $error = isset($_SESSION['error']) && is_string($_SESSION['error']) ? $_SESSION['error'] : '';
+        $fieldErrors = $_SESSION['field_errors'] ?? [];
+
         
         $submittedData = isset($_SESSION['submitted_volunteer_fields']) && is_array($_SESSION['submitted_volunteer_fields']) ? $_SESSION['submitted_volunteer_fields'] : [];
         $submittedFirst = isset($_SESSION['submitted_volunteer_first']) && is_string($_SESSION['submitted_volunteer_first']) ? $_SESSION['submitted_volunteer_first'] : '';
@@ -65,7 +69,7 @@ class VolunteerController
 
         unset(
             $_SESSION['message'], 
-            $_SESSION['error'], 
+            $_SESSION['error'], $_SESSION['field_errors'], 
             $_SESSION['submitted_volunteer_fields'], 
             $_SESSION['submitted_volunteer_first'], 
             $_SESSION['submitted_volunteer_surname'], 

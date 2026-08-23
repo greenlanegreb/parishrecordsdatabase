@@ -123,12 +123,13 @@ class UserDataEntryController
 
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
+        $fieldErrors = $_SESSION['field_errors'] ?? [];
         $duplicateWarning = $_SESSION['duplicate_warning'] ?? false;
         /** @var array<int, array<string, mixed>> $matches */
         $matches = $_SESSION['duplicate_matches'] ?? [];
         /** @var array<int, string> $submittedData */
         $submittedData = $_SESSION['submitted_filters'] ?? [];
-        unset($_SESSION['message'], $_SESSION['error']);
+        unset($_SESSION['message'], $_SESSION['error'], $_SESSION['field_errors']);
 
         $page = max(1, isset($queryGet['page']) ? (int)$queryGet['page'] : 1);
         $perPage = 10;

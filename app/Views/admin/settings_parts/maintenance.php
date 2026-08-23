@@ -33,8 +33,8 @@ declare(strict_types=1);
         <p class="text-muted small mb-3"><?= htmlspecialchars(__('settings.cron_maintenance_desc'), ENT_QUOTES, 'UTF-8') ?></p>
         
         <div class="mb-3">
-            <label class="form-label small fw-bold"><?= htmlspecialchars(__('settings.cron_command_label'), ENT_QUOTES, 'UTF-8') ?></label>
-            <input type="text" readonly value="<?= htmlspecialchars(PHP_BINARY, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars(realpath(__DIR__ . '/../../../db/actions/cron_token_cleanup.php') ?: '', ENT_QUOTES, 'UTF-8') ?>" class="form-control font-monospace bg-white" onclick="this.select();">
+            <label class="form-label small fw-bold" for="cron_command_preview"><?= htmlspecialchars(__('settings.cron_command_label'), ENT_QUOTES, 'UTF-8') ?></label>
+            <input type="text" id="cron_command_preview" readonly value="<?= htmlspecialchars(PHP_BINARY, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars(realpath(__DIR__ . '/../../../db/actions/cron_token_cleanup.php') ?: '', ENT_QUOTES, 'UTF-8') ?>" class="form-control font-monospace bg-white" onclick="this.select();">
         </div>
 
         <form method="POST" action="<?= $basePath ?>/admin/cron/token-cleanup">

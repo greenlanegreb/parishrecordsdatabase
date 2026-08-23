@@ -43,7 +43,8 @@ class AdminSettingsController
 
         $message = $_SESSION['message'] ?? '';
         $error   = $_SESSION['error'] ?? '';
-        unset($_SESSION['message'], $_SESSION['error']);
+        $fieldErrors = $_SESSION['field_errors'] ?? [];
+        unset($_SESSION['message'], $_SESSION['error'], $_SESSION['field_errors']);
 
         // Auto-register table-scoped permissions
         $this->settingsService->autoRegisterTablePermissions();

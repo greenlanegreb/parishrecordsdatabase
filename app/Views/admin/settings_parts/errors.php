@@ -95,9 +95,9 @@ $basePath = $basePath ?? '';
             <table class="table table-sm table-hover mb-0 small">
                 <thead class="table-light">
                     <tr>
-                        <th>ID</th>
-                        <th><?= htmlspecialchars($__t('admin_errors.th_time', 'Time'), ENT_QUOTES, 'UTF-8') ?></th>
-                        <th><?= htmlspecialchars($__t('admin_errors.th_message', 'Message'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col">ID</th>
+                        <th scope="col"><?= htmlspecialchars($__t('admin_errors.th_time', 'Time'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col"><?= htmlspecialchars($__t('admin_errors.th_message', 'Message'), ENT_QUOTES, 'UTF-8') ?></th>
                     </tr>
                 </thead>
                 <tbody>

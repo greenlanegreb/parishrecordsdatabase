@@ -11,6 +11,9 @@ namespace App\Controllers;
 
 use PDO;
 
+require_once dirname(__DIR__, 2) . '/includes/form_fields.php';
+
+
 class UserRegisterActionController
 {
     private PDO $pdo;
@@ -42,16 +45,24 @@ class UserRegisterActionController
         $email = isset($post['email']) && is_string($post['email']) ? trim($post['email']) : '';
         $password = isset($post['password']) && is_string($post['password']) ? $post['password'] : '';
 
+        $_SESSION['old_username'] = $username;
+        $_SESSION['old_email'] = $email;
         if ($username === '' || $email === '' || $password === '') {
             $_SESSION['error'] = "All fields are required.";
+            if ($username === '') { remember_field_error('username', $_SESSION['error']); }
+            if ($email === '') { remember_field_error('email', $_SESSION['error']); }
+            if ($password === '') { remember_field_error('password', $_SESSION['error']); }
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Invalid email format.";
+            remember_field_error('email', $_SESSION['error']);
         } else {
             $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
             $stmt->execute([$username, $email]);
             
             if ($stmt->rowCount() > 0) {
                 $_SESSION['error'] = "Username or email is already registered.";
+                remember_field_error('username', $_SESSION['error']);
+                remember_field_error('email', $_SESSION['error']);
             } else {
                 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
                 $token = bin2hex(random_bytes(32));

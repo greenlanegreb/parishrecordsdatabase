@@ -112,13 +112,13 @@ $brandLine = 'pRD — ' . $systemName;
         <thead>
             <tr>
                 <?php foreach ($columns as $col): ?>
-                    <th><?= htmlspecialchars((string) ($col['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col"><?= htmlspecialchars((string) ($col['column_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></th>
                 <?php endforeach; ?>
                 <?php if (!function_exists('show_created_by_column') || show_created_by_column($tid)): ?>
-                    <th><?= htmlspecialchars(__('index.th_created_by') !== 'index.th_created_by' ? __('index.th_created_by') : 'Created by', ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col"><?= htmlspecialchars(__('index.th_created_by') !== 'index.th_created_by' ? __('index.th_created_by') : 'Created by', ENT_QUOTES, 'UTF-8') ?></th>
                 <?php endif; ?>
                 <?php if (!function_exists('show_created_at_column') || show_created_at_column($tid)): ?>
-                    <th><?= htmlspecialchars(__('index.th_date_added') !== 'index.th_date_added' ? __('index.th_date_added') : 'Date added', ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col"><?= htmlspecialchars(__('index.th_date_added') !== 'index.th_date_added' ? __('index.th_date_added') : 'Date added', ENT_QUOTES, 'UTF-8') ?></th>
                 <?php endif; ?>
             </tr>
         </thead>

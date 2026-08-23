@@ -14,6 +14,8 @@ namespace App\Controllers;
 use PDO;
 use PDOException;
 
+require_once dirname(__DIR__, 2) . '/includes/form_fields.php';
+
 class UserAuthenticateActionController
 {
     private PDO $pdo;
@@ -37,6 +39,17 @@ class UserAuthenticateActionController
         $post = $_POST;
         $username = isset($post['username']) && is_string($post['username']) ? trim($post['username']) : '';
         $password = isset($post['password']) && is_string($post['password']) ? $post['password'] : '';
+        $_SESSION['old_username'] = $username;
+        if ($username === '') {
+            remember_field_error('username', function_exists('__') ? __('login.err_username_required') : 'Please enter your username.');
+        }
+        if ($password === '') {
+            remember_field_error('password', function_exists('__') ? __('login.err_password_required') : 'Please enter your password.');
+        }
+        if ($username === '' || $password === '') {
+            header('Location: ' . (defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '') . '/login');
+            exit;
+        }
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR'])
             ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 
@@ -108,6 +121,8 @@ class UserAuthenticateActionController
         error_log("Failed login attempt for user: '{$username}' from IP: " . $remoteAddr);
         http_response_code(403);
         $_SESSION['error'] = __('authenticate.err_invalid_credentials');
+        remember_field_error('username', (string) $_SESSION['error']);
+        remember_field_error('password', (string) $_SESSION['error']);
         header('Location: ' . $basePath . '/login');
         exit;
     }

@@ -29,22 +29,29 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                 $isDate  = ($dataType === 'DATE');
                             ?>
                             <div class="<?= $isDate ? 'col-md-8' : 'col-md-4' ?>">
-                                <label class="form-label small fw-bold"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?>:</label>
-
                                 <?php if ($isDate): ?>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <input type="text"
-                                               name="date_filters[<?= $colId ?>][from]"
-                                               value="<?= htmlspecialchars($dateFilters[$colId]['from'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                               class="form-control form-control-sm"
-                                               placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>">
-                                        <span class="text-muted small text-nowrap"><?= htmlspecialchars(__('data_entry.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
-                                        <input type="text"
-                                               name="date_filters[<?= $colId ?>][to]"
-                                               value="<?= htmlspecialchars($dateFilters[$colId]['to'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                               class="form-control form-control-sm"
-                                               placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>">
-                                    </div>
+                                    <fieldset class="border-0 p-0 m-0">
+                                        <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></legend>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <label class="visually-hidden" for="date_from_<?= $colId ?>"><?= htmlspecialchars($colName . ' — ' . (__('data_entry.date_from_label') !== 'data_entry.date_from_label' ? __('data_entry.date_from_label') : 'From'), ENT_QUOTES, 'UTF-8') ?></label>
+                                            <input type="text"
+                                                   id="date_from_<?= $colId ?>"
+                                                   name="date_filters[<?= $colId ?>][from]"
+                                                   value="<?= htmlspecialchars($dateFilters[$colId]['from'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                                   class="form-control form-control-sm"
+                                                   autocomplete="off"
+                                                   placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>">
+                                            <span class="text-muted small text-nowrap" aria-hidden="true"><?= htmlspecialchars(__('data_entry.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
+                                            <label class="visually-hidden" for="date_to_<?= $colId ?>"><?= htmlspecialchars($colName . ' — ' . (__('data_entry.date_to_label') !== 'data_entry.date_to_label' ? __('data_entry.date_to_label') : 'To'), ENT_QUOTES, 'UTF-8') ?></label>
+                                            <input type="text"
+                                                   id="date_to_<?= $colId ?>"
+                                                   name="date_filters[<?= $colId ?>][to]"
+                                                   value="<?= htmlspecialchars($dateFilters[$colId]['to'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                                   class="form-control form-control-sm"
+                                                   autocomplete="off"
+                                                   placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>">
+                                        </div>
+                                    </fieldset>
                                 <?php elseif ($dataType === 'SELECT'): ?>
                                     <?php
                                         $rawOpts = isset($col['field_options']) && is_string($col['field_options']) ? $col['field_options'] : '';
@@ -53,7 +60,8 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                             : array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $rawOpts) ?: [])));
                                         $searchVal = isset($searchFilters[$colId]) && is_string($searchFilters[$colId]) ? $searchFilters[$colId] : '';
                                     ?>
-                                    <select name="filters[<?= $colId ?>]" class="form-select form-select-sm">
+                                    <label class="form-label small fw-bold" for="filter_<?= $colId ?>"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></label>
+                                    <select id="filter_<?= $colId ?>" name="filters[<?= $colId ?>]" class="form-select form-select-sm">
                                         <option value=""><?= htmlspecialchars(__('data_entry.filter_all_option'), ENT_QUOTES, 'UTF-8') ?></option>
                                         <?php foreach ($choiceOptions as $opt): ?>
                                             <option value="<?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?>" <?= ($searchVal === $opt) ? 'selected' : '' ?>><?= htmlspecialchars($opt, ENT_QUOTES, 'UTF-8') ?></option>
@@ -69,17 +77,21 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                         elseif ($displayFormat === 'tick_cross') { $opt1Text = __('data_entry.bool_tick'); $opt2Text = __('data_entry.bool_cross'); }
                                         $searchVal = isset($searchFilters[$colId]) && is_string($searchFilters[$colId]) ? $searchFilters[$colId] : '';
                                     ?>
-                                    <select name="filters[<?= $colId ?>]" class="form-select form-select-sm">
+                                    <label class="form-label small fw-bold" for="filter_<?= $colId ?>"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></label>
+                                    <select id="filter_<?= $colId ?>" name="filters[<?= $colId ?>]" class="form-select form-select-sm">
                                         <option value=""><?= htmlspecialchars(__('data_entry.filter_all_option'), ENT_QUOTES, 'UTF-8') ?></option>
                                         <option value="1" <?= ($searchVal === '1') ? 'selected' : '' ?>><?= $opt1Text ?></option>
                                         <option value="0" <?= ($searchVal === '0') ? 'selected' : '' ?>><?= $opt2Text ?></option>
                                     </select>
                                 <?php else: ?>
+                                    <label class="form-label small fw-bold" for="filter_<?= $colId ?>"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></label>
                                     <input type="text"
+                                           id="filter_<?= $colId ?>"
                                            name="filters[<?= $colId ?>]"
                                            value="<?= htmlspecialchars($searchFilters[$colId] ?? '', ENT_QUOTES, 'UTF-8') ?>"
                                            placeholder="<?= htmlspecialchars(__('data_entry.filter_placeholder'), ENT_QUOTES, 'UTF-8') ?>"
-                                           class="form-control form-control-sm">
+                                           class="form-control form-control-sm"
+                                           autocomplete="off">
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
@@ -89,18 +101,18 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                         <button type="button" id="clear-search" class="btn btn-sm btn-secondary">
                             <?= htmlspecialchars(__('data_entry.reset_filter_btn'), ENT_QUOTES, 'UTF-8') ?>
                         </button>
-                        <a href="#" id="export-csv-btn" class="btn btn-sm btn-outline-secondary text-decoration-none">
+                        <button type="button" id="export-csv-btn" class="btn btn-sm btn-outline-secondary ">
                             <?= htmlspecialchars(__('data_entry.csv_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                        <a href="#" id="export-json-btn" class="btn btn-sm btn-outline-secondary text-decoration-none">
+                        </button>
+                        <button type="button" id="export-json-btn" class="btn btn-sm btn-outline-secondary ">
                             <?= htmlspecialchars(__('data_entry.json_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
-                        </a>
+                        </button>
                         <button type="button" id="copy-clipboard-btn" class="btn btn-sm btn-outline-secondary">
                             <?= htmlspecialchars(__('data_entry.copy_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
                         </button>
-                        <a href="#" id="print-records-btn" class="btn btn-sm btn-outline-secondary text-decoration-none">
+                        <button type="button" id="print-records-btn" class="btn btn-sm btn-outline-secondary ">
                             <?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?>
-                        </a>
+                        </button>
                     </div>
                 </form>
             </div>

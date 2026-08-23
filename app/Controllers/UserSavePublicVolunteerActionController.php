@@ -12,6 +12,9 @@ namespace App\Controllers;
 use Exception;
 use PDO;
 
+require_once dirname(__DIR__, 2) . '/includes/form_fields.php';
+
+
 class UserSavePublicVolunteerActionController
 {
     private PDO $pdo;
@@ -166,12 +169,16 @@ class UserSavePublicVolunteerActionController
 
         if ($firstName === '' || $surname === '' || $email === '') {
             $_SESSION['error'] = 'First name, surname, and email address are required fields.';
+            if ($firstName === '') { remember_field_error('volunteer_first_name', $_SESSION['error']); }
+            if ($surname === '') { remember_field_error('volunteer_surname', $_SESSION['error']); }
+            if ($email === '') { remember_field_error('volunteer_email', $_SESSION['error']); }
             header('Location: ' . $basePath . '/volunteer');
             exit;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = 'Please provide a valid email address.';
+            remember_field_error('volunteer_email', $_SESSION['error']);
             header('Location: ' . $basePath . '/volunteer');
             exit;
         }

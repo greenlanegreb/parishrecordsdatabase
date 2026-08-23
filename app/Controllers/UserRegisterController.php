@@ -30,6 +30,10 @@ class UserRegisterController
 
         $message = $_SESSION['message'] ?? '';
         $error = $_SESSION['error'] ?? '';
+        $fieldErrors = $_SESSION['field_errors'] ?? [];
+        $oldUsername = $_SESSION['old_username'] ?? '';
+        $oldEmail = $_SESSION['old_email'] ?? '';
+
         unset($_SESSION['message'], $_SESSION['error']);
 
         require_once __DIR__ . '/../Views/user/register.php';

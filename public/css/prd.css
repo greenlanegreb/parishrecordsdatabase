@@ -1,0 +1,81 @@
+/* pRD extras on top of Bootstrap 5. Loaded after the CDN sheet. */
+
+:focus-visible {
+    outline: 3px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+.high-contrast {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.high-contrast a {
+    color: #ffff00 !important;
+}
+
+.high-contrast .navbar,
+.high-contrast .navbar.bg-white,
+.high-contrast .navbar.bg-dark,
+.high-contrast footer,
+.high-contrast .card,
+.high-contrast .modal-content,
+.high-contrast .dropdown-menu,
+.high-contrast .bg-light,
+.high-contrast .bg-white,
+.high-contrast .table,
+.high-contrast .table-light,
+.high-contrast .form-control,
+.high-contrast .form-select,
+.high-contrast .alert {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+.high-contrast .text-muted,
+.high-contrast .text-secondary,
+.high-contrast .text-dark {
+    color: #fff !important;
+}
+
+.high-contrast .btn,
+.high-contrast .form-control,
+.high-contrast .form-select,
+.high-contrast .form-check-input,
+.high-contrast .nav-link,
+.high-contrast .page-link {
+    border: 2px solid #fff !important;
+}
+
+.high-contrast .btn-primary,
+.high-contrast .btn-dark {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+.high-contrast .btn-outline-secondary,
+.high-contrast .btn-outline-primary,
+.high-contrast .btn-outline-danger,
+.high-contrast .btn-secondary {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.high-contrast :focus-visible,
+.high-contrast .form-control:focus,
+.high-contrast .form-select:focus,
+.high-contrast .btn:focus-visible,
+.high-contrast .nav-link:focus-visible {
+    outline: 3px solid #ffff00 !important;
+    outline-offset: 3px;
+    box-shadow: none !important;
+}
+
+.high-contrast .form-control::placeholder {
+    color: #ccc !important;
+}
+
+.high-contrast img {
+    outline: 1px solid #fff;
+}
