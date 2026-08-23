@@ -115,7 +115,7 @@ $st = static function (string $key, string $fallback): string {
                                                                 $isChecked = isset($activeMappings[$rId][$pId]);
                                                                 $isLockedAdmin = ($rId === 1 && $isChecked);
                                                                 $isGuestRole = function_exists('is_guest_role_name') && is_guest_role_name($rName);
-                                                                $guestOk = !$isGuestRole || (function_exists('guest_allowed_permission_keys') && in_array($pkey, guest_allowed_permission_keys(), true));
+                                                                $guestOk = !$isGuestRole || (function_exists('guest_may_hold_permission') && guest_may_hold_permission($pkey));
                                                                 if (!$guestOk) {
                                                                     continue;
                                                                 }

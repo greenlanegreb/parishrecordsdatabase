@@ -46,6 +46,17 @@ function guest_allowed_permission_keys(): array
 }
 
 /**
+ * Guest may also be given view_table_N as tables are created (not moderate_table_N).
+ */
+function guest_may_hold_permission(string $key): bool
+{
+    if (in_array($key, guest_allowed_permission_keys(), true)) {
+        return true;
+    }
+    return preg_match('/^view_table_[0-9]+$/', $key) === 1;
+}
+
+/**
  * Child key => parent key. Dynamic table pairs: moderate_table_N → view_table_N.
  *
  * @return array<string, string>
@@ -88,7 +99,9 @@ function prune_guest_role_permissions(PDO $pdo): void
     $in = implode(',', array_fill(0, count($allowed), '?'));
     $sql = "DELETE rp FROM role_permissions rp
             INNER JOIN permissions p ON p.id = rp.permission_id
-            WHERE rp.role_id = ? AND p.permission_key NOT IN ({$in})";
+            WHERE rp.role_id = ?
+              AND p.permission_key NOT IN ({$in})
+              AND p.permission_key NOT REGEXP '^view_table_[0-9]+$'";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(array_merge([$roleId], $allowed));
 }
