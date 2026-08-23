@@ -127,7 +127,7 @@ class ApiExportJsonController
         header('Cache-Control: no-store, no-cache, must-revalidate');
 
         echo json_encode([
-            'system' => 'Parish Records Database (PRD)',
+            'system' => 'Parish Records Database (pRD)',
             'table_id' => $tableId,
             'export_date' => date('Y-m-d H:i:s'),
             'total_records' => count($exportData),

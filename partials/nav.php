@@ -138,7 +138,7 @@ if ($currentRoute === '' || $currentRoute === false) {
 }
 
 $systemName = ($pdoOk && function_exists('get_system_name'))
-    ? get_system_name($pdo) : 'Parish Records Directory (PRD)';
+    ? get_system_name($pdo) : 'Parish Records Directory (pRD)';
 
 $sessionUsername = isset($_SESSION['username']) && is_string($_SESSION['username'])
     ? $_SESSION['username'] : 'User';

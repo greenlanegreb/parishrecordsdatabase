@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-$langPath = __DIR__ . '/../../lang'; // Adjust if your language directory is elsewhere
+$langPath = __DIR__ . '/../../lang'; 
 $backupPath = __DIR__ . '/../../lang_backup_blocks_' . date('Y-m-d_H-i-s');
 
 if (!is_dir($langPath)) {
@@ -35,8 +35,9 @@ foreach ($iterator as $file) {
         $lines = file($filePath);
         if ($lines === false) continue;
 
-        // Parse file into blocks: [ 'comments' => [...], 'items' => [ 'key' => 'full_line_text' ] ]
         $blocks = [];
+        $headerComments = []; // Captures anything between declare() and return [
+        $leadingComments = []; // Captures comments right at the top of return [
         $currentComments = [];
         $currentKey = null;
         $currentLines = [];
@@ -46,10 +47,15 @@ foreach ($iterator as $file) {
         foreach ($lines as $line) {
             $trimmed = trim($line);
 
-            // Detect start of return [
+            // Detect start of return [ and capture everything above it as header comments
             if (!$parsingArray) {
                 if (str_contains($trimmed, 'return [')) {
                     $parsingArray = true;
+                } else {
+                    // Collect comments and spacing between declare() and return [
+                    if (!str_contains($trimmed, '<?php') && !str_contains($trimmed, 'declare')) {
+                        $headerComments[] = $line;
+                    }
                 }
                 continue;
             }
@@ -70,21 +76,26 @@ foreach ($iterator as $file) {
                     $currentKey = null;
                     $currentLines = [];
                 }
-                $currentComments[] = $line;
+
+                // If no blocks exist yet, these are leading comments right inside return [
+                if (empty($blocks)) {
+                    $leadingComments[] = $line;
+                } else {
+                    $currentComments[] = $line;
+                }
                 continue;
             }
 
-            // Check if line starts a new key-value pair (e.g., 'key.name' =>)
+            // Check if line starts a new key-value pair
             if (preg_match('/^\s*[\'"]([a-zA-Z0-9_\.-]+)[\'"]\s*=>/', $line, $matches)) {
                 if ($currentKey !== null) {
-                    // Save previous item
                     $blocks[count($blocks) - 1]['items'][$currentKey] = implode('', $currentLines);
                 }
 
                 $currentKey = $matches[1];
                 $currentLines = [$line];
 
-                // If this is the start of a new block (we collected comments prior)
+                // If we collected comments prior, create a new block
                 if (!empty($currentComments)) {
                     $blocks[] = [
                         'comments' => $currentComments,
@@ -92,7 +103,7 @@ foreach ($iterator as $file) {
                     ];
                     $currentComments = [];
                 } elseif (empty($blocks)) {
-                    // Fallback block if no comments at the very top
+                    // Fallback block if no comments at all before this key
                     $blocks[] = [
                         'comments' => [],
                         'items' => []
@@ -106,8 +117,20 @@ foreach ($iterator as $file) {
             }
         }
 
-        // Rebuild the file content with sorted items inside each block
-        $newContent = "<?php\ndeclare(strict_types=1);\n\nreturn [\n";
+        // Rebuild the file content safely keeping top header and block comments
+        $newContent = "<?php\ndeclare(strict_types=1);\n";
+
+        // Print header comments captured between declare and return [
+        foreach ($headerComments as $hLine) {
+            $newContent .= $hLine;
+        }
+
+        $newContent .= "return [\n";
+
+        // Print any leading comments inside return [
+        foreach ($leadingComments as $leadLine) {
+            $newContent .= $leadLine;
+        }
 
         foreach ($blocks as $block) {
             // Write block comments if any
@@ -134,5 +157,5 @@ foreach ($iterator as $file) {
     }
 }
 
-echo "\n✨ Success! Block-sorted {$successCount} files while keeping all tracking comments intact.\n";
+echo "\n✨ Success! Block-sorted {$successCount} files while protecting all header, leading, and tracking comments.\n";
 echo "📁 Backup saved in: {$backupPath}\n";

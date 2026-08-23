@@ -1,6 +1,6 @@
 ---
 name: Suggest a Language Translation
-about: This is for areas of PRD that do not translate
+about: This is for areas of pRD that do not translate
 title: ''
 labels: Language
 assignees: greenlanegreb
@@ -21,7 +21,7 @@ about: Language Translation Needed
 ## Please copy and paste the Offending Text:
 
 
-## What were you doing on PRD at the time please?
+## What were you doing on pRD at the time please?
 This helps us to locate the offending files:
 
 

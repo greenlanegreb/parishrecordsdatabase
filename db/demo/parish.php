@@ -7,7 +7,7 @@ declare(strict_types=1);
 return [
     'slug' => 'parish',
     'label' => 'Parish registers',
-    'summary' => 'A small set of columns for baptisms, marriages, and burials — the sort of workflow PRD was first built for.',
+    'summary' => 'A small set of columns for baptisms, marriages, and burials — the sort of workflow pRD was first built for.',
     'tables' => [
         [
             'table_name' => 'Parish registers (demo)',

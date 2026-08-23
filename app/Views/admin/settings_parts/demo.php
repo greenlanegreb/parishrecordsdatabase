@@ -17,7 +17,7 @@ $nt = static function (string $key, string $fallback): string {
 ?>
 <div class="tab-pane fade" id="panel-demo" role="tabpanel" aria-labelledby="tab-demo">
     <h2 class="h5 fw-bold mb-2"><?= htmlspecialchars($nt('demo.heading', 'Demo packs'), ENT_QUOTES, 'UTF-8') ?></h2>
-    <p class="text-muted" id="demoIntro"><?= htmlspecialchars($nt('demo.intro', 'Optional starter tables so you can try PRD before you design your own. You can add one pack or both. Nothing here is required for a live site.'), ENT_QUOTES, 'UTF-8') ?></p>
+    <p class="text-muted" id="demoIntro"><?= htmlspecialchars($nt('demo.intro', 'Optional starter tables so you can try pRD before you design your own. You can add one pack or both. Nothing here is required for a live site.'), ENT_QUOTES, 'UTF-8') ?></p>
 
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">

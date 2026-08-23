@@ -22,7 +22,7 @@ return [
         'manage_audit_logs'    => 'Allows viewing and managing the global system-wide audit logs',
         'manage_columns'       => 'Configure table columns',
         'manage_feedback'      => 'Manage feedback',
-        'manage_notices'       => 'Manage PRD Front Page Notices',
+        'manage_notices'       => 'Manage pRD Front Page Notices',
         'manage_settings'      => 'Manage global settings',
         'manage_tables'        => 'Manage dynamic database tables and column schema definitions',
         'manage_users'         => 'Manage user accounts, roles, and status',

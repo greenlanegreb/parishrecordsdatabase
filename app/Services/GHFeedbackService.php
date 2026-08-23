@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 /**
- * Client for the central PRD → GitHub feedback gateway.
+ * Client for the central pRD → GitHub feedback gateway.
  * No GitHub credentials are stored in the install.
  */
 class GHFeedbackService
@@ -13,7 +13,7 @@ class GHFeedbackService
 
     /**
      * Shared with gateway config.php register_key.
-     * Stops casual curl registration. Anyone with this PRD source can still copy it.
+     * Stops casual curl registration. Anyone with this pRD source can still copy it.
      * Override in config.local.php: define('PRD_GH_REGISTER_KEY', '...');
      */
     private function registerKey(): string

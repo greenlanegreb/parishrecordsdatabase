@@ -9,7 +9,7 @@ assignees: greenlanegreb
 
 ---
 name: Feature Request
-about: Suggest a feature request for PRD
+about: Suggest a feature request for pRD
 ---
 
 ## Who is doing what? (Please see Cross For Current Status (Updates to a tick in public view)

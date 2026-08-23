@@ -1,6 +1,6 @@
 <?php
 /**
- * install/index.php — First-time installer wizard for PRD
+ * install/index.php — First-time installer wizard for pRD
  *
  * Fresh install (empty DB only):
  *   schema_baseline.sql → seed_baseline.sql → permissions bootstrap

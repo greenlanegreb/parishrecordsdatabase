@@ -7,7 +7,7 @@ declare(strict_types=1);
 return [
     'slug' => 'library',
     'label' => 'Book library',
-    'summary' => 'A small catalogue layout for titles, authors, and shelf location — useful if you want PRD as a collection register.',
+    'summary' => 'A small catalogue layout for titles, authors, and shelf location — useful if you want pRD as a collection register.',
     'tables' => [
         [
             'table_name' => 'Library catalogue (demo)',

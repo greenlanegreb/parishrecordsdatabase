@@ -25,7 +25,7 @@ class GHFeedbackController
         \require_permission(
             $this->pdo,
             'manage_settings',
-            'Send feedback and report issues to the PRD project'
+            'Send feedback and report issues to the pRD Team'
         );
 
         $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
@@ -76,7 +76,7 @@ class GHFeedbackController
             $title = trim($_POST['final_title']);
         }
 
-        // Allocation / triage ticks are owned by the PRD team — never trust client ticks
+        // Allocation / triage ticks are owned by the pRD team — never trust client ticks
         $description = $this->applyOfficialWorkflowBlock($type, $description);
 
         $confirmPublic = isset($_POST['confirm_public']) && (string) $_POST['confirm_public'] === '1';
@@ -199,7 +199,7 @@ class GHFeedbackController
         \require_permission(
             $this->pdo,
             'manage_settings',
-            'Send feedback and report issues to the PRD project'
+            'Send feedback and report issues to the pRD Team'
         );
     }
 
@@ -381,7 +381,7 @@ class GHFeedbackController
                     . "- [ ] **Test Passed:** [@greenlanegreb]\n"
                     . "- [ ] **Test Failed:** [@greenlanegreb]\n\n"
                     . "## Please copy and paste the Offending Text:\n{$offendingText}\n\n"
-                    . "## What were you doing on PRD at the time please?\n{$userAction}\n\n"
+                    . "## What were you doing on pRD at the time please?\n{$userAction}\n\n"
                     . "## Please provide any additional context\n{$additional}"
                     . ($logExcerpt !== '' ? "\n\n{$logExcerpt}" : '');
                 break;

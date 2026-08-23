@@ -47,7 +47,7 @@ class AdminBackupController
 
         $schemaVersion = function_exists('get_schema_version') ? get_schema_version($this->pdo) : 0;
 
-        fwrite($out, "-- PRD database backup\n");
+        fwrite($out, "-- pRD database backup\n");
         fwrite($out, "-- Generated: " . gmdate('Y-m-d H:i:s') . " UTC\n");
         fwrite($out, "-- Schema version: " . $schemaVersion . "\n\n");
         fwrite($out, "SET NAMES utf8mb4;\nSET FOREIGN_KEY_CHECKS=0;\n\n");

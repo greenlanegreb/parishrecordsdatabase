@@ -360,7 +360,7 @@ function get_system_name(PDO $pdo): string
         }
     } catch (\Exception $e) {
     }
-    return "Parish Records Directory (PRD)";
+    return "Parish Records Directory (pRD)";
 }
 
 if (!function_exists('generate_csrf_token')) {
