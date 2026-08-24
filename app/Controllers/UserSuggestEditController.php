@@ -85,6 +85,9 @@ class UserSuggestEditController
             ? $_SESSION['suggest_dup_matches'] : [];
         $duplicateMode = isset($_SESSION['suggest_dup_mode']) && is_string($_SESSION['suggest_dup_mode'])
             ? $_SESSION['suggest_dup_mode'] : 'warn';
+        /** @var array<string, mixed> $suggestDraft */
+        $suggestDraft = isset($_SESSION['suggest_draft']) && is_array($_SESSION['suggest_draft'])
+            ? $_SESSION['suggest_draft'] : [];
         unset($_SESSION['message'], $_SESSION['error']);
 
         require_once __DIR__ . '/../Views/user/suggest_edit.php';

@@ -21,6 +21,17 @@ declare(strict_types=1);
 /** @array<int, array<string, mixed>> $recordData */
 /** @PDO|null $pdo */
 
+/** @var array<string, mixed> $suggestDraft */
+$suggestDraft = $suggestDraft ?? [];
+$draftColId = isset($suggestDraft['column_id']) ? (int) $suggestDraft['column_id'] : 0;
+$draftProposed = isset($suggestDraft['proposed_value']) && is_string($suggestDraft['proposed_value'])
+    ? $suggestDraft['proposed_value'] : '';
+$draftReasoning = isset($suggestDraft['reasoning']) && is_string($suggestDraft['reasoning'])
+    ? $suggestDraft['reasoning'] : '';
+$draftNotify = !empty($suggestDraft['notify_outcome']);
+$draftNotifyEmail = isset($suggestDraft['notify_email']) && is_string($suggestDraft['notify_email'])
+    ? $suggestDraft['notify_email'] : '';
+
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
@@ -145,7 +156,7 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                             $cId = isset($data['column_id']) ? (int)$data['column_id'] : 0;
                             $cName = isset($data['column_name']) && is_string($data['column_name']) ? $data['column_name'] : '';
                         ?>
-                        <option value="<?= $cId ?>">
+                        <option value="<?= $cId ?>" <?= ($draftColId === $cId) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>
                         </option>
                     <?php endforeach; ?>
@@ -159,17 +170,17 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
 
             <div class="mb-3">
                 <label for="reasoning" class="form-label small fw-bold"><?= htmlspecialchars(__('suggest_edit.reasoning_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                <textarea id="reasoning" name="reasoning" rows="3" placeholder="<?= htmlspecialchars(__('suggest_edit.reasoning_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"></textarea>
+                <textarea id="reasoning" name="reasoning" rows="3" placeholder="<?= htmlspecialchars(__('suggest_edit.reasoning_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;"><?= htmlspecialchars($draftReasoning, ENT_QUOTES, 'UTF-8') ?></textarea>
             </div>
 
             <div class="mb-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="notify_outcome" value="1" id="notify_outcome">
+                    <input class="form-check-input" type="checkbox" name="notify_outcome" value="1" id="notify_outcome" <?= $draftNotify ? 'checked' : '' ?>>
                     <label class="form-check-label" for="notify_outcome"><?= htmlspecialchars(__('suggest_edit.notify_label') !== 'suggest_edit.notify_label' ? __('suggest_edit.notify_label') : 'Email me when a moderator has decided', ENT_QUOTES, 'UTF-8') ?></label>
                 </div>
                 <?php if (empty($_SESSION['user_id'])): ?>
                     <label class="form-label small mt-2" for="notify_email"><?= htmlspecialchars(__('suggest_edit.notify_email_label') !== 'suggest_edit.notify_email_label' ? __('suggest_edit.notify_email_label') : 'Your email address', ENT_QUOTES, 'UTF-8') ?></label>
-                    <input type="email" name="notify_email" id="notify_email" class="form-control form-control-sm" autocomplete="email" maxlength="255">
+                    <input type="email" name="notify_email" id="notify_email" class="form-control form-control-sm" autocomplete="email" maxlength="255" value="<?= htmlspecialchars($draftNotifyEmail, ENT_QUOTES, 'UTF-8') ?>">
                     <div class="form-text"><?= htmlspecialchars(__('suggest_edit.notify_email_help') !== 'suggest_edit.notify_email_help' ? __('suggest_edit.notify_email_help') : 'Used only to tell you the outcome. It is not shown on the public record.', ENT_QUOTES, 'UTF-8') ?></div>
                 <?php endif; ?>
             </div>
@@ -204,6 +215,8 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
 
 <script>
 const columnMeta = <?= json_encode($jsColumnMeta) ?>;
+const draftProposed = <?= json_encode($draftProposed, JSON_UNESCAPED_UNICODE) ?>;
+const draftColIdJs = <?= (int) $draftColId ?>;
 const userDateFormat = '<?= htmlspecialchars($userDateFormat, ENT_QUOTES, 'UTF-8') ?>';
 const optYesTrueText = '<?= htmlspecialchars(__('data_entry.bool_yes_true'), ENT_QUOTES, 'UTF-8') ?>';
 const optNoFalseText = '<?= htmlspecialchars(__('data_entry.bool_no_false'), ENT_QUOTES, 'UTF-8') ?>';
@@ -298,6 +311,23 @@ function escapeHtml(text) {
 
 document.addEventListener('DOMContentLoaded', () => {
     renderInputType();
+if (draftProposed !== '' && typeof draftProposed === 'string') {
+    const posted = document.getElementById('proposed_value_posted');
+    if (posted) posted.value = draftProposed;
+    const box = document.getElementById('input-container');
+    if (box) {
+        const input = box.querySelector('input, textarea, select');
+        if (input) {
+            if (input.tagName === 'SELECT' && input.multiple) {
+                const parts = draftProposed.split('|');
+                Array.from(input.options).forEach(function (o) { o.selected = parts.indexOf(o.value) !== -1; });
+            } else {
+                input.value = draftProposed;
+            }
+        }
+    }
+}
+
 
     const form = document.querySelector('form[action*="suggest-edit/save"]');
     if (form) {

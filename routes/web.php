@@ -105,7 +105,7 @@ return function (RouteCollector $r): void {
     $r->addRoute('GET', '/update-database', ['App\Controllers\UpdateDatabaseController', 'index']);
     $r->addRoute('POST', '/update-database', ['App\Controllers\UpdateDatabaseController', 'index']);
     $r->addRoute('GET', '/user/suggest-edit', ['App\Controllers\UserSuggestEditController', 'show']);
-    $r->addRoute('POST', '/user/suggest-edit/save', ['App\Controllers\UserSuggestEditActionController', 'save']);
+    $r->addRoute('POST', '/user/suggest-edit/save', ['App\Controllers\UserSaveSuggestionActionController', 'handle']);
     $r->addRoute('GET', '/record_history.php', ['App\Controllers\RecordHistoryController', 'index']);
     $r->addRoute('GET', '/api/export', ['App\Controllers\ApiExportController', 'export']);
     $r->addRoute('GET', '/api/export-json', ['App\Controllers\ApiExportJsonController', 'export']);

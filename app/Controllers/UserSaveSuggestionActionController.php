@@ -53,6 +53,15 @@ class UserSaveSuggestionActionController
             exit;
         };
 
+        $suggestFormUrl = static function (int $rid, string $base, string $rawReturn) use ($basePath): string {
+            $q = ['record_id' => (string) $rid];
+            if ($rawReturn !== '' && !preg_match('#^https?://#i', $rawReturn)) {
+                $q['return'] = $rawReturn;
+            }
+            return $basePath . '/user/suggest-edit?' . http_build_query($q);
+        };
+
+
         // Moderation module must be on
         if (!is_module_enabled($this->pdo, 'moderation')) {
             $_SESSION['error'] = 'Suggestions are currently disabled.';
@@ -61,6 +70,11 @@ class UserSaveSuggestionActionController
 
         // CSRF (session token works for guests too when form includes csrf_field)
         verify_csrf_token();
+
+        // Same gate as the suggest-edit page (user or guest needs access_suggest_edit)
+        if (function_exists('require_suggest_edit_access')) {
+            require_suggest_edit_access($this->pdo);
+        }
 
         require_once __DIR__ . '/../../includes/security_engine.php';
 
@@ -256,10 +270,20 @@ class UserSaveSuggestionActionController
                 $_SESSION['suggest_dup_warning'] = true;
                 $_SESSION['suggest_dup_matches'] = $dupes;
                 $_SESSION['suggest_dup_mode'] = $dupMode;
+                $_SESSION['suggest_draft'] = [
+                    'column_id' => $columnId,
+                    'proposed_value' => $proposedValue,
+                    'reasoning' => $reasoning,
+                    'notify_outcome' => $notifyOutcome,
+                    'notify_email' => $notifyEmail,
+                    'report_duplicate' => $reportDuplicate ? 1 : 0,
+                    'duplicate_of' => $duplicateOf > 0 ? $duplicateOf : '',
+                ];
                 $_SESSION['error'] = $dupMode === 'block'
                     ? (__('data_entry.dup_blocked') !== 'data_entry.dup_blocked' ? __('data_entry.dup_blocked') : 'This record is too similar to one already saved, so it cannot be added.')
                     : (__('suggest_edit.dup_please_check') !== 'suggest_edit.dup_please_check' ? __('suggest_edit.dup_please_check') : 'This change would look very similar to another record. Please check below.');
-                $suggestionRedirect($returnUrl);
+                // Stay on the suggest form so the match card + confirm path work (same idea as data entry)
+                $suggestionRedirect($suggestFormUrl($recordId, $basePath, $rawReturnUrl));
             }
         }
 
@@ -286,7 +310,7 @@ class UserSaveSuggestionActionController
                 $createdAt,
             ]);
             $_SESSION['message'] = 'Your suggestion was submitted for review.';
-            unset($_SESSION['suggest_dup_warning'], $_SESSION['suggest_dup_matches'], $_SESSION['suggest_dup_mode']);
+            unset($_SESSION['suggest_dup_warning'], $_SESSION['suggest_dup_matches'], $_SESSION['suggest_dup_mode'], $_SESSION['suggest_draft']);
         } catch (Exception $e) {
             // Fallback if reasoning/points columns missing on very old DB
             try {
@@ -304,7 +328,7 @@ class UserSaveSuggestionActionController
                     $createdAt,
                 ]);
                 $_SESSION['message'] = 'Your suggestion was submitted for review.';
-            unset($_SESSION['suggest_dup_warning'], $_SESSION['suggest_dup_matches'], $_SESSION['suggest_dup_mode']);
+            unset($_SESSION['suggest_dup_warning'], $_SESSION['suggest_dup_matches'], $_SESSION['suggest_dup_mode'], $_SESSION['suggest_draft']);
             } catch (Exception $e2) {
                 error_log('save_suggestion failed: ' . $e2->getMessage());
                 $_SESSION['error'] = 'Could not save your suggestion.';

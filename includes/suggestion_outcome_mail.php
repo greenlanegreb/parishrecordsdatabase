@@ -52,15 +52,20 @@ function send_suggestion_outcome_mail(PDO $pdo, array $suggestion, string $decis
     }
     if (!is_array($tpl) || trim((string) ($tpl['subject'] ?? '')) === '' || trim((string) ($tpl['body'] ?? '')) === '') {
         $tpl = [
-            'subject' => 'Update on your suggested change — {system_name}',
+            'subject' => 'Update on your suggested change - {system_name}',
             'body' => "Hello {first_name},\n\nA moderator has reviewed the change you suggested on {system_name}.\n\nDecision: {decision}\nField: {column_name}\nYour suggestion: {proposed_value}\n\nTheir note:\n{moderator_rationale}\n\nIf you would like to discuss this further, you can open a support ticket here:\n{feedback_link}\n\nThank you for helping to keep the records accurate.\n\n{system_name}",
         ];
     }
 
     $systemName = function_exists('get_system_name') ? get_system_name($pdo) : 'pRD';
     $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
-    $feedbackLink = $basePath . '/feedback';
-    $decisionLabel = strtolower($decision) === 'approved'
+    $httpHost = isset($_SERVER['HTTP_HOST']) && is_string($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+    $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    $origin = $httpHost !== '' ? (($https ? 'https://' : 'http://') . $httpHost) : '';
+    $feedbackLink = $origin . $basePath . '/feedback';
+    $d = strtolower(trim($decision));
+    $accepted = in_array($d, ['approve', 'approved', 'accept', 'accepted'], true);
+    $decisionLabel = $accepted
         ? (__('suggest_edit.decision_accepted') !== 'suggest_edit.decision_accepted' ? __('suggest_edit.decision_accepted') : 'Accepted')
         : (__('suggest_edit.decision_not_accepted') !== 'suggest_edit.decision_not_accepted' ? __('suggest_edit.decision_not_accepted') : 'Not accepted');
 
