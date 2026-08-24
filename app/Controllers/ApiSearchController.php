@@ -146,6 +146,10 @@ class ApiSearchController
         $canSuggestEdit = function_exists('can_suggest_edit')
             ? can_suggest_edit($this->pdo)
             : $isModerationEnabled;
+        $canDeleteRecords = function_exists('has_permission')
+            && has_permission($this->pdo, 'delete_records');
+        $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
+        $csrfToken = function_exists('generate_csrf_token') ? generate_csrf_token() : '';
 
         ob_start();
         if (empty($paginatedRecords)) {
@@ -205,9 +209,28 @@ class ApiSearchController
                     . '" class="btn btn-sm btn-outline-secondary py-0 px-2 text-decoration-none me-1" style="font-size: 0.75rem;">'
                     . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a>';
                 if ($canSuggestEdit) {
-                    echo '<button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 suggest-edit-btn" data-record-id="'
+                    echo '<button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 suggest-edit-btn me-1" data-record-id="'
                         . $recId . '" style="font-size: 0.75rem;">'
                         . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button>';
+                }
+                if ($canDeleteRecords) {
+                    $delLabel = (__('data_entry.delete_record_btn') !== 'data_entry.delete_record_btn')
+                        ? __('data_entry.delete_record_btn') : 'Delete';
+                    $delConfirm = (__('data_entry.delete_record_confirm') !== 'data_entry.delete_record_confirm')
+                        ? __('data_entry.delete_record_confirm')
+                        : 'Delete this record permanently? Values, map pins and related suggestions for it will be removed. This cannot be undone.';
+                    $returnUrl = $basePath . '/data-entry';
+                    // Confirm on the button (more reliable than form onsubmit when HTML is injected via AJAX)
+                    $confirmJs = 'return confirm(' . json_encode($delConfirm, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . ');';
+                    echo '<form method="POST" action="' . htmlspecialchars($basePath . '/records/delete', ENT_QUOTES, 'UTF-8')
+                        . '" class="d-inline-block ms-1">';
+                    echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars((string) $csrfToken, ENT_QUOTES, 'UTF-8') . '">';
+                    echo '<input type="hidden" name="record_id" value="' . $recId . '">';
+                    echo '<input type="hidden" name="return_url" value="' . htmlspecialchars($returnUrl, ENT_QUOTES, 'UTF-8') . '">';
+                    echo '<button type="submit" class="btn btn-sm btn-outline-danger py-0 px-2" style="font-size: 0.75rem;" onclick="'
+                        . htmlspecialchars($confirmJs, ENT_QUOTES, 'UTF-8') . '">'
+                        . htmlspecialchars($delLabel, ENT_QUOTES, 'UTF-8') . '</button>';
+                    echo '</form>';
                 }
                 echo '</td>';
 

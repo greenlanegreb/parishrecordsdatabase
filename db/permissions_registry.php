@@ -14,9 +14,11 @@ return [
     // 1. The complete master list of all static application permissions (alphabetical)
     'permissions' => [
         'access_data_entry'    => 'Allows accessing the core data entry workstation',
+        'delete_records'       => 'Delete individual records from dynamic tables',
         'access_onboarding'    => 'Allows accessing the first-time user onboarding setup',
         'access_profile'       => 'Allows viewing and managing personal user profile settings',
         'access_suggest_edit'  => 'Allows submitting edit suggestions for records',
+        'delete_records'       => 'Delete individual records from dynamic tables',
         'export_data'          => 'Export data from records table',
         'invite_users'         => 'Create and invite new users',
         'manage_audit_logs'    => 'Allows viewing and managing the global system-wide audit logs',
@@ -41,9 +43,11 @@ return [
     'default_roles' => [
         'admin' => [
             'access_data_entry',
+            'delete_records',
             'access_onboarding',
             'access_profile',
             'access_suggest_edit',
+            'delete_records',
             'export_data',
             'invite_users',
             'manage_audit_logs',
@@ -65,6 +69,7 @@ return [
         ],
         'moderator' => [
             'access_data_entry',
+            'delete_records',
             'access_onboarding',
             'access_profile',
             'access_suggest_edit',
@@ -77,6 +82,7 @@ return [
         ],
         'user' => [
             'access_data_entry',
+            'delete_records',
             'access_onboarding',
             'access_profile',
             'access_suggest_edit',

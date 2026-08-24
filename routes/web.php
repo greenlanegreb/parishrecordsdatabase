@@ -45,13 +45,14 @@ return function (RouteCollector $r): void {
     $r->addRoute('GET', '/admin/settings', ['App\Controllers\AdminSettingsController', 'index']);
     $r->addRoute('POST', '/admin/demo-packs', ['App\Controllers\AdminDemoPacksController', 'handle']);
 
-    // --- Admin and Moderator Duplicate Records Management
+    // --- Admin and Moderator Duplicate and Delete Records Management
 
     $r->addRoute('GET', '/admin/duplicates', ['App\\Controllers\\DuplicateReviewController', 'index']);
     $r->addRoute('POST', '/admin/duplicates/scan', ['App\\Controllers\\DuplicateReviewController', 'scan']);
     $r->addRoute('POST', '/admin/duplicates/dismiss', ['App\\Controllers\\DuplicateReviewController', 'dismiss']);
     $r->addRoute('GET', '/admin/duplicates/merge', ['App\\Controllers\\DuplicateReviewController', 'mergeForm']);
     $r->addRoute('POST', '/admin/duplicates/merge', ['App\\Controllers\\DuplicateReviewController', 'mergeSave']);
+    $r->addRoute('POST', '/records/delete', ['App\Controllers\UserDeleteRecordActionController', 'handle']);
 
     // Users
     $r->addRoute('GET', '/admin/users', ['App\Controllers\AdminUsersController', 'index']);
