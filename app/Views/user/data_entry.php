@@ -62,8 +62,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <h3 class="h5 fw-bold mb-2"><?= htmlspecialchars($__t('data_entry.no_tables_heading', 'No Tables Configured'), ENT_QUOTES, 'UTF-8') ?></h3>
             <p class="mb-2"><?= htmlspecialchars($__t('data_entry.no_tables_desc', 'There are no tables available for data entry.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php if ($isAdmin): ?>
-                <p class="mb-2"><?= htmlspecialchars($__t('data_entry.admin_tables_prompt', 'You can configure tables and columns in the admin area.'), ENT_QUOTES, 'UTF-8') ?></p>
-                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars($__t('data_entry.go_manage_tables', 'Manage Tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                <p class="mb-2"><?= htmlspecialchars($__t('data_entry.admin_tables_prompt', 'If you are an administrator, please go to Admin → Tables to add a table, then add at least one column.'), ENT_QUOTES, 'UTF-8') ?></p>
+                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars($__t('data_entry.go_manage_tables', 'Admin → Tables'), ENT_QUOTES, 'UTF-8') ?></a>
             <?php else: ?>
                 <p class="mb-0"><?= htmlspecialchars($__t('data_entry.contact_admin_tables', 'Please contact an administrator to set up tables.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php endif; ?>
@@ -73,8 +73,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <h3 class="h5 fw-bold mb-2"><?= htmlspecialchars($__t('data_entry.no_cols_heading', 'No Columns Configured'), ENT_QUOTES, 'UTF-8') ?></h3>
             <p class="mb-2"><?= htmlspecialchars($__t('data_entry.no_cols_desc', 'This table has no active columns defined.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php if ($isAdmin): ?>
-                <p class="mb-2"><?= htmlspecialchars($__t('data_entry.admin_cols_prompt', 'You can add columns to this table in the admin area.'), ENT_QUOTES, 'UTF-8') ?></p>
-                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars($__t('data_entry.go_manage_tables', 'Manage Tables'), ENT_QUOTES, 'UTF-8') ?></a>
+                <p class="mb-2"><?= htmlspecialchars($__t('data_entry.admin_cols_prompt', 'If you are an administrator, please go to Admin → Tables to manage columns and add at least one column to this table.'), ENT_QUOTES, 'UTF-8') ?></p>
+                <a href="<?= $basePath ?>/admin/tables" class="btn btn-sm btn-primary mt-1 text-decoration-none"><?= htmlspecialchars($__t('data_entry.go_manage_tables', 'Admin → Tables'), ENT_QUOTES, 'UTF-8') ?></a>
             <?php else: ?>
                 <p class="mb-0"><?= htmlspecialchars($__t('data_entry.contact_admin_cols', 'Please contact an administrator to configure columns.'), ENT_QUOTES, 'UTF-8') ?></p>
             <?php endif; ?>
