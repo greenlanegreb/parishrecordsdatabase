@@ -37,7 +37,7 @@ class AdminModulesController
         $remoteAddr = isset($_SERVER['REMOTE_ADDR']) && is_string($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
 
         try {
-            $modules = ['moderation', 'volunteers', 'feedback', 'users', 'leaderboard', 'maps'];
+            $modules = ['moderation', 'volunteers', 'feedback', 'users', 'leaderboard'];
             $stmt = $this->pdo->prepare("INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
 
             foreach ($modules as $mod) {
@@ -61,7 +61,7 @@ class AdminModulesController
             $_SESSION['error'] = "Failed to update module feature flags: " . $e->getMessage();
         }
 
-        header('Location: ' . BASE_PATH . '/admin/settings#tab-modules');
+        header('Location: ' . BASE_PATH . '/admin/settings?tab=modules');
         exit;
     }
 }

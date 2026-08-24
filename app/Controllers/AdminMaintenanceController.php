@@ -59,7 +59,7 @@ class AdminMaintenanceController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: ' . BASE_PATH . '/admin/settings#tab-maintenance');
+        header('Location: ' . BASE_PATH . '/admin/settings?tab=maintenance');
         exit;
     }
 }

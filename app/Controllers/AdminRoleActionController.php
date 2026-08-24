@@ -83,7 +83,7 @@ class AdminRoleActionController
                     $_SESSION['error'] = "Failed to delete role: " . $e->getMessage();
                 }
             }
-            header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
+            header('Location: ' . BASE_PATH . '/admin/settings?tab=permissions');
             exit;
         }
 
@@ -94,7 +94,7 @@ class AdminRoleActionController
 
         if ($roleName === '') {
             $_SESSION['error'] = "Role name cannot be empty.";
-            header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
+            header('Location: ' . BASE_PATH . '/admin/settings?tab=permissions');
             exit;
         }
 
@@ -151,7 +151,7 @@ class AdminRoleActionController
             $_SESSION['error'] = "Database error: " . $e->getMessage();
         }
 
-        header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
+        header('Location: ' . BASE_PATH . '/admin/settings?tab=permissions');
         exit;
     }
 }

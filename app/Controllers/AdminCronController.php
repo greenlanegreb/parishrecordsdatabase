@@ -82,8 +82,8 @@ class AdminCronController
                 $activatedCount
             );
 
-            // Log to audit table using exact schema column names (`ip_address`, `created_at`)
-            $logStmt = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES (?, ?, ?, ?, NOW())");
+            // Log to audit table using exact schema column names (`ip address`, `created at`)
+            $logStmt = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip address`, `created at`) VALUES (?, ?, ?, ?, NOW())");
             $logStmt->execute([$actorId, 'TOKEN_CLEANUP_SUCCESS', $details, $ip]);
 
             if ($isCli) {
@@ -91,7 +91,7 @@ class AdminCronController
                 exit(0);
             } else {
                 $_SESSION['message'] = $details;
-                header('Location: ' . BASE_PATH . '/admin/settings#tab-maintenance');
+                header('Location: ' . BASE_PATH . '/admin/settings?tab=maintenance');
                 exit;
             }
 
@@ -104,7 +104,7 @@ class AdminCronController
 
             // Log cron / maintenance failure
             try {
-                $logStmt = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip_address`, `created_at`) VALUES (?, ?, ?, ?, NOW())");
+                $logStmt = $this->pdo->prepare("INSERT INTO audit_logs (`user_id`, `action`, `details`, `ip address`, `created at`) VALUES (?, ?, ?, ?, NOW())");
                 $logStmt->execute([$actorId, 'TOKEN_CLEANUP_FAIL', $errorDetails, $ip]);
             } catch (Exception $logEx) {
                 // Fail silently if logging fails during rollback
@@ -115,7 +115,7 @@ class AdminCronController
                 exit(1);
             } else {
                 $_SESSION['error'] = $errorDetails;
-                header('Location: ' . BASE_PATH . '/admin/settings#tab-maintenance');
+                header('Location: ' . BASE_PATH . '/admin/settings?tab=maintenance');
                 exit;
             }
         }

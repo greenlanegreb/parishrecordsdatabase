@@ -86,7 +86,7 @@ class AdminPermissionsActionController
                         if ($key === '') {
                             continue;
                         }
-                        if ($guestRoleId > 0 && $roleId === $guestRoleId && function_exists('guest_may_hold_permission') && !guest_may_hold_permission($key)) {
+                        if ($guestRoleId > 0 && $roleId === $guestRoleId && $guestAllowed !== [] && !in_array($key, $guestAllowed, true)) {
                             continue;
                         }
                         $accepted[$key] = $permissionId;
@@ -116,7 +116,7 @@ class AdminPermissionsActionController
             $_SESSION['error'] = "Failed to update permissions: " . $e->getMessage();
         }
 
-        header('Location: ' . BASE_PATH . '/admin/settings#tab-permissions');
+        header('Location: ' . BASE_PATH . '/admin/settings?tab=permissions');
         exit;
     }
 }

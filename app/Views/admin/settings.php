@@ -203,40 +203,54 @@ function handleTestMailSubmit(form) {
 }
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const hash = window.location.hash;
+    const hash = (window.location.hash || '').replace(/^#/, '');
+    const tabParam = (urlParams.get('tab') || '').toLowerCase().replace(/^#/, '').replace(/^tab-/, '');
 
-    let targetTab = 'tab-core';
-    if (!document.getElementById(targetTab)) {
-        const first = document.querySelector('.nav-tabs .nav-link');
-        if (first && first.id) targetTab = first.id;
-    }
-    if (hash === '#test-mail-section') {
-        targetTab = 'tab-core';
-        setTimeout(() => {
-            const el = document.getElementById('test-mail-section');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 200);
-    } else if (urlParams.has('edit_role') || hash === '#tab-permissions') {
-        targetTab = 'tab-permissions';
-    } else if (hash === '#tab-modules') {
-        targetTab = 'tab-modules';
-    } else if (hash === '#tab-audit') {
-        targetTab = 'tab-audit';
-    } else if (hash === '#tab-notices') {
-        targetTab = 'tab-notices';
-    } else if (hash === '#tab-maintenance') {
-        targetTab = 'tab-maintenance';
-    } else if (hash === '#tab-errors' || urlParams.get('tab') === 'errors') {
-        targetTab = 'tab-errors';
-    } else if (hash === '#tab-demo' || urlParams.get('tab') === 'demo') {
-        targetTab = 'tab-demo';
-    }
+    const resolveButtonId = () => {
+        if (urlParams.has('edit_role')) return 'tab-permissions';
+        if (tabParam === 'test-mail-section' || hash === 'test-mail-section') return 'tab-core';
+        const name = tabParam || hash.replace(/^tab-/, '');
+        if (!name) return 'tab-core';
+        const id = name.startsWith('tab-') ? name : ('tab-' + name);
+        return document.getElementById(id) ? id : 'tab-core';
+    };
 
-    const tabTriggerEl = document.querySelector('#' + targetTab);
-    if (tabTriggerEl && window.bootstrap && window.bootstrap.Tab) {
-        const tabInstance = new bootstrap.Tab(tabTriggerEl);
-        tabInstance.show();
-    }
+    const activateTab = (buttonId) => {
+        const trigger = document.getElementById(buttonId);
+        if (!trigger) return;
+
+        // Always clear first — avoids Core + Notices both having .show.active
+        document.querySelectorAll('.nav-tabs [role="tab"]').forEach((el) => {
+            el.classList.remove('active');
+            el.setAttribute('aria-selected', 'false');
+        });
+        document.querySelectorAll('.tab-content > .tab-pane').forEach((el) => {
+            el.classList.remove('show', 'active');
+        });
+
+        trigger.classList.add('active');
+        trigger.setAttribute('aria-selected', 'true');
+        const targetSel = trigger.getAttribute('data-bs-target');
+        const pane = targetSel ? document.querySelector(targetSel) : null;
+        if (pane) {
+            pane.classList.add('show', 'active');
+        }
+
+        if (window.bootstrap && window.bootstrap.Tab) {
+            try {
+                bootstrap.Tab.getOrCreateInstance(trigger).show();
+            } catch (e) { /* classes already set */ }
+        }
+
+        if (tabParam === 'test-mail-section' || hash === 'test-mail-section') {
+            setTimeout(() => {
+                const el = document.getElementById('test-mail-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 150);
+        }
+    };
+
+    activateTab(resolveButtonId());
 });
 </script>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

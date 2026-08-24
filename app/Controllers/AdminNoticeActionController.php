@@ -113,6 +113,6 @@ class AdminNoticeActionController
             flash_error('Database error: ' . $e->getMessage());
         }
 
-        redirect('/admin/settings#tab-notices');
+        redirect('/admin/settings?tab=notices');
     }
 }

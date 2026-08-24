@@ -54,6 +54,12 @@ class TableManagerController
             }
         }
 
+        $formDraft = null;
+        if (isset($_SESSION['tables_form_draft']) && is_array($_SESSION['tables_form_draft'])) {
+            $formDraft = $_SESSION['tables_form_draft'];
+            unset($_SESSION['tables_form_draft']);
+        }
+
         $editCol = null;
         if (isset($get['edit_column'])) {
             $cStmt = $this->pdo->prepare('SELECT * FROM table_columns WHERE id = ?');
@@ -154,6 +160,12 @@ class TableManagerController
             }
         } catch (Exception $e) {
             flash_error($e->getMessage());
+            // Keep typed values so a name clash does not force a full re-type
+            $_SESSION['tables_form_draft'] = [
+                'action' => $action,
+                'table_id' => $tableId,
+                'post' => $post,
+            ];
         }
 
         redirect('/admin/tables?table_id=' . $tableId);
