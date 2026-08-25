@@ -22,8 +22,37 @@ class DuplicateReviewController
     {
         $currentUser = $this->gate();
         $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
-        header('Location: ' . $basePath . '/admin/moderation?tab=similar');
-        exit;
+
+        // When Moderation module is on, keep the familiar tab inside that screen
+        if (function_exists('is_module_enabled') && is_module_enabled($this->pdo, 'moderation')) {
+            header('Location: ' . $basePath . '/admin/moderation?tab=similar');
+            exit;
+        }
+
+        // Module off: standalone page for users with edit_records (lone-admin maintenance)
+        $message = isset($_SESSION['message']) && is_string($_SESSION['message']) ? $_SESSION['message'] : '';
+        $error = isset($_SESSION['error']) && is_string($_SESSION['error']) ? $_SESSION['error'] : '';
+        unset($_SESSION['message'], $_SESSION['error']);
+
+        $queue = [];
+        $tables = [];
+        try {
+            $allQueue = $this->reviews->pendingQueue();
+            $isAdmin = function_exists('is_admin') && is_admin($this->pdo);
+            foreach ($allQueue as $row) {
+                $tId = isset($row['table_id']) ? (int) $row['table_id'] : 0;
+                if ($isAdmin || has_permission($this->pdo, 'edit_records')
+                    || has_permission($this->pdo, 'moderate_table_' . $tId)) {
+                    $queue[] = $this->reviews->enrichQueueRow($row);
+                }
+            }
+            $tStmt = $this->pdo->query('SELECT id, table_name FROM dynamic_tables ORDER BY table_name ASC');
+            $tables = $tStmt !== false ? $tStmt->fetchAll(PDO::FETCH_ASSOC) : [];
+        } catch (Exception $e) {
+            $error = $error !== '' ? $error : $e->getMessage();
+        }
+
+        require_once __DIR__ . '/../Views/admin/duplicate_queue.php';
     }
 
     public function scan(): void
@@ -165,7 +194,7 @@ class DuplicateReviewController
     private function goBack(): void
     {
         $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
-        header('Location: ' . $basePath . '/admin/moderation?tab=similar');
+        header('Location: ' . $basePath . '/admin/duplicates');
         exit;
     }
 }

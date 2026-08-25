@@ -96,7 +96,10 @@ class UserOnboardingActionController
         if ($after === 'profile' && \function_exists('has_permission') && \has_permission($this->pdo, 'access_profile')) {
             header('Location: ' . $basePath . '/profile');
         } else {
-            header('Location: ' . $basePath . '/data-entry');
+            $dest = function_exists('post_login_destination_path')
+                ? post_login_destination_path($this->pdo)
+                : ($basePath . '/data-entry');
+            header('Location: ' . $dest);
         }
         exit;
     }

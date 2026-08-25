@@ -55,14 +55,20 @@ class UserSetPasswordActionController
         }
 
         // 2. Verify token validity and expiration against the database using positional parameters
+        // Prefer invite match so we know whether this is first-time setup
         $stmt = $this->pdo->prepare("
-            SELECT id, username FROM users 
-            WHERE (invite_token = ? AND invite_expires_at > NOW()) 
+            SELECT id, username,
+                   CASE
+                     WHEN invite_token = ? AND invite_expires_at > NOW() THEN 1
+                     ELSE 0
+                   END AS is_invite_setup
+            FROM users
+            WHERE (invite_token = ? AND invite_expires_at > NOW())
                OR (reset_token = ? AND reset_expires_at > NOW())
             LIMIT 1
         ");
-        $stmt->execute([$token, $token]);
-        /** @var array{id: int|string, username: string}|false $user */
+        $stmt->execute([$token, $token, $token]);
+        /** @var array{id: int|string, username: string, is_invite_setup?: int|string}|false $user */
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user === false) {
@@ -73,27 +79,50 @@ class UserSetPasswordActionController
         // 3. Process success: Hash password, clear both invite and reset tokens atomically, and activate account
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $update = $this->pdo->prepare("
-            UPDATE users 
-            SET password_hash = ?, 
-                invite_token = NULL, 
-                invite_expires_at = NULL, 
-                reset_token = NULL, 
-                reset_expires_at = NULL, 
-                is_new_user = 0, 
-                is_active = 1 
-            WHERE id = ?
-        ");
+        // Invite first-time setup: keep is_new_user = 1 so login still runs onboarding.
+        // Password reset for an existing account: leave is_new_user unchanged (usually 0).
+        $isInvite = !empty($user['is_invite_setup']);
+        if ($isInvite) {
+            $update = $this->pdo->prepare("
+                UPDATE users
+                SET password_hash = ?,
+                    invite_token = NULL,
+                    invite_expires_at = NULL,
+                    reset_token = NULL,
+                    reset_expires_at = NULL,
+                    is_new_user = 1,
+                    is_active = 1
+                WHERE id = ?
+            ");
+        } else {
+            $update = $this->pdo->prepare("
+                UPDATE users
+                SET password_hash = ?,
+                    invite_token = NULL,
+                    invite_expires_at = NULL,
+                    reset_token = NULL,
+                    reset_expires_at = NULL,
+                    is_active = 1
+                WHERE id = ?
+            ");
+        }
 
         if ($update->execute([$hash, $user['id']])) {
-            // Set a distinct success flag or message
-            $_SESSION['message'] = "Password successfully configured! You can now log in.";
-            header("Location: " . $basePath . "/user/set-password?token=" . urlencode($token));
-            exit;
-        } else {
-            $_SESSION['error'] = "Failed to update password due to a database error.";
-            header("Location: " . $basePath . "/user/set-password?token=" . urlencode($token));
+            $_SESSION['message'] = $isInvite
+                ? (function_exists('__') && __('set_password.msg_ready_onboarding') !== 'set_password.msg_ready_onboarding'
+                    ? __('set_password.msg_ready_onboarding')
+                    : 'Password saved. Please log in — you will be guided through a short setup.')
+                : (function_exists('__') && __('set_password.msg_ready') !== 'set_password.msg_ready'
+                    ? __('set_password.msg_ready')
+                    : 'Password successfully configured! You can now log in.');
+            header('Location: ' . $basePath . '/login');
             exit;
         }
+
+        $_SESSION['error'] = function_exists('__') && __('set_password.err_db') !== 'set_password.err_db'
+            ? __('set_password.err_db')
+            : 'Failed to update password due to a database error.';
+        header('Location: ' . $basePath . '/user/set-password?token=' . urlencode($token));
+        exit;
     }
 }

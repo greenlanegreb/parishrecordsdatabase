@@ -108,7 +108,7 @@ if ($basePath === '') {
                                         }
                                     ?>
                                     <option value="<?= $rId ?>" <?= ($rName === 'user') ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars(ucwords($rName), ENT_QUOTES, 'UTF-8') ?>
+                                        <?= htmlspecialchars(function_exists('role_display_name') ? role_display_name($rName) : ucwords($rName), ENT_QUOTES, 'UTF-8') ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -189,7 +189,7 @@ if ($basePath === '') {
                                 <td>
                                     <?php if ($isFirstAdmin): ?>
                                         <span class="small text-muted fst-italic">
-                                            <?= htmlspecialchars(ucwords($uRoleName), ENT_QUOTES, 'UTF-8') ?><br>
+                                            <?= htmlspecialchars(function_exists('role_display_name') ? role_display_name($uRoleName) : ucwords($uRoleName), ENT_QUOTES, 'UTF-8') ?><br>
                                             <small>(<?= htmlspecialchars($__t('admin_users.protected_admin', 'Protected Admin'), ENT_QUOTES, 'UTF-8') ?>)</small>
                                         </span>
                                     <?php else: ?>
@@ -207,7 +207,7 @@ if ($basePath === '') {
                                                         }
                                                     ?>
                                                     <option value="<?= $rId ?>" <?= ($uRoleId === $rId) ? 'selected' : '' ?>>
-                                                        <?= htmlspecialchars(ucwords($rName), ENT_QUOTES, 'UTF-8') ?>
+                                                        <?= htmlspecialchars(function_exists('role_display_name') ? role_display_name($rName) : ucwords($rName), ENT_QUOTES, 'UTF-8') ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>

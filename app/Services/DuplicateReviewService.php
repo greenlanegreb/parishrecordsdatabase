@@ -225,27 +225,142 @@ class DuplicateReviewService
      */
     public function compareValues(int $tableId, int $recordA, int $recordB): array
     {
+        if ($tableId < 1 || $recordA < 1 || $recordB < 1) {
+            return [];
+        }
+
+        // Only core columns — avoid failing on installs missing optional column attributes
+        // boolean_display_format drives Male/Female vs Yes/No etc (same as data entry)
         $colsStmt = $this->pdo->prepare(
-            'SELECT id, column_name FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC'
+            'SELECT id, column_name, data_type, boolean_display_format
+             FROM table_columns
+             WHERE table_id = ?
+             ORDER BY id ASC'
         );
         $colsStmt->execute([$tableId]);
+        $cols = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!is_array($cols) || $cols === []) {
+            return [];
+        }
+
+        $colIds = [];
+        foreach ($cols as $col) {
+            $colIds[] = (int) $col['id'];
+        }
+        $placeholders = implode(',', array_fill(0, count($colIds), '?'));
+
+        $sql = 'SELECT record_id, column_id, value_content
+                FROM record_values
+                WHERE record_id IN (?, ?)
+                  AND column_id IN (' . $placeholders . ')';
+        $valStmt = $this->pdo->prepare($sql);
+        $params = array_merge([$recordA, $recordB], $colIds);
+        $valStmt->execute($params);
+
+        $byRecord = [
+            $recordA => [],
+            $recordB => [],
+        ];
+        $rows = $valStmt->fetchAll(PDO::FETCH_ASSOC);
+        if (is_array($rows)) {
+            foreach ($rows as $vr) {
+                $rid = (int) ($vr['record_id'] ?? 0);
+                $cid = (int) ($vr['column_id'] ?? 0);
+                if ($rid !== $recordA && $rid !== $recordB) {
+                    continue;
+                }
+                // Preserve "0"; only missing/null becomes empty string
+                if (!array_key_exists('value_content', $vr) || $vr['value_content'] === null) {
+                    $byRecord[$rid][$cid] = '';
+                } else {
+                    $byRecord[$rid][$cid] = (string) $vr['value_content'];
+                }
+            }
+        }
+
         $out = [];
-        $val = $this->pdo->prepare(
-            'SELECT value_content FROM record_values WHERE record_id = ? AND column_id = ?'
-        );
-        foreach ($colsStmt->fetchAll(PDO::FETCH_ASSOC) as $col) {
+        foreach ($cols as $col) {
             $cid = (int) $col['id'];
-            $val->execute([$recordA, $cid]);
-            $a = (string) ($val->fetchColumn() ?: '');
-            $val->execute([$recordB, $cid]);
-            $b = (string) ($val->fetchColumn() ?: '');
+            $a = $byRecord[$recordA][$cid] ?? '';
+            $b = $byRecord[$recordB][$cid] ?? '';
+            $dataType = isset($col['data_type']) && is_string($col['data_type'])
+                ? strtoupper(trim($col['data_type']))
+                : 'VARCHAR';
+            $boolFmt = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
+                && $col['boolean_display_format'] !== ''
+                ? $col['boolean_display_format']
+                : 'yes_no';
             $out[] = [
                 'id' => $cid,
-                'column_name' => (string) $col['column_name'],
+                'column_name' => (string) ($col['column_name'] ?? ''),
+                'data_type' => $dataType,
                 'value_a' => $a,
                 'value_b' => $b,
+                'display_a' => $this->formatCompareValue($a, $dataType, $boolFmt),
+                'display_b' => $this->formatCompareValue($b, $dataType, $boolFmt),
             ];
         }
         return $out;
     }
+
+    /**
+     * Soft display helper — must never throw (queue falls back to record numbers if compare fails).
+     */
+    private function formatCompareValue(string $raw, string $dataType, string $boolFormat = 'yes_no'): string
+    {
+        if ($raw === '') {
+            return '';
+        }
+        try {
+            if ($dataType === 'BOOLEAN' && function_exists('format_boolean_value')) {
+                $formatted = format_boolean_value($raw, $boolFormat !== '' ? $boolFormat : 'yes_no');
+                if (is_string($formatted) && $formatted !== '') {
+                    return $formatted;
+                }
+            }
+            if ($dataType === 'DATE' && function_exists('format_display_date')) {
+                $formatted = format_display_date($raw, null);
+                if (is_string($formatted) && $formatted !== '') {
+                    return $formatted;
+                }
+            }
+            if (($dataType === 'LOCATION' || ($raw[0] ?? '') === '{') && str_starts_with(ltrim($raw), '{')) {
+                $d = json_decode($raw, true);
+                if (is_array($d)) {
+                    $title = trim((string) ($d['title'] ?? ''));
+                    $label = trim((string) ($d['label'] ?? $d['place'] ?? ''));
+                    $joined = trim($title . ($title !== '' && $label !== '' ? ' — ' : '') . $label);
+                    if ($joined !== '') {
+                        return $joined;
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+            // fall through to raw
+        }
+        return $raw;
+    }
+
+    public function enrichQueueRow(array $row): array
+    {
+        $tableId = isset($row['table_id']) ? (int) $row['table_id'] : 0;
+        $a = isset($row['record_a_id']) ? (int) $row['record_a_id'] : 0;
+        $b = isset($row['record_b_id']) ? (int) $row['record_b_id'] : 0;
+        if ($tableId < 1 || $a < 1 || $b < 1) {
+            $row['field_compare'] = [];
+            return $row;
+        }
+        try {
+            $row['field_compare'] = $this->compareValues($tableId, $a, $b);
+        } catch (\Throwable $e) {
+            // Still show column headers if possible is better than silent empty —
+            // but never break the queue page
+            $row['field_compare'] = [];
+            if (function_exists('error_log')) {
+                @error_log('DuplicateReviewService::enrichQueueRow: ' . $e->getMessage());
+            }
+        }
+        return $row;
+    }
+
 }

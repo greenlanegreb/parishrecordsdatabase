@@ -113,7 +113,10 @@ class UserAuthenticateActionController
             if (!empty($user['is_new_user'])) {
                 header('Location: ' . $basePath . '/user/onboarding');
             } else {
-                header('Location: ' . $basePath . '/data-entry');
+                $dest = function_exists('post_login_destination_path')
+                    ? post_login_destination_path($this->pdo)
+                    : ($basePath . '/data-entry');
+                header('Location: ' . $dest);
             }
             exit;
         }

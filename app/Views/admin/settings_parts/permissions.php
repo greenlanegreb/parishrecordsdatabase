@@ -93,7 +93,7 @@ $st = static function (string $key, string $fallback): string {
                                             <tr>
                                                 <td class="fw-bold text-capitalize align-top">
                                                     <div class="d-flex flex-column gap-1">
-                                                        <span><?= htmlspecialchars($rName, ENT_QUOTES, 'UTF-8') ?></span>
+                                                        <span title="<?= htmlspecialchars($rName, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(function_exists('role_display_name') ? role_display_name($rName) : $rName, ENT_QUOTES, 'UTF-8') ?></span>
                                                         <?php if ($rId > 4): ?>
                                                             <button type="submit"
                                                                     form="delete-role-form-<?= $rId ?>"
@@ -111,7 +111,7 @@ $st = static function (string $key, string $fallback): string {
                                                                 $pId = isset($p['id']) ? (int) $p['id'] : 0;
                                                                 $pkey = isset($p['permission_key']) && is_string($p['permission_key']) ? $p['permission_key'] : '';
                                                                 $pDesc = isset($p['description']) && is_string($p['description']) ? $p['description'] : '';
-                                                                $pLabel = ucwords(str_replace('_', ' ', $pkey));
+                                                                $pLabel = function_exists('permission_display_label') ? permission_display_label($pkey) : ucwords(str_replace('_', ' ', $pkey));
                                                                 $isChecked = isset($activeMappings[$rId][$pId]);
                                                                 $isLockedAdmin = ($rId === 1 && $isChecked);
                                                                 $isGuestRole = function_exists('is_guest_role_name') && is_guest_role_name($rName);

@@ -10,13 +10,7 @@ if (file_exists($initPath)) {
 
 $queryGet = $_GET;
 
-// High-contrast toggle
-if (isset($queryGet['contrast']) && $queryGet['contrast'] === 'toggle') {
-    $_SESSION['high_contrast'] = !($_SESSION['high_contrast'] ?? false);
-    $redirectUrl = strtok($_SERVER['REQUEST_URI'] ?? '/', '?') ?: '/';
-    header('Location: ' . $redirectUrl);
-    exit;
-}
+// High-contrast toggle is handled once in partials/header.php (avoid double-flip).
 
 // Language switch
 if (isset($queryGet['lang']) && is_string($queryGet['lang']) && function_exists('set_language')) {
@@ -99,6 +93,8 @@ $canPublicSearch = $isLoggedIn || ($pdoOk && guest_has_permission($pdo, 'view_as
 $canPublicVolunteer = !$isLoggedIn && $pdoOk && $modVolunteers && guest_has_permission($pdo, 'submit_volunteer');
 $canPublicFeedback = !$isLoggedIn && $pdoOk && $modFeedback && guest_has_permission($pdo, 'submit_feedback');
 $canPublicLeaderboard = !$isLoggedIn && $pdoOk && $modLeaderboard && guest_has_permission($pdo, 'view_leaderboard');
+$canDataEntry = $isLoggedIn && $pdoOk && function_exists('has_permission') && has_permission($pdo, 'access_data_entry');
+$canManageDuplicates = $isLoggedIn && $pdoOk && function_exists('has_permission') && has_permission($pdo, 'edit_records');
 
 // Keep moderate_table_1 special-case + dynamic tables + moderate_suggestions
 $canModerate = false;
@@ -237,13 +233,23 @@ $navActive = static function (string $route) use ($currentRoute): string {
                 <?php endif; ?>
 
                 <?php if ($isLoggedIn): ?>
+                    <?php if ($canDataEntry): ?>
                     <li class="nav-item">
                         <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/data-entry"
                            class="nav-link <?= $navActive('/data-entry') ?>">
                             <?= htmlspecialchars(__('nav.data_entry'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>
+                    <?php endif; ?>
 
+                    <?php if ($canManageDuplicates && !$canModerate): ?>
+                        <li class="nav-item">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates"
+                               class="nav-link <?= str_starts_with($currentRoute, '/admin/duplicates') ? 'active fw-bold text-primary' : '' ?>">
+                                <?= htmlspecialchars(__('nav.similar_records') !== 'nav.similar_records' ? __('nav.similar_records') : 'Similar records', ENT_QUOTES, 'UTF-8') ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                     <?php if ($canModerate): ?>
                         <li class="nav-item">
                             <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/moderation"

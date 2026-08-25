@@ -79,3 +79,18 @@
 .high-contrast img {
     outline: 1px solid #fff;
 }
+
+/* Ensure Bootstrap utility backgrounds do not cancel high contrast */
+body.high-contrast,
+body.high-contrast.bg-light,
+body.high-contrast.min-vh-100 {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.high-contrast .table-warning,
+.high-contrast .table-warning > th,
+.high-contrast .table-warning > td {
+    background: #333 !important;
+    color: #fff !important;
+}

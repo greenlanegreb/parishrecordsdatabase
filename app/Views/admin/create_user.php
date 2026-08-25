@@ -78,7 +78,7 @@ require_once ROOT_PATH . '/partials/header.php';
                 <select id="role_id" name="role_id" class="form-select">
                     <?php foreach ($rolesList as $r): ?>
                         <option value="<?= $r['id'] ?>" <?= ($r['role_name'] === 'user') ? 'selected' : '' ?>>
-                            <?= htmlspecialchars(ucwords($r['role_name']), ENT_QUOTES, 'UTF-8') ?>
+                            <?= htmlspecialchars(function_exists('role_display_name') ? role_display_name((string)$r['role_name']) : ucwords((string)$r['role_name']), ENT_QUOTES, 'UTF-8') ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

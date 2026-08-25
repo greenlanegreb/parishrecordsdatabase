@@ -53,7 +53,10 @@ class UserOnboardingController
         }
 
         if (empty($currentUser['is_new_user'])) {
-            header('Location: ' . $basePath . '/data-entry');
+            $dest = function_exists('post_login_destination_path')
+                ? post_login_destination_path($this->pdo)
+                : ($basePath . '/data-entry');
+            header('Location: ' . $dest);
             exit;
         }
 

@@ -103,7 +103,7 @@ class ModerationController
             foreach ($allQueue as $row) {
                 $tId = isset($row['table_id']) ? (int) $row['table_id'] : 0;
                 if ($isAdmin || \has_permission($this->pdo, 'moderate_table_' . $tId)) {
-                    $dupQueue[] = $row;
+                    $dupQueue[] = $reviewService->enrichQueueRow($row);
                 }
             }
             $tStmt = $this->pdo->query('SELECT id, table_name FROM dynamic_tables ORDER BY table_name ASC');

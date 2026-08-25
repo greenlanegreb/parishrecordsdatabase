@@ -129,14 +129,22 @@ class AdminRoleActionController
                     if ($ins->execute([$roleName, $description])) {
                         $newRoleId = (int)$this->pdo->lastInsertId();
 
-                        // Default: allow directory viewing (guest-style master switch key)
-                        $permStmt = $this->pdo->prepare("SELECT id FROM permissions WHERE permission_key = 'view_as_guest'");
-                        $permStmt->execute();
-                        $viewPermId = $permStmt->fetchColumn();
-
-                        if ($viewPermId !== false && $viewPermId !== null) {
-                            $mapStmt = $this->pdo->prepare("INSERT INTO role_permissions (role_id, permission_id) VALUES (?, ?)");
-                            $mapStmt->execute([$newRoleId, (int)$viewPermId]);
+                        // Sensible defaults for a new custom role (admin can untick in the matrix):
+                        // - view_as_guest: public-style catalogue read key often used with table views
+                        // - access_onboarding / access_profile: first-time setup and own profile
+                        $defaultKeys = ['view_as_guest', 'access_onboarding', 'access_profile'];
+                        $permStmt = $this->pdo->prepare(
+                            'SELECT id FROM permissions WHERE permission_key = ? LIMIT 1'
+                        );
+                        $mapStmt = $this->pdo->prepare(
+                            'INSERT IGNORE INTO role_permissions (role_id, permission_id) VALUES (?, ?)'
+                        );
+                        foreach ($defaultKeys as $pkey) {
+                            $permStmt->execute([$pkey]);
+                            $permId = $permStmt->fetchColumn();
+                            if ($permId !== false && $permId !== null) {
+                                $mapStmt->execute([$newRoleId, (int) $permId]);
+                            }
                         }
                         $_SESSION['message'] = "Custom role '{$roleName}' successfully created!";
 
