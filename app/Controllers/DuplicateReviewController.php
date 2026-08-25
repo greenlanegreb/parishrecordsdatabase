@@ -115,14 +115,42 @@ class DuplicateReviewController
     }
 
     /**
+     * Gate for all duplicate-review / merge actions.
+     * edit_records alone is enough (works with moderation module on or off).
+     * Falls back to moderate_suggestions for users who only have the original permission.
+     *
      * @return array{id: int|string, username: string}
      */
     private function gate(): array
     {
-        if (function_exists('require_user_permission')) {
-            return require_user_permission($this->pdo, 'moderate_suggestions', 'Review similar records and merge duplicates');
+        if (function_exists('has_permission') && has_permission($this->pdo, 'edit_records')) {
+            if (function_exists('require_user_permission')) {
+                return require_user_permission(
+                    $this->pdo,
+                    'edit_records',
+                    'Review similar records and merge duplicates'
+                );
+            }
+            return require_permission(
+                $this->pdo,
+                'edit_records',
+                'Review similar records and merge duplicates'
+            );
         }
-        return require_admin_page($this->pdo, 'moderate_suggestions', 'Review similar records and merge duplicates');
+
+        // Fall back to original moderate_suggestions path
+        if (function_exists('require_user_permission')) {
+            return require_user_permission(
+                $this->pdo,
+                'moderate_suggestions',
+                'Review similar records and merge duplicates'
+            );
+        }
+        return require_admin_page(
+            $this->pdo,
+            'moderate_suggestions',
+            'Review similar records and merge duplicates'
+        );
     }
 
     /**

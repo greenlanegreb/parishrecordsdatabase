@@ -70,6 +70,7 @@ class ApiSearchController
         $colsStmt->execute([$tableId]);
         /** @var array<int, array<string, mixed>> $columns */
         $columns = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+
         $visHelper = dirname(__DIR__, 2) . '/includes/column_visibility.php';
         if (is_file($visHelper)) {
             require_once $visHelper;
@@ -78,12 +79,10 @@ class ApiSearchController
             $columns = resolve_visible_columns($columns, $tableId);
         }
 
-
         /** @var array<mixed, mixed> $searchFilters */
         $searchFilters = isset($queryGet['filters']) && is_array($queryGet['filters']) ? $queryGet['filters'] : [];
         /** @var array<mixed, mixed> $dateFilters */
         $dateFilters = isset($queryGet['date_filters']) && is_array($queryGet['date_filters']) ? $queryGet['date_filters'] : [];
-
         $sortCol = isset($queryGet['sort']) && is_string($queryGet['sort']) ? $queryGet['sort'] : 'id';
         $sortDir = (isset($queryGet['dir']) && is_string($queryGet['dir']) && strtoupper($queryGet['dir']) === 'ASC')
             ? 'ASC' : 'DESC';
@@ -148,6 +147,9 @@ class ApiSearchController
             : $isModerationEnabled;
         $canDeleteRecords = function_exists('has_permission')
             && has_permission($this->pdo, 'delete_records');
+        $canEditRecords = function_exists('has_permission')
+            && has_permission($this->pdo, 'edit_records');
+
         $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
         $csrfToken = function_exists('generate_csrf_token') ? generate_csrf_token() : '';
 
@@ -160,16 +162,13 @@ class ApiSearchController
             foreach ($paginatedRecords as $rec) {
                 $recId = isset($rec['id']) ? (int) $rec['id'] : 0;
                 $recCreatedAt = isset($rec['created_at']) && is_string($rec['created_at']) ? $rec['created_at'] : '';
-
                 echo '<tr>';
-
                 foreach ($columns as $col) {
                     $cId = isset($col['id']) ? $col['id'] : 0;
                     $rawVal = $recordValues[$recId][$cId] ?? '';
                     $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                     $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
                         ? $col['boolean_display_format'] : 'yes_no';
-
                     if ($dataType === 'BOOLEAN') {
                         $displayVal = format_boolean_value($rawVal, $boolFormat);
                     } elseif ($dataType === 'DATE') {
@@ -197,6 +196,7 @@ class ApiSearchController
                 } else {
                     $createdByLabel = 'System';
                 }
+
                 if (!function_exists('show_created_by_column') || show_created_by_column($tableId)) {
                     echo '<td>' . htmlspecialchars($createdByLabel, ENT_QUOTES, 'UTF-8') . '</td>';
                 }
@@ -205,14 +205,30 @@ class ApiSearchController
                 }
 
                 echo '<td class="text-end pe-3 text-nowrap">';
+
+                // History
                 echo '<a href="record_history.php?record_id=' . $recId
                     . '" class="btn btn-sm btn-outline-secondary py-0 px-2 text-decoration-none me-1" style="font-size: 0.75rem;">'
                     . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a>';
+
+                // Suggest edit (moderation module / can_suggest_edit)
                 if ($canSuggestEdit) {
                     echo '<button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 suggest-edit-btn me-1" data-record-id="'
                         . $recId . '" style="font-size: 0.75rem;">'
                         . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button>';
                 }
+
+                // Direct edit (permission: edit_records) — independent of moderation module
+                if ($canEditRecords) {
+                    $editLabel = (__('btn.edit') !== 'btn.edit') ? __('btn.edit') : 'Edit';
+                    $returnUrl = $basePath . '/';
+                    $editUrl = $basePath . '/records/' . $recId . '/edit?return=' . rawurlencode($returnUrl);
+                    echo '<a href="' . htmlspecialchars($editUrl, ENT_QUOTES, 'UTF-8')
+                        . '" class="btn btn-sm btn-outline-success py-0 px-2 me-1 text-decoration-none" style="font-size: 0.75rem;">'
+                        . htmlspecialchars($editLabel, ENT_QUOTES, 'UTF-8') . '</a>';
+                }
+
+                // Delete (permission: delete_records)
                 if ($canDeleteRecords) {
                     $delLabel = (__('data_entry.delete_record_btn') !== 'data_entry.delete_record_btn')
                         ? __('data_entry.delete_record_btn') : 'Delete';
@@ -232,8 +248,8 @@ class ApiSearchController
                         . htmlspecialchars($delLabel, ENT_QUOTES, 'UTF-8') . '</button>';
                     echo '</form>';
                 }
-                echo '</td>';
 
+                echo '</td>';
                 echo '</tr>';
             }
         }

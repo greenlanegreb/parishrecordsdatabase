@@ -54,6 +54,10 @@ return function (RouteCollector $r): void {
     $r->addRoute('POST', '/admin/duplicates/merge', ['App\\Controllers\\DuplicateReviewController', 'mergeSave']);
     $r->addRoute('POST', '/records/delete', ['App\Controllers\UserDeleteRecordActionController', 'handle']);
 
+    // Direct record edit (permission: edit_records)
+    $r->addRoute('GET',  '/records/{id:\d+}/edit', ['App\Controllers\UserEditRecordController', 'show']);
+    $r->addRoute('POST', '/records/{id:\d+}/edit', ['App\Controllers\UserEditRecordActionController', 'save']);
+
     // Users
     $r->addRoute('GET', '/admin/users', ['App\Controllers\AdminUsersController', 'index']);
     $r->addRoute('GET', '/admin/users/create', ['App\Controllers\AdminUsersController', 'createForm']);
