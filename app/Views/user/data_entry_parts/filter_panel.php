@@ -10,6 +10,23 @@ $userDateFormat = (isset($currentUser) && is_array($currentUser) && isset($curre
     ? $currentUser['date_format']
     : null;
 $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholder($userDateFormat) : 'YYYY-MM-DD';
+
+/** Whether this viewer may use CSV/JSON/print/copy export actions */
+$canExportData = false;
+$dbForExport = null;
+if (isset($pdo) && $pdo instanceof \PDO) {
+    $dbForExport = $pdo;
+} elseif (isset($GLOBALS['pdo']) && $GLOBALS['pdo'] instanceof \PDO) {
+    $dbForExport = $GLOBALS['pdo'];
+}
+if ($dbForExport instanceof \PDO) {
+    if (!empty($currentUser) && is_array($currentUser) && function_exists('has_permission')) {
+        $canExportData = has_permission($dbForExport, 'export_data');
+    } elseif (empty($currentUser) && function_exists('guest_has_permission')) {
+        $canExportData = guest_has_permission($dbForExport, 'export_data');
+    }
+}
+
 ?>
 <div class="card shadow-sm border-0 mb-4 bg-light">
     <div class="card-body">
@@ -104,18 +121,20 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                     <?php if (!empty($tableHasMap)): ?>
                     <a class="btn btn-sm btn-outline-secondary" href="<?= htmlspecialchars($basePath ?? $baseUrl ?? '', ENT_QUOTES, 'UTF-8') ?>/tables/<?= (int)$activeTableId ?>/map"><?= htmlspecialchars(__('map.open_btn') !== 'map.open_btn' ? __('map.open_btn') : 'Map', ENT_QUOTES, 'UTF-8') ?></a>
                     <?php endif; ?>
-                        <button type="button" id="export-csv-btn" class="btn btn-sm btn-outline-secondary ">
+                        <?php if (!empty($canExportData)): ?>
+                        <a href="#" id="export-csv-btn" class="btn btn-sm btn-outline-secondary" role="button">
                             <?= htmlspecialchars(__('data_entry.csv_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
-                        </button>
-                        <button type="button" id="export-json-btn" class="btn btn-sm btn-outline-secondary ">
+                        </a>
+                        <a href="#" id="export-json-btn" class="btn btn-sm btn-outline-secondary" role="button">
                             <?= htmlspecialchars(__('data_entry.json_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
-                        </button>
+                        </a>
                         <button type="button" id="copy-clipboard-btn" class="btn btn-sm btn-outline-secondary">
                             <?= htmlspecialchars(__('data_entry.copy_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
                         </button>
-                        <button type="button" id="print-records-btn" class="btn btn-sm btn-outline-secondary ">
+                        <a href="#" id="print-records-btn" class="btn btn-sm btn-outline-secondary" role="button">
                             <?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?>
-                        </button>
+                        </a>
+                        <?php endif; ?>
                     </div>
                 </form>
             </div>
