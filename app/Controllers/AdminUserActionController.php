@@ -79,42 +79,35 @@ class AdminUserActionController
         }
 
         // Admin path: uniqueness only — no public IP username-check rate limit
+        // Live users + retired_usernames (never reuse deleted logins)
+        $unameHelper = dirname(__DIR__, 2) . '/includes/username_check_helpers.php';
+        if (is_file($unameHelper)) {
+            require_once $unameHelper;
+        }
+
         $username = '';
         if ($requestedUsername !== '') {
             $sanitized = preg_replace('/[^a-zA-Z0-9_\-]/', '', $requestedUsername) ?? '';
             if ($sanitized !== '') {
-                $chkUser = $this->pdo->prepare('SELECT id FROM users WHERE username = ?');
-                $chkUser->execute([$sanitized]);
-                if ($chkUser->fetch()) {
-                    $_SESSION['error'] = "The username '{$sanitized}' is already taken. A unique username has been automatically allocated instead.";
-                } else {
+                if (function_exists('is_username_available') && is_username_available($this->pdo, $sanitized)) {
                     $username = $sanitized;
+                } else {
+                    $_SESSION['error'] = function_exists('__') && __('admin_users.err_username_taken') !== 'admin_users.err_username_taken'
+                        ? __('admin_users.err_username_taken')
+                        : "The username '{$sanitized}' is not available (in use or previously used). A unique username has been allocated instead.";
                 }
             }
         }
 
-        // Fallback: auto-generate unique username if none provided or requested was taken
         if ($username === '') {
-            $cleanedFirst = preg_replace('/[^a-zA-Z]/', '', $firstName) ?? '';
-            $cleanedSurname = preg_replace('/[^a-zA-Z]/', '', $surname) ?? '';
-            $base = strtolower(substr($cleanedFirst, 0, 1) . $cleanedSurname);
-            if ($base === '') {
-                $base = 'user';
-            }
-            $username = $base;
-            $counter = 1;
-            while (true) {
-                $chkUser = $this->pdo->prepare('SELECT id FROM users WHERE username = ?');
-                $chkUser->execute([$username]);
-                if (!$chkUser->fetch()) {
-                    break;
-                }
-                $username = $base . $counter;
-                $counter++;
-            }
+            $username = function_exists('allocate_unique_username')
+                ? allocate_unique_username($this->pdo, $firstName, $surname)
+                : ('user' . bin2hex(random_bytes(3)));
 
             if ($requestedUsername !== '' && empty($_SESSION['error'])) {
-                $_SESSION['error'] = "The username you requested was unavailable. Username '{$username}' was automatically allocated.";
+                $_SESSION['error'] = function_exists('__') && __('admin_users.err_username_auto') !== 'admin_users.err_username_auto'
+                    ? str_replace(':username', $username, __('admin_users.err_username_auto'))
+                    : "The username you requested was unavailable. Username '{$username}' was automatically allocated.";
             }
         }
 

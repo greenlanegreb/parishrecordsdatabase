@@ -163,13 +163,25 @@ class UserService
             throw new Exception("You cannot delete your own active administrative account.");
         }
 
+        $uname = isset($targetUser['username']) && is_string($targetUser['username'])
+            ? $targetUser['username'] : '';
+
+        // Never re-issue this login name (audits / "who was jfairby?")
+        $helper = dirname(__DIR__, 2) . '/includes/username_check_helpers.php';
+        if (is_file($helper)) {
+            require_once $helper;
+        }
+        if ($uname !== '' && function_exists('retire_username')) {
+            retire_username($this->pdo, $uname, $targetUserId);
+        }
+
         $del = $this->pdo->prepare("DELETE FROM users WHERE id = ?");
         $del->execute([$targetUserId]);
 
         $audit = $this->pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, 'DELETE_USER', ?, ?)");
-        $audit->execute([$currentUser['id'], "Permanently deleted user account: {$targetUser['username']}", $remoteAddr]);
+        $audit->execute([$currentUser['id'], "Permanently deleted user account: {$uname}", $remoteAddr]);
 
-        return "'{$targetUser['username']}' has been successfully deleted.";
+        return "'{$uname}' has been successfully deleted. That username will not be offered again.";
     }
 
     public function reset2fa(int $targetUserId, array $targetUser, array $currentUser, string $remoteAddr): string

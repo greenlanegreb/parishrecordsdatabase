@@ -58,11 +58,26 @@ class UserRegisterActionController
         } else {
             $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
             $stmt->execute([$username, $email]);
-            
-            if ($stmt->rowCount() > 0) {
-                $_SESSION['error'] = "Username or email is already registered.";
+
+            $usernameBlocked = false;
+            $helper = dirname(__DIR__, 2) . '/includes/username_check_helpers.php';
+            if (is_file($helper)) {
+                require_once $helper;
+            }
+            if (function_exists('is_username_available') && !is_username_available($this->pdo, $username)) {
+                $usernameBlocked = true;
+            }
+
+            if ($stmt->rowCount() > 0 || $usernameBlocked) {
+                $_SESSION['error'] = $usernameBlocked && $stmt->rowCount() === 0
+                    ? (function_exists('__') && __('register.err_username_retired') !== 'register.err_username_retired'
+                        ? __('register.err_username_retired')
+                        : 'That username is not available. Please choose another.')
+                    : "Username or email is already registered.";
                 remember_field_error('username', $_SESSION['error']);
-                remember_field_error('email', $_SESSION['error']);
+                if ($stmt->rowCount() > 0) {
+                    remember_field_error('email', $_SESSION['error']);
+                }
             } else {
                 $passwordHash = password_hash($password, PASSWORD_DEFAULT);
                 $token = bin2hex(random_bytes(32));

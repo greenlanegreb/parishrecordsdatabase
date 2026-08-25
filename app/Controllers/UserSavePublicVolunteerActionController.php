@@ -50,10 +50,19 @@ class UserSavePublicVolunteerActionController
      */
     private function usernameIsTaken(string $username): bool
     {
-        $chkUser = $this->pdo->prepare('SELECT id FROM users WHERE username = ? LIMIT 1');
-        $chkUser->execute([$username]);
-        if ($chkUser->fetch()) {
+        $helper = dirname(__DIR__, 2) . '/includes/username_check_helpers.php';
+        if (is_file($helper)) {
+            require_once $helper;
+        }
+        if (function_exists('is_username_available') && !is_username_available($this->pdo, $username)) {
             return true;
+        }
+        if (!function_exists('is_username_available')) {
+            $chkUser = $this->pdo->prepare('SELECT id FROM users WHERE username = ? LIMIT 1');
+            $chkUser->execute([$username]);
+            if ($chkUser->fetch()) {
+                return true;
+            }
         }
 
         $chkVol = $this->pdo->prepare(
