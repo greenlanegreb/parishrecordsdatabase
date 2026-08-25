@@ -1,7 +1,9 @@
 -- PRD schema baseline (structure only)
--- Generated from live DB 2026-08-14; aligns with migrations through v27.
--- Fresh installs: import this, load seed_baseline.sql, then set schema_version = 27.
--- Do not re-run numbered migrations on a brand-new install after this baseline.
+-- Snapshot through schema version 27 (includes demo_artifacts).
+-- Fresh installs: import this, seed roles, bootstrap permissions, seed_defaults,
+-- then set schema_version = 27 and run db/migrate_runner.php for versions > 27.
+-- Do not re-run migrations 001–027 on a brand-new install (already in this file).
+-- When regenerating this file to a higher snapshot, bump install_baseline_schema_version() to match.
 SET NAMES utf8mb4;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";

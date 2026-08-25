@@ -4,10 +4,11 @@
  *
  * Fresh install (empty DB only):
  *   schema_baseline.sql → seed_baseline.sql → permissions bootstrap
- *   → seed_defaults.php → stamp schema_version → create admin
- *   → optional demo packs → lock
+ *   → seed_defaults.php → stamp baseline schema_version (see install_baseline_schema_version)
+ *   → run_pending_migrations() for versions above baseline (same as Update database)
+ *   → create admin → modules → optional demo packs → lock
  *
- * Does NOT re-run db/migrations on fresh install (baseline is current).
+ * Baseline SQL is a snapshot through version N; numbered migrations N+1…latest still run once.
  * Does NOT overwrite committed db/db.php — only writes config.local.php.
  */
 declare(strict_types=1);
@@ -147,6 +148,16 @@ function install_latest_schema_version(string $migrationsDir): int
 }
 
 /**
+ * Schema version embodied by db/schema_baseline.sql.
+ * Migrations with version > this number are applied once after import (same runner as Update database).
+ * Bump this only when you regenerate schema_baseline.sql to include later migrations.
+ */
+function install_baseline_schema_version(): int
+{
+    return 27;
+}
+
+/**
  * App URL prefix for nested installs (e.g. /projects/prd-install-test).
  */
 function install_detect_base_path(string $projectRoot): string
@@ -270,7 +281,7 @@ function install_seed_defaults(PDO $pdo, string $root): void
 
 function install_save_modules(PDO $pdo): void
 {
-    $modules = ['moderation', 'volunteers', 'feedback', 'users', 'leaderboard'];
+    $modules = ['moderation', 'volunteers', 'feedback', 'users', 'leaderboard', 'maps'];
     $usersOn = isset($_POST['module_users_enabled']);
     $stmt = $pdo->prepare(
         "INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?)
@@ -288,18 +299,40 @@ function install_save_modules(PDO $pdo): void
     }
 }
 
+/**
+ * After baseline import: record baseline version, then apply any newer migrations.
+ *
+ * @return array{applied: list<string>, current: int}
+ */
+function install_stamp_and_migrate(PDO $pdo, string $root): array
+{
+    $baseline = install_baseline_schema_version();
+    if (function_exists('set_schema_version')) {
+        set_schema_version($pdo, $baseline);
+    } else {
+        $stmt = $pdo->prepare(
+            "INSERT INTO site_settings (setting_key, setting_value) VALUES ('schema_version', ?)
+             ON DUPLICATE KEY UPDATE setting_value = ?"
+        );
+        $stmt->execute([(string) $baseline, (string) $baseline]);
+    }
+
+    $runner = $root . '/db/migrate_runner.php';
+    if (!is_file($runner)) {
+        throw new RuntimeException('Missing db/migrate_runner.php — cannot apply post-baseline migrations.');
+    }
+    require_once $runner;
+    if (!function_exists('run_pending_migrations')) {
+        throw new RuntimeException('run_pending_migrations() not available.');
+    }
+    // Need get_schema_version / set_schema_version from functions.php (already loaded when present)
+    return run_pending_migrations($pdo, $root . '/db/migrations');
+}
+
+/** @deprecated use install_stamp_and_migrate — kept name avoided; callers updated */
 function install_stamp_schema_version(PDO $pdo, string $root): void
 {
-    $latest = install_latest_schema_version($root . '/db/migrations');
-    if (function_exists('set_schema_version')) {
-        set_schema_version($pdo, $latest);
-        return;
-    }
-    $stmt = $pdo->prepare(
-        "INSERT INTO site_settings (setting_key, setting_value) VALUES ('schema_version', ?)
-         ON DUPLICATE KEY UPDATE setting_value = ?"
-    );
-    $stmt->execute([(string) $latest, (string) $latest]);
+    install_stamp_and_migrate($pdo, $root);
 }
 
 function install_load_pdo_from_config(string $configLocal): PDO
@@ -702,6 +735,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                             ['feedback', 'install.mod_feedback', 'Feedback and tickets', 'install.mod_feedback_desc', 'A public form for questions and support tickets.'],
                             ['volunteers', 'install.mod_volunteers', 'Volunteer interest', 'install.mod_volunteers_desc', 'A public form for people who want to help.'],
                             ['leaderboard', 'install.mod_leaderboard', 'Leaderboard', 'install.mod_leaderboard_desc', 'Optional points table. Needs user accounts to be on.'],
+                            ['maps', 'install.mod_maps', 'Maps', 'install.mod_maps_desc', 'Optional. When on, you can add location fields and open a map for each table later — nothing is set up at install. Change this anytime under Admin → Settings.'],
                         ];
                         foreach ($modList as $mod):
                             $id = 'install_mod_' . $mod[0];
