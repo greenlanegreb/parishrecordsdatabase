@@ -39,7 +39,9 @@ class ApiMapPointsController
         }
         $sql = 'SELECT id, record_id, lat, lng, label, title, body, color
                 FROM map_pins
-                WHERE table_id = ? AND lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?
+                WHERE table_id = ?
+                  AND COALESCE(hide_from_map, 0) = 0
+                  AND lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?
                 ORDER BY id DESC
                 LIMIT 800';
         $stmt = $this->pdo->prepare($sql);
@@ -47,15 +49,35 @@ class ApiMapPointsController
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 
         $filters = isset($_GET['filters']) && is_array($_GET['filters']) ? $_GET['filters'] : [];
+        $dateFilters = isset($_GET['date_filters']) && is_array($_GET['date_filters']) ? $_GET['date_filters'] : [];
         $hasFilters = false;
         foreach ($filters as $v) {
             if (is_string($v) && trim($v) !== '') {
                 $hasFilters = true;
                 break;
             }
+            if (is_array($v)) {
+                foreach ($v as $vv) {
+                    if (is_string($vv) && trim($vv) !== '') {
+                        $hasFilters = true;
+                        break 2;
+                    }
+                }
+            }
+        }
+        foreach ($dateFilters as $df) {
+            if (!is_array($df)) {
+                continue;
+            }
+            $from = isset($df['from']) && is_string($df['from']) ? trim($df['from']) : '';
+            $to = isset($df['to']) && is_string($df['to']) ? trim($df['to']) : '';
+            if ($from !== '' || $to !== '') {
+                $hasFilters = true;
+                break;
+            }
         }
         if ($hasFilters) {
-            $keep = $this->matchingRecordIds($tableId, $filters);
+            $keep = $this->matchingRecordIds($tableId, $filters, $dateFilters);
             $rows = array_values(array_filter($rows, static function ($row) use ($keep) {
                 return isset($keep[(int) $row['record_id']]);
             }));
@@ -81,7 +103,12 @@ class ApiMapPointsController
      * @param array<mixed, mixed> $filters
      * @return array<int, true>
      */
-    private function matchingRecordIds(int $tableId, array $filters): array
+    /**
+     * @param array<mixed, mixed> $filters
+     * @param array<mixed, mixed> $dateFilters
+     * @return array<int, true>
+     */
+    private function matchingRecordIds(int $tableId, array $filters, array $dateFilters = []): array
     {
         $keep = [];
         $recStmt = $this->pdo->prepare('SELECT id FROM records WHERE table_id = ?');
@@ -98,12 +125,22 @@ class ApiMapPointsController
             }
         }
         $search = [];
-        $dates = [];
         foreach ($filters as $cid => $val) {
-            if (!is_string($val) || trim($val) === '') {
+            if (is_string($val) && trim($val) !== '') {
+                $search[(int) $cid] = trim($val);
+            }
+        }
+        $dates = [];
+        foreach ($dateFilters as $cid => $df) {
+            if (!is_array($df)) {
                 continue;
             }
-            $search[(int) $cid] = trim($val);
+            $from = isset($df['from']) && is_string($df['from']) ? trim($df['from']) : '';
+            $to = isset($df['to']) && is_string($df['to']) ? trim($df['to']) : '';
+            if ($from === '' && $to === '') {
+                continue;
+            }
+            $dates[(int) $cid] = ['from' => $from, 'to' => $to];
         }
         foreach ($ids as $rid) {
             $rid = (int) $rid;

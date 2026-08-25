@@ -66,7 +66,11 @@ class AdminSettingsController
         // Mail settings
         $currentMailDomain     = $this->settingsService->getSettingVal('mail_domain', '');
         $currentMailFrom       = $this->settingsService->getSettingVal('mail_from', '');
-        $currentMapTileUrl     = $this->settingsService->getSettingVal('map_tile_url', '');
+        $currentMapTileUrl       = $this->settingsService->getSettingVal('map_tile_url', '');
+        $currentMapTileProvider  = $this->settingsService->getSettingVal('map_tile_provider', 'default');
+        $currentMapTileApiKey    = $this->settingsService->getSettingVal('map_tile_api_key', '');
+        $currentMapGeocodeProvider = $this->settingsService->getSettingVal('map_geocode_provider', 'nominatim');
+        $currentMapGeocodeApiKey = $this->settingsService->getSettingVal('map_geocode_api_key', '');
         $currentMailDriver     = $this->settingsService->getSettingVal('mail_driver', 'mail');
         $currentSmtpHost       = $this->settingsService->getSettingVal('smtp_host', '');
         $currentSmtpPort       = $this->settingsService->getSettingVal('smtp_port', '587');

@@ -169,14 +169,32 @@ class ApiSearchController
                     $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                     $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
                         ? $col['boolean_display_format'] : 'yes_no';
-                    if ($dataType === 'BOOLEAN') {
-                        $displayVal = format_boolean_value($rawVal, $boolFormat);
-                    } elseif ($dataType === 'DATE') {
-                        $displayVal = format_display_date($rawVal, $userDateFormat);
+                    if ($dataType === 'LOCATION') {
+                        $locFull = \App\Services\LocationValueService::formatDisplay($rawVal);
+                        $locShort = \App\Services\LocationValueService::formatDisplayShort($rawVal, 40);
+                        echo '<td class="prd-loc-td">';
+                        if ($locFull === '') {
+                            echo '</td>';
+                        } elseif ($locShort === $locFull) {
+                            echo htmlspecialchars($locFull, ENT_QUOTES, 'UTF-8') . '</td>';
+                        } else {
+                            echo '<details class="prd-loc-details">'
+                                . '<summary class="prd-loc-summary" title="' . htmlspecialchars($locFull, ENT_QUOTES, 'UTF-8') . '">'
+                                . htmlspecialchars($locShort, ENT_QUOTES, 'UTF-8')
+                                . '</summary>'
+                                . '<div class="prd-loc-full small mt-1">' . htmlspecialchars($locFull, ENT_QUOTES, 'UTF-8') . '</div>'
+                                . '</details></td>';
+                        }
                     } else {
-                        $displayVal = $rawVal;
+                        if ($dataType === 'BOOLEAN') {
+                            $displayVal = format_boolean_value($rawVal, $boolFormat);
+                        } elseif ($dataType === 'DATE') {
+                            $displayVal = format_display_date($rawVal, $userDateFormat);
+                        } else {
+                            $displayVal = $rawVal;
+                        }
+                        echo '<td>' . htmlspecialchars((string) $displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
                     }
-                    echo '<td>' . htmlspecialchars((string) $displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
                 }
 
                 $creatorId = isset($rec['created_by']) ? (int) $rec['created_by'] : 0;

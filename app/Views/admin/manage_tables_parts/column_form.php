@@ -42,6 +42,7 @@ $keepColumnFormOpen = $editCol
                             <option value="BOOLEAN" <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="DATE" <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="SELECT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="LOCATION" <?= ($editCol && ($editCol['data_type'] ?? '') === 'LOCATION') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 
@@ -49,10 +50,10 @@ $keepColumnFormOpen = $editCol
                     <div id="boolean_options_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'block' : 'none' ?>;">
                         <label for="boolean_display_format" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.boolean_format'), ENT_QUOTES, 'UTF-8') ?></label>
                         <select id="boolean_display_format" name="boolean_display_format" class="form-select max-width-400">
-                            <option value="yes_no" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars(__('index.opt_yes_true'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="true_false" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars(__('index.opt_true'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="tick_cross" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars(__('index.opt_tick'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="male_female" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'male_female') ? 'selected' : '' ?>><?= htmlspecialchars(__('index.opt_male'), ENT_QUOTES, 'UTF-8') ?> / <?= htmlspecialchars(__('index.opt_female'), ENT_QUOTES, 'UTF-8') ?></option>
+                                                        <option value="yes_no" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_yes_no') !== 'manage_tables.bool_yes_no' ? __('manage_tables.bool_yes_no') : 'Yes / No', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="true_false" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_true_false') !== 'manage_tables.bool_true_false' ? __('manage_tables.bool_true_false') : 'True / False', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="tick_cross" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_tick_cross') !== 'manage_tables.bool_tick_cross' ? __('manage_tables.bool_tick_cross') : 'Tick / Cross', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="male_female" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'male_female') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_male_female') !== 'manage_tables.bool_male_female' ? __('manage_tables.bool_male_female') : 'Male / Female', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 

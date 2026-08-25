@@ -142,6 +142,8 @@ $brandLine = 'pRD — ' . $systemName;
                             } elseif ($dtype === 'BOOLEAN' && function_exists('format_boolean_value')) {
                                 $fmt = isset($col['boolean_display_format']) ? (string) $col['boolean_display_format'] : 'yes_no';
                                 $raw = format_boolean_value($raw, $fmt);
+                            } elseif ($dtype === 'LOCATION') {
+                                $raw = \App\Services\LocationValueService::formatDisplay($raw);
                             }
                         ?>
                         <td><?= htmlspecialchars((string) $raw, ENT_QUOTES, 'UTF-8') ?></td>

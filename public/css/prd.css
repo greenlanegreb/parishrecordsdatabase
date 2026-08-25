@@ -80,17 +80,35 @@
     outline: 1px solid #fff;
 }
 
-/* Ensure Bootstrap utility backgrounds do not cancel high contrast */
-body.high-contrast,
-body.high-contrast.bg-light,
-body.high-contrast.min-vh-100 {
-    background: #000 !important;
-    color: #fff !important;
+/* Location cells: ellipsis + expandable full text (mobile-friendly) */
+.prd-loc-td {
+    max-width: 12rem;
+    vertical-align: middle;
 }
-
-.high-contrast .table-warning,
-.high-contrast .table-warning > th,
-.high-contrast .table-warning > td {
-    background: #333 !important;
-    color: #fff !important;
+.prd-loc-details {
+    margin: 0;
+}
+.prd-loc-summary {
+    cursor: pointer;
+    list-style: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 11rem;
+}
+.prd-loc-summary::-webkit-details-marker {
+    display: none;
+}
+.prd-loc-full {
+    white-space: normal;
+    word-break: break-word;
+    max-width: 16rem;
+}
+@media (min-width: 768px) {
+    .prd-loc-td {
+        max-width: 18rem;
+    }
+    .prd-loc-summary {
+        max-width: 17rem;
+    }
 }

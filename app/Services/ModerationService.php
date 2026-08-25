@@ -163,6 +163,17 @@ class ModerationService
                         $insStmt = $this->pdo->prepare("INSERT INTO record_values (record_id, column_id, value_content) VALUES (?, ?, ?)");
                         $insStmt->execute([$suggestion['record_id'], $col['id'], $finalValue]);
                     }
+                    // Keep map pins in sync when a LOCATION field is approved / overridden
+                    $colType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
+                    if ($colType === 'LOCATION') {
+                        \App\Services\LocationValueService::syncPinFromStoredValue(
+                            $this->pdo,
+                            $tableId,
+                            (int) $suggestion['record_id'],
+                            (int) $col['id'],
+                            is_string($finalValue) ? $finalValue : null
+                        );
+                    }
                 }
 
                 $statusStmt = $this->pdo->prepare("UPDATE edit_suggestions SET status = 'approved', points_awarded = 1, moderator_rationale = ? WHERE id = ?");

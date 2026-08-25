@@ -31,23 +31,6 @@ if (!function_exists('parse_column_options')) {
  */
 
 require_once ROOT_PATH . '/partials/header.php';
-
-/** Whether this viewer may use CSV/JSON/print/copy export actions */
-$canExportData = false;
-$dbForExport = null;
-if (isset($pdo) && $pdo instanceof \PDO) {
-    $dbForExport = $pdo;
-} elseif (isset($GLOBALS['pdo']) && $GLOBALS['pdo'] instanceof \PDO) {
-    $dbForExport = $GLOBALS['pdo'];
-}
-if ($dbForExport instanceof \PDO) {
-    if (!empty($currentUser) && is_array($currentUser) && function_exists('has_permission')) {
-        $canExportData = has_permission($dbForExport, 'export_data');
-    } elseif (empty($currentUser) && function_exists('guest_has_permission')) {
-        $canExportData = guest_has_permission($dbForExport, 'export_data');
-    }
-}
-
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 ?>
 
@@ -232,12 +215,13 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <!-- Action Bar -->
                 <div class="d-flex gap-2 flex-wrap align-items-center pt-2 border-top">
                     <button type="button" id="clear-search" class="btn btn-secondary btn-sm px-3"><?= htmlspecialchars(__('search.reset'), ENT_QUOTES, 'UTF-8') ?></button>
-                    <?php if (!empty($canExportData)): ?>
-                    <a href="#" id="export-csv-btn" class="btn btn-outline-secondary btn-sm px-3" role="button"><?= htmlspecialchars(__('index.download_entire_csv'), ENT_QUOTES, 'UTF-8') ?></a>
-                    <a href="#" id="export-json-btn" class="btn btn-outline-secondary btn-sm px-3" role="button"><?= htmlspecialchars(__('index.download_entire_json'), ENT_QUOTES, 'UTF-8') ?></a>
-                    <button type="button" id="copy-clipboard-btn" class="btn btn-outline-secondary btn-sm px-3"><?= htmlspecialchars(__('index.copy_entire_table'), ENT_QUOTES, 'UTF-8') ?></button>
-                    <a href="#" id="print-records-btn" class="btn btn-outline-secondary btn-sm px-3" role="button"><?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?></a>
+                    <?php if (!empty($tableHasMap)): ?>
+                    <a class="btn btn-outline-secondary btn-sm px-3" href="<?= htmlspecialchars(($basePath ?? $baseUrl ?? ''), ENT_QUOTES, 'UTF-8') ?>/tables/<?= (int)($activeTableId ?? 0) ?>/map"><?= htmlspecialchars(__('map.open_btn') !== 'map.open_btn' ? __('map.open_btn') : 'Map', ENT_QUOTES, 'UTF-8') ?></a>
                     <?php endif; ?>
+                    <button type="button" id="export-csv-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('index.download_entire_csv'), ENT_QUOTES, 'UTF-8') ?></button>
+                    <button type="button" id="export-json-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('index.download_entire_json'), ENT_QUOTES, 'UTF-8') ?></button>
+                    <button type="button" id="copy-clipboard-btn" class="btn btn-outline-secondary btn-sm px-3"><?= htmlspecialchars(__('index.copy_entire_table'), ENT_QUOTES, 'UTF-8') ?></button>
+                    <button type="button" id="print-records-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?></button>
                 </div>
             </form>
         </section>

@@ -25,12 +25,57 @@ class GeocodeService
         if ($cached !== []) {
             return $cached;
         }
-        $url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&addressdetails=0&q='
-            . rawurlencode($query);
+
+        $cfg = MapConfigService::geocodeConfig($this->pdo);
+        $provider = $cfg['provider'];
+        $apiKey = $cfg['api_key'];
+        $out = [];
+
+        if ($provider === 'locationiq' && $apiKey !== '') {
+            $out = $this->fetchJson(
+                'https://us1.locationiq.com/v1/search?key=' . rawurlencode($apiKey)
+                . '&format=json&limit=6&q=' . rawurlencode($query),
+                $query,
+                'display_name',
+                'lat',
+                'lon'
+            );
+        } elseif ($provider === 'opencage' && $apiKey !== '') {
+            $out = $this->fetchOpencage($query, $apiKey);
+        } else {
+            // nominatim (default) — free, rate-limited; always used if paid key missing
+            $out = $this->fetchJson(
+                'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&addressdetails=0&q='
+                . rawurlencode($query),
+                $query,
+                'display_name',
+                'lat',
+                'lon',
+                "User-Agent: pRD-maps/1.0 (parish records; https://getprd.org)\r\nAccept: application/json\r\n"
+            );
+        }
+
+        if ($out !== []) {
+            $this->toCache($key, $out);
+        }
+        return $out;
+    }
+
+    /**
+     * @return list<array{label:string,lat:float,lng:float,q:string}>
+     */
+    private function fetchJson(
+        string $url,
+        string $query,
+        string $labelKey,
+        string $latKey,
+        string $lngKey,
+        string $extraHeaders = "Accept: application/json\r\n"
+    ): array {
         $ctx = stream_context_create([
             'http' => [
                 'method' => 'GET',
-                'header' => "User-Agent: pRD-maps/1.0 (parish records; https://getprd.org)\r\nAccept: application/json\r\n",
+                'header' => $extraHeaders,
                 'timeout' => 8,
             ],
         ]);
@@ -44,19 +89,54 @@ class GeocodeService
         }
         $out = [];
         foreach ($json as $row) {
-            if (!is_array($row) || !isset($row['lat'], $row['lon'])) {
+            if (!is_array($row) || !isset($row[$latKey], $row[$lngKey])) {
                 continue;
             }
-            $label = isset($row['display_name']) && is_string($row['display_name']) ? $row['display_name'] : $query;
+            $label = isset($row[$labelKey]) && is_string($row[$labelKey]) ? $row[$labelKey] : $query;
             $out[] = [
                 'label' => $label,
-                'lat' => (float) $row['lat'],
-                'lng' => (float) $row['lon'],
+                'lat' => (float) $row[$latKey],
+                'lng' => (float) $row[$lngKey],
                 'q' => $query,
             ];
         }
-        if ($out !== []) {
-            $this->toCache($key, $out);
+        return $out;
+    }
+
+    /**
+     * @return list<array{label:string,lat:float,lng:float,q:string}>
+     */
+    private function fetchOpencage(string $query, string $apiKey): array
+    {
+        $url = 'https://api.opencagedata.com/geocode/v1/json?q=' . rawurlencode($query)
+            . '&key=' . rawurlencode($apiKey) . '&limit=6&no_annotations=1';
+        $ctx = stream_context_create([
+            'http' => [
+                'method' => 'GET',
+                'header' => "Accept: application/json\r\n",
+                'timeout' => 8,
+            ],
+        ]);
+        $raw = @file_get_contents($url, false, $ctx);
+        if ($raw === false || $raw === '') {
+            return [];
+        }
+        $json = json_decode($raw, true);
+        if (!is_array($json) || !isset($json['results']) || !is_array($json['results'])) {
+            return [];
+        }
+        $out = [];
+        foreach ($json['results'] as $row) {
+            if (!is_array($row) || !isset($row['geometry']['lat'], $row['geometry']['lng'])) {
+                continue;
+            }
+            $label = isset($row['formatted']) && is_string($row['formatted']) ? $row['formatted'] : $query;
+            $out[] = [
+                'label' => $label,
+                'lat' => (float) $row['geometry']['lat'],
+                'lng' => (float) $row['geometry']['lng'],
+                'q' => $query,
+            ];
         }
         return $out;
     }
@@ -111,7 +191,7 @@ class GeocodeService
                 json_encode($hits, JSON_UNESCAPED_UNICODE),
             ]);
         } catch (\Throwable $e) {
-            // cache is optional
+            // ignore cache write failures
         }
     }
 }

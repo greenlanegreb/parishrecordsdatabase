@@ -141,6 +141,11 @@ class HomeController
         $suggestTableId = $activeTableId;
         $isAdmin = $currentUser !== null && is_admin($this->pdo);
 
+        $tableHasMap = $activeTableId > 0
+            && function_exists('is_module_enabled')
+            && is_module_enabled($this->pdo, 'maps')
+            && \App\Services\LocationValueService::tableHasLocationColumn($this->pdo, $activeTableId);
+
         // Pass variables to View
         require_once __DIR__ . '/../Views/home/index.php';
     }

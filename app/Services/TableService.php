@@ -181,7 +181,7 @@ class TableService
         $isRequired = isset($post['is_required']) ? 1 : 0;
         $excludeFromPublicSearch = isset($post['exclude_from_public_search']) ? 1 : 0;
 
-        $allowedTypes = ['VARCHAR', 'TEXT', 'INT', 'BOOLEAN', 'DATE', 'SELECT'];
+        $allowedTypes = ['VARCHAR', 'TEXT', 'INT', 'BOOLEAN', 'DATE', 'SELECT', 'LOCATION'];
         if (!in_array($dataType, $allowedTypes, true)) {
             $dataType = 'VARCHAR';
         }

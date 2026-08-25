@@ -149,6 +149,8 @@ class ApiExportController
                         $row[] = format_boolean_value($rawVal, $boolFormat);
                     } elseif ($dataType === 'DATE') {
                         $row[] = format_display_date($rawVal, $userDateFormat);
+                    } elseif ($dataType === 'LOCATION') {
+                        $row[] = \App\Services\LocationValueService::formatDisplay($rawVal);
                     } else {
                         $row[] = $rawVal;
                     }

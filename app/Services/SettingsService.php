@@ -291,8 +291,33 @@ class SettingsService
 
         $stmt->execute(['mail_domain', $mailDomain, $mailDomain]);
         $stmt->execute(['mail_from', $mailFrom, $mailFrom]);
+        $mapTileProvider = isset($post['map_tile_provider']) && is_string($post['map_tile_provider'])
+            ? trim($post['map_tile_provider']) : 'default';
+        $allowedTile = ['default', 'osm', 'carto', 'mapbox', 'stadia', 'custom'];
+        if (!in_array($mapTileProvider, $allowedTile, true)) {
+            $mapTileProvider = 'default';
+        }
         $tile = isset($post['map_tile_url']) && is_string($post['map_tile_url']) ? trim($post['map_tile_url']) : '';
+        $mapTileKey = isset($post['map_tile_api_key']) && is_string($post['map_tile_api_key'])
+            ? trim($post['map_tile_api_key']) : '';
+        $mapGeoProvider = isset($post['map_geocode_provider']) && is_string($post['map_geocode_provider'])
+            ? trim($post['map_geocode_provider']) : 'nominatim';
+        $allowedGeo = ['nominatim', 'locationiq', 'opencage'];
+        if (!in_array($mapGeoProvider, $allowedGeo, true)) {
+            $mapGeoProvider = 'nominatim';
+        }
+        $mapGeoKey = isset($post['map_geocode_api_key']) && is_string($post['map_geocode_api_key'])
+            ? trim($post['map_geocode_api_key']) : '';
+
+        $stmt->execute(['map_tile_provider', $mapTileProvider, $mapTileProvider]);
         $stmt->execute(['map_tile_url', $tile, $tile]);
+        if ($mapTileKey !== '') {
+            $stmt->execute(['map_tile_api_key', $mapTileKey, $mapTileKey]);
+        }
+        $stmt->execute(['map_geocode_provider', $mapGeoProvider, $mapGeoProvider]);
+        if ($mapGeoKey !== '') {
+            $stmt->execute(['map_geocode_api_key', $mapGeoKey, $mapGeoKey]);
+        }
         $stmt->execute(['mail_driver', $mailDriver, $mailDriver]);
         $stmt->execute(['smtp_host', $smtpHost, $smtpHost]);
         $stmt->execute(['smtp_port', (string) $smtpPort, (string) $smtpPort]);

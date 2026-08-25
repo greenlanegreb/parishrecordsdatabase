@@ -156,6 +156,70 @@ $__t = static function (string $key, string $fallback = ''): string {
                 </select>
             </fieldset>
 
+
+            <!-- Map Provider Configuration -->
+            <h4 class="h5 fw-bold text-dark mb-3" id="map-provider-heading"><?= htmlspecialchars(__('settings.map_provider_heading') !== 'settings.map_provider_heading' ? __('settings.map_provider_heading') : 'Map Provider Configuration', ENT_QUOTES, 'UTF-8') ?></h4>
+            <p class="small text-muted mb-3"><?= htmlspecialchars(__('settings.map_provider_intro') !== 'settings.map_provider_intro' ? __('settings.map_provider_intro') : 'Optional. Leave these empty to use the free built-in map pictures (CARTO/OpenStreetMap) and free place search (Nominatim). Paid keys stay on your server and are not shared with other sites.', ENT_QUOTES, 'UTF-8') ?></p>
+
+            <div class="mb-3">
+                <label for="map_tile_provider" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_provider') !== 'settings.map_tile_provider' ? __('settings.map_tile_provider') : 'Map pictures (tiles)', ENT_QUOTES, 'UTF-8') ?></label>
+                <select id="map_tile_provider" name="map_tile_provider" class="form-select" aria-describedby="map_tile_provider_help">
+                    <option value="default" <?= (($currentMapTileProvider ?? 'default') === 'default' || ($currentMapTileProvider ?? '') === 'carto') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_default') !== 'settings.map_tile_default' ? __('settings.map_tile_default') : 'Default free (CARTO Voyager)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="osm" <?= (($currentMapTileProvider ?? '') === 'osm') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_osm') !== 'settings.map_tile_osm' ? __('settings.map_tile_osm') : 'OpenStreetMap (free)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="mapbox" <?= (($currentMapTileProvider ?? '') === 'mapbox') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_mapbox') !== 'settings.map_tile_mapbox' ? __('settings.map_tile_mapbox') : 'Mapbox (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="stadia" <?= (($currentMapTileProvider ?? '') === 'stadia') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_stadia') !== 'settings.map_tile_stadia' ? __('settings.map_tile_stadia') : 'Stadia Maps (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="custom" <?= (($currentMapTileProvider ?? '') === 'custom') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_custom') !== 'settings.map_tile_custom' ? __('settings.map_tile_custom') : 'Custom tile URL', ENT_QUOTES, 'UTF-8') ?></option>
+                </select>
+                <div class="form-text" id="map_tile_provider_help"><?= htmlspecialchars(__('settings.map_tile_provider_help') !== 'settings.map_tile_provider_help' ? __('settings.map_tile_provider_help') : 'If a paid option has no key, pRD falls back to the free default.', ENT_QUOTES, 'UTF-8') ?></div>
+            </div>
+
+            <div class="mb-3" id="map_tile_key_wrap">
+                <label for="map_tile_api_key" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_api_key') !== 'settings.map_tile_api_key' ? __('settings.map_tile_api_key') : 'Map tile API key', ENT_QUOTES, 'UTF-8') ?></label>
+                <input type="password" id="map_tile_api_key" name="map_tile_api_key" value="" class="form-control" autocomplete="new-password" aria-describedby="map_tile_api_key_help" placeholder="<?= htmlspecialchars(__('settings.map_key_placeholder') !== 'settings.map_key_placeholder' ? __('settings.map_key_placeholder') : (empty($currentMapTileApiKey) ? 'Paste key if using Mapbox or Stadia' : 'Leave blank to keep current key'), ENT_QUOTES, 'UTF-8') ?>">
+                <div class="form-text" id="map_tile_api_key_help"><?= htmlspecialchars(__('settings.map_tile_api_key_help') !== 'settings.map_tile_api_key_help' ? __('settings.map_tile_api_key_help') : 'Only needed for Mapbox or Stadia. Leave blank to keep an existing key.', ENT_QUOTES, 'UTF-8') ?></div>
+            </div>
+
+            <div class="mb-3" id="map_tile_url_wrap">
+                <label for="map_tile_url" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_url') !== 'settings.map_tile_url' ? __('settings.map_tile_url') : 'Custom tile URL template', ENT_QUOTES, 'UTF-8') ?></label>
+                <input type="url" id="map_tile_url" name="map_tile_url" value="<?= htmlspecialchars($currentMapTileUrl ?? '', ENT_QUOTES, 'UTF-8') ?>" class="form-control" autocomplete="off" placeholder="https://{s}.example.com/{z}/{x}/{y}.png" aria-describedby="map_tile_url_help">
+                <div class="form-text" id="map_tile_url_help"><?= htmlspecialchars(__('settings.map_tile_url_help') !== 'settings.map_tile_url_help' ? __('settings.map_tile_url_help') : 'Only used when “Custom tile URL” is selected. Must include {z}, {x}, {y} (and {s} if needed).', ENT_QUOTES, 'UTF-8') ?></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="map_geocode_provider" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_geocode_provider') !== 'settings.map_geocode_provider' ? __('settings.map_geocode_provider') : 'Place search (geocoding)', ENT_QUOTES, 'UTF-8') ?></label>
+                <select id="map_geocode_provider" name="map_geocode_provider" class="form-select" aria-describedby="map_geocode_provider_help">
+                    <option value="nominatim" <?= (($currentMapGeocodeProvider ?? 'nominatim') === 'nominatim') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_geocode_nominatim') !== 'settings.map_geocode_nominatim' ? __('settings.map_geocode_nominatim') : 'Nominatim / OpenStreetMap (free, rate-limited)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="locationiq" <?= (($currentMapGeocodeProvider ?? '') === 'locationiq') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_geocode_locationiq') !== 'settings.map_geocode_locationiq' ? __('settings.map_geocode_locationiq') : 'LocationIQ (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="opencage" <?= (($currentMapGeocodeProvider ?? '') === 'opencage') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_geocode_opencage') !== 'settings.map_geocode_opencage' ? __('settings.map_geocode_opencage') : 'OpenCage (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
+                </select>
+                <div class="form-text" id="map_geocode_provider_help"><?= htmlspecialchars(__('settings.map_geocode_provider_help') !== 'settings.map_geocode_provider_help' ? __('settings.map_geocode_provider_help') : 'Used when data entry looks up a place name. Results are cached on this site.', ENT_QUOTES, 'UTF-8') ?></div>
+            </div>
+
+            <div class="mb-4">
+                <label for="map_geocode_api_key" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_geocode_api_key') !== 'settings.map_geocode_api_key' ? __('settings.map_geocode_api_key') : 'Place search API key', ENT_QUOTES, 'UTF-8') ?></label>
+                <input type="password" id="map_geocode_api_key" name="map_geocode_api_key" value="" class="form-control" autocomplete="new-password" aria-describedby="map_geocode_api_key_help" placeholder="<?= htmlspecialchars(__('settings.map_key_placeholder') !== 'settings.map_key_placeholder' ? __('settings.map_key_placeholder') : (empty($currentMapGeocodeApiKey) ? 'Paste key if using LocationIQ or OpenCage' : 'Leave blank to keep current key'), ENT_QUOTES, 'UTF-8') ?>">
+                <div class="form-text" id="map_geocode_api_key_help"><?= htmlspecialchars(__('settings.map_geocode_api_key_help') !== 'settings.map_geocode_api_key_help' ? __('settings.map_geocode_api_key_help') : 'Only needed for LocationIQ or OpenCage. Leave blank to keep an existing key. Without a key, free Nominatim is used.', ENT_QUOTES, 'UTF-8') ?></div>
+            </div>
+
+            <script>
+            (function () {
+                function syncMapProviderFields() {
+                    var tile = document.getElementById('map_tile_provider');
+                    var keyWrap = document.getElementById('map_tile_key_wrap');
+                    var urlWrap = document.getElementById('map_tile_url_wrap');
+                    if (!tile || !keyWrap || !urlWrap) return;
+                    var v = tile.value;
+                    keyWrap.style.display = (v === 'mapbox' || v === 'stadia') ? 'block' : 'none';
+                    urlWrap.style.display = (v === 'custom') ? 'block' : 'none';
+                }
+                var tile = document.getElementById('map_tile_provider');
+                if (tile) {
+                    tile.addEventListener('change', syncMapProviderFields);
+                    syncMapProviderFields();
+                }
+            })();
+            </script>
+
             <!-- CAPTCHA Configuration Settings -->
             <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('settings.captcha_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
             <div class="mb-3">
@@ -217,9 +281,6 @@ $__t = static function (string $key, string $fallback = ''): string {
                 <label for="mail_from" class="form-label fw-bold"><?= htmlspecialchars(__('settings.mail_from_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="email" id="mail_from" name="mail_from" value="<?= htmlspecialchars($currentMailFrom, ENT_QUOTES, 'UTF-8') ?>" placeholder="e.g. notifications@example.com" class="form-control">
                 <div class="form-text"><?= htmlspecialchars(__('settings.mail_from_desc'), ENT_QUOTES, 'UTF-8') ?></div>
-                <label for="map_tile_url" class="form-label fw-bold mt-3"><?= htmlspecialchars(__('settings.map_tile_url') !== 'settings.map_tile_url' ? __('settings.map_tile_url') : 'Map picture address (optional)', ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="text" id="map_tile_url" name="map_tile_url" value="<?= htmlspecialchars($currentMapTileUrl ?? '', ENT_QUOTES, 'UTF-8') ?>" class="form-control" placeholder="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" autocomplete="off">
-                <div class="form-text"><?= htmlspecialchars(__('settings.map_tile_url_help') !== 'settings.map_tile_url_help' ? __('settings.map_tile_url_help') : 'Leave blank for the free OpenStreetMap pictures. Paid map services can go here; pRD does not ship a key.', ENT_QUOTES, 'UTF-8') ?></div>
             </div>
 
             <div class="mb-3">

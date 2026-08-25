@@ -177,7 +177,20 @@ class UserSaveSuggestionActionController
         }
 
         $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
-        if ($dataType === 'SELECT') {
+        if ($dataType === 'LOCATION') {
+            $rawLoc = isset($post['proposed_value']) && is_array($post['proposed_value'])
+                ? $post['proposed_value']
+                : [];
+            $locData = \App\Services\LocationValueService::fromPosted($rawLoc);
+            if ($locData === null || !\App\Services\LocationValueService::isComplete($locData)) {
+                $_SESSION['error'] = (__('save_data_entry.err_location') !== 'save_data_entry.err_location')
+                    ? sprintf(__('save_data_entry.err_location'), (string) ($col['column_name'] ?? 'location'))
+                    : 'Choose a place from the list and add a title and short text for this location.';
+                header('Location: ' . $basePath . '/user/suggest-edit?record_id=' . $recordId);
+                exit;
+            }
+            $proposedValue = \App\Services\LocationValueService::encode($locData);
+        } elseif ($dataType === 'SELECT') {
             $opts = parse_column_options($col['field_options'] ?? '');
             $multi = !empty($col['allow_multiple']);
             if ($proposedValue !== '' && !column_values_are_allowed($proposedValue, $opts, $multi)) {
