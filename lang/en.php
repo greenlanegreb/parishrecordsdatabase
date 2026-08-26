@@ -246,7 +246,12 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Back to User Creation',
     'user_emails.currently_editing'               => 'Currently Editing:',
@@ -260,7 +265,7 @@ return [
     'user_emails.subheading'                      => 'Customize the email layouts dispatched when inviting users or sending password reset links.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Back to Volunteer Submissions',
     'volunteer_emails.custom_tags_desc'           => 'Auto-generated from your form builder fields:',
@@ -268,7 +273,7 @@ return [
     'volunteer_emails.subheading'                 => 'Customize automated email responses sent to volunteers during various workflow stages. Use curly braces for dynamic placeholders.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Add New Volunteer Form Field',
     'volunteer_schema.back_to_dashboard'          => 'Back to Volunteer Submissions',
@@ -282,7 +287,7 @@ return [
     'volunteer_schema.subheading'                 => 'Configure custom fields, data types, sub-types, options, and general form presentation settings.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'Approve',
     'moderate.approve_confirm'                    => 'Approve and apply this value?',
@@ -312,7 +317,7 @@ return [
     'moderate.th_table_record'                    => 'Table, Record & Column',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Active',
     'notices.add_new'                             => 'Add new notice',
@@ -351,7 +356,7 @@ return [
     'notices.yes'                                 => 'Yes',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'settings.add_notice_btn'                     => '+ Add New Notice',
     'settings.audit_heading'                      => 'System Audit Log Explorer',
@@ -472,7 +477,7 @@ return [
     'settings.update_db_btn'                      => 'Update database',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Delete',
     'admin_users.disabled'                        => 'Disabled',
@@ -513,7 +518,7 @@ return [
     'admin_users.yes'                             => 'Yes',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Admin',
     'view_ticket.back_to_dashboard'               => 'Back to Tickets Dashboard',
@@ -535,7 +540,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Ticket Status:',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Accept & Invite',
     'volunteer_dashboard.accept_title'            => 'Plug into user invite system',
@@ -565,7 +570,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Volunteer',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Forbidden: Public viewing is not enabled.',
     'api_search.error_unauthorized_table'         => 'Unauthorized table access.',
@@ -574,7 +579,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Suggest Edit',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Find',
     'admin_errors.file'                           => 'File',
@@ -603,7 +608,7 @@ return [
     'error_template.stack_trace'                  => 'Stack trace',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Email Address:',
     'feedback.first_name_label'                   => 'First Name:',
@@ -615,8 +620,8 @@ return [
     'feedback.submit_btn'                         => 'Submit Ticket',
     'feedback.surname_label'                      => 'Surname:',
 
-  // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // ------------------------------------------------------------------
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
 
     'gh.action_placeholder'                       => 'Describe actions to help locate the offending files',
@@ -709,7 +714,7 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Security check failed: Access denied.',
     'security_engine.err_captcha_failed'          => 'CAPTCHA verification failed. Please try again.',
@@ -719,7 +724,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Security check failed: Suspicious client signature.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Confirm admin password',
     'install.admin_email_label'                   => 'Admin email',
@@ -800,7 +805,7 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
 
     'demo.already_installed'                      => 'This Demo is Already Installed',
@@ -824,7 +829,7 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Leaderboard View',
     'leaderboard.default_role'                    => 'User',
@@ -848,24 +853,24 @@ return [
     'leaderboard.you_badge'                       => '(You)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Your Footer Goes Here.',
     'footer.rights_reserved'                      => 'All rights reserved.',
     'footer.software_notice'                      => 'pRD (V1.18) is open-source under the MIT License.',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Parish Records Database',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Close notice',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Actor:',
     'record_history.directory_table_label'        => 'Directory Table:',
@@ -886,7 +891,7 @@ return [
     'record_history.timeline_heading'             => 'Lifecycle & Activity Timeline',
 
     // ------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Remove emergency access file',
     'update_database.backup_notice'               => 'Take a database backup before running updates when you can.',
@@ -904,12 +909,12 @@ return [
     'update_database.update_btn'                  => 'Update Database Now',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Invalid credentials or account access restricted.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Created record entry in table ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Please choose a listed option for %s.',
@@ -920,7 +925,7 @@ return [
     'save_data_entry.msg_success'                 => 'Record successfully added!',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Failed to submit edit suggestion. Please try again.',
     'save_public_suggestion.err_field_required'   => 'This field is required and cannot be submitted blank.',
@@ -930,12 +935,12 @@ return [
     'save_public_suggestion.msg_success'          => 'Your edit suggestion has been successfully submitted and sent to the moderation queue for review. Thank you!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Active Data Entry Table:',
     'data_entry.add_entry_summary'                => '➕ Add New Data Entry (Click to expand/collapse)',
-    'data_entry.admin_cols_prompt'                => 'As an administrator, please go to the <strong>Manage Tables</strong> menu option to add at least one column to your table.',
-    'data_entry.admin_tables_prompt'              => 'As an administrator, please go to the <strong>Manage Tables</strong> menu option to create a table, and then add at least one column before entering records.',
+    'data_entry.admin_cols_prompt'                => 'As an administrator, please go to the Manage Tables menu option to add at least one column to your table.',
+    'data_entry.admin_tables_prompt'              => 'As an administrator, please go to the Manage Tables menu option to create a table, and then add at least one column before entering records.',
     'data_entry.apply_filters_btn'                => 'Apply Search Filters',
     'data_entry.bool_cross'                       => '✘ (Cross)',
     'data_entry.bool_false'                       => 'False',
@@ -967,7 +972,7 @@ return [
     'data_entry.existing_records_heading'         => 'Existing Records Table',
     'data_entry.filter_all_option'                => '-- All --',
     'data_entry.filter_placeholder'               => 'Filter...',
-    'data_entry.go_manage_tables'                 => 'Go to Manage Tables',
+    'data_entry.go_manage_tables'                 => 'Please Go to Admin - Manage Tables',
     'data_entry.json_entire_btn'                  => 'Download Entire JSON',
     'data_entry.json_filtered_btn'                => 'Download Filtered JSON',
     'data_entry.multiselect_hint'                 => 'Hold Ctrl (or Cmd) to choose more than one.',
@@ -986,7 +991,7 @@ return [
     'data_entry.th_date_created'                  => 'Date Created',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Password Recovery',
     'forgot_password.back_login_link'             => 'Back to Login',
@@ -996,7 +1001,7 @@ return [
     'forgot_password.submit_btn'                  => 'Send Password Reset Link',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'User Login',
     'login.forgot_password_link'                  => 'Forgot Password?',
@@ -1006,7 +1011,7 @@ return [
     'login.username_label'                        => 'Username or Email:',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Shows initials & random number to everyone.',
     'onboarding.attr_anon_title'                  => 'Anonymous:',
@@ -1044,7 +1049,7 @@ return [
     'onboarding.timezone_label'                   => 'Timezone / Region:',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'New email address',
     'profile.aria_region'                         => 'User Profile Management',
@@ -1079,7 +1084,7 @@ return [
     'profile.update_password_btn'                 => 'Update Password',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'User Registration',
     'register.email_label'                        => 'Email Address',
@@ -1088,7 +1093,7 @@ return [
     'register.username_label'                     => 'Username:',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Password Setup',
     'set_password.confirm_password_label'         => 'Confirm Password:',
@@ -1102,7 +1107,7 @@ return [
     'set_password.subheading_format'              => 'Welcome to your new account, %s! Please choose your password below.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-digit authentication code',
     'setup_2fa.aria_region'                       => '2FA Setup Wizard',
@@ -1118,7 +1123,7 @@ return [
     'setup_2fa.submit_btn'                        => 'Verify and Enable 2FA',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Suggest Edit',
     'suggest_edit.confirm_prompt'                 => 'Are you sure you are ready to submit this edit suggestion for admin review?',
@@ -1137,7 +1142,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Feel free to submit another change below, or use the return link above when finished.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Enter authenticator or backup code',
     'verify_2fa.aria_region'                      => '2FA Verification',
@@ -1147,7 +1152,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Verify & Log In',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Email Verification Status',
     'verify_email.err_expired_token'              => 'This verification link has expired (exceeded the 24-hour window). Please register again or request a new link.',
@@ -1160,7 +1165,7 @@ return [
     'verify_email.msg_success'                    => 'Email successfully verified! Your account is now active. You can proceed to log in.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Allocate a unique username for me',
     'index.check_availability'                    => 'Check availability',
