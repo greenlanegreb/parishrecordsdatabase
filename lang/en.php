@@ -33,6 +33,8 @@ return [
     'nav.volunteer'                               => 'Volunteer',
     'nav.volunteer_dashboard'                     => 'Volunteer Dashboard',
     'nav.welcome'                                 => 'Welcome,',
+'nav.main_aria' => 'Main',
+'nav.similar_records' => 'Similar records',
 
     // ------------------------------------------------------------------
     // 2. Public search (index)
@@ -43,6 +45,7 @@ return [
     'search.load_error'                           => 'Unable to load results. Please try again.',
     'search.no_records'                           => 'No records found in this table.',
     'search.reset'                                => 'Reset Search',
+'index.date_from_label' => 'From',
 
     // ------------------------------------------------------------------
     // 3. Common buttons
@@ -63,8 +66,8 @@ return [
     // ------------------------------------------------------------------
     // 5. Index / Public Directory Page
     // ------------------------------------------------------------------
-    'index.admin_add_columns_guide'               => 'As an administrator, please go to the <strong>Manage Tables</strong> menu option to add at least one column to your table.',
-    'index.admin_create_table_guide'              => 'As an administrator, please go to the <strong>Manage Tables</strong> menu option to create a table, and then add at least one column to that table before records can be viewed or entered.',
+    'index.admin_add_columns_guide'               => 'As an administrator, please go to Admin - Manage Tables to add at least one column to your table.',
+    'index.admin_create_table_guide'              => 'As an administrator, please go to Admin - Manage Tables to create a table, and then add at least one column to that table before records can be viewed or entered.',
     'index.clipboard_success'                     => 'Table data copied to clipboard! You can paste it directly into Excel or Google Sheets.',
     'index.contact_admin_columns'                 => 'Please contact an administrator to configure columns for this table.',
     'index.contact_admin_tables'                  => 'Please contact an administrator to set up database tables and columns.',
@@ -76,7 +79,7 @@ return [
     'index.download_filtered_csv'                 => 'Download Filtered CSV',
     'index.download_filtered_json'                => 'Download Filtered JSON',
     'index.go_to_manage_tables'                   => 'Go to Manage Tables',
-    'index.guest_login_tables_guide'              => 'Please <a href=":login_link">log in</a> as an administrator, go to the <strong>Manage Tables</strong> section to create a table, and then add at least one column.',
+    'index.guest_login_tables_guide'              => 'Please <a href=":login_link">log in</a> as an administrator, please go to Admin - Manage Tables to create a table, and then add at least one column.',
     'index.modal_desc'                            => 'Submit a correction or counter-information for this record. It will be reviewed by our moderation team.',
     'index.modal_heading'                         => 'Suggest Record Correction',
     'index.modal_input_placeholder'               => 'Enter updated information...',
@@ -243,12 +246,27 @@ return [
     'manage_tables.type_choice'                   => 'Choice list',
     'manage_tables.type_text_long'                => 'TEXT (Long Paragraph)',
     'manage_tables.yes'                           => 'Yes',
-
+'manage_tables.type_location' => 'Location (map pin)',
+'manage_tables.type_location_help' => 'Places must be chosen from the lookup so they can appear on this table's map. Please use a normal text column if you only need a written place name.',
+'manage_tables.bool_yes_no' => 'Yes / No',
+'manage_tables.bool_true_false' => 'True / False',
+'manage_tables.bool_tick_cross' => 'Tick / Cross',
+'manage_tables.bool_male_female' => 'Male / Female',
 
     // ------------------------------------------------------------------
     // 11. Map Functionality Translations
     // ------------------------------------------------------------------
-
+'map.heading' => 'Map',
+'map.back_to_table' => 'Back to table',
+'map.help' => 'Zoom to load places in view. Use the filters to match the table search.',
+'map.filters' => 'Filters',
+'map.apply_filters' => 'Apply filters',
+'map.canvas_aria' => 'Map of records',
+'map.open_btn' => 'Map',
+'map.list_show_more' => 'Show more in list (:n left)',
+'map.list_empty' => 'No places in this view.',
+'map.list_heading' => 'Places in this view',
+'map.skip_to_map' => 'Skip to map',
 
     // ------------------------------------------------------------------
     // 12. Admin: Manage User Notification Email Templates
@@ -475,6 +493,31 @@ return [
     'settings.th_timestamp'                       => 'Timestamp',
     'settings.turnstile_heading'                  => 'Cloudflare Turnstile Settings',
     'settings.update_db_btn'                      => 'Update database',
+'role.label_user' => 'Data Entry User',
+'role.label_guest' => 'Public Visitor',
+'role.label_admin' => 'Administrator',
+'role.label_moderator' => 'Moderator',
+'settings.mod_maps' => 'Maps',
+'settings.mod_maps_desc' => 'Show a map for each table that has a location column.',
+'settings.map_provider_heading' => 'Map Provider Configuration',
+'settings.map_provider_intro' => 'Optional. Please leave these empty to use the free built-in map pictures (CARTO/OpenStreetMap) and free place search (Nominatim). Paid keys stay on your server and are not shared with other sites.',
+'settings.map_tile_provider' => 'Map pictures (tiles)',
+'settings.map_tile_provider_help' => 'If a paid option has no key, pRD falls back to the free default.',
+'settings.map_tile_default' => 'Default free (CARTO Voyager)',
+'settings.map_tile_osm' => 'OpenStreetMap (free)',
+'settings.map_tile_mapbox' => 'Mapbox (API key required)',
+'settings.map_tile_stadia' => 'Stadia Maps (API key required)',
+'settings.map_tile_custom' => 'Custom tile URL',
+'settings.map_tile_api_key' => 'Map tile API key',
+'settings.map_tile_api_key_help' => 'Only needed for Mapbox or Stadia. Leave blank to keep an existing key.',
+'settings.map_geocode_provider' => 'Place search (geocoding)',
+'settings.map_geocode_provider_help' => 'Used when data entry looks up a place name. Results are cached on this site.',
+'settings.map_geocode_nominatim' => 'Nominatim / OpenStreetMap (free, rate-limited)',
+'settings.map_geocode_locationiq' => 'LocationIQ (API key required)',
+'settings.map_geocode_opencage' => 'OpenCage (API key required)',
+'settings.map_geocode_api_key' => 'Place search API key',
+'settings.map_geocode_api_key_help' => 'Only needed for LocationIQ or OpenCage. Please leave blank to keep an existing key. Without a key, free Nominatim is used.',
+'settings.map_key_placeholder' => 'Please paste key if required (leave blank to keep current)',
 
     // ------------------------------------------------------------------
     // 18. Admin: User Account Management & Leaderboard Moderation
@@ -516,6 +559,8 @@ return [
     'admin_users.update_btn'                      => 'Update',
     'admin_users.verified_label'                  => 'Verified:',
     'admin_users.yes'                             => 'Yes',
+'admin_users.email_for' => 'Email for',
+'admin_users.points_for' => 'Points for',
 
     // ------------------------------------------------------------------
     // 19. Admin: View Ticket & Threaded Dialogue
@@ -730,7 +775,7 @@ return [
     'install.admin_email_label'                   => 'Admin email',
     'install.admin_heading'                       => 'Site administrator account',
     'install.admin_password_label'                => 'Admin password (min 8 characters)',
-    'install.admin_subheading'                    => 'This is the login for <strong>this website</strong> (not the database).',
+    'install.admin_subheading'                    => 'This is the login for this website (not the database).',
     'install.admin_username_label'                => 'Admin username',
     'install.back_btn'                            => 'Back',
     'install.close_alert'                         => 'Close',
@@ -739,7 +784,7 @@ return [
     'install.complete_title'                      => 'Setup complete',
     'install.continue_btn'                        => 'Continue',
     'install.db_heading'                          => 'Database connection',
-    'install.db_hint'                             => 'Use the MySQL details from your <strong>hosting control panel</strong>. This is not the website admin login (that comes next).',
+    'install.db_hint'                             => 'Please use the MySQL details from your hosting control panel. This is not the website admin login (that comes next).',
     'install.db_host_label'                       => 'Database host',
     'install.db_name_label'                       => 'Database name',
     'install.db_pass_label'                       => 'Database password',
@@ -802,7 +847,9 @@ return [
     'install.req_probe_ok'                        => 'You can create files in this project folder — Congratulations!',
     'install.show_password'                       => 'Show',
     'install.subheading'                          => 'Please ensure that the database that you plan to use is empty before continuing.',
-
+'install.msg_modules_saved' => 'TBC.',
+'install.mod_maps' => 'Maps',
+'install.mod_maps_desc' => 'Location fields and a map per table. You can change this later under Admin → Settings.',
 
     // ------------------------------------------------------------------
     // 27. Demo Packs
@@ -857,12 +904,13 @@ return [
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Your Footer Goes Here.',
     'footer.rights_reserved'                      => 'All rights reserved.',
-    'footer.software_notice'                      => 'pRD (V1.18) is open-source under the MIT License.',
+    'footer.software_notice'                      => 'pRD (V1.18) is open-source under the MIT License - With thanks to GitHub\'s @katherinehuk for her second pair of eyes!',
 
     // ------------------------------------------------------------------
     // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Parish Records Database',
+'header.skip_to_content' => 'Skip to main content',
 
     // ------------------------------------------------------------------
     // 31. Notices Banner Module
@@ -923,6 +971,7 @@ return [
     'save_data_entry.err_not_number'              => '%s must be a whole number.',
     'save_data_entry.err_required_field'          => 'The required field \'%s\' cannot be left blank.',
     'save_data_entry.msg_success'                 => 'Record successfully added!',
+'save_data_entry.err_location' => 'Choose a place from the list and add a title and short text for %s.',
 
     // ------------------------------------------------------------------
     // 36. Save Public Suggestion Action
@@ -939,8 +988,8 @@ return [
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Active Data Entry Table:',
     'data_entry.add_entry_summary'                => '➕ Add New Data Entry (Click to expand/collapse)',
-    'data_entry.admin_cols_prompt'                => 'As an administrator, please go to the Manage Tables menu option to add at least one column to your table.',
-    'data_entry.admin_tables_prompt'              => 'As an administrator, please go to the Manage Tables menu option to create a table, and then add at least one column before entering records.',
+    'data_entry.admin_cols_prompt'                => 'As an administrator, please go to Admin - Manage Tables to add at least one column to your table.',
+    'data_entry.admin_tables_prompt'              => 'As an administrator, please go to Admin - Manage Tables to create a table, and then add at least one column before entering records.',
     'data_entry.apply_filters_btn'                => 'Apply Search Filters',
     'data_entry.bool_cross'                       => '✘ (Cross)',
     'data_entry.bool_false'                       => 'False',
@@ -985,10 +1034,30 @@ return [
     'data_entry.page_label'                       => 'Page:',
     'data_entry.reset_filter_btn'                 => 'Reset Filter',
     'data_entry.search_summary'                   => '🔍 Search & Filter Existing Records (Click to expand/collapse)',
-    'data_entry.shortcuts_tip'                    => '💡 Tips: Press <strong>Ctrl + Enter</strong> to submit, or <strong>Esc</strong> to clear the current field.',
+    'data_entry.shortcuts_tip'                    => '💡 Tips: Press Ctrl + Enter to submit, or Esc to clear the current field.',
     'data_entry.submit_data_btn'                  => 'Submit Data',
     'data_entry.th_added_by'                      => 'Added By',
     'data_entry.th_date_created'                  => 'Date Created',
+'data_entry.location_help' => 'Search for the place as it is known today, pick a match, then you may word the label as the old name. Title and short text are required for the map popup.',
+'data_entry.location_search' => 'Find place',
+'data_entry.location_search_btn' => 'Search',
+'data_entry.location_results' => 'Did you mean',
+'data_entry.location_label' => 'Name to show (you can use a historic name)',
+'data_entry.location_title' => 'Popup title',
+'data_entry.location_body' => 'Popup text',
+'data_entry.location_color' => 'Pin colour',
+'data_entry.location_none' => 'No matching place. Try a nearby town.',
+'data_entry.location_busy' => 'Place search is busy. Try again in a minute.',
+'data_entry.location_show_on_map' => 'Show this place on the map',
+'data_entry.location_show_on_map_help' => 'Untick to keep the record in the table but hide the pin (e.g. not open yet).',
+'data_entry.delete_record_btn' => 'Delete',
+'data_entry.delete_record_confirm' => 'Delete this record permanently? Values, map pins and related suggestions for it will be removed. This cannot be undone.',
+'data_entry.record_deleted' => 'The record was deleted.',
+'data_entry.edit_record_btn' => 'Edit',
+'data_entry.edit_record_saved' => 'The record was updated.',
+'data_entry.date_from_label' => 'From',
+'data_entry.date_to_label' => 'To',
+'edit_record.heading' => 'Edit record',
 
     // ------------------------------------------------------------------
     // 38. Forgot Password
@@ -1009,6 +1078,8 @@ return [
     'login.password_label'                        => 'Password:',
     'login.submit_btn'                            => 'Log In',
     'login.username_label'                        => 'Username or Email:',
+'login.err_username_required' => 'Please enter your username.',
+'login.err_password_required' => 'Please enter your password.',
 
     // ------------------------------------------------------------------
     // 40. User Onboarding Setup Wizard
@@ -1105,13 +1176,15 @@ return [
     'set_password.save_password_btn'              => 'Save Password',
     'set_password.show_password_label'            => 'Show password',
     'set_password.subheading_format'              => 'Welcome to your new account, %s! Please choose your password below.',
+'set_password.msg_ready_onboarding' => 'Password saved. Please log in — you will be guided through a short setup.',
+'set_password.msg_ready' => 'Password successfully configured! You can now log in.',
 
     // ------------------------------------------------------------------
     // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-digit authentication code',
     'setup_2fa.aria_region'                       => '2FA Setup Wizard',
-    'setup_2fa.backup_desc'                       => 'Save these backup codes in a secure place. Each code can be used <strong>once</strong> if you lose access to your authenticator app:',
+    'setup_2fa.backup_desc'                       => 'Please save these backup codes in a secure place. Each code can be used once if you lose access to your authenticator app:',
     'setup_2fa.backup_heading'                    => 'Emergency Backup Recovery Codes',
     'setup_2fa.cancel_link'                       => 'Cancel and Return to Profile',
     'setup_2fa.code_label'                        => 'Enter 6-digit Code from App to Confirm & Activate:',

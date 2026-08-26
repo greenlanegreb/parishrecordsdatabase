@@ -245,7 +245,12 @@ return [
     'manage_tables.yes'                           => 'نعم',
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'العودة إلى إنشاء المستخدم',
     'user_emails.currently_editing'               => 'جاري التعديل حالياً:',
@@ -259,7 +264,7 @@ return [
     'user_emails.subheading'                      => 'تخصيص تخطيطات البريد الإلكتروني المرسلة عند دعوة المستخدمين أو إرسال روابط إعادة تعيين كلمة المرور.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'العودة إلى طلبات المتطوعين',
     'volunteer_emails.custom_tags_desc'           => 'تم توليدها تلقائياً من حقول منشئ النموذج الخاص بك:',
@@ -267,7 +272,7 @@ return [
     'volunteer_emails.subheading'                 => 'تخصيص الردود البريدية التلقائية المرسلة إلى المتطوعين خلال مراحل سير العمل المختلفة. استخدم الأقواس المعقوفة للعناصر النائبة الديناميكية.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ إضافة حقل نموذج متطوع جديد',
     'volunteer_schema.back_to_dashboard'          => 'العودة إلى طلبات المتطوعين',
@@ -281,7 +286,7 @@ return [
     'volunteer_schema.subheading'                 => 'تكوين الحقول المخصصة، أنواع البيانات، الأنواع الفرعية، الخيارات، وإعدادات عرض النموذج العامة.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'موافقة',
     'moderate.approve_confirm'                    => 'الموافقة على هذه القيمة وتطبيقها؟',
@@ -311,7 +316,7 @@ return [
     'moderate.th_table_record'                    => 'الجدول والسجل والعمود',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'نشط',
     'notices.add_new'                             => 'إضافة إشعار جديد',
@@ -350,7 +355,7 @@ return [
     'notices.yes'                                 => 'نعم',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'settings.add_notice_btn'                     => '+ إضافة إشعار جديد',
     'settings.audit_heading'                      => 'مستكشف سجل تدقيق النظام',
@@ -471,7 +476,7 @@ return [
     'settings.update_db_btn'                      => 'تحديث قاعدة البيانات',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'حذف',
     'admin_users.disabled'                        => 'معطل',
@@ -512,7 +517,7 @@ return [
     'admin_users.yes'                             => 'نعم',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'مسؤول',
     'view_ticket.back_to_dashboard'               => 'العودة إلى لوحة التذاكر',
@@ -534,7 +539,7 @@ return [
     'view_ticket.ticket_status_label'             => 'حالة التذكرة:',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'قبول ودعوة',
     'volunteer_dashboard.accept_title'            => 'الإدراج في نظام دعوة المستخدمين',
@@ -564,7 +569,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'متطوع',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 محظور: العرض العام غير مُمكن.',
     'api_search.error_unauthorized_table'         => 'الوصول إلى الجدول غير مصرح به.',
@@ -573,7 +578,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'اقتراح تعديل',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'بحث',
     'admin_errors.file'                           => 'الملف',
@@ -602,7 +607,7 @@ return [
     'error_template.stack_trace'                  => 'تتبع المكدس',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'عنوان البريد الإلكتروني:',
     'feedback.first_name_label'                   => 'الاسم الأول:',
@@ -615,7 +620,7 @@ return [
     'feedback.surname_label'                      => 'اسم العائلة:',
 
     // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'صف الإجراءات للمساعدة في تحديد موقع الملفات المخالفة',
     'gh.add_comment_below'                        => 'أضف تعليقك أدناه وأرسله.',
@@ -706,7 +711,7 @@ return [
     'gh.type_translation'                         => '4. اقتراح ترجمة لغة',
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'فشل فحص الأمان: تم رفض الوصول.',
     'security_engine.err_captcha_failed'          => 'فشل تحقق CAPTCHA. يرجى المحاولة مرة أخرى.',
@@ -716,7 +721,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'فشل فحص الأمان: توقيع العميل مريب.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'تأكيد كلمة مرور المشرف',
     'install.admin_email_label'                   => 'بريد المشرف',
@@ -796,7 +801,7 @@ return [
     'install.subheading'                          => 'يرجى التأكد من أن قاعدة البيانات التي تخطط لاستخدامها فارغة قبل المتابعة.',
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'هذا العرض مثبّت بالفعل',
     'demo.already_installed_hint'                 => 'هذه الحزمة مثبتة بالفعل، لذا لا يمكن تحديدها مرة أخرى.',
@@ -819,7 +824,7 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'عرض لوحة المتصدرين',
     'leaderboard.default_role'                    => 'مستخدم',
@@ -843,24 +848,24 @@ return [
     'leaderboard.you_badge'                       => '(أنت)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'سجلات الرعية مجمعة من مصادر تاريخية عامة النطاق.',
     'footer.rights_reserved'                      => 'جميع الحقوق محفوظة.',
     'footer.software_notice'                      => 'منصة البرمجيات مفتوحة المصدر بموجب ترخيص MIT.',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'قاعدة بيانات سجلات الرعية',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'إغلاق الإشعار',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'الفاعل:',
     'record_history.directory_table_label'        => 'جدول الدليل:',
@@ -881,7 +886,7 @@ return [
     'record_history.timeline_heading'             => 'دورة الحياة والجدول الزمني للنشاط',
 
     // ------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'إزالة ملف الوصول الطارئ',
     'update_database.backup_notice'               => 'قم بإنشاء نسخة احتياطية لقاعدة البيانات قبل تشغيل التحديثات متى استطعت.',
@@ -899,12 +904,12 @@ return [
     'update_database.update_btn'                  => 'تحديث قاعدة البيانات الآن',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'بيانات الاعتماد غير صالحة أو الوصول إلى الحساب مقيد.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'أُنشئ إدخال سجل في جدول بمعرف %d.',
     'save_data_entry.err_invalid_choice'          => 'يرجى اختيار خيار مدرج لـ %s.',
@@ -915,7 +920,7 @@ return [
     'save_data_entry.msg_success'                 => 'تمت إضافة السجل بنجاح!',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'فشل إرسال اقتراح التعديل. يرجى المحاولة مرة أخرى.',
     'save_public_suggestion.err_field_required'   => 'هذا الحقل مطلوب ولا يمكن إرساله فارغاً.',
@@ -925,7 +930,7 @@ return [
     'save_public_suggestion.msg_success'          => 'تم إرسال اقتراح التعديل الخاص بك بنجاح وإرساله إلى طابور الإشراف للمراجعة. شكراً لك!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'جدول إدخال البيانات النشط:',
     'data_entry.add_entry_summary'                => '➕ إضافة إدخال بيانات جديد (انقر للتوسيع/الطي)',
@@ -981,7 +986,7 @@ return [
     'data_entry.th_date_created'                  => 'تاريخ الإنشاء',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'استعادة كلمة المرور',
     'forgot_password.back_login_link'             => 'العودة لتسجيل الدخول',
@@ -991,7 +996,7 @@ return [
     'forgot_password.submit_btn'                  => 'إرسال رابط إعادة تعيين كلمة المرور',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'تسجيل دخول المستخدم',
     'login.forgot_password_link'                  => 'نسيت كلمة المرور؟',
@@ -1001,7 +1006,7 @@ return [
     'login.username_label'                        => 'اسم المستخدم أو البريد الإلكتروني:',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'يعرض الأحرف الأولى ورقماً عشوائياً للجميع.',
     'onboarding.attr_anon_title'                  => 'مجهول:',
@@ -1039,7 +1044,7 @@ return [
     'onboarding.timezone_label'                   => 'المنطقة الزمنية / الإقليم:',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'عنوان البريد الإلكتروني الجديد',
     'profile.aria_region'                         => 'إدارة الملف الشخصي للمستخدم',
@@ -1074,7 +1079,7 @@ return [
     'profile.update_password_btn'                 => 'تحديث كلمة المرور',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'تسجيل مستخدم جديد',
     'register.email_label'                        => 'عنوان البريد الإلكتروني',
@@ -1083,7 +1088,7 @@ return [
     'register.username_label'                     => 'اسم المستخدم:',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'إعداد كلمة المرور',
     'set_password.confirm_password_label'         => 'تأكيد كلمة المرور:',
@@ -1097,7 +1102,7 @@ return [
     'set_password.subheading_format'              => 'مرحباً بك في حسابك الجديد، %s! يرجى اختيار كلمة المرور الخاصة بك أدناه.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'رمز المصادقة المكون من 6 أرقام',
     'setup_2fa.aria_region'                       => 'معالج إعداد المصادقة الثنائية',
@@ -1113,7 +1118,7 @@ return [
     'setup_2fa.submit_btn'                        => 'التحقق وتمكين المصادقة الثنائية',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'اقتراح تعديل',
     'suggest_edit.confirm_prompt'                 => 'هل أنت متأكد من أنك مستعد لإرسال اقتراح التعديل هذا لمراجعة المسؤول؟',
@@ -1132,7 +1137,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'لا تتردد في إرسال تغيير آخر أدناه، أو استخدم رابط العودة أعلاه عند الانتهاء.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'أدخل رمز المصادقة أو النسخ الاحتياطي',
     'verify_2fa.aria_region'                      => 'التحقق من المصادقة الثنائية',
@@ -1142,7 +1147,7 @@ return [
     'verify_2fa.submit_btn'                       => 'التحقق وتسجيل الدخول',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'حالة التحقق من البريد الإلكتروني',
     'verify_email.err_expired_token'              => 'انتهت صلاحية رابط التحقق هذا (تجاوز نافذة الـ 24 ساعة). يرجى التسجيل مرة أخرى أو طلب رابط جديد.',
@@ -1155,7 +1160,7 @@ return [
     'verify_email.msg_success'                    => 'تم التحقق من البريد الإلكتروني بنجاح! حسابك نشط الآن. يمكنك متابعة تسجيل الدخول.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'تعيين اسم مستخدم فريد لي',
     'index.check_availability'                    => 'التحقق من التوفر',

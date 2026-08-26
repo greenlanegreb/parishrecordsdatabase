@@ -63,8 +63,8 @@ return [
     // ------------------------------------------------------------------
     // 5. Index / Public Directory Page
     // ------------------------------------------------------------------
-    'index.admin_add_columns_guide'               => 'Fel gweinyddwr, ewch i opsiwn y ddewislen <strong>Rheoli Tablau</strong> i ychwanegu o leiaf un golofn i\'ch tabl.',
-    'index.admin_create_table_guide'              => 'Fel gweinyddwr, ewch i opsiwn y ddewislen <strong>Rheoli Tablau</strong> i greu tabl, ac yna ychwanegu o leiaf un golofn i\'r tabl hwn cyn y gellir gweld neu fewnbynnu cofnodion.',
+    'index.admin_add_columns_guide'               => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i ychwanegu o leiaf un golofn i\'ch tabl.',
+    'index.admin_create_table_guide'              => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn i\'r tabl hwn cyn y gellir gweld neu fewnbynnu cofnodion.',
     'index.clipboard_success'                     => 'Copïwyd data\'r tabl i\'r clipfwrdd! Gallwch ei ludo\'n uniongyrchol i Excel neu Google Sheets.',
     'index.contact_admin_columns'                 => 'Cysylltwch â gweinyddwr i ffurfweddu colofnau ar gyfer y tabl hwn.',
     'index.contact_admin_tables'                  => 'Cysylltwch â gweinyddwr i sefydlu tablau a cholofnai cronfa ddata.',
@@ -76,7 +76,7 @@ return [
     'index.download_filtered_csv'                 => 'Lawrlwytho CSV wedi\'i Hidlo',
     'index.download_filtered_json'                => 'Lawrlwytho JSON wedi\'i Hidlo',
     'index.go_to_manage_tables'                   => 'Ewch i Reoli Tablau',
-    'index.guest_login_tables_guide'              => 'Cysylltwch â <a href=":login_link">mewngofnodi</a> fel gweinyddwr, ewch i adran <strong>Rheoli Tablau</strong> i greu tabl, ac yna ychwanegu o leiaf un golofn.',
+    'index.guest_login_tables_guide'              => 'Cysylltwch â <a href=":login_link">mewngofnodi</a> fel gweinyddwr, ewch i adran Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn.',
     'index.modal_desc'                            => 'Cyflwynwch gywiriad neu wybodaeth wrthbwyso ar gyfer y cofnod hwn. Bydd yn cael ei adolygu gan ein tîm cymedroli.',
     'index.modal_heading'                         => 'Cynnig Cy அதாவது (Cywiriad Cofnod)',
     'index.modal_input_placeholder'               => 'Rhowch wybodaeth ddiweddaraf...',
@@ -245,7 +245,11 @@ return [
     'manage_tables.yes'                           => 'Ie',
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Yn ôl i Greu Defnyddiwr',
     'user_emails.currently_editing'               => 'Wrthi\'n Golygu:',
@@ -259,7 +263,7 @@ return [
     'user_emails.subheading'                      => 'Addasu cynlluniau e-bost a ddanfonir wrth wahodd defnyddwyr neu anfon cysylltiadau ailosod cyfrinair.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Yn ôl i Gyflwyniadau Gwirfoddolwyr',
     'volunteer_emails.custom_tags_desc'           => 'Wedi\'u creu\'n awtomatig o feysydd adeiladwr ffurflen:',
@@ -267,7 +271,7 @@ return [
     'volunteer_emails.subheading'                 => 'Addasu ymatebion e-bost awtomatig a anfonir at wirfoddolwyr yn ystod gwahanol gamau llif gwaith. Defnyddiwch braceiau crych ar gyfer deiliaid lle deinamig.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Ychwanegu Maes Ffurflen Gwirfoddolwr Newydd',
     'volunteer_schema.back_to_dashboard'          => 'Yn ôl i Gyflwyniadau Gwirfoddolwyr',
@@ -281,7 +285,7 @@ return [
     'volunteer_schema.subheading'                 => 'Ffurfweddu meysydd personol, mathau data, is-fathau, opsiynau, a gosodiadau cyffredinol cyflwyno ffurflenni.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'Cymeradwyo',
     'moderate.approve_confirm'                    => 'Cymeradwyo a chymhwyso\'r gwerth hwn?',
@@ -311,7 +315,7 @@ return [
     'moderate.th_table_record'                    => 'Tabl, Cofnod a Cholofn',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Gweithredol',
     'notices.add_new'                             => 'Ychwanegu hysbysiad newydd',
@@ -350,7 +354,7 @@ return [
     'notices.yes'                                 => 'Ie',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'settings.add_notice_btn'                     => '+ Ychwanegu Hysbysiad Newydd',
     'settings.audit_heading'                      => 'Archwiliwr Log Archwilio System',
@@ -471,7 +475,7 @@ return [
     'settings.update_db_btn'                      => 'Diweddaru cronfa ddata',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Dileu',
     'admin_users.disabled'                        => 'Wedi\'i ddad-alluogi',
@@ -512,7 +516,7 @@ return [
     'admin_users.yes'                             => 'Ie',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Gweinyddwr',
     'view_ticket.back_to_dashboard'               => 'Yn ôl i Ddangosfwrdd Tocynnau',
@@ -534,7 +538,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Statws Tocyn:',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Derbyn a Gwahodd',
     'volunteer_dashboard.accept_title'            => 'Plwgio i system wahodd defnyddwyr',
@@ -564,7 +568,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Gwirfoddolwr',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Gwaharddedig: Nid yw golwg gyhoeddus wedi\'i alluogi.',
     'api_search.error_unauthorized_table'         => 'Myneddiad tabl heb awdurdod.',
@@ -573,7 +577,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Cynnig Golygiad',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Dod o hyd i',
     'admin_errors.file'                           => 'Ffeil',
@@ -602,7 +606,7 @@ return [
     'error_template.stack_trace'                  => 'Olrhain pentwr',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Cyfeiriad E-bost:',
     'feedback.first_name_label'                   => 'Enw Cyntaf:',
@@ -615,7 +619,7 @@ return [
     'feedback.surname_label'                      => 'Cyfenw:',
 
     // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Disgrifiwch gamau gweithredu i helpu i leoli\'r ffeiliau troseddol',
     'gh.add_comment_below'                        => 'Ychwanegwch eich sylw isod a\'i gyflwyno.',
@@ -706,7 +710,7 @@ return [
     'gh.type_translation'                         => '4. Awgrymu Cyfieithiad Iaith',
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Methu gwiriad diogelwch: Gwrthodwyd mynediad.',
     'security_engine.err_captcha_failed'          => 'Methu dilysu CAPTCHA. Rhowch gynnig arall arni.',
@@ -716,13 +720,13 @@ return [
     'security_engine.err_suspicious_agent'        => 'Methu gwiriad diogelwch: Llofnod cleient amheus.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Cadarnhau cyfrinair gweinyddol',
     'install.admin_email_label'                   => 'E-bost gweinyddol',
     'install.admin_heading'                       => 'Cyfrif gweinyddwr safle',
     'install.admin_password_label'                => 'Cyfrinair gweinyddol (min 8 nod)',
-    'install.admin_subheading'                    => 'Dyma\'r mewngofnodi ar gyfer <strong>y wefan hon</strong> (nid y gronfa ddata).',
+    'install.admin_subheading'                    => 'Dyma\'r mewngofnodi ar gyfer y wefan hon (nid y gronfa ddata).',
     'install.admin_username_label'                => 'Enw defnyddiwr gweinyddol',
     'install.back_btn'                            => 'Yn ôl',
     'install.close_alert'                         => 'Cau',
@@ -731,7 +735,7 @@ return [
     'install.complete_title'                      => 'Gosod wedi\'i gwblhau',
     'install.continue_btn'                        => 'Parhau',
     'install.db_heading'                          => 'Cysylltiad cronfa ddata',
-    'install.db_hint'                             => 'Defnyddiwch fanylion MySQL o\'ch <strong>panel rheoli llety</strong>. Nid hwn yw mewngofnodi gweinyddwr y wefan (sy\'n dod nesaf).',
+    'install.db_hint'                             => 'Defnyddiwch fanylion MySQL o\'ch panel rheoli llety. Nid hwn yw mewngofnodi gweinyddwr y wefan (sy\'n dod nesaf).',
     'install.db_host_label'                       => 'Gwesteiwr cronfa ddata',
     'install.db_name_label'                       => 'Enw cronfa ddata',
     'install.db_pass_label'                       => 'Cyfrinair cronfa ddata',
@@ -796,7 +800,7 @@ return [
     'install.subheading'                          => 'Gwnewch yn siŵr bod y gronfa ddata rydych chi\'n bwriadu ei defnyddio yn wag cyn parhau.',
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Mae\'r Demo hwn eisoes wedi\'i osod',
     'demo.already_installed_hint'                 => 'Mae\'r pecyn hwn eisoes wedi\'i osod, felly ni ellir ei ddewis eto.',
@@ -818,7 +822,7 @@ return [
     'demo.what_to_add'                            => 'Beth i\'w Ychwanegu',
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Golwg Bwrdd Arweinwyr',
     'leaderboard.default_role'                    => 'Defnyddiwr',
@@ -842,24 +846,24 @@ return [
     'leaderboard.you_badge'                       => '(Chi)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Cofnodion plwyf wedi\'u casglu o ffynonellau hanesyddol parth cyhoeddus.',
     'footer.rights_reserved'                      => 'Cedwir pob hawl.',
     'footer.software_notice'                      => 'Platfform meddalwedd ffynhonnell agored o dan Drwydded MIT.',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Cronfa Ddata Cofnodion Plwyf',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Cau hysbysiad',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Actor:',
     'record_history.directory_table_label'        => 'Tabl Cyfeiriadur:',
@@ -880,7 +884,7 @@ return [
     'record_history.timeline_heading'             => 'Llinell Amser Cylch Bywyd a Gweithgaredd',
 
     // -------------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
     // -------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Tynnu ffeil mynediad brys',
     'update_database.backup_notice'               => 'Gwnewch gopi wrth gefn o\'r gronfa ddata cyn rhedeg diweddariadau pan allwch chi.',
@@ -898,12 +902,12 @@ return [
     'update_database.update_btn'                  => 'Diweddaru Cronfa Ddata Nawr',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Tystysgrifau annilys neu fyneddiad at gyfrif wedi\'i gyfyngu.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Crëwyd cofnod mynediad yn y tabl ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Dewiswch opsiwn rhestredig ar gyfer %s os gwelwch yn dda.',
@@ -914,7 +918,7 @@ return [
     'save_data_entry.msg_success'                 => 'Wedi ychwanegu\'r cofnod yn llwyddiannus!',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Methu cyflwyno cynnig golygu. Rhowch gynnig arall arni.',
     'save_public_suggestion.err_field_required'   => 'Mae angen y maes hwn ac ni ellir ei gyflwyno yn wag.',
@@ -924,12 +928,12 @@ return [
     'save_public_suggestion.msg_success'          => 'Mae eich cynnig golygu wedi\'i gyflwyno\'n llwyddiannus ac wedi\'i anfon i\'r ciw cymedroli i\'w adolygu. Diolch!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Tabl Mewnbynnu Data Gweithredol:',
     'data_entry.add_entry_summary'                => '➕ Ychwanegu Mynediad Data Newydd (Cliciwch i ehangu/chwalu)',
-    'data_entry.admin_cols_prompt'                => 'Fel gweinyddwr, ewch i opsiwn y ddewislen <strong>Rheoli Tablau</strong> i ychwanegu o leiaf un golofn i\'ch tabl.',
-    'data_entry.admin_tables_prompt'              => 'Fel gweinyddwr, ewch i opsiwn y ddewislen <strong>Rheoli Tablau</strong> i greu tabl, ac yna ychwanegu o leiaf un golofn cyn mewnbynnu cofnodion.',
+    'data_entry.admin_cols_prompt'                => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i ychwanegu o leiaf un golofn i\'ch tabl.',
+    'data_entry.admin_tables_prompt'              => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn cyn mewnbynnu cofnodion.',
     'data_entry.apply_filters_btn'                => 'Cymhwyso Hidlau Chwilio',
     'data_entry.bool_cross'                       => '✘ (Croes)',
     'data_entry.bool_false'                       => 'Angwir',
@@ -974,13 +978,13 @@ return [
     'data_entry.page_label'                       => 'Tudalen:',
     'data_entry.reset_filter_btn'                 => 'Ailosod Hidlydd',
     'data_entry.search_summary'                   => '🔍 Chwilio a Hidlo Cofnodion Presennol (Cliciwch i ehangu/chwalu)',
-    'data_entry.shortcuts_tip'                    => '💡 Awgrymiadau: Pwyswch <strong>Ctrl + Enter</strong> i gyflwyno, neu <strong>Esc</strong> i glirio\'r maes cyfredol.',
+    'data_entry.shortcuts_tip'                    => '💡 Awgrymiadau: Pwyswch Ctrl + Enter i gyflwyno, neu Esc i glirio\'r maes cyfredol.',
     'data_entry.submit_data_btn'                  => 'Cyflwyno Data',
     'data_entry.th_added_by'                      => 'Ychwanegwyd Gan',
     'data_entry.th_date_created'                  => 'Dyddiad Creu',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Adfer Cyfrinair',
     'forgot_password.back_login_link'             => 'Yn ôl i Fewngofnodi',
@@ -990,7 +994,7 @@ return [
     'forgot_password.submit_btn'                  => 'Anfon Cysylltiad Ailosod Cyfrinair',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Mewngofnodi Defnyddiwr',
     'login.forgot_password_link'                  => 'Wedi Anghofio Cyfrinair?',
@@ -1000,7 +1004,7 @@ return [
     'login.username_label'                        => 'Enw Defnyddiwr neu E-bost:',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Yn dangos llythrennau cyntaf a rhif ar hap i bawb.',
     'onboarding.attr_anon_title'                  => 'Didienw:',
@@ -1038,7 +1042,7 @@ return [
     'onboarding.timezone_label'                   => 'Parth Amser / Rhanbarth:',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Cyfeiriad e-bost newydd',
     'profile.aria_region'                         => 'Rheoli Proffil Defnyddiwr',
@@ -1073,7 +1077,7 @@ return [
     'profile.update_password_btn'                 => 'Diweddaru Cyfrinair',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Cofrestru Defnyddiwr',
     'register.email_label'                        => 'Cyfeiriad Ebost',
@@ -1082,7 +1086,7 @@ return [
     'register.username_label'                     => 'Enw Defnyddiwr:',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Gosod Cyfrinair',
     'set_password.confirm_password_label'         => 'Cadarnhau Cyfrinair:',
@@ -1096,11 +1100,11 @@ return [
     'set_password.subheading_format'              => 'Croeso i\'ch cyfrif newydd, %s! Dewiswch eich cyfrinair isod.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Cod dilysu 6-digid',
     'setup_2fa.aria_region'                       => 'Dewin Gosod 2FA',
-    'setup_2fa.backup_desc'                       => 'Cadwch y codau wrth gefn hyn mewn lle diogel. Gellir defnyddio pob cod <strong>un waith</strong> os byddwch yn colli mynediad i\'ch ap dilysu:',
+    'setup_2fa.backup_desc'                       => 'Cadwch y codau wrth gefn hyn mewn lle diogel. Gellir defnyddio pob cod un waith os byddwch yn colli mynediad i\'ch ap dilysu:',
     'setup_2fa.backup_heading'                    => 'Codau Adfer Wrth Gefn Brys',
     'setup_2fa.cancel_link'                       => 'Canslo a Dychwelyd i Broffil',
     'setup_2fa.code_label'                        => 'Rhowch Cod 6-digid o\'r Ap i Gadarnhau ac Galluogi:',
@@ -1112,7 +1116,7 @@ return [
     'setup_2fa.submit_btn'                        => 'Dilysu ac Galluogi 2FA',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Cynnig Golygiad',
     'suggest_edit.confirm_prompt'                 => 'Ydych chi\'n sicr eich bod yn barod i gyflwyno\'r cynnig golygu hwn i\'w adolygu gan y gweinyddwr?',
@@ -1131,7 +1135,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Teimlwch yn rhydd i gyflwyno golygiad arall isod, neu ddefnyddiwch y cysylltiad dychwelyd uchod pan fyddwch wedi gorffen.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Rhowch god dilysu neu wrth gefn',
     'verify_2fa.aria_region'                      => 'Dilysu 2FA',
@@ -1141,7 +1145,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Dilysu a Mewngofnodi',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Statws Gwirio E-bost',
     'verify_email.err_expired_token'              => 'Mae\'r cysylltiad gwirio hwn wedi dod i ben (wedi fwyta\'r cyfnod 24 awr). Cofrestrwch eto neu gofynnwch am gysylltiad newydd.',
@@ -1154,7 +1158,7 @@ return [
     'verify_email.msg_success'                    => 'Wedi gwirio\'r e-bost yn llwyddiannus! Mae eich cyfrif bellach yn weithredol. Gallwch symud ymlaen i fewngofnodi.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Dyrannu enw defnyddiwr unigryw i mi',
     'index.check_availability'                    => 'Gwirio ar gael',

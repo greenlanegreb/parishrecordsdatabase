@@ -63,8 +63,8 @@ return [
     // ------------------------------------------------------------------
     // 5. Index / Public Directory Page
     // ------------------------------------------------------------------
-    'index.admin_add_columns_guide'               => 'Evel merour, kit d\'an dibab <strong>Merañ an daolennoù</strong> evit ouzhpennañ ur bann d\'ho taolenn da nebeutañ.',
-    'index.admin_create_table_guide'              => 'Evel merour, kit d\'an dibarzh <strong>Merañ an daolennoù</strong> evit krouiñ un daolenn, ha goude-se ouzhpennit ur bann d\'an nebeutañ d\'an daolenn-se a-raok ma c\'hallfe an enrolladennoù bezañ gwelet pe ebarzhet.',
+    'index.admin_add_columns_guide'               => 'Evel merour, kit d\'an dibab Merañ an daolennoù evit ouzhpennañ ur bann d\'ho taolenn da nebeutañ.',
+    'index.admin_create_table_guide'              => 'Evel merour, kit d\'an dibarzh Merañ an daolennoù evit krouiñ un daolenn, ha goude-se ouzhpennit ur bann d\'an nebeutañ d\'an daolenn-se a-raok ma c\'hallfe an enrolladennoù bezañ gwelet pe ebarzhet.',
     'index.clipboard_success'                     => 'Roadennoù an daolenn kopiet war ar c\'hlipbord ! Gallout a rit pegañ anezhañ war-eeun en Excel pe e Google Sheets.',
     'index.contact_admin_columns'                 => 'Kit e darempred gant ur merour evit kefluniañ ar bannoù evit an daolenn-mañ.',
     'index.contact_admin_tables'                  => 'Kit e darempred gant ur merour evit kefluniañ taolennoù ha bannoù an diaz roadennoù.',
@@ -244,9 +244,12 @@ return [
     'manage_tables.type_text_long'                => 'TESTENN (Pennad hir)',
     'manage_tables.yes'                           => 'Ya',
 
+    // ------------------------------------------------------------------
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Distreiñ da grouidigezh an implijer',
     'user_emails.currently_editing'               => 'O kemmañ :',
@@ -260,7 +263,7 @@ return [
     'user_emails.subheading'                      => 'Personelaat an doareoù posteloù kaset pa vez pedet implijerien pe pa vez kaset liammoù adderaouekaat ar ger-tremen.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Distreiñ d\'ar c\'hinnigoù a-youl vat',
     'volunteer_emails.custom_tags_desc'           => 'Krouet emgefre diwar maeziennoù ho sevel furmskridoù :',
@@ -268,7 +271,7 @@ return [
     'volunteer_emails.subheading'                 => 'Personelaat ar respontoù posteloù emgefre kaset d\'an dud a youl vat e-pad mareoù labour liesseurt. Implijit krommelloù evit an dalc\'herioù-lec\'h dinamek.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Ouzhpennañ ur vaezienn furmskrid nevez evit ar youl vat',
     'volunteer_schema.back_to_dashboard'          => 'Distreiñ d\'ar c\'hinnigoù a-youl vat',
@@ -282,7 +285,7 @@ return [
     'volunteer_schema.subheading'                 => 'Kefluniañ ar maeziennoù personelaet, ar seurtoù roadennoù, an is-seurtoù, an dibarzhioù hag arventennoù kinnig ar furmskridoù dre vras.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'Aprouiñ',
     'moderate.approve_confirm'                    => 'Aprouiñ ha lakaat ar werzh-mañ da dalvezout ?',
@@ -312,7 +315,7 @@ return [
     'moderate.th_table_record'                    => 'Taolenn, enrolladenn ha bann',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Oberiant',
     'notices.add_new'                             => 'Ouzhpennañ kemennadenn nevez',
@@ -351,7 +354,7 @@ return [
     'notices.yes'                                 => 'Ya',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'settings.add_notice_btn'                     => '+ Ouzhpennañ ur gemennadenn nevez',
     'settings.audit_heading'                      => 'Ergerzher marilh gwiriañ ar reizhiad',
@@ -472,7 +475,7 @@ return [
     'settings.update_db_btn'                      => 'Hizivaat an diaz roadennoù',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Dilemel',
     'admin_users.disabled'                        => 'Nammet',
@@ -513,7 +516,7 @@ return [
     'admin_users.yes'                             => 'Ya',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Merour',
     'view_ticket.back_to_dashboard'               => 'Distreiñ da banell ar bilhedoù',
@@ -535,7 +538,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Stad ar bilhed :',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Degemer ha pediñ',
     'volunteer_dashboard.accept_title'            => 'Enlakait ouzh ar reizhiad pediñ implijerien',
@@ -565,7 +568,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Den a-youl-vat',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Difennet : N\'eo ket gweredekaet ar gwel foran.',
     'api_search.error_unauthorized_table'         => 'Mont e-barzh an daolenn hep aotre.',
@@ -574,7 +577,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Kinnig kemmañ',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Kavout',
     'admin_errors.file'                           => 'Restr',
@@ -603,7 +606,7 @@ return [
     'error_template.stack_trace'                  => 'Heuliad bern',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Chomlec\'h postel :',
     'feedback.first_name_label'                   => 'Anv-bihan:',
@@ -615,8 +618,8 @@ return [
     'feedback.submit_btn'                         => 'Kas ur bilhed',
     'feedback.surname_label'                      => 'Anv-familh:',
 
-  // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // ------------------------------------------------------------------
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
 
     'gh.action_placeholder'                       => 'Deskrivit an oberoù evit sikour da gavout ar restroù fall',
@@ -709,7 +712,7 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'C\'hwitet eo bet ar gwiriadur diogelroez : nac\'het eo bet an tremen.',
     'security_engine.err_captcha_failed'          => 'C\'hwitet en deus ar gwiriekaat CAPTCHA. Klaskit en-dro mar plij.',
@@ -719,7 +722,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'C\'hwitet eo bet ar gwiriadur diogelroez : sinadur ar c\'hlient diskred warni.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Kadarnaat ar ger-tremen merour',
     'install.admin_email_label'                   => 'Postel merour',
@@ -800,7 +803,7 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
 
     'demo.already_installed'                      => 'Staliet eo an demo-mañ dija',
@@ -824,7 +827,7 @@ return [
 
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Gwel ar renkadur',
     'leaderboard.default_role'                    => 'Implijer',
@@ -848,24 +851,24 @@ return [
     'leaderboard.you_badge'                       => '(C\'hwi)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Mont a ra ho traoñ amañ.',
     'footer.rights_reserved'                      => 'An holl wirioù miret.',
     'footer.software_notice'                      => 'Digor eo pRD (V1.18) dindan aotre MIT.',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Diaz roadennoù dielloù ar parrez',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Serriñ kemenn',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Aktor:',
     'record_history.directory_table_label'        => 'Taolenn ar c\'havlec\'hioù :',
@@ -886,7 +889,7 @@ return [
     'record_history.timeline_heading'             => 'Kelc\'hiad ar vuhez hag an obererezh',
 
     // ------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Dilemel ar restr mont e-barzh en argerzh',
     'update_database.backup_notice'               => 'Kemerit un eiladenn eus an diaz roadennoù a-raok kas an hizivadennoù da benn pa c\'hallit.',
@@ -904,12 +907,12 @@ return [
     'update_database.update_btn'                  => 'Hizivaat an diaz roadennoù bremañ',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Titouroù direizh pe mont e-barzh ar gont strishaet.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Krouet eo bet an enrolladenn en daolenn ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Dibabit un dibab meneget evit %s mar plij.',
@@ -920,7 +923,7 @@ return [
     'save_data_entry.msg_success'                 => 'Ouzhpennet eo bet an enrolladenn gant berzh !',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'C\'hwitet en deus kaset ar c\'hinnig kemmañ. Klaskit en-dro mar plij.',
     'save_public_suggestion.err_field_required'   => 'Rekis eo ar vaezienn-mañ ha n\'hall ket bezañ kaset goullo.',
@@ -930,7 +933,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Kaset eo bet ho kinnig kemmañ gant berzh ha kaset d\'ar renk evezhiañ evit bezañ adwelet. Trugarez deoc\'h!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Taolenn mont e-barzh roadennoù oberiant :',
     'data_entry.add_entry_summary'                => '➕ Ouzhpennañ roadennoù nevez (Klikañ evit ledanaat/digeriñ)',
@@ -986,7 +989,7 @@ return [
     'data_entry.th_date_created'                  => 'Deiziad krouidigezh',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Adtapout ur ger-tremen',
     'forgot_password.back_login_link'             => 'Distreiñ d\'ar c\'hennask',
@@ -996,7 +999,7 @@ return [
     'forgot_password.submit_btn'                  => 'Kas ul liamm adderaouekaat ar ger-tremen',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Kevreañ gant an implijer',
     'login.forgot_password_link'                  => 'Ankounac\'haet ho ker-tremen ?',
@@ -1006,7 +1009,7 @@ return [
     'login.username_label'                        => 'Anv implijer pe postel :',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Diskouez a ra al lizherennoù kentañ hag an niveroù dre zegouezh d\'an holl.',
     'onboarding.attr_anon_title'                  => 'Dizanv:',
@@ -1044,7 +1047,7 @@ return [
     'onboarding.timezone_label'                   => 'Takad amzer / Rannvro :',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Chomlec\'h postel nevez',
     'profile.aria_region'                         => 'Merañ profil an implijer',
@@ -1079,7 +1082,7 @@ return [
     'profile.update_password_btn'                 => 'Hizivaat ar ger-tremen',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Enskrivadur implijer',
     'register.email_label'                        => 'Chomlec\'h postel',
@@ -1088,7 +1091,7 @@ return [
     'register.username_label'                     => 'Anv implijer :',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Arventennoù ar ger-tremen',
     'set_password.confirm_password_label'         => 'Kadarnaat ar ger-tremen :',
@@ -1102,7 +1105,7 @@ return [
     'set_password.subheading_format'              => 'Degemer mat war ho kont nevez, %s ! Dibabit ho ker-tremen amañ dindan mar plij.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Kod gwiriekaat 6 sifr',
     'setup_2fa.aria_region'                       => 'Skoazeller arventennoù 2FA',
@@ -1118,7 +1121,7 @@ return [
     'setup_2fa.submit_btn'                        => 'Gwiriañ ha gweredekaat 2FA',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Kinnig kemmañ',
     'suggest_edit.confirm_prompt'                 => 'Ha sur oc\'h prest da ginnig ar c\'hinnig kemmañ-mañ evit bezañ adwelet gant merour ?',
@@ -1137,7 +1140,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Kas ur c\'hemm all amañ dindan, pe implijout al liamm distreiñ a-us pa vo echu.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Lakait ar c\'hod gwiriekaat pe ar c\'hod gwareziñ',
     'verify_2fa.aria_region'                      => 'Gwiriekaat 2FA',
@@ -1147,7 +1150,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Gwiriañ ha kevreañ',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Stad gwiriekaat ar posteloù',
     'verify_email.err_expired_token'              => 'Diamzeret eo al liamm gwiriekaat-mañ (tremenet eo ar prenestr 24 eurvezh). Enskrivit hoc\'h anv en-dro pe goulennit ul liamm nevez.',
@@ -1160,7 +1163,7 @@ return [
     'verify_email.msg_success'                    => 'Gwiriekaet eo bet ar postel gant berzh ! Oberiant eo ho kont bremañ. Gallout a rit kenderc\'hel da gevreañ.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Reiñ un anv implijer dibar din',
     'index.check_availability'                    => 'Gwiriañ an digoust',

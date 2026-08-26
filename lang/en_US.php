@@ -33,6 +33,8 @@ return [
     'nav.volunteer'                               => 'Become a Volunteer',
     'nav.volunteer_dashboard'                     => 'Volunteer Dashboard',
     'nav.welcome'                                 => 'Welcome,',
+'nav.main_aria' => 'Main',
+'nav.similar_records' => 'Similar records',
 
     // ------------------------------------------------------------------
     // 2. Public search (index)
@@ -43,6 +45,7 @@ return [
     'search.load_error'                           => 'Failed to load results. Please try again.',
     'search.no_records'                           => 'No records found in this directory.',
     'search.reset'                                => 'Reset Search',
+'index.date_from_label' => 'From',
 
     // ------------------------------------------------------------------
     // 3. Common buttons
@@ -63,8 +66,8 @@ return [
     // ------------------------------------------------------------------
     // 5. Index / Public Directory Page
     // ------------------------------------------------------------------
-    'index.admin_add_columns_guide'               => 'As an administrator, go to <strong>Manage Tables</strong> to add at least one column to your table.',
-    'index.admin_create_table_guide'              => 'As an administrator, go to <strong>Manage Tables</strong> to create a table and add at least one column before viewing or entering records.',
+    'index.admin_add_columns_guide'               => 'As an administrator, please go to Admin - Manage Tables to add at least one column to your table.',
+    'index.admin_create_table_guide'              => 'As an administrator, please go to Admin - Manage Tables to create a table and add at least one column before viewing or entering records.',
     'index.clipboard_success'                     => 'Table data copied to clipboard! You can paste it directly into Excel or Google Sheets.',
     'index.contact_admin_columns'                 => 'Please contact an administrator to configure columns for this table.',
     'index.contact_admin_tables'                  => 'Please contact an administrator to configure database tables and columns.',
@@ -243,9 +246,30 @@ return [
     'manage_tables.type_choice'                   => 'List of options',
     'manage_tables.type_text_long'                => 'TEXT (Long Paragraph)',
     'manage_tables.yes'                           => 'Yes',
+'manage_tables.type_location' => 'Location (map pin)',
+'manage_tables.type_location_help' => 'Places must be chosen from the lookup so they can appear on this table's map. Please use a normal text column if you only need a written place name.',
+'manage_tables.bool_yes_no' => 'Yes / No',
+'manage_tables.bool_true_false' => 'True / False',
+'manage_tables.bool_tick_cross' => 'Tick / Cross',
+'manage_tables.bool_male_female' => 'Male / Female',
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+'map.heading' => 'Map',
+'map.back_to_table' => 'Back to table',
+'map.help' => 'Zoom to load places in view. Use the filters to match the table search.',
+'map.filters' => 'Filters',
+'map.apply_filters' => 'Apply filters',
+'map.canvas_aria' => 'Map of records',
+'map.open_btn' => 'Map',
+'map.list_show_more' => 'Show more in list (:n left)',
+'map.list_empty' => 'No places in this view.',
+'map.list_heading' => 'Places in this view',
+'map.skip_to_map' => 'Skip to map',
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Return to User Creation',
     'user_emails.currently_editing'               => 'Currently editing:',
@@ -259,7 +283,7 @@ return [
     'user_emails.subheading'                      => 'Customize email layouts sent when inviting users or sending password reset links.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Return to Volunteer Submissions',
     'volunteer_emails.custom_tags_desc'           => 'Automatically generated from form builder fields:',
@@ -267,7 +291,7 @@ return [
     'volunteer_emails.subheading'                 => 'Configure automated email replies for volunteers at various workflow stages. Use curly braces for dynamic values.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Add New Volunteer Form Field',
     'volunteer_schema.back_to_dashboard'          => 'Return to Volunteer Submissions',
@@ -281,7 +305,7 @@ return [
     'volunteer_schema.subheading'                 => 'Configure custom fields, data types, subtypes, options, and general form display preferences.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'Approve',
     'moderate.approve_confirm'                    => 'Approve and apply this value?',
@@ -311,7 +335,7 @@ return [
     'moderate.th_table_record'                    => 'Table, Record & Column',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Active',
     'notices.add_new'                             => 'Add new notice',
@@ -350,7 +374,7 @@ return [
     'notices.yes'                                 => 'Yes',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'settings.add_notice_btn'                     => '+ Add New Notice',
     'settings.audit_heading'                      => 'System Audit Log Browser',
@@ -469,9 +493,34 @@ return [
     'settings.th_timestamp'                       => 'Timestamp',
     'settings.turnstile_heading'                  => 'Cloudflare Turnstile Settings',
     'settings.update_db_btn'                      => 'Update Database',
+'role.label_user' => 'Data Entry User',
+'role.label_guest' => 'Public Visitor',
+'role.label_admin' => 'Administrator',
+'role.label_moderator' => 'Moderator',
+'settings.mod_maps' => 'Maps',
+'settings.mod_maps_desc' => 'Show a map for each table that has a location column.',
+'settings.map_provider_heading' => 'Map Provider Configuration',
+'settings.map_provider_intro' => 'Optional. Please leave these empty to use the free built-in map pictures (CARTO/OpenStreetMap) and free place search (Nominatim). Paid keys stay on your server and are not shared with other sites.',
+'settings.map_tile_provider' => 'Map pictures (tiles)',
+'settings.map_tile_provider_help' => 'If a paid option has no key, pRD falls back to the free default.',
+'settings.map_tile_default' => 'Default free (CARTO Voyager)',
+'settings.map_tile_osm' => 'OpenStreetMap (free)',
+'settings.map_tile_mapbox' => 'Mapbox (API key required)',
+'settings.map_tile_stadia' => 'Stadia Maps (API key required)',
+'settings.map_tile_custom' => 'Custom tile URL',
+'settings.map_tile_api_key' => 'Map tile API key',
+'settings.map_tile_api_key_help' => 'Only needed for Mapbox or Stadia. Leave blank to keep an existing key.',
+'settings.map_geocode_provider' => 'Place search (geocoding)',
+'settings.map_geocode_provider_help' => 'Used when data entry looks up a place name. Results are cached on this site.',
+'settings.map_geocode_nominatim' => 'Nominatim / OpenStreetMap (free, rate-limited)',
+'settings.map_geocode_locationiq' => 'LocationIQ (API key required)',
+'settings.map_geocode_opencage' => 'OpenCage (API key required)',
+'settings.map_geocode_api_key' => 'Place search API key',
+'settings.map_geocode_api_key_help' => 'Only needed for LocationIQ or OpenCage. Please leave blank to keep an existing key. Without a key, free Nominatim is used.',
+'settings.map_key_placeholder' => 'Please paste key if required (leave blank to keep current)',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Delete',
     'admin_users.disabled'                        => 'Disabled',
@@ -510,9 +559,11 @@ return [
     'admin_users.update_btn'                      => 'Update',
     'admin_users.verified_label'                  => 'Verified:',
     'admin_users.yes'                             => 'Yes',
+'admin_users.email_for' => 'Email for',
+'admin_users.points_for' => 'Points for',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Administrator',
     'view_ticket.back_to_dashboard'               => 'Return to Tickets Dashboard',
@@ -534,7 +585,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Ticket Status:',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Approve & Send Invite',
     'volunteer_dashboard.accept_title'            => 'Approve via User Invitation System',
@@ -564,7 +615,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Volunteer',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Forbidden: Public viewing is not enabled.',
     'api_search.error_unauthorized_table'         => 'Unauthorized table access.',
@@ -573,7 +624,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Suggest Edit',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Find',
     'admin_errors.file'                           => 'File',
@@ -602,7 +653,7 @@ return [
     'error_template.stack_trace'                  => 'Stack trace',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Email Address:',
     'feedback.first_name_label'                   => 'First Name:',
@@ -615,7 +666,7 @@ return [
     'feedback.surname_label'                      => 'Last Name:',
 
     // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Describe actions to help locate the offending files',
     'gh.add_comment_below'                        => 'Add your comment below and submit.',
@@ -706,7 +757,7 @@ return [
     'gh.type_translation'                         => '4. Suggest a Language Translation',
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Security Error: Access denied.',
     'security_engine.err_captcha_failed'          => 'CAPTCHA verification failed. Please try again.',
@@ -716,13 +767,13 @@ return [
     'security_engine.err_suspicious_agent'        => 'Security Error: Suspicious client signature.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Confirm Administrator Password',
     'install.admin_email_label'                   => 'Administrator Email',
     'install.admin_heading'                       => 'Site Administrator Account',
     'install.admin_password_label'                => 'Administrator Password (min. 8 characters)',
-    'install.admin_subheading'                    => 'These are the sign-in credentials for <strong>this site</strong> (not a database account).',
+    'install.admin_subheading'                    => 'These are the sign-in credentials for this site (not a database account).',
     'install.admin_username_label'                => 'Administrator Username',
     'install.back_btn'                            => 'Back',
     'install.close_alert'                         => 'Close',
@@ -731,7 +782,7 @@ return [
     'install.complete_title'                      => 'Installation Complete',
     'install.continue_btn'                        => 'Continue',
     'install.db_heading'                          => 'Database Connection',
-    'install.db_hint'                             => 'Use MySQL details from your <strong>hosting control panel</strong>. This is not your site administrator sign-in.',
+    'install.db_hint'                             => 'Please use MySQL details from your hosting control panel. This is not your site administrator sign-in.',
     'install.db_host_label'                       => 'Database Host',
     'install.db_name_label'                       => 'Database Name',
     'install.db_pass_label'                       => 'Database Password',
@@ -794,9 +845,12 @@ return [
     'install.req_probe_ok'                        => 'You can create files in this project folder — Congratulations!',
     'install.show_password'                       => 'Show',
     'install.subheading'                          => 'Please ensure that the database you plan to use is empty before continuing.',
+'install.msg_modules_saved' => 'TBC.',
+'install.mod_maps' => 'Maps',
+'install.mod_maps_desc' => 'Location fields and a map per table. You can change this later under Admin → Settings.',
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'This Demo is Already Installed',
     'demo.already_installed_hint'                 => 'This pack is already installed, so it cannot be selected again.',
@@ -818,7 +872,7 @@ return [
     'demo.what_to_add'                            => 'What to Add',
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Leaderboard View',
     'leaderboard.default_role'                    => 'User',
@@ -842,24 +896,25 @@ return [
     'leaderboard.you_badge'                       => '(You)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Your Footer Goes Here.',
     'footer.rights_reserved'                      => 'All rights reserved.',
-    'footer.software_notice'                      => 'pRD (V1.18) is open-source under the MIT License.',
+    'footer.software_notice'                      => 'pRD (V1.18) is open-source under the MIT License - With thanks to GitHub\'s @katherinehuk for her second pair of eyes!',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Parish Records Database',
+'header.skip_to_content' => 'Skip to main content',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Close notice',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Actor:',
     'record_history.directory_table_label'        => 'Directory Table:',
@@ -880,7 +935,7 @@ return [
     'record_history.timeline_heading'             => 'Event & Activity Timeline',
 
     // ----------------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Remove emergency access file',
     'update_database.backup_notice'               => 'Take a database backup before running updates whenever you can.',
@@ -898,12 +953,12 @@ return [
     'update_database.update_btn'                  => 'Update Database Now',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Invalid credentials or account access restricted.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Record created in table with ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Please choose a listed option for %s.',
@@ -912,9 +967,10 @@ return [
     'save_data_entry.err_not_number'              => '%s must be an integer.',
     'save_data_entry.err_required_field'          => 'Required field \'%s\' cannot be blank.',
     'save_data_entry.msg_success'                 => 'Record successfully added!',
+'save_data_entry.err_location' => 'Choose a place from the list and add a title and short text for %s.',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Failed to submit edit suggestion. Please try again.',
     'save_public_suggestion.err_field_required'   => 'This field is required and cannot be submitted blank.',
@@ -924,12 +980,12 @@ return [
     'save_public_suggestion.msg_success'          => 'Your edit suggestion has been successfully submitted to the moderation queue. Thank you!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Active data entry table:',
     'data_entry.add_entry_summary'                => '➕ Add New Data Entry (Click to expand/collapse)',
-    'data_entry.admin_cols_prompt'                => 'As an administrator, go to <strong>Manage Tables</strong> to add at least one column.',
-    'data_entry.admin_tables_prompt'              => 'As an administrator, go to <strong>Manage Tables</strong> to create a table and add a column before entering records.',
+    'data_entry.admin_cols_prompt'                => 'As an administrator, Please go to Admin - Manage Tables to add at least one column.',
+    'data_entry.admin_tables_prompt'              => 'As an administrator, Please go to Admin - Manage Tables to create a table and add a column before entering records.',
     'data_entry.apply_filters_btn'                => 'Apply Search Filters',
     'data_entry.bool_cross'                       => '✘ (Cross)',
     'data_entry.bool_false'                       => 'False',
@@ -961,7 +1017,7 @@ return [
     'data_entry.existing_records_heading'         => 'Existing Records Table',
     'data_entry.filter_all_option'                => '-- All --',
     'data_entry.filter_placeholder'               => 'Filter...',
-    'data_entry.go_manage_tables'                 => 'Go to Manage Tables',
+    'data_entry.go_manage_tables'                 => 'Please Go to Admin - Manage Tables',
     'data_entry.json_entire_btn'                  => 'Download Entire JSON',
     'data_entry.json_filtered_btn'                => 'Download Filtered JSON',
     'data_entry.multiselect_hint'                 => 'Hold down Ctrl (or Cmd) to choose more than one.',
@@ -974,13 +1030,33 @@ return [
     'data_entry.page_label'                       => 'Page:',
     'data_entry.reset_filter_btn'                 => 'Reset Filter',
     'data_entry.search_summary'                   => '🔍 Search & Filter Existing Records (Click to expand/collapse)',
-    'data_entry.shortcuts_tip'                    => '💡 Tip: Press <strong>Ctrl + Enter</strong> to submit or <strong>Esc</strong> to clear the current field.',
+    'data_entry.shortcuts_tip'                    => '💡 Tip: Press Ctrl + Enter to submit or Esc to clear the current field.',
     'data_entry.submit_data_btn'                  => 'Submit Data',
     'data_entry.th_added_by'                      => 'Added By',
     'data_entry.th_date_created'                  => 'Date Created',
+'data_entry.location_help' => 'Search for the place as it is known today, pick a match, then you may word the label as the old name. Title and short text are required for the map popup.',
+'data_entry.location_search' => 'Find place',
+'data_entry.location_search_btn' => 'Search',
+'data_entry.location_results' => 'Did you mean',
+'data_entry.location_label' => 'Name to show (you can use a historic name)',
+'data_entry.location_title' => 'Popup title',
+'data_entry.location_body' => 'Popup text',
+'data_entry.location_color' => 'Pin color',
+'data_entry.location_none' => 'No matching place. Try a nearby town.',
+'data_entry.location_busy' => 'Place search is busy. Try again in a minute.',
+'data_entry.location_show_on_map' => 'Show this place on the map',
+'data_entry.location_show_on_map_help' => 'Untick to keep the record in the table but hide the pin (e.g. not open yet).',
+'data_entry.delete_record_btn' => 'Delete',
+'data_entry.delete_record_confirm' => 'Delete this record permanently? Values, map pins and related suggestions for it will be removed. This cannot be undone.',
+'data_entry.record_deleted' => 'The record was deleted.',
+'data_entry.edit_record_btn' => 'Edit',
+'data_entry.edit_record_saved' => 'The record was updated.',
+'data_entry.date_from_label' => 'From',
+'data_entry.date_to_label' => 'To',
+'edit_record.heading' => 'Edit record',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Password Recovery',
     'forgot_password.back_login_link'             => 'Return to Sign In',
@@ -990,7 +1066,7 @@ return [
     'forgot_password.submit_btn'                  => 'Send Reset Link',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'User Sign In',
     'login.forgot_password_link'                  => 'Forgot Password?',
@@ -998,9 +1074,11 @@ return [
     'login.password_label'                        => 'Password:',
     'login.submit_btn'                            => 'Sign In',
     'login.username_label'                        => 'Username or Email:',
+'login.err_username_required' => 'Please enter your username.',
+'login.err_password_required' => 'Please enter your password.',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Shows initials and a random number to everyone.',
     'onboarding.attr_anon_title'                  => 'Anonymous:',
@@ -1038,7 +1116,7 @@ return [
     'onboarding.timezone_label'                   => 'Timezone / Region:',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'New Email Address',
     'profile.aria_region'                         => 'User Profile Management',
@@ -1073,7 +1151,7 @@ return [
     'profile.update_password_btn'                 => 'Update Password',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'User Registration',
     'register.email_label'                        => 'Email address',
@@ -1082,7 +1160,7 @@ return [
     'register.username_label'                     => 'Username:',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Set Password',
     'set_password.confirm_password_label'         => 'Confirm Password:',
@@ -1094,13 +1172,15 @@ return [
     'set_password.save_password_btn'              => 'Save Password',
     'set_password.show_password_label'            => 'Show Password',
     'set_password.subheading_format'              => 'Welcome to your new account, %s! Please choose your password below.',
+'set_password.msg_ready_onboarding' => 'Password saved. Please log in — you will be guided through a short setup.',
+'set_password.msg_ready' => 'Password successfully configured! You can now log in.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-digit verification code',
     'setup_2fa.aria_region'                       => '2FA Setup Wizard',
-    'setup_2fa.backup_desc'                       => 'Keep these backup codes in a safe place. Each code can be used <strong>only once</strong> if you lose access to your app:',
+    'setup_2fa.backup_desc'                       => 'Please keep these backup codes in a safe place. Each code can be used only once if you lose access to your app:',
     'setup_2fa.backup_heading'                    => 'Emergency Security Recovery Codes',
     'setup_2fa.cancel_link'                       => 'Cancel & Return to Profile',
     'setup_2fa.code_label'                        => 'Enter the 6-digit code from the app to verify and enable:',
@@ -1112,7 +1192,7 @@ return [
     'setup_2fa.submit_btn'                        => 'Verify & Enable 2FA',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Suggest Edit',
     'suggest_edit.confirm_prompt'                 => 'Are you sure you want to submit this edit suggestion for administrator review?',
@@ -1131,7 +1211,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'You can submit another edit below or use the return link above when finished.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Enter verification code or security code',
     'verify_2fa.aria_region'                      => '2FA Verification',
@@ -1141,7 +1221,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Verify & Sign In',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Email Verification Status',
     'verify_email.err_expired_token'              => 'This verification link has expired (24-hour limit exceeded). Please register again or request a new link.',
@@ -1154,7 +1234,7 @@ return [
     'verify_email.msg_success'                    => 'Email successfully verified! Your account is now active. Please proceed to sign in.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Allocate a unique username for me',
     'index.check_availability'                    => 'Check availability',
