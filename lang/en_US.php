@@ -247,7 +247,7 @@ return [
     'manage_tables.type_text_long'                => 'TEXT (Long Paragraph)',
     'manage_tables.yes'                           => 'Yes',
 'manage_tables.type_location' => 'Location (map pin)',
-'manage_tables.type_location_help' => 'Places must be chosen from the lookup so they can appear on this table's map. Please use a normal text column if you only need a written place name.',
+'manage_tables.type_location_help' => 'Places must be chosen from the lookup so they can appear on this table\'s map. Please use a normal text column if you only need a written place name.',
 'manage_tables.bool_yes_no' => 'Yes / No',
 'manage_tables.bool_true_false' => 'True / False',
 'manage_tables.bool_tick_cross' => 'Tick / Cross',
