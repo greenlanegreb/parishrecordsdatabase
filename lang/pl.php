@@ -22,6 +22,7 @@ return [
     'nav.login'                                   => 'Zaloguj się',
     'nav.logout'                                  => 'Wyloguj się',
     'nav.low_contrast'                            => 'Niski kontrast',
+    'nav.main_aria'                               => 'Główna',
     'nav.manage_tables'                           => 'Zarządzaj tabelami',
     'nav.manage_users'                            => 'Zarządzaj użytkownikami',
     'nav.moderation'                              => 'Moderacja',
@@ -29,6 +30,7 @@ return [
     'nav.search'                                  => 'Szukaj',
     'nav.select_language'                         => 'Wybierz język',
     'nav.settings'                                => 'Ustawienia systemu',
+    'nav.similar_records'                         => 'Podobne rekordy',
     'nav.toggle_navigation'                       => 'Przełącz nawigację',
     'nav.volunteer'                               => 'Zostań wolontariuszem',
     'nav.volunteer_dashboard'                     => 'Panel wolontariuszy',
@@ -37,6 +39,7 @@ return [
     // ------------------------------------------------------------------
     // 2. Public search (index)
     // ------------------------------------------------------------------
+    'index.date_from_label'                       => 'Od',
     'index.filter_aria'                           => 'Filtr wyszukiwania dla',
     'search.export_csv'                           => 'Eksportuj przefiltrowane wyniki do pliku CSV',
     'search.heading'                              => 'Wielokolumnowe wyszukiwanie złożone',
@@ -206,6 +209,10 @@ return [
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Dodaj nową kolumnę tabeli dla',
     'manage_tables.allow_multiple_label'          => 'Zezwól na więcej niż jedną opcję (wybór wielokrotny)',
+    'manage_tables.bool_male_female'              => 'Mężczyzna / Kobieta',
+    'manage_tables.bool_tick_cross'               => 'Ptaszek / Krzyżyk',
+    'manage_tables.bool_true_false'               => 'Prawda / Fałsz',
+    'manage_tables.bool_yes_no'                   => 'Tak / Nie',
     'manage_tables.choice_options_help'           => 'Przykład: Chrzest, Małżeństwo, Pogrzeb — każda w osobnej linii.',
     'manage_tables.choice_options_label'          => 'Opcje (jedna w linii)',
     'manage_tables.col_name_label'                => 'Nazwa kolumny:',
@@ -241,11 +248,28 @@ return [
     'manage_tables.th_display_format'             => 'Format wyświetlania',
     'manage_tables.th_public_search'              => 'Wyszukiwanie publiczne?',
     'manage_tables.type_choice'                   => 'Lista wyboru',
+    'manage_tables.type_location'                 => 'Lokalizacja (pin na mapie)',
+    'manage_tables.type_location_help'            => 'Miejsca muszą zostać wybrane z wyszukiwania, aby mogły pojawić się na mapie tej tabeli. Użyj zwykłej kolumny tekstowej, jeśli potrzebujesz tylko wpisanej nazwy miejsca.',
     'manage_tables.type_text_long'                => 'TEXT (Długi akapit)',
     'manage_tables.yes'                           => 'Tak',
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+    'map.apply_filters'                           => 'Zastosuj filtry',
+    'map.back_to_table'                           => 'Powrót do tabeli',
+    'map.canvas_aria'                             => 'Mapa rekordów',
+    'map.filters'                                 => 'Filtry',
+    'map.heading'                                 => 'Mapa',
+    'map.help'                                    => 'Przybliż, aby wczytać miejsca w widoku. Użyj filtrów, aby dopasować je do wyszukiwania w tabeli.',
+    'map.list_empty'                              => 'Brak miejsc w tym widoku.',
+    'map.list_heading'                            => 'Miejsca w tym widoku',
+    'map.list_show_more'                          => 'Pokaż więcej na liście (pozostało :n)',
+    'map.open_btn'                                => 'Mapa',
+    'map.skip_to_map'                             => 'Przejdź do mapy',
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Powrót do tworzenia użytkownika',
     'user_emails.currently_editing'               => 'Obecnie edytowany:',
@@ -259,7 +283,7 @@ return [
     'user_emails.subheading'                      => 'Dostosuj szablony wiadomości e-mail wysyłanych podczas zapraszania użytkowników lub wysyłania linków resetowania hasła.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Powrót do zgłoszeń wolontariuszy',
     'volunteer_emails.custom_tags_desc'           => 'Generowane automatycznie z pól kreatora formularza:',
@@ -267,7 +291,7 @@ return [
     'volunteer_emails.subheading'                 => 'Skonfiguruj automatyczne odpowiedzi e-mail dla wolontariuszy na różnych etapach przepływu pracy. Użyj nawiasów klamrowych dla wartości dynamicznych.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Dodaj nowe pole formularza wolontariusza',
     'volunteer_schema.back_to_dashboard'          => 'Powrót do zgłoszeń wolontariuszy',
@@ -281,7 +305,7 @@ return [
     'volunteer_schema.subheading'                 => 'Skonfiguruj pola niestandardowe, typy danych, podtypy, opcje oraz ogólne preferencje wyświetlania formularza.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'Zatwierdź',
     'moderate.approve_confirm'                    => 'Zatwierdzić i zastosować tę wartość?',
@@ -311,7 +335,7 @@ return [
     'moderate.th_table_record'                    => 'Tabela, rekord i kolumna',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Aktywne',
     'notices.add_new'                             => 'Dodaj nowe ogłoszenie',
@@ -350,8 +374,12 @@ return [
     'notices.yes'                                 => 'Tak',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'role.label_admin'                            => 'Administrator',
+    'role.label_guest'                            => 'Gość publiczny',
+    'role.label_moderator'                        => 'Moderator',
+    'role.label_user'                             => 'Użytkownik wprowadzający dane',
     'settings.add_notice_btn'                     => '+ Dodaj nowe powiadomienie',
     'settings.audit_heading'                      => 'Przeglądarka dziennika audytu systemu',
     'settings.audit_limit_note'                   => 'Wyświetlanie ostatnich 250 wpisów dziennika audytu.',
@@ -400,12 +428,33 @@ return [
     'settings.maintenance_heading'                => 'Tryb konserwacji systemu',
     'settings.maintenance_reason_label'           => 'Powód / Komunikat dla użytkowników:',
     'settings.maintenance_toggle'                 => 'Włącz tryb konserwacji (przełącz witrynę w tryb offline)',
+    'settings.map_geocode_api_key'                => 'Klucz API wyszukiwania miejsc',
+    'settings.map_geocode_api_key_help'           => 'Wymagany tylko dla LocationIQ lub OpenCage. Pozostaw puste, aby zachować istniejący klucz. Bez klucza używany jest darmowy Nominatim.',
+    'settings.map_geocode_locationiq'             => 'LocationIQ (wymagany klucz API)',
+    'settings.map_geocode_nominatim'              => 'Nominatim / OpenStreetMap (darmowy, z ograniczeniem liczby zapytań)',
+    'settings.map_geocode_opencage'               => 'OpenCage (wymagany klucz API)',
+    'settings.map_geocode_provider'               => 'Wyszukiwanie miejsc (geokodowanie)',
+    'settings.map_geocode_provider_help'          => 'Używane, gdy wprowadzanie danych wyszukuje nazwę miejsca. Wyniki są zapisywane w pamięci podręcznej tej witryny.',
+    'settings.map_key_placeholder'                => 'Wklej klucz, jeśli jest wymagany (pozostaw puste, aby zachować obecny)',
+    'settings.map_provider_heading'               => 'Konfiguracja dostawcy map',
+    'settings.map_provider_intro'                 => 'Opcjonalnie. Pozostaw te pola puste, aby korzystać z darmowych wbudowanych obrazów map (CARTO/OpenStreetMap) oraz darmowego wyszukiwania miejsc (Nominatim). Płatne klucze pozostają na Twoim serwerze i nie są udostępniane innym witrynom.',
+    'settings.map_tile_api_key'                   => 'Klucz API kafelków mapy',
+    'settings.map_tile_api_key_help'              => 'Wymagany tylko dla Mapbox lub Stadia. Pozostaw puste, aby zachować istniejący klucz.',
+    'settings.map_tile_custom'                    => 'Niestandardowy adres URL kafelków',
+    'settings.map_tile_default'                   => 'Domyślny darmowy (CARTO Voyager)',
+    'settings.map_tile_mapbox'                    => 'Mapbox (wymagany klucz API)',
+    'settings.map_tile_osm'                       => 'OpenStreetMap (darmowy)',
+    'settings.map_tile_provider'                  => 'Obrazy map (kafelki)',
+    'settings.map_tile_provider_help'             => 'Jeśli opcja płatna nie posiada klucza, pRD powraca do darmowej wartości domyślnej.',
+    'settings.map_tile_stadia'                    => 'Stadia Maps (wymagany klucz API)',
     'settings.migration_confirm'                  => 'Czy pobrano kopię zapasową bazy danych? Spowoduje to zastosowanie oczekujących aktualizacji schematu.',
     'settings.mod_feedback'                       => 'Przesyłanie opinii',
     'settings.mod_feedback_desc'                  => 'Włącza publiczny formularz opinii i odpowiedni panel administracyjny.',
     'settings.mod_leaderboard'                    => 'Tabela wyników i grywalizacja',
     'settings.mod_leaderboard_desc'               => 'Śledzi wkłady w transkrypcję i przyznaje punkty w skali gwiazdkowej.',
     'settings.mod_leaderboard_note'               => '(Wymaga zarządzania użytkownikami i dostępu wielo użytkownikowego)',
+    'settings.mod_maps'                           => 'Mapy',
+    'settings.mod_maps_desc'                      => 'Wyświetl mapę dla każdej tabeli, która posiada kolumnę lokalizacji.',
     'settings.mod_moderation'                     => 'Przepływ pracy moderacji',
     'settings.mod_moderation_desc'                => 'Włącza przegląd propozycji edycji i kolejkę moderacji.',
     'settings.mod_users'                          => 'Zarządzanie użytkownikami i dostęp wielo użytkownikowy',
@@ -471,10 +520,11 @@ return [
     'settings.update_db_btn'                      => 'Aktualizuj bazę danych',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Usuń',
     'admin_users.disabled'                        => 'Wyłączone',
+    'admin_users.email_for'                       => 'E-mail dla',
     'admin_users.enabled'                         => 'Włączone',
     'admin_users.find_user'                       => 'Znajdź użytkownika',
     'admin_users.heading'                         => 'Zarządzanie kontami użytkowników i moderacja tabeli wyników',
@@ -483,6 +533,7 @@ return [
     'admin_users.no'                              => 'Nie',
     'admin_users.no_search_match'                 => 'Brak użytkowników pasujących do wyszukiwania.',
     'admin_users.no_users'                        => 'Nie znaleziono użytkowników.',
+    'admin_users.points_for'                      => 'Punkty dla',
     'admin_users.protected_admin'                 => 'Chroniony administrator główny',
     'admin_users.reactivate_btn'                  => 'Aktywuj ponownie',
     'admin_users.resend_invite_btn'               => 'Wyślij zaproszenie ponownie',
@@ -512,7 +563,7 @@ return [
     'admin_users.yes'                             => 'Tak',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Administrator',
     'view_ticket.back_to_dashboard'               => 'Powrót do panelu zgłoszeń',
@@ -534,7 +585,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Status zgłoszenia:',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Zatwierdź i wyślij zaproszenie',
     'volunteer_dashboard.accept_title'            => 'Zatwierdź za pomocą systemu zaproszeń użytkowników',
@@ -564,7 +615,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Wolontariusz',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Zabronione: Widok publiczny nie jest włączony.',
     'api_search.error_unauthorized_table'         => 'Nieautoryzowany dostęp do tabeli.',
@@ -573,7 +624,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Zaproponuj edycję',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Znajdź',
     'admin_errors.file'                           => 'Plik',
@@ -602,7 +653,7 @@ return [
     'error_template.stack_trace'                  => 'Ślad stosu',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Adres e-mail:',
     'feedback.first_name_label'                   => 'Imię:',
@@ -615,7 +666,7 @@ return [
     'feedback.surname_label'                      => 'Nazwisko:',
 
     // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Opisz czynności, które pomogą zlokalizować problematyczne pliki',
     'gh.add_comment_below'                        => 'Dodaj swój komentarz poniżej i wyślij.',
@@ -706,7 +757,7 @@ return [
     'gh.type_translation'                         => '4. Zaproponuj tłumaczenie języka',
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Błąd bezpieczeństwa: Odmowa dostępu.',
     'security_engine.err_captcha_failed'          => 'Weryfikacja CAPTCHA nie powiodła się. Spróbuj ponownie.',
@@ -716,7 +767,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Błąd bezpieczeństwa: Podejrzana sygnatura klienta.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Potwierdź hasło administratora',
     'install.admin_email_label'                   => 'E-mail administratora',
@@ -770,10 +821,13 @@ return [
     'install.home_link'                           => 'Przejdź do witryny',
     'install.lang_label'                          => 'Język',
     'install.login_link'                          => 'Zaloguj się',
+    'install.mod_maps'                            => 'Mapy',
+    'install.mod_maps_desc'                       => 'Pola lokalizacji oraz mapa dla każdej tabeli. Możesz to zmienić później w sekcji Administrator → Ustawienia.',
     'install.msg_admin_created'                   => 'Utworzono konto administratora. Możesz dodać opcjonalne pakiety demonstracyjne lub pominąć ten krok.',
     'install.msg_db_ready'                        => 'Baza danych jest gotowa. Utwórz konto administratora, aby zakończyć.',
     'install.msg_install_removed'                 => 'Folder instalacyjny został usunięty. Możesz się teraz zalogować.',
     'install.msg_installation_complete'           => 'Instalacja zakończona.',
+    'install.msg_modules_saved'                   => 'Do ustalenia.',
     'install.msg_schema_imported'                 => 'Połączono z bazą danych i zaimportowano schemat. Utwórz swoje konto administratora.',
     'install.page_title'                          => 'Instalacja — Rejestr akt parafialnych',
     'install.remove_folder_btn'                   => 'Proszę usunąć folder instalacyjny!',
@@ -796,9 +850,8 @@ return [
     'install.subheading'                          => 'Upewnij się, że baza danych, której planujesz używać, jest pusta przed kontynuowaniem.',
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
-
     'demo.already_installed'                      => 'Ta demonstracja jest już zainstalowana',
     'demo.already_installed_hint'                 => 'Ten pakiet jest już zainstalowany, więc nie można go wybrać ponownie.',
     'demo.choose_packs'                           => 'Jakie pakiety chcesz?',
@@ -819,7 +872,7 @@ return [
     'demo.what_to_add'                            => 'Co dodać',
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Widok tabeli wyników',
     'leaderboard.default_role'                    => 'Użytkownik',
@@ -843,24 +896,25 @@ return [
     'leaderboard.you_badge'                       => '(Ty)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Rekordy parafialne skompilowane z historycznych źródeł należących do domeny publicznej.',
     'footer.rights_reserved'                      => 'Wszelkie prawa zastrzeżone.',
     'footer.software_notice'                      => 'Platforma oprogramowania open source na licencji MIT.',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Baza danych rekordów parafialnych',
+    'header.skip_to_content'                      => 'Przejdź do głównej treści',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Zamknij powiadomienie',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Podmiot:',
     'record_history.directory_table_label'        => 'Tabela katalogowa:',
@@ -880,9 +934,9 @@ return [
     'record_history.target_column'                => 'Kolumna docelowa:',
     'record_history.timeline_heading'             => 'Oś czasu zdarzeń i działań',
 
-    // ------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update Dialogue
-    // ------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
+    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // ----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Usuń awaryjny plik dostępu',
     'update_database.backup_notice'               => 'W miarę możliwości wykonaj kopię zapasową bazy danych przed przeprowadzeniem aktualizacji.',
     'update_database.confirm_prompt'              => 'Czy utworzono kopię zapasową bazy danych? Kliknij OK, aby zastosować oczekujące aktualizacje schematu.',
@@ -899,15 +953,16 @@ return [
     'update_database.update_btn'                  => 'Zaktualizuj bazę danych teraz',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Nieprawidłowe dane uwierzytelniające lub ograniczony dostęp do konta.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Utworzono rekord w tabeli o ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Wybierz jedną z dostępnych opcji dla %s.',
+    'save_data_entry.err_location'                => 'Wybierz miejsce z listy i dodaj tytuł oraz krótki tekst dla %s.',
     'save_data_entry.err_max'                     => '%s przekracza wartość maksymalną.',
     'save_data_entry.err_min'                     => '%s jest poniżej wartości minimalnej.',
     'save_data_entry.err_not_number'              => '%s musi być liczbą całkowitą.',
@@ -915,7 +970,7 @@ return [
     'save_data_entry.msg_success'                 => 'Pomyślnie dodano rekord!',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Nie udało się przesłać propozycji edycji. Spróbuj ponownie.',
     'save_public_suggestion.err_field_required'   => 'To pole jest wymagane i nie może być przesłane jako puste.',
@@ -925,7 +980,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Twoja propozycja edycji została pomyślnie przesłana do kolejki moderacji. Dziękujemy!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Aktywna tabela wprowadzania danych:',
     'data_entry.add_entry_summary'                => '➕ Dodaj nowy wpis danych (Kliknij, aby rozwinąć/zwinąć)',
@@ -947,16 +1002,21 @@ return [
     'data_entry.copy_filtered_btn'                => 'Skopiuj przefiltrowaną tabelę',
     'data_entry.csv_entire_btn'                   => 'Pobierz cały plik CSV',
     'data_entry.csv_filtered_btn'                 => 'Pobierz przefiltrowany plik CSV',
+    'data_entry.date_from_label'                  => 'Od',
     'data_entry.date_placeholder_dmy'             => 'DD/MM/RRRR (lub rok częściowy)',
     'data_entry.date_placeholder_mdy'             => 'MM/DD/RRRR (lub rok częściowy)',
     'data_entry.date_placeholder_ymd'             => 'RRRR-MM-DD (lub rok częściowy)',
     'data_entry.date_title_hint'                  => 'Akceptowane są daty pełne lub częściowe (np. 1842 lub 1842-05)',
-    'data_entry.date_to_label'                    => 'do',
+    'data_entry.date_to_label'                    => 'Do',
+    'data_entry.delete_record_btn'                => 'Usuń',
+    'data_entry.delete_record_confirm'            => 'Trwale usunąć ten rekord? Wartości, piny na mapie i powiązane z nim sugerowane dane zostaną usunięte. Tej operacji nie można cofnąć.',
     'data_entry.dup_confirm_btn'                  => 'Tak, potwierdź i zapisz duplikat',
     'data_entry.dup_desc'                         => 'Znaleziono podobne rekordy w systemie:',
     'data_entry.dup_heading'                      => '⚠️ Ostrzeżenie o możliwym duplikacie',
     'data_entry.dup_item_format'                  => 'ID rekordu: %d — Wartość: %s',
     'data_entry.dup_prompt'                       => 'Czy chcesz kontynuować i mimo wszystko zapisać ten zduplikowany rekord?',
+    'data_entry.edit_record_btn'                  => 'Edytuj',
+    'data_entry.edit_record_saved'                => 'Rekord został zaktualizowany.',
     'data_entry.enter_value_placeholder'          => 'Wprowadź wartość...',
     'data_entry.error_loading'                    => 'Błąd podczas ładowania rekordów',
     'data_entry.existing_records_heading'         => 'Tabela istniejących rekordów',
@@ -965,6 +1025,18 @@ return [
     'data_entry.go_manage_tables'                 => 'Przejdź do zarządzania tabelami',
     'data_entry.json_entire_btn'                  => 'Pobierz cały plik JSON',
     'data_entry.json_filtered_btn'                => 'Pobierz przefiltrowany plik JSON',
+    'data_entry.location_body'                    => 'Tekst wyskakującego okienka',
+    'data_entry.location_busy'                    => 'Wyszukiwanie miejsc jest zajęte. Spróbuj ponownie za minutę.',
+    'data_entry.location_color'                   => 'Kolor pina',
+    'data_entry.location_help'                    => 'Wyszukaj miejsce pod nazwą, pod jaką jest znane dzisiaj, wybierz pasujący wynik, a następnie możesz sformułować etykietę jako stary nazwa. Tytuł i krótki tekst są wymagane dla wyskakującego okienka mapy.',
+    'data_entry.location_label'                   => 'Nazwa do wyświetlenia (możesz użyć nazwy historycznej)',
+    'data_entry.location_none'                    => 'Brak pasującego miejsca. Spróbuj wpisać pobliskie miasto.',
+    'data_entry.location_results'                 => 'Czy chodziło Ci o',
+    'data_entry.location_search'                  => 'Znajdź miejsce',
+    'data_entry.location_search_btn'              => 'Szukaj',
+    'data_entry.location_show_on_map'             => 'Pokaż to miejsce na mapie',
+    'data_entry.location_show_on_map_help'        => 'Odznacz, aby zachować rekord w tabeli, ale ukryć pin (np. jeszcze nie otwarte).',
+    'data_entry.location_title'                   => 'Tytuł wyskakującego okienka',
     'data_entry.multiselect_hint'                 => 'Przytrzymaj klawisz Ctrl lub Cmd, aby zaznaczyć wiele.',
     'data_entry.na_value'                         => 'N/D',
     'data_entry.no_cols_desc'                     => 'W systemie znajdują się tabele, ale dla aktywnej tabeli nie zdefiniowano żadnych kolumn danych.',
@@ -973,15 +1045,17 @@ return [
     'data_entry.no_tables_desc'                   => 'Obecnie w systemie nie skonfigurowano żadnych aktywnych tabel bazy danych do wprowadzania danych.',
     'data_entry.no_tables_heading'                => '⚠️ Nie znaleziono tabel bazy danych',
     'data_entry.page_label'                       => 'Strona:',
+    'data_entry.record_deleted'                   => 'Rekord został usunięty.',
     'data_entry.reset_filter_btn'                 => 'Resetuj filtr',
     'data_entry.search_summary'                   => '🔍 Szukaj i filtruj istniejące rekordy (Kliknij, aby rozwinąć/zwinąć)',
     'data_entry.shortcuts_tip'                    => '💡 Wskazówka: Naciśnij <strong>Ctrl + Enter</strong>, aby wysłać, lub <strong>Esc</strong>, aby wyczyścić bieżące pole.',
     'data_entry.submit_data_btn'                  => 'Wyślij dane',
     'data_entry.th_added_by'                      => 'Dodane przez',
     'data_entry.th_date_created'                  => 'Data utworzenia',
+    'edit_record.heading'                         => 'Edytuj rekord',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Odzyskiwanie hasła',
     'forgot_password.back_login_link'             => 'Powrót do logowania',
@@ -991,9 +1065,11 @@ return [
     'forgot_password.submit_btn'                  => 'Wyślij link resetujący',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Logowanie użytkownika',
+    'login.err_password_required'                 => 'Wprowadź swoje hasło.',
+    'login.err_username_required'                 => 'Wprowadź swoją nazwę użytkownika.',
     'login.forgot_password_link'                  => 'Zapomniałeś hasła?',
     'login.heading'                               => 'Zaloguj się na konto',
     'login.password_label'                        => 'Hasło:',
@@ -1001,7 +1077,7 @@ return [
     'login.username_label'                        => 'Nazwa użytkownika lub e-mail:',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Wyświetla inicjały i losowy numer wszystkim.',
     'onboarding.attr_anon_title'                  => 'Anonimowy:',
@@ -1039,7 +1115,7 @@ return [
     'onboarding.timezone_label'                   => 'Strefa czasowa / Region:',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Nowy adres e-mail',
     'profile.aria_region'                         => 'Zarządzanie profilem użytkownika',
@@ -1074,7 +1150,7 @@ return [
     'profile.update_password_btn'                 => 'Aktualizuj hasło',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Rejestracja użytkownika',
     'register.email_label'                        => 'Adres e-mail',
@@ -1083,13 +1159,15 @@ return [
     'register.username_label'                     => 'Nazwa użytkownika:',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Ustaw hasło',
     'set_password.confirm_password_label'         => 'Potwierdź hasło:',
     'set_password.exit_expired_token'             => 'Ten link do hasła jest nieprawidłowy lub wygasł.',
     'set_password.exit_invalid_token'             => 'Token konfiguracji jest nieprawidłowy lub go brak.',
     'set_password.heading_format'                 => 'Ustaw hasło dla %s',
+    'set_password.msg_ready'                      => 'Hasło zostało pomyślnie skonfigurowane! Możesz się teraz zalogować.',
+    'set_password.msg_ready_onboarding'           => 'Hasło zostało zapisane. Zaloguj się — zostaniesz poprowadzony przez krótką konfigurację.',
     'set_password.new_password_label'             => 'Nowe hasło (min. 8 znaków):',
     'set_password.proceed_login_btn'              => 'Przejdź do strony logowania',
     'set_password.save_password_btn'              => 'Zapisz hasło',
@@ -1097,7 +1175,7 @@ return [
     'set_password.subheading_format'              => 'Witaj na swoim nowym koncie, %s! Wybierz swoje hasło poniżej.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-cyfrowy kod weryfikacyjny',
     'setup_2fa.aria_region'                       => 'Kreator konfiguracji 2FA',
@@ -1113,7 +1191,7 @@ return [
     'setup_2fa.submit_btn'                        => 'Zweryfikuj i włącz 2FA',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Zaproponuj edycję',
     'suggest_edit.confirm_prompt'                 => 'Czy na pewno chcesz przesłać tę propozycję edycji do zatwierdzenia przez administratora?',
@@ -1132,7 +1210,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Możesz przesłać kolejną edycję poniżej lub skorzystać z powyższego linku powrotu po zakończeniu.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Wprowadź kod weryfikacyjny lub kod bezpieczeństwa',
     'verify_2fa.aria_region'                      => 'Weryfikacja 2FA',
@@ -1142,7 +1220,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Zweryfikuj i zaloguj się',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Status weryfikacji e-mail',
     'verify_email.err_expired_token'              => 'Ten link weryfikacyjny wygasł (przekroczono limit 24 godzin). Zarejestruj się ponownie lub poproś o nowy link.',
@@ -1155,7 +1233,7 @@ return [
     'verify_email.msg_success'                    => 'Adres e-mail został pomyślnie zweryfikowany! Twoje konto jest teraz aktywne. Przejdź do logowania.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Przydziel mi unikalną nazwę użytkownika',
     'index.check_availability'                    => 'Sprawdź dostępność',

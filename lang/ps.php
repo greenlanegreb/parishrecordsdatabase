@@ -22,6 +22,7 @@ return [
     'nav.login'                                   => 'ننوتل',
     'nav.logout'                                  => 'وتل',
     'nav.low_contrast'                            => 'ټیټ توپیر',
+    'nav.main_aria'                               => 'اصلي',
     'nav.manage_tables'                           => 'د جدولونو مدیریت',
     'nav.manage_users'                            => 'د کاروونکو مدیریت',
     'nav.moderation'                              => 'منظوري',
@@ -29,6 +30,7 @@ return [
     'nav.search'                                  => 'پلټنه',
     'nav.select_language'                         => 'ژبه وټاکئ',
     'nav.settings'                                => 'د سیستم تنظیمات',
+    'nav.similar_records'                         => 'ورته ثبتونه',
     'nav.toggle_navigation'                       => 'د تګ راتګ بدلول',
     'nav.volunteer'                               => 'رضاکار کېدل',
     'nav.volunteer_dashboard'                     => 'د رضاکارانو ډشبورډ',
@@ -37,6 +39,7 @@ return [
     // ------------------------------------------------------------------
     // 2. Public search (index)
     // ------------------------------------------------------------------
+    'index.date_from_label'                       => 'له',
     'index.filter_aria'                           => 'د لټون فلټر د دې لپاره',
     'search.export_csv'                           => 'فلټر شوي پایلې د CSV په بڼه راښکته کول',
     'search.heading'                              => 'د څو ستنو ګډه پلټنه',
@@ -206,6 +209,10 @@ return [
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ د دې لپاره نوې ستون اضافه کول:',
     'manage_tables.allow_multiple_label'          => 'د یو څخه د زیاتو انتخابونو اجازه ورکول (ګڼ انتخاب)',
+    'manage_tables.bool_male_female'              => 'نارينه / ښځینه',
+    'manage_tables.bool_tick_cross'               => 'ټک / کراس',
+    'manage_tables.bool_true_false'               => 'صحيح / غلط',
+    'manage_tables.bool_yes_no'                   => 'هو / نه',
     'manage_tables.choice_options_help'           => 'بیلګه: تعمید، نکاح، ښخونه — هر یو په خپله جلا کرښه کې.',
     'manage_tables.choice_options_label'          => 'انتخابونه (هر یو په یوه کرښه کې)',
     'manage_tables.col_name_label'                => 'د ستنې نوم:',
@@ -241,11 +248,28 @@ return [
     'manage_tables.th_display_format'             => 'د ښودلو بڼه',
     'manage_tables.th_public_search'              => 'عامه پلټنه؟',
     'manage_tables.type_choice'                   => 'د انتخابونو لړۍ',
+    'manage_tables.type_location'                 => 'ځای (د نقشې پین)',
+    'manage_tables.type_location_help'            => 'ځایونه باید د لټون له لیست څخه وټاکل شي ترڅو وکولی شي د دې جدول په نقشه کې څرګند شي. مهرباني وکړئ یو عادي متن کالم وکاروئ که تاسو یوازې د لیکل شوي ځای نوم ته اړتیا لرئ.',
     'manage_tables.type_text_long'                => 'TEXT (اوږد پارګراف)',
     'manage_tables.yes'                           => 'هو',
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+    'map.apply_filters'                           => 'فلټرونه تطبیقول',
+    'map.back_to_table'                           => 'جدول ته بېرته ستنېدل',
+    'map.canvas_aria'                             => 'د ثبتونو نقشه',
+    'map.filters'                                 => 'فلټرونه',
+    'map.heading'                                 => 'نقشه',
+    'map.help'                                    => 'په لید کې د ځایونو د بارولو لپاره زوم وکړئ. د جدول لټون سره د سمون لپاره فلټرونه وکاروئ.',
+    'map.list_empty'                              => 'پدې لید کې هېڅ ځای نشته.',
+    'map.list_heading'                            => 'پدې لید کې ځایونه',
+    'map.list_show_more'                          => 'په لیست کې نور ښودل (:n پاتې دي)',
+    'map.open_btn'                                => 'نقشه',
+    'map.skip_to_map'                             => 'نقشې ته تېرېدل',
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'د کاروونکي جوړولو ته بېرته ستنېدل',
     'user_emails.currently_editing'               => 'اوس مهال سمول:',
@@ -259,7 +283,7 @@ return [
     'user_emails.subheading'                      => 'هغه برېښنالیکونه تنظیم کړئ چې د کاروونکو د بللو یا د پټنوم د بیا تنظیمولو پر مهال لېږل کیږي.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'د رضاکارانو د غوښتنو ډشبورډ ته بېرته ستنېدل',
     'volunteer_emails.custom_tags_desc'           => 'د فورمې د جوړوونکي لخوا په اتوماتيک ډول جوړیږي:',
@@ -267,7 +291,7 @@ return [
     'volunteer_emails.subheading'                 => 'هغه اتوماتیک برېښنالیکونه تنظیم کړئ چې رضاکارانو ته په بېلابېلو پړاوونو کې لېږل کیږي.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ د رضاکارانو فورمې ته نوې برخه اضافه کول',
     'volunteer_schema.back_to_dashboard'          => 'د رضاکارانو د غوښتنو ډشبورډ ته بېرته ستنېدل',
@@ -281,7 +305,7 @@ return [
     'volunteer_schema.subheading'                 => 'ځانګړي برخې، د ډاټا ډولونه، فرعي ډولونه، اختیارونه او د فورمې عام تنظیمات تنظیم کړئ.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'منل',
     'moderate.approve_confirm'                    => 'آیا دا ارزښت ومنئ او تطبیق یې کړئ؟',
@@ -311,7 +335,7 @@ return [
     'moderate.th_table_record'                    => 'جدول، ریکارډ او ستون',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'فعال',
     'notices.add_new'                             => 'نوې خبرتیا اضافه کول',
@@ -350,8 +374,12 @@ return [
     'notices.yes'                                 => 'هو',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'role.label_admin'                            => 'مدیر',
+    'role.label_guest'                            => 'عام لیدونکی',
+    'role.label_moderator'                        => 'مشر / ناظر',
+    'role.label_user'                             => 'د معلوماتو د دننه کولو کاروونکی',
     'settings.add_notice_btn'                     => '+ نوی خبرتیا اضافه کول',
     'settings.audit_heading'                      => 'د سیستم د پلټنې لاګ لټونگر',
     'settings.audit_limit_note'                   => 'وروستي 250 د پلټنې لاګونه ښودل کیږي.',
@@ -400,12 +428,33 @@ return [
     'settings.maintenance_heading'                => 'د سیستم د ساتنې حالت (Maintenance)',
     'settings.maintenance_reason_label'           => 'د کاروونکو لپاره لامل / پیغام:',
     'settings.maintenance_toggle'                 => 'د ساتنې حالت فعالول (وېبپاڼه له کرښې وباسئ / آفلاین)',
+    'settings.map_geocode_api_key'                => 'د ځای لټون د API کیلي',
+    'settings.map_geocode_api_key_help'           => 'یوازې د LocationIQ یا OpenCage لپاره اړینه ده. مهرباني وکړئ د موجوده کیلي د ساتلو لپاره یې خالي پرېږدئ. د کیلي پرته، وړیا Nominatim کارول کیږي.',
+    'settings.map_geocode_locationiq'             => 'LocationIQ (د API کیلي ته اړتیا ده)',
+    'settings.map_geocode_nominatim'              => 'Nominatim / OpenStreetMap (وړیا، د محدود نرخ سره)',
+    'settings.map_geocode_opencage'               => 'OpenCage (د API کیلي ته اړتیا ده)',
+    'settings.map_geocode_provider'               => 'د ځای لټون (جیوکوډینګ)',
+    'settings.map_geocode_provider_help'          => 'کله چې د معلوماتو دننه کول د ځای نوم لټوي کارول کیږي. پایلې پدې سایټ کې کیش کېږي.',
+    'settings.map_key_placeholder'                => 'مهرباني وکړئ د اړتیا په صورت کې کیلي پیسټ کړئ (د اوسني ساتلو لپاره یې خالي پرېږدئ)',
+    'settings.map_provider_heading'               => 'د نقشې چمتو کونکي تنظیمات',
+    'settings.map_provider_intro'                 => 'اختياري. مهرباني وکړئ دا خالي پرېږدئ ترڅو وړیا جوړ شوي نقشې انځورونه (CARTO/OpenStreetMap) او د ځای وړیا لټون (Nominatim) وکاروئ. تادیه شوي کیلي ستاسو په سرور کې پاتې کیږي او له نورو سایټونو سره نه شریکېږي.',
+    'settings.map_tile_api_key'                   => 'د نقشې ټایل د API کیلي',
+    'settings.map_tile_api_key_help'              => 'یوازې د Mapbox یا Stadia لپاره اړینه ده. د موجوده کیلي د ساتلو لپاره یې خالي پرېږدئ.',
+    'settings.map_tile_custom'                    => 'د ګمرکي ټایل URL',
+    'settings.map_tile_default'                   => 'وړیا ډیفالټ (CARTO Voyager)',
+    'settings.map_tile_mapbox'                    => 'Mapbox (د API کیلي ته اړتیا ده)',
+    'settings.map_tile_osm'                       => 'OpenStreetMap (وړیا)',
+    'settings.map_tile_provider'                  => 'د نقشې انځورونه (ټایلونه)',
+    'settings.map_tile_provider_help'             => 'که چیرې یو تادیه شوی اختیار کیلي ونه لري، pRD بېرته وړیا ډیفالټ ته ګرځي.',
+    'settings.map_tile_stadia'                    => 'Stadia Maps (د API کیلي ته اړتیا ده)',
     'settings.migration_confirm'                  => 'آیا تاسو د ډیټابیس بیک اپ راښکته کړی دی؟ دا به پاتې تازه معلومات پلي کړي.',
     'settings.mod_feedback'                       => 'د نظرونو لېږل',
     'settings.mod_feedback_desc'                  => 'عامه نظرونو فورمه او اړوند مدیر ډشبورډ فعالول.',
     'settings.mod_leaderboard'                    => 'مخکښان او لوبوونکی سیستم (Gamification)',
     'settings.mod_leaderboard_desc'               => 'د نقل کولو هڅې پېژندل او د ستورو نمرې ورکول.',
     'settings.mod_leaderboard_note'               => '(د کاروونکو مدیریت او څو کاروونکي لاسرسي ته اړتیا لري)',
+    'settings.mod_maps'                           => 'نقشې',
+    'settings.mod_maps_desc'                      => 'د هر هغه جدول لپاره نقشه وښایاست چې د ځای کالم ولري.',
     'settings.mod_moderation'                     => 'د بیاکتنې بهیر (Moderation)',
     'settings.mod_moderation_desc'                => 'د بدلون وړاندیزونو بیاکتنه او د بیاکتنې صف فعالول.',
     'settings.mod_users'                          => 'د کاروونکو مدیریت او څو کاروونکي لاسرسی',
@@ -471,10 +520,11 @@ return [
     'settings.update_db_btn'                      => 'ډیټابیس تازه کول',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'ړنګول',
     'admin_users.disabled'                        => 'غیر فعال شوی',
+    'admin_users.email_for'                       => 'برېښلیک د دې لپاره:',
     'admin_users.enabled'                         => 'فعال شوی',
     'admin_users.find_user'                       => 'کاروونکی موندل',
     'admin_users.heading'                         => 'د کاروونکو اکاونټونو مدیریت او د مخکښانو بیاکتنه',
@@ -483,6 +533,7 @@ return [
     'admin_users.no'                              => 'نه',
     'admin_users.no_search_match'                 => 'هیڅ کاروونکی له دې لټون سره سمون نه خوري.',
     'admin_users.no_users'                        => 'هېڅ کاروونکی ونه موندل شو.',
+    'admin_users.points_for'                      => 'نمرې د دې لپاره:',
     'admin_users.protected_admin'                 => 'ساتل شوی اصلي ایډمن',
     'admin_users.reactivate_btn'                  => 'بیا فعالول',
     'admin_users.resend_invite_btn'               => 'بلنه بیا لېږل',
@@ -512,7 +563,7 @@ return [
     'admin_users.yes'                             => 'هو',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'مدیر',
     'view_ticket.back_to_dashboard'               => 'د ټکټونو ډشبورډ ته بېرته ستنېدل',
@@ -534,7 +585,7 @@ return [
     'view_ticket.ticket_status_label'             => 'د ټکټ حالت:',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'منل او بلنه لېږل',
     'volunteer_dashboard.accept_title'            => 'د کاروونکي د بلنې له لارې منل',
@@ -564,7 +615,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'رضاکار',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 منع دی: عامه لیدنه فعاله نه ده.',
     'api_search.error_unauthorized_table'         => 'جدول ته د لاسرسي اجازه نشته.',
@@ -573,7 +624,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'د سمون وړاندیز',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'موندل',
     'admin_errors.file'                           => 'فایل',
@@ -602,7 +653,7 @@ return [
     'error_template.stack_trace'                  => 'د سټیک تعقیب',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'برېښنالیک پته:',
     'feedback.first_name_label'                   => 'نوم:',
@@ -615,7 +666,7 @@ return [
     'feedback.surname_label'                      => 'تخلص:',
 
     // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'د ناسم فایلونو په موندلو کې د مرستې لپاره کړنې تشریح کړئ',
     'gh.add_comment_below'                        => 'خپل نظر لاندې اضافه کړئ او وسپارئ.',
@@ -706,7 +757,7 @@ return [
     'gh.type_translation'                         => '۴. د ژبې د ژباړې وړاندیز',
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'د امنیت تېروتنه: لاسرسی رد شو.',
     'security_engine.err_captcha_failed'          => 'د CAPTCHA تایید ناکام شو، مهرباني وکړئ بیا هڅه وکړئ.',
@@ -716,7 +767,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'د امنیت تېروتنه: مشکوک لاسرسي نښه.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'د مدیر پټنوم تایید',
     'install.admin_email_label'                   => 'د مدیر برېښنالیک',
@@ -770,10 +821,13 @@ return [
     'install.home_link'                           => 'وېبپاڼې ته تلل',
     'install.lang_label'                          => 'ژبه',
     'install.login_link'                          => 'ننوتل',
+    'install.mod_maps'                            => 'نقشې',
+    'install.mod_maps_desc'                       => 'د ځای ساحې او په هر جدول کې یوه نقشه. تاسو کولی شئ دا وروسته د مدیر ← تنظیماتو لاندې بدل کړئ.',
     'install.msg_admin_created'                   => 'د مدیر یو حساب جوړ شو. تاسو کولی شئ اختیاري ډیمو کڅوړې اضافه کړئ، یا تېر شئ.',
     'install.msg_db_ready'                        => 'ډیټابیس چمتو دی. د نصب بشپړولو لپاره خپل د مدیر اکاونټ جوړ کړئ.',
     'install.msg_install_removed'                 => 'د لګولو پوښۍ لرې شوه. تاسو اوس کولی شئ ننوځئ.',
     'install.msg_installation_complete'           => 'نصب بشپړ شو.',
+    'install.msg_modules_saved'                   => 'وروسته به وټاکل شي.',
     'install.msg_schema_imported'                 => 'ډیټابیس وصل شو او جوړښت یې وارد شو. مهرباني وکړئ خپل د مدیر اکاونټ جوړ کړئ.',
     'install.page_title'                          => 'نصب — د کلیسا د ریکارډونو لارښود',
     'install.remove_folder_btn'                   => 'مهرباني وکړئ د لګولو پوښۍ لرې کړئ!',
@@ -796,7 +850,7 @@ return [
     'install.subheading'                          => 'مهرباني وکړئ د دوام ورکولو دمخه ډاډ ترلاسه کړئ چې هغه ډیټابیس چې تاسو یې کارول غواړئ خالي دی.',
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'دا ډیمو مخکې دمخه لګول شوې ده',
     'demo.already_installed_hint'                 => 'دا کڅوړه مخکې لګول شوې ده، نو بیا نه شي ټاکل کېدی.',
@@ -818,7 +872,7 @@ return [
     'demo.what_to_add'                            => 'څه شی اضافه شي',
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'د مخکښانو لید',
     'leaderboard.default_role'                    => 'کاروونکی',
@@ -842,24 +896,25 @@ return [
     'leaderboard.you_badge'                       => '(تاسو)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'د کلیسا ریکارډونه د عامه تاریخي سرچینو څخه راټول شوي دي.',
     'footer.rights_reserved'                      => 'ټول حقوق خوندي دي.',
     'footer.software_notice'                      => 'خلاصې سرچینې سافټویر، د MIT جواز لاندې خپور شوی.',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'د کلیسا د ریکارډونو ډیټابیس',
+    'header.skip_to_content'                      => 'اصلي منځپانګې ته تېرېدل',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'خبرتیا بندول',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'عمل کونکی:',
     'record_history.directory_table_label'        => 'د لارښود جدول:',
@@ -880,7 +935,7 @@ return [
     'record_history.timeline_heading'             => 'د پېښو او کړنو مهال ویش',
 
     // ------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'د اضطراري لاسرسي فایل لرې کول',
     'update_database.backup_notice'               => 'کله چې توان ولرئ، د تازه معلوماتو له چلولو دمخه د ډیټابیس بیک اپ واخلئ.',
@@ -898,15 +953,16 @@ return [
     'update_database.update_btn'                  => 'اوس ډیټابیس تازه کول',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'اسم یا پټنوم سم نه دی یا اکاونټ محدود شوی دی.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'په جدول کې د ID %d سره ریکارډ جوړ شو.',
     'save_data_entry.err_invalid_choice'          => 'مهرباني وکړئ د %s لپاره یو لړل لړ شوی انتخاب وټاکئ.',
+    'save_data_entry.err_location'                => 'د لیست څخه یو ځای وټاکئ او د %s لپاره سرلیک او لنډ متن اضافه کړئ.',
     'save_data_entry.err_max'                     => '%s د زیاتترلږه څخه پورته دی.',
     'save_data_entry.err_min'                     => '%s د لږترلږه څخه کم دی.',
     'save_data_entry.err_not_number'              => '%s باید یو بشپړ عدد وي.',
@@ -914,7 +970,7 @@ return [
     'save_data_entry.msg_success'                 => 'ریکارډ په بریا سره اضافه شو!',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ---------------------------------------------------               -------
     'save_public_suggestion.err_failed_submit'    => 'د سمون وړاندیز په لېږلو کې پاتې راتلل، مهرباني وکړئ بیا هڅه وکړئ.',
     'save_public_suggestion.err_field_required'   => 'دا برخه لازمي ده او نشي کولی خالي ولېږل شي.',
@@ -924,7 +980,7 @@ return [
     'save_public_suggestion.msg_success'          => 'ستاسو د سمون وړاندیز په بریا سره ولسول شو او د بیاکتنې صف ته واستول شو. مننه!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'د ډاټا داخلولو فعال جدول:',
     'data_entry.add_entry_summary'                => '➕ نوې ډاټا اضافه کول (د پراخولو/تړلو لپاره کلیک وکړئ)',
@@ -946,16 +1002,21 @@ return [
     'data_entry.copy_filtered_btn'                => 'فلټر شوی جدول کاپي کول',
     'data_entry.csv_entire_btn'                   => 'بشپړ CSV راښکته کول',
     'data_entry.csv_filtered_btn'                 => 'فلټر شوی CSV راښکته کول',
+    'data_entry.date_from_label'                  => 'له',
     'data_entry.date_placeholder_dmy'             => 'DD/MM/YYYY (یا ځینې کلونه)',
     'data_entry.date_placeholder_mdy'             => 'MM/DD/YYYY (یا ځینې کلونه)',
     'data_entry.date_placeholder_ymd'             => 'YYYY-MM-DD (یا ځینې کلونه)',
     'data_entry.date_title_hint'                  => 'بشپړې یا ځینې نېټې منل کیږي (لکه 1842 یا 1842-05)',
     'data_entry.date_to_label'                    => 'تر',
+    'data_entry.delete_record_btn'                => 'حذف کول',
+    'data_entry.delete_record_confirm'            => 'ایا دا ریکارډ په دایمي توګه حذف شي؟ ارزښتونه، د نقشې پینونه او اړوند وړاندیزونه به لرې شي. دا کار بېرته نه شي ګرځېدای.',
     'data_entry.dup_confirm_btn'                  => 'هو، تایید او خوندي یې کړئ',
     'data_entry.dup_desc'                         => 'موږ په سیستم کې ورته ریکارډ موندلی دی:',
     'data_entry.dup_heading'                      => '⚠️ د تکرار احتمال خبرداری',
     'data_entry.dup_item_format'                  => 'د ریکارډ ID: %d — ارزښت: %s',
     'data_entry.dup_prompt'                       => 'آیا غواړئ دا تکراري ریکارډ بیا هم خوندي کړئ؟',
+    'data_entry.edit_record_btn'                  => 'سمول',
+    'data_entry.edit_record_saved'                => 'ریکارډ تازه شو.',
     'data_entry.enter_value_placeholder'          => 'ارزښت ولیکئ...',
     'data_entry.error_loading'                    => 'د ریکارډونو په بارولو کې تېروتنه',
     'data_entry.existing_records_heading'         => 'د شته ریکارډونو جدول',
@@ -964,6 +1025,18 @@ return [
     'data_entry.go_manage_tables'                 => 'د جدولونو مدیریت ته تلل',
     'data_entry.json_entire_btn'                  => 'بشپړ JSON راښکته کول',
     'data_entry.json_filtered_btn'                => 'فلټر شوی JSON راښکته کول',
+    'data_entry.location_body'                    => 'د پاپ اپ متن',
+    'data_entry.location_busy'                    => 'د ځای لټون بوخت دی. په یوه دقیقه کې بیا هڅه وکړئ.',
+    'data_entry.location_color'                   => 'د پین رنګ',
+    'data_entry.location_help'                    => 'هغه ځای لټوئ لکه څنګه چې نن ورځ پېژندل کیږي، یو ورته والی وټاکئ، بیا تاسو کولی شئ نښه د پخواني نوم په توګه ولیکئ. سرلیک او لنډ متن د نقشې پاپ اپ لپاره اړین دي.',
+    'data_entry.location_label'                   => 'د ښودلو نوم (تاسو کولی شئ تاریخي نوم وکاروئ)',
+    'data_entry.location_none'                    => 'هېڅ ورته ځای ونه موندل شو. نږدې ښار و ازمویئ.',
+    'data_entry.location_results'                 => 'ایا ستاسو موخه دا وه',
+    'data_entry.location_search'                  => 'ځای موندل',
+    'data_entry.location_search_btn'              => 'لټون',
+    'data_entry.location_show_on_map'             => 'دا ځای پر نقشه ښودل',
+    'data_entry.location_show_on_map_help'        => 'په جدول کې د ریکارډ ساتلو لپاره ټیک لیرې کړئ مګر پین پټ کړئ (د بیلګې په توګه لاهم خلاص نه دی).',
+    'data_entry.location_title'                   => 'د پاپ اپ سرلیک',
     'data_entry.multiselect_hint'                 => 'د څو توکو د ټاکلو لپاره Ctrl یا Cmd کېکاږئ.',
     'data_entry.na_value'                         => 'نلري',
     'data_entry.no_cols_desc'                     => 'په سیستم کې جدولونه شتون لري، مګر د اوسني فعال جدول لپاره هېڅ ستون نه ده تعریف شوې.',
@@ -972,15 +1045,17 @@ return [
     'data_entry.no_tables_desc'                   => 'اوس مهال د ډاټا داخلولو لپاره هېڅ فعال جدول نه دی تنظیم شوی.',
     'data_entry.no_tables_heading'                => '⚠️ هېڅ ډیټابیس جدول ونه موندل شو',
     'data_entry.page_label'                       => 'پاڼه:',
+    'data_entry.record_deleted'                   => 'ریکارډ حذف شو.',
     'data_entry.reset_filter_btn'                 => 'فلټر بیا تنظیمول',
     'data_entry.search_summary'                   => '🔍 شته ریکارډونه ولټوئ او فلټر کړئ (د پرانیستلو/تړلو لپاره کلیک وکړئ)',
     'data_entry.shortcuts_tip'                    => '💡 لارښوونه: د لېږلو لپاره <strong>Ctrl + Enter</strong> او د پاکولو لپاره <strong>Esc</strong> کېکاږئ.',
     'data_entry.submit_data_btn'                  => 'ډاټا لېږل',
     'data_entry.th_added_by'                      => 'زیاتونکی',
     'data_entry.th_date_created'                  => 'د جوړولو نېټه',
+    'edit_record.heading'                         => 'ریکارډ سمول',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'د پټنوم بیا موندل',
     'forgot_password.back_login_link'             => 'د ننوتلو پاڼې ته بېرته ستنېدل',
@@ -990,9 +1065,11 @@ return [
     'forgot_password.submit_btn'                  => 'د بیا تنظیمولو لینک لېږل',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'کارن ننوتل',
+    'login.err_password_required'                 => 'مهرباني وکړئ خپله پټنوم دننه کړئ.',
+    'login.err_username_required'                 => 'مهرباني وکړئ خپل د کاروونکي نوم دننه کړئ.',
     'login.forgot_password_link'                  => 'پټنوم مو هېر شوی دی؟',
     'login.heading'                               => 'اکاونټ ته ننوتل',
     'login.password_label'                        => 'پټنوم:',
@@ -1000,7 +1077,7 @@ return [
     'login.username_label'                        => 'کارن نوم یا برېښنالیک:',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'ټولو ته لومړني توري او تصادفي شمېرې ښيي.',
     'onboarding.attr_anon_title'                  => 'نامعلوم:',
@@ -1038,7 +1115,7 @@ return [
     'onboarding.timezone_label'                   => 'د وخت زون / سیمه:',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'نوی برېښنالیک',
     'profile.aria_region'                         => 'د کاروونکي پروفایل مدیریت',
@@ -1073,7 +1150,7 @@ return [
     'profile.update_password_btn'                 => 'پټنوم تازه کول',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'کاروونکي نوملیکنه',
     'register.email_label'                        => 'د برېښنالیک پته',
@@ -1082,13 +1159,15 @@ return [
     'register.username_label'                     => 'کارن نوم:',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'پټنوم ټاکل',
     'set_password.confirm_password_label'         => 'پټنوم تایید کړئ:',
     'set_password.exit_expired_token'             => 'دا د پټنوم لینک ناسم دی یا یې وخت پای ته رسېدلی دی.',
     'set_password.exit_invalid_token'             => 'د تنظیمولو نښه (Token) سمه نه ده یا له لاسه تللې ده.',
     'set_password.heading_format'                 => 'د %s لپاره پټنوم وټاکئ',
+    'set_password.msg_ready'                      => 'پټنوم په بریالیتوب سره تنظیم شو! تاسو اوس کولی شئ دننه شئ.',
+    'set_password.msg_ready_onboarding'           => 'پټنوم خوندي شو. مهرباني وکړئ دننه شئ — تاسو به د یو لنډ تنظیم له لارې لارښوونه وشئ.',
     'set_password.new_password_label'             => 'نوی پټنوم (لږترلږه 8 توري):',
     'set_password.proceed_login_btn'              => 'د ننوتلو پاڼې ته تلل',
     'set_password.save_password_btn'              => 'پټنوم خوندي کول',
@@ -1096,7 +1175,7 @@ return [
     'set_password.subheading_format'              => 'ښه راغلاست %s! مهرباني وکړئ لاندې خپل پټنوم وټاکئ.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6 شمېره د تایید کوډ',
     'setup_2fa.aria_region'                       => 'د 2FA تنظیمولو لارښود',
@@ -1112,7 +1191,7 @@ return [
     'setup_2fa.submit_btn'                        => 'تایید او د 2FA فعالول',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'د سمون وړاندیز',
     'suggest_edit.confirm_prompt'                 => 'آیا غواړئ دا د سمون وړاندیز د مدیر د بیاکتنې لپاره ولېږئ؟',
@@ -1131,7 +1210,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'تاسو کولی شئ لاندې بل سمون ولېږئ، یا د پورتني لینک په واسطه بېرته لاړ شئ.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'د تایید یا امنیتي کوډ ولیکئ',
     'verify_2fa.aria_region'                      => 'د 2FA تایید',
@@ -1141,7 +1220,7 @@ return [
     'verify_2fa.submit_btn'                       => 'تایید او ننوتل',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'د برېښنالیک د تایید حالت',
     'verify_email.err_expired_token'              => 'د دې تایید لینک وخت پای ته رسېدلی دی (24 ساعته محدودیت). مهرباني وکړئ بیا نوملیکنه وکړئ یا نوی لینک وغواړئ.',
@@ -1154,7 +1233,7 @@ return [
     'verify_email.msg_success'                    => 'برېښنالیک په بریا سره تایید شو! ستاسو اکاونټ اوس فعال شو، تاسو کولی شئ ننوتل.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'زما لپاره یو ځانګړی د کاروونکي نوم وټاکئ',
     'index.check_availability'                    => 'شتون وپلټئ',

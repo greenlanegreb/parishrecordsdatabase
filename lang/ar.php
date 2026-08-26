@@ -22,6 +22,7 @@ return [
     'nav.login'                                   => 'تسجيل الدخول',
     'nav.logout'                                  => 'تسجيل الخروج',
     'nav.low_contrast'                            => 'تباين منخفض',
+    'nav.main_aria'                               => 'الرئيسية',
     'nav.manage_tables'                           => 'إدارة الجداول',
     'nav.manage_users'                            => 'إدارة المستخدمين',
     'nav.moderation'                              => 'الإشراف',
@@ -29,6 +30,7 @@ return [
     'nav.search'                                  => 'بحث',
     'nav.select_language'                         => 'اختر اللغة',
     'nav.settings'                                => 'إعدادات الموقع',
+    'nav.similar_records'                         => 'سجلات مشابهة',
     'nav.toggle_navigation'                       => 'تبديل التنقل',
     'nav.volunteer'                               => 'متطوع',
     'nav.volunteer_dashboard'                     => 'لوحة تحكم المتطوعين',
@@ -37,6 +39,7 @@ return [
     // ------------------------------------------------------------------
     // 2. Public search (index)
     // ------------------------------------------------------------------
+    'index.date_from_label'                       => 'من',
     'index.filter_aria'                           => 'فلتر البحث لـ',
     'search.export_csv'                           => 'تنزيل النتائج المفلترة كملف CSV',
     'search.heading'                              => 'مرشحات البحث متعددة الأعمدة',
@@ -206,6 +209,10 @@ return [
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ إضافة عمود جدول جديد لـ',
     'manage_tables.allow_multiple_label'          => 'السماح بأكثر من خيار (تحديد متعدد)',
+    'manage_tables.bool_male_female'              => 'ذكر / أنثى',
+    'manage_tables.bool_tick_cross'               => 'علامة صح / خطأ',
+    'manage_tables.bool_true_false'               => 'صحيح / خطأ',
+    'manage_tables.bool_yes_no'                   => 'نعم / لا',
     'manage_tables.choice_options_help'           => 'مثال: تعميد، زواج، دفن — كل منها في سطر مستقل.',
     'manage_tables.choice_options_label'          => 'الخيارات (خيار واحد في كل سطر)',
     'manage_tables.col_name_label'                => 'اسم العمود:',
@@ -241,13 +248,25 @@ return [
     'manage_tables.th_display_format'             => 'تنسيق العرض',
     'manage_tables.th_public_search'              => 'بحث عام؟',
     'manage_tables.type_choice'                   => 'قائمة الخيارات',
+    'manage_tables.type_location'                 => 'الموقع (دبوس الخريطة)',
+    'manage_tables.type_location_help'            => 'يجب اختيار الأماكن من القائمة المنسدلة لكي تظهر على خريطة هذا الجدول. يُرجى استخدام عمود نصي عادى إذا كنت بحاجة فقط إلى اسم مكان مكتوب.',
     'manage_tables.type_text_long'                => 'TEXT (فقرة طويلة)',
     'manage_tables.yes'                           => 'نعم',
 
     // ------------------------------------------------------------------
     // 11. Map Functionality Translations
     // ------------------------------------------------------------------
-
+    'map.apply_filters'                           => 'تطبيق عوامل التصفية',
+    'map.back_to_table'                           => 'العودة إلى الجدول',
+    'map.canvas_aria'                             => 'خريطة السجلات',
+    'map.filters'                                 => 'عوامل التصفية',
+    'map.heading'                                 => 'الخريطة',
+    'map.help'                                    => 'قم بالتكبير لتحميل الأماكن المعروضة. استخدم عوامل التصفية لتطابق بحث الجدول.',
+    'map.list_empty'                              => 'لا توجد أماكن في هذا العرض.',
+    'map.list_heading'                            => 'الأماكن في هذا العرض',
+    'map.list_show_more'                          => 'عرض المزيد في القائمة (متبقي :n)',
+    'map.open_btn'                                => 'الخريطة',
+    'map.skip_to_map'                             => 'الانتقال إلى الخريطة',
 
     // ------------------------------------------------------------------
     // 12. Admin: Manage User Notification Email Templates
@@ -357,6 +376,10 @@ return [
     // ------------------------------------------------------------------
     // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'role.label_admin'                            => 'مسؤول',
+    'role.label_guest'                            => 'زائر عام',
+    'role.label_moderator'                        => 'مشرف',
+    'role.label_user'                             => 'مستخدم إدخال بيانات',
     'settings.add_notice_btn'                     => '+ إضافة إشعار جديد',
     'settings.audit_heading'                      => 'مستكشف سجل تدقيق النظام',
     'settings.audit_limit_note'                   => 'عرض أحدث 250 إدخالاً في سجل التدقيق.',
@@ -405,12 +428,33 @@ return [
     'settings.maintenance_heading'                => 'وضع صيانة النظام',
     'settings.maintenance_reason_label'           => 'السبب / الرسالة للمستخدمين:',
     'settings.maintenance_toggle'                 => 'تمكين وضع الصيانة (وضع الموقع دون اتصال)',
+    'settings.map_geocode_api_key'                => 'مفتاح API للبحث عن الأماكن',
+    'settings.map_geocode_api_key_help'           => 'مطلوب فقط لـ LocationIQ أو OpenCage. يُرجى ترك الحقل فارغاً للاحتفاظ بالمفتاح الحالي. بدون مفتاح، يتم استخدام Nominatim المجاني.',
+    'settings.map_geocode_locationiq'             => 'LocationIQ (مطلوب مفتاح API)',
+    'settings.map_geocode_nominatim'              => 'Nominatim / OpenStreetMap (مجاني، محدد المعدل)',
+    'settings.map_geocode_opencage'               => 'OpenCage (مطلوب مفتاح API)',
+    'settings.map_geocode_provider'               => 'البحث عن الأماكن (تحديد الجغرافيا)',
+    'settings.map_geocode_provider_help'          => 'يُستخدم عندما يبحث إدخال البيانات عن اسم مكان. يتم تخزين النتائج مؤقتاً على هذا الموقع.',
+    'settings.map_key_placeholder'                => 'يرجى لصق المفتاح إذا لزم الأمر (اتركه فارغاً للاحتفاظ بالحالي)',
+    'settings.map_provider_heading'               => 'إعدادات مزود الخرائط',
+    'settings.map_provider_intro'                 => 'اختياري. يُرجى ترك هذه الحقول فارغة لاستخدام صور الخرائط المضمنة المجانية (CARTO/OpenStreetMap) والبحث المجاني عن الأماكن (Nominatim). المفاتيح المدفوعة تبقى على خادمك ولا تتم مشاركتها مع مواقع أخرى.',
+    'settings.map_tile_api_key'                   => 'مفتاح API لشرائح الخريطة',
+    'settings.map_tile_api_key_help'              => 'مطلوب فقط لـ Mapbox أو Stadia. اترك الحقل فارغاً للاحتفاظ بالمفتاح الحالي.',
+    'settings.map_tile_custom'                    => 'رابط شريحة مخصص',
+    'settings.map_tile_default'                   => 'الافتراضي المجاني (CARTO Voyager)',
+    'settings.map_tile_mapbox'                    => 'Mapbox (مطلوب مفتاح API)',
+    'settings.map_tile_osm'                       => 'OpenStreetMap (مجاني)',
+    'settings.map_tile_provider'                  => 'صور الخرائط (الشرائح)',
+    'settings.map_tile_provider_help'             => 'إذا لم يكن الخيار المدفوع يحتوي على مفتاح، فسيعود النظام تلقائياً إلى الافتراضي المجاني.',
+    'settings.map_tile_stadia'                    => 'Stadia Maps (مطلوب مفتاح API)',
     'settings.migration_confirm'                  => 'هل قمت بتنزيل نسخة احتياطية لقاعدة البيانات؟ سيؤدي هذا إلى تطبيق تحديثات المخطط المعلقة.',
     'settings.mod_feedback'                       => 'طلبات التعليقات',
     'settings.mod_feedback_desc'                  => 'يمكّن نموذج التعليقات العام وdashboard تتبع المشرفين.',
     'settings.mod_leaderboard'                    => 'لوحة المتصدرين والتلعيب',
     'settings.mod_leaderboard_desc'               => 'يعترف بجهود النسخ ونتائج النجوم.',
     'settings.mod_leaderboard_note'               => '(يتطلب إدارة المستخدمين والوصول المتعدد)',
+    'settings.mod_maps'                           => 'الخرائط',
+    'settings.mod_maps_desc'                      => 'عرض خريطة لكل جدول يحتوي على عمود موقع.',
     'settings.mod_moderation'                     => 'سير عمل الإشراف',
     'settings.mod_moderation_desc'                => 'يمكّن مراجعة مقترحات التعديل وقائمة انتظار الإشراف.',
     'settings.mod_users'                          => 'إدارة المستخدمين وإمكانية الوصول لعدة مستخدمين',
@@ -480,6 +524,7 @@ return [
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'حذف',
     'admin_users.disabled'                        => 'معطل',
+    'admin_users.email_for'                       => 'البريد الإلكتروني لـ',
     'admin_users.enabled'                         => 'مُمكّن',
     'admin_users.find_user'                       => 'البحث عن مستخدم',
     'admin_users.heading'                         => 'إدارة حسابات المستخدمين وإشراف لوحة المتصدرين',
@@ -488,6 +533,7 @@ return [
     'admin_users.no'                              => 'لا',
     'admin_users.no_search_match'                 => 'لا يوجد مستخدمون يطابقون هذا البحث.',
     'admin_users.no_users'                        => 'لم يتم العثور على مستخدمين.',
+    'admin_users.points_for'                      => 'النقاط لـ',
     'admin_users.protected_admin'                 => 'المسؤول الأساسي المحمي',
     'admin_users.reactivate_btn'                  => 'إعادة تفعيل',
     'admin_users.resend_invite_btn'               => 'إعادة إرسال الدعوة',
@@ -775,10 +821,13 @@ return [
     'install.home_link'                           => 'الانتقال إلى الموقع',
     'install.lang_label'                          => 'اللغة',
     'install.login_link'                          => 'تسجيل الدخول',
+    'install.mod_maps'                            => 'الخرائط',
+    'install.mod_maps_desc'                       => 'حقول الموقع وخريطة لكل جدول. يمكنك تغيير هذا لاحقاً ضمن المسؤول ← الإعدادات.',
     'install.msg_admin_created'                   => 'تم إنشاء حساب مدير. يمكنك إضافة حزم تجريبية اختيارية، أو التخطي.',
     'install.msg_db_ready'                        => 'قاعدة البيانات جاهزة. أنشئ حساب المشرف لإنهاء الإعداد.',
     'install.msg_install_removed'                 => 'تمت إزالة مجلد التثبيت. يمكنك الآن تسجيل الدخول.',
     'install.msg_installation_complete'           => 'اكتمل التثبيت.',
+    'install.msg_modules_saved'                   => 'قيد الانتظار.',
     'install.msg_schema_imported'                 => 'تم الاتصال بقاعدة البيانات واستيراد المخطط. أنشئ حساب المشرف الخاص بك.',
     'install.page_title'                          => 'التثبيت — دليل سجلات الرعية',
     'install.remove_folder_btn'                   => 'يرجى إزالة مجلد التثبيت!',
@@ -822,7 +871,6 @@ return [
     'demo.schema_only'                            => 'الجداول والأعمدة فقط (بدون صفوف عينة)',
     'demo.what_to_add'                            => 'ما الذي تريد إضافته',
 
-
     // ------------------------------------------------------------------
     // 28. Leaderboard
     // ------------------------------------------------------------------
@@ -858,6 +906,7 @@ return [
     // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'قاعدة بيانات سجلات الرعية',
+    'header.skip_to_content'                      => 'الانتقال إلى المحتوى الرئيسي',
 
     // ------------------------------------------------------------------
     // 31. Notices Banner Module
@@ -885,9 +934,9 @@ return [
     'record_history.target_column'                => 'العمود المستهدف:',
     'record_history.timeline_heading'             => 'دورة الحياة والجدول الزمني للنشاط',
 
-    // ------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
     // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
-    // ------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'إزالة ملف الوصول الطارئ',
     'update_database.backup_notice'               => 'قم بإنشاء نسخة احتياطية لقاعدة البيانات قبل تشغيل التحديثات متى استطعت.',
     'update_database.confirm_prompt'              => 'هل قمت بعمل نسخة احتياطية لقاعدة بياناتك؟ انقر فوق موافق لتطبيق تحديثات المخطط المعلقة.',
@@ -913,6 +962,7 @@ return [
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'أُنشئ إدخال سجل في جدول بمعرف %d.',
     'save_data_entry.err_invalid_choice'          => 'يرجى اختيار خيار مدرج لـ %s.',
+    'save_data_entry.err_location'                => 'اختر مكاناً من القائمة وأضف عنواناً ونصاً قصيراً لـ %s.',
     'save_data_entry.err_max'                     => '%s أعلى من الحد الأقصى.',
     'save_data_entry.err_min'                     => '%s أقل من الحد الأدنى.',
     'save_data_entry.err_not_number'              => 'يجب أن يكون %s رقماً صحيحاً.',
@@ -952,16 +1002,21 @@ return [
     'data_entry.copy_filtered_btn'                => 'نسخ الجدول المفلتر',
     'data_entry.csv_entire_btn'                   => 'تنزيل ملف CSV بالكامل',
     'data_entry.csv_filtered_btn'                 => 'تنزيل ملف CSV المفلتر',
+    'data_entry.date_from_label'                  => 'من',
     'data_entry.date_placeholder_dmy'             => 'DD/MM/YYYY (أو سنة جزئية)',
     'data_entry.date_placeholder_mdy'             => 'MM/DD/YYYY (أو سنة جزئية)',
     'data_entry.date_placeholder_ymd'             => 'YYYY-MM-DD (أو سنة جزئية)',
     'data_entry.date_title_hint'                  => 'يقبل تواريخ كاملة أو جزئية (مثل 1842 أو 1842-05)',
     'data_entry.date_to_label'                    => 'إلى',
+    'data_entry.delete_record_btn'                => 'حذف',
+    'data_entry.delete_record_confirm'            => 'هل تريد حذف هذا السجل نهائياً؟ سيتم إزالة القيم ودبابيس الخريطة والاقتراحات ذات الصلة به. لا يمكن التراجع عن هذا الإجراء.',
     'data_entry.dup_confirm_btn'                  => 'نعم، قم بالتأكيد وحفظ الإدخال المكرر',
     'data_entry.dup_desc'                         => 'وجدت إدخالات مطابقة موجودة بالفعل في النظام:',
     'data_entry.dup_heading'                      => '⚠️ تحذير وجود إدخال مكرر محتمل',
     'data_entry.dup_item_format'                  => 'معرف السجل: %d — القيمة: %s',
     'data_entry.dup_prompt'                       => 'هل لا تزال ترغب في المتابعة وحفظ هذا الإدخال المكرر؟',
+    'data_entry.edit_record_btn'                  => 'تعديل',
+    'data_entry.edit_record_saved'                => 'تم تحديث السجل.',
     'data_entry.enter_value_placeholder'          => 'أدخل القيمة...',
     'data_entry.error_loading'                    => 'خطأ في تحميل السجلات',
     'data_entry.existing_records_heading'         => 'جدول السجلات الحالية',
@@ -970,6 +1025,18 @@ return [
     'data_entry.go_manage_tables'                 => 'الانتقال إلى إدارة الجداول',
     'data_entry.json_entire_btn'                  => 'تنزيل ملف JSON بالكامل',
     'data_entry.json_filtered_btn'                => 'تنزيل ملف JSON المفلتر',
+    'data_entry.location_body'                    => 'نص النافذة المنبثقة',
+    'data_entry.location_busy'                    => 'البحث عن الأماكن مشغول حالياً. حاول مرة أخرى خلال دقيقة.',
+    'data_entry.location_color'                   => 'لون الدبوس',
+    'data_entry.location_help'                    => 'ابحث عن المكان كما يُعرف اليوم، واختر المطابق، ثم يمكنك صياغة التسمية كاسم قديم. العنوان والنص القصير مطلوبان لنافذة الخريطة المنبثقة.',
+    'data_entry.location_label'                   => 'الاسم المراد عرضه (يمكنك استخدام اسم تاريخي)',
+    'data_entry.location_none'                    => 'لا توجد أماكن مطابقة. جرب بلدة مجاورة.',
+    'data_entry.location_results'                 => 'هل تقصد',
+    'data_entry.location_search'                  => 'العثور على مكان',
+    'data_entry.location_search_btn'              => 'بحث',
+    'data_entry.location_show_on_map'             => 'إظهار هذا المكان على الخريطة',
+    'data_entry.location_show_on_map_help'        => 'إلغاء التحديد للاحتفاظ بالسجل في الجدول ولكن إخفاء الدبوس (مثل عدم فتحه بعد).',
+    'data_entry.location_title'                   => 'عنوان النافذة المنبثقة',
     'data_entry.multiselect_hint'                 => 'استمر في الضغط على مفتاح Ctrl (أو Cmd) لاختيار أكثر من خيار واحد.',
     'data_entry.na_value'                         => 'غير متاح',
     'data_entry.no_cols_desc'                     => 'الجداول موجودة في النظام، ولكن لم يتم تعريف أي أعمدة بيانات للجدول النشط.',
@@ -978,12 +1045,14 @@ return [
     'data_entry.no_tables_desc'                   => 'النظام لا يحتوي حالياً على أي جداول قاعدة بيانات نشطة مُكوّنة لإدخال البيانات.',
     'data_entry.no_tables_heading'                => '⚠️ لم يتم العثور على جداول في قاعدة البيانات',
     'data_entry.page_label'                       => 'الصفحة:',
+    'data_entry.record_deleted'                   => 'تم حذف السجل.',
     'data_entry.reset_filter_btn'                 => 'إعادة تعيين المرشح',
     'data_entry.search_summary'                   => '🔍 البحث وتصفية السجلات الحالية (انقر للتوسيع/الطي)',
     'data_entry.shortcuts_tip'                    => '💡 نصائح: اضغط على <strong>Ctrl + Enter</strong> للإرسال، أو <strong>Esc</strong> لمسح الحقل الحالي.',
     'data_entry.submit_data_btn'                  => 'إرسال البيانات',
     'data_entry.th_added_by'                      => 'أُضيف بواسطة',
     'data_entry.th_date_created'                  => 'تاريخ الإنشاء',
+    'edit_record.heading'                         => 'تعديل السجل',
 
     // ------------------------------------------------------------------
     // 38. Forgot Password
@@ -999,6 +1068,8 @@ return [
     // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'تسجيل دخول المستخدم',
+    'login.err_password_required'                 => 'الرجاء إدخال كلمة المرور الخاصة بك.',
+    'login.err_username_required'                 => 'الرجاء إدخال اسم المستخدم الخاص بك.',
     'login.forgot_password_link'                  => 'نسيت كلمة المرور؟',
     'login.heading'                               => 'تسجيل دخول المستخدم',
     'login.password_label'                        => 'كلمة المرور:',
@@ -1095,6 +1166,8 @@ return [
     'set_password.exit_expired_token'             => 'رابط إعداد كلمة المرور هذه غير صالح أو انتهت صلاحيته.',
     'set_password.exit_invalid_token'             => 'رمز إعداد غير صالح أو مفقود.',
     'set_password.heading_format'                 => 'يرجى تعيين كلمة المرور الخاصة بك لـ %s',
+    'set_password.msg_ready'                      => 'تم تكوين كلمة المرور بنجاح! يمكنك الآن تسجيل الدخول.',
+    'set_password.msg_ready_onboarding'           => 'تم حفظ كلمة المرور. يرجى تسجيل الدخول — سيتم إرشادك خلال إعداد سريع.',
     'set_password.new_password_label'             => 'كلمة المرور الجديدة (8 أحرف كحد أدنى):',
     'set_password.proceed_login_btn'              => 'الانتقال إلى تسجيل الدخول',
     'set_password.save_password_btn'              => 'حفظ كلمة المرور',

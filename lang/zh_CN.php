@@ -22,6 +22,7 @@ return [
     'nav.login'                                   => '登录',
     'nav.logout'                                  => '登出',
     'nav.low_contrast'                            => '低对比度',
+    'nav.main_aria'                               => '首页',
     'nav.manage_tables'                           => '数据表管理',
     'nav.manage_users'                            => '用户管理',
     'nav.moderation'                              => '内容审核',
@@ -29,6 +30,7 @@ return [
     'nav.search'                                  => '搜索',
     'nav.select_language'                         => '选择语言',
     'nav.settings'                                => '系统设置',
+    'nav.similar_records'                         => '相似记录',
     'nav.toggle_navigation'                       => '切换导航',
     'nav.volunteer'                               => '加入志愿者',
     'nav.volunteer_dashboard'                     => '志愿者面板',
@@ -37,6 +39,7 @@ return [
     // ------------------------------------------------------------------
     // 2. Public search (index)
     // ------------------------------------------------------------------
+    'index.date_from_label'                       => '从',
     'index.filter_aria'                           => '搜索筛选：',
     'search.export_csv'                           => '将筛选结果导出为 CSV',
     'search.heading'                              => '多列组合搜索',
@@ -206,6 +209,10 @@ return [
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ 为以下对象添加新表列：',
     'manage_tables.allow_multiple_label'          => '允许多个选项（多选）',
+    'manage_tables.bool_male_female'              => '男 / 女',
+    'manage_tables.bool_tick_cross'               => '勾 / 叉',
+    'manage_tables.bool_true_false'               => '真 / 假',
+    'manage_tables.bool_yes_no'                   => '是 / 否',
     'manage_tables.choice_options_help'           => '示例：洗礼、婚姻、安葬 — 每个选项独占一行。',
     'manage_tables.choice_options_label'          => '选项（每行一个）',
     'manage_tables.col_name_label'                => '列名：',
@@ -241,11 +248,28 @@ return [
     'manage_tables.th_display_format'             => '显示格式',
     'manage_tables.th_public_search'              => '公开搜索？',
     'manage_tables.type_choice'                   => '选项列表',
+    'manage_tables.type_location'                 => '位置（地图图钉）',
+    'manage_tables.type_location_help'            => '必须从下拉搜索中选择地点，以便它们能够显示在该表格的地图上。如果只需要一个纯文本的地点名称，请使用普通的文本列。',
     'manage_tables.type_text_long'                => 'TEXT (长段落)',
     'manage_tables.yes'                           => '是',
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+    'map.apply_filters'                           => '应用筛选器',
+    'map.back_to_table'                           => '返回表格',
+    'map.canvas_aria'                             => '记录地图',
+    'map.filters'                                 => '筛选器',
+    'map.heading'                                 => '地图',
+    'map.help'                                    => '缩放地图以加载当前视野内的地点。使用筛选器以匹配表格搜索。',
+    'map.list_empty'                              => '当前视野内没有地点。',
+    'map.list_heading'                            => '当前视野内的地点',
+    'map.list_show_more'                          => '在列表中显示更多（剩余 :n 个）',
+    'map.open_btn'                                => '地图',
+    'map.skip_to_map'                             => '跳转到地图',
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => '返回用户创建',
     'user_emails.currently_editing'               => '当前正在编辑：',
@@ -259,7 +283,7 @@ return [
     'user_emails.subheading'                      => '自定义在邀请用户或发送密码重置链接时发送的电子邮件布局。',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => '返回志愿者申请面板',
     'volunteer_emails.custom_tags_desc'           => '由您的表单构建器字段自动生成：',
@@ -267,7 +291,7 @@ return [
     'volunteer_emails.subheading'                 => '自定义在工作流的不同阶段发送给志愿者的自动邮件回复。使用大括号包裹动态占位符。',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ 添加新的志愿者表单字段',
     'volunteer_schema.back_to_dashboard'          => '返回志愿者申请面板',
@@ -281,7 +305,7 @@ return [
     'volunteer_schema.subheading'                 => '配置自定义字段、数据类型、子类型、选项和常规表单显示设置。',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => '批准',
     'moderate.approve_confirm'                    => '批准并应用此值？',
@@ -311,7 +335,7 @@ return [
     'moderate.th_table_record'                    => '表、记录与列',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => '启用',
     'notices.add_new'                             => '添加新公告',
@@ -350,8 +374,12 @@ return [
     'notices.yes'                                 => '是',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'role.label_admin'                            => '管理员',
+    'role.label_guest'                            => '公开访客',
+    'role.label_moderator'                        => '版主',
+    'role.label_user'                             => '数据录入用户',
     'settings.add_notice_btn'                     => '+ 添加新通知',
     'settings.audit_heading'                      => '系统审计日志浏览器',
     'settings.audit_limit_note'                   => '显示最近 250 条审计日志。',
@@ -400,12 +428,33 @@ return [
     'settings.maintenance_heading'                => '系统维护模式',
     'settings.maintenance_reason_label'           => '原因 / 给用户的信息：',
     'settings.maintenance_toggle'                 => '启用维护模式（使网站离线）',
+    'settings.map_geocode_api_key'                => '地点搜索 API 密钥',
+    'settings.map_geocode_api_key_help'           => '仅 LocationIQ 或 OpenCage 需要。请留空以保留现有密钥。如果没有密钥，将使用免费的 Nominatim。',
+    'settings.map_geocode_locationiq'             => 'LocationIQ（需要 API 密钥）',
+    'settings.map_geocode_nominatim'              => 'Nominatim / OpenStreetMap（免费，有频率限制）',
+    'settings.map_geocode_opencage'               => 'OpenCage（需要 API 密钥）',
+    'settings.map_geocode_provider'               => '地点搜索（地理编码）',
+    'settings.map_geocode_provider_help'          => '在数据录入期间查找地点名称时使用。结果将缓存在本网站上。',
+    'settings.map_key_placeholder'                => '如有必要请粘贴密钥（留空则保持当前不变）',
+    'settings.map_provider_heading'               => '地图提供商配置',
+    'settings.map_provider_intro'                 => '可选。请将这些字段留空，以使用免费的内置地图图像（CARTO/OpenStreetMap）和免费的地点搜索（Nominatim）。付费密钥将保留在您的服务器上，不会与其他网站共享。',
+    'settings.map_tile_api_key'                   => '地图瓦片 API 密钥',
+    'settings.map_tile_api_key_help'              => '仅 Mapbox 或 Stadia 需要。留空以保留现有密钥。',
+    'settings.map_tile_custom'                    => '自定义瓦片 URL',
+    'settings.map_tile_default'                   => '免费默认（CARTO Voyager）',
+    'settings.map_tile_mapbox'                    => 'Mapbox（需要 API 密钥）',
+    'settings.map_tile_osm'                       => 'OpenStreetMap（免费）',
+    'settings.map_tile_provider'                  => '地图图像（瓦片）',
+    'settings.map_tile_provider_help'             => '如果付费选项没有密钥，系统将自动回退到免费的默认选项。',
+    'settings.map_tile_stadia'                    => 'Stadia Maps（需要 API 密钥）',
     'settings.migration_confirm'                  => '您已经下载了数据库备份吗？这将会应用待处理的架构更新。',
     'settings.mod_feedback'                       => '反馈提交',
     'settings.mod_feedback_desc'                  => '启用公开反馈表单及对应的管理面板。',
     'settings.mod_leaderboard'                    => '排行榜与游戏化',
     'settings.mod_leaderboard_desc'               => '识别转录努力并提供星级积分。',
     'settings.mod_leaderboard_note'               => '(需要用户管理和多用户访问)',
+    'settings.mod_maps'                           => '地图',
+    'settings.mod_maps_desc'                      => '为带有位置列的每个表格显示一张地图。',
     'settings.mod_moderation'                     => '审核工作流',
     'settings.mod_moderation_desc'                => '启用编辑建议审查和审核队列。',
     'settings.mod_users'                          => '用户管理与多用户访问',
@@ -471,10 +520,11 @@ return [
     'settings.update_db_btn'                      => '更新数据库',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => '删除',
     'admin_users.disabled'                        => '已禁用',
+    'admin_users.email_for'                       => '电子邮件：',
     'admin_users.enabled'                         => '已启用',
     'admin_users.find_user'                       => '查找用户',
     'admin_users.heading'                         => '用户账号管理与排行榜审核',
@@ -483,6 +533,7 @@ return [
     'admin_users.no'                              => '否',
     'admin_users.no_search_match'                 => '没有找到符合该搜索的用户。',
     'admin_users.no_users'                        => '未找到任何用户。',
+    'admin_users.points_for'                      => '积分：',
     'admin_users.protected_admin'                 => '受保护的主管理员',
     'admin_users.reactivate_btn'                  => '重新激活',
     'admin_users.resend_invite_btn'               => '重新发送邀请',
@@ -512,7 +563,7 @@ return [
     'admin_users.yes'                             => '是',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => '管理员',
     'view_ticket.back_to_dashboard'               => '返回工单面板',
@@ -534,7 +585,7 @@ return [
     'view_ticket.ticket_status_label'             => '工单状态：',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => '接受并发送邀请',
     'volunteer_dashboard.accept_title'            => '通过用户邀请系统接受',
@@ -564,7 +615,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => '志愿者',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 禁止访问：公开查看未启用。',
     'api_search.error_unauthorized_table'         => '未经授权访问表。',
@@ -573,7 +624,7 @@ return [
     'api_search.suggest_edit_btn'                 => '建议修改',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => '查找',
     'admin_errors.file'                           => '文件',
@@ -602,7 +653,7 @@ return [
     'error_template.stack_trace'                  => '堆栈跟踪',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => '电子邮件地址：',
     'feedback.first_name_label'                   => '名：',
@@ -615,7 +666,7 @@ return [
     'feedback.surname_label'                      => '姓：',
 
     // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => '描述操作以帮助定位错误的文件',
     'gh.add_comment_below'                        => '在下方添加您的评论并提交。',
@@ -706,7 +757,7 @@ return [
     'gh.type_translation'                         => '4. 建议语言翻译',
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => '安全错误：拒绝访问。',
     'security_engine.err_captcha_failed'          => 'CAPTCHA 验证失败，请重试。',
@@ -716,7 +767,7 @@ return [
     'security_engine.err_suspicious_agent'        => '安全错误：可疑的客户端签名。',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => '确认管理员密码',
     'install.admin_email_label'                   => '管理员邮箱',
@@ -770,10 +821,13 @@ return [
     'install.home_link'                           => '前往网站',
     'install.lang_label'                          => '语言',
     'install.login_link'                          => '登录',
+    'install.mod_maps'                            => '地图',
+    'install.mod_maps_desc'                       => '每个表格的位置字段和地图。您稍后可以在“管理” → “设置”中更改此项。',
     'install.msg_admin_created'                   => '已创建管理员账户。您可以添加可选的演示包，或跳过此步骤。',
     'install.msg_db_ready'                        => '数据库已准备就绪。创建您的管理员账号以完成安装。',
     'install.msg_install_removed'                 => '安装文件夹已被删除。您现在可以登录了。',
     'install.msg_installation_complete'           => '安装已完成。',
+    'install.msg_modules_saved'                   => '待定。',
     'install.msg_schema_imported'                 => '数据库已连接且架构已导入。请创建您的管理员账号。',
     'install.page_title'                          => '安装 — 教区户籍记录目录',
     'install.remove_folder_btn'                   => '请删除安装文件夹！',
@@ -796,7 +850,7 @@ return [
     'install.subheading'                          => '在继续之前，请确保您计划使用的数据库为空。',
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => '此演示已安装',
     'demo.already_installed_hint'                 => '此包已安装，因此无法再次选择。',
@@ -818,7 +872,7 @@ return [
     'demo.what_to_add'                            => '要添加的内容',
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => '排行榜视图',
     'leaderboard.default_role'                    => '用户',
@@ -842,24 +896,25 @@ return [
     'leaderboard.you_badge'                       => '(您)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => '教区户籍记录汇编自公共领域的历史资料。',
     'footer.rights_reserved'                      => '保留所有权利。',
     'footer.software_notice'                      => '开源软件平台，基于 MIT 许可证发布。',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => '教区户籍记录数据库',
+    'header.skip_to_content'                      => '跳转到主要内容',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => '关闭通知',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => '操作者：',
     'record_history.directory_table_label'        => '目录表：',
@@ -880,7 +935,7 @@ return [
     'record_history.timeline_heading'             => '事件与活动时间轴',
 
     // ------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway and Settings Database Update
+    // 33. Standalone Update Database Gateway and Settings Database Update
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => '移除应急访问文件',
     'update_database.backup_notice'               => '条件允许时，请在运行更新前备份数据库。',
@@ -898,15 +953,16 @@ return [
     'update_database.update_btn'                  => '立即更新数据库',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => '凭据无效或账号访问受限。',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => '在 ID 为 %d 的表中创建了记录。',
     'save_data_entry.err_invalid_choice'          => '请为 %s 选择一个列出的选项。',
+    'save_data_entry.err_location'                => '请从列表中选择一个地点，并为 %s 添加标题和简短文本。',
     'save_data_entry.err_max'                     => '%s 高于最大值。',
     'save_data_entry.err_min'                     => '%s 低于最小值。',
     'save_data_entry.err_not_number'              => '%s 必须是一个整数。',
@@ -914,7 +970,7 @@ return [
     'save_data_entry.msg_success'                 => '记录添加成功！',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ---------------------------------------------------               -------
     'save_public_suggestion.err_failed_submit'    => '提交编辑建议失败，请重试。',
     'save_public_suggestion.err_field_required'   => '此字段为必填项，不能为空。',
@@ -924,7 +980,7 @@ return [
     'save_public_suggestion.msg_success'          => '您的编辑建议已成功提交，并已发送至审核队列等待审查。谢谢！',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => '活动数据录入表：',
     'data_entry.add_entry_summary'                => '➕ 添加新数据录入（点击展开/折叠）',
@@ -946,16 +1002,21 @@ return [
     'data_entry.copy_filtered_btn'                => '复制筛选后的表格',
     'data_entry.csv_entire_btn'                   => '下载完整 CSV',
     'data_entry.csv_filtered_btn'                 => '下载筛选后的 CSV',
+    'data_entry.date_from_label'                  => '从',
     'data_entry.date_placeholder_dmy'             => 'DD/MM/YYYY (或部分年份)',
     'data_entry.date_placeholder_mdy'             => 'MM/DD/YYYY (或部分年份)',
     'data_entry.date_placeholder_ymd'             => 'YYYY-MM-DD (或部分年份)',
     'data_entry.date_title_hint'                  => '接受完整或部分日期（例如 1842 或 1842-05）',
     'data_entry.date_to_label'                    => '至',
+    'data_entry.delete_record_btn'                => '删除',
+    'data_entry.delete_record_confirm'            => '要永久删除此记录吗？与其相关的值、地图图钉和相关建议都将被移除。此操作无法撤销。',
     'data_entry.dup_confirm_btn'                  => '是的，确认并保存重复项',
     'data_entry.dup_desc'                         => '我们在系统中找到了匹配的条目：',
     'data_entry.dup_heading'                      => '⚠️ 可能重复警告',
     'data_entry.dup_item_format'                  => '记录 ID: %d — 值: %s',
     'data_entry.dup_prompt'                       => '您是否仍要继续并保存此重复条目？',
+    'data_entry.edit_record_btn'                  => '编辑',
+    'data_entry.edit_record_saved'                => '记录已更新。',
     'data_entry.enter_value_placeholder'          => '输入值...',
     'data_entry.error_loading'                    => '加载记录时出错',
     'data_entry.existing_records_heading'         => '现有记录表',
@@ -964,6 +1025,18 @@ return [
     'data_entry.go_manage_tables'                 => '前往数据表管理',
     'data_entry.json_entire_btn'                  => '下载完整 JSON',
     'data_entry.json_filtered_btn'                => '下载筛选后的 JSON',
+    'data_entry.location_body'                    => '弹出窗口文本',
+    'data_entry.location_busy'                    => '地点搜索繁忙，请在一分钟后重试。',
+    'data_entry.location_color'                   => '图钉颜色',
+    'data_entry.location_help'                    => '搜索当今广为人知的地点，选择一个匹配项，然后您可以将标签写成旧名称。地图弹出窗口必须包含标题和简短文本。',
+    'data_entry.location_label'                   => '显示名称（您可以使用历史名称）',
+    'data_entry.location_none'                    => '没有找到匹配的地点。请尝试附近的城镇。',
+    'data_entry.location_results'                 => '您是指',
+    'data_entry.location_search'                  => '查找地点',
+    'data_entry.location_search_btn'              => '搜索',
+    'data_entry.location_show_on_map'             => '在地图上显示此地点',
+    'data_entry.location_show_on_map_help'        => '取消勾选可将记录保留在表格中，但隐藏图钉（例如：尚未开放）。',
+    'data_entry.location_title'                   => '弹出窗口标题',
     'data_entry.multiselect_hint'                 => '按住 Ctrl 或 Cmd 键进行多选。',
     'data_entry.na_value'                         => '不适用',
     'data_entry.no_cols_desc'                     => '系统中存在数据表，但当前活动表未定义任何数据列。',
@@ -972,15 +1045,17 @@ return [
     'data_entry.no_tables_desc'                   => '当前系统未配置任何用于数据录入的活动数据库表。',
     'data_entry.no_tables_heading'                => '⚠️ 未找到数据库表',
     'data_entry.page_label'                       => '页码：',
+    'data_entry.record_deleted'                   => '记录已删除。',
     'data_entry.reset_filter_btn'                 => '重置筛选',
     'data_entry.search_summary'                   => '🔍 搜索并筛选现有记录（点击展开/折叠）',
     'data_entry.shortcuts_tip'                    => '💡 提示：按 <strong>Ctrl + Enter</strong> 提交，或按 <strong>Esc</strong> 清空当前字段。',
     'data_entry.submit_data_btn'                  => '提交数据',
     'data_entry.th_added_by'                      => '添加者',
     'data_entry.th_date_created'                  => '创建日期',
+    'edit_record.heading'                         => '编辑记录',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => '密码找回',
     'forgot_password.back_login_link'             => '返回登录页面',
@@ -990,9 +1065,11 @@ return [
     'forgot_password.submit_btn'                  => '发送重置链接',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => '用户登录',
+    'login.err_password_required'                 => '请输入您的密码。',
+    'login.err_username_required'                 => '请输入您的用户名。',
     'login.forgot_password_link'                  => '忘记密码？',
     'login.heading'                               => '用户登录',
     'login.password_label'                        => '密码：',
@@ -1000,7 +1077,7 @@ return [
     'login.username_label'                        => '用户名或邮箱：',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => '向所有人显示首字母和随机编号。',
     'onboarding.attr_anon_title'                  => '匿名：',
@@ -1038,7 +1115,7 @@ return [
     'onboarding.timezone_label'                   => '时区 / 地区：',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => '新电子邮件地址',
     'profile.aria_region'                         => '用户个人资料管理',
@@ -1073,7 +1150,7 @@ return [
     'profile.update_password_btn'                 => '更新密码',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => '用户注册',
     'register.email_label'                        => '电子邮件地址',
@@ -1082,13 +1159,15 @@ return [
     'register.username_label'                     => '用户名：',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => '设置密码',
     'set_password.confirm_password_label'         => '确认密码：',
     'set_password.exit_expired_token'             => '此密码设置链接无效或已过期。',
     'set_password.exit_invalid_token'             => '设置令牌无效或丢失。',
     'set_password.heading_format'                 => '为 %s 设置密码',
+    'set_password.msg_ready'                      => '密码配置成功！您现在可以登录了。',
+    'set_password.msg_ready_onboarding'           => '密码已保存。请登录 — 系统将引导您完成快速设置。',
     'set_password.new_password_label'             => '新密码（最少 8 个字符）：',
     'set_password.proceed_login_btn'              => '前往登录页面',
     'set_password.save_password_btn'              => '保存密码',
@@ -1096,7 +1175,7 @@ return [
     'set_password.subheading_format'              => '欢迎来到您的新账号，%s！请在下方选择您的密码。',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6 位身份验证代码',
     'setup_2fa.aria_region'                       => '2FA 设置向导',
@@ -1112,7 +1191,7 @@ return [
     'setup_2fa.submit_btn'                        => '验证并启用 2FA',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => '建议编辑',
     'suggest_edit.confirm_prompt'                 => '您确定要提交此编辑建议以供管理员审查吗？',
@@ -1131,7 +1210,7 @@ return [
     'suggest_edit.success_msg_suffix'             => '您可以随时在下方提交其他编辑，或在完成后使用上方的返回链接。',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => '输入验证代码或安全代码',
     'verify_2fa.aria_region'                      => '2FA 验证',
@@ -1141,7 +1220,7 @@ return [
     'verify_2fa.submit_btn'                       => '验证并登录',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => '邮箱验证状态',
     'verify_email.err_expired_token'              => '此验证链接已过期（已超过 24 小时限制）。请重新注册或请求新链接。',
@@ -1154,7 +1233,7 @@ return [
     'verify_email.msg_success'                    => '邮箱验证成功！您的账号现已激活，您可以继续登录。',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => '为我分配一个唯一的用户名',
     'index.check_availability'                    => '检查可用性',

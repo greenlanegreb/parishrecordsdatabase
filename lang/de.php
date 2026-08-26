@@ -22,6 +22,7 @@ return [
     'nav.login'                                   => 'Anmelden',
     'nav.logout'                                  => 'Abmelden',
     'nav.low_contrast'                            => 'Geringer Kontrast',
+    'nav.main_aria'                               => 'Haupt',
     'nav.manage_tables'                           => 'Tabellen verwalten',
     'nav.manage_users'                            => 'Benutzer verwalten',
     'nav.moderation'                              => 'Moderation',
@@ -29,6 +30,7 @@ return [
     'nav.search'                                  => 'Suchen',
     'nav.select_language'                         => 'Sprache auswählen',
     'nav.settings'                                => 'Seiten-Einstellungen',
+    'nav.similar_records'                         => 'Ähnliche Datensätze',
     'nav.toggle_navigation'                       => 'Navigation umschalten',
     'nav.volunteer'                               => 'Mithelfen',
     'nav.volunteer_dashboard'                     => 'Helfer-Dashboard',
@@ -37,6 +39,7 @@ return [
     // ------------------------------------------------------------------
     // 2. Public search (index)
     // ------------------------------------------------------------------
+    'index.date_from_label'                       => 'Von',
     'index.filter_aria'                           => 'Suchfilter für',
     'search.export_csv'                           => 'Gefilterte Ergebnisse als CSV herunterladen',
     'search.heading'                              => 'Mehrspaltige Suchfilter',
@@ -206,6 +209,10 @@ return [
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Neue Tabellenspalte hinzufügen für',
     'manage_tables.allow_multiple_label'          => 'Mehr als eine Option zulassen (Mehrfachauswahl)',
+    'manage_tables.bool_male_female'              => 'Männlich / Weiblich',
+    'manage_tables.bool_tick_cross'               => 'Häkchen / Kreuz',
+    'manage_tables.bool_true_false'               => 'Wahr / Falsch',
+    'manage_tables.bool_yes_no'                   => 'Ja / Nein',
     'manage_tables.choice_options_help'           => 'Beispiel: Taufe, Heiratsurkunde, Bestattung — jeweils in einer eigenen Zeile.',
     'manage_tables.choice_options_label'          => 'Optionen (eine pro Zeile)',
     'manage_tables.col_name_label'                => 'Spaltenname:',
@@ -241,11 +248,29 @@ return [
     'manage_tables.th_display_format'             => 'Anzeigeformat',
     'manage_tables.th_public_search'              => 'Öffentliche Suche?',
     'manage_tables.type_choice'                   => 'Auswahlliste',
+    'manage_tables.type_location'                 => 'Standort (Kartenmarkierung)',
+    'manage_tables.type_location_help'            => 'Orte müssen aus der Auswahlliste ausgewählt werden, damit sie auf der Karte dieser Tabelle angezeigt werden können. Bitte verwenden Sie eine normale Textspalte, wenn Sie nur einen geschriebenen Ortsnamen benötigen.',
     'manage_tables.type_text_long'                => 'TEXT (Langer Absatz)',
     'manage_tables.yes'                           => 'Ja',
 
     // ------------------------------------------------------------------
-    // 11. Admin: Manage User Notification Email Templates
+    // 11. Map Functionality Translations
+    // ------------------------------------------------------------------
+
+    'map.apply_filters'                           => 'Filter anwenden',
+    'map.back_to_table'                           => 'Zurück zur Tabelle',
+    'map.canvas_aria'                             => 'Karte der Datensätze',
+    'map.filters'                                 => 'Filter',
+    'map.heading'                                 => 'Karte',
+    'map.help'                                    => 'Heranzoomen, um Orte in der Ansicht zu laden. Verwenden Sie die Filter, um die Tabellensuche abzugleichen.',
+    'map.list_empty'                              => 'Keine Orte in dieser Ansicht.',
+    'map.list_heading'                            => 'Orte in dieser Ansicht',
+    'map.list_show_more'                          => 'Mehr in Liste anzeigen (:n übrig)',
+    'map.open_btn'                                => 'Karte',
+    'map.skip_to_map'                             => 'Zur Karte springen',
+
+    // ------------------------------------------------------------------
+    // 12. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Zurück zur Benutzererstellung',
     'user_emails.currently_editing'               => 'Wird derzeit bearbeitet:',
@@ -259,7 +284,7 @@ return [
     'user_emails.subheading'                      => 'Passen Sie die E-Mail-Layouts an, die beim Einladen von Benutzern oder beim Senden von Links zum Zurücksetzen des Passworts versendet werden.',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage Volunteer Email Templates
+    // 13. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Zurück zu Helfer-Einreichungen',
     'volunteer_emails.custom_tags_desc'           => 'Automatisch aus Ihren Formular-Builder-Feldern generiert:',
@@ -267,7 +292,7 @@ return [
     'volunteer_emails.subheading'                 => 'Automatisierte E-Mail-Antworten an Helfer in verschiedenen Workflow-Phasen anpassen. Verwenden Sie geschweifte Klammern für dynamische Platzhalter.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Form Schema & Fields
+    // 14. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Neues Helferformularfeld hinzufügen',
     'volunteer_schema.back_to_dashboard'          => 'Zurück zu Helfer-Einreichungen',
@@ -281,7 +306,7 @@ return [
     'volunteer_schema.subheading'                 => 'Benutzerdefinierte Felder, Datentypen, Untertypen, Optionen und allgemeine Formularpräsentationseinstellungen konfigurieren.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Moderation Queue & Suggestions Review
+    // 15. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
     'moderate.approve_btn'                        => 'Genehmigen',
     'moderate.approve_confirm'                    => 'Diesen Wert genehmigen und anwenden?',
@@ -311,7 +336,7 @@ return [
     'moderate.th_table_record'                    => 'Tabelle, Datensatz & Spalte',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Notices & Announcements Manager
+    // 16. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Aktiv',
     'notices.add_new'                             => 'Neuen Hinweis hinzufügen',
@@ -350,8 +375,12 @@ return [
     'notices.yes'                                 => 'Ja',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Global Site Settings, Modules & Permissions
+    // 17. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'role.label_admin'                            => 'Administrator',
+    'role.label_guest'                            => 'Öffentlicher Besucher',
+    'role.label_moderator'                        => 'Moderator',
+    'role.label_user'                             => 'Dateneingabe-Benutzer',
     'settings.add_notice_btn'                     => '+ Neuen Hinweis hinzufügen',
     'settings.audit_heading'                      => 'System-Audit-Log-Explorer',
     'settings.audit_limit_note'                   => 'Zeigt die letzten 250 Audit-Log-Einträge an.',
@@ -400,12 +429,33 @@ return [
     'settings.maintenance_heading'                => 'System-Wartungsmodus',
     'settings.maintenance_reason_label'           => 'Grund / Nachricht für Benutzer:',
     'settings.maintenance_toggle'                 => 'Wartungsmodus aktivieren (Website offline nehmen)',
+    'settings.map_geocode_api_key'                => 'Ortssuche-API-Schlüssel',
+    'settings.map_geocode_api_key_help'           => 'Nur für LocationIQ oder OpenCage erforderlich. Bitte leer lassen, um einen bestehenden Schlüssel beizubehalten. Ohne Schlüssel wird das kostenlose Nominatim verwendet.',
+    'settings.map_geocode_locationiq'             => 'LocationIQ (API-Schlüssel erforderlich)',
+    'settings.map_geocode_nominatim'              => 'Nominatim / OpenStreetMap (kostenlos, ratenlimitiert)',
+    'settings.map_geocode_opencage'               => 'OpenCage (API-Schlüssel erforderlich)',
+    'settings.map_geocode_provider'               => 'Ortssuche (Geokodierung)',
+    'settings.map_geocode_provider_help'          => 'Wird verwendet, wenn bei der Dateneingabe ein Ortsname nachgeschlagen wird. Ergebnisse werden auf dieser Website zwischengespeichert.',
+    'settings.map_key_placeholder'                => 'Bitte Schlüssel einfügen, falls erforderlich (leer lassen, um aktuellen beizubehalten)',
+    'settings.map_provider_heading'               => 'Kartenanbieter-Konfiguration',
+    'settings.map_provider_intro'                 => 'Optional. Bitte lassen Sie diese Felder leer, um die kostenlosen integrierten Kartenbilder (CARTO/OpenStreetMap) und die kostenlose Ortssuche (Nominatim) zu verwenden. Bezahlte Schlüssel bleiben auf Ihrem Server und werden nicht mit anderen Websites geteilt.',
+    'settings.map_tile_api_key'                   => 'Kartenkachel-API-Schlüssel',
+    'settings.map_tile_api_key_help'              => 'Nur für Mapbox oder Stadia erforderlich. Leer lassen, um einen bestehenden Schlüssel beizubehalten.',
+    'settings.map_tile_custom'                    => 'Benutzerdefinierte Kachel-URL',
+    'settings.map_tile_default'                   => 'Standard kostenlos (CARTO Voyager)',
+    'settings.map_tile_mapbox'                    => 'Mapbox (API-Schlüssel erforderlich)',
+    'settings.map_tile_osm'                       => 'OpenStreetMap (kostenlos)',
+    'settings.map_tile_provider'                  => 'Kartenbilder (Kacheln)',
+    'settings.map_tile_provider_help'             => 'Wenn eine kostenpflichtige Option keinen Schlüssel hat, greift pRD auf den kostenlosen Standard zurück.',
+    'settings.map_tile_stadia'                    => 'Stadia Maps (API-Schlüssel erforderlich)',
     'settings.migration_confirm'                  => 'Haben Sie ein Datenbank-Backup heruntergeladen? Dadurch werden ausstehende Schemaupdates angewendet.',
     'settings.mod_feedback'                       => 'Feedback-Einreichungen',
     'settings.mod_feedback_desc'                  => 'Aktiviert das öffentliche Feedback-Formular und das Admin-Tracking-Dashboard.',
     'settings.mod_leaderboard'                    => 'Bestenliste & Gamification',
     'settings.mod_leaderboard_desc'               => 'Würdigt Transkriptionsbemühungen und Sternepunktzahlen.',
     'settings.mod_leaderboard_note'               => '(Erfordert Benutzerverwaltung & Multi-User-Zugriff)',
+    'settings.mod_maps'                           => 'Karten',
+    'settings.mod_maps_desc'                      => 'Eine Karte für jede Tabelle anzeigen, die eine Standortspalte hat.',
     'settings.mod_moderation'                     => 'Moderations-Workflow',
     'settings.mod_moderation_desc'                => 'Aktiviert die Überprüfung von Bearbeitungsvorschlägen und die Moderations-Warteschlange.',
     'settings.mod_users'                          => 'Benutzerverwaltung & Multi-User-Zugriff',
@@ -471,10 +521,11 @@ return [
     'settings.update_db_btn'                      => 'Datenbank aktualisieren',
 
     // ------------------------------------------------------------------
-    // 17. Admin: User Account Management & Leaderboard Moderation
+    // 18. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Löschen',
     'admin_users.disabled'                        => 'Deaktiviert',
+    'admin_users.email_for'                       => 'E-Mail für',
     'admin_users.enabled'                         => 'Aktiviert',
     'admin_users.find_user'                       => 'Benutzer finden',
     'admin_users.heading'                         => 'Benutzerkontenverwaltung & Bestenlisten-Moderation',
@@ -483,6 +534,7 @@ return [
     'admin_users.no'                              => 'Nein',
     'admin_users.no_search_match'                 => 'Keine Benutzer entsprechen dieser Suche.',
     'admin_users.no_users'                        => 'Keine Benutzer gefunden.',
+    'admin_users.points_for'                      => 'Punkte für',
     'admin_users.protected_admin'                 => 'Geschützter Primär-Admin',
     'admin_users.reactivate_btn'                  => 'Reaktivieren',
     'admin_users.resend_invite_btn'               => 'Einladung erneut senden',
@@ -512,7 +564,7 @@ return [
     'admin_users.yes'                             => 'Ja',
 
     // ------------------------------------------------------------------
-    // 18. Admin: View Ticket & Threaded Dialogue
+    // 19. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Admin',
     'view_ticket.back_to_dashboard'               => 'Zurück zum Ticket-Dashboard',
@@ -534,7 +586,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Ticket-Status:',
 
     // ------------------------------------------------------------------
-    // 19. Admin: Volunteer Submissions & Workflow Dashboard
+    // 20. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Annehmen & Einladen',
     'volunteer_dashboard.accept_title'            => 'In das Benutzer-Einladungssystem aufnehmen',
@@ -564,7 +616,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Helfer',
 
     // ------------------------------------------------------------------
-    // 20. API: AJAX Search & Filtering
+    // 21. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Verboten: Öffentliche Ansicht ist nicht aktiviert.',
     'api_search.error_unauthorized_table'         => 'Unberechtigter Tabellenzugriff.',
@@ -573,7 +625,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Bearbeitung vorschlagen',
 
     // ------------------------------------------------------------------
-    // 21. Errors & HTTP Templates
+    // 22. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Suchen',
     'admin_errors.file'                           => 'Datei',
@@ -602,7 +654,7 @@ return [
     'error_template.stack_trace'                  => 'Stack-Trace',
 
     // ------------------------------------------------------------------
-    // 22. Public: Ticket Intake & Feedback Portal
+    // 23. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'E-Mail-Adresse:',
     'feedback.first_name_label'                   => 'Vorname:',
@@ -615,7 +667,7 @@ return [
     'feedback.surname_label'                      => 'Nachname:',
 
     // ------------------------------------------------------------------
-    // 23. Centralised Feedback System (gh.*) ---
+    // 24. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Beschreiben Sie Aktionen, um das Auffinden der fehlerhaften Dateien zu erleichtern',
     'gh.add_comment_below'                        => 'Fügen Sie unten Ihren Kommentar hinzu und senden Sie ihn ab.',
@@ -706,7 +758,7 @@ return [
     'gh.type_translation'                         => '4. Sprachübersetzung vorschlagen',
 
     // ------------------------------------------------------------------
-    // 24. Security Engine & Firewall
+    // 25. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Sicherheitsprüfung fehlgeschlagen: Zugriff verweigert.',
     'security_engine.err_captcha_failed'          => 'CAPTCHA-Überprüfung fehlgeschlagen. Bitte versuchen Sie es erneut.',
@@ -716,7 +768,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Sicherheitsprüfung fehlgeschlagen: Verdächtige Clientsignatur.',
 
     // ------------------------------------------------------------------
-    // 25. Installer Wizard
+    // 26. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Admin-Passwort bestätigen',
     'install.admin_email_label'                   => 'Admin-E-Mail',
@@ -770,10 +822,13 @@ return [
     'install.home_link'                           => 'Zur Website',
     'install.lang_label'                          => 'Sprache',
     'install.login_link'                          => 'Anmelden',
+    'install.mod_maps'                            => 'Karten',
+    'install.mod_maps_desc'                       => 'Standortfelder und eine Karte pro Tabelle. Sie können dies später unter Admin → Einstellungen ändern.',
     'install.msg_admin_created'                   => 'Ein Administratorkonto wurde erstellt. Sie können optionale Demo-Pakete hinzufügen oder überspringen.',
     'install.msg_db_ready'                        => 'Datenbank ist bereit. Erstellen Sie Ihr Admin-Konto, um die Einrichtung abzuschließen.',
     'install.msg_install_removed'                 => 'Der Installationsordner wurde entfernt. Sie können sich jetzt anmelden.',
     'install.msg_installation_complete'           => 'Installation abgeschlossen.',
+    'install.msg_modules_saved'                   => 'Wird noch festgelegt.',
     'install.msg_schema_imported'                 => 'Datenbank verbunden und Schema importiert. Erstellen Sie Ihr Admin-Konto.',
     'install.page_title'                          => 'Installieren — Kirchenbuchverzeichnis',
     'install.remove_folder_btn'                   => 'Bitte entfernen Sie den Installationsordner!',
@@ -796,7 +851,7 @@ return [
     'install.subheading'                          => 'Bitte stellen Sie sicher, dass die Datenbank, die Sie verwenden möchten, vor dem Fortfahren leer ist.',
 
     // ------------------------------------------------------------------
-    // 26. Demo Packs
+    // 27. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Diese Demo ist bereits installiert',
     'demo.already_installed_hint'                 => 'Dieses Paket ist bereits installiert und kann daher nicht erneut ausgewählt werden.',
@@ -818,7 +873,7 @@ return [
     'demo.what_to_add'                            => 'Hinzuzufügende Elemente',
 
     // ------------------------------------------------------------------
-    // 27. Leaderboard
+    // 28. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Bestenlisten-Ansicht',
     'leaderboard.default_role'                    => 'Benutzer',
@@ -842,24 +897,25 @@ return [
     'leaderboard.you_badge'                       => '(Sie)',
 
     // ------------------------------------------------------------------
-    // 28. Site Footer
+    // 29. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Kirchenbucheinträge zusammengestellt aus gemeinfreien historischen Quellen.',
     'footer.rights_reserved'                      => 'Alle Rechte vorbehalten.',
     'footer.software_notice'                      => 'Software-Plattform Open-Source unter der MIT-Lizenz.',
 
     // ------------------------------------------------------------------
-    // 29. Site Header & Head
+    // 30. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Kirchenbuch-Datenbank',
+    'header.skip_to_content'                      => 'Zum Hauptinhalt springen',
 
     // ------------------------------------------------------------------
-    // 30. Notices Banner Module
+    // 31. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Hinweis schließen',
 
     // ------------------------------------------------------------------
-    // 31. Record History & Audit Trail
+    // 32. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Akteur:',
     'record_history.directory_table_label'        => 'Verzeichnistabelle:',
@@ -880,7 +936,7 @@ return [
     'record_history.timeline_heading'             => 'Lebenszyklus- & Aktivitäts-Timeline',
 
     // ------------------------------------------------------------------------
-    // 32. Standalone Update Database Gateway Settings Database Update Dialogue
+    // 33. Standalone Update Database Gateway Settings Database Update Dialogue
     // ------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Notfall-Zugriffsdatei entfernen',
     'update_database.backup_notice'               => 'Erstellen Sie nach Möglichkeit ein Datenbank-Backup, bevor Sie Updates ausführen.',
@@ -898,15 +954,16 @@ return [
     'update_database.update_btn'                  => 'Datenbank jetzt aktualisieren',
 
     // ------------------------------------------------------------------
-    // 33. User Authentication Action
+    // 34. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Ungültige Anmeldedaten oder eingeschränkter Kontozugriff.',
 
     // ------------------------------------------------------------------
-    // 34. Save Data Entry Action
+    // 35. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Datennatrag in Tabelle ID %d erstellt.',
     'save_data_entry.err_invalid_choice'          => 'Bitte wählen Sie eine gelistete Option für %s.',
+    'save_data_entry.err_location'                => 'Wählen Sie einen Ort aus der Liste aus und fügen Sie einen Titel und einen kurzen Text für %s hinzu.',
     'save_data_entry.err_max'                     => '%s überschreitet das Maximum.',
     'save_data_entry.err_min'                     => '%s liegt unter dem Minimum.',
     'save_data_entry.err_not_number'              => '%s muss eine ganze Zahl sein.',
@@ -914,7 +971,7 @@ return [
     'save_data_entry.msg_success'                 => 'Datensatz erfolgreich hinzugefügt!',
 
     // ------------------------------------------------------------------
-    // 35. Save Public Suggestion Action
+    // 36. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Fehler beim Einreichen des Bearbeitungsvorschlags. Bitte versuchen Sie es erneut.',
     'save_public_suggestion.err_field_required'   => 'Dieses Feld ist erforderlich und kann nicht leer eingereicht werden.',
@@ -924,7 +981,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Ihr Bearbeitungsvorschlag wurde erfolgreich eingereicht und zur Überprüfung an die Moderations-Warteschlange gesendet. Vielen Dank!',
 
     // ------------------------------------------------------------------
-    // 36. Data Entry Workstation
+    // 37. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Aktive Dateneingabetabelle:',
     'data_entry.add_entry_summary'                => '➕ Neue Dateneingabe hinzufügen (Zum Ein-/Ausklappen klicken)',
@@ -946,16 +1003,21 @@ return [
     'data_entry.copy_filtered_btn'                => 'Gefilterte Tabelle kopieren',
     'data_entry.csv_entire_btn'                   => 'Gesamte CSV herunterladen',
     'data_entry.csv_filtered_btn'                 => 'Gefilterte CSV herunterladen',
+    'data_entry.date_from_label'                  => 'Von',
     'data_entry.date_placeholder_dmy'             => 'DD/MM/YYYY (oder Teiljahr)',
     'data_entry.date_placeholder_mdy'             => 'MM/DD/YYYY (oder Teiljahr)',
     'data_entry.date_placeholder_ymd'             => 'YYYY-MM-DD (oder Teiljahr)',
     'data_entry.date_title_hint'                  => 'Akzeptiert vollständige oder teilweise Daten (z. B. 1842 oder 1842-05)',
-    'data_entry.date_to_label'                    => 'bis',
+    'data_entry.date_to_label'                    => 'Bis',
+    'data_entry.delete_record_btn'                => 'Löschen',
+    'data_entry.delete_record_confirm'            => 'Diesen Datensatz dauerhaft löschen? Werte, Kartenmarkierungen und zugehörige Vorschläge dafür werden entfernt. Dies kann nicht rückgängig gemacht werden.',
     'data_entry.dup_confirm_btn'                  => 'Ja, Duplikat bestätigen und speichern',
     'data_entry.dup_desc'                         => 'Wir haben bereits übereinstimmende Einträge im System gefunden:',
     'data_entry.dup_heading'                      => '⚠️ Warnung vor möglichem Duplikat',
     'data_entry.dup_item_format'                  => 'Datensatz-ID: %d — Wert: %s',
     'data_entry.dup_prompt'                       => 'Möchten Sie trotzdem fortfahren und diesen doppelten Eintrag speichern?',
+    'data_entry.edit_record_btn'                  => 'Bearbeiten',
+    'data_entry.edit_record_saved'                => 'Der Datensatz wurde aktualisiert.',
     'data_entry.enter_value_placeholder'          => 'Wert eingeben...',
     'data_entry.error_loading'                    => 'Fehler beim Laden der Datensätze',
     'data_entry.existing_records_heading'         => 'Tabelle der bestehenden Datensätze',
@@ -964,6 +1026,18 @@ return [
     'data_entry.go_manage_tables'                 => 'Zu Tabellen verwalten',
     'data_entry.json_entire_btn'                  => 'Gesamtes JSON herunterladen',
     'data_entry.json_filtered_btn'                => 'Gefiltertes JSON herunterladen',
+    'data_entry.location_body'                    => 'Popup-Text',
+    'data_entry.location_busy'                    => 'Ortssuche ist ausgelastet. Versuchen Sie es in einer Minute noch einmal.',
+    'data_entry.location_color'                   => 'Markierungsfarbe',
+    'data_entry.location_help'                    => 'Suchen Sie nach dem Ort, wie er heute bekannt ist, wählen Sie einen Treffer aus und formulieren Sie das Label dann als den alten Namen. Titel und kurzer Text sind für das Karten-Popup erforderlich.',
+    'data_entry.location_label'                   => 'Anzuzeigender Name (Sie können einen historischen Namen verwenden)',
+    'data_entry.location_none'                    => 'Kein passender Ort. Versuchen Sie eine nahegelegene Stadt.',
+    'data_entry.location_results'                 => 'Meinten Sie',
+    'data_entry.location_search'                  => 'Ort finden',
+    'data_entry.location_search_btn'              => 'Suchen',
+    'data_entry.location_show_on_map'             => 'Diesen Ort auf der Karte anzeigen',
+    'data_entry.location_show_on_map_help'        => 'Abwählen, um den Datensatz in der Tabelle zu behalten, aber die Markierung zu verbergen (z. B. noch nicht geöffnet).',
+    'data_entry.location_title'                   => 'Popup-Titel',
     'data_entry.multiselect_hint'                 => 'Halten Sie Strg (oder Cmd) gedrückt, um mehrere auszuwählen.',
     'data_entry.na_value'                         => 'N/A',
     'data_entry.no_cols_desc'                     => 'Tabellen sind im System vorhanden, aber für die aktive Tabelle wurden keine Datenspalten definiert.',
@@ -972,15 +1046,17 @@ return [
     'data_entry.no_tables_desc'                   => 'Das System hat derzeit keine aktiven Datenbanktabellen für die Dateneingabe konfiguriert.',
     'data_entry.no_tables_heading'                => '⚠️ Keine Datenbanktabellen gefunden',
     'data_entry.page_label'                       => 'Seite:',
+    'data_entry.record_deleted'                   => 'Der Datensatz wurde gelöscht.',
     'data_entry.reset_filter_btn'                 => 'Filter zurücksetzen',
     'data_entry.search_summary'                   => '🔍 Bestehende Datensätze suchen & filtern (Zum Ein-/Ausklappen klicken)',
     'data_entry.shortcuts_tip'                    => '💡 Tipps: Drücken Sie <strong>Strg + Enter</strong> zum Absenden oder <strong>Esc</strong> zum Löschen des aktuellen Felds.',
     'data_entry.submit_data_btn'                  => 'Daten absenden',
     'data_entry.th_added_by'                      => 'Hinzugefügt von',
     'data_entry.th_date_created'                  => 'Erstellungsdatum',
+    'edit_record.heading'                         => 'Datensatz bearbeiten',
 
     // ------------------------------------------------------------------
-    // 37. Forgot Password
+    // 38. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Passwortwiederherstellung',
     'forgot_password.back_login_link'             => 'Zurück zur Anmeldung',
@@ -990,9 +1066,11 @@ return [
     'forgot_password.submit_btn'                  => 'Link zum Zurücksetzen senden',
 
     // ------------------------------------------------------------------
-    // 38. User Login
+    // 39. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Benutzeranmeldung',
+    'login.err_password_required'                 => 'Bitte geben Sie Ihr Passwort ein.',
+    'login.err_username_required'                 => 'Bitte geben Sie Ihren Benutzernamen ein.',
     'login.forgot_password_link'                  => 'Passwort vergessen?',
     'login.heading'                               => 'Benutzeranmeldung',
     'login.password_label'                        => 'Passwort:',
@@ -1000,7 +1078,7 @@ return [
     'login.username_label'                        => 'Benutzername oder E-Mail:',
 
     // ------------------------------------------------------------------
-    // 39. User Onboarding Setup Wizard
+    // 40. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Zeigt Initialen & Zufallszahl für alle an.',
     'onboarding.attr_anon_title'                  => 'Anonym:',
@@ -1038,7 +1116,7 @@ return [
     'onboarding.timezone_label'                   => 'Zeitzone / Region:',
 
     // ------------------------------------------------------------------
-    // 40. User Profile & Security Settings
+    // 41. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Neue E-Mail-Adresse',
     'profile.aria_region'                         => 'Benutzerprofilverwaltung',
@@ -1073,7 +1151,7 @@ return [
     'profile.update_password_btn'                 => 'Passwort aktualisieren',
 
     // ------------------------------------------------------------------
-    // 41. User Registration
+    // 42. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Benutzerregistrierung',
     'register.email_label'                        => 'E-Mail-Adresse',
@@ -1082,13 +1160,15 @@ return [
     'register.username_label'                     => 'Benutzername:',
 
     // ------------------------------------------------------------------
-    // 42. Set Password via Secure Token
+    // 43. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Passwort einrichten',
     'set_password.confirm_password_label'         => 'Passwort bestätigen:',
     'set_password.exit_expired_token'             => 'Dieser Link zum Einrichten des Passworts ist ungültig oder abgelaufen.',
     'set_password.exit_invalid_token'             => 'Ungültiger oder fehlender Einrichtungs-Token.',
     'set_password.heading_format'                 => 'Bitte legen Sie Ihr Passwort für %s fest',
+    'set_password.msg_ready'                      => 'Passwort erfolgreich konfiguriert! Sie können sich jetzt anmelden.',
+    'set_password.msg_ready_onboarding'           => 'Passwort gespeichert. Bitte melden Sie sich an — Sie werden durch ein kurzes Setup geführt.',
     'set_password.new_password_label'             => 'Neues Passwort (mindestens 8 Zeichen):',
     'set_password.proceed_login_btn'              => 'Zur Anmeldung',
     'set_password.save_password_btn'              => 'Passwort speichern',
@@ -1096,7 +1176,7 @@ return [
     'set_password.subheading_format'              => 'Willkommen in Ihrem neuen Konto, %s! Bitte wählen Sie unten Ihr Passwort.',
 
     // ------------------------------------------------------------------
-    // 43. Setup 2FA Wizard
+    // 44. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-stelliger Authentifizierungscode',
     'setup_2fa.aria_region'                       => '2FA-Einrichtungsassistent',
@@ -1112,7 +1192,7 @@ return [
     'setup_2fa.submit_btn'                        => 'Verifizieren und 2FA aktivieren',
 
     // ------------------------------------------------------------------
-    // 44. Suggest Edit View
+    // 45. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Bearbeitung vorschlagen',
     'suggest_edit.confirm_prompt'                 => 'Sind Sie sicher, dass Sie diesen Bearbeitungsvorschlag zur Admin-Überprüfung einreichen möchten?',
@@ -1131,7 +1211,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Fühlen Sie sich frei, unten eine weitere Änderung einzureichen, oder verwenden Sie den Rückkehflink oben, wenn Sie fertig sind.',
 
     // ------------------------------------------------------------------
-    // 45. Verify 2FA Login Challenge
+    // 46. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Authentifizierungs- oder Backup-Code eingeben',
     'verify_2fa.aria_region'                      => '2FA-Verifizierung',
@@ -1141,7 +1221,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Verifizieren & Anmelden',
 
     // ------------------------------------------------------------------
-    // 46. Verify Email
+    // 47. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'E-Mail-Verifizierungsstatus',
     'verify_email.err_expired_token'              => 'Dieser Verifizierungslink ist abgelaufen (24-Stunden-Fenster überschritten). Bitte registrieren Sie sich erneut oder fordern Sie einen neuen Link an.',
@@ -1154,7 +1234,7 @@ return [
     'verify_email.msg_success'                    => 'E-Mail erfolgreich verifiziert! Ihr Konto ist nun aktiv. Sie können sich anmelden.',
 
     // ------------------------------------------------------------------
-    // 47. Volunteer Form View
+    // 48. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Einen eindeutigen Benutzernamen für mich zuweisen',
     'index.check_availability'                    => 'Verfügbarkeit prüfen',
