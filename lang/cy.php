@@ -66,8 +66,8 @@ return [
     // ------------------------------------------------------------------
     // 5. Index / Public Directory Page
     // ------------------------------------------------------------------
-    'index.admin_add_columns_guide'               => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i ychwanegu o leiaf un golofn i\'ch tabl.',
-    'index.admin_create_table_guide'              => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn i\'r tabl hwn cyn y gellir gweld neu fewnbynnu cofnodion.',
+    'index.admin_add_columns_guide'               => 'Fel Gweinyddwr, ewch i Gweinyddu → Rheoli Tablau i ychwanegu o leiaf un golofn i\'ch tabl.',
+    'index.admin_create_table_guide'              => 'Fel Gweinyddwr, ewch i Gweinyddu → Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn i\'r tabl hwnnw cyn y gellir gweld neu nodi cofnodion.',
     'index.clipboard_success'                     => 'Copïwyd data\'r tabl i\'r clipfwrdd! Gallwch ei ludo\'n uniongyrchol i Excel neu Google Sheets.',
     'index.contact_admin_columns'                 => 'Cysylltwch â gweinyddwr i ffurfweddu colofnau ar gyfer y tabl hwn.',
     'index.contact_admin_tables'                  => 'Cysylltwch â gweinyddwr i sefydlu tablau a cholofnai cronfa ddata.',
@@ -79,7 +79,7 @@ return [
     'index.download_filtered_csv'                 => 'Lawrlwytho CSV wedi\'i Hidlo',
     'index.download_filtered_json'                => 'Lawrlwytho JSON wedi\'i Hidlo',
     'index.go_to_manage_tables'                   => 'Ewch i Reoli Tablau',
-    'index.guest_login_tables_guide'              => 'Cysylltwch â <a href=":login_link">mewngofnodi</a> fel gweinyddwr, ewch i adran Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn.',
+    'index.guest_login_tables_guide'              => 'Mewngofnodwch fel Gweinyddwr ac ewch i Gweinyddu → Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn.',
     'index.modal_desc'                            => 'Cyflwynwch gywiriad neu wybodaeth wrthbwyso ar gyfer y cofnod hwn. Bydd yn cael ei adolygu gan ein tîm cymedroli.',
     'index.modal_heading'                         => 'Cynnig Cy அதாவது (Cywiriad Cofnod)',
     'index.modal_input_placeholder'               => 'Rhowch wybodaeth ddiweddaraf...',
@@ -782,7 +782,7 @@ return [
     'install.complete_title'                      => 'Gosod wedi\'i gwblhau',
     'install.continue_btn'                        => 'Parhau',
     'install.db_heading'                          => 'Cysylltiad cronfa ddata',
-    'install.db_hint'                             => 'Defnyddiwch fanylion MySQL o\'ch panel rheoli llety. Nid hwn yw mewngofnodi gweinyddwr y wefan (sy\'n dod nesaf).',
+    'install.db_hint'                             => 'Defnyddiwch fanylion MySQL o\'ch panel rheoli llety. Nid dyma fewngofnodi Gweinyddwr y wefan (sy\'n dod nesaf).',
     'install.db_host_label'                       => 'Gwesteiwr cronfa ddata',
     'install.db_name_label'                       => 'Enw cronfa ddata',
     'install.db_pass_label'                       => 'Cyfrinair cronfa ddata',
@@ -900,7 +900,7 @@ return [
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Cofnodion plwyf wedi\'u casglu o ffynonellau hanesyddol parth cyhoeddus.',
     'footer.rights_reserved'                      => 'Cedwir pob hawl.',
-    'footer.software_notice'                      => 'Platfform meddalwedd ffynhonnell agored o dan Drwydded MIT.',
+    'footer.software_notice'                      => 'Mae pRD (V1.18) yn ffynhonnell agored o dan Drwydded MIT - Gyda diolch i @katherinehuk GitHub am ei ail bâr o lygaid!',
 
     // ------------------------------------------------------------------
     // 30. Site Header & Head
@@ -984,8 +984,8 @@ return [
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Tabl Mewnbynnu Data Gweithredol:',
     'data_entry.add_entry_summary'                => '➕ Ychwanegu Mynediad Data Newydd (Cliciwch i ehangu/chwalu)',
-    'data_entry.admin_cols_prompt'                => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i ychwanegu o leiaf un golofn i\'ch tabl.',
-    'data_entry.admin_tables_prompt'              => 'Fel gweinyddwr, ewch i opsiwn y ddewislen Rheoli Tablau i greu tabl, ac yna ychwanegu o leiaf un golofn cyn mewnbynnu cofnodion.',
+    'data_entry.admin_cols_prompt'                => 'Os ydych chi\'n Weinyddwr, ewch i Gweinyddu → Rheoli Tablau i reoli colofnau ac ychwanegu o leiaf un golofn i\'r tabl hwn.',
+    'data_entry.admin_tables_prompt'              => 'Os ydych chi\'n Weinyddwr, ewch i Gweinyddu → Rheoli Tablau i ychwanegu tabl, yna ychwanegwch o leiaf un golofn.',
     'data_entry.apply_filters_btn'                => 'Cymhwyso Hidlau Chwilio',
     'data_entry.bool_cross'                       => '✘ (Croes)',
     'data_entry.bool_false'                       => 'Angwir',
@@ -1022,7 +1022,7 @@ return [
     'data_entry.existing_records_heading'         => 'Tabl Cofnodion Presennol',
     'data_entry.filter_all_option'                => '-- Pawb / Y Cyfan --',
     'data_entry.filter_placeholder'               => 'Hidlo...',
-    'data_entry.go_manage_tables'                 => 'Ewch i Reoli Tablau',
+    'data_entry.go_manage_tables'                 => 'Ewch i Gweinyddu → Rheoli Tablau',
     'data_entry.json_entire_btn'                  => 'Lawrlwytho JSON Cyfan',
     'data_entry.json_filtered_btn'                => 'Lawrlwytho JSON wedi\'i Hidlo',
     'data_entry.location_body'                    => 'Testun y ffenestr naid',
@@ -1138,7 +1138,7 @@ return [
     'profile.new_password_label'                  => 'Cyfrinair Newydd (min 8 nod):',
     'profile.password_heading'                    => 'Newid Cyfrinair',
     'profile.personal_details_heading'            => 'Manylion Personol',
-    'profile.setup_tfa_btn'                       => 'Sefydlu Google Authenticator',
+    'profile.setup_tfa_btn'                       => 'Sefydlu 2FA',
     'profile.show_passwords_label'                => 'Dangos cyfrineiriau mewn testun plaen',
     'profile.tfa_active_desc'                     => 'Mae 2FA yn diogelu mewngofnodi eich cyfrif yn weithredol.',
     'profile.tfa_disabled'                        => 'Wedi\'i ddad-alluogi',
@@ -1179,12 +1179,12 @@ return [
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Cod dilysu 6-digid',
     'setup_2fa.aria_region'                       => 'Dewin Gosod 2FA',
-    'setup_2fa.backup_desc'                       => 'Cadwch y codau wrth gefn hyn mewn lle diogel. Gellir defnyddio pob cod un waith os byddwch yn colli mynediad i\'ch ap dilysu:',
+    'setup_2fa.backup_desc'                       => 'Cadwch y codau wrth gefn hyn mewn lle diogel. Gellir defnyddio pob cod unwaith os byddwch yn colli mynediad i\'ch ap 2FA:',
     'setup_2fa.backup_heading'                    => 'Codau Adfer Wrth Gefn Brys',
     'setup_2fa.cancel_link'                       => 'Canslo a Dychwelyd i Broffil',
     'setup_2fa.code_label'                        => 'Rhowch Cod 6-digid o\'r Ap i Gadarnhau ac Galluogi:',
     'setup_2fa.download_btn'                      => 'Lawrlwytho Codau fel .txt',
-    'setup_2fa.heading'                           => 'Sefydlu Google Authenticator',
+    'setup_2fa.heading'                           => 'Sefydlu 2FA',
     'setup_2fa.manual_prompt'                     => 'Neu rhowch yr allwedd gyfrinachol hon â llaw:',
     'setup_2fa.qr_alt'                            => 'Cod QR ar gyfer Gosod 2FA',
     'setup_2fa.subheading'                        => 'Sganiwch y cod QR isod gyda\'ch ap dilysu.',
