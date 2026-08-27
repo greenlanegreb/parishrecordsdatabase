@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Database pronto. Crea il tuo account amministratore per completare.',
     'install.msg_install_removed'                 => 'La cartella di installazione è stata rimossa. Ora puoi effettuare il login.',
     'install.msg_installation_complete'           => 'Installazione completata.',
-    'install.msg_modules_saved'                   => 'Da definire.',
+    'install.msg_modules_saved'                   => 'Le tue selezioni di funzionalità sono state salvate. Puoi aggiungere pacchetti demo opzionali o saltare.',
     'install.msg_schema_imported'                 => 'Database connesso e schema importato. Crea il tuo account amministratore.',
     'install.page_title'                          => 'Installazione — Registro Parrocchiale',
     'install.remove_folder_btn'                   => 'Si prega di rimuovere la cartella di installazione!',

@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Stɔru ezuami malamu. Sala konti ya mokambi mpo na kosilisa.',
     'install.msg_install_removed'                 => 'Dossier ya kotika elongolami. Okoki kokɔta sikoyo.',
     'install.msg_installation_complete'           => 'Bosali esili.',
-    'install.msg_modules_saved'                   => 'Ekozongiselama nsima.',
+    'install.msg_modules_saved'                   => 'Matɔndi, maponami na yo ya bopusi ebombami. Okoki kobakisa bapakɛ ya demo ya kopona to kopɛsa.',
     'install.msg_schema_imported'                 => 'Stɔru esangani na sgeema etindami. Sala konti ya mokambi na yo.',
     'install.page_title'                          => 'Bosali — Stɔru ya Mbonimboni ya Parase',
     'install.remove_folder_btn'                   => 'Longolá dossier ya kotika!',

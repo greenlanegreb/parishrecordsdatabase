@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Xog-ururintu waa diyaar. Abuur akoonkaaga maamulaha si aad u dhammaystirto rakibidda.',
     'install.msg_install_removed'                 => 'Galkii rakibaadda waa la saaray. Hadda waad geli kartaa.',
     'install.msg_installation_complete'           => 'Rakibidda waa la dhammeeyay.',
-    'install.msg_modules_saved'                   => 'La go\'aamin doono.',
+    'install.msg_modules_saved'                   => 'Xulashooyinkaaga astaamaha waa la keydiyay. Waad ku dari kartaa baakidhyada demo ee ikhtiyaarka ah ama waad ka boodi kartaa.',
     'install.msg_schema_imported'                 => 'Xog-ururinta waa la xiriiriyay oo qaab-dhismeedka waa la keenay. Abuur akoonkaaga maamulaha.',
     'install.page_title'                          => 'Rakibidda — Hagaha Diiwaanka Kaniisadda',
     'install.remove_folder_btn'                   => 'Fadlan ka saar galka rakibaadda!',

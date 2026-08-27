@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => '資料庫已準備就緒。請建立您的管理員帳號以完成設定。',
     'install.msg_install_removed'                 => '安裝資料夾已被刪除。您現在可以登入了。',
     'install.msg_installation_complete'           => '安裝完成。',
-    'install.msg_modules_saved'                   => '待定。',
+    'install.msg_modules_saved'                   => '您的功能選擇已儲存。您可以新增選用的示範套件或直接跳過。',
     'install.msg_schema_imported'                 => '資料庫已連線且綱要已匯入。請建立您的管理員帳號。',
     'install.page_title'                          => '安裝 — 教區記錄目錄',
     'install.remove_folder_btn'                   => '請刪除安裝資料夾！',

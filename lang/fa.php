@@ -828,7 +828,7 @@ return [
     'install.msg_db_ready'                        => 'پایگاه داده آماده است. برای اتمام راه‌اندازی، حساب کاربری مدیر خود را ایجاد کنید.',
     'install.msg_install_removed'                 => 'پوشه نصب حذف شد. اکنون می‌توانید وارد شوید.',
     'install.msg_installation_complete'           => 'نصب کامل شد.',
-    'install.msg_modules_saved'                   => 'تعیین خواهد شد.',
+    'install.msg_modules_saved'                   => 'گزینه‌های ویژگی شما ذخیره شدند. می‌توانید بسته‌های نمایشی اختیاری را اضافه کنید یا از آن رد شوید.',
     'install.msg_schema_imported'                 => 'پایگاه داده متصل و طرح وارد شد. حساب کاربری مدیر خود را ایجاد کنید.',
     'install.page_title'                          => 'نصب — دایرکتوری اسناد کلیسایی',
     'install.remove_folder_btn'                   => 'لطفاً پوشه نصب را حذف کنید!',

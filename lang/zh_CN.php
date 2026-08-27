@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => '数据库已准备就绪。创建您的管理员账号以完成安装。',
     'install.msg_install_removed'                 => '安装文件夹已被删除。您现在可以登录了。',
     'install.msg_installation_complete'           => '安装已完成。',
-    'install.msg_modules_saved'                   => '待定。',
+    'install.msg_modules_saved'                   => '您的功能选择已保存。您可以添加可选的演示包或跳过此步骤。',
     'install.msg_schema_imported'                 => '数据库已连接且架构已导入。请创建您的管理员账号。',
     'install.page_title'                          => '安装 — 教区户籍记录目录',
     'install.remove_folder_btn'                   => '请删除安装文件夹！',

@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'データベースの準備ができました。管理者をアカウント作成してインストールを完了してください。',
     'install.msg_install_removed'                 => 'インストールフォルダが削除されました。これでログインできます。',
     'install.msg_installation_complete'           => 'インストールが完了しました。',
-    'install.msg_modules_saved'                   => '未定。',
+    'install.msg_modules_saved'                   => '機能の選択内容が保存されました。オプショナルのデモパックを追加するか、スキップしてください。',
     'install.msg_schema_imported'                 => 'データベースが接続され、スキーマがインポートされました。管理者アカウントを作成してください。',
     'install.page_title'                          => 'インストール — 教区住民登録簿',
     'install.remove_folder_btn'                   => 'インストールフォルダを削除してください！',

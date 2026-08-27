@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Ububiko bw\'amakuru buriteguye. Kurema konti yawe y\'umuyobozi kugira ngo urangize iyubakwa.',
     'install.msg_install_removed'                 => 'Ububiko bwo gushyiraho bwakuweho. Ubu mushobora kwinjira.',
     'install.msg_installation_complete'           => 'Iyubakwa ryarangiye.',
-    'install.msg_modules_saved'                   => 'Bitegerejwe kwemezwa.',
+    'install.msg_modules_saved'                   => 'Amahitamo yawe y\'ivyerekana yabitswe. Ushobora kwongerako amapaketi y\'akarorero canke ukayasimbuka.',
     'install.msg_schema_imported'                 => 'Ububiko bw\'amakuru bwafatanije kandi imiterere yarazanywe. Kurema konti yawe y\'umuyobozi.',
     'install.page_title'                          => 'Iyubakwa — Ububiko bw\'inyandiko zo muri paruwasi',
     'install.remove_folder_btn'                   => 'Nyamuneka mukureho ububiko bwo gushyiraho!',

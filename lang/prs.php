@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'پایگاه داده آماده است. حساب مدیریت خود را ایجاد کنید تا نصب به پایان برسد.',
     'install.msg_install_removed'                 => 'پوشه نصب حذف شد. اکنون می‌توانید وارد شوید.',
     'install.msg_installation_complete'           => 'نصب تکمیل شد.',
-    'install.msg_modules_saved'                   => 'تعیین خواهد شد.',
+    'install.msg_modules_saved'                   => 'انتخاب‌های ویژگی شما ذخیره شد. می‌توانید بسته‌های نمایشی اختیاری را اضافه کنید یا از آن صرف‌نظر نمایید.',
     'install.msg_schema_imported'                 => 'پایگاه داده متصل و ساختار وارد شد. حساب مدیریت خود را ایجاد کنید.',
     'install.page_title'                          => 'نصب — دایرکتوری ثبت اسناد',
     'install.remove_folder_btn'                   => 'لطفاً پوشه نصب را حذف کنید!',

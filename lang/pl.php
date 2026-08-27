@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Baza danych jest gotowa. Utwórz konto administratora, aby zakończyć.',
     'install.msg_install_removed'                 => 'Folder instalacyjny został usunięty. Możesz się teraz zalogować.',
     'install.msg_installation_complete'           => 'Instalacja zakończona.',
-    'install.msg_modules_saved'                   => 'Do ustalenia.',
+    'install.msg_modules_saved'                   => 'Twoje wybory funkcji zostały zapisane. Możesz dodać opcjonalne pakiety demo lub pominąć ten krok.',
     'install.msg_schema_imported'                 => 'Połączono z bazą danych i zaimportowano schemat. Utwórz swoje konto administratora.',
     'install.page_title'                          => 'Instalacja — Rejestr akt parafialnych',
     'install.remove_folder_btn'                   => 'Proszę usunąć folder instalacyjny!',

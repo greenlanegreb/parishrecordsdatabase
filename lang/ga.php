@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Tá an bunachar sonraí réidh. Cruthaigh do chuntas riarthóra chun an tsuiteáil a chríochnú.',
     'install.msg_install_removed'                 => 'Baineadh an fillteán suiteála. Is féidir leat logáil isteach anois.',
     'install.msg_installation_complete'           => 'Suiteáil críochnaithe.',
-    'install.msg_modules_saved'                   => 'Le deimhniú.',
+    'install.msg_modules_saved'                   => 'Tá do roghanna gné sábháilte. Is féidir leat pacáistí taispeána roghnacha a chur leis, nó scipáil.',
     'install.msg_schema_imported'                 => 'Bunachar sonraí nasctha agus scéimre iompórtáilte. Cruthaigh do chuntas riarthóra.',
     'install.page_title'                          => 'Suiteáil — Eolaire Taifead Paróiste',
     'install.remove_folder_btn'                   => 'Bain an fillteán suiteála le do thoil!',

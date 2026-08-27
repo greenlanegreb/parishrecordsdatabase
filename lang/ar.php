@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'قاعدة البيانات جاهزة. أنشئ حساب المشرف لإنهاء الإعداد.',
     'install.msg_install_removed'                 => 'تمت إزالة مجلد التثبيت. يمكنك الآن تسجيل الدخول.',
     'install.msg_installation_complete'           => 'اكتمل التثبيت.',
-    'install.msg_modules_saved'                   => 'قيد الانتظار.',
+    'install.msg_modules_saved'                   => 'تم حفظ خيارات الميزات الخاصة بك. يمكنك إضافة حزم تجريبية اختيارية أو تخطيها.',
     'install.msg_schema_imported'                 => 'تم الاتصال بقاعدة البيانات واستيراد المخطط. أنشئ حساب المشرف الخاص بك.',
     'install.page_title'                          => 'التثبيت — دليل سجلات الرعية',
     'install.remove_folder_btn'                   => 'يرجى إزالة مجلد التثبيت!',

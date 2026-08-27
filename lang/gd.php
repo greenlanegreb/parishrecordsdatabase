@@ -828,7 +828,7 @@ return [
     'install.msg_db_ready'                        => 'Tha an stòr-dàta deiseil. Cruthaich do chunntas rianadair gus an stàladh a chrìochnachadh.',
     'install.msg_install_removed'                 => 'Chaidh pasgan an stàlaidh a thoirt air falbh. Faodaidh tu logadh a-steach a-nis.',
     'install.msg_installation_complete'           => 'Chaidh an stàladh a chrìochnachadh.',
-    'install.msg_modules_saved'                   => 'Ri dhearbhadh.',
+    'install.msg_modules_saved'                   => 'Chaidh na roghainnean feart agad a shàbhaladh. Faodaidh tu pacaidean demo roghainneil a chur ris, no leum thairis orra.',
     'install.msg_schema_imported'                 => 'Stòr-dàta ceangailte agus sgeama air an toirt a-steach. Cruthaich do chunntas rianadair.',
     'install.page_title'                          => 'Stàladh — Eòlaire Clàran Parraiste',
     'install.remove_folder_btn'                   => 'Feuch an toir thu air falbh pasgan an stàlaidh!',

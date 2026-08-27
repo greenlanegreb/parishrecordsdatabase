@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Database yw reydh. Gwruthyl dha gont menystrer rag gwruthyl settya.',
     'install.msg_install_removed'                 => 'Kabin an stallyans re veu gasedh. Hwi a yll omgelmi a-lemmyn.',
     'install.msg_installation_complete'           => 'Settya gwruthyl.',
-    'install.msg_modules_saved'                   => 'Boses gwirias.',
+    'install.msg_modules_saved'                   => 'Gwithys yw agas dewisyansow a dhevedhyans. Gallghow ystwa arnotow demo dewisus, po gasa dhe an dalleth.',
     'install.msg_schema_imported'                 => 'Database kevrennys ha schema daskargyes. Gwruthyl dha gont menystrer.',
     'install.page_title'                          => 'Settya — Roll Rekordys Parish',
     'install.remove_folder_btn'                   => 'Gasla kabin an stallyans my sailt!',

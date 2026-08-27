@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Database ready. Create your administrator account to finish setup.',
     'install.msg_install_removed'                 => 'The install folder has been removed. You can now log in.',
     'install.msg_installation_complete'           => 'Installation complete.',
-    'install.msg_modules_saved'                   => 'TBC.',
+    'install.msg_modules_saved'                   => 'Your feature choices have been saved. You can add optional demo packs, or skip.',
     'install.msg_schema_imported'                 => 'Database connected and schema imported. Create your administrator account.',
     'install.page_title'                          => 'Installation — Parish Records Directory',
     'install.remove_folder_btn'                   => 'Please remove the install folder!',

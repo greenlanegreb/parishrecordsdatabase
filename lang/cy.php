@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Mae\'r gronfa ddata yn barod. Crëwch eich cyfrif gweinyddwr i orffen gosod.',
     'install.msg_install_removed'                 => 'Tynnwyd y ffolder osod. Gallwch fewngofnodi nawr.',
     'install.msg_installation_complete'           => 'Gosod wedi\'i gwblhau.',
-    'install.msg_modules_saved'                   => 'I\'w gadarnhau.',
+    'install.msg_modules_saved'                   => 'Enrollet eo bet ho tibaboù elfennoù. Gallout a rit ouzhpennañ pakadoù demo dibar, pe leuskel anezho.',
     'install.msg_schema_imported'                 => 'Wedi cysylltu â\'r gronfa ddata a mewnforio\'r sgema. Crëwch eich cyfrif gweinyddwr.',
     'install.page_title'                          => 'Gosod — Cyfeiriadur Cofnodion Plwyf',
     'install.remove_folder_btn'                   => 'Tynnwch y ffolder osod os gwelwch yn dda!',

@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'A base de dados está pronta. Crie a sua conta de administrador para concluir a instalação.',
     'install.msg_install_removed'                 => 'A pasta install foi removida. Já pode iniciar sessão.',
     'install.msg_installation_complete'           => 'Instalação concluída.',
-    'install.msg_modules_saved'                   => 'A definir.',
+    'install.msg_modules_saved'                   => 'As suas escolhas de recursos foram guardadas. Pode adicionar pacotes de demonstração opcionais ou ignorar.',
     'install.msg_schema_imported'                 => 'Base de dados ligada e esquema importado. Crie a sua conta de administrador.',
     'install.page_title'                          => 'Instalação — Diretório de Registos Paroquiais',
     'install.remove_folder_btn'                   => 'Por favor, remova a pasta install!',

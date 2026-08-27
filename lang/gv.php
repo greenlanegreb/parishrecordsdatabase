@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Bun-fysseree ta reih. Croo dty coontey reireyder dy chochorit.',
     'install.msg_install_removed'                 => 'Va’n pasgan stalleeyn er nyn gheddyn jeant. Foddee oo logail stiagh anmagh.',
     'install.msg_installation_complete'           => 'Reaghys cochorit.',
-    'install.msg_modules_saved'                   => 'Dy ve jeant.',
+    'install.msg_modules_saved'                   => 'Ta nyn reihnyn gnes er ve saualt. Foddee oo paagyn demo roihagh y chur rish, ny lhiggey dagh nane jeh.',
     'install.msg_schema_imported'                 => 'Bun-fysseree lhiantynagh as scamaill lughtit. Croo coontey reireyder.',
     'install.page_title'                          => 'Reaghys — Cooadyn Parish',
     'install.remove_folder_btn'                   => 'Cur y pasgan stalleeyn jeant my sailt!',

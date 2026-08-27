@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'ډیټابیس چمتو دی. د نصب بشپړولو لپاره خپل د مدیر اکاونټ جوړ کړئ.',
     'install.msg_install_removed'                 => 'د لګولو پوښۍ لرې شوه. تاسو اوس کولی شئ ننوځئ.',
     'install.msg_installation_complete'           => 'نصب بشپړ شو.',
-    'install.msg_modules_saved'                   => 'وروسته به وټاکل شي.',
+    'install.msg_modules_saved'                   => 'ستاسو د ځانګړتیاوو ټاکنې خوندي شوې. تاسو کولی شئ اختیاري ډیمو کڅوړې اضافه کړئ یا یې پریږدئ.',
     'install.msg_schema_imported'                 => 'ډیټابیس وصل شو او جوړښت یې وارد شو. مهرباني وکړئ خپل د مدیر اکاونټ جوړ کړئ.',
     'install.page_title'                          => 'نصب — د کلیسا د ریکارډونو لارښود',
     'install.remove_folder_btn'                   => 'مهرباني وکړئ د لګولو پوښۍ لرې کړئ!',

@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'La base de données est prête. Créez votre compte administrateur pour terminer l’installation.',
     'install.msg_install_removed'                 => 'Le dossier d\'installation a été supprimé. Vous pouvez maintenant vous connecter.',
     'install.msg_installation_complete'           => 'Installation terminée.',
-    'install.msg_modules_saved'                   => 'À confirmer.',
+    'install.msg_modules_saved'                   => 'Vos choix de fonctionnalités ont été enregistrés. Vous pouvez ajouter des packs de démonstration optionnels ou passer cette étape.',
     'install.msg_schema_imported'                 => 'Base de données connectée et schéma importé. Créez votre compte administrateur.',
     'install.page_title'                          => 'Installation — Répertoire des registres paroissiaux',
     'install.remove_folder_btn'                   => 'Veuillez supprimer le dossier d\'installation !',

@@ -828,7 +828,7 @@ return [
     'install.msg_db_ready'                        => 'La base de datos está lista. Cree su cuenta de administrador para finalizar la configuración.',
     'install.msg_install_removed'                 => 'Se ha eliminado la carpeta de instalación. Ya puedes iniciar sesión.',
     'install.msg_installation_complete'           => 'Instalación completa.',
-    'install.msg_modules_saved'                   => 'Pendiente de confirmación.',
+    'install.msg_modules_saved'                   => 'Se han guardado tus selecciones de funciones. Puedes añadir paquetes de demostración opcionales u omitirlos.',
     'install.msg_schema_imported'                 => 'Base de datos conectada y esquema importado. Cree su cuenta de administrador.',
     'install.page_title'                          => 'Instalación — Directorio de registros parroquiales',
     'install.remove_folder_btn'                   => '¡Por favor, elimina la carpeta de instalación!',

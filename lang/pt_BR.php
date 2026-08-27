@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Banco de dados pronto. Crie sua conta de administrador para concluir.',
     'install.msg_install_removed'                 => 'A pasta install foi removida. Agora você pode fazer login.',
     'install.msg_installation_complete'           => 'Instalação concluída.',
-    'install.msg_modules_saved'                   => 'A definir.',
+    'install.msg_modules_saved'                   => 'Suas seleções de recursos foram salvas. Você pode adicionar pacotes de demonstração opcionais ou pular.',
     'install.msg_schema_imported'                 => 'Banco de dados conectado e esquema importado. Crie sua conta de administrador.',
     'install.page_title'                          => 'Instalação — Registro Paroquial',
     'install.remove_folder_btn'                   => 'Por favor, remova a pasta install!',

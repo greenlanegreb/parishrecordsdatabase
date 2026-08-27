@@ -828,7 +828,7 @@ return [
     'install.msg_db_ready'                        => 'Datenbank ist bereit. Erstellen Sie Ihr Admin-Konto, um die Einrichtung abzuschließen.',
     'install.msg_install_removed'                 => 'Der Installationsordner wurde entfernt. Sie können sich jetzt anmelden.',
     'install.msg_installation_complete'           => 'Installation abgeschlossen.',
-    'install.msg_modules_saved'                   => 'Wird noch festgelegt.',
+    'install.msg_modules_saved'                   => 'Ihre Feature-Auswahl wurde gespeichert. Sie können optionale Demopakete hinzufügen oder überspringen.',
     'install.msg_schema_imported'                 => 'Datenbank verbunden und Schema importiert. Erstellen Sie Ihr Admin-Konto.',
     'install.page_title'                          => 'Installieren — Kirchenbuchverzeichnis',
     'install.remove_folder_btn'                   => 'Bitte entfernen Sie den Installationsordner!',

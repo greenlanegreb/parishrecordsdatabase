@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Database is locked and loaded. Set up your main boss account to finish up.',
     'install.msg_install_removed'                 => 'Install folder is gone for good. You can sign in now.',
     'install.msg_installation_complete'           => 'Setup complete.',
-    'install.msg_modules_saved'                   => 'Tinkering in progress.',
+    'install.msg_modules_saved'                   => 'Your feature choices have been locked in. Now you can opt into demo packs, or sack them off - your choice init..',
     'install.msg_schema_imported'                 => 'Database wired up and schema pulled in. Now make your boss account.',
     'install.page_title'                          => 'Setup — Parish Records Directory',
     'install.remove_folder_btn'                   => 'Oi, delete that install folder!',

@@ -827,7 +827,7 @@ return [
     'install.msg_db_ready'                        => 'Databasen er klar. Opret din administratorkonto for at afslutte.',
     'install.msg_install_removed'                 => 'Installationsmappen blev fjernet. Du kan nu logge ind.',
     'install.msg_installation_complete'           => 'Installation fuldført.',
-    'install.msg_modules_saved'                   => 'TBC.',
+    'install.msg_modules_saved'                   => 'Dine valg af funktioner er blevet gemt. Du kan tilføje valgfrie demopakker eller springe over.',
     'install.msg_schema_imported'                 => 'Database tilsluttet og skema importeret. Opret din administratorkonto.',
     'install.page_title'                          => 'Installation — Sognearkiv',
     'install.remove_folder_btn'                   => 'Fjern venligst installationsmappen!',
