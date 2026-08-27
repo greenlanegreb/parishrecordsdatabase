@@ -79,7 +79,7 @@ return [
     'index.download_filtered_csv'                 => 'Download Filtered CSV',
     'index.download_filtered_json'                => 'Download Filtered JSON',
     'index.go_to_manage_tables'                   => 'Go to Manage Tables',
-    'index.guest_login_tables_guide'              => 'index.guest_login_tables_guide' => 'Please log in as an Administrator and go to Admin → Manage Tables to create a table, and then add at least one column.',
+    'index.guest_login_tables_guide'              => 'Please log in as an Administrator and go to Admin → Manage Tables to create a table, and then add at least one column.',
     'index.modal_desc'                            => 'Submit a correction or counter-information for this record. It will be reviewed by our moderation team.',
     'index.modal_heading'                         => 'Suggest Record Correction',
     'index.modal_input_placeholder'               => 'Enter updated information...',
