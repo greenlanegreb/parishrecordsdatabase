@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'ID an Taifid',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Ar ais',
+    'cols.print_btn'                              => 'Priontáil',
+    'cols.print_entire'                           => 'Priontáil uile',
+    'cols.print_filtered'                         => 'Priontáil na cinn scagtha',
+    'cols.print_now'                              => 'Priontáil nó sábháil mar PDF',
+    'cols.show_heading'                           => 'Roghnaigh na colúin le theaspáint',
+    'cols.show_help'                              => 'Díthiceáil colún chun é a fh userRoutes yma, le linn íoslódála, agus nuair a dhéantar priontáil. Ar ghuthán, is fusa colúin níos lú a léamh.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'Seoladh ríomhphoist:',
     'create_user.first_name'                      => 'Ainm:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Fág bán le haghaidh giniúint uathoibríoch',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Gan ainm',
     'feedback_dash.default_subject'               => 'Fiosrúchán ginearálta',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'ID an ticéid / Dáta',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Ar ais go painéal na dticéad aiseolais',
     'feedback_emails.custom_tags'                 => 'Clibeanna scéimre saincheaptha:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Saincheap na fógraí ríomhphoist uathoibríoch a seoltar le linn thimpeallacht saibhis na dticéad. Úsáid lúibíní cuacha le haghaidh sealbhóirí áite dinimiciúla.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Cuir réimse fhoirm ticéad nua leis',
     'feedback_schema.allow_multiple'              => 'Ceadaigh roghanna iolracha a roghnú (Ilroghnú)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Téacs gearr)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Cuir colún tábla nua leis le haghaidh',
     'manage_tables.allow_multiple_label'          => 'Ceadaigh níos mó ná rogha amháin (ilroghnú)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Eagraigh colún dinimiciúil:',
     'manage_tables.edit_metadata_btn'             => 'Eagraigh meiteashonraí an tábla',
     'manage_tables.edit_table_summary'            => 'Eagraigh sainmhíniú an tábla:',
+    'manage_tables.err_col_name_empty'            => 'Cuir isteach ainm colúin, le do thoil.',
+    'manage_tables.err_col_name_taken'            => 'Tá colún darb ainm %s ag an tábla seo cheana féin. Roghnaigh ainm difriúil, le do thoil.',
+    'manage_tables.err_table_name_empty'          => 'Cuir isteach ainm tábla, le do thoil.',
+    'manage_tables.err_table_name_taken'          => 'Tá tábla ann cheana féin darb ainm %s. Roghnaigh ainm difriúil, le do thoil.',
     'manage_tables.exclude_search_label'          => 'Eiscigh an colún seo ón gcuardach poiblí (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Colúin atá ann cheana le haghaidh',
     'manage_tables.heading'                       => 'Bainistíocht dinimiciúil táblaí & scéimrí',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Seadh',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Cuir scagairí i feidhm',
     'map.back_to_table'                           => 'Ar ais chuig an tábla',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Léim go dtí an léarscáil',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Ar ais go cruthú úsáideoirí',
     'user_emails.currently_editing'               => 'Á eagrú faoi láthair:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Bainistigh teimpléid ríomhphoist fógraí úsáideora',
     'user_emails.opt_invitation'                  => 'Teimpléad cuireadh cuntas úsáideora',
     'user_emails.opt_reset'                       => 'Teimpléad athshocraithe pasfhocail / nasc rochtana',
+    'user_emails.opt_suggestion_outcome'          => 'Toradh an molta eagair',
     'user_emails.select_template_label'           => 'Roghnaigh teimpléad le heagrú:',
     'user_emails.subheading'                      => 'Saincheap na leagan amach ríomhphoist a seoltar nuair a thugtar cuireadh d’úsáideoirí nó nuair a seoltar naisc athshocraithe pasfhocail.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Ar ais chuig iarratais na gcuiditheoirí',
     'volunteer_emails.custom_tags_desc'           => 'Ginte go huathoibríoch ó réimsí do thógálaí fhoirm:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Saincheap na freagraí ríomhphoist uathoibríoch a seoltar chuig cuiditheoirí le linn céimeanna éagsúla den tsruthoibríocht. Úsáid lúibíní cuacha le haghaidh sealbhóirí áite dinimiciúla.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Cuir réimse fhoirm cuiditheora nua leis',
     'volunteer_schema.back_to_dashboard'          => 'Ar ais chuig iarratais na gcuiditheoirí',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Cumraigh réimsí saincheaptha, cineálacha sonraí, fo-chineálacha, roghanna agus socruithe cur i láthair fhoirm ginearálta.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Taifead #%s',
+    'dup_merge.col_b'                             => 'Taifead #%s',
+    'dup_merge.col_field'                         => 'Réimse',
+    'dup_merge.confirm'                           => 'An dteastaíonn uait iad seo a aontú in aon taifead amháin? Bainfear an taifead eile.',
+    'dup_merge.fields_caption'                    => 'Roghnaigh luach do gach réimse',
+    'dup_merge.heading'                           => 'Aontaigh dhá thaifead chosúla',
+    'dup_merge.intro'                             => 'Tá an dá cheann seo thart ar %s%% cosúil. Roghnaigh cén taifead le coinneáil, ansin roghnaigh luach do gach réimse.',
+    'dup_merge.keep_a'                            => 'Coinnigh taifead #%s',
+    'dup_merge.keep_b'                            => 'Coinnigh taifead #%s',
+    'dup_merge.keep_legend'                       => 'Cén taifead ba chóir a choinneáil?',
+    'dup_merge.save_btn'                          => 'Aontaigh in aon taifead amháin',
+    'dup_merged'                                  => 'Tá an dá thaifead sin ina n-aon cheann anois. Tá an t-athrú ar stair an taifid atá fágtha.',
+    'dup_queue.choose_table'                      => 'Roghnaigh tábla',
+    'dup_queue.col_actions'                       => 'Cad le déanamh',
+    'dup_queue.col_records'                       => 'Taifid',
+    'dup_queue.col_score'                         => 'An chaoi a bhfuil siad cosúil',
+    'dup_queue.col_table'                         => 'Tábla',
+    'dup_queue.dismiss_btn'                       => 'Ní dúblach é',
+    'dup_queue.dismissed'                         => 'Marcáladh an péire sin mar nach dúblach é.',
+    'dup_queue.empty'                             => 'Níl aon rud ag fanacht. Scaneáil tábla chun cuardach a dhéanamh ar sheanchinn chosúla.',
+    'dup_queue.gone'                              => 'Níl an athbhreithniú sin ag fanacht a thuilleadh.',
+    'dup_queue.heading'                           => 'Taifid chosúla le hathbhreithniú',
+    'dup_queue.intro'                             => 'Scaneáil tábla le haghaidh sraitheanna atá cosúil lena chéile cheana féin. Is féidir leat a rá go bhfuil siad difriúil, nó iad a aontú in aon taifead amháin.',
+    'dup_queue.merge_btn'                         => 'Aontaigh ina aon cheann amháin',
+    'dup_queue.scan_btn'                          => 'Scaneáil an tábla seo',
+    'dup_queue.scan_done'                         => 'Críochnaíodh an scaneáil. Fuarthas %s péire cosúil, cuireadh %s mír nua leis an liosta.',
+    'dup_queue.scan_label'                        => 'Cuardaigh taifid chosúla i',
     'moderate.approve_btn'                        => 'Ceadaigh',
     'moderate.approve_confirm'                    => 'Ceadaigh agus cuir i feidhm an luach seo?',
     'moderate.by_label'                           => 'Le:',
     'moderate.column_label'                       => 'Colún:',
     'moderate.decline_btn'                        => 'Diúltaigh',
     'moderate.decline_confirm'                    => 'Diúltaigh agus caith uait an moladh seo?',
+    'moderate.dup_approved_note'                  => 'Ceadaithe. Tá sé seo anois %s%% cosúil le taifead #%s.',
+    'moderate.dup_blocked'                        => 'Ní féidir a cheadú: bheadh sé seo %s%% cosúil le taifead #%s.',
     'moderate.empty_placeholder'                  => '[Folamh]',
     'moderate.evidence_label'                     => 'Fianaise / Údar:',
     'moderate.guest_user'                         => 'Amharcán / Aoi',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'Níor friteadh aon moladh feithimh do do tháblaí measúnaithe ceadaithe.',
     'moderate.override_label'                     => 'Sáraigh an luach:',
     'moderate.proposed_value_label'               => 'Athrú molta:',
+    'moderate.rationale_label'                    => 'Nóta don duine a mhol seo',
+    'moderate.rationale_optional'                 => 'Nóta roghnach (coinnítear ar an taifead é).',
+    'moderate.rationale_placeholder'              => 'Cén fáth ar ghlac tú leis an athrú seo vagy ar dhiúltaigh tú dó',
+    'moderate.rationale_will_be_sent'             => 'Iarradh ríomhphost a chur chucu. Seolfar do nóta thíos díreach mar a scríobh tú é, mar sin coinnigh an ton cineálta agus soiléir, le do thoil.',
     'moderate.record_id_label'                    => 'ID an Taifid:',
     'moderate.required_badge'                     => 'Éigeantach',
     'moderate.select_placeholder'                 => '-- Roghnaigh --',
     'moderate.shortcut_desc'                      => 'Brúigh Ctrl + Enter chun ceadú go tapa nó Esc chun an bosca sáite a ghlanadh!',
     'moderate.shortcut_label'                     => 'Leip sin aicearra méarchláir:',
     'moderate.subheading'                         => 'Déan comparáid idir athruithe a mhol úsáideoirí agus taifid bheo ar do tháblaí ceadaithe. Ceadaigh moltaí, sáigh luachanna nó diúltaigh moltaí.',
+    'moderate.tab_similar'                        => 'Taifid chosúla',
+    'moderate.tab_suggestions'                    => 'Moltaí',
     'moderate.th_actions'                         => 'Gníomhartha an Mheasúnóra',
     'moderate.th_comparison'                      => 'Comparáid (Beo vs Molta) & Fianaise',
     'moderate.th_id_date'                         => 'ID / Dáta',
     'moderate.th_table_record'                    => 'Tábla, taifead & colún',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Gníomhach',
     'notices.add_new'                             => 'Cuir fógra nua leis',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Sea',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Riarthóir',
     'role.label_guest'                            => 'Cuairteoir Poiblí',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Sábhálann sé comhad .sql iomlán ar do ríomhaire. Coinnigh in áit shábháilte é sula rithfidh tú nuashonruithe.',
     'settings.driver_native'                      => 'Ríomhphost dúchais (Post-relay Postfix áitiúil)',
     'settings.driver_smtp'                        => 'SMTP fíordheimhnithe (PHPMailer)',
+    'settings.dup_heading'                        => 'Bainistíocht Taifead Dúblach',
+    'settings.dup_help'                           => 'Déanann pRD comparáid idir an méid a clóscríobhadh agus sraitheanna eile sa tábla céanna. Is féidir leat rabhadh a thabhairt do dhaoine, stop a chur leis an sábháil, vagy é seo a mhúchadh.',
+    'settings.dup_legend'                         => 'Má tá taifead nua cosúil le ceann atá agat cheana féin',
+    'settings.dup_mode_block'                     => 'Ná lig dóibh sábháil',
+    'settings.dup_mode_flag'                      => 'Tabhair rabhadh dóibh, agus déan nóta de do mheánadóir má shábhálann siad barántúil',
+    'settings.dup_mode_off'                       => 'Ná seiceáil le haghaidh taifead cosúil',
+    'settings.dup_mode_warn'                      => 'Taispeáin rabhadh — is féidir leo sábháil fós',
+    'settings.dup_picky_exact'                    => 'Ach amháin nuair a bhíonn na focail ag teacht go dlúth le chéile',
+    'settings.dup_picky_label'                    => 'Cé chomh déine agus ba chóir don seiceáil a bheith?',
+    'settings.dup_picky_similar'                  => 'Glac le hearráidí litrithe gar freisin (litriú cosúil)',
     'settings.enc_ssl'                            => 'SSL (Port 465)',
     'settings.enc_tls'                            => 'TLS (Port 587)',
     'settings.error_log_tab'                      => 'Loga earráidí',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Níl aon fhógra cumraithe fós.',
     'settings.notice_content_label'               => 'Ábhar:',
     'settings.notices_heading'                    => 'Fógraí & fógraí an suímh',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'Tá an cead seo éigeantach d\'Administraitoirí.',
+    'settings.perm_more_info'                     => 'Tuilleadh faoi',
+    'settings.perm_needs'                         => 'Teastaíonn uaidh',
+    'settings.perm_needs_parent'                  => 'Cas air sin ar dtús, le do thoil.',
+    'settings.perm_no_links'                      => 'Níl an cead seo ag brath ar cheann eile.',
+    'settings.perm_used_by'                       => 'Ag teastáil ó',
     'settings.permissions_heading'                => 'Maingin dinimiciúil ról & ceadanna',
     'settings.permissions_subheading'             => 'Tá ceadanna grúpáilte de réir fheidhmeanna an chórais. Leathnaigh ranna chun cumais a chumrú, agus ansin sábháil do nuashonruithe thíos.',
     'settings.port_label'                         => 'Port:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Nuashonraigh an bunachar sonraí',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Scrios',
     'admin_users.disabled'                        => 'Díchumasaithe',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Sea',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Riarthóir',
     'view_ticket.back_to_dashboard'               => 'Ar ais chuig painéal na dticéad',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Stádas an ticéid:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Glac & Cuir cuireadh',
     'volunteer_dashboard.accept_title'            => 'Glac isteach i gcóras cuireadh úsáideoirí',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Cuiditheoir',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Toirmiscití: Níl an t-amharc poiblí cumasaithe.',
     'api_search.error_unauthorized_table'         => 'Rochtain neamhúdaraithe ar thábla.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Mol eagar',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Aimsigh',
     'admin_errors.file'                           => 'Comhad',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Rian cruacha',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Seoladh ríomhphoist:',
     'feedback.first_name_label'                   => 'Ainm:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Sloinne:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Déan cur síos ar ghníomhaíochtaí chun cabhrú le comhaid chiontacha a aimsiú',
     'gh.add_comment_below'                        => 'Cuir do thuairim leis thíos agus cuir isteach.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Mol Aistriúchán Teanga',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Teip ar sheiceáil slándála: Rochtain diúltaithe.',
     'security_engine.err_captcha_failed'          => 'Teip ar fhíorú CAPTCHA. Déan iarracht arís le do thoil.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Teip ar sheiceáil slándála: Sínithe cliant amhrasach.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Deimhnigh pasfhocal an riarthóra',
     'install.admin_email_label'                   => 'Ríomhphost an riarthóra',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Téigh chuig an suíomh',
     'install.lang_label'                          => 'Teanga',
     'install.login_link'                          => 'Logáil isteach',
+    'install.mod_feedback'                        => 'Aiseolas agus ticéid',
+    'install.mod_feedback_desc'                   => 'Foirm phoiblí le haghaidh ceisteanna agus ticéid tacaíochta.',
+    'install.mod_leaderboard'                     => 'Clár Ceannairí',
+    'install.mod_leaderboard_desc'                => 'Tábla phointí roghnach. Teastaíonn go mbeadh cuntais úsáideora ar siúl.',
     'install.mod_maps'                            => 'Léarscáileanna',
     'install.mod_maps_desc'                       => 'Réimsí suímh agus léarscáil in aghaidh an tábla. Is féidir leat é seo a athrú níos déai faoi Riarthóir → Socruithe.',
+    'install.mod_moderation'                      => 'Meánadóireacht',
+    'install.mod_moderation_desc'                 => 'Athbhreithnigh eagarthóireachtaí molta sula n-athraíonn siad taifead.',
+    'install.mod_users'                           => 'Cuntais úsáideora',
+    'install.mod_users_desc'                      => 'Lig do dhaoine clárú agus logáil isteach.',
+    'install.mod_volunteers'                      => 'Spéis dheonach',
+    'install.mod_volunteers_desc'                 => 'Foirm phoiblí do dhaoine a bhfuil gean acu cabhrú.',
+    'install.modules_continue'                    => 'Sábháil agus lean ort',
+    'install.modules_heading'                     => 'Cé na codanna de pRD a mba mhaith leat a úsáid?',
+    'install.modules_help'                        => 'Seiceáil na gnéithe atá uait ón gcéad lá, le do thoil. Is féidir leat é seo a athrú níos déanaí faoi Riarachán → Socruithe Suímh.',
+    'install.modules_later'                       => 'Is féidir leat aon cheann díobh seo a chasadh air nó as níos déanaí in Riarachán → Socruithe.',
     'install.msg_admin_created'                   => 'Cruthaíodh Cuntas Riarthóra. Is féidir leat pacáistí taispeána roghnacha a chur leis, nó scipéal.',
     'install.msg_db_ready'                        => 'Tá an bunachar sonraí réidh. Cruthaigh do chuntas riarthóra chun an tsuiteáil a chríochnú.',
     'install.msg_install_removed'                 => 'Baineadh an fillteán suiteála. Is féidir leat logáil isteach anois.',
     'install.msg_installation_complete'           => 'Suiteáil críochnaithe.',
-    'install.msg_modules_saved'                   => 'Tá do roghanna gné sábháilte. Is féidir leat pacáistí taispeána roghnacha a chur leis, nó scipáil.',
+    'install.msg_modules_saved'                   => 'Sábháladh do roghanna gné. Is féidir leat pacaí taispeána roghnacha a chur leis, nó scipeáil.',
     'install.msg_schema_imported'                 => 'Bunachar sonraí nasctha agus scéimre iompórtáilte. Cruthaigh do chuntas riarthóra.',
     'install.page_title'                          => 'Suiteáil — Eolaire Taifead Paróiste',
     'install.remove_folder_btn'                   => 'Bain an fillteán suiteála le do thoil!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Cinntigh le do thoil go bhfuil an bunachar sonraí a bhfuil sé beartat agat a úsáid folamh sula leanann tú ar aghaidh.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Tá an Taispeántas seo Suiteáilte Cheana Féin',
     'demo.already_installed_hint'                 => 'Tá an pacáiste seo suiteáilte cheana féin, mar sin ní féidir é a roghnú arís.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'Cad le Cur Leis',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Amharc an Chláir Scóir',
     'leaderboard.default_role'                    => 'Úsáideoir',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Tú)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Taifid pharóiste tiomsaithe ó foinsí stairiúla san fhearann poiblí.',
     'footer.rights_reserved'                      => 'Gach ceart ar cosaint.',
     'footer.software_notice'                      => 'Tá pRD (V1.18) foinse oscailte faoin gCeadúnas MIT - Go raibh maith agat le @katherinehuk ar GitHub as an dara péire súl!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Bunachar Sonraí Taifead Paróiste',
     'header.skip_to_content'                      => 'Léim go dtí an príomh-ábhar',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Dún an fógra',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Gníomhaire:',
     'record_history.directory_table_label'        => 'Tábla an Eolaire:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Líne ama timpeallachta & ghníomhaíochta',
 
     // ----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Bain comhad rochtana éigeandála',
     'update_database.backup_notice'               => 'Glac cúltaca de bhunachar sonraí sula ritheann tú nuashonruithe nuair is féidir leat.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Nuashonraigh an bunachar sonraí anois',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Dintiúir neamhbhailí nó rochtain ar an gcuntas srianta.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Cruthaíodh taifead sa tábla ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Roghnaigh rogha liostaithe le haghaidh %s le do thoil.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Cuireadh an taifead leis go rathúil!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Teip agus an moladh eagar á chur isteach. Déan iarracht arís le do thoil.',
     'save_public_suggestion.err_field_required'   => 'Tá an réimse seo éigeantach agus ní féidir é a chur isteach ina bhán.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Cuireadh do mholadh eagar isteach go rathúil agus seoladh chuig an scuaine measúnaithe é lena athbhreithniú. Go raibh maith agat!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Tábla iontrála sonraí gníomhach:',
     'data_entry.add_entry_summary'                => '➕ Cuir iontráil sonraí nua leis (Cliceáil chun leathnú/laghdú)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'Go',
     'data_entry.delete_record_btn'                => 'Scrios',
     'data_entry.delete_record_confirm'            => 'Scrios an taifead seo go buan? Bainfear luachanna, bioráin léarscáile agus moltaí gaolmhara dó. Ní féidir é seo a chur ar ceal.',
+    'data_entry.dup_blocked'                      => 'Tá an taifead seo ró-chosúil le ceann atá sábháilte cheana féin, mar sin ní féidir é a chur leis.',
+    'data_entry.dup_close_match'                  => 'Litriú an-chosúil',
     'data_entry.dup_confirm_btn'                  => 'Sea, deimhnigh agus sábháil an dúblach',
-    'data_entry.dup_desc'                         => 'Fuireamar iontrálacha comhoiriúnacha cheana féin sa chóras:',
+    'data_entry.dup_desc'                         => 'Seiceáil na cártaí thíos, le do thoil. Is féidir leat sábháil fós más taifead difriúil é seo.',
+    'data_entry.dup_empty'                        => '(folamh)',
+    'data_entry.dup_flag_btn'                     => 'Sábháil agus abair le meánadóir',
     'data_entry.dup_heading'                      => '⚠️ Rabhadh faoi dhúblach féideartha',
     'data_entry.dup_item_format'                  => 'ID an Taifid: %d — Luach: %s',
+    'data_entry.dup_overview'                     => 'Sábháilte cheana féin',
     'data_entry.dup_prompt'                       => 'An mian leat leanúint ar aghaidh agus an iontráil dúblach seo a shábháil barainneach?',
+    'data_entry.dup_review_btn'                   => 'Athbhreithnigh an méid a chlóscríobh mé',
+    'data_entry.dup_score_exact'                  => 'Cosúlacht ríofa %s faoin gcéad.',
+    'data_entry.dup_similar'                      => 'Tá sé seo %s%% cosúil le taifead #%s',
     'data_entry.edit_record_btn'                  => 'Cuir in eagar',
     'data_entry.edit_record_saved'                => 'Nuashonraíodh an taifead.',
     'data_entry.enter_value_placeholder'          => 'Cuir isteach luach...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Cuir in eagar an taifead',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Athshlánú pasfhocail',
     'forgot_password.back_login_link'             => 'Ar ais go dtí an logáil isteach',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Seol an nasc athshocraithe',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Logáil isteach úsáideora',
     'login.err_password_required'                 => 'Cuir isteach do phasfhocal le do thoil.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Ainm úsáideora nó ríomhphost:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Taispeánann sé céadlitreacha & uimhir randamach do gach duine.',
     'onboarding.attr_anon_title'                  => 'Gan ainm:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Crios ama / Réigiún:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Seoladh ríomhphoist nua',
     'profile.aria_region'                         => 'Bainistíocht phróifíl úsáideora',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Nuashonraigh an pasfhocal',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Clárú úsáideora',
     'register.email_label'                        => 'Seoladh Ríomhphoist',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Ainm úsáideora:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Socraigh an pasfhocal',
     'set_password.confirm_password_label'         => 'Deimhnigh an pasfhocal:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Fáilte go dtí do chuntas nua, %s! Roghnaigh do phasfhocal thíos le do thoil.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Cód fíordheimhnithe 6 dhigit',
     'setup_2fa.aria_region'                       => 'Treoraí socruithe 2FA',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Fíoraigh & cumasaigh 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Mol eagar',
     'suggest_edit.confirm_prompt'                 => 'An bhfuil tú cinnte go bhfuil tú réidh an moladh eagar seo a chur isteach le haghaidh athbhreithniú an riarthóra?',
     'suggest_edit.current_values_heading'         => 'Luachanna reatha:',
+    'suggest_edit.decision_accepted'              => 'Glactha',
+    'suggest_edit.decision_not_accepted'          => 'Gan glacadh',
+    'suggest_edit.dup_of_help'                    => 'Roghnach. Feicfidh meánadóirí an nóta seo.',
+    'suggest_edit.dup_of_label'                   => 'Má tá uimhir an taifid eile ar eolas agat, is féidir leat é a chur leis anseo',
+    'suggest_edit.dup_please_check'               => 'Bheadh an t-athrú seo an-chosúil le taifead eile. Seiceáil thíos, le do thoil.',
     'suggest_edit.empty_label'                    => '(folamh)',
+    'suggest_edit.err_notify_email'               => 'Cuir isteach seoladh ríomhphoist más mian leat an toradh a chloisteáil, le do thoil.',
     'suggest_edit.heading_prefix'                 => 'Mol eagar don taifead',
     'suggest_edit.leave_blank'                    => 'Fág an réimse seo bán',
+    'suggest_edit.no_rationale'                   => 'Níor cuireadh aon nóta breise leis.',
+    'suggest_edit.notify_email_help'              => 'Úsáidtear é chun an toradh a insint duit amháin. Ní thaispeántar é ar an taifead poiblí.',
+    'suggest_edit.notify_email_label'             => 'Do sheoladh ríomhphoist',
+    'suggest_edit.notify_label'                   => 'Cuir ríomhphost chugam nuair a bheidh cinneadh déanta ag meánadóir',
     'suggest_edit.proposed_value_label'           => 'Luach nua molta:',
     'suggest_edit.reasoning_label'                => 'Fianaise / Údar / Nótaí foinse:',
     'suggest_edit.reasoning_optional'             => 'Roghnach — fianaise, foinse, nó nótaí do mheánóirí.',
     'suggest_edit.reasoning_placeholder'          => 'Soláthair comhthéacs, luachana foinse nó údar don athrú seo...',
+    'suggest_edit.report_dup'                     => 'Sílim gur dúblach é an taifead seo de cheann eile',
     'suggest_edit.return_btn'                     => 'Fill ar an taifead',
     'suggest_edit.select_column_label'            => 'Roghnaigh an colún le heagrú:',
     'suggest_edit.submit_btn'                     => 'Cuir an moladh isteach lena athbhreithniú',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Ná bíodh drogall ort eagar eile a chur isteach thíos, nó úsáid an nasc fáis thuas nuair a bheidh tú críochnaithe.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Cuir isteach an cód fíordheimhnithe nó cúltaca',
     'verify_2fa.aria_region'                      => 'Fíorú 2FA',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Fíoraigh & Logáil isteach',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Stádas fíoraithe ríomhphoist',
     'verify_email.err_expired_token'              => 'Tá an nasc fíoraithe seo in éag (sáraíodh an tréimhse 24 uair an chloig). Cláraigh arís le do thoil nó iarr nasc nua.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'Ríomhphost fíoraithe go rathúil! Tá do chuntas gníomhach anois. Is féidir leat leanúint ar aghaidh chuig an logáil isteach.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Leithdháil ainm úsáideora uathúil dom',
     'index.check_availability'                    => 'Seiceáil infhaighteacht',

@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'ID an Rekord',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Dehweles',
+    'cols.print_btn'                              => 'Gweres',
+    'cols.print_entire'                           => 'Gweres oll',
+    'cols.print_filtered'                         => 'Gweres an re a skwtas',
+    'cols.print_now'                              => 'Gweres po gwitha avel PDF',
+    'cols.show_heading'                           => 'Dewis powstyr vytholl ow dangas',
+    'cols.show_help'                              => 'Tewlel dhe-ves poynt po pown ow tiskwedhes e, y\'n kover, y\'n gansow, ha pan welsowgh. War dhevynell, pownow byghan yw moy alvus dhe lenn.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'Enmys post-elektronek:',
     'create_user.first_name'                      => 'Hanow kynsa:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Gasla gwag rag gwruthyl awtomatek',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Anonymus',
     'feedback_dash.default_subject'               => 'Govyn kemmyn',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'ID Tikeyt / Devedh',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Dehweles dhe gevren tikeys notennow',
     'feedback_emails.custom_tags'                 => 'Barthow schema reys:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Gwra rewlir an post-elektronek awtomatek dyllys. Ymmydhy bragow rag tylleryow dinamik.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Gwruthyl barren form tikeyt nowydh',
     'feedback_schema.allow_multiple'              => 'Lhigya reynya lies reis (Lies-reynya)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Ger berr)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Gwruthyl koloven taolen nowydh rag',
     'manage_tables.allow_multiple_label'          => 'Kummyas marnas un dewis (reynya lies stoo)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Ewnhe koloven ddinamik:',
     'manage_tables.edit_metadata_btn'             => 'Ewnhe metadata taolen',
     'manage_tables.edit_table_summary'            => 'Ewnhe reaghys taolen:',
+    'manage_tables.err_col_name_empty'            => 'Gwra gorra hanow pown, mar pleg.',
+    'manage_tables.err_col_name_taken'            => 'Yma pown gans an hanow %s dhe\'n tabyl ma kyns. Gwra desedha hanow erell, mar pleg.',
+    'manage_tables.err_table_name_empty'          => 'Gwra gorra hanow tabyl, mar pleg.',
+    'manage_tables.err_table_name_taken'          => 'Yma tabyl gans an hanow %s kyns. Gwra desedha hanow erell, mar pleg.',
     'manage_tables.exclude_search_label'          => 'Gow magh an goloven ma veih cwilas poblek (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Kolovennow kevys rag',
     'manage_tables.heading'                       => 'Skantlya Taolennow ha Schema',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Erê',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Gwruthyl fyltrow',
     'map.back_to_table'                           => 'Dehweles dhe’n taol',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Skipya dhe’n mappa',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Dehweles dhe wruthyl devnydhyer',
     'user_emails.currently_editing'               => 'Ow ewnhe nish:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Skantlya Patronow Post-Elektronek Devnydhyer',
     'user_emails.opt_invitation'                  => 'Patron govynn kont devnydhyer',
     'user_emails.opt_reset'                       => 'Patron daskargya fockle courey / kevren',
+    'user_emails.opt_suggestion_outcome'          => 'Displegyans anragh dhyworth devnydhyer',
     'user_emails.select_template_label'           => 'Reynya patron dhe ewnhe:',
     'user_emails.subheading'                      => 'Gwra rewlir patronow post-elektronek dyllys rag govyn devnydhyoryon.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Dehweles dhe govynnow gweresoryon',
     'volunteer_emails.custom_tags_desc'           => 'Gwrys awtomatek voish form gweresoryon:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Gwra rewlir post-elektronek dyllys rag gweresoryon. Ymmydhy bragow rag tylleryow dinamik.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Gwruthyl barren form gweresor nowydh',
     'volunteer_schema.back_to_dashboard'          => 'Dehweles dhe govynnow gweresoryon',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Settya barrennow reys, sorasow data, fo-sorasow, ha reaghys form.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Rekord #%s',
+    'dup_merge.col_b'                             => 'Rekord #%s',
+    'dup_merge.col_field'                         => 'Menester',
+    'dup_merge.confirm'                           => 'Omvowgh hemma rag unn rekord? An rekord aral a vydh kallerghys dhe-ves.',
+    'dup_merge.fields_caption'                    => 'Dewis talvosogeth rag pub menester',
+    'dup_merge.heading'                           => 'Omvowgh diw rekord hevelep',
+    'dup_merge.intro'                             => 'An diw ma a hevel a-dro dhe %s%%. Dewis pe kar an rekord dhe witha, ena desedha talvosogeth rag pub menester.',
+    'dup_merge.keep_a'                            => 'Gwitha rekord #%s',
+    'dup_merge.keep_b'                            => 'Gwitha rekord #%s',
+    'dup_merge.keep_legend'                       => 'Pe kar an rekord dhe witha?',
+    'dup_merge.save_btn'                          => 'Omvowgh rag unn rekord',
+    'dup_merged'                                  => 'An diw rekord ma ywlemmyn unn. An chanj yw war istori an rekord a dhiber.',
+    'dup_queue.choose_table'                      => 'Dewis tabyl',
+    'dup_queue.col_actions'                       => 'Pandhe gwra',
+    'dup_queue.col_records'                       => 'Rekordow',
+    'dup_queue.col_score'                         => 'Pan hevelep',
+    'dup_queue.col_table'                         => 'Tabyl',
+    'dup_queue.dismiss_btn'                       => 'Nyns yw eyl',
+    'dup_queue.dismissed'                         => 'An diw re ma a veu merkys avel nyns yw eyl.',
+    'dup_queue.empty'                             => 'Nyns eus travyth ow gortos. Skaj tabyl rag hwilas hevelep kyns.',
+    'dup_queue.gone'                              => 'An dasweles ma nyns yw ow gortos marnas.',
+    'dup_queue.heading'                           => 'Rekordow hevelep dhe witha',
+    'dup_queue.intro'                             => 'Skaj tabyl rag RES a hevel dhedha y vos hevelep kyns. Gallowgh leverel bos an re ma dyffrans, po omvowgh rag unn rekord.',
+    'dup_queue.merge_btn'                         => 'Omvowgh rag unn',
+    'dup_queue.scan_btn'                          => 'Skaj an tabyl ma',
+    'dup_queue.scan_done'                         => 'Skaj gwrys. %s diw hevelep kevys, %s taklow nowydh keworrys dhe\'n rol.',
+    'dup_queue.scan_label'                        => 'Hwilas rekordow hevelep yn',
     'moderate.approve_btn'                        => 'Aktya',
     'moderate.approve_confirm'                    => 'Aktya ha gasla an talvosogeth ma?',
     'moderate.by_label'                           => 'Gans:',
     'moderate.column_label'                       => 'Koloven:',
     'moderate.decline_btn'                        => 'Diwargya',
     'moderate.decline_confirm'                    => 'Diwargya ha dilea an keschas ma?',
+    'moderate.dup_approved_note'                  => 'Gwiw. Hemma ywlemmyn %s%% ow tiskwedhes avel rekord #%s.',
+    'moderate.dup_blocked'                        => 'Nyns eus galladow gwiw: hemma a vynn bos %s%% ow tiskwedhes avel rekord #%s.',
     'moderate.empty_placeholder'                  => '[Wgag]',
     'moderate.evidence_label'                     => 'Fys / Tust:',
     'moderate.guest_user'                         => 'Gweller / Gwest',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'Nyns eus keskasow skantlyes kevys.',
     'moderate.override_label'                     => 'Scryfa dorn talvosogeth:',
     'moderate.proposed_value_label'               => 'Keskas nowydh:',
+    'moderate.rationale_label'                    => 'Notenn rag an den a wrussa anragh hemma',
+    'moderate.rationale_optional'                 => 'Notenn dhewisadow (gwithys war an rekord).',
+    'moderate.rationale_placeholder'              => 'Prag y tevedhfas po omgedhvel an chanj ma',
+    'moderate.rationale_will_be_sent'             => 'Ygovynnys yw ebost. An notenn a-is a vydh kaset dell welsowgh y skrifa, ytho mar pleg gwra gwitha an geryow yn kowethek ha kler.',
     'moderate.record_id_label'                    => 'ID Rekord:',
     'moderate.required_badge'                     => 'Res',
     'moderate.select_placeholder'                 => '-- Reynyn --',
     'moderate.shortcut_desc'                      => 'Posa Ctrl + Enter rag aktya dhe vydh, po Esc rag golghi!',
     'moderate.shortcut_label'                     => 'Kenyow bys meyn:',
     'moderate.subheading'                         => 'Keverya kescowsnow devnydhyoryon rish rekordys bey. Gwra aktya, scryfa dorn, po diwargya.',
+    'moderate.tab_similar'                        => 'Rekordow hevelep',
+    'moderate.tab_suggestions'                    => 'Anraghow',
     'moderate.th_actions'                         => 'Gweythresow majior',
     'moderate.th_comparison'                      => 'Keverya (Bey vs Keskas) & Fys',
     'moderate.th_id_date'                         => 'ID / Devedh',
     'moderate.th_table_record'                    => 'Taolen, rekord & koloven',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Çalak',
     'notices.add_new'                             => 'Nîşaneyeke nû zêde bike',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Ya',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Gweythresor',
     'role.label_guest'                            => 'Gostogyon Werin',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Gwitha restr .sql oll war dha gyre. Gwitha a-barth kyns daskargya.',
     'settings.driver_native'                      => 'Post-elektronek traa (Postfix local)',
     'settings.driver_smtp'                        => 'SMTP foshilit (PHPMailer)',
+    'settings.dup_heading'                        => 'Rewlya Rekordow Eyl',
+    'settings.dup_help'                           => 'pRD a barh an pyth a veu skrifys gans RES erell yn tabyl keth. Gallowgh gwarnya tus, lettya an gwitha, po dyri hemma war-tu.',
+    'settings.dup_legend'                         => 'Mar hwra rekord nowydh hevelep dhyworth un a wrewgh y vos',
+    'settings.dup_mode_block'                     => 'Na alow dhedha gwitha',
+    'settings.dup_mode_flag'                      => 'Gwarnya tus, ha notya an taklow rag lewydh mar gwithons hwath',
+    'settings.dup_mode_off'                       => 'Na hwilas rag rekordow hevelep',
+    'settings.dup_mode_warn'                      => 'Tiskwedhes gwarnyans — a yll gwitha hwath',
+    'settings.dup_picky_exact'                    => 'Marnas pan hwra an geryow kowlwul',
+    'settings.dup_picky_label'                    => 'Fatel dDhe gales bos an hwithrans?',
+    'settings.dup_picky_similar'                  => 'Kelmi hevelepyansow nes (skrifa hevelep)',
     'settings.enc_ssl'                            => 'SSL (Port 465)',
     'settings.enc_tls'                            => 'TLS (Port 587)',
     'settings.error_log_tab'                      => 'Tomara çewtiyan',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Nyns eus notenn reys gwrys foast.',
     'settings.notice_content_label'               => 'Korf:',
     'settings.notices_heading'                    => 'Notennow & Kevarhow Kesva',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'An les ma yw res rag Lewydhyon.',
+    'settings.perm_more_info'                     => 'Moy a-dro dhe',
+    'settings.perm_needs'                         => 'Govyn',
+    'settings.perm_needs_parent'                  => 'Mar pleg gwra dyri hemma war an kynsa.',
+    'settings.perm_no_links'                      => 'An les ma nyns yw kov yn les aral.',
+    'settings.perm_used_by'                       => 'Govynys gans',
     'settings.permissions_heading'                => 'Skantlya Keadow & Owyryon',
     'settings.permissions_subheading'             => 'Keadow yw reys rish krevow kevreyth. Illi rannow ha gwitha.',
     'settings.port_label'                         => 'Port:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Daskargya Database',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Jê bibe',
     'admin_users.disabled'                        => 'Dyllys',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Ya',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Menystrer',
     'view_ticket.back_to_dashboard'               => 'Dehweles dhe gevren tikeys',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Staydys tikeyt:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Aktya & Danvon govynn',
     'volunteer_dashboard.accept_title'            => 'Gow stiagh dhe gevreyth govynn devnydhyer',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Gweresor',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Difennys: Diskwelians poblek nyns yw gwrys.',
     'api_search.error_unauthorized_table'         => 'Kevren anwir dhe dalen.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Keskas ewnheans',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Bibîne',
     'admin_errors.file'                           => 'Pel',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Şopa pelê',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Enmys post-elektronek:',
     'feedback.first_name_label'                   => 'Hanow kynsa:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Hanow teylu:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Deskrif an oberow rag gweres kavos an restrennow kamm',
     'gh.add_comment_below'                        => 'Keworra agas konis a-woles ha danvon.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Kinnig Treylyans Yeth',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Gwall sauchey: Kevren difennys.',
     'security_engine.err_captcha_failed'          => 'Gwall gweythres CAPTCHA. Posa arta mar pleg.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Gwall sauchey: Arwodh kliant amrysag.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Deih fockle courey menystrer',
     'install.admin_email_label'                   => 'Post-elektronek menystrer',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Mos dhe\'n kesva',
     'install.lang_label'                          => 'Taves',
     'install.login_link'                          => 'Koveto',
+    'install.mod_feedback'                        => 'Kussul ha tikettow',
+    'install.mod_feedback_desc'                   => 'Formyl poblek rag govynnow ha tikettow gweres.',
+    'install.mod_leaderboard'                     => 'Tabyl Lewydhyn',
+    'install.mod_leaderboard_desc'                => 'Tabyl skoriannow dhewisadow. Govyn kontys devnydhyoryon dhe vos war.',
     'install.mod_maps'                            => 'Mappow',
     'install.mod_maps_desc'                       => 'Ranndiryow lergh ha mappa pub taol. Y hyllowgh kentra hemma a-woles a-woles yn Gweythresor → Geryow.',
+    'install.mod_moderation'                      => 'Lewydhya',
+    'install.mod_moderation_desc'                 => 'Dasweles anraghow skrifys kyns pan yns a chanjya rekord.',
+    'install.mod_users'                           => 'Kontys devnydhyoryon',
+    'install.mod_users_desc'                      => 'Alowa tus dhe gohrella ha omgelmi.',
+    'install.mod_volunteers'                      => 'Ganskov skoodhyoryon',
+    'install.mod_volunteers_desc'                 => 'Formyl poblek rag tus a vynn gweres.',
+    'install.modules_continue'                    => 'Gwitha ha pesya',
+    'install.modules_heading'                     => 'Pew a rannow pRD a vynnough usya?',
+    'install.modules_help'                        => 'Mar pleg tewl poynt war an gnasow a vynnough dhyworth an kynsa jorna. Gallowgh chanjya hemma a-woles yn Lewydh → Gwithansow an Gwias.',
+    'install.modules_later'                       => 'Gallowgh dyri pub onan a hemma war po dhe-ves a-woles yn Lewydh → Gwithansow.',
     'install.msg_admin_created'                   => 'Kont Menystrer re veu gwrys. Hwi a yll keworra pakegyon demo opesyonel, po gasa.',
     'install.msg_db_ready'                        => 'Database yw reydh. Gwruthyl dha gont menystrer rag gwruthyl settya.',
     'install.msg_install_removed'                 => 'Kabin an stallyans re veu gasedh. Hwi a yll omgelmi a-lemmyn.',
     'install.msg_installation_complete'           => 'Settya gwruthyl.',
-    'install.msg_modules_saved'                   => 'Gwithys yw agas dewisyansow a dhevedhyans. Gallghow ystwa arnotow demo dewisus, po gasa dhe an dalleth.',
+    'install.msg_modules_saved'                   => 'Gwithys yw agas dewisow gnas. Gallowgh keworra pakennow demwa dhewisadow, po Passya.',
     'install.msg_schema_imported'                 => 'Database kevrennys ha schema daskargyes. Gwruthyl dha gont menystrer.',
     'install.page_title'                          => 'Settya — Roll Rekordys Parish',
     'install.remove_folder_btn'                   => 'Gasla kabin an stallyans my sailt!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Gwra diogelu bos an rol data re wrewgh hwi towlel owth usya gwag kens gwaynya rag todh.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'An Demo ma yw Stallys Kens',
     'demo.already_installed_hint'                 => 'An pakeg ma yw stallys kens, ytho nyns yw gwana reynyans aral.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'Pyth keworra',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Kevren Rol Voyth',
     'leaderboard.default_role'                    => 'Devnydhyer',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Te)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Rekordys parish gwruthyl voish fenten istorek poblek.',
     'footer.rights_reserved'                      => 'Oll gwir gwithys.',
     'footer.software_notice'                      => 'pRD (V1.18) yw pennfenten reolenna yn-dann an Ceadunas MIT - Meur ras dhe @katherinehuk war GitHub rag an nessa pâr a lagasow!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Database Rekordys Parish',
     'header.skip_to_content'                      => 'Skipya dhe’n penn-dalgh',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Dilea notenn',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Giennoo:',
     'record_history.directory_table_label'        => 'Taolen Roll:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Linney termyn & gweythres',
 
     // ------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Pela gihîştina lezgîn rake',
     'update_database.backup_notice'               => 'Dema ku tu dikarî berî xebitandina nûvekirinan kopiyeke ewlehiyê ya databasê bigire.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Daskargya database nish',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Fysseryans koveto anwir po kont sriant.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Rekord gwruthyl y\'n taolen ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Reynya dewis rollys rag %s my sailt.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Rekord kevys der sowen!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Gwall danvont keskas ewnheans. Posa arta mar pleg.',
     'save_public_suggestion.err_field_required'   => 'Barren ma yw res ha ny yll bos gwag.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Dha geskas ewnheans yw danvont der sowen ha danvont dhe\'n majioryon. Mysel!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Taolen k ynny data oberiant:',
     'data_entry.add_entry_summary'                => '➕ Gwruthyl k ynny data nowydh (Klit rag illi/chouyr)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'Dhe',
     'data_entry.delete_record_btn'                => 'Deweta',
     'data_entry.delete_record_confirm'            => 'Deweta an rekord ma rag dyverys? Talveryow, pinow mappa ha profyansow kesvenegys a vydh removys. Ny yllir dehweles hemma.',
+    'data_entry.dup_blocked'                      => 'An rekord ma yw re hevelep dhe un gwithys kyns, ytho nyns eus galladow y keworra.',
+    'data_entry.dup_close_match'                  => 'Skrifa hevelep treth',
     'data_entry.dup_confirm_btn'                  => 'Ya, aktya ha gwitha rekord nane',
-    'data_entry.dup_desc'                         => 'Yma rekordys nane kevys y\'n kevreyth:',
+    'data_entry.dup_desc'                         => 'Mar pleg gwra dasweles an chartys a-is. Gallowgh gwitha hwath mar dhyffrans an rekord ma.',
+    'data_entry.dup_empty'                        => '(gwag)',
+    'data_entry.dup_flag_btn'                     => 'Gwitha ha leverel dhe lewydh',
     'data_entry.dup_heading'                      => '⚠️ Gwall rekord nane',
     'data_entry.dup_item_format'                  => 'ID Rekord: %d — Talvosogeth: %s',
+    'data_entry.dup_overview'                     => 'Gwithys kyns',
     'data_entry.dup_prompt'                       => 'A vynn ta avonsya ha gwitha an rekord nane ma?',
+    'data_entry.dup_review_btn'                   => 'Dasweles an pyth a skrifjov',
+    'data_entry.dup_score_exact'                  => 'Hevelepyans awgrymys %s kansvedh.',
+    'data_entry.dup_similar'                      => 'Hemma yw %s%% ow tiskwedhes avel rekord #%s',
     'data_entry.edit_record_btn'                  => 'Gwytha',
     'data_entry.edit_record_saved'                => 'An rekord a veu nowedhys.',
     'data_entry.enter_value_placeholder'          => 'K ynny talvosogeth...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Gwytha rekord',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Daskargya fockle courey',
     'forgot_password.back_login_link'             => 'Dehweles dhe goweto',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Danvon kevren daskargya',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Koveto devnydhyer',
     'login.err_password_required'                 => 'Mar pleg, gorfen dha gerri.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Hanow devnydhyer po post-elektronek:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Diskwedhes hanow kynsa & niver reys da oll.',
     'onboarding.attr_anon_title'                  => 'Anonymus:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Boayl traa / Reeriaght:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Enmys post-elektronek nowydh',
     'profile.aria_region'                         => 'Skantlya Profile Devnydhyer',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Daskargya fockle courey',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Clareyr devnydhyer',
     'register.email_label'                        => 'Adress Post-E',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Hanow devnydhyer:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Settya fockle courey',
     'set_password.confirm_password_label'         => 'Deih fockle courey:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Geryv dhe dha gont nowydh, %s! Reynyn dha fockle courey a-woles.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Coad 6 digish',
     'setup_2fa.aria_region'                       => 'Lught Settya 2FA',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Deih & aktya 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Keskas ewnheans',
     'suggest_edit.confirm_prompt'                 => 'Yw ta shilgy danvon an keskas ewnheans ma rag daswelys menystrer?',
     'suggest_edit.current_values_heading'         => 'Talvosogethow nish:',
+    'suggest_edit.decision_accepted'              => 'Kevys',
+    'suggest_edit.decision_not_accepted'          => 'Nyns o kevys',
+    'suggest_edit.dup_of_help'                    => 'Dhewisadow. Lewydhyon a wel an notenn ma.',
+    'suggest_edit.dup_of_label'                   => 'Mar gvowgh niver an rekord aral, gallowgh y geworra ama',
+    'suggest_edit.dup_please_check'               => 'An chanj ma a vynn bos pur hevelep dhe rekord aral. Mar pleg dasweles a-is.',
     'suggest_edit.empty_label'                    => '(wgag)',
+    'suggest_edit.err_notify_email'               => 'Mar pleg gwra gorra ynandres ebost mar pynnough klewes an displegyans.',
     'suggest_edit.heading_prefix'                 => 'Keskas ewnheans rag rekord',
     'suggest_edit.leave_blank'                    => 'Vê qadê vala bihêle',
+    'suggest_edit.no_rationale'                   => 'Nyns eus notenn aral keworrys.',
+    'suggest_edit.notify_email_help'              => 'Usys marnas rag leverel an displegyans dhywgh. Nyns yw tiskwedhys war an rekord poblek.',
+    'suggest_edit.notify_email_label'             => 'Agas ynandres ebost',
+    'suggest_edit.notify_label'                   => 'Kas ebost dhymm pan hwra lewydh breus a-dro',
     'suggest_edit.proposed_value_label'           => 'Talvosogeth nowydh keskas:',
     'suggest_edit.reasoning_label'                => 'Tust / Fys / Imraa fenten:',
     'suggest_edit.reasoning_optional'             => 'Opesyonel — tistnans, fenten, po konisow rag governoryon.',
     'suggest_edit.reasoning_placeholder'          => 'Gasla kows, imra fenten, po fa rag an ewnheans ma...',
+    'suggest_edit.report_dup'                     => 'Yma\'ma ow prederi bos an rekord ma eyl a rekord aral',
     'suggest_edit.return_btn'                     => 'Dehweles dhe rekord',
     'suggest_edit.select_column_label'            => 'Reynyn koloven dhe ewnhe:',
     'suggest_edit.submit_btn'                     => 'Danvon keskas rag daswelys',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Galloes ta danvon ewnheans arta, po ymmydhy kevren dehweles a-ugh pan wra gasla.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'K ynny coad jeigey po sauchey',
     'verify_2fa.aria_region'                      => 'Jeigey 2FA',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Deih & Koveto',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Staydys reent post-elektronek',
     'verify_email.err_expired_token'              => 'Kevren jeigey ma yw scriuit (24 our dres). Clareyr arta po govyn kevren nowydh.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'Post-elektronek reent der sowen! Dha gont yw bey nish. Galloes ta koveto.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Ji bo min navekî bikarhêner ê yekta diyar bike',
     'index.check_availability'                    => 'Binihêre ka heye yan na',

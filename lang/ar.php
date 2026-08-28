@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'معرف السجل',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'بازگشت',
+    'cols.print_btn'                              => 'چاپ',
+    'cols.print_entire'                           => 'چاپ همه',
+    'cols.print_filtered'                         => 'چاپ موارد فیلترشده',
+    'cols.print_now'                              => 'چاپ یا ذخیره به عنوان PDF',
+    'cols.show_heading'                           => 'انتخاب ستون‌های قابل نمایش',
+    'cols.show_help'                              => 'تیک یک ستون را بردارید تا در اینجا، هنگام دانلود و در هنگام چاپ پنهان شود. در تلفن همراه، خواندن ستون‌های کمتر آسان‌تر است.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'عنوان البريد الإلكتروني:',
     'create_user.first_name'                      => 'الاسم الأول:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'اتركه فارغاً للتوليد التلقائي',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'مجهول',
     'feedback_dash.default_subject'               => 'استفسار عام',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'معرف / تاريخ التذكرة',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'العودة إلى لوحة تحكم تذاكر التعليقات',
     'feedback_emails.custom_tags'                 => 'علامات المخطط المخصصة:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'تخصيص إشعارات البريد الإلكتروني التلقائية المرسلة أثناء دورات حياة التذاكر. استخدم الأقواس المعقوفة للعناصر النائبة الديناميكية.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ إضافة حقل نموذج تذكرة جديد',
     'feedback_schema.allow_multiple'              => 'السماح بتحديد خيارات متعددة (اختيار متعدد)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (نص قصير)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ إضافة عمود جدول جديد لـ',
     'manage_tables.allow_multiple_label'          => 'السماح بأكثر من خيار (تحديد متعدد)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'تعديل العمود الديناميكي:',
     'manage_tables.edit_metadata_btn'             => 'تعديل وصف الجدول',
     'manage_tables.edit_table_summary'            => 'تعديل تعريف الجدول:',
+    'manage_tables.err_col_name_empty'            => 'لطفاً نام ستون را وارد کنید.',
+    'manage_tables.err_col_name_taken'            => 'این جدول از قبل ستونی به نام %s دارد. لطفاً نام دیگری انتخاب کنید.',
+    'manage_tables.err_table_name_empty'          => 'لطفاً نام جدول را وارد کنید.',
+    'manage_tables.err_table_name_taken'          => 'جدولی به نام %s از قبل وجود دارد. لطفاً نام دیگری انتخاب کنید.',
     'manage_tables.exclude_search_label'          => 'استبعاد هذا العمود من البحث العام (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'الأعمدة الحالية لـ',
     'manage_tables.heading'                       => 'إدارة الجداول والمخططات الديناميكية',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'نعم',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'تطبيق عوامل التصفية',
     'map.back_to_table'                           => 'العودة إلى الجدول',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'الانتقال إلى الخريطة',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'العودة إلى إنشاء المستخدم',
     'user_emails.currently_editing'               => 'جاري التعديل حالياً:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'إدارة قوالب البريد الإلكتروني لإشعارات المستخدمين',
     'user_emails.opt_invitation'                  => 'قالب دعوة حساب المستخدم',
     'user_emails.opt_reset'                       => 'قالب إعادة تعيين كلمة المرور / رابط الوصول',
+    'user_emails.opt_suggestion_outcome'          => 'نتیجه ویرایش پیشنهادی',
     'user_emails.select_template_label'           => 'تحديد القالب للتعديل:',
     'user_emails.subheading'                      => 'تخصيص تخطيطات البريد الإلكتروني المرسلة عند دعوة المستخدمين أو إرسال روابط إعادة تعيين كلمة المرور.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'العودة إلى طلبات المتطوعين',
     'volunteer_emails.custom_tags_desc'           => 'تم توليدها تلقائياً من حقول منشئ النموذج الخاص بك:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'تخصيص الردود البريدية التلقائية المرسلة إلى المتطوعين خلال مراحل سير العمل المختلفة. استخدم الأقواس المعقوفة للعناصر النائبة الديناميكية.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ إضافة حقل نموذج متطوع جديد',
     'volunteer_schema.back_to_dashboard'          => 'العودة إلى طلبات المتطوعين',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'تكوين الحقول المخصصة، أنواع البيانات، الأنواع الفرعية، الخيارات، وإعدادات عرض النموذج العامة.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'رکورد شماره %s',
+    'dup_merge.col_b'                             => 'رکورد شماره %s',
+    'dup_merge.col_field'                         => 'فیلد',
+    'dup_merge.confirm'                           => 'این موارد در یک رکورد ادغام شوند؟ رکورد دیگر حذف خواهد شد.',
+    'dup_merge.fields_caption'                    => 'یک مقدار برای هر فیلد انتخاب کنید',
+    'dup_merge.heading'                           => 'ادغام دو رکورد مشابه',
+    'dup_merge.intro'                             => 'این دو مورد حدود %s٪ به هم شبیه هستند. رکوردی را که باید حفظ شود انتخاب کنید، سپس مقداری برای هر فیلد تعیین کنید.',
+    'dup_merge.keep_a'                            => 'حفظ رکورد شماره %s',
+    'dup_merge.keep_b'                            => 'حفظ رکورد شماره %s',
+    'dup_merge.keep_legend'                       => 'کدام رکورد باید حفظ شود؟',
+    'dup_merge.save_btn'                          => 'ادغام در یک رکورد',
+    'dup_queue.choose_table'                      => 'انتخاب جدول',
+    'dup_queue.col_actions'                       => 'اقدامات',
+    'dup_queue.col_records'                       => 'رکوردها',
+    'dup_queue.col_score'                         => 'میزان شباهت',
+    'dup_queue.col_table'                         => 'جدول',
+    'dup_queue.dismiss_btn'                       => 'تکراری نیست',
+    'dup_queue.dismissed'                         => 'آن جفت به عنوان غیرتکراری علامت‌گذاری شد.',
+    'dup_queue.empty'                             => 'موردی در انتظار نیست. برای یافتن موارد مشابه قدیمی، یک جدول را اسکن کنید.',
+    'dup_queue.gone'                              => 'آن مورد بررسی دیگر در انتظار نیست.',
+    'dup_queue.heading'                           => 'رکوردهای مشابه برای بررسی',
+    'dup_queue.intro'                             => 'جدول را برای یافتن رکوردهایی که از قبل شبیه به هم هستند اسکن کنید. می‌توانید بگویید که آنها متفاوت هستند، یا آنها را در یک رکورد ادغام کنید.',
+    'dup_queue.merge_btn'                         => 'ادغام در یک مورد',
+    'dup_queue.merged'                            => 'آن دو رکورد اکنون به یک رکورد تبدیل شدند. تغییرات در تاریخچه رکورد باقی‌مانده ثبت شده است.',
+    'dup_queue.scan_btn'                          => 'اسکن این جدول',
+    'dup_queue.scan_done'                         => 'اسکن به پایان رسید. %s جفت مشابه یافت شد، %s مورد جدید به فهرست اضافه شد.',
+    'dup_queue.scan_label'                        => 'جستجوی رکوردهای مشابه در',
     'moderate.approve_btn'                        => 'موافقة',
     'moderate.approve_confirm'                    => 'الموافقة على هذه القيمة وتطبيقها؟',
     'moderate.by_label'                           => 'بواسطة:',
     'moderate.column_label'                       => 'العمود:',
     'moderate.decline_btn'                        => 'رفض',
     'moderate.decline_confirm'                    => 'رفض هذا المقترح واستبعاده؟',
+    'moderate.dup_approved_note'                  => 'تأیید شد. این مورد اکنون %s٪ شبیه به رکورد شماره %s است.',
+    'moderate.dup_blocked'                        => 'امکان تأیید وجود ندارد: این مورد %s٪ شبیه به رکورد شماره %s خواهد بود.',
     'moderate.empty_placeholder'                  => '[فارغ]',
     'moderate.evidence_label'                     => 'الأدلة / التبرير:',
     'moderate.guest_user'                         => 'مشاهد / ضيف',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'لم يتم العثور على مقترحات معلقة لجداول الإشراف المصرح بها.',
     'moderate.override_label'                     => 'تجاوز القيمة:',
     'moderate.proposed_value_label'               => 'التغيير المقترح:',
+    'moderate.rationale_label'                    => 'یادداشت برای شخصی که این پیشنهاد را داده است',
+    'moderate.rationale_optional'                 => 'یادداشت اختیاری (روی رکورد باقی می‌ماند).',
+    'moderate.rationale_placeholder'              => 'دلیل پذیرفتن یا رد کردن این تغییر',
+    'moderate.rationale_will_be_sent'             => 'آنها درخواست ایمیل کرده‌اند. یادداشت شما در ادامه دقیقاً همان‌طور که نوشته‌اید ارسال می‌شود، بنابراین لطفاً لحن خود را مهربان و صریح حفظ کنید.',
     'moderate.record_id_label'                    => 'معرف السجل:',
     'moderate.required_badge'                     => 'مطلوب',
     'moderate.select_placeholder'                 => '-- تحديد --',
     'moderate.shortcut_desc'                      => 'اضغط على مفتاحي Ctrl + Enter للموافقة السريعة، أو Esc لمسح صندوق التجاوز!',
     'moderate.shortcut_label'                     => 'نصيحة اختصار لوحة المفاتيح:',
     'moderate.subheading'                         => 'مقارنة التغييرات المقترحة من قِبل المستخدمين بالسجلات الحية عبر الجداول المصرح بها. الموافقة على المقترحات، تجاوز القيم، أو رفض المقترحات.',
+    'moderate.tab_similar'                        => 'رکوردهای مشابه',
+    'moderate.tab_suggestions'                    => 'پیشنهادات',
     'moderate.th_actions'                         => 'إجراءات المشرف',
     'moderate.th_comparison'                      => 'المقارنة (الحالي مقابل المقترح) والأدلة',
     'moderate.th_id_date'                         => 'المعرف / التاريخ',
     'moderate.th_table_record'                    => 'الجدول والسجل والعمود',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'نشط',
     'notices.add_new'                             => 'إضافة إشعار جديد',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'نعم',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'مسؤول',
     'role.label_guest'                            => 'زائر عام',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'يحفظ ملف .sql كاملاً على جهازك. احتفظ به في مكان آمن قبل تشغيل التحديثات.',
     'settings.driver_native'                      => 'البريد الأصلي (رحلات بريد Postfix المحلية)',
     'settings.driver_smtp'                        => 'SMTP موثق (PHPMailer)',
+    'settings.dup_heading'                        => 'مدیریت رکوردهای تکراری',
+    'settings.dup_help'                           => 'pRD متن تایپ‌شده را با سایر ردیف‌ها در همان جدول مقایسه می‌کند. می‌توانید به کاربران هشدار دهید، ذخیره‌سازی را متوقف کنید یا این قابلیت را خاموش کنید.',
+    'settings.dup_legend'                         => 'اگر رکورد جدیدی شبیه به رکوردی باشد که از قبل دارید',
+    'settings.dup_mode_block'                     => 'اجازه ذخیره‌سازی داده نشود',
+    'settings.dup_mode_flag'                      => 'هشدار دادن به کاربر و در صورت ذخیره شدن، ثبت آن برای بازبینی مدیر',
+    'settings.dup_mode_off'                       => 'رکوردهای مشابه بررسی نشوند',
+    'settings.dup_mode_warn'                      => 'نمایش هشدار - کاربران همچنان می‌توانند ذخیره کنند',
+    'settings.dup_picky_exact'                    => 'فقط زمانی که کلمات مطابقت نزدیک داشته باشند',
+    'settings.dup_picky_label'                    => 'بررسی شباهت چقدر سخت‌گیرانه باشد؟',
+    'settings.dup_picky_similar'                  => 'شناسایی موارد نزدیک (املای مشابه)',
     'settings.enc_ssl'                            => 'SSL (المنفذ 465)',
     'settings.enc_tls'                            => 'TLS (المنفذ 587)',
     'settings.error_log_tab'                      => 'سجل الأخطاء',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'لم يتم تكوين إشعارات بعد.',
     'settings.notice_content_label'               => 'المحتوى:',
     'settings.notices_heading'                    => 'إشعارات وإعلانات الموقع',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'این دسترسی برای مدیران اجباری است.',
+    'settings.perm_more_info'                     => 'اطلاعات بیشتر درباره',
+    'settings.perm_needs'                         => 'نیازمند',
+    'settings.perm_needs_parent'                  => 'لطفاً ابتدا آن مورد را فعال کنید.',
+    'settings.perm_no_links'                      => 'این دسترسی به دسترسی دیگری وابسته نیست.',
+    'settings.perm_used_by'                       => 'مورد نیاز توسط',
     'settings.permissions_heading'                => 'مصفوفة الأدوار والصلاحيات الديناميكية',
     'settings.permissions_subheading'             => 'تُجمع الصلاحيات حسب وظائف النظام. قم بتوسيع الأقسام لتكوين القدرات، ثم احفظ تحديثاتك في الأسفل.',
     'settings.port_label'                         => 'المنفذ:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'تحديث قاعدة البيانات',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'حذف',
     'admin_users.disabled'                        => 'معطل',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'نعم',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'مسؤول',
     'view_ticket.back_to_dashboard'               => 'العودة إلى لوحة التذاكر',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'حالة التذكرة:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'قبول ودعوة',
     'volunteer_dashboard.accept_title'            => 'الإدراج في نظام دعوة المستخدمين',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'متطوع',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 محظور: العرض العام غير مُمكن.',
     'api_search.error_unauthorized_table'         => 'الوصول إلى الجدول غير مصرح به.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'اقتراح تعديل',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'بحث',
     'admin_errors.file'                           => 'الملف',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'تتبع المكدس',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'عنوان البريد الإلكتروني:',
     'feedback.first_name_label'                   => 'الاسم الأول:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'اسم العائلة:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'صف الإجراءات للمساعدة في تحديد موقع الملفات المخالفة',
     'gh.add_comment_below'                        => 'أضف تعليقك أدناه وأرسله.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. اقتراح ترجمة لغة',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'فشل فحص الأمان: تم رفض الوصول.',
     'security_engine.err_captcha_failed'          => 'فشل تحقق CAPTCHA. يرجى المحاولة مرة أخرى.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'فشل فحص الأمان: توقيع العميل مريب.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'تأكيد كلمة مرور المشرف',
     'install.admin_email_label'                   => 'بريد المشرف',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'الانتقال إلى الموقع',
     'install.lang_label'                          => 'اللغة',
     'install.login_link'                          => 'تسجيل الدخول',
+    'install.mod_feedback'                        => 'بازخوردها و تیکت‌ها',
+    'install.mod_feedback_desc'                   => 'یک فرم عمومی برای پرسش‌ها و تیکت‌های پشتیبانی.',
+    'install.mod_leaderboard'                     => 'جدول امتیازات',
+    'install.mod_leaderboard_desc'                => 'جدول امتیازات اختیاری. نیازمند فعال بودن حساب‌های کاربری است.',
     'install.mod_maps'                            => 'الخرائط',
     'install.mod_maps_desc'                       => 'حقول الموقع وخريطة لكل جدول. يمكنك تغيير هذا لاحقاً ضمن المسؤول ← الإعدادات.',
+    'install.mod_moderation'                      => 'مدیریت و نظارت',
+    'install.mod_moderation_desc'                 => 'بررسی ویرایش‌های پیشنهادی پیش از اعمال روی رکورد.',
+    'install.mod_users'                           => 'حساب‌های کاربری',
+    'install.mod_users_desc'                      => 'به افراد اجازه ثبت‌نام و ورود دهید.',
+    'install.mod_volunteers'                      => 'علاقه‌مندی داوطلبان',
+    'install.mod_volunteers_desc'                 => 'یک فرم عمومی برای افرادی که می‌خواهند کمک کنند.',
+    'install.modules_continue'                    => 'ذخیره و ادامه',
+    'install.modules_heading'                     => 'کدام بخش‌های pRD را می‌خواهید استفاده کنید؟',
+    'install.modules_help'                        => 'لطفاً ویژگی‌هایی را که از روز اول می‌خواهید علامت بزنید. بعداً می‌توانید این موارد را از مسیر مدیریت ← تنظیمات سایت تغییر دهید.',
+    'install.modules_later'                       => 'می‌توانید هر یک از این موارد را بعداً در بخش مدیریت ← تنظیمات روشن یا خاموش کنید.',
     'install.msg_admin_created'                   => 'تم إنشاء حساب مدير. يمكنك إضافة حزم تجريبية اختيارية، أو التخطي.',
     'install.msg_db_ready'                        => 'قاعدة البيانات جاهزة. أنشئ حساب المشرف لإنهاء الإعداد.',
     'install.msg_install_removed'                 => 'تمت إزالة مجلد التثبيت. يمكنك الآن تسجيل الدخول.',
     'install.msg_installation_complete'           => 'اكتمل التثبيت.',
-    'install.msg_modules_saved'                   => 'تم حفظ خيارات الميزات الخاصة بك. يمكنك إضافة حزم تجريبية اختيارية أو تخطيها.',
+    'install.msg_modules_saved'                   => 'انتخاب‌های ویژگی شما ذخیره شد. می‌توانید بسته‌های نمایشی اختیاری را اضافه کنید یا از آن صرف‌نظر نمایید.',
     'install.msg_schema_imported'                 => 'تم الاتصال بقاعدة البيانات واستيراد المخطط. أنشئ حساب المشرف الخاص بك.',
     'install.page_title'                          => 'التثبيت — دليل سجلات الرعية',
     'install.remove_folder_btn'                   => 'يرجى إزالة مجلد التثبيت!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'يرجى التأكد من أن قاعدة البيانات التي تخطط لاستخدامها فارغة قبل المتابعة.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'هذا العرض مثبّت بالفعل',
     'demo.already_installed_hint'                 => 'هذه الحزمة مثبتة بالفعل، لذا لا يمكن تحديدها مرة أخرى.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'ما الذي تريد إضافته',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'عرض لوحة المتصدرين',
     'leaderboard.default_role'                    => 'مستخدم',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(أنت)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'سجلات الرعية مجمعة من مصادر تاريخية عامة النطاق.',
     'footer.rights_reserved'                      => 'جميع الحقوق محفوظة.',
     'footer.software_notice'                      => 'pRD (V1.18) هو مصدر مفتوح بموجب ترخيص MIT - مع الشكر لـ @katherinehuk على GitHub على مساعدتها!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'قاعدة بيانات سجلات الرعية',
     'header.skip_to_content'                      => 'الانتقال إلى المحتوى الرئيسي',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'إغلاق الإشعار',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'الفاعل:',
     'record_history.directory_table_label'        => 'جدول الدليل:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'دورة الحياة والجدول الزمني للنشاط',
 
     // -----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // -----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'إزالة ملف الوصول الطارئ',
     'update_database.backup_notice'               => 'قم بإنشاء نسخة احتياطية لقاعدة البيانات قبل تشغيل التحديثات متى استطعت.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'تحديث قاعدة البيانات الآن',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'بيانات الاعتماد غير صالحة أو الوصول إلى الحساب مقيد.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'أُنشئ إدخال سجل في جدول بمعرف %d.',
     'save_data_entry.err_invalid_choice'          => 'يرجى اختيار خيار مدرج لـ %s.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'تمت إضافة السجل بنجاح!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'فشل إرسال اقتراح التعديل. يرجى المحاولة مرة أخرى.',
     'save_public_suggestion.err_field_required'   => 'هذا الحقل مطلوب ولا يمكن إرساله فارغاً.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'تم إرسال اقتراح التعديل الخاص بك بنجاح وإرساله إلى طابور الإشراف للمراجعة. شكراً لك!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'جدول إدخال البيانات النشط:',
     'data_entry.add_entry_summary'                => '➕ إضافة إدخال بيانات جديد (انقر للتوسيع/الطي)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'إلى',
     'data_entry.delete_record_btn'                => 'حذف',
     'data_entry.delete_record_confirm'            => 'هل تريد حذف هذا السجل نهائياً؟ سيتم إزالة القيم ودبابيس الخريطة والاقتراحات ذات الصلة به. لا يمكن التراجع عن هذا الإجراء.',
+    'data_entry.dup_blocked'                      => 'این رکورد شباهت زیادی به یک رکورد از پیش ذخیره‌شده دارد، بنابراین قابل اضافه شدن نیست.',
+    'data_entry.dup_close_match'                  => 'املای بسیار مشابه',
     'data_entry.dup_confirm_btn'                  => 'نعم، قم بالتأكيد وحفظ الإدخال المكرر',
-    'data_entry.dup_desc'                         => 'وجدت إدخالات مطابقة موجودة بالفعل في النظام:',
+    'data_entry.dup_desc'                         => 'لطفاً کارت‌های زیر را بررسی کنید. اگر این یک رکورد متفاوت است، همچنان می‌توانید آن را ذخیره کنید.',
+    'data_entry.dup_empty'                        => '(خالی)',
+    'data_entry.dup_flag_btn'                     => 'ذخیره و اطلاع به مدیر',
     'data_entry.dup_heading'                      => '⚠️ تحذير وجود إدخال مكرر محتمل',
     'data_entry.dup_item_format'                  => 'معرف السجل: %d — القيمة: %s',
+    'data_entry.dup_overview'                     => 'از قبل ذخیره شده است',
     'data_entry.dup_prompt'                       => 'هل لا تزال ترغب في المتابعة وحفظ هذا الإدخال المكرر؟',
+    'data_entry.dup_review_btn'                   => 'بررسی متن تایپ‌شده من',
+    'data_entry.dup_score_exact'                  => 'شباهت محاسبه‌شده %s درصد.',
+    'data_entry.dup_similar'                      => 'این مورد %s٪ شبیه به رکورد شماره %s است',
     'data_entry.edit_record_btn'                  => 'تعديل',
     'data_entry.edit_record_saved'                => 'تم تحديث السجل.',
     'data_entry.enter_value_placeholder'          => 'أدخل القيمة...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'تعديل السجل',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'استعادة كلمة المرور',
     'forgot_password.back_login_link'             => 'العودة لتسجيل الدخول',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'إرسال رابط إعادة تعيين كلمة المرور',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'تسجيل دخول المستخدم',
     'login.err_password_required'                 => 'الرجاء إدخال كلمة المرور الخاصة بك.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'اسم المستخدم أو البريد الإلكتروني:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'يعرض الأحرف الأولى ورقماً عشوائياً للجميع.',
     'onboarding.attr_anon_title'                  => 'مجهول:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'المنطقة الزمنية / الإقليم:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'عنوان البريد الإلكتروني الجديد',
     'profile.aria_region'                         => 'إدارة الملف الشخصي للمستخدم',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'تحديث كلمة المرور',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'تسجيل مستخدم جديد',
     'register.email_label'                        => 'عنوان البريد الإلكتروني',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'اسم المستخدم:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'إعداد كلمة المرور',
     'set_password.confirm_password_label'         => 'تأكيد كلمة المرور:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'مرحباً بك في حسابك الجديد، %s! يرجى اختيار كلمة المرور الخاصة بك أدناه.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'رمز المصادقة المكون من 6 أرقام',
     'setup_2fa.aria_region'                       => 'معالج إعداد المصادقة الثنائية',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'التحقق وتمكين المصادقة الثنائية',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'اقتراح تعديل',
     'suggest_edit.confirm_prompt'                 => 'هل أنت متأكد من أنك مستعد لإرسال اقتراح التعديل هذا لمراجعة المسؤول؟',
     'suggest_edit.current_values_heading'         => 'القيم الحالية:',
+    'suggest_edit.decision_accepted'              => 'پذیرفته شد',
+    'suggest_edit.decision_not_accepted'          => 'پذیرفته نشد',
+    'suggest_edit.dup_of_help'                    => 'اختیاری. مدیران این یادداشت را خواهند دید.',
+    'suggest_edit.dup_of_label'                   => 'اگر شماره رکورد دیگر را می‌دانید، می‌توانید آن را اینجا وارد کنید',
+    'suggest_edit.dup_please_check'               => 'این تغییر بسیار شبیه به یک رکورد دیگر خواهد بود. لطفاً موارد زیر را بررسی کنید.',
     'suggest_edit.empty_label'                    => '(فارغ)',
+    'suggest_edit.err_notify_email'               => 'اگر می‌خواهید از نتیجه مطلع شوید، لطفاً یک آدرس ایمیل وارد کنید.',
     'suggest_edit.heading_prefix'                 => 'اقتراح تعديل للسجل',
     'suggest_edit.leave_blank'                    => 'اترك هذا الحقل فارغاً',
+    'suggest_edit.no_rationale'                   => 'یادداشت اضافی اضافه نشد.',
+    'suggest_edit.notify_email_help'              => 'فقط برای اطلاع‌رسانی نتیجه استفاده می‌شود. در رکورد عمومی نمایش داده نمی‌شود.',
+    'suggest_edit.notify_email_label'             => 'آدرس ایمیل شما',
+    'suggest_edit.notify_label'                   => 'هنگامی که مدیر تصمیم‌گیری کرد، به من ایمیل بزن',
     'suggest_edit.proposed_value_label'           => 'القيمة الجديدة المقترحة:',
     'suggest_edit.reasoning_label'                => 'الأدلة / التبرير / ملاحظات المصدر:',
     'suggest_edit.reasoning_optional'             => 'اختياري — أدلة، أو مصدر، أو ملاحظات للمشرفين.',
     'suggest_edit.reasoning_placeholder'          => 'قدم سياقاً أو اقتباسات مصادر أو مبررات لهذا التغيير...',
+    'suggest_edit.report_dup'                     => 'من فکر می‌کنم این رکورد تکراری یک رکورد دیگر است',
     'suggest_edit.return_btn'                     => 'العودة إلى السجل',
     'suggest_edit.select_column_label'            => 'تحديد العمود للتعديل:',
     'suggest_edit.submit_btn'                     => 'إرسال الاقتراح للمراجعة',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'لا تتردد في إرسال تغيير آخر أدناه، أو استخدم رابط العودة أعلاه عند الانتهاء.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'أدخل رمز المصادقة أو النسخ الاحتياطي',
     'verify_2fa.aria_region'                      => 'التحقق من المصادقة الثنائية',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'التحقق وتسجيل الدخول',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'حالة التحقق من البريد الإلكتروني',
     'verify_email.err_expired_token'              => 'انتهت صلاحية رابط التحقق هذا (تجاوز نافذة الـ 24 ساعة). يرجى التسجيل مرة أخرى أو طلب رابط جديد.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'تم التحقق من البريد الإلكتروني بنجاح! حسابك نشط الآن. يمكنك متابعة تسجيل الدخول.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'تعيين اسم مستخدم فريد لي',
     'index.check_availability'                    => 'التحقق من التوفر',

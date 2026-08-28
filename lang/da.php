@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'Post-ID',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Tilbage',
+    'cols.print_btn'                              => 'Udskriv',
+    'cols.print_entire'                           => 'Udskriv alle',
+    'cols.print_filtered'                         => 'Udskriv filtrerede',
+    'cols.print_now'                              => 'Udskriv eller gem som PDF',
+    'cols.show_heading'                           => 'Vælg hvilke kolonner der skal vises',
+    'cols.show_help'                              => 'Fjern markeringen fra en kolonne for at skjule den her, ved downloads og når du udskriver. På en telefon er færre kolonner lettere at læse.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'E-mailadresse:',
     'create_user.first_name'                      => 'Fornavn:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Lad stå tom for automatisk generering',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Anonym',
     'feedback_dash.default_subject'               => 'Generel forespørgsel',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'Support-ID / Dato',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Tilbage til kontrolpanel for sager',
     'feedback_emails.custom_tags'                 => 'Brugerdefinerede skematags:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Tilpas automatiske e-mailnotifikationer sendt under sagsworkflowet. Brug krøllede parenteser til dynamiske værdier.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Tilføj nyt felt til supportformular',
     'feedback_schema.allow_multiple'              => 'Tillad flere valg (Flervalg)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Kort tekst)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Tilføj ny tabelkolonne for',
     'manage_tables.allow_multiple_label'          => 'Tillad mere end ét valg (flervalg)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Rediger dynamisk kolonne:',
     'manage_tables.edit_metadata_btn'             => 'Rediger tabelmetadata',
     'manage_tables.edit_table_summary'            => 'Rediger tabeldefinition:',
+    'manage_tables.err_col_name_empty'            => 'Indtast venligst et kolonnenavn.',
+    'manage_tables.err_col_name_taken'            => 'Denne tabel har allerede en kolonne ved navn %s. Vælg venligst et andet navn.',
+    'manage_tables.err_table_name_empty'          => 'Indtast venligst et tabellnavn.',
+    'manage_tables.err_table_name_taken'          => 'Der findes allerede en tabel ved navn %s. Vælg venligst et andet navn.',
     'manage_tables.exclude_search_label'          => 'Udelad denne kolonne fra offentlig søgning (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Eksisterende kolonner for',
     'manage_tables.heading'                       => 'Administrer tabeller og skemaer',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Ja',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Anvend filtre',
     'map.back_to_table'                           => 'Tilbage til tabel',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Gå til kort',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Tilbage til brugeroprettelse',
     'user_emails.currently_editing'               => 'Redigerer i øjeblikket:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Administrer e-mailskabeloner til brugernotifikationer',
     'user_emails.opt_invitation'                  => 'Skabelon til brugerkonto-invitation',
     'user_emails.opt_reset'                       => 'Skabelon til nulstilling af adgangskode / adgangslink',
+    'user_emails.opt_suggestion_outcome'          => 'Resultat af redigeringsforslag',
     'user_emails.select_template_label'           => 'Vælg skabelon der skal redigeres:',
     'user_emails.subheading'                      => 'Tilpas e-maillayouts, der sendes, når brugere inviteres, eller når der sendes links til nulstilling af adgangskode.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Tilbage til frivilligansøgninger',
     'volunteer_emails.custom_tags_desc'           => 'Genereres automatisk fra felterne i formularbyggeren:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Konfigurer automatiske e-mailsvar for frivillige på forskellige trin i workflowet. Brug krøllede parenteser til dynamiske værdier.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Tilføj nyt felt til frivilligformular',
     'volunteer_schema.back_to_dashboard'          => 'Tilbage til frivilligansøgninger',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Konfigurer brugerdefinerede felter, datatyper, undertyper, indstillinger og generelle præferencer for formularvisning.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Post #%s',
+    'dup_merge.col_b'                             => 'Post #%s',
+    'dup_merge.col_field'                         => 'Felt',
+    'dup_merge.confirm'                           => 'Vil du flette disse til én post? Den anden post vil blive slettet.',
+    'dup_merge.fields_caption'                    => 'Vælg en værdi for hvert felt',
+    'dup_merge.heading'                           => 'Flet to lignende poster',
+    'dup_merge.intro'                             => 'Disse to ligner hinanden ca. %s%%. Vælg hvilken post der skal beholdes, og vælg derefter en værdi for hvert felt.',
+    'dup_merge.keep_a'                            => 'Behold post #%s',
+    'dup_merge.keep_b'                            => 'Behold post #%s',
+    'dup_merge.keep_legend'                       => 'Hvilken post skal bevares?',
+    'dup_merge.save_btn'                          => 'Flet til én post',
+    'dup_queue.choose_table'                      => 'Vælg en tabel',
+    'dup_queue.col_actions'                       => 'Handling',
+    'dup_queue.col_records'                       => 'Poster',
+    'dup_queue.col_score'                         => 'Hvor ens',
+    'dup_queue.col_table'                         => 'Tabel',
+    'dup_queue.dismiss_btn'                       => 'Ikke en dublet',
+    'dup_queue.dismissed'                         => 'Det par blev markeret som ikke en dublet.',
+    'dup_queue.empty'                             => 'Intet venter. Gennemse en tabel for at lede efter ældre dubletter.',
+    'dup_queue.gone'                              => 'Den gennemgang venter ikke længere.',
+    'dup_queue.heading'                           => 'Lignende poster til gennemgang',
+    'dup_queue.intro'                             => 'Søg i en tabel efter rækker, der allerede ligner hinanden. Du kan sige, at de er forskellige, eller flette dem til én post.',
+    'dup_queue.merge_btn'                         => 'Flet til én',
+    'dup_queue.merged'                            => 'De to poster er nu én. Ændringen er på den resterende posts historik.',
+    'dup_queue.scan_btn'                          => 'Gennemse denne tabel',
+    'dup_queue.scan_done'                         => 'Søgning fuldført. %s lignende par fundet, %s nye elementer tilføjet til listen.',
+    'dup_queue.scan_label'                        => 'Led efter lignende poster i',
     'moderate.approve_btn'                        => 'Godkend',
     'moderate.approve_confirm'                    => 'Godkend og anvend denne værdi?',
     'moderate.by_label'                           => 'Af:',
     'moderate.column_label'                       => 'Kolonne:',
     'moderate.decline_btn'                        => 'Afvis',
     'moderate.decline_confirm'                    => 'Afvis og kassér dette forslag?',
+    'moderate.dup_approved_note'                  => 'Godkendt. Dette ligner nu %s%% af rekord #%s.',
+    'moderate.dup_blocked'                        => 'Kan ikke godkende: dette ville se %s%% ud som rekord #%s.',
     'moderate.empty_placeholder'                  => '[Tom]',
     'moderate.evidence_label'                     => 'Dokumentation / Begrundelse:',
     'moderate.guest_user'                         => 'Gæst / Besøgende',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'Ingen afventende forslag fundet på tværs af dine autoriserede modereringstabeller.',
     'moderate.override_label'                     => 'Tilsidesæt værdi:',
     'moderate.proposed_value_label'               => 'Foreslået ændring:',
+    'moderate.rationale_label'                    => 'Note til den person, der foreslog dette',
+    'moderate.rationale_optional'                 => 'Valgfri note (gemmes på posten).',
+    'moderate.rationale_placeholder'              => 'Hvorfor du accepterede eller afviste denne ændring',
+    'moderate.rationale_will_be_sent'             => 'De bad om at modtage en e-mail. Din note herunder vil blive sendt, som du skriver den, så hold venligst en venlig og klar tone.',
     'moderate.record_id_label'                    => 'Post-ID:',
     'moderate.required_badge'                     => 'Obligatorisk',
     'moderate.select_placeholder'                 => '-- Vælg --',
     'moderate.shortcut_desc'                      => 'Tryk på Ctrl + Enter for at godkende hurtigt, eller Esc for at rydde tilsidesættelsesboksen!',
     'moderate.shortcut_label'                     => 'Tip til tastaturgenveje:',
     'moderate.subheading'                         => 'Sammenlign brugerforslåede rettelser med aktive poster i dine autoriserede tabeller. Godkend, tilsidesæt eller afvis forslag.',
+    'moderate.tab_similar'                        => 'Lignende poster',
+    'moderate.tab_suggestions'                    => 'Forslag',
     'moderate.th_actions'                         => 'Moderatorhandlinger',
     'moderate.th_comparison'                      => 'Sammenligning (Live vs Forslag) og Dokumentation',
     'moderate.th_id_date'                         => 'ID / Dato',
     'moderate.th_table_record'                    => 'Tabel, post og kolonne',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Aktiv',
     'notices.add_new'                             => 'Tilføj ny meddelelse',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Ja',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Administrator',
     'role.label_guest'                            => 'Offentlig besøgende',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Gemmer en fuld .sql-fil på din computer. Opbevar den et sikkert sted, før du kører opdateringer.',
     'settings.driver_native'                      => 'Nativ mail (Lokal Postfix-relæ)',
     'settings.driver_smtp'                        => 'Godkendt SMTP (PHPMailer)',
+    'settings.dup_heading'                        => 'Håndtering af dublerede poster',
+    'settings.dup_help'                           => 'pRD sammenligner det indtastede med andre rækker i samme tabel. Du kan advare brugere, stoppe gemningen eller slå dette fra.',
+    'settings.dup_legend'                         => 'Hvis en ny post ligner en, du allerede har',
+    'settings.dup_mode_block'                     => 'Tillad ikke at de gemmer',
+    'settings.dup_mode_flag'                      => 'Advar dem, og noter det for en moderator, hvis de gemmer alligevel',
+    'settings.dup_mode_off'                       => 'Tjek ikke for lignende poster',
+    'settings.dup_mode_warn'                      => 'Vis en advarsel — de kan stadig gemme',
+    'settings.dup_picky_exact'                    => 'Kun når ordene matcher tæt',
+    'settings.dup_picky_label'                    => 'Hvor krævende skal tjekket være?',
+    'settings.dup_picky_similar'                  => 'Fang også næsten-gæt (lignende stavning)',
     'settings.enc_ssl'                            => 'SSL (Port 465)',
     'settings.enc_tls'                            => 'TLS (Port 587)',
     'settings.error_log_tab'                      => 'Fejllog',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Ingen meddelelser konfigureret.',
     'settings.notice_content_label'               => 'Indhold:',
     'settings.notices_heading'                    => 'Webstedsmeddelelser og annoncer',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'Denne tilladelse er obligatorisk for administratorer.',
+    'settings.perm_more_info'                     => 'Mere om',
+    'settings.perm_needs'                         => 'Kræver',
+    'settings.perm_needs_parent'                  => 'Slå venligst dette til først.',
+    'settings.perm_no_links'                      => 'Denne tilladelse afhænger ikke af en anden.',
+    'settings.perm_used_by'                       => 'Kræves af',
     'settings.permissions_heading'                => 'Dynamisk rolle- og tilladelsesmatrix',
     'settings.permissions_subheading'             => 'Tilladelser er grupperet efter systemfunktioner. Udvid sektioner for at konfigurere rettigheder og gem matrixen nedenfor.',
     'settings.port_label'                         => 'Port:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Opdater database',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Slet',
     'admin_users.disabled'                        => 'Deaktiveret',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Ja',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Administrator',
     'view_ticket.back_to_dashboard'               => 'Tilbage til kontrolpanel for sager',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Sagstatus:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Godkend og send invitation',
     'volunteer_dashboard.accept_title'            => 'Godkend via brugerinvitationssystem',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Frivillig',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Forbudt: Offentlig visning er ikke aktiveret.',
     'api_search.error_unauthorized_table'         => 'Uautoriseret tabeladgang.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Foreslå redigering',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Find',
     'admin_errors.file'                           => 'Fil',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Stak-trace',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'E-mailadresse:',
     'feedback.first_name_label'                   => 'Fornavn:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Efternavn:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Beskriv handlinger for at hjælpe med at finde de problematiske filer',
     'gh.add_comment_below'                        => 'Tilføj din kommentar nedenfor og indsend.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Foreslå en sprogoversættelse',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Sikkerhedsfejl: Adgang nægtet.',
     'security_engine.err_captcha_failed'          => 'CAPTCHA-verifikation mislykkedes. Prøv igen.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Sikkerhedsfejl: Mistænkelig klientsignatur.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Bekræft administratoradgangskode',
     'install.admin_email_label'                   => 'Administratore-mail',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Gå til websted',
     'install.lang_label'                          => 'Sprog',
     'install.login_link'                          => 'Log ind',
+    'install.mod_feedback'                        => 'Feedback og sager',
+    'install.mod_feedback_desc'                   => 'En offentlig formular til spørgsmål og support-sager.',
+    'install.mod_leaderboard'                     => 'Rangliste',
+    'install.mod_leaderboard_desc'                => 'Valgfri pointtabel. Kræver at brugerkonti er slået til.',
     'install.mod_maps'                            => 'Kort',
     'install.mod_maps_desc'                       => 'Lokationsfelter og et kort pr. tabel. Du kan ændre dette senere under Admin → Indstillinger.',
+    'install.mod_moderation'                      => 'Moderering',
+    'install.mod_moderation_desc'                 => 'Gennemgå foreslåede ændringer, før de ændrer en post.',
+    'install.mod_users'                           => 'Brugerkonti',
+    'install.mod_users_desc'                      => 'Lad folk registrere sig og logge ind.',
+    'install.mod_volunteers'                      => 'Frivilliginteresse',
+    'install.mod_volunteers_desc'                 => 'En offentlig formular til folk, der gerne vil hjælpe.',
+    'install.modules_continue'                    => 'Gem og fortsæt',
+    'install.modules_heading'                     => 'Hvilke dele af pRD vil du gerne bruge?',
+    'install.modules_help'                        => 'Marker venligst de funktioner, du ønsker fra starten. Du kan ændre dette senere under Admin → Indstillinger.',
+    'install.modules_later'                       => 'Du kan slå enhver af disse til eller fra senere under Admin → Indstillinger.',
     'install.msg_admin_created'                   => 'En administratorkonto blev oprettet. Du kan tilføje valgfrie demopakker eller springe over.',
     'install.msg_db_ready'                        => 'Databasen er klar. Opret din administratorkonto for at afslutte.',
     'install.msg_install_removed'                 => 'Installationsmappen blev fjernet. Du kan nu logge ind.',
     'install.msg_installation_complete'           => 'Installation fuldført.',
-    'install.msg_modules_saved'                   => 'Dine valg af funktioner er blevet gemt. Du kan tilføje valgfrie demopakker eller springe over.',
+    'install.msg_modules_saved'                   => 'Dine funktionsvalg er blevet gemt. Du kan tilføje valgfri demopakker eller springe over.',
     'install.msg_schema_imported'                 => 'Database tilsluttet og skema importeret. Opret din administratorkonto.',
     'install.page_title'                          => 'Installation — Sognearkiv',
     'install.remove_folder_btn'                   => 'Fjern venligst installationsmappen!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Sørg for, at den database, du planlægger at bruge, er tom, før du fortsætter.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Denne demo er allerede installeret',
     'demo.already_installed_hint'                 => 'Denne pakke er allerede installeret, så den kan ikke vælges igen.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'Hvad skal tilføjes',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Ranglistevisning',
     'leaderboard.default_role'                    => 'Bruger',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Dig)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Sognearkivalier samlet fra historiske kilder i det offentlige rum.',
     'footer.rights_reserved'                      => 'Alle rettigheder forbeholdes.',
     'footer.software_notice'                      => 'pRD (V1.18) er open source under MIT-licensen - Tak til GitHubs @katherinehuk for et ekstra sæt øjne!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Sognearkivdatabase',
     'header.skip_to_content'                      => 'Gå til hovedindhold',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Luk meddelelse',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Aktør:',
     'record_history.directory_table_label'        => 'Arkivtabel:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Hændelses- og aktivitetidslinje',
 
     // ------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Fjern nødadgangsfil',
     'update_database.backup_notice'               => 'Tag en databasebackup, før du kører opdateringer, når du kan.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Opdater database nu',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Ugyldige legitimationsoplysninger eller begrænset kontoadgang.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Post oprettet i tabel med ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Vælg venligst en listet mulighed for %s.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Post tilføjet succesfuldt!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Kunne ikke indsende redigeringsforslag. Prøv igen.',
     'save_public_suggestion.err_field_required'   => 'Dette felt er obligatorisk og kan ikke indsendes tomt.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Dit redigeringsforslag er blevet indsendt succesfuldt til moderationskøen. Mange tak!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Aktiv dataintastningstabel:',
     'data_entry.add_entry_summary'                => '➕ Tilføj ny dataintastning (Klik for at udvide/skjule)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'Til',
     'data_entry.delete_record_btn'                => 'Slet',
     'data_entry.delete_record_confirm'            => 'Slet denne post permanent? Værdier, kortnåle og relaterede forslag til den vil blive fjernet. Dette kan ikke fortrydes.',
+    'data_entry.dup_blocked'                      => 'Denne post minder for meget om en, der allerede er gemt, så den kan ikke tilføjes.',
+    'data_entry.dup_close_match'                  => 'Meget lignende stavning',
     'data_entry.dup_confirm_btn'                  => 'Ja, bekræft og gem dublet',
-    'data_entry.dup_desc'                         => 'Vi fandt lignende poster i systemet:',
+    'data_entry.dup_desc'                         => 'Tjek venligst kortene herunder. Du kan stadig gemme, hvis dette er en anden post.',
+    'data_entry.dup_empty'                        => '(tom)',
+    'data_entry.dup_flag_btn'                     => 'Gem og giv besked til en moderator',
     'data_entry.dup_heading'                      => '⚠️ Advarsel om mulig dublet',
     'data_entry.dup_item_format'                  => 'Post-ID: %d — Værdi: %s',
+    'data_entry.dup_overview'                     => 'Allerede gemt',
     'data_entry.dup_prompt'                       => 'Vil du fortsætte og gemme denne dubletpost alligevel?',
+    'data_entry.dup_review_btn'                   => 'Gennemgå det jeg skrev',
+    'data_entry.dup_score_exact'                  => 'Beregnet lighed %s procent.',
+    'data_entry.dup_similar'                      => 'Dette ligner %s%% af rekord #%s',
     'data_entry.edit_record_btn'                  => 'Rediger',
     'data_entry.edit_record_saved'                => 'Posten blev opdateret.',
     'data_entry.enter_value_placeholder'          => 'Indtast værdi...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Rediger post',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Adgangskendelsens gendannelse',
     'forgot_password.back_login_link'             => 'Tilbage til login',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Send nulstillingslink',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Brugerlogin',
     'login.err_password_required'                 => 'Indtast venligst din adgangskode.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Brugernavn eller e-mail:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Viser initialer og et tilfældigt nummer til alle.',
     'onboarding.attr_anon_title'                  => 'Anonym:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Tidszone / Region:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Ny e-mailadresse',
     'profile.aria_region'                         => 'Brugerprofiladministration',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Opdater adgangskode',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Brugerregistrering',
     'register.email_label'                        => 'E-mailadresse',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Brugernavn:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Indstil adgangskode',
     'set_password.confirm_password_label'         => 'Bekræft adgangskode:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Velkommen til din nye konto, %s! Vælg venligst din adgangskode nedenfor.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-cifret bekræftelseskode',
     'setup_2fa.aria_region'                       => '2FA-opsætningsguide',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Verificer og aktiver 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Foreslå redigering',
     'suggest_edit.confirm_prompt'                 => 'Er du sikker på, at du vil indsende dette redigeringsforslag til administratorgennemgang?',
     'suggest_edit.current_values_heading'         => 'Aktuelle værdier:',
+    'suggest_edit.decision_accepted'              => 'Accepteret',
+    'suggest_edit.decision_not_accepted'          => 'Ikke accepteret',
+    'suggest_edit.dup_of_help'                    => 'Valgfrit. Moderatorer vil se denne note.',
+    'suggest_edit.dup_of_label'                   => 'Hvis du kender det andet postnummer, kan du tilføje det her',
+    'suggest_edit.dup_please_check'               => 'Denne ændring ville ligne en anden post meget. Tjek venligst herunder.',
     'suggest_edit.empty_label'                    => '(tom)',
+    'suggest_edit.err_notify_email'               => 'Indtast venligst en e-mailadresse, hvis du vil høre resultatet.',
     'suggest_edit.heading_prefix'                 => 'Foreslå redigering for post',
     'suggest_edit.leave_blank'                    => 'Efterlad dette felt tomt',
+    'suggest_edit.no_rationale'                   => 'Ingen ekstra note blev tilføjet.',
+    'suggest_edit.notify_email_help'              => 'Bruges kun til at fortælle dig resultatet. Den vises ikke på den offentlige post.',
+    'suggest_edit.notify_email_label'             => 'Din e-mailadresse',
+    'suggest_edit.notify_label'                   => 'Send mig en e-mail, når en moderator har truffet en beslutning',
     'suggest_edit.proposed_value_label'           => 'Foreslået ny værdi:',
     'suggest_edit.reasoning_label'                => 'Dokumentation / Begrundelse / Kildehenvisning:',
     'suggest_edit.reasoning_optional'             => 'Valgfrit — dokumentation, kilde eller noter til moderatorer.',
     'suggest_edit.reasoning_placeholder'          => 'Giv kontekst, kildecitat eller årsag til denne ændring...',
+    'suggest_edit.report_dup'                     => 'Jeg mener, at denne post er en dublet af en anden',
     'suggest_edit.return_btn'                     => 'Tilbage til post',
     'suggest_edit.select_column_label'            => 'Vælg kolonne der skal redigeres:',
     'suggest_edit.submit_btn'                     => 'Indsend forslag til gennemgang',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Du kan indsende en anden redigering nedenfor eller bruge returlinket ovenfor, når du er færdig.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Indtast bekræftelseskode eller sikkerhedskode',
     'verify_2fa.aria_region'                      => '2FA-verifikation',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Verificer og log ind',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'E-mailbekræftelsesstatus',
     'verify_email.err_expired_token'              => 'Dette bekræftelseslink er udløbet (24-timers grænse overskredet). Registrer dig igen eller anmod om et nyt link.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'E-mail bekræftet succesfuldt! Din konto er nu aktiv. Fortsæt venligst til login.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Tildel et unikt brugernavn til mig',
     'index.check_availability'                    => 'Tjek tilgængelighed',

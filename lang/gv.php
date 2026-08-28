@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'ID y Choontys',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Gow er ash',
+    'cols.print_btn'                              => 'Clou',
+    'cols.print_entire'                           => 'Clou yn clane',
+    'cols.print_filtered'                         => 'Clou ny reih ny scruit',
+    'cols.print_now'                              => 'Clou ny sauail myr PDF',
+    'cols.show_heading'                           => 'Vreih ny coloinyn as oik er y scailan',
+    'cols.show_help'                              => 'Gow magh coloin son ee y chooie ayns shoh, tra t\'ou lughtaghey neose, as tra t\'ou clouail. Er fone, ta coloinyn sloo ny smoo aashagh dy lhaih.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'Enmys post-leacht:',
     'create_user.first_name'                      => 'Ennym:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Fag blank dy gientyn hwoaie',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Neu-enmyssit',
     'feedback_dash.default_subject'               => 'Screeuyn cadjin',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'ID y Tikeyt / Traa',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Gow er ash dys boayl co-choyrle',
     'feedback_emails.custom_tags'                 => 'Bratagyn scamaill reih:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Reill post-leachtyn co-choyrle. Ymmyd y chur er bratagyn.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Cur coolt foirm tikeyt noa er bun',
     'feedback_schema.allow_multiple'              => 'Lhig da reihyn mooar y gheddyn (Ill-reih)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Screeuyn giare)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Cur colooish noa er bun da',
     'manage_tables.allow_multiple_label'          => 'Cooie cur er bun ny smoo na nane reih (reih-ill-stoo)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Reaghey colooish:',
     'manage_tables.edit_metadata_btn'             => 'Reaghey fysseree taablagh',
     'manage_tables.edit_table_summary'            => 'Reaghey reaghys y taablagh:',
+    'manage_tables.err_col_name_empty'            => 'Cur ennym coloin ayn, my sailliu.',
+    'manage_tables.err_col_name_taken'            => 'Ta coloin ec y voayrd shoh enmyssit %s roish myr shen. Reih ennym elley, my sailliu.',
+    'manage_tables.err_table_name_empty'          => 'Cur ennym boayrd ayn, my sailliu.',
+    'manage_tables.err_table_name_taken'          => 'Ta boayrd ayn roish myr shen enmyssit %s. Reih ennym elley, my sailliu.',
     'manage_tables.exclude_search_label'          => 'Gow magh y cholooish shoh veih ronsaghey pobylagh (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Colooishyn ry-gheddyn da',
     'manage_tables.heading'                       => 'Reill Taablaghyn as Scamaill',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Va',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Cur scilliyn ayns obbyr',
     'map.back_to_table'                           => 'Er dy h-ais dys y taabyl',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Sgipail dys y chaslys-cruinney',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Gow er ash dys croo ymmydtee',
     'user_emails.currently_editing'               => 'Reaghey nish:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Reill Cummyeyn Post-Leacht Ymmydtee',
     'user_emails.opt_invitation'                  => 'Cummyey chuirit ymmydtee',
     'user_emails.opt_reset'                       => 'Cummyey aastiurey fockle courey / link',
+    'user_emails.opt_suggestion_outcome'          => 'Enoil y cohiroin veih coontey lhiasaghey',
     'user_emails.select_template_label'           => 'Reih cummyey dy reaghey:',
     'user_emails.subheading'                      => 'Reill post-leachtyn chuirit as aastiurey fockle courey.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Gow er ash dys coonteeyn co-choyrle',
     'volunteer_emails.custom_tags_desc'           => 'Gientit hwoaie voish ny cooleeyn fhoirm:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Reill post-leachtyn co-choyrle. Ymmyd y chur er bratagyn.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Cur coolt foirm co-choyrle noa er bun',
     'volunteer_schema.back_to_dashboard'          => 'Gow er ash dys coonteeyn co-choyrle',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Reill cooleeyn, sorçhyn fysseree, fo-sorçhyn, as reaghysyn foirm.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Coontey #%s',
+    'dup_merge.col_b'                             => 'Coontey #%s',
+    'dup_merge.col_field'                         => 'Magher',
+    'dup_merge.confirm'                           => 'Cur ad shoh cooidjagh ayns un choontey? Hie yn coontey elley er ghoaill magh.',
+    'dup_merge.fields_caption'                    => 'Reih ooley son gagh magher',
+    'dup_merge.heading'                           => 'Cur daa choontey cosoylagh cooidjagh',
+    'dup_merge.intro'                             => 'Ta ny daa shoh mysh %s%% cosoylagh. Reih cre\'n coontey dy reaylt, as eisht reih ooley son gagh magher.',
+    'dup_merge.keep_a'                            => 'Reaylt coontey #%s',
+    'dup_merge.keep_b'                            => 'Reaylt coontey #%s',
+    'dup_merge.keep_legend'                       => 'Cre\'n coontey ba ajal dy reaylt?',
+    'dup_merge.save_btn'                          => 'Cur cooidjagh ayns un choontey',
+    'dup_merged'                                  => 'Ta ny daa choontey shen nish ny un. Ta\'n caghlaa er shenndee yn coontey ta foast ayn.',
+    'dup_queue.choose_table'                      => 'Reih boayrd',
+    'dup_queue.col_actions'                       => 'Cre dy dene',
+    'dup_queue.col_records'                       => 'Coontey',
+    'dup_queue.col_score'                         => 'Quoi cosoylagh',
+    'dup_queue.col_table'                         => 'Boayrd',
+    'dup_queue.dismiss_btn'                       => 'Cha nel eh ny jeesaght',
+    'dup_queue.dismissed'                         => 'Hie yn jeesaght shen er chowraghey nagh row eh ny jeesaght.',
+    'dup_queue.empty'                             => 'Veg dy ghelal. Scannal boayrd dy ronseyd son kiedyn shenn cosoylagh.',
+    'dup_queue.gone'                              => 'Cha nel yn cohiroin shen ghelal nish.',
+    'dup_queue.heading'                           => 'Coontey cosoylagh dy chur er etoil',
+    'dup_queue.intro'                             => 'Scannal boayrd son lhianyn t\'ayn roish myr shen cosoylagh. Foddee oo gra nagh vel ad gollrish, ny cur ad cooidjagh ayns un choontey.',
+    'dup_queue.merge_btn'                         => 'Cur cooidjagh ayns un',
+    'dup_queue.scan_btn'                          => 'Scannal y boayrd shoh',
+    'dup_queue.scan_done'                         => 'Scannal jerant. %s jeesaght cosoylagh feddynit, %s cooid noa currit da\'n rolley.',
+    'dup_queue.scan_label'                        => 'Ronsaghey coontey cosoylagh ayns',
     'moderate.approve_btn'                        => 'Lhig da',
     'moderate.approve_confirm'                    => 'Lhig da stoo shoh?',
     'moderate.by_label'                           => 'Liorish:',
     'moderate.column_label'                       => 'Colooish:',
     'moderate.decline_btn'                        => 'Diultey',
     'moderate.decline_confirm'                    => 'Diultey yn coyrle shoh?',
+    'moderate.dup_approved_note'                  => 'Gorit. Ta shoh nish %s%% cosoylagh rish coontey #%s.',
+    'moderate.dup_blocked'                        => 'Nagh vel yn trassaght foddee: veagh shoh %s%% cosoylagh rish coontey #%s.',
     'moderate.empty_placeholder'                  => '[Blank]',
     'moderate.evidence_label'                     => 'Fys / Coontys:',
     'moderate.guest_user'                         => 'Ghuilley / Easyr',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'Cha row coyrleyn feddynit.',
     'moderate.override_label'                     => 'Scriu thie stoo:',
     'moderate.proposed_value_label'               => 'Reaghys er lhiurid:',
+    'moderate.rationale_label'                    => 'Notey da\'n dooinney ren cur yn cohiroin shoh',
+    'moderate.rationale_optional'                 => 'Notey reihyssagh (goll er freaylt er y choontey).',
+    'moderate.rationale_placeholder'              => 'Cre\'n fa ren oo geeauld ny diultey yn caghlaa shoh',
+    'moderate.rationale_will_be_sent'             => 'Haink jerrey er e-noast. Hie dty notey heese er y chur as currit myr ren oo screeu eh, lhig da\'n cheayrt ve kiarey as aashagh my sailliu.',
     'moderate.record_id_label'                    => 'ID y Choontys:',
     'moderate.required_badge'                     => 'Ry-hoi',
     'moderate.select_placeholder'                 => '-- Reih --',
     'moderate.shortcut_desc'                      => 'Broo Ctrl + Enter dy lhiggey dy tappee ny Esc dy scriu magh!',
     'moderate.shortcut_label'                     => 'Screeuyn geayrt meainey:',
     'moderate.subheading'                         => 'Jeigey reaghysyn ymmydtee rish coonteeyn bey. Lhig da coyrle, scriu magh, ny diultey.',
+    'moderate.tab_similar'                        => 'Coontey cosoylagh',
+    'moderate.tab_suggestions'                    => 'Cohoiroyn',
     'moderate.th_actions'                         => 'Gienseyn reireyder',
     'moderate.th_comparison'                      => 'Keyley (Bey vs Coyrle) as Fys',
     'moderate.th_id_date'                         => 'ID / Traa',
     'moderate.th_table_record'                    => 'Taablagh, coontey as colooish',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Obbragh',
     'notices.add_new'                             => 'Cur fys noa rish',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Ta',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Reireyder',
     'role.label_guest'                            => 'Bishee Pobylagh',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Sauail coad .sql er y choar. Reih ayns boayl sauchey roish aastiurey.',
     'settings.driver_native'                      => 'Post-leacht traa (Postfix local)',
     'settings.driver_smtp'                        => 'SMTP foshilit (PHPMailer)',
+    'settings.dup_heading'                        => 'Reirey Jeesaghtyn Coontey',
+    'settings.dup_help'                           => 'Ta pRD cur ny vrer screeurit rish lhianyn elley ayns y boayrd cheddin. Foddee oo cur annooin da sleih, jannoo jerrey je\'n sauail, ny cur shoh ass.',
+    'settings.dup_legend'                         => 'My ta coontey noa cosoylagh rish un t\'ayd roish myr shen',
+    'settings.dup_mode_block'                     => 'Na lhig daue sauail',
+    'settings.dup_mode_flag'                      => 'Cur annooin daue, as cur notey da reireyder my sauileys ad ny yei',
+    'settings.dup_mode_off'                       => 'Na ronseyd son coontey cosoylagh',
+    'settings.dup_mode_warn'                      => 'Soilshaghey annooin — foddee ad sauail foast',
+    'settings.dup_picky_exact'                    => 'Nane er nane tra ta ny ghaueyn coardail dy kiart',
+    'settings.dup_picky_label'                    => 'Quoi screeoo ba ajal dy row y ronsey?',
+    'settings.dup_picky_similar'                  => 'Gow lesh skeeanyn gergey neesht (screeu cosoylagh)',
     'settings.enc_ssl'                            => 'SSL (Port 465)',
     'settings.enc_tls'                            => 'TLS (Port 587)',
     'settings.error_log_tab'                      => 'Log lhiasagyn',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Cha nel skea er nyn reaghey foast.',
     'settings.notice_content_label'               => 'Corp:',
     'settings.notices_heading'                    => 'Skea as Scriuyn y Vand',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'Ta\'nchiartys shoh y ghial dyn Reireyderyn.',
+    'settings.perm_more_info'                     => 'Smoo mychione',
+    'settings.perm_needs'                         => 'Iearree',
+    'settings.perm_needs_parent'                  => 'Cur ad shoh er y chied cheayrt, my sailliu.',
+    'settings.perm_no_links'                      => 'Cha nel yn chiartys shoh croghey er nane elley.',
+    'settings.perm_used_by'                       => 'G goll er erriu liorish',
     'settings.permissions_heading'                => 'Reill Ceadyn as Oayrt',
     'settings.permissions_subheading'             => 'Ceadyn ta reaghit rere corys. Foshil ny rheynnyn as sauail.',
     'settings.port_label'                         => 'Port:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Aastiurey Bun-Fysseree',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Ghiisleyder',
     'admin_users.disabled'                        => 'Neu-ghوص',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Ta',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Reireyder',
     'view_ticket.back_to_dashboard'               => 'Gow er ash dys boayl tikeyt',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Staydys y tikeyt:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Gow as Cur chuirit',
     'volunteer_dashboard.accept_title'            => 'Gow stiagh ayns corys chuirit ymmydtee',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Co-choyrle',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Neu-lhiggit: Ayns pobylagh cha nel gow er ghloyr.',
     'api_search.error_unauthorized_table'         => 'Neu-lhiggit gow dys taablagh.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Cur coyrle reaghys',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Gheddyn',
     'admin_errors.file'                           => 'Coadan',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Lorg stak',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Enmys post-leacht:',
     'feedback.first_name_label'                   => 'Ennym:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Sloaght:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Cur skeeal er ghow nane dy chooney gheddyn ny cooid moghyt',
     'gh.add_comment_below'                        => 'Cur dty choayl-choyrle fo as cur stiagh.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Coayl Çhengey',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Meamble sauchey: Neu-lhiggit gow.',
     'security_engine.err_captcha_failed'          => 'Meamble CAPTCHA. Cur tuarystal da-noa.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Meamble sauchey: Sianel cliant ammysagh.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Deih fockle courey reireyder',
     'install.admin_email_label'                   => 'Post-leacht reireyder',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Gow dys y vand',
     'install.lang_label'                          => 'Gaelg / Çhengey',
     'install.login_link'                          => 'Log veih',
+    'install.mod_feedback'                        => 'Fysseree as tiogaidyn',
+    'install.mod_feedback_desc'                   => 'Un formyl theayagh son kishtyn as tiogaidyn cooney.',
+    'install.mod_leaderboard'                     => 'Boayrd Stiureyderyn',
+    'install.mod_leaderboard_desc'                => 'Boayrd phointyn reihyssagh. Iearree coontey ymmydeyr dy ve er.',
     'install.mod_maps'                            => 'Caslyssyn-cruinney',
     'install.mod_maps_desc'                       => 'Magheryn boayl as caslys-cruinney son dagh taabyl. Foddee oo caghlaa shoh dy annoil fo Reireyder → Reihraghyn.',
+    'install.mod_moderation'                      => 'Reirey as coadey',
+    'install.mod_moderation_desc'                 => 'Cur er etoil lhiasaghyn cohirouit roish t\'ad caghlaa coontey.',
+    'install.mod_users'                           => 'Coontey ymmydeyr',
+    'install.mod_users_desc'                      => 'Lhig da sleeu screeu stiagh as loggal stiagh.',
+    'install.mod_volunteers'                      => 'Gennalys cooney',
+    'install.mod_volunteers_desc'                 => 'Un formyl theayagh son sleih t\'as geearree cooney.',
+    'install.modules_continue'                    => 'Sauail as gow er ragh',
+    'install.modules_heading'                     => 'Cre\'n cooid dy pRD ba mooinjer dy yannoo ymmyd jeh?',
+    'install.modules_help'                        => 'Scyll ny cooid ta uss geearree veih\'n chied laa, my sailliu. Foddee oo caghlaa shoh anish ny yei fo Reirey → Reihyssaghyn yn Lhiat.',
+    'install.modules_later'                       => 'Foddee oo cur nane erbee jeu er ny ass anish ny yei ayns Reirey → Reihyssaghyn.',
     'install.msg_admin_created'                   => 'Va Coontey Chiarn er nyn croodh. Foddee oo pacaidyn reihghil taisht y chur ris, ny seachad.',
     'install.msg_db_ready'                        => 'Bun-fysseree ta reih. Croo dty coontey reireyder dy chochorit.',
     'install.msg_install_removed'                 => 'Va’n pasgan stalleeyn er nyn gheddyn jeant. Foddee oo logail stiagh anmagh.',
     'install.msg_installation_complete'           => 'Reaghys cochorit.',
-    'install.msg_modules_saved'                   => 'Ta nyn reihnyn gnes er ve saualt. Foddee oo paagyn demo roihagh y chur rish, ny lhiggey dagh nane jeh.',
+    'install.msg_modules_saved'                   => 'Ta dty reihyn cooid er gheddyn sauail. Foddee oo cur paagyn demo reihyssagh er, ny scuir.',
     'install.msg_schema_imported'                 => 'Bun-fysseree lhiantynagh as scamaill lughtit. Croo coontey reireyder.',
     'install.page_title'                          => 'Reaghys — Cooadyn Parish',
     'install.remove_folder_btn'                   => 'Cur y pasgan stalleeyn jeant my sailt!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Shickyraghey dy vel y bun-stoo fysseree ta oo geiyrt y chur er bun feayt ayns toshiaght.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Ta’n Taisht Shyn Stalleeit Hoshiaght',
     'demo.already_installed_hint'                 => 'Ta’n pacaid shoh stalleeit hoshiaght, my ta shen cha nod eh goll er reih ennym.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'Cre y chur ris',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Boayl Bord Stoo',
     'leaderboard.default_role'                    => 'Ymmydtee',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Ush)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Coadyn parish gientit voish fynney shennaghys pobylagh.',
     'footer.rights_reserved'                      => 'Ooilley nyn gheid reilt.',
     'footer.software_notice'                      => 'Ta pRD (V1.18) ny stoyr foshlit fo Ceadunas MIT - Gura mie lhiat da @katherinehuk er GitHub son y nah gheyre sooill!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Bun-Fysseree Cooadyn Parish',
     'header.skip_to_content'                      => 'Sgipail dys y cooid ard',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Scauel skea',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Giennoo:',
     'record_history.directory_table_label'        => 'Taablagh y Coad:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Linney traa as giense',
 
     // ------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway
+    // 34. Standalone Update Database Gateway
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Stapp coadan roshtyn er y traa cheayrt',
     'update_database.backup_notice'               => 'Gow cooyrt-sauail bun-stoo roish y gheddyn jannoo lhiasagyn tra ta shiu abyl.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Aastiurey Bun-Fysseree nish',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Fysseree log veih neu-reent ny coontey sriant.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Coontey gientyn ayns taablagh ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Reih reihys rolley son %s my sailt.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Coontey currit er bun dy h-eiraghtagh!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Meamble cur coyrle reaghys stiagh. Cur tuarystal da-noa.',
     'save_public_suggestion.err_field_required'   => 'Coolt shoh ta ry-hoi as cha nod ve blank.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Coyrle reaghys currit stiagh dy h-eiraghtagh as currit da reireyderyn. Gura mie eu!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Taablagh stovan fysseree bey:',
     'data_entry.add_entry_summary'                => '➕ Cur stovan fysseree noa stiagh (Clig dy voshil/chouyr)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'Dys',
     'data_entry.delete_record_btn'                => 'Sgoait',
     'data_entry.delete_record_confirm'            => 'Sgoait y coontys shoh dy bragh? Dy vel argidyn, pinn chaslys-cruinney as coyrleeyn coardail goll er scryssey. Cha nod oo caghlaa shoh.',
+    'data_entry.dup_blocked'                      => 'Ta\'n coontey shoh ro chosoylagh rish un sauailt roish myr shen, lheid as nagh vel eh foddee dy chur er.',
+    'data_entry.dup_close_match'                  => 'Screeu cosoylagh dy lhoant',
     'data_entry.dup_confirm_btn'                  => 'Ta, deih as sauail coontey nane',
-    'data_entry.dup_desc'                         => 'Fnee marish coonteeyn reent ayns y corys:',
+    'data_entry.dup_desc'                         => 'Cur etoil er ny kaartyn heese, my sailliu. Foddee oo sauail foast my she coontey elley eh shoh.',
+    'data_entry.dup_empty'                        => '(follym)',
+    'data_entry.dup_flag_btn'                     => 'Sauail as lhaih da reireyder',
     'data_entry.dup_heading'                      => '⚠️ Rabhadh coontey nane',
     'data_entry.dup_item_format'                  => 'ID y Choontys: %d — Stoo: %s',
+    'data_entry.dup_overview'                     => 'Sauailt roish myr shen',
     'data_entry.dup_prompt'                       => 'Vel oo shilgey gow er aght as sauail y coontey nane shoh?',
+    'data_entry.dup_review_btn'                   => 'Cur etoil er cre screeu mee',
+    'data_entry.dup_score_exact'                  => 'Cosoylaght oolit %s poynt.',
+    'data_entry.dup_similar'                      => 'Ta shoh %s%% cosoylagh rish coontey #%s',
     'data_entry.edit_record_btn'                  => 'Reaghey',
     'data_entry.edit_record_saved'                => 'Va’n coontys noait.',
     'data_entry.enter_value_placeholder'          => 'Cur stovan stiagh...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Reaghey coontys',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Aastiurey fockle courey',
     'forgot_password.back_login_link'             => 'Gow er ash dys log veih',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Cur link aastiurey',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Log veih ymmydtee',
     'login.err_password_required'                 => 'Cur d’ockle screeuee.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Ennym ymmydtee ny post-leacht:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Soilshaghey enmys toshiaght & earroo da ooilley.',
     'onboarding.attr_anon_title'                  => 'Neu-enmyssit:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Boayl traa / Reeriaght:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Enmys post-leacht noa',
     'profile.aria_region'                         => 'Reill Brofile Ymmydtee',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Aastiurey fockle courey',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Clareyr ymmydtee',
     'register.email_label'                        => 'Ennym Post-Lhiattee',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Ennym ymmydtee:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Reaghys fockle courey',
     'set_password.confirm_password_label'         => 'Deih fockle courey:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Failt dys dty coontey noa, %s! Reih fockle courey heose.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Coad 6 digish',
     'setup_2fa.aria_region'                       => 'Lught Reaghys 2FA',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Deih & gow er ghloyr 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Cur coyrle reaghys',
     'suggest_edit.confirm_prompt'                 => 'Vel oo shilgey cur coyrle reaghys shoh stiagh da reireyderyn?',
     'suggest_edit.current_values_heading'         => 'Stoo nish:',
+    'suggest_edit.decision_accepted'              => 'Gorit',
+    'suggest_edit.decision_not_accepted'          => 'Cha row eh gorit',
+    'suggest_edit.dup_of_help'                    => 'Reihyssagh. Nee reireyderyn fakin yn notey shoh.',
+    'suggest_edit.dup_of_label'                   => 'My t\'ayo n mere yn coontey elley, foddee oo cur eh er ansh',
+    'suggest_edit.dup_please_check'               => 'Veagh y caghlaa shoh feer chosoylagh rish coontey elley. Cur etoil heese, my sailliu.',
     'suggest_edit.empty_label'                    => '(blank)',
+    'suggest_edit.err_notify_email'               => 'Cur enmys e-noast ayn my sailliu my t\'as geearree clashtyn y jerrey.',
     'suggest_edit.heading_prefix'                 => 'Cur coyrle reaghys da coontey',
     'suggest_edit.leave_blank'                    => 'Fag y magher shoh blank',
+    'suggest_edit.no_rationale'                   => 'Cha daink notey elley er y chur er.',
+    'suggest_edit.notify_email_help'              => 'Goll er ymmyd son y jerrey y ghra rhyt hene. Cha nel eh goll er soilshaghey er y coontey theayagh.',
+    'suggest_edit.notify_email_label'             => 'Dty enmys e-noast',
+    'suggest_edit.notify_label'                   => 'Cur e-noast dou tra ta reireyder er gheddyn cooish',
     'suggest_edit.proposed_value_label'           => 'Stoo er lhiurid noa:',
     'suggest_edit.reasoning_label'                => 'Coontys / Fys / Imraa:',
     'suggest_edit.reasoning_optional'             => 'Reihghil — fianaise, bun, ny cooinaghtyn da kiannoortyn.',
     'suggest_edit.reasoning_placeholder'          => 'Cur fysseree, imraa ny fa da y reaghys shoh...',
+    'suggest_edit.report_dup'                     => 'Ta mee smooinaghtyn nagh vel yn coontey shoh agh jeesaght jeh nane elley',
     'suggest_edit.return_btn'                     => 'Gow er ash dys coontey',
     'suggest_edit.select_column_label'            => 'Reih colooish dy reaghey:',
     'suggest_edit.submit_btn'                     => 'Cur coyrle stiagh da jeigey',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Foddee oo reaghys elley cur stiagh, ny ymmyd link heose.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Cur coad jeigey ny sauchey stiagh',
     'verify_2fa.aria_region'                      => 'Jeigey 2FA',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Deih & Log veih',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Staydys reent post-leacht',
     'verify_email.err_expired_token'              => 'Link jeigey scriuit (24 oour gow magh). Clareyr da-noa ny cur tuarystal.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'Post-leacht reent dy h-eiraghtagh! Coontey bey nish. Foddee oo log veih.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Cur ennym ymmydeyr er lheh dou',
     'index.check_availability'                    => 'Jeill fow ayns',

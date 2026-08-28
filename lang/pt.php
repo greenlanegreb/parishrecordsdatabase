@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'ID do Registo',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Voltar',
+    'cols.print_btn'                              => 'Imprimir',
+    'cols.print_entire'                           => 'Imprimir tudo',
+    'cols.print_filtered'                         => 'Imprimir filtrados',
+    'cols.print_now'                              => 'Imprimir ou guardar como PDF',
+    'cols.show_heading'                           => 'Escolher quais colunas mostrar',
+    'cols.show_help'                              => 'Desmarque uma coluna para ocultá-la aqui, nos descarregamentos e ao imprimir. Num telemóvel, menos colunas tornam a leitura mais fácil.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'Endereço de e-mail:',
     'create_user.first_name'                      => 'Nome:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Deixar em branco para geração automática',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Anónimo',
     'feedback_dash.default_subject'               => 'Consulta geral',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'ID do Ticket / Data',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Voltar ao painel de tickets de feedback',
     'feedback_emails.custom_tags'                 => 'Etiquetas de esquema personalizadas:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Personalize as notificações automáticas por e-mail enviadas durante o fluxo de tickets. Utilize chavetas para marcadores dinâmicos.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Adicionar novo campo de formulário de ticket',
     'feedback_schema.allow_multiple'              => 'Permitir a seleção de várias opções (Seleção múltipla)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Texto curto)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Adicionar nova coluna de tabela para',
     'manage_tables.allow_multiple_label'          => 'Permitir mais do que uma opção (seleção múltipla)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Editar coluna dinâmica:',
     'manage_tables.edit_metadata_btn'             => 'Editar metadados da tabela',
     'manage_tables.edit_table_summary'            => 'Editar definição da tabela:',
+    'manage_tables.err_col_name_empty'            => 'Por favor, introduza o nome de uma coluna.',
+    'manage_tables.err_col_name_taken'            => 'Esta tabela já tem uma coluna com o nome %s. Por favor, escolha um nome diferente.',
+    'manage_tables.err_table_name_empty'          => 'Por favor, introduza o nome de uma tabela.',
+    'manage_tables.err_table_name_taken'          => 'Já existe uma tabela com o nome %s. Por favor, escolha um nome diferente.',
     'manage_tables.exclude_search_label'          => 'Excluir esta coluna da pesquisa pública (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Colunas existentes para',
     'manage_tables.heading'                       => 'Gestão dinâmica de tabelas e esquemas',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Sim',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Aplicar filtros',
     'map.back_to_table'                           => 'Voltar à tabela',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Saltar para o mapa',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Voltar à criação de utilizadores',
     'user_emails.currently_editing'               => 'A editar atualmente:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Gerir modelos de e-mail de notificação de utilizador',
     'user_emails.opt_invitation'                  => 'Modelo de convite de conta de utilizador',
     'user_emails.opt_reset'                       => 'Modelo de redefinição de palavra-passe / link de acesso',
+    'user_emails.opt_suggestion_outcome'          => 'Resultado da sugestão de edição',
     'user_emails.select_template_label'           => 'Selecionar modelo para editar:',
     'user_emails.subheading'                      => 'Personalize os layouts de e-mail enviados ao convidar utilizadores ou ao enviar links de redefinição de palavra-passe.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Voltar às candidaturas de voluntários',
     'volunteer_emails.custom_tags_desc'           => 'Gerados automaticamente a partir dos campos do seu criador de formulários:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Personalize as respostas automáticas por e-mail enviadas aos voluntários durante as diferentes fases do fluxo de trabalho. Utilize chavetas para marcadores dinâmicos.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Adicionar novo campo de formulário de voluntário',
     'volunteer_schema.back_to_dashboard'          => 'Voltar às candidaturas de voluntários',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Configure campos personalizados, tipos de dados, subtipos, opções e definições gerais de apresentação do formulário.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Registo #%s',
+    'dup_merge.col_b'                             => 'Registo #%s',
+    'dup_merge.col_field'                         => 'Campo',
+    'dup_merge.confirm'                           => 'Unir estes num único registo? O outro registo será removido.',
+    'dup_merge.fields_caption'                    => 'Selecione um valor para cada campo',
+    'dup_merge.heading'                           => 'Unir dois registos semelhantes',
+    'dup_merge.intro'                             => 'Estes dois são cerca de %s%% semelhantes. Escolha qual o registo a manter e selecione um valor para cada campo.',
+    'dup_merge.keep_a'                            => 'Manter registo #%s',
+    'dup_merge.keep_b'                            => 'Manter registo #%s',
+    'dup_merge.keep_legend'                       => 'Qual o registo a manter?',
+    'dup_merge.save_btn'                          => 'Unir num único registo',
+    'dup_merged'                                  => 'Esses dois registos são agora um só. A alteração consta no histórico do registo restante.',
+    'dup_queue.choose_table'                      => 'Escolher uma tabela',
+    'dup_queue.col_actions'                       => 'O que fazer',
+    'dup_queue.col_records'                       => 'Registos',
+    'dup_queue.col_score'                         => 'Grau de semelhança',
+    'dup_queue.col_table'                         => 'Tabela',
+    'dup_queue.dismiss_btn'                       => 'Não é um duplicado',
+    'dup_queue.dismissed'                         => 'Esse par foi marcado como não sendo um duplicado.',
+    'dup_queue.empty'                             => 'Nada em espera. Analise uma tabela para procurar potenciais duplicados anteriores.',
+    'dup_queue.gone'                              => 'Essa revisão já não está em espera.',
+    'dup_queue.heading'                           => 'Registos semelhantes para rever',
+    'dup_queue.intro'                             => 'Procure numa tabela por linhas que já pareçam semelhantes. Pode indicar que são diferentes ou uni-las num único registo.',
+    'dup_queue.merge_btn'                         => 'Unir num só',
+    'dup_queue.scan_btn'                          => 'Analisar esta tabela',
+    'dup_queue.scan_done'                         => 'Análise concluída. %s pares semelhantes encontrados, %s novos itens adicionados à lista.',
+    'dup_queue.scan_label'                        => 'Procurar registos semelhantes em',
     'moderate.approve_btn'                        => 'Aprovar',
     'moderate.approve_confirm'                    => 'Aprovar e aplicar este valor?',
     'moderate.by_label'                           => 'Por:',
     'moderate.column_label'                       => 'Coluna:',
     'moderate.decline_btn'                        => 'Rejeitar',
     'moderate.decline_confirm'                    => 'Rejeitar e descartar esta sugestão?',
+    'moderate.dup_approved_note'                  => 'Aprovado. Isto é agora %s%% semelhante ao registo #%s.',
+    'moderate.dup_blocked'                        => 'Não é possível aprovar: isto seria %s%% semelhante ao registo #%s.',
     'moderate.empty_placeholder'                  => '[Vazio]',
     'moderate.evidence_label'                     => 'Evidência / Justificação:',
     'moderate.guest_user'                         => 'Espectador / Convidado',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'Nenhuma sugestão pendente encontrada para as suas tabelas de moderação aprovadas.',
     'moderate.override_label'                     => 'Sobrescrever valor:',
     'moderate.proposed_value_label'               => 'Alteração sugerida:',
+    'moderate.rationale_label'                    => 'Nota para a pessoa que sugeriu isto',
+    'moderate.rationale_optional'                 => 'Nota opcional (guardada no registo).',
+    'moderate.rationale_placeholder'              => 'Porque aceitou ou rejeitou esta alteração',
+    'moderate.rationale_will_be_sent'             => 'Foi pedido um e-mail. A sua nota abaixo será enviada exatamente como a escreveu, por isso mantenha um tom simpático e claro, por favor.',
     'moderate.record_id_label'                    => 'ID do Registo:',
     'moderate.required_badge'                     => 'Obrigatório',
     'moderate.select_placeholder'                 => '-- Selecionar --',
     'moderate.shortcut_desc'                      => 'Prima Ctrl + Enter para aprovar rapidamente ou Esc para limpar a caixa de sobrescrita!',
     'moderate.shortcut_label'                     => 'Dica de atalho de teclado:',
     'moderate.subheading'                         => 'Compare as alterações sugeridas pelos utilizadores com os registos ativos nas suas tabelas aprovadas. Aprove, sobrescreva ou rejeite sugestões.',
+    'moderate.tab_similar'                        => 'Registos semelhantes',
+    'moderate.tab_suggestions'                    => 'Sugestões',
     'moderate.th_actions'                         => 'Ações do Moderador',
     'moderate.th_comparison'                      => 'Comparação (Ativo vs Sugerido) e Evidência',
     'moderate.th_id_date'                         => 'ID / Data',
     'moderate.th_table_record'                    => 'Tabela, registo e coluna',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Ativo',
     'notices.add_new'                             => 'Adicionar novo aviso',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Sim',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Administrador',
     'role.label_guest'                            => 'Visitante público',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Guarda um ficheiro .sql completo no seu computador. Guarde-o num local seguro antes de executar atualizações.',
     'settings.driver_native'                      => 'E-mail nativo (Post-relay Postfix local)',
     'settings.driver_smtp'                        => 'SMTP autenticado (PHPMailer)',
+    'settings.dup_heading'                        => 'Gestão de registos duplicados',
+    'settings.dup_help'                           => 'O pRD compara o texto escrito com outras linhas na mesma tabela. Pode avisar os utilizadores, impedir o armazenamento ou desativar esta função.',
+    'settings.dup_legend'                         => 'Se um novo registo se parecer com um que já tem',
+    'settings.dup_mode_block'                     => 'Não permitir guardar',
+    'settings.dup_mode_flag'                      => 'Avisar e assinalar para um moderador caso guardem mesmo assim',
+    'settings.dup_mode_off'                       => 'Não procurar registos semelhantes',
+    'settings.dup_mode_warn'                      => 'Mostrar um aviso — ainda podem guardar',
+    'settings.dup_picky_exact'                    => 'Apenas quando as palavras coincidem estritamente',
+    'settings.dup_picky_label'                    => 'Quão rigorosa deve ser a verificação?',
+    'settings.dup_picky_similar'                  => 'Detetar também coincidências próximas (ortografia semelhante)',
     'settings.enc_ssl'                            => 'SSL (Porta 465)',
     'settings.enc_tls'                            => 'TLS (Porta 587)',
     'settings.error_log_tab'                      => 'Registo de erros',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Nenhum aviso configurado.',
     'settings.notice_content_label'               => 'Conteúdo:',
     'settings.notices_heading'                    => 'Avisos e anúncios do site',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'Esta permissão é obrigatória para Administradores.',
+    'settings.perm_more_info'                     => 'Mais sobre',
+    'settings.perm_needs'                         => 'Requer',
+    'settings.perm_needs_parent'                  => 'Por favor, ative essa opção primeiro.',
+    'settings.perm_no_links'                      => 'Esta permissão não depende de nenhuma outra.',
+    'settings.perm_used_by'                       => 'Requerido por',
     'settings.permissions_heading'                => 'Matriz dinâmica de funções e permissões',
     'settings.permissions_subheading'             => 'As permissões estão agrupadas por funções do sistema. Expanda as secções para configurar as capacidades e, em seguida, guarde as suas atualizações abaixo.',
     'settings.port_label'                         => 'Porta:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Atualizar base de dados',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Eliminar',
     'admin_users.disabled'                        => 'Desativado',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Sim',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Administrador',
     'view_ticket.back_to_dashboard'               => 'Voltar ao painel de tickets',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Estado do ticket:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Aceitar e enviar convite',
     'volunteer_dashboard.accept_title'            => 'Aceitar no sistema de convite de utilizadores',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Voluntário',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Proibido: A visualização pública não está ativada.',
     'api_search.error_unauthorized_table'         => 'Acesso não autorizado à tabela.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Sugerir edição',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Procurar',
     'admin_errors.file'                           => 'Ficheiro',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Rastreio de pilha',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Endereço de e-mail:',
     'feedback.first_name_label'                   => 'Nome:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Apelido:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Descreva as ações para ajudar a localizar os ficheiros incorretos',
     'gh.add_comment_below'                        => 'Adicione o seu comentário abaixo e submeta.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Sugerir tradução de idioma',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Falha de segurança: Acesso negado.',
     'security_engine.err_captcha_failed'          => 'Falha na verificação do CAPTCHA. Por favor, tente novamente.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Falha de segurança: Assinatura de cliente suspeita.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Confirmar palavra-passe do administrador',
     'install.admin_email_label'                   => 'E-mail do administrador',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Ir para o site',
     'install.lang_label'                          => 'Idioma',
     'install.login_link'                          => 'Entrar',
+    'install.mod_feedback'                        => 'Feedback e tickets',
+    'install.mod_feedback_desc'                   => 'Um formulário público para perguntas e tickets de suporte.',
+    'install.mod_leaderboard'                     => 'Tabela de líderes',
+    'install.mod_leaderboard_desc'                => 'Tabela de pontos opcional. Requer contas de utilizador ativas.',
     'install.mod_maps'                            => 'Mapas',
     'install.mod_maps_desc'                       => 'Campos de localização e um mapa por tabela. Pode alterar isto mais tarde em Admin → Definições.',
+    'install.mod_moderation'                      => 'Moderação',
+    'install.mod_moderation_desc'                 => 'Rever edições sugeridas antes de alterarem um registo.',
+    'install.mod_users'                           => 'Contas de utilizador',
+    'install.mod_users_desc'                      => 'Permitir que as pessoas se registem e iniciem sessão.',
+    'install.mod_volunteers'                      => 'Interesse de voluntários',
+    'install.mod_volunteers_desc'                 => 'Um formulário público para pessoas que queiram ajudar.',
+    'install.modules_continue'                    => 'Guardar e continuar',
+    'install.modules_heading'                     => 'Que partes do pRD gostaria de utilizar?',
+    'install.modules_help'                        => 'Por favor, selecione as funcionalidades que pretende desde o primeiro dia. Pode alterar isto mais tarde em Administração → Definições do site.',
+    'install.modules_later'                       => 'Pode ativar ou desativar qualquer uma destas opções mais tarde em Administração → Definições.',
     'install.msg_admin_created'                   => 'Foi criada uma conta de administrador. Pode adicionar pacotes de demonstração opcionais ou ignorar.',
     'install.msg_db_ready'                        => 'A base de dados está pronta. Crie a sua conta de administrador para concluir a instalação.',
     'install.msg_install_removed'                 => 'A pasta install foi removida. Já pode iniciar sessão.',
     'install.msg_installation_complete'           => 'Instalação concluída.',
-    'install.msg_modules_saved'                   => 'As suas escolhas de recursos foram guardadas. Pode adicionar pacotes de demonstração opcionais ou ignorar.',
+    'install.msg_modules_saved'                   => 'As suas escolhas de funcionalidades foram guardadas. Pode adicionar pacotes de demonstração opcionais ou saltar este passo.',
     'install.msg_schema_imported'                 => 'Base de dados ligada e esquema importado. Crie a sua conta de administrador.',
     'install.page_title'                          => 'Instalação — Diretório de Registos Paroquiais',
     'install.remove_folder_btn'                   => 'Por favor, remova a pasta install!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Por favor, certifique-se de que a base de dados que planeia utilizar está vazia antes de continuar.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Esta demonstração já está instalada',
     'demo.already_installed_hint'                 => 'Este pacote já está instalado, pelo que não pode ser selecionado novamente.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'O que adicionar',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Vista da Classificação',
     'leaderboard.default_role'                    => 'Utilizador',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Tu)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Registos paroquiais compilados a partir de fontes históricas em domínio público.',
     'footer.rights_reserved'                      => 'Todos os direitos reservados.',
     'footer.software_notice'                      => 'pRD (V1.18) é de código aberto sob a Licença MIT - Agradecimentos a @katherinehuk no GitHub por uma segunda opinião!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Base de Dados de Registos Paroquiais',
     'header.skip_to_content'                      => 'Saltar para o conteúdo principal',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Fechar aviso',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Ator:',
     'record_history.directory_table_label'        => 'Tabela do Diretório:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Linha do tempo de eventos e atividades',
 
     // ----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Remover ficheiro de acesso de emergência',
     'update_database.backup_notice'               => 'Faça uma cópia de segurança da base de dados antes de executar atualizações, sempre que possível.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Atualizar base de dados agora',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Credenciais inválidas ou acesso à conta restrito.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Registo criado na tabela ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Por favor, escolha uma opção listada para %s.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Registo adicionado com sucesso!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Falha ao submeter a sugestão de edição. Por favor, tente novamente.',
     'save_public_suggestion.err_field_required'   => 'Este campo é obrigatório e não pode ser submetido em branco.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'A sua sugestão de edição foi submetida com sucesso e enviada para a fila de moderação para revisão. Obrigado!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Tabela de entrada de dados ativa:',
     'data_entry.add_entry_summary'                => '➕ Adicionar nova entrada de dados (Clique para expandir/recolher)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'Até',
     'data_entry.delete_record_btn'                => 'Eliminar',
     'data_entry.delete_record_confirm'            => 'Eliminar este registo permanentemente? Os valores, os alfinetes do mapa e as sugestões relacionadas serão removidos. Esta ação não pode ser anulada.',
+    'data_entry.dup_blocked'                      => 'Este registo é demasiado semelhante a um já guardado, pelo que não pode ser adicionado.',
+    'data_entry.dup_close_match'                  => 'Ortografia muito semelhante',
     'data_entry.dup_confirm_btn'                  => 'Sim, confirmar e guardar duplicado',
-    'data_entry.dup_desc'                         => 'Encontrámos entradas compatíveis no sistema:',
+    'data_entry.dup_desc'                         => 'Por favor, verifique os cartões abaixo. Pode continuar a guardar se este for um registo diferente.',
+    'data_entry.dup_empty'                        => '(vazio)',
+    'data_entry.dup_flag_btn'                     => 'Guardar e avisar um moderador',
     'data_entry.dup_heading'                      => '⚠️ Aviso de possível duplicado',
     'data_entry.dup_item_format'                  => 'ID do Registo: %d — Valor: %s',
+    'data_entry.dup_overview'                     => 'Já guardado',
     'data_entry.dup_prompt'                       => 'Pretende continuar e guardar esta entrada duplicada de qualquer forma?',
+    'data_entry.dup_review_btn'                   => 'Rever o que escrevi',
+    'data_entry.dup_score_exact'                  => 'Semelhança calculada: %s por cento.',
+    'data_entry.dup_similar'                      => 'Isto é %s%% semelhante ao registo #%s',
     'data_entry.edit_record_btn'                  => 'Editar',
     'data_entry.edit_record_saved'                => 'O registo foi atualizado.',
     'data_entry.enter_value_placeholder'          => 'Introduzir valor...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Editar registo',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Recuperação de palavra-passe',
     'forgot_password.back_login_link'             => 'Voltar ao início de sessão',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Enviar link de redefinição',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Início de sessão de utilizador',
     'login.err_password_required'                 => 'Por favor, introduza a sua palavra-passe.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Nome de utilizador ou e-mail:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Mostra iniciais e um número aleatório para todos.',
     'onboarding.attr_anon_title'                  => 'Anónimo:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Fuso horário / Região:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Novo endereço de e-mail',
     'profile.aria_region'                         => 'Gestão de perfil de utilizador',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Atualizar palavra-passe',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Registo de utilizador',
     'register.email_label'                        => 'Endereço de e-mail',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Nome de utilizador:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Definir palavra-passe',
     'set_password.confirm_password_label'         => 'Confirmar palavra-passe:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Bem-vindo à sua nova conta, %s! Por favor, escolha a sua palavra-passe abaixo.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Código de autenticação de 6 dígitos',
     'setup_2fa.aria_region'                       => 'Assistente de configuração 2FA',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Verificar e ativar 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Sugerir edição',
     'suggest_edit.confirm_prompt'                 => 'Tem a certeza de que está pronto para submeter esta sugestão de edição para revisão do administrador?',
     'suggest_edit.current_values_heading'         => 'Valores atuais:',
+    'suggest_edit.decision_accepted'              => 'Aceite',
+    'suggest_edit.decision_not_accepted'          => 'Não aceite',
+    'suggest_edit.dup_of_help'                    => 'Opcional. Os moderadores verão esta nota.',
+    'suggest_edit.dup_of_label'                   => 'Se souber o número do outro registo, pode adicioná-lo aqui',
+    'suggest_edit.dup_please_check'               => 'Esta alteração ficaria muito semelhante a outro registo. Por favor, verifique abaixo.',
     'suggest_edit.empty_label'                    => '(vazio)',
+    'suggest_edit.err_notify_email'               => 'Por favor, introduza um endereço de e-mail se quiser saber o resultado.',
     'suggest_edit.heading_prefix'                 => 'Sugerir edição para o registo',
     'suggest_edit.leave_blank'                    => 'Deixe este campo em branco',
+    'suggest_edit.no_rationale'                   => 'Não foi adicionada nenhuma nota adicional.',
+    'suggest_edit.notify_email_help'              => 'Utilizado apenas para lhe comunicar o resultado. Não é apresentado no registo público.',
+    'suggest_edit.notify_email_label'             => 'O seu endereço de e-mail',
+    'suggest_edit.notify_label'                   => 'Enviar-me um e-mail quando um moderador tomar uma decisão',
     'suggest_edit.proposed_value_label'           => 'Novo valor proposto:',
     'suggest_edit.reasoning_label'                => 'Evidência / Justificação / Notas de fonte:',
     'suggest_edit.reasoning_optional'             => 'Opcional — evidências, fontes ou notas para os moderadores.',
     'suggest_edit.reasoning_placeholder'          => 'Forneça contexto, citações de fonte ou justificação para esta alteração...',
+    'suggest_edit.report_dup'                     => 'Acho que este registo é um duplicado de outro',
     'suggest_edit.return_btn'                     => 'Voltar ao registo',
     'suggest_edit.select_column_label'            => 'Selecionar coluna para editar:',
     'suggest_edit.submit_btn'                     => 'Submeter sugestão para revisão',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Sinta-se à vontade para submeter outra edição abaixo, ou utilize o link de regresso acima quando terminar.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Introduzir código de verificação ou de segurança',
     'verify_2fa.aria_region'                      => 'Verificação 2FA',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Verificar e entrar',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Estado de verificação de e-mail',
     'verify_email.err_expired_token'              => 'Este link de verificação expirou (o período de 24 horas foi excedido). Por favor, registe-se novamente ou solicite um novo link.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'E-mail verificado com sucesso! A sua conta está agora ativa. Pode prosseguir para o início de sessão.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Atribuir um nome de utilizador único para mim',
     'index.check_availability'                    => 'Verificar disponibilidade',

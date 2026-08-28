@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => '記錄 ID',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => '返回',
+    'cols.print_btn'                              => '列印',
+    'cols.print_entire'                           => '列印全部',
+    'cols.print_filtered'                         => '列印篩選後的記錄',
+    'cols.print_now'                              => '列印或儲存為 PDF',
+    'cols.show_heading'                           => '選擇要顯示的欄位',
+    'cols.show_help'                              => '取消勾選某個欄位可在目前頁面、下載以及列印時將其隱藏。在手機上，較少的欄位數更易於閱讀。',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => '電子郵件地址：',
     'create_user.first_name'                      => '名字：',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => '留空以自動產生',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => '匿名',
     'feedback_dash.default_subject'               => '一般諮詢',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => '支援單 ID / 日期',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => '返回支援單儀表板',
     'feedback_emails.custom_tags'                 => '自訂綱要標籤：',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => '自訂在支援單流程中自動傳送的電子郵件通知。請使用大括號來代換動態數值。',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ 新增支援單表單欄位',
     'feedback_schema.allow_multiple'              => '允許複選（多選）',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (短文字)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ 為以下項目新增資料表新欄位：',
     'manage_tables.allow_multiple_label'          => '允許多個選項（多選）',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => '編輯動態欄位：',
     'manage_tables.edit_metadata_btn'             => '編輯資料表中繼資料',
     'manage_tables.edit_table_summary'            => '編輯資料表定義：',
+    'manage_tables.err_col_name_empty'            => '請輸入欄位名稱。',
+    'manage_tables.err_col_name_taken'            => '該表格已存在名為 %s 的欄位。請選擇其他名稱。',
+    'manage_tables.err_table_name_empty'          => '請輸入表格名稱。',
+    'manage_tables.err_table_name_taken'          => '名為 %s 的表格已存在。請選擇其他名稱。',
     'manage_tables.exclude_search_label'          => '從公開搜尋中排除此欄位 (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => '現有欄位：',
     'manage_tables.heading'                       => '管理資料表與綱要',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => '是',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => '套用篩選器',
     'map.back_to_table'                           => '返回表格',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => '跳至地圖',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => '返回建立使用者',
     'user_emails.currently_editing'               => '目前正在編輯：',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => '管理使用者通知電子郵件範本',
     'user_emails.opt_invitation'                  => '使用者帳號邀請範本',
     'user_emails.opt_reset'                       => '密碼重設 / 存取連結範本',
+    'user_emails.opt_suggestion_outcome'          => '編輯建議的處理結果',
     'user_emails.select_template_label'           => '選擇要編輯的範本：',
     'user_emails.subheading'                      => '自訂邀請使用者或發送密碼重設連結時所寄出的郵件版面。',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => '返回志工申請',
     'volunteer_emails.custom_tags_desc'           => '由表單建構器欄位自動產生：',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => '自訂在工作流程不同階段寄給志工的自動回覆郵件。請使用大括號來代換動態數值。',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ 新增志工表單欄位',
     'volunteer_schema.back_to_dashboard'          => '返回志工申請',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => '設定自訂欄位、資料類型、子類型、選項與一般表單顯示偏好設定。',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => '記錄 #%s',
+    'dup_merge.col_b'                             => '記錄 #%s',
+    'dup_merge.col_field'                         => '欄位',
+    'dup_merge.confirm'                           => '確定要將這些項合併為一條記錄嗎？另一條記錄將被刪除。',
+    'dup_merge.fields_caption'                    => '為每個欄位選擇一個值',
+    'dup_merge.heading'                           => '合併兩個相似記錄',
+    'dup_merge.intro'                             => '這兩項內容的相似度約為 %s%%。請選擇要保留的記錄，然後為每個欄位選擇對應的值。',
+    'dup_merge.keep_a'                            => '保留記錄 #%s',
+    'dup_merge.keep_b'                            => '保留記錄 #%s',
+    'dup_merge.keep_legend'                       => '應保留哪條記錄？',
+    'dup_merge.save_btn'                          => '合併為一條記錄',
+    'dup_merge_btn'                               => '合併為一條記錄',
+    'dup_merged'                                  => '這兩個記錄現在已合併為一條。相關變更已記錄在保留記錄的歷史中。',
+    'dup_queue.choose_table'                      => '選擇表格',
+    'dup_queue.col_actions'                       => '操作',
+    'dup_queue.col_records'                       => '記錄',
+    'dup_queue.col_score'                         => '相似度',
+    'dup_queue.col_table'                         => '表格',
+    'dup_queue.dismiss_btn'                       => '不是重複項',
+    'dup_queue.dismissed'                         => '該對記錄已被標記為非重複項。',
+    'dup_queue.empty'                             => '沒有等待處理的項目。請掃描表格以尋找以往的相似記錄。',
+    'dup_queue.gone'                              => '該審核項目已不在等待佇列中。',
+    'dup_queue.heading'                           => '待審核的相似記錄',
+    'dup_queue.intro'                             => '掃描表格以尋找內容已經很相似的列。您可以將其標記為不同，或者合併為一個記錄。',
+    'dup_queue.scan_btn'                          => '掃描此表',
+    'dup_queue.scan_done'                         => '掃描完成。找到 %s 對相似項，已向列表新增 %s 個新項目。',
+    'dup_queue.scan_label'                        => '在以下位置搜尋相似記錄',
     'moderate.approve_btn'                        => '核准',
     'moderate.approve_confirm'                    => '核准並套用此數值？',
     'moderate.by_label'                           => '由：',
     'moderate.column_label'                       => '欄位：',
     'moderate.decline_btn'                        => '拒絕',
     'moderate.decline_confirm'                    => '拒絕並捨棄此建議？',
+    'moderate.dup_approved_note'                  => '已核准。此項目前與記錄 #%s 的相似度為 %s%%。',
+    'moderate.dup_blocked'                        => '無法核准：此項與記錄 #%s 的相似度達 %s%%。',
     'moderate.empty_placeholder'                  => '[空白]',
     'moderate.evidence_label'                     => '佐證 / 理由：',
     'moderate.guest_user'                         => '訪客',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => '在您獲授權的審核資料表中找不到待處理的建議。',
     'moderate.override_label'                     => '覆寫數值：',
     'moderate.proposed_value_label'               => '建議修改：',
+    'moderate.rationale_label'                    => '給提出此建議者的備註',
+    'moderate.rationale_optional'                 => '選填備註（將保留在記錄上）。',
+    'moderate.rationale_placeholder'              => '接受或拒絕此變更的原因',
+    'moderate.rationale_will_be_sent'             => '對方已要求接收電子郵件。您在下方填寫的備註將按原樣寄出，因此請保持語氣親切與清晰。',
     'moderate.record_id_label'                    => '記錄 ID：',
     'moderate.required_badge'                     => '必填',
     'moderate.select_placeholder'                 => '-- 選擇 --',
     'moderate.shortcut_desc'                      => '按下 Ctrl + Enter 快速核准，或按 Esc 清除覆寫方塊！',
     'moderate.shortcut_label'                     => '鍵盤快速鍵提示：',
     'moderate.subheading'                         => '將使用者建議的修改與您獲授權資料表中的主動記錄進行比較。核准、覆寫或拒絕建議。',
+    'moderate.tab_similar'                        => '相似記錄',
+    'moderate.tab_suggestions'                    => '建議',
     'moderate.th_actions'                         => '審核員操作',
     'moderate.th_comparison'                      => '比較（主動 vs 建議）與佐證',
     'moderate.th_id_date'                         => 'ID / 日期',
     'moderate.th_table_record'                    => '資料表、記錄與欄位',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => '啟用',
     'notices.add_new'                             => '新增公告',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => '是',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => '管理員',
     'role.label_guest'                            => '一般訪客',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => '將完整的 .sql 檔案儲存至您的電腦。在執行更新之前，請將其保存在安全的地方。',
     'settings.driver_native'                      => '原生郵件 (本機 Postfix 轉發)',
     'settings.driver_smtp'                        => '已驗證的 SMTP (PHPMailer)',
+    'settings.dup_heading'                        => '重複記錄管理',
+    'settings.dup_help'                           => 'pRD 會將輸入的文字與同表中的其他列進行比較。您可以向使用者發出警告、阻止儲存或關閉此功能。',
+    'settings.dup_legend'                         => '如果新記錄與您已有的記錄相似',
+    'settings.dup_mode_block'                     => '不允許儲存',
+    'settings.dup_mode_flag'                      => '警告使用者，如果其堅持儲存則標記以便管理員複查',
+    'settings.dup_mode_off'                       => '不檢查相似記錄',
+    'settings.dup_mode_warn'                      => '顯示警告 — 使用者仍可繼續儲存',
+    'settings.dup_picky_exact'                    => '僅當詞彙高度符合時',
+    'settings.dup_picky_label'                    => '查重嚴格程度為何？',
+    'settings.dup_picky_similar'                  => '偵測近似項（拼字相似）',
     'settings.enc_ssl'                            => 'SSL (連接埠 465)',
     'settings.enc_tls'                            => 'TLS (連接埠 587)',
     'settings.error_log_tab'                      => '錯誤記錄',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => '尚未設定公告。',
     'settings.notice_content_label'               => '內容：',
     'settings.notices_heading'                    => '網站公告與通知',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => '此權限對管理員是強制要求的。',
+    'settings.perm_more_info'                     => '瞭解更多關於',
+    'settings.perm_needs'                         => '需要',
+    'settings.perm_needs_parent'                  => '請先啟用該項。',
+    'settings.perm_no_links'                      => '此權限不相依於其他權限。',
+    'settings.perm_used_by'                       => '相依於',
     'settings.permissions_heading'                => '動態角色與權限矩陣',
     'settings.permissions_subheading'             => '權限依系統功能分組。展開區段以設定功能，然後儲存下方的矩陣。',
     'settings.port_label'                         => '連接埠：',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => '更新資料庫',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => '刪除',
     'admin_users.disabled'                        => '已停用',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => '是',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => '管理員',
     'view_ticket.back_to_dashboard'               => '返回支援單儀表板',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => '支援單狀態：',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => '核准並傳送邀請',
     'volunteer_dashboard.accept_title'            => '透過使用者邀請系統核准',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => '志工',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 禁止存取：未啟用公開檢視。',
     'api_search.error_unauthorized_table'         => '未授權的資料表存取。',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => '建議編輯',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => '尋找',
     'admin_errors.file'                           => '檔案',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => '堆疊追蹤',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => '電子郵件地址：',
     'feedback.first_name_label'                   => '名字：',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => '姓氏：',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => '描述操作以協助定位錯誤的檔案',
     'gh.add_comment_below'                        => '在下方新增您的評論並提交。',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. 建議語言翻譯',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => '安全性錯誤：存取被拒。',
     'security_engine.err_captcha_failed'          => 'CAPTCHA 驗證失敗，請再試一次。',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => '安全性錯誤：可疑的客戶端簽章。',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => '確認管理員密碼',
     'install.admin_email_label'                   => '管理員電子郵件',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => '前往網站',
     'install.lang_label'                          => '語言',
     'install.login_link'                          => '登入',
+    'install.mod_feedback'                        => '意見反應與工單',
+    'install.mod_feedback_desc'                   => '用於諮詢與支援工單的公開表單。',
+    'install.mod_leaderboard'                     => '排行榜',
+    'install.mod_leaderboard_desc'                => '選填的積分表。需要啟用使用者帳號。',
     'install.mod_maps'                            => '地圖',
     'install.mod_maps_desc'                       => '每個表格的位置欄位與地圖。您稍後可以在「管理」 → 「設定」中變更此項。',
+    'install.mod_moderation'                      => '審核機制',
+    'install.mod_moderation_desc'                 => '在建議的編輯內容生效前進行審核。',
+    'install.mod_users'                           => '使用者帳號',
+    'install.mod_users_desc'                      => '允許使用者註冊與登入。',
+    'install.mod_volunteers'                      => '志工意願',
+    'install.mod_volunteers_desc'                 => '面向有意提供協助之人員的公開表單。',
+    'install.modules_continue'                    => '儲存並繼續',
+    'install.modules_heading'                     => '您想使用 pRD 的哪些部分？',
+    'install.modules_help'                        => '請勾選您從第一天起就想使用的功能。您以後可以在「管理」→「網站設定」中變更這些設定。',
+    'install.modules_later'                       => '您以後可以隨時在「管理」→「設定」中開啟或關閉這些功能。',
     'install.msg_admin_created'                   => '已建立管理員帳戶。您可以新增選擇性示範套件，或跳過此步驟。',
     'install.msg_db_ready'                        => '資料庫已準備就緒。請建立您的管理員帳號以完成設定。',
     'install.msg_install_removed'                 => '安裝資料夾已被刪除。您現在可以登入了。',
     'install.msg_installation_complete'           => '安裝完成。',
-    'install.msg_modules_saved'                   => '您的功能選擇已儲存。您可以新增選用的示範套件或直接跳過。',
+    'install.msg_modules_saved'                   => '您的功能選擇已儲存。您可以新增選填的示範套件，或直接略過。',
     'install.msg_schema_imported'                 => '資料庫已連線且綱要已匯入。請建立您的管理員帳號。',
     'install.page_title'                          => '安裝 — 教區記錄目錄',
     'install.remove_folder_btn'                   => '請刪除安裝資料夾！',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => '在繼續之前，請確保您計畫使用的資料庫是空的。',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => '此示範已安裝',
     'demo.already_installed_hint'                 => '此套件已安裝，因此無法再次選擇。',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => '要新增的內容',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => '排行榜檢視',
     'leaderboard.default_role'                    => '使用者',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(您)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => '教區記錄彙編自公有領域的歷史來源。',
     'footer.rights_reserved'                      => '保留一切權利。',
     'footer.software_notice'                      => 'pRD (V1.18) 採用 MIT 授權條款開源 - 感謝 GitHub 上的 @katherinehuk 提供第二雙眼睛來審閱！',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => '教區記錄資料庫',
     'header.skip_to_content'                      => '跳至主要內容',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => '關閉公告',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => '操作者：',
     'record_history.directory_table_label'        => '目錄資料表：',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => '事件與活動時間軸',
 
     // ----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => '移除緊急存取檔案',
     'update_database.backup_notice'               => '若條件允許，請在執行更新前備份資料庫。',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => '立即更新資料庫',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => '憑證無效或帳號存取受限。',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => '已在資料表中建立記錄，ID 為 %d。',
     'save_data_entry.err_invalid_choice'          => '請為 %s 選擇一個列出的選項。',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => '記錄新增成功！',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => '送出編輯建議失敗，請再試一次。',
     'save_public_suggestion.err_field_required'   => '此欄位為必填，不得留空送出。',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => '您的編輯建議已成功送交審核佇列。謝謝您！',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => '目前資料輸入資料表：',
     'data_entry.add_entry_summary'                => '➕ 新增資料記錄（點擊以展開/收合）',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => '至',
     'data_entry.delete_record_btn'                => '刪除',
     'data_entry.delete_record_confirm'            => '要永久刪除此記錄嗎？與其相關的值、地圖圖釘與相關建議都將被移除。此動作無法復原。',
+    'data_entry.dup_blocked'                      => '此記錄與現有記錄過於相似，因此無法新增。',
+    'data_entry.dup_close_match'                  => '拼字非常相似',
     'data_entry.dup_confirm_btn'                  => '是，確認並儲存重複記錄',
-    'data_entry.dup_desc'                         => '我们在系统中找到了类似记录：',
+    'data_entry.dup_desc'                         => '請檢查下方的卡片。如果這是一條不同的記錄，您仍然可以選擇儲存。',
+    'data_entry.dup_empty'                        => '（空）',
+    'data_entry.dup_flag_btn'                     => '儲存並通知管理員',
     'data_entry.dup_heading'                      => '⚠️ 可能重複警告',
     'data_entry.dup_item_format'                  => '記錄 ID：%d — 數值：%s',
+    'data_entry.dup_overview'                     => '已儲存',
     'data_entry.dup_prompt'                       => '是否仍要繼續並儲存此重複記錄？',
+    'data_entry.dup_review_btn'                   => '檢查我輸入的內容',
+    'data_entry.dup_score_exact'                  => '計算相似度：%s%。',
+    'data_entry.dup_similar'                      => '此項與記錄 #%s 的相似度為 %s%%',
     'data_entry.edit_record_btn'                  => '編輯',
     'data_entry.edit_record_saved'                => '記錄已更新。',
     'data_entry.enter_value_placeholder'          => '輸入數值...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => '編輯記錄',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => '密碼重設',
     'forgot_password.back_login_link'             => '返回登入頁面',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => '傳送重設連結',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => '使用者登入',
     'login.err_password_required'                 => '請輸入您的密碼。',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => '使用者名稱或電子郵件：',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => '向所有人顯示英文縮寫與隨機編號。',
     'onboarding.attr_anon_title'                  => '匿名：',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => '時區 / 地區：',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => '新電子郵件地址',
     'profile.aria_region'                         => '使用者個人資料管理',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => '更新密碼',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => '使用者註冊',
     'register.email_label'                        => '電子郵件地址',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => '使用者名稱：',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => '設定密碼',
     'set_password.confirm_password_label'         => '確認密碼：',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => '歡迎使用您的新帳號，%s！請在下方選擇您的密碼。',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6 位數驗證碼',
     'setup_2fa.aria_region'                       => '2FA 設定精靈',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => '驗證並啟用 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => '建議編輯',
     'suggest_edit.confirm_prompt'                 => '確定要將此編輯建議送交管理員審核嗎？',
     'suggest_edit.current_values_heading'         => '目前數值：',
+    'suggest_edit.decision_accepted'              => '已接受',
+    'suggest_edit.decision_not_accepted'          => '未接受',
+    'suggest_edit.dup_of_help'                    => '選填。管理員將看到此備註。',
+    'suggest_edit.dup_of_label'                   => '如果您知道另一條記錄的編號，可以在此輸入',
+    'suggest_edit.dup_please_check'               => '此變更將與另一條記錄高度相似。請檢查下方內容。',
     'suggest_edit.empty_label'                    => '(空白)',
+    'suggest_edit.err_notify_email'               => '如果您希望取得處理結果，請輸入電子郵件地址。',
     'suggest_edit.heading_prefix'                 => '建議編輯記錄',
     'suggest_edit.leave_blank'                    => '請將此欄位留空',
+    'suggest_edit.no_rationale'                   => '未新增額外備註。',
+    'suggest_edit.notify_email_help'              => '僅用於通知您處理結果，不會顯示在公開記錄中。',
+    'suggest_edit.notify_email_label'             => '您的電子郵件地址',
+    'suggest_edit.notify_label'                   => '當管理員做出決定時向我發送電子郵件',
     'suggest_edit.proposed_value_label'           => '建議的新數值：',
     'suggest_edit.reasoning_label'                => '佐證 / 理由 / 來源備忘：',
     'suggest_edit.reasoning_optional'             => '選填 — 證據、來源或給版主的說明。',
     'suggest_edit.reasoning_placeholder'          => '提供上下文、來源引文或變更此項目的原因...',
+    'suggest_edit.report_dup'                     => '我認為這條記錄是另一條記錄的重複',
     'suggest_edit.return_btn'                     => '返回記錄',
     'suggest_edit.select_column_label'            => '選擇要編輯的欄位：',
     'suggest_edit.submit_btn'                     => '送出建議以供審核',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => '您可以在下方提交另一筆編輯，或在完成時使用上方的返回連結。',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => '輸入驗證碼或安全性代碼',
     'verify_2fa.aria_region'                      => '2FA 驗證',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => '驗證並登入',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => '電子郵件驗證狀態',
     'verify_email.err_expired_token'              => '此驗證連結已逾期（已超過 24 小時限制）。請重新註冊或要求新的連結。',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => '電子郵件驗證成功！您的帳號現在已啟用。請繼續登入。',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => '為我分配一個唯一的使用者名稱',
     'index.check_availability'                    => '檢查可用性',

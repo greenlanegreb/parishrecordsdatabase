@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'ID записи',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Назад',
+    'cols.print_btn'                              => 'Печать',
+    'cols.print_entire'                           => 'Печать всех',
+    'cols.print_filtered'                         => 'Печать отфильтрованных',
+    'cols.print_now'                              => 'Печать или сохранить как PDF',
+    'cols.show_heading'                           => 'Выберите столбцы для отображения',
+    'cols.show_help'                              => 'Снимите флажок с ненужного столбца, чтобы скрыть его здесь, при скачивании и печати. На экране телефона меньшее количество столбцов легче читать.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'Адрес электронной почты:',
     'create_user.first_name'                      => 'Имя:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Оставьте пустым для автоматической генерации',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Анонимно',
     'feedback_dash.default_subject'               => 'Общий вопрос',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'ID тикета / Дата',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Вернуться к панели тикетов',
     'feedback_emails.custom_tags'                 => 'Пользовательские теги схемы:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Настройте автоматические уведомления по электронной почте, отправляемые в ходе работы с тикетами. Используйте фигурные скобки для динамических значений.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Добавить новое поле формы тикета',
     'feedback_schema.allow_multiple'              => 'Разрешить выбор нескольких вариантов (Множественный выбор)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Короткий текст)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Добавить новую колонку таблицы для',
     'manage_tables.allow_multiple_label'          => 'Разрешить несколько вариантов (множественный выбор)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Редактировать динамическую колонку:',
     'manage_tables.edit_metadata_btn'             => 'Редактировать метаданные таблицы',
     'manage_tables.edit_table_summary'            => 'Редактировать определение таблицы:',
+    'manage_tables.err_col_name_empty'            => 'Пожалуйста, введите название столбца.',
+    'manage_tables.err_col_name_taken'            => 'В этой таблице уже есть столбец с именем %s. Пожалуйста, выберите другое название.',
+    'manage_tables.err_table_name_empty'          => 'Пожалуйста, введите название таблицы.',
+    'manage_tables.err_table_name_taken'          => 'Таблица с именем %s уже существует. Пожалуйста, выберите другое название.',
     'manage_tables.exclude_search_label'          => 'Исключить эту колонку из публичного поиска (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Существующие колонки для',
     'manage_tables.heading'                       => 'Управление таблицами и схемами',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Да',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Применить фильтры',
     'map.back_to_table'                           => 'Вернуться к таблице',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Перейти к карте',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Вернуться к созданию пользователя',
     'user_emails.currently_editing'               => 'Текущее редактирование:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Управление шаблонами уведомлений пользователей',
     'user_emails.opt_invitation'                  => 'Шаблон приглашения учетной записи пользователя',
     'user_emails.opt_reset'                       => 'Шаблон сброса пароля / ссылки доступа',
+    'user_emails.opt_suggestion_outcome'          => 'Результат предложенной правки',
     'user_emails.select_template_label'           => 'Выберите шаблон для редактирования:',
     'user_emails.subheading'                      => 'Настройте макеты писем, отправляемых при приглашении пользователей или отправке ссылок для сброса пароля.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Вернуться к заявкам волонтеров',
     'volunteer_emails.custom_tags_desc'           => 'Генерируются автоматически из полей конструктора формы:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Настройте автоматические ответы по электронной почте для волонтеров на различных этапах рабочего процесса. Используйте фигурные скобки для динамических значений.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Добавить новое поле формы волонтера',
     'volunteer_schema.back_to_dashboard'          => 'Вернуться к заявкам волонтеров',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Настройте пользовательские поля, типы данных, подтипы, опции и общие настройки отображения формы.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Запись #%s',
+    'dup_merge.col_b'                             => 'Запись #%s',
+    'dup_merge.col_field'                         => 'Поле',
+    'dup_merge.confirm'                           => 'Объединить их в одну запись? Вторая запись будет удалена.',
+    'dup_merge.fields_caption'                    => 'Выберите значение для каждого поля',
+    'dup_merge.heading'                           => 'Объединение двух похожих записей',
+    'dup_merge.intro'                             => 'Эти две записи похожи примерно на %s%%. Выберите, какую запись сохранить, а затем укажите значение для каждого поля.',
+    'dup_merge.keep_a'                            => 'Сохранить запись #%s',
+    'dup_merge.keep_b'                            => 'Сохранить запись #%s',
+    'dup_merge.keep_legend'                       => 'Какую запись следует сохранить?',
+    'dup_merge.save_btn'                          => 'Объединить в одну запись',
+    'dup_merged'                                  => 'Эти две записи теперь объединены в одну. Изменение зафиксировано в истории оставшейся записи.',
+    'dup_queue.choose_table'                      => 'Выберите таблицу',
+    'dup_queue.col_actions'                       => 'Действие',
+    'dup_queue.col_records'                       => 'Записи',
+    'dup_queue.col_score'                         => 'Степень сходства',
+    'dup_queue.col_table'                         => 'Таблица',
+    'dup_queue.dismiss_btn'                       => 'Не дубликат',
+    'dup_queue.dismissed'                         => 'Эта пара была отмечена как не являющаяся дубликатом.',
+    'dup_queue.empty'                             => 'Ничего не ждет проверки. Просканируйте таблицу для поиска старых дубликатов.',
+    'dup_queue.gone'                              => 'Эта проверка больше неактуальна.',
+    'dup_queue.heading'                           => 'Похожие записи для проверки',
+    'dup_queue.intro'                             => 'Просканируйте таблицу на наличие похожих строк. Вы можете указать, что они различаются, или объединить их в одну запись.',
+    'dup_queue.merge_btn'                         => 'Объединить в одну',
+    'dup_queue.scan_btn'                          => 'Сканировать эту таблицу',
+    'dup_queue.scan_done'                         => 'Сканирование завершено. Найдено похожих пар: %s, в список добавлено новых элементов: %s.',
+    'dup_queue.scan_label'                        => 'Искать похожие записи в',
     'moderate.approve_btn'                        => 'Одобрить',
     'moderate.approve_confirm'                    => 'Одобрить и применить это значение?',
     'moderate.by_label'                           => 'Кем:',
     'moderate.column_label'                       => 'Колонка:',
     'moderate.decline_btn'                        => 'Отклонить',
     'moderate.decline_confirm'                    => 'Отклонить и отбросить это предложение?',
+    'moderate.dup_approved_note'                  => 'Одобрено. Теперь это похоже на запись #%s на %s%%.',
+    'moderate.dup_blocked'                        => 'Невозможно одобрить: это будет похоже на запись #%s на %s%%.',
     'moderate.empty_placeholder'                  => '[Пусто]',
     'moderate.evidence_label'                     => 'Обоснование / Источник:',
     'moderate.guest_user'                         => 'Гость / Посетитель',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'В ваших разрешенных таблицах модерации не найдено ожидающих предложений.',
     'moderate.override_label'                     => 'Переопределить значение:',
     'moderate.proposed_value_label'               => 'Предложенное изменение:',
+    'moderate.rationale_label'                    => 'Заметка для автора предложения',
+    'moderate.rationale_optional'                 => 'Необязательная заметка (сохраняется в записи).',
+    'moderate.rationale_placeholder'              => 'Почему вы приняли или отклонили это изменение',
+    'moderate.rationale_will_be_sent'             => 'Пользователь запросил уведомление по электронной почте. Ваша заметка ниже будет отправлена в исходном виде, поэтому сохраняйте вежливый и понятный тон.',
     'moderate.record_id_label'                    => 'ID записи:',
     'moderate.required_badge'                     => 'Обязательно',
     'moderate.select_placeholder'                 => '-- Выбрать --',
     'moderate.shortcut_desc'                      => 'Нажмите Ctrl + Enter для быстрого одобрения или Esc для очистки поля переопределения!',
     'moderate.shortcut_label'                     => 'Подсказка сочетаний клавиш:',
     'moderate.subheading'                         => 'Сравните изменения, предложенные пользователями, с активными записями в ваших разрешенных таблицах. Одобряйте, переопределяйте или отклоняйте предложения.',
+    'moderate.tab_similar'                        => 'Похожие записи',
+    'moderate.tab_suggestions'                    => 'Предложения',
     'moderate.th_actions'                         => 'Действия модератора',
     'moderate.th_comparison'                      => 'Сравнение (Активное vs Предложенное) и Обоснование',
     'moderate.th_id_date'                         => 'ID / Дата',
     'moderate.th_table_record'                    => 'Таблица, запись и колонка',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Активно',
     'notices.add_new'                             => 'Добавить новое уведомление',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Да',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Администратор',
     'role.label_guest'                            => 'Гость',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Сохраняет полный файл .sql на вашем компьютере. Сохраните его в безопасном месте перед выполнением обновлений.',
     'settings.driver_native'                      => 'Встроенная почта (Локальный релей Postfix)',
     'settings.driver_smtp'                        => 'Аутентифицированный SMTP (PHPMailer)',
+    'settings.dup_heading'                        => 'Управление дубликатами записей',
+    'settings.dup_help'                           => 'pRD сравнивает введенный текст с другими строками в той же таблице. Вы можете предупреждать пользователей, блокировать сохранение или отключить эту функцию.',
+    'settings.dup_legend'                         => 'Если новая запись похожа на уже имеющуюся',
+    'settings.dup_mode_block'                     => 'Запретить сохранение',
+    'settings.dup_mode_flag'                      => 'Предупредить пользователя и пометить для модератора, если запись все же сохранена',
+    'settings.dup_mode_off'                       => 'Не проверять на наличие похожих записей',
+    'settings.dup_mode_warn'                      => 'Показывать предупреждение — сохранение все равно разрешено',
+    'settings.dup_picky_exact'                    => 'Только при точном совпадении слов',
+    'settings.dup_picky_label'                    => 'Насколько строгой должна быть проверка?',
+    'settings.dup_picky_similar'                  => 'Учитывать близкие варианты (похожее написание)',
     'settings.enc_ssl'                            => 'SSL (Порт 465)',
     'settings.enc_tls'                            => 'TLS (Порт 587)',
     'settings.error_log_tab'                      => 'Журнал ошибок',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Уведомления не настроены.',
     'settings.notice_content_label'               => 'Содержимое:',
     'settings.notices_heading'                    => 'Уведомления и объявления сайта',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'Это разрешение является обязательным для администраторов.',
+    'settings.perm_more_info'                     => 'Подробнее о',
+    'settings.perm_needs'                         => 'Требует',
+    'settings.perm_needs_parent'                  => 'Пожалуйста, сначала включите эту функцию.',
+    'settings.perm_no_links'                      => 'Это разрешение не зависит от других.',
+    'settings.perm_used_by'                       => 'Требуется для',
     'settings.permissions_heading'                => 'Матрица ролей и динамических разрешений',
     'settings.permissions_subheading'             => 'Разрешения сгруппированы по функциям системы. Разверните разделы для настройки возможностей и сохраните матрицу ниже.',
     'settings.port_label'                         => 'Порт:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Обновить базу данных',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Удалить',
     'admin_users.disabled'                        => 'Отключено',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Да',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Администратор',
     'view_ticket.back_to_dashboard'               => 'Вернуться к панели тикетов',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Статус тикета:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Принять и отправить приглашение',
     'volunteer_dashboard.accept_title'            => 'Принять через систему приглашений',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Волонтер',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Запрещено: Публичный просмотр не включен.',
     'api_search.error_unauthorized_table'         => 'Несанкционированный доступ к таблице.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Предложить правку',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Найти',
     'admin_errors.file'                           => 'Файл',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Трассировка стека',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Адрес электронной почты:',
     'feedback.first_name_label'                   => 'Имя:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Фамилия:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Опишите действия, которые помогут определить местонахождение ошибочных файлов',
     'gh.add_comment_below'                        => 'Добавьте свой комментарий ниже и отправьте.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Предложить перевод на другой язык',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Ошибка безопасности: Доступ запрещен.',
     'security_engine.err_captcha_failed'          => 'Проверка CAPTCHA не удалась. Пожалуйста, попробуйте еще раз.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Ошибка безопасности: Пододозрительная сигнатура клиента.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Подтвердите пароль администратора',
     'install.admin_email_label'                   => 'Email администратора',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Перейти на сайт',
     'install.lang_label'                          => 'Язык',
     'install.login_link'                          => 'Войти',
+    'install.mod_feedback'                        => 'Обратная связь и тикеты',
+    'install.mod_feedback_desc'                   => 'Публичная форма для вопросов и обращений в службу поддержки.',
+    'install.mod_leaderboard'                     => 'Таблица лидеров',
+    'install.mod_leaderboard_desc'                => 'Необязательная таблица очков. Требует включенных учетных записей пользователей.',
     'install.mod_maps'                            => 'Карты',
     'install.mod_maps_desc'                       => 'Поля местоположения и карта для каждой таблицы. Вы можете изменить это позже в разделе Администратор → Настройки.',
+    'install.mod_moderation'                      => 'Модерация',
+    'install.mod_moderation_desc'                 => 'Проверка предложенных правок до изменения записи.',
+    'install.mod_users'                           => 'Учетные записи пользователей',
+    'install.mod_users_desc'                      => 'Разрешить пользователям регистрироваться и входить в систему.',
+    'install.mod_volunteers'                      => 'Волонтерская инициатива',
+    'install.mod_volunteers_desc'                 => 'Публичная форма для желающих помочь.',
+    'install.modules_continue'                    => 'Сохранить и продолжить',
+    'install.modules_heading'                     => 'Какие части pRD вы хотите использовать?',
+    'install.modules_help'                        => 'Пожалуйста, выберите функции, которые вам нужны с самого начала. Вы сможете изменить это позже в разделе Администратор → Настройки сайта.',
+    'install.modules_later'                       => 'Вы можете включить или отключить любую из этих функций позже в разделе Администратор → Настройки.',
     'install.msg_admin_created'                   => 'Учетная запись администратора была создана. Вы можете добавить дополнительные демонстрационные пакеты или пропустить этот шаг.',
     'install.msg_db_ready'                        => 'База данных готова. Создайте учетную запись администратора для завершения установки.',
     'install.msg_install_removed'                 => 'Папка установки была удалена. Теперь вы можете войти в систему.',
     'install.msg_installation_complete'           => 'Установка завершена.',
-    'install.msg_modules_saved'                   => 'Выбранные вами функции сохранены. Вы можете добавить дополнительные демо-пакеты или пропустить этот шаг.',
+    'install.msg_modules_saved'                   => 'Выбор функций сохранен. Вы можете добавить дополнительные демо-пакеты или пропустить этот шаг.',
     'install.msg_schema_imported'                 => 'База данных подключена, схема импортирована. Создайте учетную запись администратора.',
     'install.page_title'                          => 'Установка — Справочник приходских книг',
     'install.remove_folder_btn'                   => 'Пожалуйста, удалите папку установки (install)!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Пожалуйста, убедитесь, что база данных, которую вы планируете использовать, пуста, прежде чем продолжить.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Эта демо-версия уже установлена',
     'demo.already_installed_hint'                 => 'Этот пакет уже установлен, поэтому его нельзя выбрать повторно.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'Что добавить',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Просмотр таблицы лидеров',
     'leaderboard.default_role'                    => 'Пользователь',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Вы)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Приходские записи составлены из общедоступных исторических источников.',
     'footer.rights_reserved'                      => 'Все права защищены.',
     'footer.software_notice'                      => 'pRD (V1.18) с открытым исходным кодом под лицензией MIT — Спасибо @katherinehuk на GitHub за свежий взгляд!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'База данных приходских записей',
     'header.skip_to_content'                      => 'Перейти к основному содержимому',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Закрыть уведомление',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Субъект:',
     'record_history.directory_table_label'        => 'Таблица справочника:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Хронология событий и действий',
 
     // ----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Удалить файл аварийного доступа',
     'update_database.backup_notice'               => 'По возможности сделайте резервную копию базы данных перед выполнением обновлений.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Обновить базу данных сейчас',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Неверные учетные данные или доступ к учетной записи ограничен.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ---------------------------------------------------               -------
     'save_data_entry.audit_created_prefix'        => 'Запись создана в таблице с ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Пожалуйста, выберите вариант из списка для %s.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Запись успешно добавлена!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Не удалось отправить предложение правки. Пожалуйста, попробуйте еще раз.',
     'save_public_suggestion.err_field_required'   => 'Это поле является обязательным и не может быть отправлено пустым.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Ваше предложение правки успешно отправлено в очередь модерации на проверку. Спасибо!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Активная таблица ввода данных:',
     'data_entry.add_entry_summary'                => '➕ Добавить новую запись данных (Нажмите, чтобы развернуть/свернуть)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'По',
     'data_entry.delete_record_btn'                => 'Удалить',
     'data_entry.delete_record_confirm'            => 'Безвозвратно удалить эту запись? Значения, метки на карте и связанные с ней предложения будут удалены. Это действие нельзя отменить.',
+    'data_entry.dup_blocked'                      => 'Эта запись слишком похожа на уже сохраненную, поэтому ее нельзя добавить.',
+    'data_entry.dup_close_match'                  => 'Очень похожее написание',
     'data_entry.dup_confirm_btn'                  => 'Да, подтвердить и сохранить дубликат',
-    'data_entry.dup_desc'                         => 'Мы нашли похожие записи в системе:',
+    'data_entry.dup_desc'                         => 'Пожалуйста, проверьте карточки ниже. Вы все равно можете сохранить запись, если это другой объект.',
+    'data_entry.dup_empty'                        => '(пусто)',
+    'data_entry.dup_flag_btn'                     => 'Сохранить и уведомить модератора',
     'data_entry.dup_heading'                      => '⚠️ Предупреждение о возможном дубликате',
     'data_entry.dup_item_format'                  => 'ID записи: %d — Значение: %s',
+    'data_entry.dup_overview'                     => 'Уже сохранено',
     'data_entry.dup_prompt'                       => 'Хотите продолжить и все равно сохранить эту дублирующую запись?',
+    'data_entry.dup_review_btn'                   => 'Проверить введенный текст',
+    'data_entry.dup_score_exact'                  => 'Расчетное сходство: %s процентов.',
+    'data_entry.dup_similar'                      => 'Это похоже на запись #%s на %s%%',
     'data_entry.edit_record_btn'                  => 'Редактировать',
     'data_entry.edit_record_saved'                => 'Запись обновлена.',
     'data_entry.enter_value_placeholder'          => 'Введите значение...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Редактировать запись',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Восстановление пароля',
     'forgot_password.back_login_link'             => 'Вернуться к входу',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Отправить ссылку для сброса',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Вход пользователя',
     'login.err_password_required'                 => 'Пожалуйста, введите свой пароль.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Имя пользователя или email:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Показывает инициалы и случайный номер всем.',
     'onboarding.attr_anon_title'                  => 'Анонимно:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Часовой пояс / Регион:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Новый адрес электронной почты',
     'profile.aria_region'                         => 'Управление профилем пользователя',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Обновить пароль',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Регистрация пользователя',
     'register.email_label'                        => 'Адрес электронной почты',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Имя пользователя:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Установить пароль',
     'set_password.confirm_password_label'         => 'Подтвердите пароль:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Добро пожаловать в вашу новую учетную запись, %s! Пожалуйста, выберите пароль ниже.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-значный код подтверждения',
     'setup_2fa.aria_region'                       => 'Мастер настройки 2FA',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Подтвердить и включить 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Предложить правку',
     'suggest_edit.confirm_prompt'                 => 'Вы уверены, что хотите отправить это предложение правки на рассмотрение администратору?',
     'suggest_edit.current_values_heading'         => 'Текущие значения:',
+    'suggest_edit.decision_accepted'              => 'Принято',
+    'suggest_edit.decision_not_accepted'          => 'Не принято',
+    'suggest_edit.dup_of_help'                    => 'Необязательно. Модераторы увидят эту заметку.',
+    'suggest_edit.dup_of_label'                   => 'Если вы знаете номер другой записи, можете указать его здесь',
+    'suggest_edit.dup_please_check'               => 'Это изменение будет очень похоже на другую запись. Пожалуйста, проверьте данные ниже.',
     'suggest_edit.empty_label'                    => '(пусто)',
+    'suggest_edit.err_notify_email'               => 'Пожалуйста, введите адрес электронной почты, если хотите узнать результат.',
     'suggest_edit.heading_prefix'                 => 'Предложить правку для записи',
     'suggest_edit.leave_blank'                    => 'Оставьте это поле пустым',
+    'suggest_edit.no_rationale'                   => 'Дополнительные примечания не добавлялись.',
+    'suggest_edit.notify_email_help'              => 'Используется только для сообщения результата. Не отображается в публичной записи.',
+    'suggest_edit.notify_email_label'             => 'Ваш адрес электронной почты',
+    'suggest_edit.notify_label'                   => 'Уведомить меня по электронной почте при принятии решения модератором',
     'suggest_edit.proposed_value_label'           => 'Предлагаемое новое значение:',
     'suggest_edit.reasoning_label'                => 'Источник / Обоснование / Заметки:',
     'suggest_edit.reasoning_optional'             => 'Необязательно — доказательства, источники или примечания для модераторов.',
     'suggest_edit.reasoning_placeholder'          => 'Укажите контекст, цитату источника или причину для этого изменения...',
+    'suggest_edit.report_dup'                     => 'Я считаю, что эта запись является дубликатом другой',
     'suggest_edit.return_btn'                     => 'Вернуться к записи',
     'suggest_edit.select_column_label'            => 'Выберите колонку для редактирования:',
     'suggest_edit.submit_btn'                     => 'Отправить предложение на рассмотрение',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Вы можете отправить другую правку ниже или использовать ссылку возврата выше, когда закончите.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Введите код подтверждения или защитный код',
     'verify_2fa.aria_region'                      => 'Проверка 2FA',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Проверить и войти',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Статус подтверждения email',
     'verify_email.err_expired_token'              => 'Срок действия этой ссылки подтверждения истек (превышен лимит 24 часа). Пожалуйста, зарегистрируйтесь снова или запросите новую ссылку.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'Электронная почта успешно подтверждена! Ваша учетная запись теперь активна. Пожалуйста, перейдите ко входу.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Подобрать для меня уникальное имя пользователя',
     'index.check_availability'                    => 'Проверить доступность',

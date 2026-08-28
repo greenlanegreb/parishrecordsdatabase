@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'レコードID',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => '戻る',
+    'cols.print_btn'                              => '印刷',
+    'cols.print_entire'                           => 'すべて印刷',
+    'cols.print_filtered'                         => 'フィルター済みを印刷',
+    'cols.print_now'                              => '印刷またはPDFとして保存',
+    'cols.show_heading'                           => '表示する列を選択',
+    'cols.show_help'                              => 'ここでの表示、ダウンロード、印刷時に非表示にする列のチェックを外してください。スマートフォンでは、列数が少ない方が読みやすくなります。',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'メールアドレス：',
     'create_user.first_name'                      => '名：',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => '空白の場合は自動生成',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => '匿名',
     'feedback_dash.default_subject'               => '一般のお問い合わせ',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'チケットID / 日付',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'フィードバックダッシュボードに戻る',
     'feedback_emails.custom_tags'                 => 'カスタム構造タグ：',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'チケットのワークフロー中に自動送信されるメール通知をカスタマイズします。動的なプレースホルダーには中括弧を使用してください。',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ 新しいチケットフォームフィールドを追加',
     'feedback_schema.allow_multiple'              => '複数のオプションの選択を許可する（複数選択）',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (短いテキスト)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ 次のオブジェクトに新しいテーブル列を追加：',
     'manage_tables.allow_multiple_label'          => '複数の選択を許可（マルチセレクト）',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => '動的列を編集：',
     'manage_tables.edit_metadata_btn'             => 'テーブルメタデータを編集',
     'manage_tables.edit_table_summary'            => 'テーブル定義を編集：',
+    'manage_tables.err_col_name_empty'            => '列名を入力してください。',
+    'manage_tables.err_col_name_taken'            => 'このテーブルには既に%sという名前の列があります。別の名前を選んでください。',
+    'manage_tables.err_table_name_empty'          => 'テーブル名を入力してください。',
+    'manage_tables.err_table_name_taken'          => '%sという名前のテーブルが既に存在します。別の名前を選んでください。',
     'manage_tables.exclude_search_label'          => '公開検索からこの列を除外 (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => '既存の列：',
     'manage_tables.heading'                       => '動的テーブルと構造管理',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'はい',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'フィルターを適用',
     'map.back_to_table'                           => 'テーブルに戻る',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => '地図にスキップ',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'ユーザー作成に戻る',
     'user_emails.currently_editing'               => '現在編集中：',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'ユーザー通知メールテンプレートの管理',
     'user_emails.opt_invitation'                  => 'ユーザーアカウント招待テンプレート',
     'user_emails.opt_reset'                       => 'パスワードリセット / アクセスリンクテンプレート',
+    'user_emails.opt_suggestion_outcome'          => '編集提案の結果',
     'user_emails.select_template_label'           => '編集するテンプレートを選択：',
     'user_emails.subheading'                      => 'ユーザーの招待時やパスワードリセットリンクの送信時に使用されるメールのレイアウトをカスタマイズします。',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'ボランティア申請ダッシュボードに戻る',
     'volunteer_emails.custom_tags_desc'           => 'フォームビルダーのフィールドから自動生成されます：',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'ワークフローのさまざまな段階でボランティアに自動送信されるメール返信をカスタマイズします。動的なプレースホルダーには中括弧を使用してください。',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ 新しいボランティアフォームフィールドを追加',
     'volunteer_schema.back_to_dashboard'          => 'ボランティア申請ダッシュボードに戻る',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'カスタムフィールド、データ型、サブタイプ、オプション、および一般的なフォーム表示設定を設定します。',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'レコード #%s',
+    'dup_merge.col_b'                             => 'レコード #%s',
+    'dup_merge.col_field'                         => 'フィールド',
+    'dup_merge.confirm'                           => 'これらを1つのレコードに統合しますか？ もう一方のレコードは削除されます。',
+    'dup_merge.fields_caption'                    => '各フィールドの値を選択',
+    'dup_merge.heading'                           => '2つの類似レコードを統合',
+    'dup_merge.intro'                             => 'これら2つは約 %s%% 類似しています。保持するレコードを選択し、各フィールドの値を決定してください。',
+    'dup_merge.keep_a'                            => 'レコード #%s を保持',
+    'dup_merge.keep_b'                            => 'レコード #%s を保持',
+    'dup_merge.keep_legend'                       => 'どちらのレコードを保持しますか？',
+    'dup_merge.save_btn'                          => '1つのレコードに統合',
+    'dup_merged'                                  => 'それら2つのレコードは1つになりました。変更内容は残されたレコードの履歴に記録されます。',
+    'dup_queue.choose_table'                      => 'テーブルを選択',
+    'dup_queue.col_actions'                       => '操作',
+    'dup_queue.col_records'                       => 'レコード',
+    'dup_queue.col_score'                         => '類似度',
+    'dup_queue.col_table'                         => 'テーブル',
+    'dup_queue.dismiss_btn'                       => '重複ではない',
+    'dup_queue.dismissed'                         => 'そのペアは重複ではないとしてマークされました。',
+    'dup_queue.empty'                             => '待機中の項目はありません。テーブルをスキャンして古い類似項目を探してください。',
+    'dup_queue.gone'                              => 'その確認待ちの項目はもう存在しません。',
+    'dup_queue.heading'                           => '確認する類似レコード',
+    'dup_queue.intro'                             => '既に似ている行がないかテーブルをスキャンします。別物であると指定するか、1つのレコードに統合できます。',
+    'dup_queue.merge_btn'                         => '1つに統合',
+    'dup_queue.scan_btn'                          => 'このテーブルをスキャン',
+    'dup_queue.scan_done'                         => 'スキャンが完了しました。%s 件の類似ペアが見つかり、%s 件の新しいアイテムがリストに追加されました。',
+    'dup_queue.scan_label'                        => '類似レコードの検索先：',
     'moderate.approve_btn'                        => '承認',
     'moderate.approve_confirm'                    => 'この値を承認して適用しますか？',
     'moderate.by_label'                           => '作成者：',
     'moderate.column_label'                       => '列：',
     'moderate.decline_btn'                        => '拒否',
     'moderate.decline_confirm'                    => 'この提案を拒否して破棄しますか？',
+    'moderate.dup_approved_note'                  => '承認されました。現在、レコード #%s と %s%% 類似しています。',
+    'moderate.dup_blocked'                        => '承認できません：レコード #%s と %s%% 類似しています。',
     'moderate.empty_placeholder'                  => '[空]',
     'moderate.evidence_label'                     => '根拠 / 理由：',
     'moderate.guest_user'                         => 'ゲスト / ビジター',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => '承認されたモデレーションテーブルに保留中の提案は見つかりませんでした。',
     'moderate.override_label'                     => '値を上書き：',
     'moderate.proposed_value_label'               => '提案された変更：',
+    'moderate.rationale_label'                    => 'これを提案した人へのメモ',
+    'moderate.rationale_optional'                 => '任意のメモ（レコードに保存されます）。',
+    'moderate.rationale_placeholder'              => 'この変更を受け入れた、または却下した理由',
+    'moderate.rationale_will_be_sent'             => 'メール送信が要求されました。以下のメモは入力されたそのままの状態で送信されるため、親切で明確なトーンを保ってください。',
     'moderate.record_id_label'                    => 'レコードID：',
     'moderate.required_badge'                     => '必須',
     'moderate.select_placeholder'                 => '-- 選択してください --',
     'moderate.shortcut_desc'                      => 'Ctrl + Enter で素早く承認、または Esc で上書きボックスをクリア！',
     'moderate.shortcut_label'                     => 'キーボードショートカットのヒント：',
     'moderate.subheading'                         => 'ユーザーが提案した変更を、承認されたテーブルのアクティブなレコードと比較します。提案の承認、上書き、または拒否を行います。',
+    'moderate.tab_similar'                        => '類似レコード',
+    'moderate.tab_suggestions'                    => '提案',
     'moderate.th_actions'                         => 'モデレーターの操作',
     'moderate.th_comparison'                      => '比較（アクティブ vs 提案）と根拠',
     'moderate.th_id_date'                         => 'ID / 日付',
     'moderate.th_table_record'                    => 'テーブル、レコード、列',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => '有効',
     'notices.add_new'                             => '新しい通知を追加',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'はい',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => '管理者',
     'role.label_guest'                            => '一般ビジター',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => '完全な .sql ファイルをコンピューターに保存します。更新を実行する前に安全な場所に保管してください。',
     'settings.driver_native'                      => 'ネイティブメール (ローカル Postfix リレー)',
     'settings.driver_smtp'                        => '認証済み SMTP (PHPMailer)',
+    'settings.dup_heading'                        => '重複レコード管理',
+    'settings.dup_help'                           => 'pRD は入力された内容を同じテーブル内の他の行と比較します。ユーザーに警告を表示したり、保存を停止したり、この機能をオフにしたりできます。',
+    'settings.dup_legend'                         => '新規レコードが既存のレコードに似ている場合',
+    'settings.dup_mode_block'                     => '保存を許可しない',
+    'settings.dup_mode_flag'                      => '警告を表示し、そのまま保存された場合はモデレーターに通知する',
+    'settings.dup_mode_off'                       => '類似レコードをチェックしない',
+    'settings.dup_mode_warn'                      => '警告を表示する — 保存は続行可能',
+    'settings.dup_picky_exact'                    => '単語が密接に一致する場合のみ',
+    'settings.dup_picky_label'                    => 'チェックの厳しさはどの程度にしますか？',
+    'settings.dup_picky_similar'                  => 'ニアミス（類似したスペル）も検知する',
     'settings.enc_ssl'                            => 'SSL (ポート 465)',
     'settings.enc_tls'                            => 'TLS (ポート 587)',
     'settings.error_log_tab'                      => 'エラーログ',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => '通知は設定されていません。',
     'settings.notice_content_label'               => '内容：',
     'settings.notices_heading'                    => 'サイトの通知とアナウンス',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'この権限は管理者にとって必須です。',
+    'settings.perm_more_info'                     => '詳細情報：',
+    'settings.perm_needs'                         => '依存権限',
+    'settings.perm_needs_parent'                  => '最初にそちらを有効にしてください。',
+    'settings.perm_no_links'                      => 'この権限は他の権限に依存しません。',
+    'settings.perm_used_by'                       => '必要要件：',
     'settings.permissions_heading'                => '動的ロールと権限マトリックス',
     'settings.permissions_subheading'             => '権限はシステム機能ごとにグループ化されています。各セクションを展開して権限を設定し、以下の更新を保存してください。',
     'settings.port_label'                         => 'ポート:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'データベースを更新',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => '削除',
     'admin_users.disabled'                        => '無効',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'はい',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => '管理者',
     'view_ticket.back_to_dashboard'               => 'チケットダッシュボードに戻る',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'チケットステータス：',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => '採用して招待を送信',
     'volunteer_dashboard.accept_title'            => 'ユーザー招待システムを通じて採用',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'ボランティア',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 アクセス禁止：公開閲覧は有効になっていません。',
     'api_search.error_unauthorized_table'         => '不正なテーブルアクセスです。',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => '編集を提案',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => '検索',
     'admin_errors.file'                           => 'ファイル',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'スタックトレース',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'メールアドレス：',
     'feedback.first_name_label'                   => '名：',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => '姓：',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => '該当ファイルの特定に役立つ操作内容を記述してください',
     'gh.add_comment_below'                        => '以下にコメントを追加して送信してください。',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. 翻訳の提案',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'セキュリティエラー：アクセスが拒否されました。',
     'security_engine.err_captcha_failed'          => 'CAPTCHA検証に失敗しました。もう一度お試しください。',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'セキュリティエラー：不審なクライアントシグネチャです。',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => '管理者パスワードの確認',
     'install.admin_email_label'                   => '管理者メールアドレス',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'サイトへ移動',
     'install.lang_label'                          => '言語',
     'install.login_link'                          => 'ログイン',
+    'install.mod_feedback'                        => 'フィードバックとチケット',
+    'install.mod_feedback_desc'                   => '質問やサポートチケットのための公開フォーム。',
+    'install.mod_leaderboard'                     => 'リーダーボード',
+    'install.mod_leaderboard_desc'                => 'オプショナルのポイントテーブル。ユーザーアカウントが有効である必要があります。',
     'install.mod_maps'                            => '地図',
     'install.mod_maps_desc'                       => '場所フィールドとテーブルごとの地図。これは後で [管理] → [設定] から変更できます。',
+    'install.mod_moderation'                      => 'モデレーション',
+    'install.mod_moderation_desc'                 => '提案された編集がレコードに変更を加える前に確認します。',
+    'install.mod_users'                           => 'ユーザーアカウント',
+    'install.mod_users_desc'                      => 'ユーザーの登録とログインを許可します。',
+    'install.mod_volunteers'                      => 'ボランティア意向',
+    'install.mod_volunteers_desc'                 => '協力したい人のための公開フォーム。',
+    'install.modules_continue'                    => '保存して続行',
+    'install.modules_heading'                     => 'pRD のどの機能を使用しますか？',
+    'install.modules_help'                        => '最初から利用したい機能にチェックを入れてください。これらは後から [管理者] → [サイト設定] で変更できます。',
+    'install.modules_later'                       => 'これらの機能は、後から [管理者] → [設定] でいつでも有効化・無効化できます。',
     'install.msg_admin_created'                   => '管理者アカウントが作成されました。オプションのデモパックを追加するか、スキップできます。',
     'install.msg_db_ready'                        => 'データベースの準備ができました。管理者をアカウント作成してインストールを完了してください。',
     'install.msg_install_removed'                 => 'インストールフォルダが削除されました。これでログインできます。',
     'install.msg_installation_complete'           => 'インストールが完了しました。',
-    'install.msg_modules_saved'                   => '機能の選択内容が保存されました。オプショナルのデモパックを追加するか、スキップしてください。',
+    'install.msg_modules_saved'                   => '機能の選択が保存されました。オプショナルのデモパックを追加するか、スキップしてください。',
     'install.msg_schema_imported'                 => 'データベースが接続され、スキーマがインポートされました。管理者アカウントを作成してください。',
     'install.page_title'                          => 'インストール — 教区住民登録簿',
     'install.remove_folder_btn'                   => 'インストールフォルダを削除してください！',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => '続行する前に、使用予定のデータベースが空であることを確認してください。',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'このデモはすでにインストールされています',
     'demo.already_installed_hint'                 => 'このパックはすでにインストールされているため、再選択できません。',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => '追加する内容',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'リーダーボードビュー',
     'leaderboard.default_role'                    => 'ユーザー',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(あなた)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => '教区住民登録簿は、パブリックドメインの歴史的資料から編纂されています。',
     'footer.rights_reserved'                      => 'All rights reserved.',
     'footer.software_notice'                      => 'pRD (V1.18) は MITライセンスの下でのオープンソースです。GitHubの @katherinehuk によるダブルチェックに感謝します！',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => '教区住民登録データベース',
     'header.skip_to_content'                      => 'メインコンテンツにスキップ',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => '通知を閉じる',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => '実行者：',
     'record_history.directory_table_label'        => 'ディレクトリテーブル：',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'イベントとアクティビティのタイムライン',
 
     // ------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ------------------------------------------------------------------
     'index.remove_emergency_file'                 => '緊急アクセスファイルを削除',
     'update_database.backup_notice'               => '可能な場合は、アップデートを実行する前にデータベースのバックアップを取ってください。',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => '今すぐデータベースを更新',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => '資格情報が無効であるか、アカウントのアクセスが制限されています。',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'ID %d のテーブルにレコードが作成されました。',
     'save_data_entry.err_invalid_choice'          => '%s にはリスト内の選択肢を選んでください。',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'レコードが正常に追加されました！',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => '編集の提案の送信に失敗しました。もう一度お試しください。',
     'save_public_suggestion.err_field_required'   => 'このフィールドは必須であり、空にすることはできません。',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => '編集の提案が正常に送信され、審査のためにモデレーションキューに送信されました。ありがとうございます！',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'アクティブなデータ入力テーブル：',
     'data_entry.add_entry_summary'                => '➕ 新しいデータ入力を追加（クリックして展開/折りたたみ）',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => '終了',
     'data_entry.delete_record_btn'                => '削除',
     'data_entry.delete_record_confirm'            => 'このレコードを完全に削除しますか？値、マップピン、および関連するサジェストが削除されます。この操作は元に戻せません。',
+    'data_entry.dup_blocked'                      => 'このレコードは既に保存されているレコードと似すぎているため、追加できません。',
+    'data_entry.dup_close_match'                  => '非常によく似たスペル',
     'data_entry.dup_confirm_btn'                  => 'はい、確認して重複を保存する',
-    'data_entry.dup_desc'                         => 'システム内で一致するエントリが見つかりました：',
+    'data_entry.dup_desc'                         => '以下のカードを確認してください。これが別のレコードである場合は、そのまま保存できます。',
+    'data_entry.dup_empty'                        => '（空）',
+    'data_entry.dup_flag_btn'                     => '保存してモデレーターに通知する',
     'data_entry.dup_heading'                      => '⚠️ 重複の可能性がある警告',
     'data_entry.dup_item_format'                  => 'レコードID: %d — 値: %s',
+    'data_entry.dup_overview'                     => '保存済み',
     'data_entry.dup_prompt'                       => 'それでもこの重複エントリを続行して保存しますか？',
+    'data_entry.dup_review_btn'                   => '入力内容を確認する',
+    'data_entry.dup_score_exact'                  => '計算された類似度：%s パーセント。',
+    'data_entry.dup_similar'                      => 'これはレコード #%s と %s%% 類似しています',
     'data_entry.edit_record_btn'                  => '編集',
     'data_entry.edit_record_saved'                => 'レコードが更新されました。',
     'data_entry.enter_value_placeholder'          => '値を入力...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'レコードの編集',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'パスワードの回復',
     'forgot_password.back_login_link'             => 'ログインページに戻る',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'リセットリンクを送信',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'ユーザーログイン',
     'login.err_password_required'                 => 'パスワードを入力してください。',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'ユーザー名またはメールアドレス：',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'すべての人にイニシャルとランダムな番号を表示します。',
     'onboarding.attr_anon_title'                  => '匿名：',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'タイムゾーン / 地域：',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => '新しいメールアドレス',
     'profile.aria_region'                         => 'ユーザープロフィール管理',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'パスワードを更新',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'ユーザー登録',
     'register.email_label'                        => 'メールアドレス',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'ユーザー名：',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'パスワードを設定',
     'set_password.confirm_password_label'         => 'パスワードを確認：',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => '%sさん、新しいアカウントへようこそ！以下からパスワードを選択してください。',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6桁の認証コード',
     'setup_2fa.aria_region'                       => '2FA設定ウィザード',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => '2FAを確認して有効にする',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => '編集を提案',
     'suggest_edit.confirm_prompt'                 => '管理者の審査のためにこの編集提案を送信してもよろしいですか？',
     'suggest_edit.current_values_heading'         => '現在の値：',
+    'suggest_edit.decision_accepted'              => '承認済み',
+    'suggest_edit.decision_not_accepted'          => '未承認',
+    'suggest_edit.dup_of_help'                    => '任意。モデレーターにこのメモが表示されます。',
+    'suggest_edit.dup_of_label'                   => '他のレコード番号が分かっている場合は、ここに入力できます',
+    'suggest_edit.dup_please_check'               => 'この変更は別のレコードと非常に似たものになります。以下を確認してください。',
     'suggest_edit.empty_label'                    => '(空)',
+    'suggest_edit.err_notify_email'               => '結果を受け取りたい場合は、メールアドレスを入力してください。',
     'suggest_edit.heading_prefix'                 => 'レコードの編集を提案',
     'suggest_edit.leave_blank'                    => 'このフィールドは空のままにしてください',
+    'suggest_edit.no_rationale'                   => '追加のメモはありません。',
+    'suggest_edit.notify_email_help'              => '結果の通知にのみ使用されます。公開レコードには表示されません。',
+    'suggest_edit.notify_email_label'             => 'メールアドレス',
+    'suggest_edit.notify_label'                   => 'モデレーターが決定を下したときにメールで通知する',
     'suggest_edit.proposed_value_label'           => '提案された新しい値：',
     'suggest_edit.reasoning_label'                => '根拠 / 理由 / ソースノート：',
     'suggest_edit.reasoning_optional'             => '任意 — モデレーター向けの根拠、情報源、またはメモ。',
     'suggest_edit.reasoning_placeholder'          => 'コンテキスト、ソースの引用、またはこの変更を行う理由を提供してください...',
+    'suggest_edit.report_dup'                     => 'このレコードは別のレコードの重複だと思います',
     'suggest_edit.return_btn'                     => 'レコードに戻る',
     'suggest_edit.select_column_label'            => '編集する列を選択：',
     'suggest_edit.submit_btn'                     => '審査のために提案を送信',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'いつでも以下から他の編集を送信するか、完了したら上の戻るリンクを使用できます。',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => '認証コードまたはセキュリティコードを入力',
     'verify_2fa.aria_region'                      => '2FA確認',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => '確認してログイン',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'メール確認ステータス',
     'verify_email.err_expired_token'              => 'この確認リンクの有効期限が切れています（24時間の制限を超えました）。再登録するか、新しいリンクをリクエストしてください。',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'メールアドレスが正常に確認されました！アカウントが有効化されました。ログインにお進みください。',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => '固有のユーザー名を割り当てる',
     'index.check_availability'                    => '空き状況を確認',

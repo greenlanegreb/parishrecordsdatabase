@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'ID запису',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Назад',
+    'cols.print_btn'                              => 'Друк',
+    'cols.print_entire'                           => 'Друкувати все',
+    'cols.print_filtered'                         => 'Друкувати відфільтровані',
+    'cols.print_now'                              => 'Друкувати або зберегти як PDF',
+    'cols.show_heading'                           => 'Виберіть стовпці для відображення',
+    'cols.show_help'                              => 'Зніміть прапорец з потрібного стовпця, щоб приховати його тут, під час завантаження та друку. На телефоні менша кількість стовпців легша для читання.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'Адреса електронної пошти:',
     'create_user.first_name'                      => 'Ім’я:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Залиште порожнім для автогенерації',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Анонімно',
     'feedback_dash.default_subject'               => 'Загальне питання',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'ID тікета / Дата',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Повернутися до панелі тікетів',
     'feedback_emails.custom_tags'                 => 'Користувацькі теги схеми:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Налаштуйте автоматичні сповіщення електронною поштою, що надсилаються під час роботи з тікетами. Використовуйте фігурні дужки для динамічних значень.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Додати нове поле форми тікета',
     'feedback_schema.allow_multiple'              => 'Дозволити вибір кількох варіантів (Множинний вибір)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Короткий текст)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Додати нову колонку таблиці для',
     'manage_tables.allow_multiple_label'          => 'Дозволити кілька варіантів (множинний вибір)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Редагувати динамічну колонку:',
     'manage_tables.edit_metadata_btn'             => 'Редагувати метадані таблиці',
     'manage_tables.edit_table_summary'            => 'Редагувати визначення таблиці:',
+    'manage_tables.err_col_name_empty'            => 'Будь ласка, введіть назву стовпця.',
+    'manage_tables.err_col_name_taken'            => 'У цій таблиці вже є стовпець з назвою %s. Будь ласка, виберіть іншу назву.',
+    'manage_tables.err_table_name_empty'          => 'Будь ласка, введіть назву таблиці.',
+    'manage_tables.err_table_name_taken'          => 'Таблиця з назвою %s вже існує. Будь ласка, виберіть іншу назву.',
     'manage_tables.exclude_search_label'          => 'Виключити цю колонку з публічного пошуку (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Існуючі колонки для',
     'manage_tables.heading'                       => 'Керування таблицями та схемами',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Так',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Застосувати фільтри',
     'map.back_to_table'                           => 'Повернутися до таблиці',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Перейти до карти',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Повернутися до створення користувача',
     'user_emails.currently_editing'               => 'Зараз редагується:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Керування шаблонами сповіщень користувачів',
     'user_emails.opt_invitation'                  => 'Шаблон запрошення облікового запису користувача',
     'user_emails.opt_reset'                       => 'Шаблон скидання пароля / посилання доступу',
+    'user_emails.opt_suggestion_outcome'          => 'Результат запропонованої зміни',
     'user_emails.select_template_label'           => 'Виберіть шаблон для редагування:',
     'user_emails.subheading'                      => 'Налаштуйте макети листів, що надсилаються під час запрошення користувачів або надсилання посилань для скидання пароля.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Повернутися до заявок волонтерів',
     'volunteer_emails.custom_tags_desc'           => 'Генеруються автоматично з полів конструктора форми:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Налаштуйте автоматичні відповіді електронною поштою для волонтерів на різних етапах робочого процесу. Використовуйте фігурні дужки для динамічних значень.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Додати нове поле форми волонтера',
     'volunteer_schema.back_to_dashboard'          => 'Повернутися до заявок волонтерів',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Налаштуйте користувацькі поля, типи даних, підтипи, опції та загальні налаштування відображення форми.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Запис #%s',
+    'dup_merge.col_b'                             => 'Запис #%s',
+    'dup_merge.col_field'                         => 'Поле',
+    'dup_merge.confirm'                           => 'Бажаєте об’єднати їх в один запис? Інший запис буде видалено.',
+    'dup_merge.fields_caption'                    => 'Виберіть значення для кожного поля',
+    'dup_merge.heading'                           => 'Об’єднання двох схожих записів',
+    'dup_merge.intro'                             => 'Ці два записи схожі приблизно на %s%%. Виберіть, який запис зберегти, а потім вкажіть значення для кожного поля.',
+    'dup_merge.keep_a'                            => 'Зберегти запис #%s',
+    'dup_merge.keep_b'                            => 'Зберегти запис #%s',
+    'dup_merge.keep_legend'                       => 'Який запис слід зберегти?',
+    'dup_merge.save_btn'                          => 'Об’єднати в один запис',
+    'dup_merge_btn'                               => 'Об\'єднати в один',
+    'dup_merged'                                  => 'Ці два записи тепер об’єднані в один. Зміну зафіксовано в історії запису, що залишився.',
+    'dup_queue.choose_table'                      => 'Виберіть таблицю',
+    'dup_queue.col_actions'                       => 'Дія',
+    'dup_queue.col_records'                       => 'Записи',
+    'dup_queue.col_score'                         => 'Ступінь схожості',
+    'dup_queue.col_table'                         => 'Таблиця',
+    'dup_queue.dismiss_btn'                       => 'Не є дублікатом',
+    'dup_queue.dismissed'                         => 'Цю пару позначено як не дублікат.',
+    'dup_queue.empty'                             => 'Нічого не очікує на перевірку. Проскануйте таблицю, щоб знайти потенційні попередні дублікати.',
+    'dup_queue.gone'                              => 'Ця перевірка більше не перебуває в черзі.',
+    'dup_queue.heading'                           => 'Схожі записи для перевірки',
+    'dup_queue.intro'                             => 'Проскануйте таблицю на наявність рядків, які вже здаються схожими. Ви можете вказати, що вони різні, або об’єднати їх в один запис.',
+    'dup_queue.scan_btn'                          => 'Просканувати цю таблицю',
+    'dup_queue.scan_done'                         => 'Сканування завершено. Знайдено схожих пар: %s, додано нових елементів до списку: %s.',
+    'dup_queue.scan_label'                        => 'Шукати схожі записи в',
     'moderate.approve_btn'                        => 'Затвердити',
     'moderate.approve_confirm'                    => 'Затвердити та застосувати це значення?',
     'moderate.by_label'                           => 'Ким:',
     'moderate.column_label'                       => 'Колонка:',
     'moderate.decline_btn'                        => 'Відхилити',
     'moderate.decline_confirm'                    => 'Відхилити та відкинути цю пропозицію?',
+    'moderate.dup_approved_note'                  => 'Схвалено. Тепер це схоже на запис #%s на %s%%.',
+    'moderate.dup_blocked'                        => 'Неможливо схвалити: це буде схоже на запис #%s на %s%%.',
     'moderate.empty_placeholder'                  => '[Порожньо]',
     'moderate.evidence_label'                     => 'Обґрунтування / Джерело:',
     'moderate.guest_user'                         => 'Гість / Відвідувач',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'У ваших дозволених таблицях модерації не знайдено очікуваних пропозицій.',
     'moderate.override_label'                     => 'Перевизначити значення:',
     'moderate.proposed_value_label'               => 'Пропонована зміна:',
+    'moderate.rationale_label'                    => 'Примітка для автора пропозиції',
+    'moderate.rationale_optional'                 => 'Необов’язкова примітка (зберігається в записі).',
+    'moderate.rationale_placeholder'              => 'Чому ви прийняли або відхилили цю зміну',
+    'moderate.rationale_will_be_sent'             => 'Було надіслано запит на електронну пошту. Ваша примітка нижче буде надіслана в тому вигляді, в якому ви її написали, тому дотримуйтеся ввічливого та чіткого тону.',
     'moderate.record_id_label'                    => 'ID запису:',
     'moderate.required_badge'                     => 'Обов’язково',
     'moderate.select_placeholder'                 => '-- Вибрати --',
     'moderate.shortcut_desc'                      => 'Натисніть Ctrl + Enter для швидкого схвалення або Esc для очищення поля перевизначення!',
     'moderate.shortcut_label'                     => 'Підказка комбінацій клавіш:',
     'moderate.subheading'                         => 'Порівняйте зміни, запропоновані користувачами, з активними записами у ваших дозволених таблицях. Затверджуйте, перевизначайте або відхиляйте пропозиції.',
+    'moderate.tab_similar'                        => 'Схожі записи',
+    'moderate.tab_suggestions'                    => 'Пропозиції',
     'moderate.th_actions'                         => 'Дії модератора',
     'moderate.th_comparison'                      => 'Порівняння (Активне vs Пропоноване) та Обґрунтування',
     'moderate.th_id_date'                         => 'ID / Дата',
     'moderate.th_table_record'                    => 'Таблиця, запис та колонка',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Активно',
     'notices.add_new'                             => 'Додати нове оголошення',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Так',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Адміністратор',
     'role.label_guest'                            => 'Гість',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Зберігає повний файл .sql на вашому комп’ютері. Збережіть його в безпечному місці перед виконанням оновлень.',
     'settings.driver_native'                      => 'Вбудована пошта (Локальний релей Postfix)',
     'settings.driver_smtp'                        => 'Автентифікований SMTP (PHPMailer)',
+    'settings.dup_heading'                        => 'Керування дублікатами записів',
+    'settings.dup_help'                           => 'pRD порівнює введений текст з іншими рядками в тій самій таблиці. Ви можете попереджати користувачів, блокувати збереження або вимкнути цю функцію.',
+    'settings.dup_legend'                         => 'Якщо новий запис схожий на вже наявний',
+    'settings.dup_mode_block'                     => 'Не дозволяти збереження',
+    'settings.dup_mode_flag'                      => 'Попереджати користувача та позначати для модератора, якщо він все ж збереже',
+    'settings.dup_mode_off'                       => 'Не перевіряти на наявність схожих записів',
+    'settings.dup_mode_warn'                      => 'Показувати попередження — користувачі все одно можуть зберегти',
+    'settings.dup_picky_exact'                    => 'Лише у разі точного збігу слів',
+    'settings.dup_picky_label'                    => 'Наскільки суворою має бути перевірка?',
+    'settings.dup_picky_similar'                  => 'Враховувати також близькі збіги (схожий правопис)',
     'settings.enc_ssl'                            => 'SSL (Порт 465)',
     'settings.enc_tls'                            => 'TLS (Порт 587)',
     'settings.error_log_tab'                      => 'Журнал помилок',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Сповіщення не налаштовано.',
     'settings.notice_content_label'               => 'Вміст:',
     'settings.notices_heading'                    => 'Сповіщення та оголошення сайту',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'Цей дозвіл є обов’язковим для адміністраторів.',
+    'settings.perm_more_info'                     => 'Докладніше про',
+    'settings.perm_needs'                         => 'Вимагає',
+    'settings.perm_needs_parent'                  => 'Будь ласка, спочатку увімкніть цю опцію.',
+    'settings.perm_no_links'                      => 'Цей дозвіл не залежить від жодного іншого.',
+    'settings.perm_used_by'                       => 'Потрібно для',
     'settings.permissions_heading'                => 'Матриця ролей та динамічних дозволів',
     'settings.permissions_subheading'             => 'Дозволи згрупповані за функціями системи. Розгорніть розділи для налаштування можливостей та збережіть матрицю нижче.',
     'settings.port_label'                         => 'Порт:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Оновити базу даних',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Видалити',
     'admin_users.disabled'                        => 'Вимкнено',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Так',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Адміністратор',
     'view_ticket.back_to_dashboard'               => 'Повернутися до панелі тікетів',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Статус тікета:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Прийняти та надіслати запрошення',
     'volunteer_dashboard.accept_title'            => 'Прийняти через систему запрошень',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Волонтер',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Заборонено: Публічний перегляд не увімкнено.',
     'api_search.error_unauthorized_table'         => 'Несанкціонований доступ до таблиці.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Запропонувати правку',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Знайти',
     'admin_errors.file'                           => 'Файл',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Трасування стека',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Адреса електронної пошти:',
     'feedback.first_name_label'                   => 'Ім’я:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Прізвище:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Опишіть дії, щоб допомогти визначити місцезнаходження помилкових файлів',
     'gh.add_comment_below'                        => 'Додайте свій коментар нижче та надішліть.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Запропонувати переклад мови',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Помилка безпеки: Доступ заборонено.',
     'security_engine.err_captcha_failed'          => 'Перевірка CAPTCHA не вдалася. Будь ласка, спробуйте ще раз.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Помилка безпеки: Підозрілий підпис клієнта.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Підтвердьте пароль адміністратора',
     'install.admin_email_label'                   => 'Email адміністратора',
@@ -821,8 +889,22 @@ return [
     'install.home_link'                           => 'Перейти на сайт',
     'install.lang_label'                          => 'Мова',
     'install.login_link'                          => 'Увійти',
+    'install.mod_feedback'                        => 'Відгуки та тікети',
+    'install.mod_feedback_desc'                   => 'Публічна форма для запитань та звернень до служби підтримки.',
+    'install.mod_leaderboard'                     => 'Таблиця лідерів',
+    'install.mod_leaderboard_desc'                => 'Необов’язкова таблиця балів. Вимагає увімкнених облікових записів користувачів.',
     'install.mod_maps'                            => 'Карти',
     'install.mod_maps_desc'                       => 'Поля місцезнаходження та карта для кожної таблиці. Ви можете змінити це пізніше в розділі Адмін → Налаштування.',
+    'install.mod_moderation'                      => 'Модерація',
+    'install.mod_moderation_desc'                 => 'Перегляд запропонованих редагувань до того, як вони змінять запис.',
+    'install.mod_users'                           => 'Облікові записи користувачів',
+    'install.mod_users_desc'                      => 'Дозволити користувачам реєструватися та входити в систему.',
+    'install.mod_volunteers'                      => 'Волонтерська ініціатива',
+    'install.mod_volunteers_desc'                 => 'Публічна форма для людей, які хочуть допомогти.',
+    'install.modules_continue'                    => 'Зберегти та продовжити',
+    'install.modules_heading'                     => 'Які частини pRD ви хотіли б використовувати?',
+    'install.modules_help'                        => 'Будь ласка, позначте функції, які вам потрібні з першого дня. Ви зможете змінити це пізніше в розділі Адмін → Налаштування сайту.',
+    'install.modules_later'                       => 'Ви можете ввімкнути або вимкнути будь-яку з цих функцій пізніше в розділі Адмін → Налаштування.',
     'install.msg_admin_created'                   => 'Обліковий запис адміністратора створено. Ви можете додати додаткові демонстраційні пакети або пропустити цей крок.',
     'install.msg_db_ready'                        => 'База даних готова. Створіть свій обліковий запис адміністратора для завершення.',
     'install.msg_install_removed'                 => 'Папку встановлення було видалено. Тепер ви можете увійти в систему.',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Будь ласка, переконайтеся, що база даних, яку ви плануєте використовувати, порожня, перш ніж продовжити.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Цю демо-версію вже встановлено',
     'demo.already_installed_hint'                 => 'Цей пакет уже встановлено, тому його не можна вибрати повторно.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'Що додати',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Перегляд таблиці лідерів',
     'leaderboard.default_role'                    => 'Користувач',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Ви)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Парафіяльні записи складено із загальнодоступних історичних джерел.',
     'footer.rights_reserved'                      => 'Усі права захищено.',
     'footer.software_notice'                      => 'pRD (V1.18) є проєктом з відкритим вихідним кодом під ліцензією MIT - Дякуємо @katherinehuk на GitHub за свіжий погляд!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'База даних парафіяльних записів',
     'header.skip_to_content'                      => 'Перейти до основного вмісту',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Закрити сповіщення',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Суб’єкт:',
     'record_history.directory_table_label'        => 'Таблиця довідника:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Хронологія подій та дій',
 
     // -----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // -----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Видалити файл аварійного доступу',
     'update_database.backup_notice'               => 'За можливості створіть резервну копію бази даних перед виконанням оновлень.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Оновити базу даних зараз',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Невірні облікові дані або доступ до облікового запису обмежено.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Запис створено в таблиці з ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Будь ласка, виберіть варіант зі списку для %s.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Запис успішно додано!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Не вдалося надіслати пропозицію правки. Будь ласка, спробуйте ще раз.',
     'save_public_suggestion.err_field_required'   => 'Це поле є обов’язковим і не може бути надісланим порожнім.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Вашу пропозицію правки успішно надіслано в чергу модерації на перевірку. Дякуємо!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Активна таблиця введення даних:',
     'data_entry.add_entry_summary'                => '➕ Додати новий запис даних (Натисніть, щоб розгорнути/згорнути)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'До',
     'data_entry.delete_record_btn'                => 'Видалити',
     'data_entry.delete_record_confirm'            => 'Безповоротно видалити цей запис? Значення, мітки на карті та пов’язані з ним пропозиції будуть видалені. Цю дію неможливо скасувати.',
+    'data_entry.dup_blocked'                      => 'Цей запис занадто схожий на вже збережений, тому його неможливо додати.',
+    'data_entry.dup_close_match'                  => 'Дуже схожий правопис',
     'data_entry.dup_confirm_btn'                  => 'Так, підтвердити та зберегти дублікат',
-    'data_entry.dup_desc'                         => 'Ми знайшли схожі записи в системі:',
+    'data_entry.dup_desc'                         => 'Будь ласка, перевірте картки нижче. Ви все одно можете зберегти запис, якщо це інший об’єкт.',
+    'data_entry.dup_empty'                        => '(порожньо)',
+    'data_entry.dup_flag_btn'                     => 'Зберегти та повідомити модератора',
     'data_entry.dup_heading'                      => '⚠️ Попередження про можливий дублікат',
     'data_entry.dup_item_format'                  => 'ID запису: %d — Значення: %s',
+    'data_entry.dup_overview'                     => 'Вже збережено',
     'data_entry.dup_prompt'                       => 'Бажаєте продовжити і все одно зберегти цей дубльований запис?',
+    'data_entry.dup_review_btn'                   => 'Перевірити те, що я ввів',
+    'data_entry.dup_score_exact'                  => 'Розрахована подібність: %s відсотків.',
+    'data_entry.dup_similar'                      => 'Це схоже на запис #%s на %s%%',
     'data_entry.edit_record_btn'                  => 'Редагувати',
     'data_entry.edit_record_saved'                => 'Запис оновлено.',
     'data_entry.enter_value_placeholder'          => 'Введіть значення...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Редагувати запис',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Відновлення пароля',
     'forgot_password.back_login_link'             => 'Повернутися до входу',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Надіслати посилання для скидання',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Вхід користувача',
     'login.err_password_required'                 => 'Будь ласка, введіть свій пароль.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Ім’я користувача або email:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Показує ініціали та випадковий номер усім.',
     'onboarding.attr_anon_title'                  => 'Анонімно:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Часовий пояс / Регіон:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Нова адреса електронної пошти',
     'profile.aria_region'                         => 'Керування профілем користувача',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Оновити пароль',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Реєстрація користувача',
     'register.email_label'                        => 'Адреса електронної пошти',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Ім’я користувача:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Встановити пароль',
     'set_password.confirm_password_label'         => 'Підтвердьте пароль:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Ласкаво просимо до вашого нового облікового запису, %s! Будь ласка, виберіть свій пароль нижче.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-значний код підтвердження',
     'setup_2fa.aria_region'                       => 'Майстер налаштування 2FA',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Перевірити та увімкнути 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Запропонувати правку',
     'suggest_edit.confirm_prompt'                 => 'Ви впевнені, що хочете надіслати цю пропозицію правки на розгляд адміністратору?',
     'suggest_edit.current_values_heading'         => 'Поточні значення:',
+    'suggest_edit.decision_accepted'              => 'Прийнято',
+    'suggest_edit.decision_not_accepted'          => 'Не прийнято',
+    'suggest_edit.dup_of_help'                    => 'Необов’язково. Модератори побачать цю примітку.',
+    'suggest_edit.dup_of_label'                   => 'Якщо ви знаєте номер іншого запису, можете вказати його тут',
+    'suggest_edit.dup_please_check'               => 'Ця зміна буде дуже схожою на інший запис. Будь ласка, перевірте дані нижче.',
     'suggest_edit.empty_label'                    => '(порожньо)',
+    'suggest_edit.err_notify_email'               => 'Будь ласка, введіть адресу електронної пошти, якщо хочете дізнатися результат.',
     'suggest_edit.heading_prefix'                 => 'Запропонувати правку для запису',
     'suggest_edit.leave_blank'                    => 'Залиште це поле порожнім',
+    'suggest_edit.no_rationale'                   => 'Додаткових приміток не додано.',
+    'suggest_edit.notify_email_help'              => 'Використовується лише для повідомлення результату. Не відображається в публічному записі.',
+    'suggest_edit.notify_email_label'             => 'Ваша адреса електронної пошти',
+    'suggest_edit.notify_label'                   => 'Надіслати мені електронного листа, коли модератор ухвалить рішення',
     'suggest_edit.proposed_value_label'           => 'Пропоноване нове значення:',
     'suggest_edit.reasoning_label'                => 'Джерело / Обґрунтування / Нотатки:',
     'suggest_edit.reasoning_optional'             => 'Необов’язково — докази, джерела або примітки для модераторів.',
     'suggest_edit.reasoning_placeholder'          => 'Надайте контекст, цитату джерела або причину для цієї зміни...',
+    'suggest_edit.report_dup'                     => 'Я вважаю, що цей запис є дублікатом іншого',
     'suggest_edit.return_btn'                     => 'Повернутися до запису',
     'suggest_edit.select_column_label'            => 'Виберіть колонку для редагування:',
     'suggest_edit.submit_btn'                     => 'Надіслати пропозицію на розгляд',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Ви можете надіслати іншу правку нижче або скористатися посиланням повернення вище, коли закінчите.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Введіть код підтвердження або захисний код',
     'verify_2fa.aria_region'                      => 'Перевірка 2FA',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Перевірити та увійти',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Статус підтвердження email',
     'verify_email.err_expired_token'              => 'Термін дії цього посилання підтвердження минув (перевищено ліміт 24 години). Будь ласка, зареєструйтеся знову або запитуйте нове посилання.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'Електронну пошту успішно підтверджено! Ваш обліковий запис тепер активний. Перейдіть до входу.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Підібрати для мене унікальне ім’я користувача',
     'index.check_availability'                    => 'Перевірити доступність',

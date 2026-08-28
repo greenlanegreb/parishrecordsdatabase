@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'Aqoonsiga Diiwaanka',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Dib u laabo',
+    'cols.print_btn'                              => 'Daabac',
+    'cols.print_entire'                           => 'Daabac dhammaan',
+    'cols.print_filtered'                         => 'Daabac kuwa la miiray',
+    'cols.print_now'                              => 'Daabac ama kaydi sida PDF',
+    'cols.show_heading'                           => 'Dooro safafka la soo bandhigayo',
+    'cols.show_help'                              => 'Ka saar calaamadda safka si aad halkaan ugu qarisid, xilliga la soo dejinayo, iyo marka la daabacayo. Taleefanka gacanta, safafka yar yar ayaa fudud in la akhriyo.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'Cinwaanka iimaylka:',
     'create_user.first_name'                      => 'Magaca hore:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Ka tag meel bannaan si si toos ah loo abuuro',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Magac-la\'aan',
     'feedback_dash.default_subject'               => 'Weydiin guud',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'Aqoonsiga Tigidhka / Taariikhda',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Ku noqo guddiga tigidhada jawaab-celinta',
     'feedback_emails.custom_tags'                 => 'Calaamadaha qaab-dhismeedka gaarka ah:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Habee ogeysiisyada iimaylka ee tooska ah ee la diro inta lagu jiro socodka tigidhada. Isticmaal qawsaska calaamadaha firfircoon.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Ku dar beel cusub foomka tigidhka',
     'feedback_schema.allow_multiple'              => 'Ogolow xulashada xulashooyin badan (Xulasho badan)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Qoraal gaaban)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Ku dar tiir cusub oo miiska ah',
     'manage_tables.allow_multiple_label'          => 'Oggolow in ka badan hal xulasho (xulashooyin badan)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Wax ka beddel tiirka firfircoon:',
     'manage_tables.edit_metadata_btn'             => 'Wax ka beddel xogta aasaasiga ah ee miiska',
     'manage_tables.edit_table_summary'            => 'Wax ka beddel qeexitaanka miiska:',
+    'manage_tables.err_col_name_empty'            => 'Fadlan geli magaca safka.',
+    'manage_tables.err_col_name_taken'            => 'Miiskan wuxuu horay u lahaa saf lagu magacaabo %s. Fadlan dooro magac kale.',
+    'manage_tables.err_table_name_empty'          => 'Fadlan geli magaca miiska.',
+    'manage_tables.err_table_name_taken'          => 'Waxaa mar hore jirta miis lagu magacaabo %s. Fadlan dooro magac kale.',
     'manage_tables.exclude_search_label'          => 'Ka reeb tiirkan raadinta dadweynaha (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Tiirarka jira ee',
     'manage_tables.heading'                       => 'Maareynta miisaska iyo qaab-dhismeedka firfircoon',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Haa',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Dhaqangeliso shaandhooyinka',
     'map.back_to_table'                           => 'Ku laabo miiska',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'U bood khariidadda',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Ku noqo abuurista isticmaalaha',
     'user_emails.currently_editing'               => 'Waa kan aad hadda wax ka beddelayso:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Maaree qaababka iimaylka ogeysiiska isticmaalaha',
     'user_emails.opt_invitation'                  => 'Qaabka casuumadda akoonka isticmaalaha',
     'user_emails.opt_reset'                       => 'Qaabka dib u dejinta erayga sirta ah / xiriiriyaha gelitaanka',
+    'user_emails.opt_suggestion_outcome'          => 'Natiijada talada wax ka beddelka',
     'user_emails.select_template_label'           => 'Dooro qaabka aad wax ka beddelayso:',
     'user_emails.subheading'                      => 'Habee qaababka iimaylka ee la diro marka la casuumayo isticmaaleyaasha ama marka la dirayo xiriiriyeyaasha dib u dejinta erayga sirta ah.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Ku noqo codsiyada tabarucayaasha',
     'volunteer_emails.custom_tags_desc'           => 'Waxaa si toos ah uga soo saaray beelaha abuuraha foomkaaga:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Habee jawaabaha iimaylka ee tooska ah ee loo dirayo tabarucayaasha inta lagu jiro marxaladaha kala duwan. Isticmaal qawsaska calaamadaha firfircoon.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Ku dar beel cusub foomka tabarucaha',
     'volunteer_schema.back_to_dashboard'          => 'Ku noqo codsiyada tabarucayaasha',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Habee beelaha gaarka ah, noocyada xogta, hoos-noocyada, xulashooyinka, iyo dejinta guud ee foomka.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Diiwaanka #%s',
+    'dup_merge.col_b'                             => 'Diiwaanka #%s',
+    'dup_merge.col_field'                         => 'Beerta',
+    'dup_merge.confirm'                           => 'Ma rabtaa inaad ku biiriso hal diiwaan? Diiwaanka kale waa la tirtiri doonaa.',
+    'dup_merge.fields_caption'                    => 'Dooro qiimaha beerta kasta',
+    'dup_merge.heading'                           => 'Isku dar laba diiwaan oo la mid ah',
+    'dup_merge.intro'                             => 'Labadan waxay isku eg yihiin qiyaastii %s%%. Dooro diiwaanka la haynayo, ka dibna dooro qiimaha beerta kasta.',
+    'dup_merge.keep_a'                            => 'Hayso diiwaanka #%s',
+    'dup_merge.keep_b'                            => 'Hayso diiwaanka #%s',
+    'dup_merge.keep_legend'                       => 'Waa kuwee diiwaanka la haynayo?',
+    'dup_merge.save_btn'                          => 'Isku dar hal diiwaan',
+    'dup_merge_btn'                               => 'Ku dar hal',
+    'dup_merged'                                  => 'Labadaas diiwaan hadda waa mid. Isbeddelku wuxuu ku jiraa taariikhda diiwaanka haray.',
+    'dup_queue.choose_table'                      => 'Dooro miis',
+    'dup_queue.col_actions'                       => 'Tallaabada',
+    'dup_queue.col_records'                       => 'Diiwaannada',
+    'dup_queue.col_score'                         => 'Heerka isku ekaanshaha',
+    'dup_queue.col_table'                         => 'Miiska',
+    'dup_queue.dismiss_btn'                       => 'Ma aha nuqul laba jibaaran',
+    'dup_queue.dismissed'                         => 'Lammaanahan waxaa loo calaamadeeyay inuusan ahayn nuqul laba jibaaran.',
+    'dup_queue.empty'                             => 'Ma jiro wax sugaya. Sawir miis si aad u raadiso nuqullo hore oo la mid ah.',
+    'dup_queue.gone'                              => 'Dib-u-eegistaasi mar dambe ma sugayso.',
+    'dup_queue.heading'                           => 'Diiwaanno la mid ah oo u baahan dib u eegis',
+    'dup_queue.intro'                             => 'Ka baadh miiska safafka u muuqda kuwo horay isu eg. Waxaad tilmaami kartaa inay kala duwan yihiin, ama waxaad ku biirin kartaa hal diiwaan.',
+    'dup_queue.scan_btn'                          => 'Sawir miiskan',
+    'dup_queue.scan_done'                         => 'Baaritaanku wuu dhammaaday. %s lammaane oo la mid ah ayaa la helay, %s walxaha cusub ayaa lagu daray liiska.',
+    'dup_queue.scan_label'                        => 'Ka raadi diiwaanno la mid ah',
     'moderate.approve_btn'                        => 'Ansixi',
     'moderate.approve_confirm'                    => 'Ansixi oo adeegso qiimahan?',
     'moderate.by_label'                           => 'Waxaa qoray:',
     'moderate.column_label'                       => 'Tiirka:',
     'moderate.decline_btn'                        => 'Diid',
     'moderate.decline_confirm'                    => 'Diid oo tuur soo jeedintan?',
+    'moderate.dup_approved_note'                  => 'La oggolaaday. Tani hadda waa %s%% oo la mid ah diiwaanka #%s.',
+    'moderate.dup_blocked'                        => 'Lama oggolaan karo: Tani waxay u ekaan lahayd %s%% sida diiwaanka #%s.',
     'moderate.empty_placeholder'                  => '[Madhan]',
     'moderate.evidence_label'                     => 'Caddayn / Sababayn:',
     'moderate.guest_user'                         => 'Daawade / Marti',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'Lama helin wax soo jeedin ah oo sugaya miisaskaaga dhexdhexaadinta ee la ansixiyay.',
     'moderate.override_label'                     => 'Beddel qiimaha:',
     'moderate.proposed_value_label'               => 'Isbeddelka la soo jeediyay:',
+    'moderate.rationale_label'                    => 'Fiiro gaar ah oo ku socota qofkii soo jeediyay tan',
+    'moderate.rationale_optional'                 => 'Fiiro gaar ah oo ikhtiyaari ah (lagu keydiyay diiwaanka).',
+    'moderate.rationale_placeholder'              => 'Sababta aad u aqbashay ama u diidday isbeddelkan',
+    'moderate.rationale_will_be_sent'             => 'Waxaa la codsaday iimeyl. Fiiro gaar ah oo hoose waxaa loo diri doonaa sida aad u qortay, markaa fadlan ilaali cod naxariis leh oo cad.',
     'moderate.record_id_label'                    => 'Aqoonsiga Diiwaanka:',
     'moderate.required_badge'                     => 'Waa qasab',
     'moderate.select_placeholder'                 => '-- Dooro --',
     'moderate.shortcut_desc'                      => 'Riix Ctrl + Enter si aad si dhakhso leh u ansixiso ama Esc si aad u nadiifiso sanduuqa beddelka!',
     'moderate.shortcut_label'                     => 'Talo gaaban oo kiiboodhka ah:',
     'moderate.subheading'                         => 'Isbarbardhig isbeddellada ay soo jeediyeen isticmaaleyaashu iyo diiwaannada nool ee miisaskaaga la ansixiyay. Ansixi, beddel qiimaha, ama diid soo jeedinta.',
+    'moderate.tab_similar'                        => 'Diiwaanno la mid ah',
+    'moderate.tab_suggestions'                    => 'Talooyinka',
     'moderate.th_actions'                         => 'Ficillada Dhexdhexaadiyaha',
     'moderate.th_comparison'                      => 'Isbarbardhigga (Nool vs La Soo Jeediyay) iyo Cadaymaha',
     'moderate.th_id_date'                         => 'Aqoonsiga / Taariikhda',
     'moderate.th_table_record'                    => 'Miiska, diiwaanka, iyo tiirka',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Firfircoon',
     'notices.add_new'                             => 'Ku dar ogeysiis cusub',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Haa',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Maamule',
     'role.label_guest'                            => 'Booqdaha guud',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Wuxuu ku keydiyaa fayl .sql oo buuxa kombiyuutarkaaga. Ku hay meel ammaan ah ka hor inta aadan socodsiin cusboonaysiinta.',
     'settings.driver_native'                      => 'Iimaylka asaliga ah (Post-relay Postfix ee maxaliga ah)',
     'settings.driver_smtp'                        => 'SMTP oo la xaqiijiyay (PHPMailer)',
+    'settings.dup_heading'                        => 'Maareynta Nuqullada Diiwaanka',
+    'settings.dup_help'                           => 'pRD waxay barbardhigeysaa wixii la qoray iyo safafka kale ee isla miiskaas. Waxaad uga digi kartaa isticmaaleyaasha, ka hortagi kartaa keydinta, ama dami kartaa tan.',
+    'settings.dup_legend'                         => 'Haddii diiwaan cusub uu u ekaado mid aad hore u lahayd',
+    'settings.dup_mode_block'                     => 'Ha oggolaan in la keydiyo',
+    'settings.dup_mode_flag'                      => 'U dig, oo u calaamadee maamulaha haddii ay keydiyaan si kastaba ha ahaatee',
+    'settings.dup_mode_off'                       => 'Ha hubin diiwaannada la mid ah',
+    'settings.dup_mode_warn'                      => 'Muuji digniin — weli way keydin karaan',
+    'settings.dup_picky_exact'                    => 'Kaliya marka erayadu ay isku eg yihiin',
+    'settings.dup_picky_label'                    => 'Intee in le\'eg ayay adkaan doontaa hubinta?',
+    'settings.dup_picky_similar'                  => 'Ogow sidoo kale kuwa dhow (higgaad la mid ah)',
     'settings.enc_ssl'                            => 'SSL (Dekadda 465)',
     'settings.enc_tls'                            => 'TLS (Dekadda 587)',
     'settings.error_log_tab'                      => 'Diiwaanka khaladaadka',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'Lama habeyn wax ogeysiis ah.',
     'settings.notice_content_label'               => 'Waxa ku jira:',
     'settings.notices_heading'                    => 'Ogeysiisyada iyo ku dhawaaqyada bogga',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'Oggolaanshahan waa waajib maamulayaasha.',
+    'settings.perm_more_info'                     => 'Faahfaahin dheeraad ah oo ku saabsan',
+    'settings.perm_needs'                         => 'Wuxuu u baahan yahay',
+    'settings.perm_needs_parent'                  => 'Fadlan marka hore shid tan.',
+    'settings.perm_no_links'                      => 'Oggolaanshahan kuma xirna mid kale.',
+    'settings.perm_used_by'                       => 'Waxaa lo baahan yahay',
     'settings.permissions_heading'                => 'Shaxda firfircoon ee doorarka iyo fasaxyada',
     'settings.permissions_subheading'             => 'Fasaxyada waxaa lagu kooxeeyay hawlaha nidaamka. Balaari qaybaha si aad u habayso awoodaha.',
     'settings.port_label'                         => 'Dekedda:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Cusboonaysii xog-ururinta',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Tрти',
     'admin_users.disabled'                        => 'Damiyay',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Haa',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Maamule',
     'view_ticket.back_to_dashboard'               => 'Ku noqo guddiga tigidhada',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Xaaladda tigidhka:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Aqbal oo dir casuumad',
     'volunteer_dashboard.accept_title'            => 'Aqbal nidaamka casuumadda isticmaalaha',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Tabaruce',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Mamnuuc ah: Muujinta dadweynaha ma shaqaynayso.',
     'api_search.error_unauthorized_table'         => 'Gelitaan aan la oggolayn oo loo helay miiska.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Soo jeedi wax ka beddel',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Raadi',
     'admin_errors.file'                           => 'Fayl',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'Raadraaca xirmo',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Cinwaanka iimaylka:',
     'feedback.first_name_label'                   => 'Magaca hore:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Magaca qoyska:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Sharax falalka si aad uga caawiso helitaanka faylasha khaldan',
     'gh.add_comment_below'                        => 'Ku dar faalladaada hoos oo gudbi.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Soo jeedi Turjumaad Luqadeed',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Cillad amniga ah: Gelitaanka waa la diiday.',
     'security_engine.err_captcha_failed'          => 'Xaqiijinta CAPTCHA waa ay fashilantay. Fadlan dib u day.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Cillad amniga ah: Saxiixa macaamiisha ee laga shakiyay.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Xaqiiji erayga sirta ah ee maamulaha',
     'install.admin_email_label'                   => 'Iimaylka maamulaha',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Tag bogga',
     'install.lang_label'                          => 'Luqadda',
     'install.login_link'                          => 'Soo gal',
+    'install.mod_feedback'                        => 'Jawaab-celinta iyo tigidhada',
+    'install.mod_feedback_desc'                   => 'Foom dadweyne oo loogu talagalay su\'aalaha iyo tigidhada taageerada.',
+    'install.mod_leaderboard'                     => 'Shaxda Hogaamiyayaasha',
+    'install.mod_leaderboard_desc'                => 'Shaxda dhibcaha ee ikhtiyaariga ah. Waxay u baahan tahay akoonnada isticmaalaha inay shidmaan.',
     'install.mod_maps'                            => 'Khariidadaha',
     'install.mod_maps_desc'                       => 'Goobaha goobta iyo khariidadda miis kasta. Waxaad bedeli kartaa tan markii dambe hoos Maamule → Dejinta.',
+    'install.mod_moderation'                      => 'Dhexdhexaadinta',
+    'install.mod_moderation_desc'                 => 'Dib u eeg isbeddelada la soo jeediyay ka hor intaysan beddelin diiwaanka.',
+    'install.mod_users'                           => 'Akoonnada isticmaalaha',
+    'install.mod_users_desc'                      => 'U oggolow dadka inay is diiwaangeliyaan oo ay galaan.',
+    'install.mod_volunteers'                      => 'Danaha tabaruceyaasha',
+    'install.mod_volunteers_desc'                 => 'Foom dadweyne oo loogu talagalay dadka raba inay caawiyaan.',
+    'install.modules_continue'                    => 'Keydi oo soco',
+    'install.modules_heading'                     => 'Waa kuwee qaybaha pRD ee aad rabtaa inaad isticmaasho?',
+    'install.modules_help'                        => 'Fadlan dooro sifooyinka aad rabto maalinta koowaad. Waxaad tan bedeli kartaa dib u eegis hoostiisa Maamulaha → Dejinta Bogga.',
+    'install.modules_later'                       => 'Waxaad shidi kartaa ama dami kartaa mid ka mid ah kuwan dib u eegis hoostiisa Maamulaha → Dejinta.',
     'install.msg_admin_created'                   => 'Koonto Maamule ayaa la abuuray. Waxaad ku dari kartaa baakadaha demo ikhtiyaariga ah, ama ka bood.',
     'install.msg_db_ready'                        => 'Xog-ururintu waa diyaar. Abuur akoonkaaga maamulaha si aad u dhammaystirto rakibidda.',
     'install.msg_install_removed'                 => 'Galkii rakibaadda waa la saaray. Hadda waad geli kartaa.',
     'install.msg_installation_complete'           => 'Rakibidda waa la dhammeeyay.',
-    'install.msg_modules_saved'                   => 'Xulashooyinkaaga astaamaha waa la keydiyay. Waad ku dari kartaa baakidhyada demo ee ikhtiyaarka ah ama waad ka boodi kartaa.',
+    'install.msg_modules_saved'                   => 'Xulashadaada sifooyinka waa la keydiyay. Waxaad ku dari kartaa xirmooyinka demo ee ikhtiyaariga ah, ama waad iska dhaafi kartaa.',
     'install.msg_schema_imported'                 => 'Xog-ururinta waa la xiriiriyay oo qaab-dhismeedka waa la keenay. Abuur akoonkaaga maamulaha.',
     'install.page_title'                          => 'Rakibidda — Hagaha Diiwaanka Kaniisadda',
     'install.remove_folder_btn'                   => 'Fadlan ka saar galka rakibaadda!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Fadlan hubi in xog-ururinta aad qorsheyneyso inaad isticmaasho ay madhan tahay ka hor inta aadan sii wadin.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'Demo-gan waa horay loo rakibay',
     'demo.already_installed_hint'                 => 'Baakadkani horay ayuu u rakibnaa, markaa lama dooran karo mar kale.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'Waxa la kordhinayo',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Muuqaalka kala-horraynta dhibcaha',
     'leaderboard.default_role'                    => 'Isticmaale',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(Adiga)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Diiwaanka kaniisadda oo laga soo ururiyay ilaha taariikhiga ah ee hantida dadweynaha.',
     'footer.rights_reserved'                      => 'Xuquuqda oo dhan waa la dhowray.',
     'footer.software_notice'                      => 'pRD (V1.18) waa il furan oo hoos imaanaysa Shatiga MIT - Mahad waxaa leh @katherinehuk oo joogta GitHub indhaha labaad ee ay ku eegtay darteed!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Xog-ururinta Diiwaanka Kaniisadda',
     'header.skip_to_content'                      => 'U bood nuxurka ugu weyn',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Xir ogeysiiska',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Qofka sameeyay:',
     'record_history.directory_table_label'        => 'Miiska Hagaha:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Jadwalka waqtiga ee dhacdooyinka iyo hawlaha',
 
     // -----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // -----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Ka saar faylka gelitaanka degdegga ah',
     'update_database.backup_notice'               => 'Samee kaydka xog-ururinta ka hor inta aanad socodsiin cusboonaysiinta markaad awooddo.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Cusboonaysii xog-ururinta hadda',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Aqoonsi khaldan ama gelitaanka akoonka oo la xaddiday.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Diiwaanka waxaa lagu abuuray miiska leh ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Fadlan dooro ikhtiyaar ku qoran %s.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Diiwaanka si guul leh ayaa loo daray!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Waa fashilmay gudbinta soo jeedinta wax ka beddelka. Fadlan dib u day.',
     'save_public_suggestion.err_field_required'   => 'Beelkani waa qasab mana awoodi karo in la gudbiyo isagoo madhan.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Soo jeedintaada wax ka beddelka waxaa si guul leh loo gudbiyay waxaana loo diray safka dhexdhexaadinta si loo dib u eego. Mahadsanid!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Miiska gelinta xogta ee firfircoon:',
     'data_entry.add_entry_summary'                => '➕ Ku dar gelinta xogta cusub (Guji si aad u ballaariso/qarisid)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'Ilaa',
     'data_entry.delete_record_btn'                => 'Tirtir',
     'data_entry.delete_record_confirm'            => 'Si joogto ah ma u tirtirtaa diiwaankan? Qiimayaasha, binnada khariidadda iyo talooyinka la xiriira ayaa laga saari doonaa. Tallaabadan lama noqon karo.',
+    'data_entry.dup_blocked'                      => 'Diiwaankani wuxuu aad ula mid yahay mid horay loo keydiyay, markaa laguma dari karo.',
+    'data_entry.dup_close_match'                  => 'Higgaad aad u eg',
     'data_entry.dup_confirm_btn'                  => 'Haa, xaqiiji oo keydi nuqulka',
-    'data_entry.dup_desc'                         => 'Waxaan nidaamka ka helnay entries la mid ah:',
+    'data_entry.dup_desc'                         => 'Fadlan hubi kaararka hoose. Weli waad keydin kartaa haddii tani ay tahay diiwaan kale.',
+    'data_entry.dup_empty'                        => '(madhan)',
+    'data_entry.dup_flag_btn'                     => 'Keydi oo ogeysii maamulaha',
     'data_entry.dup_heading'                      => '⚠️ Digniin ku saabsan nuqul la mid ah oo suurtagal ah',
     'data_entry.dup_item_format'                  => 'Aqoonsiga Diiwaanka: %d — Qiimaha: %s',
+    'data_entry.dup_overview'                     => 'Horay loo keydiyay',
     'data_entry.dup_prompt'                       => 'Ma rabtaa inaad sii waddo oo aad keydiso gelitaankan nuqulka ah?',
+    'data_entry.dup_review_btn'                   => 'Dib u eeg waxa aan qoray',
+    'data_entry.dup_score_exact'                  => 'Isku ekaanshaha la xisaabiyay: %s boqolkiiba.',
+    'data_entry.dup_similar'                      => 'Tani waxay u eg tahay %s%% sida diiwaanka #%s',
     'data_entry.edit_record_btn'                  => 'Wax ka beddel',
     'data_entry.edit_record_saved'                => 'Diiwaanka waa la cusboonaysiiyay.',
     'data_entry.enter_value_placeholder'          => 'Geli qiimaha...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Wax ka beddel diiwaanka',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Soo celinta erayga sirta ah',
     'forgot_password.back_login_link'             => 'Ku noqo bogga gelitaanka',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Dir xiriiriyaha dib u dejinta',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'Gelitaanka isticmaalaha',
     'login.err_password_required'                 => 'Fadlan geli eraygaaga sirta ah.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Magaca isticmaalaha ama iimaylka:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Wuxuu tusaa xarfaha hore iyo lambar aan kala sooc lahayn qof walba.',
     'onboarding.attr_anon_title'                  => 'Magac-la\'aan:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Aagga waqtiga / Gobolka:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'Cinwaanka iimaylka cusub',
     'profile.aria_region'                         => 'Maareynta astaanta isticmaalaha',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Cusboonaysii erayga sirta ah',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'Diiwaangelinta isticmaalaha',
     'register.email_label'                        => 'Cinwaanka Iimeyska',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Magaca isticmaalaha:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Deji erayga sirta ah',
     'set_password.confirm_password_label'         => 'Xaqiiji erayga sirta ah:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Ku soo dhowow akoonkaaga cusub, %s! Fadlan dooro eraygaaga sirta ah hoos.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'Koodka xaqiijinta 6-da xaraf',
     'setup_2fa.aria_region'                       => 'Hagaha habaynta 2FA',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Xaqiiji oo daar 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Soo jeedi wax ka beddel',
     'suggest_edit.confirm_prompt'                 => 'Ma hubtaa inaad diyaar u tahay inaad gudbiso soo jeedintan wax ka beddelka si maamuluhu u dib u eego?',
     'suggest_edit.current_values_heading'         => 'Qiimayaasha hadda:',
+    'suggest_edit.decision_accepted'              => 'La aqbalay',
+    'suggest_edit.decision_not_accepted'          => 'Lama aqbalin',
+    'suggest_edit.dup_of_help'                    => 'Ikhtiyaari. Maamulayaashu waxay arki doonaan fiorogan.',
+    'suggest_edit.dup_of_label'                   => 'Haddii aad garaneyso lambarka diiwaanka kale, waxaad ku dari kartaa halkan',
+    'suggest_edit.dup_please_check'               => 'Isbeddelkani wuxuu aad ula mid noqon lahaa diiwaan kale. Fadlan hubi hoos.',
     'suggest_edit.empty_label'                    => '(madhan)',
+    'suggest_edit.err_notify_email'               => 'Fadlan geli cinwaan iimeyl haddii aad rabto inaad maqasho natiijada.',
     'suggest_edit.heading_prefix'                 => 'Soo jeedi wax ka beddelka diiwaanka',
     'suggest_edit.leave_blank'                    => 'Meelaha bannaan uga tag beertan',
+    'suggest_edit.no_rationale'                   => 'Wax xusuusin ah oo dheeraad ah laguma darin.',
+    'suggest_edit.notify_email_help'              => 'Waxaa loo isticmaalaa kaliya in lagu ogeysiiyo natiijada. Laguma soo bandhigo diiwaanka dadweynaha.',
+    'suggest_edit.notify_email_label'             => 'Cinwaankaaga iimeylka',
+    'suggest_edit.notify_label'                   => 'Ii soo dir iimeyl marka maamuluhu go\'aan gaaro',
     'suggest_edit.proposed_value_label'           => 'Qiimaha cusub ee la soo jeediyay:',
     'suggest_edit.reasoning_label'                => 'Caddayn / Sabab / Xusuq qoraallada ilaha:',
     'suggest_edit.reasoning_optional'             => 'Ikhtiyaari — caddayn, il, ama qoraallo loogu talagalay dhexdhexaadiyeyaasha.',
     'suggest_edit.reasoning_placeholder'          => 'Bixi xaalad, xigashooyin ilaha, ama sabab isbeddelkan...',
+    'suggest_edit.report_dup'                     => 'Waxaan u maleynayaa in diiwaankani uu yahay nuqul laba jibaaran oo mid kale ah',
     'suggest_edit.return_btn'                     => 'Ku noqo diiwaanka',
     'suggest_edit.select_column_label'            => 'Dooro tiirka aad wax ka beddelayso:',
     'suggest_edit.submit_btn'                     => 'Gudbi soo jeedinta si loo dib u eego',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'Xor baad u leedahay inaad gudbiso wax ka beddel kale hoos, ama isticmaal xiriiriyaha dib u noqoshada sare marka aad dhammaato.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Geli koodka xaqiijinta ama amniga',
     'verify_2fa.aria_region'                      => 'Xaqiijinta 2FA',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Xaqiiji oo soo gal',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Xaaladda xaqiijinta iimaylka',
     'verify_email.err_expired_token'              => 'Xiriiriyahan xaqiijinta waa uu dhacay (waqtigii 24-ka saacadood waa la dhaafay). Fadlan dib u diiwaangeli ama codso xiriiriye cusub.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'Iimaylka si guul leh ayaa loo xaqiijiyay! Akoonkaaga hadda waa mid firfircoon. Waxaad sii wadi kartaa bogga gelitaanka.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Ii qoondee magac isticmaale gaar ah',
     'index.check_availability'                    => 'Hubi helitaanka',

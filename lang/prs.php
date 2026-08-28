@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'شناسه ساینه',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'برگشت',
+    'cols.print_btn'                              => 'چاپ',
+    'cols.print_entire'                           => 'چاپ همه',
+    'cols.print_filtered'                         => 'چاپ موارد فیلترشده',
+    'cols.print_now'                              => 'چاپ یا ذخیره به عنوان PDF',
+    'cols.show_heading'                           => 'انتخاب ستون‌های قابل نمایش',
+    'cols.show_help'                              => 'تیک یک ستون را بردارید تا در اینجا، هنگام دانلود و در هنگام چاپ پنهان شود. در تلفن همراه، خواندن ستون‌های کمتر آسان‌تر است.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'آدرس ایمیل:',
     'create_user.first_name'                      => 'نام:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'برای تولید خودکار خالی بگذارید',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'ناشناس',
     'feedback_dash.default_subject'               => 'پرسش عمومی',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'شناسه تیکت / تاریخ',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'بازگشت به داشبورد تیکت‌ها',
     'feedback_emails.custom_tags'                 => 'برچسب‌های سفارشی ساختار:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'سفارشی‌سازی اطلاعیه‌های ایمیلی خودکار. از براکت‌ها برای متغیرهای پویا استفاده کنید.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ افزودن فیلد جدید به فرم تیکت',
     'feedback_schema.allow_multiple'              => 'اجازه انتخاب چند گزینه (چند انتخابی)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (متن کوتاه)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ افزودن ستون جدید برای',
     'manage_tables.allow_multiple_label'          => 'اجازه دادن به بیش از یک انتخاب (انتخاب چندگانه)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'ویرایش ستون پویا:',
     'manage_tables.edit_metadata_btn'             => 'ویرایش ابرداده جدول',
     'manage_tables.edit_table_summary'            => 'ویرایش تعریف جدول:',
+    'manage_tables.err_col_name_empty'            => 'لطفاً نام ستون را وارد کنید.',
+    'manage_tables.err_col_name_taken'            => 'این جدول از قبل ستونی به نام %s دارد. لطفاً نام دیگری انتخاب کنید.',
+    'manage_tables.err_table_name_empty'          => 'لطفاً نام جدول را وارد کنید.',
+    'manage_tables.err_table_name_taken'          => 'جدولی به نام %s از قبل وجود دارد. لطفاً نام دیگری انتخاب کنید.',
     'manage_tables.exclude_search_label'          => 'مستثنی کردن این ستون از جستجوی عمومی (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'ستون‌های موجود برای',
     'manage_tables.heading'                       => 'مدیریت جدول‌ها و ساختارها',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'بله',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'اعمال فلترها',
     'map.back_to_table'                           => 'بازگشت به جدول',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'پرش به نقشه',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'بازگشت به ایجاد کاربر',
     'user_emails.currently_editing'               => 'در حال ویرایش:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'مدیریت قالب‌های ایمیل اطلاعیه کاربر',
     'user_emails.opt_invitation'                  => 'قالب دعوت‌نامه حساب کاربر',
     'user_emails.opt_reset'                       => 'قالب بازنشانی رمز عبور / پیوند دسترسی',
+    'user_emails.opt_suggestion_outcome'          => 'نتیجه ویرایش پیشنهادی',
     'user_emails.select_template_label'           => 'انتخاب قالب برای ویرایش:',
     'user_emails.subheading'                      => 'سفارشی‌سازی قالب‌های ایمیل ارسالی برای دعوت کاربران یا بازنشانی رمز عبور.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'بازگشت به درخواست‌های همکاران',
     'volunteer_emails.custom_tags_desc'           => 'تولید شده خودکار از فیلدهای سازنده فرم:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'سفارشی‌سازی پاسخ‌های ایمیلی خودکار برای همکاران. از براکت‌ها برای متغیرهای پویا استفاده کنید.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ افزودن فیلد جدید به فرم همکاران',
     'volunteer_schema.back_to_dashboard'          => 'بازگشت به درخواست‌های همکاران',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'پیکربندی فیلدهای سفارشی، انواع داده، زیرنوع‌ها و گزینه‌ها.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'ریکارد شماره %s',
+    'dup_merge.col_b'                             => 'ریکارد شماره %s',
+    'dup_merge.col_field'                         => 'فیلد',
+    'dup_merge.confirm'                           => 'این موارد در یک ریکارد ادغام شوند؟ ریکارد دیگر حذف خواهد شد.',
+    'dup_merge.fields_caption'                    => 'یک مقدار برای هر فیلد انتخاب کنید',
+    'dup_merge.heading'                           => 'ادغام دو ریکارد مشابه',
+    'dup_merge.intro'                             => 'این دو مورد حدود %s٪ به هم شبیه هستند. ریکاردی را که باید حفظ شود انتخاب کنید، سپس مقداری برای هر فیلد تعیین کنید.',
+    'dup_merge.keep_a'                            => 'حفظ ریکارد شماره %s',
+    'dup_merge.keep_b'                            => 'حفظ ریکارد شماره %s',
+    'dup_merge.keep_legend'                       => 'کدام ریکارد باید حفظ شود؟',
+    'dup_merge.save_btn'                          => 'ادغام در یک ریکارد',
+    'dup_merged'                                  => 'آن دو ریکارد اکنون به یک ریکارد تبدیل شدند. تغییرات در تاریخچه ریکارد باقی‌مانده ثبت شده است.',
+    'dup_queue.choose_table'                      => 'انتخاب جدول',
+    'dup_queue.col_actions'                       => 'اقدامات',
+    'dup_queue.col_records'                       => 'ریکاردها',
+    'dup_queue.col_score'                         => 'میزان شباهت',
+    'dup_queue.col_table'                         => 'جدول',
+    'dup_queue.dismiss_btn'                       => 'تکراری نیست',
+    'dup_queue.dismissed'                         => 'آن جفت به عنوان غیرتکراری علامت‌گذاری شد.',
+    'dup_queue.empty'                             => 'موردی در انتظار نیست. برای یافتن موارد مشابه قدیمی، یک جدول را اسکن کنید.',
+    'dup_queue.gone'                              => 'آن مورد بررسی دیگر در انتظار نیست.',
+    'dup_queue.heading'                           => 'ریکاردهای مشابه برای بررسی',
+    'dup_queue.intro'                             => 'جدول را برای یافتن ریکاردهایی که از قبل شبیه به هم هستند اسکن کنید. می‌توانید بگویید که آنها متفاوت هستند، یا آنها را در یک ریکارد ادغام کنید.',
+    'dup_queue.merge_btn'                         => 'ادغام در یک مورد',
+    'dup_queue.scan_btn'                          => 'اسکن این جدول',
+    'dup_queue.scan_done'                         => 'اسکن به پایان رسید. %s جفت مشابه یافت شد، %s مورد جدید به لست اضافه شد.',
+    'dup_queue.scan_label'                        => 'جستجوی ریکاردهای مشابه در',
     'moderate.approve_btn'                        => 'تأیید',
     'moderate.approve_confirm'                    => 'تأیید و اعمال این مقدار؟',
     'moderate.by_label'                           => 'توسط:',
     'moderate.column_label'                       => 'ستون:',
     'moderate.decline_btn'                        => 'رد کردن',
     'moderate.decline_confirm'                    => 'رد کردن و دور انداختن این پیشنهاد؟',
+    'moderate.dup_approved_note'                  => 'تأیید شد. این مورد اکنون %s٪ شبیه به ریکارد شماره %s است.',
+    'moderate.dup_blocked'                        => 'امکان تأیید وجود ندارد: این مورد %s٪ شبیه به ریکارد شماره %s خواهد بود.',
     'moderate.empty_placeholder'                  => '[خالی]',
     'moderate.evidence_label'                     => 'مستندات / دلیل:',
     'moderate.guest_user'                         => 'بازدیدکننده / مهمان',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'هیچ پیشنهاد در انتظاری برای جدول‌های تأیید شده یافت نشد.',
     'moderate.override_label'                     => 'بازنویسی مقدار:',
     'moderate.proposed_value_label'               => 'تغییر پیشنهادی:',
+    'moderate.rationale_label'                    => 'یادداشت برای شخصی که این پیشنهاد را داده است',
+    'moderate.rationale_optional'                 => 'یادداشت اختیاری (روی ریکارد باقی می‌ماند).',
+    'moderate.rationale_placeholder'              => 'دلیل پذیرفتن یا رد کردن این تغییر',
+    'moderate.rationale_will_be_sent'             => 'آنها درخواست ایمیل کرده‌اند. یادداشت شما در ادامه دقیقاً همان‌طور که نوشته‌اید ارسال می‌شود، بنابراین لطفاً لحن خود را مهربان و صریح حفظ کنید.',
     'moderate.record_id_label'                    => 'شناسه ساینه:',
     'moderate.required_badge'                     => 'اجباری',
     'moderate.select_placeholder'                 => '-- انتخاب کنید --',
     'moderate.shortcut_desc'                      => 'کلید Ctrl + Enter را برای تأیید سریع فشار دهید یا Esc را برای پاک کردن بزنید!',
     'moderate.shortcut_label'                     => 'میانبرهای صفحه کلید:',
     'moderate.subheading'                         => 'مقایسه تغییرات پیشنهادی کاربران با ساینه‌های زنده. تأیید، بازنویسی یا رد پیشنهادها.',
+    'moderate.tab_similar'                        => 'ریکاردهای مشابه',
+    'moderate.tab_suggestions'                    => 'پیشنهادات',
     'moderate.th_actions'                         => 'عملکردهای ناظر',
     'moderate.th_comparison'                      => 'مقایسه (زنده در برابر پیشنهادی) و مستندات',
     'moderate.th_id_date'                         => 'شناسه / تاریخ',
     'moderate.th_table_record'                    => 'جدول، ساینه و ستون',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'فعال',
     'notices.add_new'                             => 'افزودن اطلاعیه جدید',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'بله',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'مدیر سیستم',
     'role.label_guest'                            => 'بازدیدکننده عمومی',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'یک پرونده کامل .sql روی رایانه شما ذخیره می‌کند. پیش از اعمال به‌روزرسانی‌ها آن را در جای امنی نگه دارید.',
     'settings.driver_native'                      => 'ایمیل بومی (Postfix محلی)',
     'settings.driver_smtp'                        => 'SMTP احراز هویت شده (PHPMailer)',
+    'settings.dup_heading'                        => 'مدیریت ریکارد های تکراری',
+    'settings.dup_help'                           => 'pRD متن تایپ‌شده را با سایر ردیف‌ها در همان جدول مقایسه می‌کند. می‌توانید به کاربران هشدار دهید، ذخیره‌سازی را متوقف کنید یا این قابلیت را خاموش کنید.',
+    'settings.dup_legend'                         => 'اگر ریکارد جدیدی شبیه به ریکاردی باشد که از قبل دارید',
+    'settings.dup_mode_block'                     => 'اجازه ذخیره‌سازی داده نشود',
+    'settings.dup_mode_flag'                      => 'هشدار دادن به کاربر و در صورت ذخیره شدن، ثبت آن برای بازبینی مدیر',
+    'settings.dup_mode_off'                       => 'ریکاردهای مشابه بررسی نشوند',
+    'settings.dup_mode_warn'                      => 'نمایش هشدار — کاربران همچنان می‌توانند ذخیره کنند',
+    'settings.dup_picky_exact'                    => 'فقط زمانی که کلمات مطابقت نزدیک داشته باشند',
+    'settings.dup_picky_label'                    => 'بررسی شباهت چقدر سخت‌گیرانه باشد؟',
+    'settings.dup_picky_similar'                  => 'شناسایی موارد نزدیک (املای مشابه)',
     'settings.enc_ssl'                            => 'SSL (درگاه 465)',
     'settings.enc_tls'                            => 'TLS (درگاه 587)',
     'settings.error_log_tab'                      => 'گزارش خطاها',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'هیچ اعلانی پیکربندی نشده است.',
     'settings.notice_content_label'               => 'محتوا:',
     'settings.notices_heading'                    => 'اعلان‌ها و اطلاعیه‌های سایت',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'این دسترسی برای مدیران اجباری است.',
+    'settings.perm_more_info'                     => 'اطلاعات بیشتر درباره',
+    'settings.perm_needs'                         => 'نیازمند',
+    'settings.perm_needs_parent'                  => 'لطفاً ابتدا آن مورد را فعال کنید.',
+    'settings.perm_no_links'                      => 'این دسترسی به دسترسی دیگری وابسته نیست.',
+    'settings.perm_used_by'                       => 'مورد نیاز توسط',
     'settings.permissions_heading'                => 'ماتریس پویای نقش‌ها و دسترسی‌ها',
     'settings.permissions_subheading'             => 'دسترسی‌ها بر اساس توابع سیستم گروه‌بندی شده‌اند. بخش‌ها را گسترش دهید تا قابلیت‌ها پیکربندی شوند.',
     'settings.port_label'                         => 'پورت:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'به‌روزرسانی پایگاه داده',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'حذف',
     'admin_users.disabled'                        => 'غیرفعال',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'بله',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'مدیر',
     'view_ticket.back_to_dashboard'               => 'بازگشت به داشبورد تیکت‌ها',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'وضعیت تیکت:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'پذیرش و ارسال دعوت‌نامه',
     'volunteer_dashboard.accept_title'            => 'پذیرش در سیستم دعوت کاربران',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'همکار',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 ممنوع: نمایش عمومی فعال نیست.',
     'api_search.error_unauthorized_table'         => 'دسترسی غیرمجاز به جدول.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'پیشنهاد ویرایش',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'جستجو',
     'admin_errors.file'                           => 'فایل',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'ردپای پشته',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'آدرس ایمیل:',
     'feedback.first_name_label'                   => 'نام:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'نام خانوادگی:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'اقدامات را برای کمک به تعیین موقعیت فایل‌های نادرست شرح دهید',
     'gh.add_comment_below'                        => 'نظر خود را در زیر اضافه کرده و ارسال کنید.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '۴. پیشنهاد ترجمه زبان',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'خطای امنیتی: دسترسی رد شد.',
     'security_engine.err_captcha_failed'          => 'تأیید هویت CAPTCHA ناموفق بود. لطفاً دوباره تلاش کنید.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'خطای امنیتی: امضای کلاینت مشکوک.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'تأیید رمز عبور مدیر',
     'install.admin_email_label'                   => 'ایمیل مدیر',
@@ -821,8 +889,22 @@ return [
     'install.home_link'                           => 'رفتن به سایت',
     'install.lang_label'                          => 'زبان',
     'install.login_link'                          => 'ورود',
+    'install.mod_feedback'                        => 'بازخوردها و تیکت‌ها',
+    'install.mod_feedback_desc'                   => 'یک فرم عمومی برای پرسش‌ها و تیکت‌های پشتیبانی.',
+    'install.mod_leaderboard'                     => 'جدول امتیازات',
+    'install.mod_leaderboard_desc'                => 'جدول امتیازات اختیاری. نیازمند فعال بودن حساب‌های کاربری است.',
     'install.mod_maps'                            => 'نقشه‌ها',
     'install.mod_maps_desc'                       => 'فیلدهای موقعیت و یک نقشه برای هر جدول. بعداً می‌توانید این را در بخش مدیر ← تنظیمات تغییر دهید.',
+    'install.mod_moderation'                      => 'مدیریت و نظارت',
+    'install.mod_moderation_desc'                 => 'بررسی ویرایش‌های پیشنهادی پیش از اعمال روی ریکارد.',
+    'install.mod_users'                           => 'حساب‌های کاربری',
+    'install.mod_users_desc'                      => 'به افراد اجازه ثبت‌نام و ورود دهید.',
+    'install.mod_volunteers'                      => 'علاقه‌مندی داوطلبان',
+    'install.mod_volunteers_desc'                 => 'یک فرم عمومی برای افرادی که می‌خواهند کمک کنند.',
+    'install.modules_continue'                    => 'ذخیره و ادامه',
+    'install.modules_heading'                     => 'کدام بخش‌های pRD را می‌خواهید استفاده کنید؟',
+    'install.modules_help'                        => 'لطفاً ویژگی‌هایی را که از روز اول می‌خواهید علامت بزنید. بعداً می‌توانید این موارد را از مسیر مدیریت ← تنظیمات سایت تغییر دهید.',
+    'install.modules_later'                       => 'می‌توانید هر یک از این موارد را بعداً در بخش مدیریت ← تنظیمات روشن یا خاموش کنید.',
     'install.msg_admin_created'                   => 'یک حساب مدیر ایجاد شد. می‌توانید بسته‌های نمایشی اختیاری را اضافه کنید یا رد شوید.',
     'install.msg_db_ready'                        => 'پایگاه داده آماده است. حساب مدیریت خود را ایجاد کنید تا نصب به پایان برسد.',
     'install.msg_install_removed'                 => 'پوشه نصب حذف شد. اکنون می‌توانید وارد شوید.',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'لطفاً قبل از ادامه مطمئن شوید پایگاه داده‌ای که قصد استفاده از آن را دارید خالی است.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'این نسخه نمایشی از قبل نصب شده است',
     'demo.already_installed_hint'                 => 'این بسته از قبل نصب شده است، بنابراین نمی‌توان آن را دوباره انتخاب کرد.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'موارد قابل افزودن',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'نمای جدول امتیازات',
     'leaderboard.default_role'                    => 'کاربر',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(شما)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'اسناد گردآوری شده از منابع تاریخی حوزه عمومی.',
     'footer.rights_reserved'                      => 'کلیه حقوق محفوظ است.',
     'footer.software_notice'                      => 'نرم‌افزار pRD (نسخه 1.18) یک پروژه متن‌باز تحت لایسنس MIT است - تشکر از @katherinehuk در گیت‌هاب برای نگاه دوم!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'پایگاه داده ثبت اسناد',
     'header.skip_to_content'                      => 'پرش به محتوای اصلی',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'بستن اعلان',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'عامل:',
     'record_history.directory_table_label'        => 'جدول دایرکتوری:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'خط زمانی رویدادها و فعالیت‌ها',
 
     // ----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // ----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'حذف فایل دسترسی اضطراری',
     'update_database.backup_notice'               => 'در صورت امکان، قبل از اجرای به‌روزرسانی‌ها از پایگاه داده پشتیبان تهیه کنید.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'به‌روزرسانی پایگاه داده اکنون',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'مشخصات نامعتبر یا دسترسی حساب محدود شده است.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'ساینه در جدول با شناسه %d ایجاد شد.',
     'save_data_entry.err_invalid_choice'          => 'لطفاً یک گزینه فهرست شده برای %s انتخاب کنید.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'ساینه با موفقیت اضافه شد!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'خطا در ارسال پیشنهاد ویرایش. لطفاً دوباره تلاش کنید.',
     'save_public_suggestion.err_field_required'   => 'این فیلد اجباری است و نمی‌تواند خالی ارسال شود.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'پیشنهاد ویرایش شما با موفقیت ارسال شد و برای بررسی به صف نظارت فرستاده شد. متشکریم!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'جدول ورود اطلاعات فعال:',
     'data_entry.add_entry_summary'                => '➕ افزودن ورود اطلاعات جدید (کلیک برای گسترش/پنهان‌سازی)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'تا',
     'data_entry.delete_record_btn'                => 'حذف',
     'data_entry.delete_record_confirm'            => 'آیا این ثبت به طور دائم حذف شود؟ مقادیر، سنجاق‌های نقشه و پیشنهادات مرتبط با آن حذف خواهند شد. این عمل قابل بازگشت نیست.',
+    'data_entry.dup_blocked'                      => 'این ریکارد شباهت زیادی به یک ریکارد از پیش ذخیره‌شده دارد، بنابراین قابل اضافه شدن نیست.',
+    'data_entry.dup_close_match'                  => 'املای بسیار مشابه',
     'data_entry.dup_confirm_btn'                  => 'بله، تأیید و ذخیره مورد تکراری',
-    'data_entry.dup_desc'                         => 'موارد مشابهی از قبل در سیستم یافت شد:',
+    'data_entry.dup_desc'                         => 'لطفاً کارت‌های زیر را بررسی کنید. اگر این یک ریکارد متفاوت است، همچنان می‌توانید آن را ذخیره کنید.',
+    'data_entry.dup_empty'                        => '(خالی)',
+    'data_entry.dup_flag_btn'                     => 'ذخیره و اطلاع به مدیر',
     'data_entry.dup_heading'                      => '⚠️ هشدار تکراری احتمالی',
     'data_entry.dup_item_format'                  => 'شناسه ساینه: %d — مقدار: %s',
+    'data_entry.dup_overview'                     => 'از قبل ذخیره شده است',
     'data_entry.dup_prompt'                       => 'آیا می‌خواهید ادامه داده و این مورد تکراری را ذخیره کنید؟',
+    'data_entry.dup_review_btn'                   => 'بررسی متن تایپ‌شده من',
+    'data_entry.dup_score_exact'                  => 'شباهت محاسبه‌شده %s درصد.',
+    'data_entry.dup_similar'                      => 'این مورد %s٪ شبیه به ریکارد شماره %s است',
     'data_entry.edit_record_btn'                  => 'ویرایش',
     'data_entry.edit_record_saved'                => 'ثبت به‌روزرسانی شد.',
     'data_entry.enter_value_placeholder'          => 'وارد کردن مقدار...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'ویرایش ثبت',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'بازیابی رمز عبور',
     'forgot_password.back_login_link'             => 'بازگشت به صفحه ورود',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'ارسال پیوند بازنشانی',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'ورود کاربر',
     'login.err_password_required'                 => 'لطفاً رمز عبور خود را وارد کنید.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'نام کاربری یا ایمیل:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'نمایش حروف اول نام و شماره تصادفی برای عموم.',
     'onboarding.attr_anon_title'                  => 'ناشناس:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'منطقه زمانی / منطقه:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'آدرس ایمیل جدید',
     'profile.aria_region'                         => 'مدیریت پروفایل کاربر',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'به‌روزرسانی رمز عبور',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'ثبت‌نام کاربر',
     'register.email_label'                        => 'آدرس ایمیل',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'نام کاربری:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'تنظیم رمز عبور',
     'set_password.confirm_password_label'         => 'تأیید رمز عبور:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'به حساب جدید خود خوش آمدید، %s! لطفاً رمز عبور خود را در زیر انتخاب کنید.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => 'کد تأیید هویت ۶ رقمی',
     'setup_2fa.aria_region'                       => 'راهنمای تنظیم تأیید دومرحله‌ای',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'تأیید و فعال‌سازی تأیید دومرحله‌ای',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'پیشنهاد ویرایش',
     'suggest_edit.confirm_prompt'                 => 'آیا مطمئن هستید که می‌خواهید این پیشنهاد ویرایش را برای بررسی مدیریت ارسال کنید؟',
     'suggest_edit.current_values_heading'         => 'مقادیر فعلی:',
+    'suggest_edit.decision_accepted'              => 'پذیرفته شد',
+    'suggest_edit.decision_not_accepted'          => 'پذیرفته نشد',
+    'suggest_edit.dup_of_help'                    => 'اختیاری. مدیران این یادداشت را خواهند دید.',
+    'suggest_edit.dup_of_label'                   => 'اگر شماره ریکارد دیگر را می‌دانید، می‌توانید آن را اینجا وارد کنید',
+    'suggest_edit.dup_please_check'               => 'این تغییر بسیار شبیه به یک ریکارد دیگر خواهد بود. لطفاً موارد زیر را بررسی کنید.',
     'suggest_edit.empty_label'                    => '(خالی)',
+    'suggest_edit.err_notify_email'               => 'اگر می‌خواهید از نتیجه مطلع شوید، لطفاً یک آدرس ایمیل وارد کنید.',
     'suggest_edit.heading_prefix'                 => 'پیشنهاد ویرایش برای ساینه',
     'suggest_edit.leave_blank'                    => 'این فیلد را خالی بگذارید',
+    'suggest_edit.no_rationale'                   => 'یادداشت اضافی اضافه نشد.',
+    'suggest_edit.notify_email_help'              => 'فقط برای اطلاع‌رسانی نتیجه استفاده می‌شود. در ریکارد عمومی نمایش داده نمی‌شود.',
+    'suggest_edit.notify_email_label'             => 'آدرس ایمیل شما',
+    'suggest_edit.notify_label'                   => 'هنگامی که مدیر تصمیم‌گیری کرد، به من ایمیل بزن',
     'suggest_edit.proposed_value_label'           => 'مقدار جدید پیشنهادی:',
     'suggest_edit.reasoning_label'                => 'مستندات / دلیل / یادداشت‌های منبع:',
     'suggest_edit.reasoning_optional'             => 'اختیاری — شواهد، منبع، یا یادداشت‌ها برای مدیران.',
     'suggest_edit.reasoning_placeholder'          => 'زمینه، نقل‌قول‌های منبع یا دلیل این تغییر را ارائه دهید...',
+    'suggest_edit.report_dup'                     => 'من فکر می‌کنم این ریکارد تکراری یک ریکارد دیگر است',
     'suggest_edit.return_btn'                     => 'بازگشت به ساینه',
     'suggest_edit.select_column_label'            => 'انتخاب ستون برای ویرایش:',
     'suggest_edit.submit_btn'                     => 'ارسال پیشنهاد برای بررسی',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'می‌توانید ویرایش دیگری در زیر ارسال کنید، یا پس از اتمام از پیوند بازگشت بالا استفاده کنید.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'وارد کردن کد تأیید یا پشتیبان',
     'verify_2fa.aria_region'                      => 'تأیید هویت دومرحله‌ای',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'تأیید و ورود',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'وضعیت تأیید ایمیل',
     'verify_email.err_expired_token'              => 'این پیوند تأیید منقضی شده است (مهلت ۲۴ ساعته سپری شده). لطفاً دوباره ثبت‌نام کنید یا پیوند جدیدی درخواست کنید.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'ایمیل با موفقیت تأیید شد! حساب شما اکنون فعال است. می‌توانید به صفحه ورود ادامه دهید.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'اختصاص نام کاربری منحصر به فرد به من',
     'index.check_availability'                    => 'بررسی دسترسی',

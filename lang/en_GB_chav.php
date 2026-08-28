@@ -107,7 +107,18 @@ return [
     'index.th_record_id'                          => 'Tag ID',
 
     // ------------------------------------------------------------------
-    // 6. Admin: Create User / Invite Form
+    // 6. Print Records Functionality
+    // ------------------------------------------------------------------
+    'cols.back'                                   => 'Go back',
+    'cols.print_btn'                              => 'Print',
+    'cols.print_entire'                           => 'Print the whole lot, fam',
+    'cols.print_filtered'                         => 'Print what is filtered',
+    'cols.print_now'                              => 'Print this ting or save it as a PDF',
+    'cols.show_heading'                           => 'Pick which bare columns you actually want on show, innit',
+    'cols.show_help'                              => 'Unclick a column if you wanna hide it on here, when you download stuff, or when you print it out. On a phone, fewer columns makes it way easier to read, blud.',
+
+    // ------------------------------------------------------------------
+    // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
     'create_user.email_label'                     => 'In Box / Email Addy:',
     'create_user.first_name'                      => 'Christian Name / Moniker:',
@@ -121,7 +132,7 @@ return [
     'create_user.username_placeholder'            => 'Leave blank if you want a random gen',
 
     // ------------------------------------------------------------------
-    // 7. Admin: Feedback / Support Tickets Dashboard
+    // 8. Admin: Feedback / Support Tickets Dashboard
     // ------------------------------------------------------------------
     'feedback_dash.anonymous'                     => 'Ghost / Anon',
     'feedback_dash.default_subject'               => 'Random Chinwag',
@@ -139,7 +150,7 @@ return [
     'feedback_dash.th_ticket_date'                => 'Ticket ID / When',
 
     // ------------------------------------------------------------------
-    // 8. Admin: Manage Feedback Email Templates
+    // 9. Admin: Manage Feedback Email Templates
     // ------------------------------------------------------------------
     'feedback_emails.back_to_dashboard'           => 'Back to Beef Deck',
     'feedback_emails.custom_tags'                 => 'Custom Form Tags:',
@@ -154,7 +165,7 @@ return [
     'feedback_emails.subheading'                  => 'Customise the automated emails sent out when handling beef. Wrap your dynamic tags in curly brackets.',
 
     // ------------------------------------------------------------------
-    // 9. Admin: Manage Feedback Ticket Schema & Fields
+    // 10. Admin: Manage Feedback Ticket Schema & Fields
     // ------------------------------------------------------------------
     'feedback_schema.add_field_title'             => '+ Slap a New Field Into Ticket Form',
     'feedback_schema.allow_multiple'              => 'Let them pick loads (Multi-select)',
@@ -205,7 +216,7 @@ return [
     'feedback_schema.type_varchar'                => 'VARCHAR (Short Text)',
 
     // ------------------------------------------------------------------
-    // 10. Admin: Manage Tables & Column Schemas
+    // 11. Admin: Manage Tables & Column Schemas
     // ------------------------------------------------------------------
     'manage_tables.add_col_summary_prefix'        => '+ Slap new column into',
     'manage_tables.allow_multiple_label'          => 'Let \'em pick more than one geezer (multi-select)',
@@ -229,6 +240,10 @@ return [
     'manage_tables.edit_col_summary'              => 'Twist Column:',
     'manage_tables.edit_metadata_btn'             => 'Edit Table Info',
     'manage_tables.edit_table_summary'            => 'Twist Table Specs:',
+    'manage_tables.err_col_name_empty'            => 'Oi, type a name for the column.',
+    'manage_tables.err_col_name_taken'            => 'This table already’s got a column named %s. Pick a proper different name.',
+    'manage_tables.err_table_name_empty'          => 'Oi, type a name for the table.',
+    'manage_tables.err_table_name_taken'          => 'Fam, a table called %s is already here. Pick a different name, g.',
     'manage_tables.exclude_search_label'          => 'Keep this column out of public search (index.php)',
     'manage_tables.existing_cols_heading_prefix'  => 'Current columns for',
     'manage_tables.heading'                       => 'Sort Tables & Schemas',
@@ -254,7 +269,7 @@ return [
     'manage_tables.yes'                           => 'Yeah bruv',
 
     // ------------------------------------------------------------------
-    // 11. Map Functionality Translations
+    // 12. Map Functionality Translations
     // ------------------------------------------------------------------
     'map.apply_filters'                           => 'Sort filters out',
     'map.back_to_table'                           => 'Back to the table',
@@ -269,7 +284,7 @@ return [
     'map.skip_to_map'                             => 'Skip straight to the map',
 
     // ------------------------------------------------------------------
-    // 12. Admin: Manage User Notification Email Templates
+    // 13. Admin: Manage User Notification Email Templates
     // ------------------------------------------------------------------
     'user_emails.back_to_creation'                => 'Back to Recruitment',
     'user_emails.currently_editing'               => 'Working on:',
@@ -279,11 +294,12 @@ return [
     'user_emails.heading'                         => 'Sort User Notice Email Templates',
     'user_emails.opt_invitation'                  => 'New Mate Account Invite Template',
     'user_emails.opt_reset'                       => 'Password Reset / Secret Entry Link Template',
+    'user_emails.opt_suggestion_outcome'          => 'What happened with the suggested edit, fam',
     'user_emails.select_template_label'           => 'Pick template to twist:',
     'user_emails.subheading'                      => 'Customise email layouts sent out when bringing new mates on board or firing out password resets.',
 
     // ------------------------------------------------------------------
-    // 13. Admin: Manage Volunteer Email Templates
+    // 14. Admin: Manage Volunteer Email Templates
     // ------------------------------------------------------------------
     'volunteer_emails.back_to_dashboard'          => 'Back to Graft Submissions',
     'volunteer_emails.custom_tags_desc'           => 'Pulled automatically from form builder fields:',
@@ -291,7 +307,7 @@ return [
     'volunteer_emails.subheading'                 => 'Set up automatic replies for graft workers at different stages. Use curly brackets for dynamic details.',
 
     // ------------------------------------------------------------------
-    // 14. Admin: Manage Volunteer Form Schema & Fields
+    // 15. Admin: Manage Volunteer Form Schema & Fields
     // ------------------------------------------------------------------
     'volunteer_schema.add_field_title'            => '+ Slap New Field Into Volunteer Form',
     'volunteer_schema.back_to_dashboard'          => 'Back to Graft Submissions',
@@ -305,14 +321,43 @@ return [
     'volunteer_schema.subheading'                 => 'Configure custom fields, data types, subtypes, choices, and general display styles for the form.',
 
     // ------------------------------------------------------------------
-    // 15. Admin: Moderation Queue & Suggestions Review
+    // 16. Admin: Moderation Queue & Suggestions Review
     // ------------------------------------------------------------------
+    'dup_merge.col_a'                             => 'Record #%s',
+    'dup_merge.col_b'                             => 'Record #%s',
+    'dup_merge.col_field'                         => 'Field',
+    'dup_merge.confirm'                           => 'Merge these into a single record, fam? The other one is getting deleted.',
+    'dup_merge.fields_caption'                    => 'Pick a value for every single field',
+    'dup_merge.heading'                           => 'Merge two similar records together',
+    'dup_merge.intro'                             => 'These two are about %s%% similar, bruv. Pick which record to keep, then choose a value for every field.',
+    'dup_merge.keep_a'                            => 'Keep record #%s',
+    'dup_merge.keep_b'                            => 'Keep record #%s',
+    'dup_merge.keep_legend'                       => 'Which record we keeping then?',
+    'dup_merge.save_btn'                          => 'Merge into one single record',
+    'dup_merge_btn'                               => 'Merge into one',
+    'dup_merged'                                  => 'Those two records are one now, blud. The change is in the history of the one left over.',
+    'dup_queue.choose_table'                      => 'Pick a table',
+    'dup_queue.col_actions'                       => 'What to do',
+    'dup_queue.col_records'                       => 'Records',
+    'dup_queue.col_score'                         => 'How similar',
+    'dup_queue.col_table'                         => 'Table',
+    'dup_queue.dismiss_btn'                       => 'Aint a duplicate',
+    'dup_queue.dismissed'                         => 'That pair got marked as not a duplicate, g.',
+    'dup_queue.empty'                             => 'Nuffing waiting around. Scan a table to look for old similar items.',
+    'dup_queue.gone'                              => 'That review ain’t waiting around no more.',
+    'dup_queue.heading'                           => 'Similar records to check over',
+    'dup_queue.intro'                             => 'Scan the table for rows that look dead similar already. You can state that they’re completely different, or merge them into one big record.',
+    'dup_queue.scan_btn'                          => 'Scan this table, blud',
+    'dup_queue.scan_done'                         => 'Scan’s finished, fam. %s similar pairs found, %s new items slapped onto the list.',
+    'dup_queue.scan_label'                        => 'Look for similar records in',
     'moderate.approve_btn'                        => 'Approve (Stamp)',
     'moderate.approve_confirm'                    => 'Stamp it and push this value live?',
     'moderate.by_label'                           => 'Who:',
     'moderate.column_label'                       => 'Column:',
     'moderate.decline_btn'                        => 'Decline (Scrap)',
     'moderate.decline_confirm'                    => 'Bin this suggestion and scrap it?',
+    'moderate.dup_approved_note'                  => 'Sorted. This is now %s%% like record #%s, innit.',
+    'moderate.dup_blocked'                        => 'Nah mate, can’t approve this: this looks like %s%% bare like record #%s.',
     'moderate.empty_placeholder'                  => '[Fck All / Blank]',
     'moderate.evidence_label'                     => 'The Proof / Backstory:',
     'moderate.guest_user'                         => 'Random / Passerby',
@@ -323,19 +368,25 @@ return [
     'moderate.no_suggestions'                     => 'No pending suggestions sitting in your authorized security queues.',
     'moderate.override_label'                     => 'Override Value:',
     'moderate.proposed_value_label'               => 'Proposed Twist:',
+    'moderate.rationale_label'                    => 'Note for the gyaldem or bloke who suggested this',
+    'moderate.rationale_optional'                 => 'Optional note (stays on the record, bruv).',
+    'moderate.rationale_placeholder'              => 'Why you actually accepted or binned this change',
+    'moderate.rationale_will_be_sent'             => 'An email has been requested. Your note below is getting sent out exact same way you wrote it, so keep it peak or calm, g.',
     'moderate.record_id_label'                    => 'Record ID:',
     'moderate.required_badge'                     => 'Must Have',
     'moderate.select_placeholder'                 => '-- Pick One --',
     'moderate.shortcut_desc'                      => 'Press Ctrl + Enter to sign off instantly or Esc to clear the override box!',
     'moderate.shortcut_label'                     => 'Keyboard Cheat Sheet:',
     'moderate.subheading'                         => 'Compare user-suggested edits against live records in your approved tables. Stamp ‘em, override ‘em, or chuck ‘em out.',
+    'moderate.tab_similar'                        => 'Bare similar records',
+    'moderate.tab_suggestions'                    => 'Suggestions',
     'moderate.th_actions'                         => 'Guv’nor Moves',
     'moderate.th_comparison'                      => 'Side-by-Side (Live vs Proposed) & Proof',
     'moderate.th_id_date'                         => 'ID / When',
     'moderate.th_table_record'                    => 'Table, Record & Column',
 
     // ------------------------------------------------------------------
-    // 16. Admin: Notices & Announcements Manager
+    // 17. Admin: Notices & Announcements Manager
     // ------------------------------------------------------------------
     'notices.active'                              => 'Proper live',
     'notices.add_new'                             => 'Slap up a fresh shout',
@@ -374,7 +425,7 @@ return [
     'notices.yes'                                 => 'Yeah',
 
     // ------------------------------------------------------------------
-    // 17. Admin: Global Site Settings, Modules & Permissions
+    // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
     'role.label_admin'                            => 'Big Boss / Admin',
     'role.label_guest'                            => 'Random passer-by',
@@ -411,6 +462,16 @@ return [
     'settings.download_backup_desc'               => 'Saves a full .sql snapshot to your rig. Stash it safely before running updates.',
     'settings.driver_native'                      => 'Native Mail (Local Postfix Relay)',
     'settings.driver_smtp'                        => 'Authenticated SMTP (PHPMailer)',
+    'settings.dup_heading'                        => 'Duplicate Record Management, bruv',
+    'settings.dup_help'                           => 'pRD compares what you typed to other rows in the same table. You can warn people, block the save, or turn this off entirely.',
+    'settings.dup_legend'                         => 'If a new record looks like one you already got',
+    'settings.dup_mode_block'                     => 'Don’t let them save it, blud',
+    'settings.dup_mode_flag'                      => 'Warn them, and flag it up for an admin if they save it anyway',
+    'settings.dup_mode_off'                       => 'Don’t check for similar records at all',
+    'settings.dup_mode_warn'                      => 'Show a warning — they can still save it anyway',
+    'settings.dup_picky_exact'                    => 'Only when the words match up dead tight',
+    'settings.dup_picky_label'                    => 'How strict should the check be, fam?',
+    'settings.dup_picky_similar'                  => 'Catch close misses too (spelling is a bit peak)',
     'settings.enc_ssl'                            => 'SSL (Port 465)',
     'settings.enc_tls'                            => 'TLS (Port 587)',
     'settings.error_log_tab'                      => 'Messed up log',
@@ -467,6 +528,13 @@ return [
     'settings.no_notices'                         => 'No alerts configured.',
     'settings.notice_content_label'               => 'Content:',
     'settings.notices_heading'                    => 'Site Notices & Banners',
+    'settings.perm_info_mark'                     => 'i',
+    'settings.perm_locked'                        => 'This permission is dead mandatory for Admins.',
+    'settings.perm_more_info'                     => 'More about',
+    'settings.perm_needs'                         => 'Requires',
+    'settings.perm_needs_parent'                  => 'Turn that on first, fam.',
+    'settings.perm_no_links'                      => 'This permission doesn’t rely on another one.',
+    'settings.perm_used_by'                       => 'Needed by',
     'settings.permissions_heading'                => 'Dynamic Ranks & Permissions Matrix',
     'settings.permissions_subheading'             => 'Permissions are grouped by system capabilities. Expand boxes to tweak what each rank can do and save below.',
     'settings.port_label'                         => 'Port:',
@@ -520,7 +588,7 @@ return [
     'settings.update_db_btn'                      => 'Upgrade Database Now',
 
     // ------------------------------------------------------------------
-    // 18. Admin: User Account Management & Leaderboard Moderation
+    // 19. Admin: User Account Management & Leaderboard Moderation
     // ------------------------------------------------------------------
     'admin_users.delete_btn'                      => 'Bin it',
     'admin_users.disabled'                        => 'Off',
@@ -563,7 +631,7 @@ return [
     'admin_users.yes'                             => 'Yeah',
 
     // ------------------------------------------------------------------
-    // 19. Admin: View Ticket & Threaded Dialogue
+    // 20. Admin: View Ticket & Threaded Dialogue
     // ------------------------------------------------------------------
     'view_ticket.admin_label'                     => 'Top Boss',
     'view_ticket.back_to_dashboard'               => 'Return to Beef Deck',
@@ -585,7 +653,7 @@ return [
     'view_ticket.ticket_status_label'             => 'Ticket Status:',
 
     // ------------------------------------------------------------------
-    // 20. Admin: Volunteer Submissions & Workflow Dashboard
+    // 21. Admin: Volunteer Submissions & Workflow Dashboard
     // ------------------------------------------------------------------
     'volunteer_dashboard.accept_invite_btn'       => 'Approve & Fire Invite',
     'volunteer_dashboard.accept_title'            => 'Approve via Recruitment Invite System',
@@ -615,7 +683,7 @@ return [
     'volunteer_dashboard.volunteer_prefix'        => 'Graft Worker',
 
     // ------------------------------------------------------------------
-    // 21. API: AJAX Search & Filtering
+    // 22. API: AJAX Search & Filtering
     // ------------------------------------------------------------------
     'api_search.error_public_forbidden'           => '403 Blocked: Public noseying is turned off.',
     'api_search.error_unauthorized_table'         => 'Unauthorized table access. Jog on.',
@@ -624,7 +692,7 @@ return [
     'api_search.suggest_edit_btn'                 => 'Suggest Twist',
 
     // ------------------------------------------------------------------
-    // 22. Errors & HTTP Templates
+    // 23. Errors & HTTP Templates
     // ------------------------------------------------------------------
     'admin_errors.btn_find'                       => 'Find it',
     'admin_errors.file'                           => 'File',
@@ -653,7 +721,7 @@ return [
     'error_template.stack_trace'                  => 'The trail of doom',
 
     // ------------------------------------------------------------------
-    // 23. Public: Ticket Intake & Feedback Portal
+    // 24. Public: Ticket Intake & Feedback Portal
     // ------------------------------------------------------------------
     'feedback.email_label'                        => 'Email Addy:',
     'feedback.first_name_label'                   => 'First Name:',
@@ -666,7 +734,7 @@ return [
     'feedback.surname_label'                      => 'Last Name:',
 
     // ------------------------------------------------------------------
-    // 24. Centralised Feedback System (gh.*) ---
+    // 25. Centralised Feedback System (gh.*) ---
     // ------------------------------------------------------------------
     'gh.action_placeholder'                       => 'Describe your moves so we can track down the rogue files',
     'gh.add_comment_below'                        => 'Type your message below and send it flying.',
@@ -757,7 +825,7 @@ return [
     'gh.type_translation'                         => '4. Slap on a New Lingo Translation',
 
     // ------------------------------------------------------------------
-    // 25. Security Engine & Firewall
+    // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
     'security_engine.err_access_denied'           => 'Security Alarm: Access denied, jog on.',
     'security_engine.err_captcha_failed'          => 'Bot check failed. Try again.',
@@ -767,7 +835,7 @@ return [
     'security_engine.err_suspicious_agent'        => 'Security Alarm: Sketchy client signature detected.',
 
     // ------------------------------------------------------------------
-    // 26. Installer Wizard
+    // 27. Installer Wizard
     // ------------------------------------------------------------------
     'install.admin_confirm_password_label'        => 'Confirm Boss Password',
     'install.admin_email_label'                   => 'Boss Email',
@@ -821,13 +889,27 @@ return [
     'install.home_link'                           => 'Go to Yard',
     'install.lang_label'                          => 'Lingo',
     'install.login_link'                          => 'Log In',
+    'install.mod_feedback'                        => 'Feedback and tickets',
+    'install.mod_feedback_desc'                   => 'A public form for questions and support tickets.',
+    'install.mod_leaderboard'                     => 'Leaderboard',
+    'install.mod_leaderboard_desc'                => 'Optional points table. Needs user accounts turned on.',
     'install.mod_maps'                            => 'Maps',
     'install.mod_maps_desc'                       => 'Location fields and a map per table. You can change this later under Admin → Settings.',
+    'install.mod_moderation'                      => 'Moderation',
+    'install.mod_moderation_desc'                 => 'Check suggested edits before they mess up a record.',
+    'install.mod_users'                           => 'User accounts',
+    'install.mod_users_desc'                      => 'Let people sign up and log in, innit.',
+    'install.mod_volunteers'                      => 'Volunteer interest',
+    'install.mod_volunteers_desc'                 => 'A public form for people trying to help out.',
+    'install.modules_continue'                    => 'Save and keep it moving',
+    'install.modules_heading'                     => 'Which parts of pRD you actually trying to use?',
+    'install.modules_help'                        => 'Tick off the features you want from day one, bruv. You can change this later down admin → site settings.',
+    'install.modules_later'                       => 'You can turn any of these on or off later in admin → settings.',
     'install.msg_admin_created'                   => 'Admin account is locked and loaded. Chuck in some demo packs or bounce straight past.',
     'install.msg_db_ready'                        => 'Database is locked and loaded. Set up your main boss account to finish up.',
     'install.msg_install_removed'                 => 'Install folder is gone for good. You can sign in now.',
     'install.msg_installation_complete'           => 'Setup complete.',
-    'install.msg_modules_saved'                   => 'Your feature choices have been locked in. Now you can opt into demo packs, or sack them off - your choice init..',
+    'install.msg_modules_saved'                   => 'Your feature choices are saved, g. You can add optional demo packs, or just skip it.',
     'install.msg_schema_imported'                 => 'Database wired up and schema pulled in. Now make your boss account.',
     'install.page_title'                          => 'Setup — Parish Records Directory',
     'install.remove_folder_btn'                   => 'Oi, delete that install folder!',
@@ -850,7 +932,7 @@ return [
     'install.subheading'                          => 'Make sure your database yard is completely empty before you keep pushing.',
 
     // ------------------------------------------------------------------
-    // 27. Demo Packs
+    // 28. Demo Packs
     // ------------------------------------------------------------------
     'demo.already_installed'                      => 'This demo is already bolted on',
     'demo.already_installed_hint'                 => 'This pack is already installed, stop trying to double dip.',
@@ -872,7 +954,7 @@ return [
     'demo.what_to_add'                            => 'What to sling in',
 
     // ------------------------------------------------------------------
-    // 28. Leaderboard
+    // 29. Leaderboard
     // ------------------------------------------------------------------
     'leaderboard.aria_region'                     => 'Top Boy Leaderboard View',
     'leaderboard.default_role'                    => 'Mate',
@@ -896,25 +978,25 @@ return [
     'leaderboard.you_badge'                       => '(That’s You)',
 
     // ------------------------------------------------------------------
-    // 29. Site Footer
+    // 30. Site Footer
     // ------------------------------------------------------------------
     'footer.compiled_notice'                      => 'Your footer goes here bruv!',
     'footer.rights_reserved'                      => 'All rights reserved bruv.',
     'footer.software_notice'                      => 'pRD (V1.18) is open-source under the MIT License - With thanks to GitHub\'s @katherinehuk for her second pair of eyes!',
 
     // ------------------------------------------------------------------
-    // 30. Site Header & Head
+    // 31. Site Header & Head
     // ------------------------------------------------------------------
     'header.default_title'                        => 'Parish Records Database',
     'header.skip_to_content'                      => 'Skip straight to the good stuff',
 
     // ------------------------------------------------------------------
-    // 31. Notices Banner Module
+    // 32. Notices Banner Module
     // ------------------------------------------------------------------
     'notices_banner.close_title'                  => 'Shut notice',
 
     // ------------------------------------------------------------------
-    // 32. Record History & Audit Trail
+    // 33. Record History & Audit Trail
     // ------------------------------------------------------------------
     'record_history.actor_label'                  => 'Who Did It:',
     'record_history.directory_table_label'        => 'Directory Table:',
@@ -935,7 +1017,7 @@ return [
     'record_history.timeline_heading'             => 'Timeline of Moves & Activity',
 
     // -----------------------------------------------------------------------------
-    // 33. Standalone Update Database Gateway and Settings Database Update Dialogue
+    // 34. Standalone Update Database Gateway and Settings Database Update Dialogue
     // -----------------------------------------------------------------------------
     'index.remove_emergency_file'                 => 'Nuke the emergency backdoor file',
     'update_database.backup_notice'               => 'Back up your database before you run any updates, otherwise you could be totally screwed.',
@@ -953,12 +1035,12 @@ return [
     'update_database.update_btn'                  => 'Upgrade Database Now',
 
     // ------------------------------------------------------------------
-    // 34. User Authentication Action
+    // 35. User Authentication Action
     // ------------------------------------------------------------------
     'authenticate.err_invalid_credentials'        => 'Bad credentials or your account is locked down.',
 
     // ------------------------------------------------------------------
-    // 35. Save Data Entry Action
+    // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Record planted in table with ID %d.',
     'save_data_entry.err_invalid_choice'          => 'Pick a proper option from the list for %s, mate.',
@@ -970,7 +1052,7 @@ return [
     'save_data_entry.msg_success'                 => 'Record successfully logged!',
 
     // ------------------------------------------------------------------
-    // 36. Save Public Suggestion Action
+    // 37. Save Public Suggestion Action
     // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'Failed to log edit suggestion. Try again.',
     'save_public_suggestion.err_field_required'   => 'This field is mandatory and can’t be blank.',
@@ -980,7 +1062,7 @@ return [
     'save_public_suggestion.msg_success'          => 'Your edit suggestion has been fired straight to the security queue. Safe geezer!',
 
     // ------------------------------------------------------------------
-    // 37. Data Entry Workstation
+    // 38. Data Entry Workstation
     // ------------------------------------------------------------------
     'data_entry.active_table_label'               => 'Active data entry table:',
     'data_entry.add_entry_summary'                => '➕ Log New Data Entry (Click to expand/collapse)',
@@ -1010,11 +1092,19 @@ return [
     'data_entry.date_to_label'                    => 'To',
     'data_entry.delete_record_btn'                => 'Bin it',
     'data_entry.delete_record_confirm'            => 'Permanently bin this record? Values, map pins and related suggestions will be wiped out completely. Can’t undo this, bruv.',
+    'data_entry.dup_blocked'                      => 'This record is way too similar to one already saved, so it can’t be added, bruv.',
+    'data_entry.dup_close_match'                  => 'Spelling is dead similar',
     'data_entry.dup_confirm_btn'                  => 'Yeah, Confirm & Save Duplicate',
-    'data_entry.dup_desc'                         => 'We found similar records already sitting in the system:',
+    'data_entry.dup_desc'                         => 'Check the cards down below, fam. You can still save if this is a completely different record.',
+    'data_entry.dup_empty'                        => '(empty)',
+    'data_entry.dup_flag_btn'                     => 'Save and tell an admin',
     'data_entry.dup_heading'                      => '⚠️ Potential Duplicate Alert',
     'data_entry.dup_item_format'                  => 'Record ID: %d — Value: %s',
+    'data_entry.dup_overview'                     => 'Already saved, blud',
     'data_entry.dup_prompt'                       => 'Want to push ahead and save this duplicate record anyway?',
+    'data_entry.dup_review_btn'                   => 'Review what I typed out',
+    'data_entry.dup_score_exact'                  => 'Calculated similarity %s percent, g.',
+    'data_entry.dup_similar'                      => 'This is %s%% bare similar to record #%s',
     'data_entry.edit_record_btn'                  => 'Tweak',
     'data_entry.edit_record_saved'                => 'Record has been updated - sorted.',
     'data_entry.enter_value_placeholder'          => 'Punch value in...',
@@ -1055,7 +1145,7 @@ return [
     'edit_record.heading'                         => 'Tweak record',
 
     // ------------------------------------------------------------------
-    // 38. Forgot Password
+    // 39. Forgot Password
     // ------------------------------------------------------------------
     'forgot_password.aria_region'                 => 'Password Recovery',
     'forgot_password.back_login_link'             => 'Back to Log In',
@@ -1065,7 +1155,7 @@ return [
     'forgot_password.submit_btn'                  => 'Send Reset Link',
 
     // ------------------------------------------------------------------
-    // 39. User Login
+    // 40. User Login
     // ------------------------------------------------------------------
     'login.aria_region'                           => 'User Log In',
     'login.err_password_required'                 => 'Don’t forget your password, mate.',
@@ -1077,7 +1167,7 @@ return [
     'login.username_label'                        => 'Username or Email:',
 
     // ------------------------------------------------------------------
-    // 40. User Onboarding Setup Wizard
+    // 41. User Onboarding Setup Wizard
     // ------------------------------------------------------------------
     'onboarding.attr_anon_text'                   => 'Shows initials and a random number to everyone.',
     'onboarding.attr_anon_title'                  => 'Ghost / Anon:',
@@ -1115,7 +1205,7 @@ return [
     'onboarding.timezone_label'                   => 'Timezone / Turf:',
 
     // ------------------------------------------------------------------
-    // 41. User Profile & Security Settings
+    // 42. User Profile & Security Settings
     // ------------------------------------------------------------------
     'profile.aria_new_email'                      => 'New Email Addy',
     'profile.aria_region'                         => 'User Profile Management',
@@ -1150,7 +1240,7 @@ return [
     'profile.update_password_btn'                 => 'Update Password',
 
     // ------------------------------------------------------------------
-    // 42. User Registration
+    // 43. User Registration
     // ------------------------------------------------------------------
     'register.aria_region'                        => 'User Registration',
     'register.email_label'                        => 'Email Addy',
@@ -1159,7 +1249,7 @@ return [
     'register.username_label'                     => 'Username:',
 
     // ------------------------------------------------------------------
-    // 43. Set Password via Secure Token
+    // 44. Set Password via Secure Token
     // ------------------------------------------------------------------
     'set_password.aria_region'                    => 'Set Password',
     'set_password.confirm_password_label'         => 'Confirm Password:',
@@ -1175,7 +1265,7 @@ return [
     'set_password.subheading_format'              => 'Welcome to your new account, %s! Pick your password below.',
 
     // ------------------------------------------------------------------
-    // 44. Setup 2FA Wizard
+    // 45. Setup 2FA Wizard
     // ------------------------------------------------------------------
     'setup_2fa.aria_code_input'                   => '6-digit verification code',
     'setup_2fa.aria_region'                       => '2FA Setup Wizard',
@@ -1191,18 +1281,29 @@ return [
     'setup_2fa.submit_btn'                        => 'Verify & Lock 2FA',
 
     // ------------------------------------------------------------------
-    // 45. Suggest Edit View
+    // 46. Suggest Edit View
     // ------------------------------------------------------------------
     'suggest_edit.aria_region'                    => 'Suggest Edit',
     'suggest_edit.confirm_prompt'                 => 'Sure you want to fire this edit suggestion in for admin review?',
     'suggest_edit.current_values_heading'         => 'Current Values:',
+    'suggest_edit.decision_accepted'              => 'Accepted',
+    'suggest_edit.decision_not_accepted'          => 'Not accepted, fam',
+    'suggest_edit.dup_of_help'                    => 'Optional. Admins will see this note, g.',
+    'suggest_edit.dup_of_label'                   => 'If you know the other record number, slap it in right here',
+    'suggest_edit.dup_please_check'               => 'This change would be dead similar to another record. Check below, bruv.',
     'suggest_edit.empty_label'                    => '(blank)',
+    'suggest_edit.err_notify_email'               => 'Type an email address if you actually wanna hear the outcome, g.',
     'suggest_edit.heading_prefix'                 => 'Suggest Edit for Record',
     'suggest_edit.leave_blank'                    => 'Leave this box completely bare',
+    'suggest_edit.no_rationale'                   => 'No extra note was added.',
+    'suggest_edit.notify_email_help'              => 'Only used to tell you what happened. Not shown on the public record.',
+    'suggest_edit.notify_email_label'             => 'Your email address',
+    'suggest_edit.notify_label'                   => 'Email me when an admin makes a choice',
     'suggest_edit.proposed_value_label'           => 'Proposed New Value:',
     'suggest_edit.reasoning_label'                => 'Proof / Backstory / Source Notes:',
     'suggest_edit.reasoning_optional'             => 'Optional — receipts, sources, or a quick note for the mods.',
     'suggest_edit.reasoning_placeholder'          => 'Give context, source citation, or reason for this change...',
+    'suggest_edit.report_dup'                     => 'I reckon this record is a duplicate of another one',
     'suggest_edit.return_btn'                     => 'Back to Record',
     'suggest_edit.select_column_label'            => 'Select column to twist:',
     'suggest_edit.submit_btn'                     => 'Submit Suggestion for Review',
@@ -1210,7 +1311,7 @@ return [
     'suggest_edit.success_msg_suffix'             => 'You can fire another edit below or use the return link above when you’re done.',
 
     // ------------------------------------------------------------------
-    // 46. Verify 2FA Login Challenge
+    // 47. Verify 2FA Login Challenge
     // ------------------------------------------------------------------
     'verify_2fa.aria_code_input'                  => 'Enter verification code or security code',
     'verify_2fa.aria_region'                      => '2FA Verification',
@@ -1220,7 +1321,7 @@ return [
     'verify_2fa.submit_btn'                       => 'Verify & Log In',
 
     // ------------------------------------------------------------------
-    // 47. Verify Email
+    // 48. Verify Email
     // ------------------------------------------------------------------
     'verify_email.aria_region'                    => 'Email Verification Status',
     'verify_email.err_expired_token'              => 'This verification link has expired (24-hour limit exceeded). Sign up again or ask for a new link.',
@@ -1233,7 +1334,7 @@ return [
     'verify_email.msg_success'                    => 'Email verified proper! Your account is active. Head over to log in.',
 
     // ------------------------------------------------------------------
-    // 48. Volunteer Form View
+    // 49. Volunteer Form View
     // ------------------------------------------------------------------
     'index.allocate_unique_username'              => 'Just give us a random unique username',
     'index.check_availability'                    => 'Check if the username is free',
