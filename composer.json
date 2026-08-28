@@ -27,7 +27,8 @@
         "lang:counts": "php scripts/langSortUtility/check_counts.php",
         "lang:missing": "php scripts/langSortUtility/check_missing_keys.php",
         "lang:duplicates": "php scripts/langSortUtility/find_duplicate_keys.php",
-        "pretty": "php scripts/langSortUtility/lang_file_pretty.php"
+        "pretty": "php scripts/langSortUtility/lang_file_pretty.php",
+        "deadkeys": "php scripts/langSortUtility/dead_language_keys.php"
     },
     "config": {
         "sort-packages": true
