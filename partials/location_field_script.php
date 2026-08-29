@@ -39,6 +39,8 @@ $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
                                 if (lat) lat.value = h.lat;
                                 if (lng) lng.value = h.lng;
                                 if (lab) lab.value = h.label || q;
+                                const title = document.getElementById('loc_title_' + col);
+                                if (title && !title.value) title.value = h.label || q;
                                 box.innerHTML = '';
                             });
                             box.appendChild(b);

@@ -208,8 +208,12 @@ class UserDataEntryActionController
                             $valStmt->execute([$recordId, $columnId, $valueContent]);
                             if (isset($colsMap[$columnId]['data_type']) && $colsMap[$columnId]['data_type'] === 'LOCATION') {
                                 $pin = \App\Services\LocationValueService::decode($valueContent);
-                                if ($pin !== null) {
-                                    \App\Services\LocationValueService::upsertPin($this->pdo, $tableId, $recordId, (int) $columnId, $pin);
+                                if (\App\Services\LocationValueService::isComplete($pin)) {
+                                    try {
+                                        \App\Services\LocationValueService::upsertPin($this->pdo, $tableId, $recordId, (int) $columnId, $pin);
+                                    } catch (\Throwable $e) {
+                                        // Pin write must not block the record save
+                                    }
                                 }
                             }
 

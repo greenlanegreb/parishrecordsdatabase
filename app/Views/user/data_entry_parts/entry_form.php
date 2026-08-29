@@ -105,20 +105,20 @@ $fieldErrors = $fieldErrors ?? [];
                                             <button type="button" class="btn btn-outline-secondary js-loc-search" data-col="<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_search_btn') !== 'data_entry.location_search_btn' ? __('data_entry.location_search_btn') : 'Search', ENT_QUOTES, 'UTF-8') ?></button>
                                         </div>
                                         <div id="loc_results_<?= $colId ?>" class="list-group mb-2 small" role="listbox" aria-label="<?= htmlspecialchars(__('data_entry.location_results') !== 'data_entry.location_results' ? __('data_entry.location_results') : 'Did you mean', ENT_QUOTES, 'UTF-8') ?>"></div>
-                                        <input type="hidden" name="fields[<?= $colId ?>][q]" id="loc_hid_q_<?= $colId ?>" value="<?= htmlspecialchars($loc['q'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
-                                        <input type="hidden" name="fields[<?= $colId ?>][lat]" id="loc_lat_<?= $colId ?>" value="<?= htmlspecialchars((string) ($loc['lat'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
-                                        <input type="hidden" name="fields[<?= $colId ?>][lng]" id="loc_lng_<?= $colId ?>" value="<?= htmlspecialchars((string) ($loc['lng'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="hidden" name="filters[<?= $colId ?>][q]" id="loc_hid_q_<?= $colId ?>" value="<?= htmlspecialchars($loc['q'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="hidden" name="filters[<?= $colId ?>][lat]" id="loc_lat_<?= $colId ?>" value="<?= htmlspecialchars((string) ($loc['lat'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="hidden" name="filters[<?= $colId ?>][lng]" id="loc_lng_<?= $colId ?>" value="<?= htmlspecialchars((string) ($loc['lng'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
                                         <label class="form-label small" for="loc_label_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_label') !== 'data_entry.location_label' ? __('data_entry.location_label') : 'Name to show (you may use the historic name)', ENT_QUOTES, 'UTF-8') ?> <span class="text-danger fw-bold" aria-hidden="true">*</span></label>
-                                        <input type="text" class="form-control form-control-sm mb-2" id="loc_label_<?= $colId ?>" name="fields[<?= $colId ?>][label]" value="<?= htmlspecialchars($loc['label'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="text" class="form-control form-control-sm mb-2" id="loc_label_<?= $colId ?>" name="filters[<?= $colId ?>][label]" value="<?= htmlspecialchars($loc['label'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
                                         <label class="form-label small" for="loc_title_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_title') !== 'data_entry.location_title' ? __('data_entry.location_title') : 'Popup title', ENT_QUOTES, 'UTF-8') ?> <span class="text-danger fw-bold" aria-hidden="true">*</span></label>
-                                        <input type="text" class="form-control form-control-sm mb-2" id="loc_title_<?= $colId ?>" name="fields[<?= $colId ?>][title]" value="<?= htmlspecialchars($loc['title'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="loc_title_<?= $colId ?>" name="filters[<?= $colId ?>][title]" value="<?= htmlspecialchars($loc['title'] ?? '', ENT_QUOTES, 'UTF-8') ?>" required>
                                         <label class="form-label small" for="loc_body_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_body') !== 'data_entry.location_body' ? __('data_entry.location_body') : 'Popup text', ENT_QUOTES, 'UTF-8') ?> <span class="text-danger fw-bold" aria-hidden="true">*</span></label>
-                                        <textarea class="form-control form-control-sm mb-2" id="loc_body_<?= $colId ?>" name="fields[<?= $colId ?>][body]" rows="2" required><?= htmlspecialchars($loc['body'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+                                        <textarea class="form-control form-control-sm mb-2" id="loc_body_<?= $colId ?>" name="filters[<?= $colId ?>][body]" rows="2" required><?= htmlspecialchars($loc['body'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
                                         <fieldset class="mb-2">
                                             <legend class="form-label small"><?= htmlspecialchars(__('data_entry.location_color') !== 'data_entry.location_color' ? __('data_entry.location_color') : 'Pin colour', ENT_QUOTES, 'UTF-8') ?></legend>
                                             <?php foreach (\App\Services\LocationValueService::palette() as $sw): ?>
                                                 <label class="me-2 small">
-                                                    <input type="radio" name="fields[<?= $colId ?>][color]" value="<?= htmlspecialchars($sw['hex'], ENT_QUOTES, 'UTF-8') ?>" <?= (($loc['color'] ?? '') === $sw['hex'] || (($loc['color'] ?? '') === '' && $sw['hex'] === \App\Services\LocationValueService::defaultColor())) ? 'checked' : '' ?>>
+                                                    <input type="radio" name="filters[<?= $colId ?>][color]" value="<?= htmlspecialchars($sw['hex'], ENT_QUOTES, 'UTF-8') ?>" <?= (($loc['color'] ?? '') === $sw['hex'] || (($loc['color'] ?? '') === '' && $sw['hex'] === \App\Services\LocationValueService::defaultColor())) ? 'checked' : '' ?>>
                                                     <span style="display:inline-block;width:0.9rem;height:0.9rem;background:<?= htmlspecialchars($sw['hex'], ENT_QUOTES, 'UTF-8') ?>;border:1px solid #000;vertical-align:middle;" title="<?= htmlspecialchars($sw['label'], ENT_QUOTES, 'UTF-8') ?>"></span>
                                                     <span class="visually-hidden"><?= htmlspecialchars($sw['label'], ENT_QUOTES, 'UTF-8') ?></span>
                                                 </label>
@@ -126,8 +126,8 @@ $fieldErrors = $fieldErrors ?? [];
                                         </fieldset>
 
                                         <div class="form-check mb-2">
-                                            <input type="hidden" name="fields[<?= $colId ?>][show_on_map]" value="0">
-                                            <input class="form-check-input" type="checkbox" name="fields[<?= $colId ?>][show_on_map]" value="1" id="loc_show_<?= $colId ?>" <?= (!isset($loc['show_on_map']) || $loc['show_on_map']) ? 'checked' : '' ?>>
+                                            <input type="hidden" name="filters[<?= $colId ?>][show_on_map]" value="0">
+                                            <input class="form-check-input" type="checkbox" name="filters[<?= $colId ?>][show_on_map]" value="1" id="loc_show_<?= $colId ?>" <?= (!isset($loc['show_on_map']) || $loc['show_on_map']) ? 'checked' : '' ?>>
                                             <label class="form-check-label small" for="loc_show_<?= $colId ?>"><?= htmlspecialchars(__('data_entry.location_show_on_map') !== 'data_entry.location_show_on_map' ? __('data_entry.location_show_on_map') : 'Show this place on the map', ENT_QUOTES, 'UTF-8') ?></label>
                                             <div class="form-text"><?= htmlspecialchars(__('data_entry.location_show_on_map_help') !== 'data_entry.location_show_on_map_help' ? __('data_entry.location_show_on_map_help') : 'Untick to keep the record in the table but hide the pin (e.g. not open yet).', ENT_QUOTES, 'UTF-8') ?></div>
                                         </div>
