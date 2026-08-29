@@ -31,19 +31,31 @@ class MapConfigService
      */
     public static function tiles(PDO $pdo): array
     {
-        $provider = self::setting($pdo, 'map_tile_provider', 'default');
-        $custom = self::setting($pdo, 'map_tile_url', '');
-        $apiKey = self::setting($pdo, 'map_tile_api_key', '');
+        $provider = strtolower(trim(self::setting($pdo, 'map_tile_provider', 'default')));
+        $custom = trim(self::setting($pdo, 'map_tile_url', ''));
+        $apiKey = trim(self::setting($pdo, 'map_tile_api_key', ''));
 
-        if ($provider === 'custom' && $custom !== '') {
+        $osm = [
+            'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
+            'provider' => 'osm',
+        ];
+
+        $carto = static function (string $key) use ($osm): array {
+            if ($key === '') {
+                return $osm;
+            }
             return [
-                'url' => $custom,
-                'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
-                'provider' => 'custom',
+                'url' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png?key=' . rawurlencode($key),
+                'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+                'provider' => 'carto',
             ];
-        }
+        };
 
-        if ($provider === 'mapbox' && $apiKey !== '') {
+        if ($provider === 'mapbox') {
+            if ($apiKey === '') {
+                return $osm;
+            }
             return [
                 'url' => 'https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=' . rawurlencode($apiKey),
                 'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://www.mapbox.com/" target="_blank" rel="noopener">Mapbox</a>',
@@ -51,7 +63,10 @@ class MapConfigService
             ];
         }
 
-        if ($provider === 'stadia' && $apiKey !== '') {
+        if ($provider === 'stadia') {
+            if ($apiKey === '') {
+                return $osm;
+            }
             return [
                 'url' => 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=' . rawurlencode($apiKey),
                 'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://stadiamaps.com/" target="_blank" rel="noopener">Stadia Maps</a>',
@@ -59,25 +74,36 @@ class MapConfigService
             ];
         }
 
-        if ($provider === 'osm') {
+        if ($provider === 'carto' || $provider === 'voyager') {
+            return $carto($apiKey);
+        }
+
+        if ($provider === 'custom' && $custom !== '') {
+            $u = strtolower($custom);
+            $hasEmbeddedKey = str_contains($u, 'access_token=') || str_contains($u, 'api_key=') || str_contains($u, '?key=') || str_contains($u, '&key=');
+            $looksKeyed = str_contains($u, 'stadiamaps.com') || str_contains($u, 'mapbox.com') || str_contains($u, 'basemaps.cartocdn.com') || str_contains($u, 'carto.com');
+            if ($looksKeyed && $apiKey === '' && !$hasEmbeddedKey) {
+                return $osm;
+            }
+            if ($looksKeyed && $apiKey !== '' && !$hasEmbeddedKey && str_contains($u, 'basemaps.cartocdn.com')) {
+                $sep = str_contains($custom, '?') ? '&' : '?';
+                $custom .= $sep . 'key=' . rawurlencode($apiKey);
+            }
             return [
-                'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                'url' => $custom,
                 'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
-                'provider' => 'osm',
+                'provider' => 'custom',
             ];
         }
 
-        // default + carto (and fallback when paid provider has no key)
-        return [
-            'url' => 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',
-            'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
-            'provider' => 'default',
-        ];
+        if ($provider === 'osm') {
+            return $osm;
+        }
+
+        // default: OSM (no key). Admin can choose CARTO + paste a free CARTO key.
+        return $osm;
     }
 
-    /**
-     * @return array{provider:string,api_key:string}
-     */
     public static function geocodeConfig(PDO $pdo): array
     {
         return [

@@ -3,10 +3,24 @@ declare(strict_types=1);
 /** @var array<string,mixed> $table */
 /** @var array<int,array<string,mixed>> $columns */
 /** @var string $tileUrl */
+/** @var string $tileAttribution */
 /** @var int $activeTableId */
 $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
-$defaultTiles = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
-$tiles = trim($tileUrl) !== '' ? $tileUrl : $defaultTiles;
+$defaultTiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+$tiles = (isset($tileUrl) && is_string($tileUrl) && trim($tileUrl) !== '') ? $tileUrl : $defaultTiles;
+$tilesLower = strtolower($tiles);
+$hasKey = str_contains($tilesLower, 'access_token=') || str_contains($tilesLower, 'api_key=')
+    || str_contains($tilesLower, '?key=') || str_contains($tilesLower, '&key=');
+if (!$hasKey && (
+    str_contains($tilesLower, 'stadiamaps.com')
+    || str_contains($tilesLower, 'mapbox.com')
+    || str_contains($tilesLower, 'basemaps.cartocdn.com')
+)) {
+    $tiles = $defaultTiles;
+}
+$tileAttribution = (isset($tileAttribution) && is_string($tileAttribution) && $tileAttribution !== '')
+    ? $tileAttribution
+    : '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>';
 require_once ROOT_PATH . '/partials/header.php';
 ?>
 <div class="container-fluid px-3" role="region" aria-labelledby="map-heading">
@@ -95,6 +109,7 @@ require_once ROOT_PATH . '/partials/header.php';
     const tableId = <?= (int) $activeTableId ?>;
     const base = <?= json_encode($basePath) ?>;
     const tileUrl = <?= json_encode($tiles) ?>;
+    const tileAttr = <?= json_encode($tileAttribution, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
     const map = L.map('prd-map').setView([54.5, -3], 6);
     L.tileLayer(tileUrl, {
         maxZoom: 18,

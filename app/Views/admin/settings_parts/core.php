@@ -164,7 +164,8 @@ $__t = static function (string $key, string $fallback = ''): string {
             <div class="mb-3">
                 <label for="map_tile_provider" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_provider') !== 'settings.map_tile_provider' ? __('settings.map_tile_provider') : 'Map pictures (tiles)', ENT_QUOTES, 'UTF-8') ?></label>
                 <select id="map_tile_provider" name="map_tile_provider" class="form-select" aria-describedby="map_tile_provider_help">
-                    <option value="default" <?= (($currentMapTileProvider ?? 'default') === 'default' || ($currentMapTileProvider ?? '') === 'carto') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_default') !== 'settings.map_tile_default' ? __('settings.map_tile_default') : 'Default free (CARTO Voyager)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="default" <?= (($currentMapTileProvider ?? 'default') === 'default' || ($currentMapTileProvider ?? '') === 'carto') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_default') !== 'settings.map_tile_default' ? __('settings.map_tile_default') : 'Default free (OpenStreetMap)', ENT_QUOTES, 'UTF-8') ?></option>
+                    <option value="carto" <?= (($currentMapTileProvider ?? '') === 'carto') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_carto') !== 'settings.map_tile_carto' ? __('settings.map_tile_carto') : 'CARTO Voyager (free key from carto.com/basemaps/apikey)', ENT_QUOTES, 'UTF-8') ?></option>
                     <option value="osm" <?= (($currentMapTileProvider ?? '') === 'osm') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_osm') !== 'settings.map_tile_osm' ? __('settings.map_tile_osm') : 'OpenStreetMap (free)', ENT_QUOTES, 'UTF-8') ?></option>
                     <option value="mapbox" <?= (($currentMapTileProvider ?? '') === 'mapbox') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_mapbox') !== 'settings.map_tile_mapbox' ? __('settings.map_tile_mapbox') : 'Mapbox (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
                     <option value="stadia" <?= (($currentMapTileProvider ?? '') === 'stadia') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_stadia') !== 'settings.map_tile_stadia' ? __('settings.map_tile_stadia') : 'Stadia Maps (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
@@ -176,7 +177,7 @@ $__t = static function (string $key, string $fallback = ''): string {
             <div class="mb-3" id="map_tile_key_wrap">
                 <label for="map_tile_api_key" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_api_key') !== 'settings.map_tile_api_key' ? __('settings.map_tile_api_key') : 'Map tile API key', ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="password" id="map_tile_api_key" name="map_tile_api_key" value="" class="form-control" autocomplete="new-password" aria-describedby="map_tile_api_key_help" placeholder="<?= htmlspecialchars(__('settings.map_key_placeholder') !== 'settings.map_key_placeholder' ? __('settings.map_key_placeholder') : (empty($currentMapTileApiKey) ? 'Paste key if using Mapbox or Stadia' : 'Leave blank to keep current key'), ENT_QUOTES, 'UTF-8') ?>">
-                <div class="form-text" id="map_tile_api_key_help"><?= htmlspecialchars(__('settings.map_tile_api_key_help') !== 'settings.map_tile_api_key_help' ? __('settings.map_tile_api_key_help') : 'Only needed for Mapbox or Stadia. Leave blank to keep an existing key.', ENT_QUOTES, 'UTF-8') ?></div>
+                <div class="form-text" id="map_tile_api_key_help"><?= htmlspecialchars(__('settings.map_tile_api_key_help') !== 'settings.map_tile_api_key_help' ? __('settings.map_tile_api_key_help') : 'Needed for CARTO, Mapbox or Stadia. Leave blank to keep an existing key. Default OpenStreetMap needs no key.', ENT_QUOTES, 'UTF-8') ?></div>
             </div>
 
             <div class="mb-3" id="map_tile_url_wrap">
@@ -209,7 +210,7 @@ $__t = static function (string $key, string $fallback = ''): string {
                     var urlWrap = document.getElementById('map_tile_url_wrap');
                     if (!tile || !keyWrap || !urlWrap) return;
                     var v = tile.value;
-                    keyWrap.style.display = (v === 'mapbox' || v === 'stadia') ? 'block' : 'none';
+                    keyWrap.style.display = (v === 'mapbox' || v === 'stadia' || v === 'carto') ? 'block' : 'none';
                     urlWrap.style.display = (v === 'custom') ? 'block' : 'none';
                 }
                 var tile = document.getElementById('map_tile_provider');
