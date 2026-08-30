@@ -163,8 +163,9 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                         <?php 
                             $cId = isset($data['column_id']) ? (int)$data['column_id'] : 0;
                             $cName = isset($data['column_name']) && is_string($data['column_name']) ? $data['column_name'] : '';
+                            $cType = isset($data['data_type']) && is_string($data['data_type']) ? $data['data_type'] : '';
                         ?>
-                        <option value="<?= $cId ?>" <?= ($draftColId === $cId) ? 'selected' : '' ?>>
+                        <option value="<?= $cId ?>" data-type="<?= htmlspecialchars($cType, ENT_QUOTES, 'UTF-8') ?>" <?= ($draftColId === $cId) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>
                         </option>
                     <?php endforeach; ?>
@@ -226,6 +227,42 @@ const columnMeta = <?= json_encode($jsColumnMeta) ?>;
 const draftProposed = <?= json_encode($draftProposed, JSON_UNESCAPED_UNICODE) ?>;
 const draftColIdJs = <?= (int) $draftColId ?>;
 const userDateFormat = '<?= htmlspecialchars($userDateFormat, ENT_QUOTES, 'UTF-8') ?>';
+
+function suggestDateSep() {
+    if (userDateFormat.indexOf('.') !== -1) return '.';
+    if (userDateFormat.indexOf('-') !== -1) return '-';
+    return '/';
+}
+function guideSuggestDate(el) {
+    if (!el) return;
+    var raw = String(el.value || '').replace(/[^\d]/g, '');
+    if (raw.length === 0) {
+        el.value = '';
+        return;
+    }
+    var s = suggestDateSep();
+    var a, b, c;
+    if (userDateFormat.charAt(0) === 'Y') {
+        a = raw.slice(0, 4); b = raw.slice(4, 6); c = raw.slice(6, 8);
+    } else {
+        a = raw.slice(0, 2); b = raw.slice(2, 4); c = raw.slice(4, 8);
+    }
+    var out = a;
+    if (b) out += s + b;
+    if (c) out += s + c;
+    el.value = out;
+}
+function attachSuggestDate(el) {
+    if (!el) return;
+    el.classList.add('date-input');
+    el.setAttribute('inputmode', 'numeric');
+    el.setAttribute('autocomplete', 'off');
+    if (!el.getAttribute('placeholder')) el.setAttribute('placeholder', datePlaceholder);
+    el.oninput = function () { guideSuggestDate(el); };
+    el.onblur = function () { guideSuggestDate(el); };
+    guideSuggestDate(el);
+}
+
 const optYesTrueText = '<?= htmlspecialchars(__('data_entry.bool_yes_true'), ENT_QUOTES, 'UTF-8') ?>';
 const optNoFalseText = '<?= htmlspecialchars(__('data_entry.bool_no_false'), ENT_QUOTES, 'UTF-8') ?>';
 const optMaleText = '<?= htmlspecialchars(__('data_entry.bool_male'), ENT_QUOTES, 'UTF-8') ?>';
@@ -294,14 +331,14 @@ function renderInputType() {
             <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
             <input type="number" id="proposed_value" value="${escapeHtml(col.value_content || '')}" class="form-control form-control-sm" ${min} ${max} ${req}>
         `;
-    } else if (col.data_type === 'DATE') {
+    } else if (String(col.data_type || '').toUpperCase() === 'DATE') {
         let currentValue = col.value_content_formatted || col.value_content || '';
         container.innerHTML = `
             <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
-            <input type="text" id="proposed_value" required class="form-control form-control-sm date-input"
+            <input type="text" id="proposed_value" name="proposed_value_ui" required class="form-control form-control-sm date-input"
                    value="${escapeHtml(currentValue)}" placeholder="${escapeHtml(datePlaceholder)}" autocomplete="off">
         `;
-        document.dispatchEvent(new Event('prd:dates-ready'));
+        attachSuggestDate(document.getElementById('proposed_value'));
     } else {
         let currentValue = col.value_content;
         container.innerHTML = `

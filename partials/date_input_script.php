@@ -59,7 +59,7 @@ $__hint = (__('data_entry.date_format_hint') !== 'data_entry.date_format_hint')
 
     function guide(el) {
         var raw = el.value.replace(/[^\d]/g, '');
-        if (raw.length === 0) return;
+        if (raw.length === 0) { el.value = ''; return; }
         if (raw.length <= 4 && fmt.charAt(0) === 'Y') {
             el.value = raw;
             return;
@@ -100,24 +100,36 @@ $__hint = (__('data_entry.date_format_hint') !== 'data_entry.date_format_hint')
         }
     }
 
-    function bind(el) {
-        if (el.dataset.prdDateBound === '1') return;
-        el.dataset.prdDateBound = '1';
+    function prep(el) {
         if (!el.getAttribute('placeholder')) el.setAttribute('placeholder', ph);
         el.setAttribute('inputmode', 'numeric');
         el.setAttribute('autocomplete', 'off');
-        el.addEventListener('input', function () { guide(el); });
-        el.addEventListener('blur', function () { mark(el, valid(el.value)); });
     }
 
-    function scan() {
-        document.querySelectorAll('.date-input').forEach(bind);
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', scan);
-    } else {
-        scan();
-    }
-    document.addEventListener('prd:dates-ready', scan);
+    window.prdApplyDateInput = function (el) {
+        if (!el) return;
+        prep(el);
+        el.classList.add('date-input');
+        guide(el);
+    };
+
+    document.addEventListener('input', function (e) {
+        var el = e.target;
+        if (!el || !el.classList || !el.classList.contains('date-input')) return;
+        prep(el);
+        guide(el);
+    }, true);
+
+    document.addEventListener('focusin', function (e) {
+        var el = e.target;
+        if (!el || !el.classList || !el.classList.contains('date-input')) return;
+        prep(el);
+    }, true);
+
+    document.addEventListener('focusout', function (e) {
+        var el = e.target;
+        if (!el || !el.classList || !el.classList.contains('date-input')) return;
+        mark(el, valid(el.value));
+    }, true);
 })();
 </script>

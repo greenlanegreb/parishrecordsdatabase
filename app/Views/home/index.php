@@ -522,5 +522,6 @@ fetchFilteredData(1);
     <?php endif; ?>
 </div>
 
+<?php require_once ROOT_PATH . '/partials/suggest_edit_modal.php'; ?>
 <?php require_once ROOT_PATH . '/partials/date_input_script.php'; ?>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

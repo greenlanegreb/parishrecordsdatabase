@@ -30,18 +30,33 @@ if (!function_exists('format_display_date')) {
             return '';
         }
 
+        $trimmed = trim($dateStr);
+        if (preg_match('/^(\d{4}-\d{2}-\d{2})[ T].+/', $trimmed, $m)) {
+            $trimmed = $m[1];
+        }
+
         $dt = false;
-        foreach (['Y-m-d', 'd/m/Y', 'd.m.Y', 'Y/m/d', 'Y.m.d', 'd-m-Y', 'Y-m', 'm/Y', 'm.Y', 'Y'] as $fmt) {
-            $parsed = DateTime::createFromFormat($fmt, trim($dateStr));
+        $tryFmts = ['Y-m-d', $formatPref, 'd/m/Y', 'm/d/Y', 'd.m.Y', 'Y/m/d', 'Y.m.d', 'd-m-Y', 'Y-m', 'm/Y', 'm.Y', 'Y'];
+        $seen = [];
+        foreach ($tryFmts as $fmt) {
+            if ($fmt === '' || isset($seen[$fmt])) {
+                continue;
+            }
+            $seen[$fmt] = true;
+            $parsed = DateTime::createFromFormat('!' . $fmt, $trimmed);
             if ($parsed !== false) {
-                $dt = $parsed;
-                break;
+                $errors = DateTime::getLastErrors();
+                if ($errors === false || (($errors['warning_count'] ?? 0) === 0 && ($errors['error_count'] ?? 0) === 0)) {
+                    $dt = $parsed;
+                    break;
+                }
             }
         }
 
-        if ($dt === false && @strtotime($dateStr) !== false) {
-            $dt = new DateTime($dateStr);
+        if ($dt === false && @strtotime($trimmed) !== false) {
+            $dt = new DateTime($trimmed);
         }
+        $dateStr = $trimmed;
 
         if ($dt !== false) {
             $trimmed = trim($dateStr);

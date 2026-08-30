@@ -18,6 +18,19 @@ $suggestReturnUrl = isset($suggestReturnUrl) && is_string($suggestReturnUrl)
 
 $suggestTableId = isset($suggestTableId) ? (int)$suggestTableId : (isset($activeTableId) ? (int)$activeTableId : 0);
 
+$modalDateFmt = 'd/m/Y';
+if (function_exists('get_site_datetime_defaults') && isset($pdo) && $pdo instanceof PDO) {
+    $sd = get_site_datetime_defaults($pdo);
+    if (!empty($sd[1]) && is_string($sd[1])) {
+        $modalDateFmt = $sd[1];
+    }
+}
+if (isset($currentUser) && is_array($currentUser) && isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== '') {
+    $modalDateFmt = $currentUser['date_format'];
+}
+$modalDatePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholder($modalDateFmt) : $modalDateFmt;
+
+
 $serverSelf = isset($_SERVER['PHP_SELF']) && is_string($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
 $suggestAction = (strpos($serverSelf, '/user/') !== false)
     ? 'actions/save_suggestion.php'
@@ -62,7 +75,7 @@ $suggestAction = (strpos($serverSelf, '/user/') !== false)
                                     $colId = isset($col['id']) ? (int)$col['id'] : 0;
                                     $colName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : '';
                                 ?>
-                                <option value="<?= $colId ?>">
+                                <option value="<?= $colId ?>" data-type="<?= htmlspecialchars((string)($col['data_type'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
                                     <?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?>
                                 </option>
                             <?php endforeach; ?>
@@ -148,6 +161,30 @@ function closeSuggestModal() {
 const modalColumnMeta = <?= json_encode(array_values($columns), JSON_UNESCAPED_UNICODE) ?>;
 const modalSelectPlaceholder = <?= json_encode(__('feedback.select_placeholder'), JSON_UNESCAPED_UNICODE) ?>;
 const modalMultiHint = <?= json_encode(__('data_entry.multiselect_hint') !== 'data_entry.multiselect_hint' ? __('data_entry.multiselect_hint') : 'Hold Ctrl (or Cmd) to choose more than one.', JSON_UNESCAPED_UNICODE) ?>;
+const modalDatePlaceholder = <?= json_encode($modalDatePlaceholder, JSON_UNESCAPED_UNICODE) ?>;
+const modalDateFormat = <?= json_encode($modalDateFmt, JSON_UNESCAPED_UNICODE) ?>;
+function modalDateSep() {
+    if (String(modalDateFormat).indexOf('.') !== -1) return '.';
+    if (String(modalDateFormat).indexOf('-') !== -1) return '-';
+    return '/';
+}
+function guideModalDate(el) {
+    if (!el) return;
+    var raw = String(el.value || '').replace(/[^\d]/g, '');
+    if (raw.length === 0) { el.value = ''; return; }
+    var s = modalDateSep();
+    var a, b, c;
+    if (String(modalDateFormat).charAt(0) === 'Y') {
+        a = raw.slice(0, 4); b = raw.slice(4, 6); c = raw.slice(6, 8);
+    } else {
+        a = raw.slice(0, 2); b = raw.slice(2, 4); c = raw.slice(4, 8);
+    }
+    var out = a;
+    if (b) out += s + b;
+    if (c) out += s + c;
+    el.value = out;
+}
+
 
 function escapeModalHtml(text) {
     return String(text).replace(/[&<>"']/g, function (m) {
@@ -159,11 +196,15 @@ function renderModalProposedInput() {
     const select = document.getElementById('modal_column_id');
     const wrap = document.getElementById('modal_proposed_container');
     if (!select || !wrap) return;
-    const col = (modalColumnMeta || []).find(function (c) { return String(c.id) === String(select.value); });
+    const selectedOpt = select.options[select.selectedIndex];
+    const optType = selectedOpt ? String(selectedOpt.getAttribute('data-type') || '').toUpperCase() : '';
+    const col = (modalColumnMeta || []).find(function (c) {
+        return String(c.id) === String(select.value) || String(c.column_id) === String(select.value);
+    });
     const label = <?= json_encode(__('index.modal_proposed_value'), JSON_UNESCAPED_UNICODE) ?>;
     const placeholder = <?= json_encode(__('index.modal_input_placeholder'), JSON_UNESCAPED_UNICODE) ?>;
     if (!col) return;
-    const type = col.data_type || '';
+    const type = optType || String((col && col.data_type) || '').toUpperCase();
     if (type === 'SELECT') {
         const rawOpts = String(col.field_options || '').split(/\r\n|\r|\n/).map(function (s) { return s.trim(); }).filter(Boolean);
         const multi = String(col.allow_multiple) === '1' || col.allow_multiple === true || col.allow_multiple === 1;
@@ -186,6 +227,14 @@ function renderModalProposedInput() {
             '<select  id="modal_proposed_value" class="form-select" required>' +
             '<option value="">' + escapeModalHtml(modalSelectPlaceholder) + '</option>' +
             '<option value="1">1</option><option value="0">0</option></select>';
+    } else if (String(type).toUpperCase() === 'DATE') {
+        wrap.innerHTML = '<label for="modal_proposed_value" class="form-label small fw-bold">' + escapeModalHtml(label) + '</label>' +
+            '<input type="text" id="modal_proposed_value" class="form-control date-input" placeholder="' + escapeModalHtml(modalDatePlaceholder) + '" autocomplete="off" required>';
+        var dateEl = document.getElementById('modal_proposed_value');
+        if (dateEl) {
+            dateEl.oninput = function () { guideModalDate(dateEl); };
+            dateEl.onblur = function () { guideModalDate(dateEl); };
+        }
     } else {
         wrap.innerHTML = '<label for="modal_proposed_value" class="form-label small fw-bold">' + escapeModalHtml(label) + '</label>' +
             '<input type="text"  id="modal_proposed_value" placeholder="' + escapeModalHtml(placeholder) + '" class="form-control" required>';
@@ -214,3 +263,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+<?php
+$__dis = (defined('ROOT_PATH') ? ROOT_PATH : dirname(__DIR__)) . '/partials/date_input_script.php';
+if (is_file($__dis)) {
+    require_once $__dis;
+}
+?>

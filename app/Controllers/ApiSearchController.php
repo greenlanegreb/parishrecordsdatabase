@@ -41,27 +41,27 @@ class ApiSearchController
             exit;
         }
 
-        $siteDateFormat = function_exists('get_setting')
-            ? get_setting($this->pdo, 'default_date_format', 'd/m/Y')
-            : 'd/m/Y';
-        if ($siteDateFormat === '') {
-            $siteDateFormat = 'd/m/Y';
+        $dtHelp = dirname(__DIR__, 2) . '/includes/datetime_helpers.php';
+        if (is_file($dtHelp)) {
+            require_once $dtHelp;
         }
-
-        if ($currentUser !== null) {
-            $userDateFormat = (
-                isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== ''
-            ) ? $currentUser['date_format'] : $siteDateFormat;
-            $userTimezone = (
-                isset($currentUser['timezone']) && is_string($currentUser['timezone']) && $currentUser['timezone'] !== ''
-            ) ? $currentUser['timezone'] : 'UTC';
-            $fullFormatStr = function_exists('get_user_datetime_format')
-                ? get_user_datetime_format($currentUser)
-                : ($userDateFormat . ' H:i');
+        $siteTz = 'UTC';
+        $siteDateFormat = 'd/m/Y';
+        $siteTime = '24';
+        if (function_exists('get_site_datetime_defaults')) {
+            [$siteTz, $siteDateFormat, $siteTime] = get_site_datetime_defaults($this->pdo);
+        }
+        $viewer = is_array($currentUser) ? $currentUser : [];
+        $userDateFormat = (
+            isset($viewer['date_format']) && is_string($viewer['date_format']) && $viewer['date_format'] !== ''
+        ) ? $viewer['date_format'] : $siteDateFormat;
+        if (function_exists('get_user_time_prefs')) {
+            [$userTimezone, $fullFormatStr] = get_user_time_prefs($viewer, $this->pdo);
         } else {
-            $userDateFormat = $siteDateFormat;
-            $userTimezone = 'UTC';
-            $fullFormatStr = $userDateFormat . ' H:i';
+            $userTimezone = (
+                isset($viewer['timezone']) && is_string($viewer['timezone']) && $viewer['timezone'] !== ''
+            ) ? $viewer['timezone'] : $siteTz;
+            $fullFormatStr = $userDateFormat . ($siteTime === '12' ? ' h:i A' : ' H:i');
         }
 
         $colsStmt = $this->pdo->prepare(
@@ -169,10 +169,19 @@ class ApiSearchController
                     $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                     $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
                         ? $col['boolean_display_format'] : 'yes_no';
-                    if ($dataType === 'BOOLEAN') {
-                        $displayVal = format_boolean_value($rawVal, $boolFormat);
-                    } elseif ($dataType === 'DATE') {
-                        $displayVal = format_display_date($rawVal, $userDateFormat);
+                    $typeKey = strtoupper(trim((string) $dataType));
+                    $rawStr = is_string($rawVal) ? $rawVal : (is_scalar($rawVal) ? (string) $rawVal : '');
+                    $looksIsoDate = (bool) preg_match('/^\d{4}-\d{2}-\d{2}/', trim($rawStr));
+                    if ($typeKey === 'BOOLEAN') {
+                        $displayVal = function_exists('format_boolean_value')
+                            ? format_boolean_value($rawVal, $boolFormat)
+                            : $rawVal;
+                    } elseif ($typeKey === 'LOCATION' && class_exists(\App\Services\LocationValueService::class)) {
+                        $displayVal = \App\Services\LocationValueService::formatDisplay($rawStr);
+                    } elseif ($typeKey === 'DATE' || $typeKey === 'DATETIME' || $looksIsoDate) {
+                        $displayVal = function_exists('format_display_date')
+                            ? format_display_date($rawStr, $userDateFormat)
+                            : $rawStr;
                     } else {
                         $displayVal = $rawVal;
                     }
