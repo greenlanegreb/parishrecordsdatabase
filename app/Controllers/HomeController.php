@@ -143,6 +143,17 @@ class HomeController
         $isAdmin = $currentUser !== null && is_admin($this->pdo);
 
         // Pass variables to View
+        $tableHasMap = is_module_enabled($this->pdo, 'maps')
+            && $activeTableId > 0
+            && class_exists(\App\Services\LocationValueService::class)
+            && \App\Services\LocationValueService::tableHasLocationColumn($this->pdo, $activeTableId);
+        $canExport = false;
+        if (isset($_SESSION['user_id'])) {
+            $canExport = function_exists('has_permission') && has_permission($this->pdo, 'export_data');
+        } elseif (function_exists('guest_has_permission')) {
+            $canExport = guest_has_permission($this->pdo, 'export_data');
+        }
+        $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
         require_once __DIR__ . '/../Views/home/index.php';
     }
 }

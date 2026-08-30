@@ -52,7 +52,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         </div>
     <?php endif; ?>
 
-    <?php if ($totalTablesCount === 0): ?>
+    <?php if ($totalTablesCount === 0 || empty($availableTables)): ?>
         <div class="card border-0 shadow-sm p-4 bg-warning bg-opacity-15 text-warning-emphasis mb-4">
             <h3 class="h5 fw-bold mb-2">⚠️ <?= htmlspecialchars(__('index.no_tables_heading'), ENT_QUOTES, 'UTF-8') ?></h3>
             <p class="mb-3"><?= htmlspecialchars(__('index.no_tables_desc'), ENT_QUOTES, 'UTF-8') ?></p>
@@ -215,13 +215,23 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <!-- Action Bar -->
                 <div class="d-flex gap-2 flex-wrap align-items-center pt-2 border-top">
                     <button type="button" id="clear-search" class="btn btn-secondary btn-sm px-3"><?= htmlspecialchars(__('search.reset'), ENT_QUOTES, 'UTF-8') ?></button>
+                    <?php
+                        $canExport = $canExport ?? false;
+                        $mapsOn = isset($pdo) && $pdo instanceof PDO && function_exists('is_module_enabled') && is_module_enabled($pdo, 'maps');
+                        $tableIdForMap = (int) ($activeTableId ?? 0);
+                        $tableHasMap = $mapsOn && $tableIdForMap > 0
+                            && class_exists(\App\Services\LocationValueService::class)
+                            && \App\Services\LocationValueService::tableHasLocationColumn($pdo, $tableIdForMap);
+                    ?>
                     <?php if (!empty($tableHasMap)): ?>
-                    <a class="btn btn-outline-secondary btn-sm px-3" href="<?= htmlspecialchars(($basePath ?? $baseUrl ?? ''), ENT_QUOTES, 'UTF-8') ?>/tables/<?= (int)($activeTableId ?? 0) ?>/map"><?= htmlspecialchars(__('map.open_btn') !== 'map.open_btn' ? __('map.open_btn') : 'Map', ENT_QUOTES, 'UTF-8') ?></a>
+                        <a class="btn btn-outline-secondary btn-sm px-3" href="<?= htmlspecialchars($basePath ?? $baseUrl ?? '', ENT_QUOTES, 'UTF-8') ?>/tables/<?= (int)$activeTableId ?>/map"><?= htmlspecialchars(__('map.open_btn') !== 'map.open_btn' ? __('map.open_btn') : 'Map', ENT_QUOTES, 'UTF-8') ?></a>
                     <?php endif; ?>
-                    <button type="button" id="export-csv-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('index.download_entire_csv'), ENT_QUOTES, 'UTF-8') ?></button>
-                    <button type="button" id="export-json-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('index.download_entire_json'), ENT_QUOTES, 'UTF-8') ?></button>
+                    <?php if (!empty($canExport)): ?>
+                    <a href="#" id="export-csv-btn" class="btn btn-outline-secondary btn-sm px-3" role="button"><?= htmlspecialchars(__('index.download_entire_csv'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="#" id="export-json-btn" class="btn btn-outline-secondary btn-sm px-3" role="button"><?= htmlspecialchars(__('index.download_entire_json'), ENT_QUOTES, 'UTF-8') ?></a>
                     <button type="button" id="copy-clipboard-btn" class="btn btn-outline-secondary btn-sm px-3"><?= htmlspecialchars(__('index.copy_entire_table'), ENT_QUOTES, 'UTF-8') ?></button>
-                    <button type="button" id="print-records-btn" class="btn btn-outline-secondary btn-sm px-3 "><?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?></button>
+                    <a href="#" id="print-records-btn" class="btn btn-outline-secondary btn-sm px-3" role="button"><?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?></a>
+                    <?php endif; ?>
                 </div>
             </form>
         </section>

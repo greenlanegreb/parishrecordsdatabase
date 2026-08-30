@@ -24,7 +24,8 @@ class TableMapController
             return;
         }
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
-        if (!user_can_view_table($this->pdo, $tableId, $currentUser)) {
+        $isAdmin = function_exists('is_admin') && is_admin($this->pdo);
+        if (!$isAdmin && !user_can_view_table($this->pdo, $tableId, $currentUser)) {
             require_once dirname(__DIR__, 2) . '/public/403.php';
             return;
         }

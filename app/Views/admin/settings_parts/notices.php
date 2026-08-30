@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
+$__rl = (defined('ROOT_PATH') ? ROOT_PATH : dirname(__DIR__, 4)) . '/includes/role_labels.php';
+if (is_file($__rl)) {
+    require_once $__rl;
+}
 
-/** @var array<int, array<string, mixed>> $rolesList */
-$rolesList = $rolesList ?? [];
 
 /**
  * Translate with optional English fallback when the key is missing.
@@ -11,9 +13,27 @@ $nt = static function (string $key, string $fallback): string {
     $t = __($key);
     return ($t !== $key && $t !== '') ? $t : $fallback;
 };
+/** @var array<int, array<string, mixed>> $rolesList */
+$roleLabel = static function (array $r) use ($nt): string {
+    $name = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
+    $key = strtolower(str_replace([' ', '-'], '_', trim($name)));
+    $map = [
+        'guest' => ['role.label_guest', 'Public Visitor'],
+        'user' => ['role.label_user', 'Data Entry User'],
+        'admin' => ['role.label_admin', 'Administrator'],
+        'moderator' => ['role.label_moderator', 'Moderator'],
+    ];
+    if (isset($map[$key])) {
+        return $nt($map[$key][0], $map[$key][1]);
+    }
+    return $name !== '' ? str_replace('_', ' ', $name) : $nt('roles.unknown', 'Role');
+};
+
+$rolesList = $rolesList ?? [];
+
 ?>
 <!-- TAB: Site Notices -->
-<div class="tab-pane fade" id="panel-notices" role="tabpanel" aria-labelledby="tab-notices">
+<div class="tab-pane fade" id="panel-notices" role="tabpanel" aria-labelledby="tab-notices"><!-- prd-notice-audience-v2 -->
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="h5 fw-bold text-dark mb-0"><?= htmlspecialchars(__('settings.notices_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
@@ -78,7 +98,7 @@ $nt = static function (string $key, string $fallback): string {
                                            value="<?= htmlspecialchars($roleName, ENT_QUOTES, 'UTF-8') ?>"
                                            class="form-check-input notice-role">
                                     <label class="form-check-label small" for="<?= htmlspecialchars($roleId, ENT_QUOTES, 'UTF-8') ?>">
-                                        <?= htmlspecialchars(ucwords($roleName), ENT_QUOTES, 'UTF-8') ?>
+                                        <?= htmlspecialchars($roleLabel($r), ENT_QUOTES, 'UTF-8') ?>
                                     </label>
                                 </div>
                             <?php endforeach; ?>
@@ -183,7 +203,7 @@ $nt = static function (string $key, string $fallback): string {
                                                        <?= $checked ? 'checked' : '' ?>
                                                        <?= $everyoneOn ? 'disabled' : '' ?>>
                                                 <label class="form-check-label small" for="<?= htmlspecialchars($inputId, ENT_QUOTES, 'UTF-8') ?>">
-                                                    <?= htmlspecialchars(ucwords($roleName), ENT_QUOTES, 'UTF-8') ?>
+                                                    <?= htmlspecialchars($roleLabel($r), ENT_QUOTES, 'UTF-8') ?>
                                                 </label>
                                             </div>
                                         <?php endforeach; ?>

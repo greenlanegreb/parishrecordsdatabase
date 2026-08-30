@@ -26,6 +26,9 @@ class PrintRecordsController
             http_response_code(400);
             exit('Please choose a table.');
         }
+        if (function_exists('require_export_access')) {
+            require_export_access($this->pdo);
+        }
 
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
         $canView = ($currentUser !== null && function_exists('has_permission') && has_permission($this->pdo, 'view_table_' . $tableId))

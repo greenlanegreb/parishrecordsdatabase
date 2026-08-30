@@ -25,7 +25,8 @@ class ApiMapPointsController
             return;
         }
         $currentUser = function_exists('get_current_user_data') ? get_current_user_data($this->pdo) : null;
-        if (!user_can_view_table($this->pdo, $tableId, $currentUser)) {
+        $isAdmin = function_exists('is_admin') && is_admin($this->pdo);
+        if (!$isAdmin && !user_can_view_table($this->pdo, $tableId, $currentUser)) {
             http_response_code(403);
             echo json_encode(['points' => []]);
             return;

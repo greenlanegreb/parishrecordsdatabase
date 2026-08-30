@@ -253,4 +253,18 @@ document.addEventListener('DOMContentLoaded', () => {
     activateTab(resolveButtonId());
 });
 </script>
+
+<script>
+document.addEventListener('shown.bs.tab', function (ev) {
+    var id = ev.target && ev.target.id ? String(ev.target.id) : '';
+    if (id.indexOf('tab-') !== 0) return;
+    var tab = id.slice(4);
+    var url = new URL(window.location.href);
+    url.searchParams.set('tab', tab);
+    url.hash = '';
+    if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, '', url.pathname + url.search);
+    }
+});
+</script>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

@@ -284,4 +284,72 @@ class RecordMaintenanceService
             throw $e;
         }
     }
+
+    /**
+     * Persist already-validated column values (used by UserEditRecordActionController).
+     *
+     * @param array<int, string> $cleanValues column_id => stored string
+     * @param array<int, array<string, mixed>> $colsMap
+     */
+    public function updateRecordValues(
+        int $recordId,
+        int $tableId,
+        array $cleanValues,
+        array $colsMap,
+        int $userId,
+        string $remoteAddr
+    ): void {
+        if ($recordId < 1 || $tableId < 1) {
+            throw new \Exception('Invalid record.');
+        }
+        $this->pdo->beginTransaction();
+        try {
+            $del = $this->pdo->prepare('DELETE FROM record_values WHERE record_id = ? AND column_id = ?');
+            $ins = $this->pdo->prepare('INSERT INTO record_values (record_id, column_id, value_content) VALUES (?, ?, ?)');
+            foreach ($cleanValues as $colId => $val) {
+                $colId = (int) $colId;
+                $del->execute([$recordId, $colId]);
+                if (is_string($val) && $val !== '') {
+                    $ins->execute([$recordId, $colId, $val]);
+                }
+            }
+            foreach ($colsMap as $col) {
+                if (!is_array($col)) {
+                    continue;
+                }
+                if (strtoupper((string) ($col['data_type'] ?? '')) !== 'LOCATION') {
+                    continue;
+                }
+                $cid = (int) ($col['id'] ?? 0);
+                if ($cid < 1) {
+                    continue;
+                }
+                $stored = $cleanValues[$cid] ?? null;
+                if (class_exists(\App\Services\LocationValueService::class)) {
+                    \App\Services\LocationValueService::syncPinFromStoredValue(
+                        $this->pdo,
+                        $tableId,
+                        $recordId,
+                        $cid,
+                        is_string($stored) ? $stored : null
+                    );
+                }
+            }
+            $audit = $this->pdo->prepare(
+                "INSERT INTO audit_logs (user_id, action, record_id, details, ip_address) VALUES (?, 'EDIT_RECORD', ?, ?, ?)"
+            );
+            $audit->execute([
+                $userId,
+                $recordId,
+                "Direct-edited record #{$recordId} (table {$tableId})",
+                $remoteAddr,
+            ]);
+            $this->pdo->commit();
+        } catch (\Throwable $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
+        }
+    }
 }

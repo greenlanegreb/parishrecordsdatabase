@@ -199,7 +199,10 @@ class UserDataEntryController
         $isAdmin = function_exists('is_admin') && is_admin($this->pdo);
         $isModerationEnabled = is_module_enabled($this->pdo, 'moderation');
 
-        $tableHasMap = is_module_enabled($this->pdo, 'maps') && \App\Services\LocationValueService::tableHasLocationColumn($this->pdo, (int)$activeTableId);
+        $tableHasMap = is_module_enabled($this->pdo, 'maps')
+            && class_exists(\App\Services\LocationValueService::class)
+            && \App\Services\LocationValueService::tableHasLocationColumn($this->pdo, (int) $activeTableId);
+        $canExport = function_exists('has_permission') && has_permission($this->pdo, 'export_data');
         require_once __DIR__ . '/../Views/user/data_entry.php';
     }
 }
