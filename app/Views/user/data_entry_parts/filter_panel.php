@@ -46,7 +46,7 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                                    id="date_from_<?= $colId ?>"
                                                    name="date_filters[<?= $colId ?>][from]"
                                                    value="<?= htmlspecialchars($dateFilters[$colId]['from'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                                   class="form-control form-control-sm"
+                                                   class="form-control form-control-sm date-input"
                                                    autocomplete="off"
                                                    placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>">
                                             <span class="text-muted small text-nowrap" aria-hidden="true"><?= htmlspecialchars(__('data_entry.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
@@ -55,7 +55,7 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                                    id="date_to_<?= $colId ?>"
                                                    name="date_filters[<?= $colId ?>][to]"
                                                    value="<?= htmlspecialchars($dateFilters[$colId]['to'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                                   class="form-control form-control-sm"
+                                                   class="form-control form-control-sm date-input"
                                                    autocomplete="off"
                                                    placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>">
                                         </div>

@@ -35,12 +35,20 @@ $draftNotifyEmail = isset($suggestDraft['notify_email']) && is_string($suggestDr
 require_once ROOT_PATH . '/partials/header.php';
 $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
-// Determine user's preferred date format with a robust fallback for non-logged-in or unconfigured users
 $userDateFormat = 'd/m/Y';
-if (isset($pdo) && $pdo instanceof PDO && isset($_SESSION['user_id']) && function_exists('get_current_user_data')) {
+if (function_exists('get_site_datetime_defaults') && isset($pdo) && $pdo instanceof PDO) {
+    $siteDt = get_site_datetime_defaults($pdo);
+    if (isset($siteDt[1]) && is_string($siteDt[1]) && $siteDt[1] !== '') {
+        $userDateFormat = $siteDt[1];
+    }
+}
+if (isset($currentUser) && is_array($currentUser) && isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== '') {
+    $userDateFormat = $currentUser['date_format'];
+} elseif (isset($pdo) && $pdo instanceof PDO && isset($_SESSION['user_id']) && function_exists('get_current_user_data')) {
     $currUserData = get_current_user_data($pdo);
-    if ($currUserData !== false && $currUserData !== null && isset($currUserData['date_format']) && is_string($currUserData['date_format'])) {
+    if (is_array($currUserData) && isset($currUserData['date_format']) && is_string($currUserData['date_format']) && $currUserData['date_format'] !== '') {
         $userDateFormat = $currUserData['date_format'];
+        $currentUser = $currentUser ?? $currUserData;
     }
 }
 
@@ -120,8 +128,6 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                             <?= htmlspecialchars(format_boolean_value($valCont, $boolFmt), ENT_QUOTES, 'UTF-8') ?>
                         <?php elseif ($dataType === 'DATE'): ?>
                             <?= htmlspecialchars(format_display_date($valCont, $userDateFormat), ENT_QUOTES, 'UTF-8') ?>
-                        <?php elseif ($dataType === 'LOCATION'): ?>
-                            <?= htmlspecialchars(\App\Services\LocationValueService::formatDisplay($valCont), ENT_QUOTES, 'UTF-8') ?>
                         <?php else: ?>
                             <?= htmlspecialchars($valCont, ENT_QUOTES, 'UTF-8') ?>
                         <?php endif; ?>
@@ -230,6 +236,7 @@ const optTickText = '<?= htmlspecialchars(__('data_entry.bool_tick'), ENT_QUOTES
 const optCrossText = '<?= htmlspecialchars(__('data_entry.bool_cross'), ENT_QUOTES, 'UTF-8') ?>';
 const selectPlaceholder = '<?= htmlspecialchars(__('feedback.select_placeholder'), ENT_QUOTES, 'UTF-8') ?>';
 const proposedValueLabel = '<?= htmlspecialchars(__('suggest_edit.proposed_value_label'), ENT_QUOTES, 'UTF-8') ?>';
+const datePlaceholder = <?= json_encode(function_exists('get_date_placeholder') ? get_date_placeholder($userDateFormat ?? null) : 'DD/MM/YYYY', JSON_UNESCAPED_UNICODE) ?>;
 
 function renderInputType() {
     const select = document.getElementById('column_id');
@@ -279,40 +286,6 @@ function renderInputType() {
                 ${optsHtml}
             </select>
         `;
-    } else if (col.data_type === 'LOCATION') {
-        let loc = { q: '', label: '', lat: '', lng: '', title: '', body: '', color: '#c0392b', show_on_map: true };
-        try {
-            if (col.value_content && col.value_content.charAt(0) === '{') {
-                loc = Object.assign(loc, JSON.parse(col.value_content));
-            }
-        } catch (e) {}
-        container.innerHTML = `
-            <div class="mb-3" data-loc-suggest="1">
-                <p class="form-text small"><?= htmlspecialchars(__('data_entry.location_help') !== 'data_entry.location_help' ? __('data_entry.location_help') : 'Search for the place, pick a match, then set title and short text for the map popup.', ENT_QUOTES, 'UTF-8') ?></p>
-                <label class="form-label small" for="loc_q_suggest">Find place *</label>
-                <div class="input-group input-group-sm mb-2">
-                    <input type="text" id="loc_q_suggest" class="form-control js-loc-q" autocomplete="off" value="${escapeHtml(loc.q || '')}">
-                    <button type="button" class="btn btn-outline-secondary js-loc-search" data-col="suggest">Search</button>
-                </div>
-                <div id="loc_results_suggest" class="list-group mb-2 small" role="listbox"></div>
-                <input type="hidden" name="proposed_value[q]" id="loc_hid_q_suggest" value="${escapeHtml(loc.q || '')}">
-                <input type="hidden" name="proposed_value[lat]" id="loc_lat_suggest" value="${escapeHtml(String(loc.lat || ''))}">
-                <input type="hidden" name="proposed_value[lng]" id="loc_lng_suggest" value="${escapeHtml(String(loc.lng || ''))}">
-                <label class="form-label small" for="loc_label_suggest">Name to show *</label>
-                <input type="text" class="form-control form-control-sm mb-2" id="loc_label_suggest" name="proposed_value[label]" value="${escapeHtml(loc.label || '')}">
-                <label class="form-label small" for="loc_title_suggest">Popup title *</label>
-                <input type="text" class="form-control form-control-sm mb-2" id="loc_title_suggest" name="proposed_value[title]" value="${escapeHtml(loc.title || '')}" required>
-                <label class="form-label small" for="loc_body_suggest">Popup text *</label>
-                <textarea class="form-control form-control-sm mb-2" id="loc_body_suggest" name="proposed_value[body]" rows="2" required>${escapeHtml(loc.body || '')}</textarea>
-                <input type="hidden" name="proposed_value[color]" value="${escapeHtml(loc.color || '#c0392b')}">
-                <input type="hidden" name="proposed_value[show_on_map]" value="0">
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="checkbox" name="proposed_value[show_on_map]" value="1" id="loc_show_suggest" ${loc.show_on_map === false ? '' : 'checked'}>
-                    <label class="form-check-label small" for="loc_show_suggest">Show this place on the map</label>
-                </div>
-            </div>`;
-        if (typeof window.bindLocationSearch === 'function') { window.bindLocationSearch(); }
-
     } else if (col.data_type === 'INT') {
         const min = (col.min_value !== null && col.min_value !== undefined && col.min_value !== '') ? `min="${escapeHtml(String(col.min_value))}"` : '';
         const max = (col.max_value !== null && col.max_value !== undefined && col.max_value !== '') ? `max="${escapeHtml(String(col.max_value))}"` : '';
@@ -321,12 +294,19 @@ function renderInputType() {
             <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
             <input type="number" id="proposed_value" value="${escapeHtml(col.value_content || '')}" class="form-control form-control-sm" ${min} ${max} ${req}>
         `;
-    } else {
-        // Use the pre-formatted value for dates, or raw value for text fields
-        let currentValue = (col.data_type === 'DATE') ? (col.value_content_formatted || col.value_content) : col.value_content;
+    } else if (col.data_type === 'DATE') {
+        let currentValue = col.value_content_formatted || col.value_content || '';
         container.innerHTML = `
             <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
-            <textarea id="proposed_value" rows="3" required class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;">${escapeHtml(currentValue)}</textarea>
+            <input type="text" id="proposed_value" required class="form-control form-control-sm date-input"
+                   value="${escapeHtml(currentValue)}" placeholder="${escapeHtml(datePlaceholder)}" autocomplete="off">
+        `;
+        document.dispatchEvent(new Event('prd:dates-ready'));
+    } else {
+        let currentValue = col.value_content;
+        container.innerHTML = `
+            <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
+            <textarea id="proposed_value" rows="3" required class="form-control form-control-sm" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';" style="overflow:hidden;">${escapeHtml(currentValue || '')}</textarea>
         `;
         const textarea = document.getElementById('proposed_value');
         if (textarea) {
@@ -371,10 +351,6 @@ if (draftProposed !== '' && typeof draftProposed === 'string') {
             const select = document.getElementById('column_id');
             const proposedInput = document.getElementById('proposed_value');
             const posted = document.getElementById('proposed_value_posted');
-            if (document.querySelector('[data-loc-suggest]')) {
-                // Location posts proposed_value[…] fields directly
-                return true;
-            }
             if (proposedInput && posted) {
                 if (proposedInput.tagName === 'SELECT') {
                     posted.value = Array.from(proposedInput.selectedOptions)
@@ -390,22 +366,10 @@ if (draftProposed !== '' && typeof draftProposed === 'string') {
             const selectedColId = select.value;
             const col = columnMeta.find(c => c.column_id == selectedColId);
 
-            if (col && col.data_type === 'DATE' && proposedInput.value.trim() !== '') {
-                const val = proposedInput.value.trim();
-                // Strictly enforce 4-digit year format
-                const dateRegex = /^(\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]\d{4})|(\d{4}[\.\/\-]\d{1,2}[\.\/\-]\d{1,2})$/;
-
-                if (!dateRegex.test(val)) {
-                    e.preventDefault();
-                    alert("Please enter a valid date with a 4-digit year (e.g., DD/MM/YYYY, DD.MM.YYYY, or YYYY-MM-DD).");
-                    proposedInput.value = '';
-                    proposedInput.focus();
-                }
-            }
+            // Date format is checked by partials/date_input_script.php
         });
     }
 });
 </script>
 
-<?php require_once ROOT_PATH . '/partials/location_field_script.php';
-require_once ROOT_PATH . '/partials/footer.php'; ?>
+<?php require_once ROOT_PATH . '/partials/footer.php'; ?>

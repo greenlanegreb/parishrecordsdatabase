@@ -108,24 +108,20 @@ $dupTab = !empty($dupTab);
                 </div>
             </form>
 
-            <p class="form-text"><?= htmlspecialchars(__('dup_queue.scan_help') !== 'dup_queue.scan_help' ? __('dup_queue.scan_help') : 'If this list is empty, choose a table and scan. Only pending pairs appear here.', ENT_QUOTES, 'UTF-8') ?></p>
             <?php if (empty($dupQueue)): ?>
-                <p class="text-muted"><?= htmlspecialchars(__('dup_queue.empty') !== 'dup_queue.empty' ? __('dup_queue.empty') : 'Nothing waiting. Scan a table above to look for lookalikes.', ENT_QUOTES, 'UTF-8') ?></p>
+                <p><?= htmlspecialchars(__('dup_queue.empty') !== 'dup_queue.empty' ? __('dup_queue.empty') : 'Nothing waiting. Scan a table to look for older lookalikes.', ENT_QUOTES, 'UTF-8') ?></p>
             <?php else: ?>
-                <?php $snippet = __DIR__ . '/duplicate_compare_snippet.php'; ?>
                 <div class="row g-3">
                     <?php foreach ($dupQueue as $row): ?>
-                        <div class="col-12">
-                            <article class="card border-0 shadow-sm">
+                        <div class="col-12 col-md-6">
+                            <article class="card h-100 border-0 shadow-sm">
                                 <div class="card-body">
-                                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
-                                        <h2 class="h6 fw-bold mb-0"><?= htmlspecialchars((string) ($row['table_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></h2>
-                                        <span class="badge text-bg-warning"><?= (int) ($row['score_percent'] ?? 0) ?>%</span>
-                                    </div>
-                                    <?php require $snippet; ?>
-                                    <div class="d-flex flex-wrap gap-2 mt-2">
-                                        <a class="btn btn-sm btn-primary" href="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/merge?id=<?= (int) $row['id'] ?>"><?= htmlspecialchars(__('dup_queue.merge_btn') !== 'dup_queue.merge_btn' ? __('dup_queue.merge_btn') : 'Review and join', ENT_QUOTES, 'UTF-8') ?></a>
-                                        <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/dismiss" class="d-inline">
+                                    <h2 class="h6 fw-bold"><?= htmlspecialchars((string) ($row['table_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></h2>
+                                    <p class="mb-2">#<?= (int) $row['record_a_id'] ?> · #<?= (int) $row['record_b_id'] ?></p>
+                                    <p class="mb-3"><span class="badge text-bg-warning"><?= (int) $row['score_percent'] ?>%</span></p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a class="btn btn-sm btn-primary" href="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/merge?id=<?= (int) $row['id'] ?>"><?= htmlspecialchars(__('dup_queue.merge_btn') !== 'dup_queue.merge_btn' ? __('dup_queue.merge_btn') : 'Join into one', ENT_QUOTES, 'UTF-8') ?></a>
+                                        <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/dismiss">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="review_id" value="<?= (int) $row['id'] ?>">
                                             <button type="submit" class="btn btn-sm btn-outline-secondary"><?= htmlspecialchars(__('dup_queue.dismiss_btn') !== 'dup_queue.dismiss_btn' ? __('dup_queue.dismiss_btn') : 'Not a duplicate', ENT_QUOTES, 'UTF-8') ?></button>
@@ -166,4 +162,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<?php require_once ROOT_PATH . '/partials/date_input_script.php'; ?>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

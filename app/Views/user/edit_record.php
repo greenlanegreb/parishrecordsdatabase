@@ -129,7 +129,24 @@ $tableName = (string) ($record['table_name'] ?? 'Record');
                                         $showOnMapToggle = true;
                                         require dirname(__DIR__, 3) . '/partials/location_field_inputs.php';
                                     ?>
-                                <?php else: /* TEXT, DATE, etc. */ ?>
+                                <?php elseif ($type === 'DATE'):
+                                    $userDateFmt = (isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== '')
+                                        ? $currentUser['date_format']
+                                        : ((function_exists('get_site_datetime_defaults') && isset($pdo) && $pdo instanceof PDO)
+                                            ? (get_site_datetime_defaults($pdo)[1] ?? 'd/m/Y')
+                                            : 'd/m/Y');
+                                    $shown = function_exists('format_display_date')
+                                        ? format_display_date((string) $cur, $userDateFmt)
+                                        : (string) $cur;
+                                    $ph = function_exists('get_date_placeholder') ? get_date_placeholder($userDateFmt) : $userDateFmt;
+                                ?>
+                                    <input type="text" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
+                                           class="form-control date-input<?= $err ? ' is-invalid' : '' ?>"
+                                           value="<?= htmlspecialchars($shown, ENT_QUOTES, 'UTF-8') ?>"
+                                           placeholder="<?= htmlspecialchars($ph, ENT_QUOTES, 'UTF-8') ?>"
+                                           autocomplete="off"
+                                           <?= $req ? 'required' : '' ?>>
+                                <?php else: /* TEXT etc. */ ?>
                                     <input type="text" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
                                            class="form-control<?= $err ? ' is-invalid' : '' ?>"
                                            value="<?= htmlspecialchars((string) $cur, ENT_QUOTES, 'UTF-8') ?>"
@@ -158,4 +175,5 @@ $tableName = (string) ($record['table_name'] ?? 'Record');
 </div>
 
 <?php require_once dirname(__DIR__, 3) . '/partials/location_field_script.php'; ?>
+<?php require_once dirname(__DIR__, 3) . '/partials/date_input_script.php'; ?>
 <?php require_once dirname(__DIR__, 3) . '/partials/footer.php'; ?>

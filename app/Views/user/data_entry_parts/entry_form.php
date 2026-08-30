@@ -232,3 +232,4 @@ $fieldErrors = $fieldErrors ?? [];
         });
     });
     </script>
+<?php require_once (defined('ROOT_PATH') ? ROOT_PATH : dirname(__DIR__, 4)) . '/partials/date_input_script.php'; ?>

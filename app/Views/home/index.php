@@ -187,7 +187,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                                id="date_from_<?= $cId ?>"
                                                name="date_filters[<?= $cId ?>][from]"
                                                placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>"
-                                               class="form-control"
+                                               class="form-control date-input"
                                                autocomplete="off">
                                         <span class="input-group-text bg-light text-muted small px-2" aria-hidden="true"><?= htmlspecialchars(__('index.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
                                         <label class="visually-hidden" for="date_to_<?= $cId ?>"><?= htmlspecialchars($cName . ' — ' . (__('index.date_to_label') !== 'index.date_to_label' ? __('index.date_to_label') : 'To'), ENT_QUOTES, 'UTF-8') ?></label>
@@ -195,7 +195,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                                id="date_to_<?= $cId ?>"
                                                name="date_filters[<?= $cId ?>][to]"
                                                placeholder="<?= htmlspecialchars($datePlaceholder, ENT_QUOTES, 'UTF-8') ?>"
-                                               class="form-control"
+                                               class="form-control date-input"
                                                autocomplete="off">
                                     </div>
                                 </fieldset>
@@ -522,4 +522,5 @@ fetchFilteredData(1);
     <?php endif; ?>
 </div>
 
+<?php require_once ROOT_PATH . '/partials/date_input_script.php'; ?>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

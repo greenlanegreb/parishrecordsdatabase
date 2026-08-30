@@ -187,7 +187,21 @@ class RecordMaintenanceService
                 continue;
             }
 
-            if ($type === 'INT') {
+            if ($type === 'DATE') {
+                $dtHelp = dirname(__DIR__, 2) . '/includes/datetime_helpers.php';
+                if (is_file($dtHelp)) {
+                    require_once $dtHelp;
+                }
+                $norm = function_exists('normalize_incoming_date') ? normalize_incoming_date($raw) : $raw;
+                if ($norm === '') {
+                    if ($required) {
+                        $errors[] = "The field '{$colName}' is required.";
+                    }
+                    $cleanValues[$colId] = null;
+                    continue;
+                }
+                $cleanValues[$colId] = $norm;
+            } elseif ($type === 'INT') {
                 if (filter_var($raw, FILTER_VALIDATE_INT) === false) {
                     $errors[] = "'{$colName}' must be a whole number.";
                     continue;

@@ -32,7 +32,14 @@ if ($dataType === 'BOOLEAN') {
     $liveDisplay = format_boolean_value($liveVal, $boolFormat);
     $propDisplay = format_boolean_value($propVal, $boolFormat);
 } elseif ($dataType === 'DATE') {
-    $userDateFormat = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
+    $userDateFormat = 'd/m/Y';
+    if (function_exists('get_site_datetime_defaults') && isset($pdo) && $pdo instanceof PDO) {
+        $sd = get_site_datetime_defaults($pdo);
+        if (!empty($sd[1]) && is_string($sd[1])) { $userDateFormat = $sd[1]; }
+    }
+    if (isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== '') {
+        $userDateFormat = $currentUser['date_format'];
+    }
     $liveDisplay = format_display_date($liveVal, $userDateFormat);
     $propDisplay = format_display_date($propVal, $userDateFormat);
 }
@@ -109,17 +116,19 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
                 </select>
             <?php elseif ($dataType === 'DATE'): ?>
                 <?php
-                    $userFmt = isset($currentUser['date_format']) && is_string($currentUser['date_format']) ? $currentUser['date_format'] : 'd/m/Y';
-                    $placeholder = 'YYYY-MM-DD';
-                    if ($userFmt === 'd/m/Y' || $userFmt === 'd/m/y') {
-                        $placeholder = 'DD/MM/YYYY (e.g. 25/05/1500)';
-                    } elseif ($userFmt === 'd.m.Y') {
-                        $placeholder = 'DD.MM.YYYY (e.g. 25.05.1500)';
-                    } elseif ($userFmt === 'm/d/Y') {
-                        $placeholder = 'MM/DD/YYYY (e.g. 05/25/1500)';
+                    $userFmt = 'd/m/Y';
+                    if (function_exists('get_site_datetime_defaults') && isset($pdo) && $pdo instanceof PDO) {
+                        $sd = get_site_datetime_defaults($pdo);
+                        if (!empty($sd[1]) && is_string($sd[1])) { $userFmt = $sd[1]; }
                     }
+                    if (isset($currentUser['date_format']) && is_string($currentUser['date_format']) && $currentUser['date_format'] !== '') {
+                        $userFmt = $currentUser['date_format'];
+                    }
+                    $placeholder = function_exists('get_date_placeholder')
+                        ? get_date_placeholder($userFmt)
+                        : $userFmt;
                 ?>
-                <input type="text" id="final_value_<?= $sId ?>" name="final_value" value="<?= htmlspecialchars($propDisplay, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars($placeholder, ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?> class="form-control form-control-sm mb-2" title="<?= htmlspecialchars(__('moderate.historical_dates_title'), ENT_QUOTES, 'UTF-8') ?>">
+                <input type="text" id="final_value_<?= $sId ?>" name="final_value" value="<?= htmlspecialchars($propDisplay, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars($placeholder, ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?> class="form-control form-control-sm mb-2 date-input" title="<?= htmlspecialchars(__('moderate.historical_dates_title'), ENT_QUOTES, 'UTF-8') ?>">
             <?php elseif ($dataType === 'SELECT'): ?>
                 <?php
                     $rawOpts = isset($s['field_options']) && is_string($s['field_options']) ? $s['field_options'] : '';
