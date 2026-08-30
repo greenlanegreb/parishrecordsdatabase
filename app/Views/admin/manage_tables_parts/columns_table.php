@@ -56,7 +56,19 @@ $__t = static function (string $key, string $fallback = ''): string {
                         <tr data-column-id="<?= $colId ?>" style="cursor: grab;">
                             <td class="text-center text-muted ps-3 fs-5" title="Drag to reorder">☰</td>
                             <td><span class="fw-bold"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></span></td>
-                            <td><code class="text-dark"><?= htmlspecialchars($dataType, ENT_QUOTES, 'UTF-8') ?></code></td>
+                            <td><?php
+                                $typeLabels = [
+                                    'VARCHAR' => __('feedback_schema.type_varchar'),
+                                    'TEXT' => __('manage_tables.type_text_long'),
+                                    'INT' => __('feedback_schema.type_int'),
+                                    'BOOLEAN' => __('feedback_schema.type_boolean'),
+                                    'DATE' => __('feedback_schema.type_date'),
+                                    'SELECT' => (__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list'),
+                                    'LOCATION' => (__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)'),
+                                ];
+                                $typeLabel = $typeLabels[$dataType] ?? $dataType;
+                                echo htmlspecialchars((string) $typeLabel, ENT_QUOTES, 'UTF-8');
+                            ?></td>
                             <td><?= $isRequired ? '<span class="text-success fw-bold">' . htmlspecialchars(__('manage_tables.yes') ?: 'Yes', ENT_QUOTES, 'UTF-8') . '</span>' : '<span class="text-muted">' . htmlspecialchars(__('manage_tables.no') ?: 'No', ENT_QUOTES, 'UTF-8') . '</span>' ?></td>
                             <td>
                                 <?= $excludePublic

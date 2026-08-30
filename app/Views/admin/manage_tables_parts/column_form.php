@@ -7,9 +7,24 @@ $draftAction = is_array($formDraft) && isset($formDraft['action']) ? (string) $f
 $useColDraft = in_array($draftAction, ['create', 'update'], true);
 $draftColName = $useColDraft && isset($draftPost['column_name']) && is_string($draftPost['column_name'])
     ? $draftPost['column_name'] : null;
+$colSrc = $editCol ?: ($useColDraft ? $draftPost : []);
+$formType = isset($colSrc['data_type']) && is_string($colSrc['data_type']) ? $colSrc['data_type'] : 'VARCHAR';
+$colStr = static function (string $key, string $default = '') use ($colSrc): string {
+    if (!isset($colSrc[$key]) || $colSrc[$key] === null) {
+        return $default;
+    }
+    return is_scalar($colSrc[$key]) ? (string) $colSrc[$key] : $default;
+};
+$colOn = static function (string $key) use ($colSrc): bool {
+    if (!isset($colSrc[$key])) {
+        return false;
+    }
+    $v = $colSrc[$key];
+    return $v === '1' || $v === 1 || $v === true || $v === 'on';
+};
 $keepColumnFormOpen = $editCol
     || (isset($_GET['add_column']) && (string) $_GET['add_column'] === '1')
-    || ($draftColName !== null && $draftColName !== '');
+    || $useColDraft;
 ?>
 <!-- Collapsible Column Form Container -->
 <div class="card shadow-sm border-0 mb-4">
@@ -36,72 +51,72 @@ $keepColumnFormOpen = $editCol
                     <div class="mb-3">
                         <label for="data_type" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.data_type_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <select id="data_type" name="data_type" class="form-select max-width-400" onchange="toggleFieldOptions(this.value)">
-                            <option value="VARCHAR" <?= ($editCol && ($editCol['data_type'] ?? '') === 'VARCHAR') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_varchar'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="TEXT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'TEXT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_text_long'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="INT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_int'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="BOOLEAN" <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="DATE" <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="SELECT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="LOCATION" <?= ($editCol && ($editCol['data_type'] ?? '') === 'LOCATION') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="VARCHAR" <?= ($formType === 'VARCHAR') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_varchar'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="TEXT" <?= ($formType === 'TEXT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_text_long'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="INT" <?= ($formType === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_int'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="BOOLEAN" <?= ($formType === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="DATE" <?= ($formType === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="SELECT" <?= ($formType === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="LOCATION" <?= ($formType === 'LOCATION') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 
                     <!-- Dynamic Boolean Display Style Option -->
-                    <div id="boolean_options_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'block' : 'none' ?>;">
+                    <div id="boolean_options_wrapper" class="mb-3" style="display: <?= ($formType === 'BOOLEAN') ? 'block' : 'none' ?>;">
                         <label for="boolean_display_format" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.boolean_format'), ENT_QUOTES, 'UTF-8') ?></label>
                         <select id="boolean_display_format" name="boolean_display_format" class="form-select max-width-400">
-                                                        <option value="yes_no" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_yes_no') !== 'manage_tables.bool_yes_no' ? __('manage_tables.bool_yes_no') : 'Yes / No', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="true_false" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_true_false') !== 'manage_tables.bool_true_false' ? __('manage_tables.bool_true_false') : 'True / False', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="tick_cross" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_tick_cross') !== 'manage_tables.bool_tick_cross' ? __('manage_tables.bool_tick_cross') : 'Tick / Cross', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="male_female" <?= ($editCol && (string)($editCol['boolean_display_format'] ?? '') === 'male_female') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_male_female') !== 'manage_tables.bool_male_female' ? __('manage_tables.bool_male_female') : 'Male / Female', ENT_QUOTES, 'UTF-8') ?></option>
+                                                        <option value="yes_no" <?= ($colStr('boolean_display_format', 'yes_no') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_yes_no') !== 'manage_tables.bool_yes_no' ? __('manage_tables.bool_yes_no') : 'Yes / No', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="true_false" <?= ($colStr('boolean_display_format') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_true_false') !== 'manage_tables.bool_true_false' ? __('manage_tables.bool_true_false') : 'True / False', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="tick_cross" <?= ($colStr('boolean_display_format') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_tick_cross') !== 'manage_tables.bool_tick_cross' ? __('manage_tables.bool_tick_cross') : 'Tick / Cross', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="male_female" <?= ($colStr('boolean_display_format') === 'male_female') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_male_female') !== 'manage_tables.bool_male_female' ? __('manage_tables.bool_male_female') : 'Male / Female', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 
                     <!-- Dynamic Date Search Behavior Option -->
-                    <div id="date_options_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'block' : 'none' ?>;">
+                    <div id="date_options_wrapper" class="mb-3" style="display: <?= ($formType === 'DATE') ? 'block' : 'none' ?>;">
                         <label for="date_search_behavior" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.date_behavior_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <select id="date_search_behavior" name="date_search_behavior" class="form-select max-width-400">
-                            <option value="manual_only" <?= ($editCol && (string)($editCol['date_search_behavior'] ?? '') === 'manual_only') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.date_bhv_manual'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="admin_only" <?= ($editCol && (string)($editCol['date_search_behavior'] ?? '') === 'admin_only') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.date_bhv_admin'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="all_dates" <?= ($editCol && (string)($editCol['date_search_behavior'] ?? '') === 'all_dates') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.date_bhv_all'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="manual_only" <?= ($colStr('date_search_behavior', 'manual_only') === 'manual_only') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.date_bhv_manual'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="admin_only" <?= ($colStr('date_search_behavior') === 'admin_only') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.date_bhv_admin'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="all_dates" <?= ($colStr('date_search_behavior') === 'all_dates') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.date_bhv_all'), ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 
-                    <div id="choice_options_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'SELECT') ? 'block' : 'none' ?>;">
+                    <div id="choice_options_wrapper" class="mb-3" style="display: <?= ($formType === 'SELECT') ? 'block' : 'none' ?>;">
                         <label for="field_options" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.choice_options_label') !== 'manage_tables.choice_options_label' ? __('manage_tables.choice_options_label') : 'Choices (one per line)', ENT_QUOTES, 'UTF-8') ?></label>
-                        <textarea id="field_options" name="field_options" rows="5" class="form-control max-width-400"><?= $editCol ? htmlspecialchars((string)($editCol['field_options'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?></textarea>
+                        <textarea id="field_options" name="field_options" rows="5" class="form-control max-width-400"><?= htmlspecialchars($colStr('field_options'), ENT_QUOTES, 'UTF-8') ?></textarea>
                         <div class="form-text"><?= htmlspecialchars(__('manage_tables.choice_options_help') !== 'manage_tables.choice_options_help' ? __('manage_tables.choice_options_help') : 'Example: Baptism, Marriage, Burial — each on its own line.', ENT_QUOTES, 'UTF-8') ?></div>
                         <div class="form-check mt-2">
-                            <input type="checkbox" id="allow_multiple" name="allow_multiple" value="1" class="form-check-input" <?= ($editCol && !empty($editCol['allow_multiple'])) ? 'checked' : '' ?>>
+                            <input type="checkbox" id="allow_multiple" name="allow_multiple" value="1" class="form-check-input" <?= $colOn('allow_multiple') ? 'checked' : '' ?>>
                             <label for="allow_multiple" class="form-check-label"><?= htmlspecialchars(__('manage_tables.allow_multiple_label') !== 'manage_tables.allow_multiple_label' ? __('manage_tables.allow_multiple_label') : 'Allow more than one choice (multi-select)', ENT_QUOTES, 'UTF-8') ?></label>
                         </div>
                     </div>
 
-                    <div id="int_bounds_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'block' : 'none' ?>;">
+                    <div id="int_bounds_wrapper" class="mb-3" style="display: <?= ($formType === 'INT') ? 'block' : 'none' ?>;">
                         <div class="row g-2" style="max-width: 400px;">
                             <div class="col">
                                 <label for="min_value" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.min_value_label') !== 'manage_tables.min_value_label' ? __('manage_tables.min_value_label') : 'Minimum', ENT_QUOTES, 'UTF-8') ?></label>
-                                <input type="number" id="min_value" name="min_value" value="<?= $editCol && $editCol['min_value'] !== null && $editCol['min_value'] !== '' ? htmlspecialchars((string)$editCol['min_value'], ENT_QUOTES, 'UTF-8') : '' ?>" class="form-control">
+                                <input type="number" id="min_value" name="min_value" value="<?= htmlspecialchars($colStr('min_value'), ENT_QUOTES, 'UTF-8') ?>" class="form-control">
                             </div>
                             <div class="col">
                                 <label for="max_value" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.max_value_label') !== 'manage_tables.max_value_label' ? __('manage_tables.max_value_label') : 'Maximum', ENT_QUOTES, 'UTF-8') ?></label>
-                                <input type="number" id="max_value" name="max_value" value="<?= $editCol && $editCol['max_value'] !== null && $editCol['max_value'] !== '' ? htmlspecialchars((string)$editCol['max_value'], ENT_QUOTES, 'UTF-8') : '' ?>" class="form-control">
+                                <input type="number" id="max_value" name="max_value" value="<?= htmlspecialchars($colStr('max_value'), ENT_QUOTES, 'UTF-8') ?>" class="form-control">
                             </div>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="max_length" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.max_length_label'), ENT_QUOTES, 'UTF-8') ?></label>
-                        <input type="number" id="max_length" name="max_length" value="<?= $editCol ? htmlspecialchars((string)($editCol['max_length'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" placeholder="e.g. 255 characters" class="form-control max-width-400">
+                        <input type="number" id="max_length" name="max_length" value="<?= htmlspecialchars($colStr('max_length'), ENT_QUOTES, 'UTF-8') ?>" placeholder="e.g. 255 characters" class="form-control max-width-400">
                     </div>
 
                     <div class="mb-3 form-check">
-                        <input type="checkbox" id="is_required" name="is_required" value="1" <?= ($editCol && !empty($editCol['is_required'])) ? 'checked' : '' ?> class="form-check-input">
+                        <input type="checkbox" id="is_required" name="is_required" value="1" <?= $colOn('is_required') ? 'checked' : '' ?> class="form-check-input">
                         <label for="is_required" class="form-check-label"><?= htmlspecialchars(__('manage_tables.req_toggle_label'), ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
 
                     <div class="mb-3 form-check">
-                        <input type="checkbox" id="exclude_from_public_search" name="exclude_from_public_search" value="1" <?= ($editCol && !empty($editCol['exclude_from_public_search'])) ? 'checked' : '' ?> class="form-check-input">
+                        <input type="checkbox" id="exclude_from_public_search" name="exclude_from_public_search" value="1" <?= $colOn('exclude_from_public_search') ? 'checked' : '' ?> class="form-check-input">
                         <label for="exclude_from_public_search" class="form-check-label"><?= htmlspecialchars(__('manage_tables.exclude_search_label'), ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
 

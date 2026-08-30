@@ -160,7 +160,6 @@ class TableManagerController
             }
         } catch (Exception $e) {
             flash_error($e->getMessage());
-            // Keep typed values so a name clash does not force a full re-type
             $_SESSION['tables_form_draft'] = [
                 'action' => $action,
                 'table_id' => $tableId,
@@ -168,6 +167,10 @@ class TableManagerController
             ];
         }
 
-        redirect('/admin/tables?table_id=' . $tableId);
+        $redir = '/admin/tables?table_id=' . $tableId;
+        if (in_array($action, ['create', 'update'], true)) {
+            $redir .= '&add_column=1';
+        }
+        redirect($redir);
     }
 }
