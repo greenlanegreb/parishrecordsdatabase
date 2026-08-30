@@ -169,32 +169,14 @@ class ApiSearchController
                     $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                     $boolFormat = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
                         ? $col['boolean_display_format'] : 'yes_no';
-                    if ($dataType === 'LOCATION') {
-                        $locFull = \App\Services\LocationValueService::formatDisplay($rawVal);
-                        $locShort = \App\Services\LocationValueService::formatDisplayShort($rawVal, 40);
-                        echo '<td class="prd-loc-td">';
-                        if ($locFull === '') {
-                            echo '</td>';
-                        } elseif ($locShort === $locFull) {
-                            echo htmlspecialchars($locFull, ENT_QUOTES, 'UTF-8') . '</td>';
-                        } else {
-                            echo '<details class="prd-loc-details">'
-                                . '<summary class="prd-loc-summary" title="' . htmlspecialchars($locFull, ENT_QUOTES, 'UTF-8') . '">'
-                                . htmlspecialchars($locShort, ENT_QUOTES, 'UTF-8')
-                                . '</summary>'
-                                . '<div class="prd-loc-full small mt-1">' . htmlspecialchars($locFull, ENT_QUOTES, 'UTF-8') . '</div>'
-                                . '</details></td>';
-                        }
+                    if ($dataType === 'BOOLEAN') {
+                        $displayVal = format_boolean_value($rawVal, $boolFormat);
+                    } elseif ($dataType === 'DATE') {
+                        $displayVal = format_display_date($rawVal, $userDateFormat);
                     } else {
-                        if ($dataType === 'BOOLEAN') {
-                            $displayVal = format_boolean_value($rawVal, $boolFormat);
-                        } elseif ($dataType === 'DATE') {
-                            $displayVal = format_display_date($rawVal, $userDateFormat);
-                        } else {
-                            $displayVal = $rawVal;
-                        }
-                        echo '<td>' . htmlspecialchars((string) $displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
+                        $displayVal = $rawVal;
                     }
+                    echo '<td>' . htmlspecialchars((string) $displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
                 }
 
                 $creatorId = isset($rec['created_by']) ? (int) $rec['created_by'] : 0;
@@ -239,7 +221,7 @@ class ApiSearchController
                 // Direct edit (permission: edit_records) — independent of moderation module
                 if ($canEditRecords) {
                     $editLabel = (__('btn.edit') !== 'btn.edit') ? __('btn.edit') : 'Edit';
-                    $returnUrl = $basePath . '/';
+                    $returnUrl = $basePath . '/?table_id=' . (int) $tableId;
                     $editUrl = $basePath . '/records/' . $recId . '/edit?return=' . rawurlencode($returnUrl);
                     echo '<a href="' . htmlspecialchars($editUrl, ENT_QUOTES, 'UTF-8')
                         . '" class="btn btn-sm btn-outline-success py-0 px-2 me-1 text-decoration-none" style="font-size: 0.75rem;">'
@@ -253,7 +235,10 @@ class ApiSearchController
                     $delConfirm = (__('data_entry.delete_record_confirm') !== 'data_entry.delete_record_confirm')
                         ? __('data_entry.delete_record_confirm')
                         : 'Delete this record permanently? Values, map pins and related suggestions for it will be removed. This cannot be undone.';
-                    $returnUrl = $basePath . '/data-entry';
+                    $ref = isset($_SERVER['HTTP_REFERER']) && is_string($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+                    $returnUrl = (str_contains($ref, '/data-entry'))
+                        ? ($basePath . '/data-entry?table_id=' . (int) $tableId)
+                        : ($basePath . '/?table_id=' . (int) $tableId);
                     // Confirm on the button (more reliable than form onsubmit when HTML is injected via AJAX)
                     $confirmJs = 'return confirm(' . json_encode($delConfirm, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . ');';
                     echo '<form method="POST" action="' . htmlspecialchars($basePath . '/records/delete', ENT_QUOTES, 'UTF-8')

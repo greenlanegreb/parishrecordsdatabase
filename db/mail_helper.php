@@ -69,7 +69,14 @@ function send_user_invitation(
     $fName = isset($userDetails['first_name']) && is_string($userDetails['first_name']) ? $userDetails['first_name'] : (isset($userDetails['username']) && is_string($userDetails['username']) ? $userDetails['username'] : 'User');
     $sName = isset($userDetails['surname']) && is_string($userDetails['surname']) ? $userDetails['surname'] : '';
     $uName = isset($userDetails['username']) && is_string($userDetails['username']) ? $userDetails['username'] : 'User';
-    $rName = isset($userDetails['role_name']) && is_string($userDetails['role_name']) ? $userDetails['role_name'] : 'User';
+    $rName = isset($userDetails['role_name']) && is_string($userDetails['role_name']) ? $userDetails['role_name'] : 'user';
+    $rl = dirname(__DIR__) . '/includes/role_labels.php';
+    if (is_file($rl)) {
+        require_once $rl;
+    }
+    if (function_exists('role_display_label')) {
+        $rName = role_display_label($rName);
+    }
 
     // 3. Define placeholder replacements
     $replacements = [

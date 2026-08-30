@@ -38,6 +38,7 @@ class UserDeleteRecordActionController
         $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
         $post = $_POST;
         $recordId = isset($post['record_id']) ? (int) $post['record_id'] : 0;
+        $tableId = 0;
         $returnUrl = isset($post['return_url']) && is_string($post['return_url']) ? trim($post['return_url']) : '';
         if ($returnUrl === '' || preg_match('#^https?://#i', $returnUrl)) {
             $returnUrl = $basePath . '/data-entry';
@@ -95,6 +96,9 @@ class UserDeleteRecordActionController
             $_SESSION['error'] = $e->getMessage();
         }
 
+        if ($tableId > 0 && $returnUrl !== '' && !str_contains($returnUrl, 'table_id=')) {
+            $returnUrl .= (str_contains($returnUrl, '?') ? '&' : '?') . 'table_id=' . $tableId;
+        }
         header('Location: ' . $returnUrl);
         exit;
     }

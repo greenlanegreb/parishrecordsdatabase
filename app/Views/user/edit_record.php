@@ -89,13 +89,36 @@ $tableName = (string) ($record['table_name'] ?? 'Record');
                                            <?= $max !== null && $max !== '' ? 'max="' . htmlspecialchars((string) $max, ENT_QUOTES, 'UTF-8') . '"' : '' ?>
                                            <?= $req ? 'required' : '' ?>>
 
-                                <?php elseif ($type === 'BOOLEAN'): ?>
+                                <?php elseif ($type === 'BOOLEAN'):
+                                    $fmt = isset($col['boolean_display_format']) && is_string($col['boolean_display_format'])
+                                        ? $col['boolean_display_format'] : 'yes_no';
+                                    $opt1 = __('data_entry.bool_yes_true');
+                                    $opt2 = __('data_entry.bool_no_false');
+                                    if ($fmt === 'male_female') {
+                                        $opt1 = __('data_entry.bool_male');
+                                        $opt2 = __('data_entry.bool_female');
+                                    } elseif ($fmt === 'true_false') {
+                                        $opt1 = __('data_entry.bool_true');
+                                        $opt2 = __('data_entry.bool_false');
+                                    } elseif ($fmt === 'tick_cross') {
+                                        $opt1 = __('data_entry.bool_tick');
+                                        $opt2 = __('data_entry.bool_cross');
+                                    }
+                                    if ($opt1 === 'data_entry.bool_yes_true') { $opt1 = 'Yes'; }
+                                    if ($opt2 === 'data_entry.bool_no_false') { $opt2 = 'No'; }
+                                    if ($opt1 === 'data_entry.bool_male') { $opt1 = 'Male'; }
+                                    if ($opt2 === 'data_entry.bool_female') { $opt2 = 'Female'; }
+                                    if ($opt1 === 'data_entry.bool_true') { $opt1 = 'True'; }
+                                    if ($opt2 === 'data_entry.bool_false') { $opt2 = 'False'; }
+                                    if ($opt1 === 'data_entry.bool_tick') { $opt1 = 'Yes'; }
+                                    if ($opt2 === 'data_entry.bool_cross') { $opt2 = 'No'; }
+                                ?>
                                     <select name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
                                             class="form-select<?= $err ? ' is-invalid' : '' ?>"
                                             <?= $req ? 'required' : '' ?>>
                                         <option value=""><?= htmlspecialchars(__('feedback.select_placeholder') !== 'feedback.select_placeholder' ? __('feedback.select_placeholder') : '— select —', ENT_QUOTES, 'UTF-8') ?></option>
-                                        <option value="1" <?= ((string) $cur === '1') ? 'selected' : '' ?>>1</option>
-                                        <option value="0" <?= ((string) $cur === '0') ? 'selected' : '' ?>>0</option>
+                                        <option value="1" <?= ((string) $cur === '1') ? 'selected' : '' ?>><?= htmlspecialchars($opt1, ENT_QUOTES, 'UTF-8') ?></option>
+                                        <option value="0" <?= ((string) $cur === '0') ? 'selected' : '' ?>><?= htmlspecialchars($opt2, ENT_QUOTES, 'UTF-8') ?></option>
                                     </select>
 
                                 <?php elseif ($type === 'LOCATION'): ?>

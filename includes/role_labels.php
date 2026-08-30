@@ -16,10 +16,10 @@ if (!function_exists('role_display_label')) {
             return ($v !== $k) ? $v : $fallback;
         };
         return match ($key) {
-            'guest' => $t('roles.public_visitor', 'Public visitor'),
-            'user' => $t('roles.data_entry_user', 'Data entry user'),
-            'admin' => $t('roles.administrator', 'Administrator'),
-            'moderator' => $t('roles.moderator', 'Moderator'),
+            'guest' => $t('role.label_guest', 'Public Visitor'),
+            'user' => $t('role.label_user', 'Data Entry User'),
+            'admin' => $t('role.label_admin', 'Administrator'),
+            'moderator' => $t('role.label_moderator', 'Moderator'),
             default => ($roleName !== '' ? str_replace('_', ' ', $roleName) : $t('roles.unknown', 'Role')),
         };
     }
