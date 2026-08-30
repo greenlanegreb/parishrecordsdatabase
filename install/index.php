@@ -347,7 +347,52 @@ function install_load_pdo_from_config(string $configLocal): PDO
     return $pdo;
 }
 
-function install_show_complete_page(): void
+
+/**
+ * Best-effort removal of the install folder. Cannot always delete the running script.
+ *
+ * @return array{ok: bool, message: string}
+ */
+function install_try_remove_install_dir(string $projectRoot): array
+{
+    $dir = rtrim($projectRoot, '/') . '/install';
+    if (!is_dir($dir)) {
+        return ['ok' => true, 'message' => (__('install.remove_already_gone') !== 'install.remove_already_gone')
+            ? __('install.remove_already_gone')
+            : 'The install folder is already gone.'];
+    }
+    $failed = [];
+    $it = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::CHILD_FIRST
+    );
+    foreach ($it as $item) {
+        $path = $item->getPathname();
+        if ($item->isDir()) {
+            if (!@rmdir($path)) {
+                $failed[] = $path;
+            }
+        } else {
+            if (!@unlink($path)) {
+                $failed[] = $path;
+            }
+        }
+    }
+    if (!@rmdir($dir)) {
+        $failed[] = $dir;
+    }
+    if ($failed === []) {
+        return ['ok' => true, 'message' => (__('install.remove_ok') !== 'install.remove_ok')
+            ? __('install.remove_ok')
+            : 'The install folder has been removed.'];
+    }
+    return ['ok' => false, 'message' => (__('install.remove_failed') !== 'install.remove_failed')
+        ? __('install.remove_failed')
+        : 'pRD could not delete the install folder automatically (the web server often cannot delete the file it is running). In your hosting file manager or FTP, open the pRD folder and delete or rename the install directory.'];
+}
+
+function install_show_complete_page(?array $removeResult = null): void
+
 {
     $basePath = install_detect_base_path(dirname(__DIR__));
     ?>
@@ -368,7 +413,25 @@ function install_show_complete_page(): void
                 <a href="<?= htmlspecialchars($basePath . '/login', ENT_QUOTES, 'UTF-8') ?>" class="btn btn-primary btn-sm px-3 fw-bold text-decoration-none me-2"><?= htmlspecialchars(__('install.login_link'), ENT_QUOTES, 'UTF-8') ?></a>
                 <a href="<?= htmlspecialchars($basePath . '/', ENT_QUOTES, 'UTF-8') ?>" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('install.home_link'), ENT_QUOTES, 'UTF-8') ?></a>
             </div>
-            <p class="small text-muted mb-0"><em><?= __('install.delete_folder_hint') ?></em></p>
+            <?php if (is_array($removeResult)): ?>
+                <div class="alert <?= !empty($removeResult['ok']) ? 'alert-success' : 'alert-warning' ?> small text-start" role="status">
+                    <?= htmlspecialchars((string) ($removeResult['message'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
+                </div>
+            <?php endif; ?>
+            <?php
+            $installDirStillThere = is_dir(dirname(__DIR__) . '/install');
+            ?>
+            <?php if ($installDirStillThere): ?>
+                <form method="post" class="mb-3">
+                    <input type="hidden" name="action" value="remove_installer">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <?= htmlspecialchars((__('install.remove_folder_btn') !== 'install.remove_folder_btn') ? __('install.remove_folder_btn') : 'Remove the install folder', ENT_QUOTES, 'UTF-8') ?>
+                    </button>
+                </form>
+                <p class="small text-muted mb-0 text-start"><?= htmlspecialchars((__('install.delete_folder_hint') !== 'install.delete_folder_hint') ? __('install.delete_folder_hint') : 'For safety, delete or rename the install folder when you are done. If the button cannot remove it, use your host file manager or FTP: open the pRD project folder and delete the install directory.', ENT_QUOTES, 'UTF-8') ?></p>
+            <?php else: ?>
+                <p class="small text-success mb-0"><?= htmlspecialchars((__('install.remove_ok') !== 'install.remove_ok') ? __('install.remove_ok') : 'The install folder has been removed.', ENT_QUOTES, 'UTF-8') ?></p>
+            <?php endif; ?>
         </div>
     </div>
 </body>
@@ -399,6 +462,10 @@ if (@file_put_contents($probeFile, 'ok') !== false) {
 }
 
 // Lock / resume
+if (is_file($lockFile) && $serverMethod === 'POST' && isset($_POST['action']) && $_POST['action'] === 'remove_installer') {
+    $removeResult = install_try_remove_install_dir($root);
+    install_show_complete_page($removeResult);
+}
 if (is_file($lockFile)) {
     install_show_complete_page();
 }
@@ -744,7 +811,7 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                             $desc = (__($mod[3]) !== $mod[3]) ? __($mod[3]) : $mod[4];
                         ?>
                         <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" name="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>" value="1" id="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>" <?= $mod[0] === 'leaderboard' ? '' : 'checked' ?> <?= $mod[0] === 'leaderboard' ? 'data-needs-users="1"' : '' ?>>
+                            <input class="form-check-input" type="checkbox" name="<?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?>" value="1" id="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>" <?= 'checked' ?> <?= $mod[0] === 'leaderboard' ? 'data-needs-users="1"' : '' ?>>
                             <label class="form-check-label" for="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8') ?>">
                                 <span class="fw-bold"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?></span>
                                 <span class="d-block small text-muted"><?= htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') ?></span>
