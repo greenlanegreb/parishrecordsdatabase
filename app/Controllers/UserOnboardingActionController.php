@@ -24,11 +24,6 @@ class UserOnboardingActionController
 
     public function save(): void
     {
-        if (!\is_module_enabled($this->pdo, 'users')) {
-            http_response_code(403);
-            exit('403 Forbidden: The User Management module is currently disabled.');
-        }
-
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD'])
             ? $_SERVER['REQUEST_METHOD'] : 'GET';
         if ($serverMethod !== 'POST') {
@@ -96,10 +91,7 @@ class UserOnboardingActionController
         if ($after === 'profile' && \function_exists('has_permission') && \has_permission($this->pdo, 'access_profile')) {
             header('Location: ' . $basePath . '/profile');
         } else {
-            $dest = function_exists('post_login_destination_path')
-                ? post_login_destination_path($this->pdo)
-                : ($basePath . '/data-entry');
-            header('Location: ' . $dest);
+            header('Location: ' . $basePath . '/data-entry');
         }
         exit;
     }

@@ -23,11 +23,6 @@ class UserOnboardingController
 
     public function show(): void
     {
-        if (!\is_module_enabled($this->pdo, 'users')) {
-            http_response_code(403);
-            exit('403 Forbidden: The User Management module is currently disabled.');
-        }
-
         $basePath = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
 
         if (!isset($_SESSION['user_id'])) {
@@ -53,10 +48,7 @@ class UserOnboardingController
         }
 
         if (empty($currentUser['is_new_user'])) {
-            $dest = function_exists('post_login_destination_path')
-                ? post_login_destination_path($this->pdo)
-                : ($basePath . '/data-entry');
-            header('Location: ' . $dest);
+            header('Location: ' . $basePath . '/data-entry');
             exit;
         }
 

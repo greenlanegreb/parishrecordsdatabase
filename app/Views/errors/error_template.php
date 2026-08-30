@@ -69,8 +69,18 @@ $trace        = $trace ?? '';
                 </div>
             <?php endif; ?>
 
-            <div class="mt-2">
-                <a href="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/" class="btn btn-primary btn-sm px-4 fw-bold text-decoration-none">
+            <div class="mt-2 d-flex flex-wrap gap-2">
+                <?php
+                    $loggedIn = isset($_SESSION['user_id']);
+                    $loginHref = htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') . '/login';
+                    $homeHref = htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') . '/';
+                ?>
+                <?php if (!$loggedIn): ?>
+                    <a href="<?= $loginHref ?>" class="btn btn-primary btn-sm px-4 fw-bold text-decoration-none">
+                        <?= htmlspecialchars(function_exists('__') ? (__('nav.login') !== 'nav.login' ? __('nav.login') : 'Log in') : 'Log in', ENT_QUOTES, 'UTF-8') ?>
+                    </a>
+                <?php endif; ?>
+                <a href="<?= $homeHref ?>" class="btn btn-outline-secondary btn-sm px-4 fw-bold text-decoration-none">
                     <?= htmlspecialchars(function_exists('__') ? __('error_template.return_home_btn') : 'Return to Public Home', ENT_QUOTES, 'UTF-8') ?>
                 </a>
             </div>

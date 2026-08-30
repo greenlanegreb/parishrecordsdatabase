@@ -73,9 +73,10 @@ class HomeController
             ? (int)$queryGet['table_id']
             : (!empty($availableTables) ? (int)$availableTables[0]['id'] : 0);
 
-        if ($totalTablesCount > 0 && ($activeTableId < 1 || !user_can_view_table($this->pdo, $activeTableId, $currentUser))) {
-            require_once __DIR__ . '/../../public/403.php';
-            exit;
+        // Tables exist but none are visible to this visitor (typical guest with no view_table_N):
+        // show the home empty state instead of 403 (which loops with "return home").
+        if ($activeTableId > 0 && !user_can_view_table($this->pdo, $activeTableId, $currentUser)) {
+            $activeTableId = !empty($availableTables) ? (int) $availableTables[0]['id'] : 0;
         }
 
         // ------------------------------------------------------------------
@@ -140,11 +141,6 @@ class HomeController
         $suggestReturnUrl = $basePath !== '' ? $basePath . '/' : '/';
         $suggestTableId = $activeTableId;
         $isAdmin = $currentUser !== null && is_admin($this->pdo);
-
-        $tableHasMap = $activeTableId > 0
-            && function_exists('is_module_enabled')
-            && is_module_enabled($this->pdo, 'maps')
-            && \App\Services\LocationValueService::tableHasLocationColumn($this->pdo, $activeTableId);
 
         // Pass variables to View
         require_once __DIR__ . '/../Views/home/index.php';

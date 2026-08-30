@@ -86,8 +86,13 @@ class AdminPermissionsActionController
                         if ($key === '') {
                             continue;
                         }
-                        if ($guestRoleId > 0 && $roleId === $guestRoleId && $guestAllowed !== [] && !in_array($key, $guestAllowed, true)) {
-                            continue;
+                        if ($guestRoleId > 0 && $roleId === $guestRoleId) {
+                            $ok = function_exists('guest_may_hold_permission')
+                                ? guest_may_hold_permission($key)
+                                : in_array($key, $guestAllowed, true);
+                            if (!$ok) {
+                                continue;
+                            }
                         }
                         $accepted[$key] = $permissionId;
                     }
