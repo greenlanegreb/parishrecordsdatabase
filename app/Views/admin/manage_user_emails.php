@@ -56,24 +56,30 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <strong class="fs-5 text-dark"><?= htmlspecialchars($templateName, ENT_QUOTES, 'UTF-8') ?></strong>
         <span class="d-block small text-muted mt-1">
             <?php if ($triggerEvent === 'user_invitation'): ?>
-                <?= htmlspecialchars(__('user_emails.desc_invitation') ?? 'Dispatched automatically when an administrator creates or invites a new user account.', ENT_QUOTES, 'UTF-8') ?>
+                <?= htmlspecialchars(__('user_emails.desc_invitation') !== 'user_emails.desc_invitation' ? __('user_emails.desc_invitation') : 'Sent when an administrator creates or invites a new account.', ENT_QUOTES, 'UTF-8') ?>
+            <?php elseif ($triggerEvent === 'suggestion_outcome'): ?>
+                <?= htmlspecialchars(__('user_emails.desc_outcome') !== 'user_emails.desc_outcome' ? __('user_emails.desc_outcome') : 'Sent when a moderator accepts or declines a suggested edit and the person asked to be emailed.', ENT_QUOTES, 'UTF-8') ?>
             <?php else: ?>
-                <?= htmlspecialchars(__('user_emails.desc_reset') ?? 'Dispatched when a user requests a password reset.', ENT_QUOTES, 'UTF-8') ?>
+                <?= htmlspecialchars(__('user_emails.desc_reset') !== 'user_emails.desc_reset' ? __('user_emails.desc_reset') : 'Sent when a user requests a password reset.', ENT_QUOTES, 'UTF-8') ?>
             <?php endif; ?>
         </span>
     </div>
 
-    <!-- Available Placeholders Box -->
+    <?php
+    $placeholderSets = [
+        'user_invitation' => ['{first_name}', '{surname}', '{username}', '{email}', '{role_name}', '{invite_link}', '{system_name}'],
+        'password_reset' => ['{first_name}', '{surname}', '{username}', '{email}', '{invite_link}', '{system_name}'],
+        'suggestion_outcome' => ['{first_name}', '{decision}', '{column_name}', '{proposed_value}', '{moderator_rationale}', '{feedback_link}', '{system_name}'],
+    ];
+    $placeholders = $placeholderSets[$triggerEvent] ?? $placeholderSets['user_invitation'];
+    ?>
     <div class="card shadow-sm border-0 bg-light p-3 mb-4">
-        <strong class="d-block mb-3 text-dark fw-bold"><?= htmlspecialchars(__('feedback_emails.placeholders_heading') ?? 'Available Placeholders', ENT_QUOTES, 'UTF-8') ?></strong>
-        <div class="d-flex flex-wrap gap-2 font-monospace">
-            <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold">{first_name}</span>
-            <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold">{surname}</span>
-            <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold">{username}</span>
-            <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold">{email}</span>
-            <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold">{role_name}</span>
-            <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold">{invite_link}</span>
-            <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold">{system_name}</span>
+        <strong class="d-block mb-2 text-dark fw-bold"><?= htmlspecialchars(__('feedback_emails.placeholders_heading') !== 'feedback_emails.placeholders_heading' ? __('feedback_emails.placeholders_heading') : 'Available placeholders', ENT_QUOTES, 'UTF-8') ?></strong>
+        <p class="small text-muted mb-3"><?= htmlspecialchars(__('user_emails.placeholders_hint') !== 'user_emails.placeholders_hint' ? __('user_emails.placeholders_hint') : 'These tokens are filled in when this template is sent. Only the cards below apply to the template you have selected.', ENT_QUOTES, 'UTF-8') ?></p>
+        <div class="d-flex flex-wrap gap-2 font-monospace" role="list">
+            <?php foreach ($placeholders as $token): ?>
+                <span class="badge bg-white text-dark border px-3 py-2 fs-6 fw-semibold" role="listitem"><?= htmlspecialchars($token, ENT_QUOTES, 'UTF-8') ?></span>
+            <?php endforeach; ?>
         </div>
     </div>
 
