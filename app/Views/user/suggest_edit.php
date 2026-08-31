@@ -128,6 +128,8 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                             <?= htmlspecialchars(format_boolean_value($valCont, $boolFmt), ENT_QUOTES, 'UTF-8') ?>
                         <?php elseif ($dataType === 'DATE'): ?>
                             <?= htmlspecialchars(format_display_date($valCont, $userDateFormat), ENT_QUOTES, 'UTF-8') ?>
+                        <?php elseif ($dataType === 'LOCATION' && class_exists(\App\Services\LocationValueService::class)): ?>
+                            <?= htmlspecialchars(\App\Services\LocationValueService::formatDisplay($valCont), ENT_QUOTES, 'UTF-8') ?>
                         <?php else: ?>
                             <?= htmlspecialchars($valCont, ENT_QUOTES, 'UTF-8') ?>
                         <?php endif; ?>
@@ -331,6 +333,14 @@ function renderInputType() {
             <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
             <input type="number" id="proposed_value" value="${escapeHtml(col.value_content || '')}" class="form-control form-control-sm" ${min} ${max} ${req}>
         `;
+    } else if (String(col.data_type || '').toUpperCase() === 'LOCATION') {
+        const tpl = document.getElementById('loc-template-' + selectedColId);
+        if (tpl) {
+            container.innerHTML = '<label class="form-label small fw-bold">' + proposedValueLabel + '</label>' + tpl.innerHTML;
+            document.dispatchEvent(new Event('prd:location-ready'));
+        } else {
+            container.innerHTML = '<p class="small text-muted">Location field.</p>';
+        }
     } else if (String(col.data_type || '').toUpperCase() === 'DATE') {
         let currentValue = col.value_content_formatted || col.value_content || '';
         container.innerHTML = `

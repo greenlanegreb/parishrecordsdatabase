@@ -138,6 +138,7 @@ $tableName = (string) ($record['table_name'] ?? 'Record');
                                     $shown = function_exists('format_display_date')
                                         ? format_display_date((string) $cur, $userDateFmt)
                                         : (string) $cur;
+                                    $shown = preg_replace('/\s+\d{1,2}:\d{2}(:\d{2})?(\s*[AaPp][Mm])?$/', '', $shown) ?? $shown;
                                     $ph = function_exists('get_date_placeholder') ? get_date_placeholder($userDateFmt) : $userDateFmt;
                                 ?>
                                     <input type="text" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"

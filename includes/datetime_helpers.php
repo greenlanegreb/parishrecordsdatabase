@@ -75,7 +75,11 @@ if (!function_exists('format_display_date')) {
                 }
             }
 
-            return $dt->format($formatPref);
+            $out = $dt->format($formatPref);
+            if (strpbrk($formatPref, 'HisAa') === false) {
+                $out = preg_replace('/\s+\d{1,2}:\d{2}(:\d{2})?(\s*[AaPp][Mm])?$/', '', $out) ?? $out;
+            }
+            return $out;
         }
 
         return $dateStr;
