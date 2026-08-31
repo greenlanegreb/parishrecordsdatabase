@@ -42,8 +42,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
         <?php if ($emergencyOk): ?>
             <div class="alert alert-warning small mb-3">
-                Emergency migration access is active (<code>db/ALLOW_EMERGENCY_MIGRATE</code>).
-                Run any pending updates, then remove this file so the updater is not open without login.
+                <?= htmlspecialchars($__t('update_database.emergency_active', 'Database update access is open so you can finish this step without logging in. It will close itself when the database is up to date.'), ENT_QUOTES, 'UTF-8') ?>
             </div>
         <?php endif; ?>
 

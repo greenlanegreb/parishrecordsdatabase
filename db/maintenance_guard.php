@@ -81,7 +81,9 @@ function maintenance_path_is_allowed(string $path): bool
     // Emergency migrator (same flag as UpdateDatabaseController)
     if ($path === '/update-database' || str_starts_with($path, '/update-database/')) {
         // Same flag as UpdateDatabaseController (db/ALLOW_EMERGENCY_MIGRATE)
-        if (is_file(__DIR__ . '/ALLOW_EMERGENCY_MIGRATE')) {
+        $root = dirname(__DIR__);
+        if (is_file(__DIR__ . '/ALLOW_EMERGENCY_MIGRATE')
+            || is_file($root . '/storage/prd_pending_migrate')) {
             return true;
         }
     }

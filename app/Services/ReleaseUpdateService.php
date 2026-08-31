@@ -63,6 +63,7 @@ class ReleaseUpdateService
         $sha = $this->setting('package_sha');
         $ref = $this->setting('package_ref');
         $date = $this->setting('package_applied_at');
+        $stampTime = 0;
         if (is_file($file)) {
             $raw = @file_get_contents($file);
             $json = is_string($raw) ? json_decode($raw, true) : null;
@@ -71,9 +72,17 @@ class ReleaseUpdateService
                 $ref = is_string($json['ref'] ?? null) ? $json['ref'] : $ref;
                 $date = is_string($json['applied_at'] ?? null) ? $json['applied_at'] : $date;
             }
+            $stampTime = (int) @filemtime($file);
+        }
+        if ($date !== '') {
+            $parsed = strtotime($date . ' UTC');
+            if ($parsed !== false && $parsed > $stampTime) {
+                $stampTime = $parsed;
+            }
         }
         $gitSha = $this->localGitSha();
-        if ($gitSha !== '') {
+        $gitTime = is_file($this->root . '/.git/HEAD') ? (int) @filemtime($this->root . '/.git/HEAD') : 0;
+        if ($gitSha !== '' && ($sha === '' || $gitTime > $stampTime)) {
             $sha = $gitSha;
         }
         $schema = function_exists('get_schema_version') ? (int) get_schema_version($this->pdo) : 0;
@@ -358,6 +367,7 @@ class ReleaseUpdateService
             'db/ALLOW_EMERGENCY_MIGRATE',
             'storage/prd_release.json',
             'storage/gh_instance.json',
+            'storage/prd_pending_migrate',
         ];
         if (in_array($rel, $deniedExact, true)) {
             return true;

@@ -21,9 +21,39 @@ class UpdateDatabaseController
         $this->pdo = $pdo;
     }
 
+    private function loadAccessHelpers(): void
+    {
+        $path = dirname(__DIR__, 2) . '/includes/prd_update_access.php';
+        if (is_file($path)) {
+            require_once $path;
+        }
+    }
+
     private function emergencyFlagPath(): string
     {
+        if (function_exists('prd_manual_emergency_file')) {
+            return prd_manual_emergency_file();
+        }
         return dirname(__DIR__, 2) . '/db/ALLOW_EMERGENCY_MIGRATE';
+    }
+
+    private function isEmergencyOpen(): bool
+    {
+        if (function_exists('prd_emergency_migrate_allowed')) {
+            return prd_emergency_migrate_allowed();
+        }
+        return is_file($this->emergencyFlagPath());
+    }
+
+    private function closeEmergencyAccess(): void
+    {
+        if (function_exists('prd_clear_pending_migrate')) {
+            prd_clear_pending_migrate();
+        }
+        $flagPath = $this->emergencyFlagPath();
+        if (is_file($flagPath)) {
+            @unlink($flagPath);
+        }
     }
 
     private function canAccessUpdater(bool $emergencyOk): bool
@@ -44,10 +74,11 @@ class UpdateDatabaseController
     {
         require_once __DIR__ . '/../../includes/functions.php';
         require_once __DIR__ . '/../../db/migrate_runner.php';
+        $this->loadAccessHelpers();
 
-        $flagPath    = $this->emergencyFlagPath();
-        $emergencyOk = is_file($flagPath);
-        $basePath    = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
+        $flagPath = $this->emergencyFlagPath();
+        $emergencyOk = $this->isEmergencyOpen();
+        $basePath = defined('BASE_PATH') && is_string(BASE_PATH) ? rtrim(BASE_PATH, '/') : '';
 
         if (!$this->canAccessUpdater($emergencyOk)) {
             http_response_code(403);
@@ -61,9 +92,8 @@ class UpdateDatabaseController
             $schemaCurrent = 0;
         }
 
-        $schemaLatest  = $schemaCurrent;
+        $schemaLatest = $schemaCurrent;
         $migrationsDir = dirname(__DIR__, 2) . '/db/migrations';
-
         if (is_dir($migrationsDir)) {
             $globFiles = glob($migrationsDir . '/*.php');
             if ($globFiles !== false) {
@@ -76,33 +106,34 @@ class UpdateDatabaseController
             }
         }
 
-        $message     = '';
-        $error       = '';
+        $message = '';
+        $error = '';
         $appliedList = [];
         $serverMethod = isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD'])
             ? $_SERVER['REQUEST_METHOD'] : 'GET';
 
         if ($serverMethod === 'POST') {
             $action = isset($_POST['action']) && is_string($_POST['action']) ? $_POST['action'] : 'migrate';
-
             if (function_exists('verify_csrf_token')) {
                 verify_csrf_token();
             }
-
             if ($action === 'remove_emergency_flag') {
-                if (is_file($flagPath) && @unlink($flagPath)) {
-                    $message = 'Emergency migration access file has been removed.';
-                    $emergencyOk = false;
+                $this->closeEmergencyAccess();
+                $emergencyOk = $this->isEmergencyOpen();
+                if (!$emergencyOk) {
+                    $message = function_exists('__') && __('update_database.emergency_removed') !== 'update_database.emergency_removed'
+                        ? __('update_database.emergency_removed')
+                        : 'Temporary database-update access has been closed.';
                 } else {
-                    $error = 'Could not remove emergency file (missing or not writable).';
+                    $error = function_exists('__') && __('update_database.emergency_remove_failed') !== 'update_database.emergency_remove_failed'
+                        ? __('update_database.emergency_remove_failed')
+                        : 'Could not close temporary access (file missing or not writable).';
                 }
             } else {
-                // Run migrations
                 try {
                     $result = run_pending_migrations($this->pdo, $migrationsDir);
                     $appliedList = isset($result['applied']) && is_array($result['applied']) ? $result['applied'] : [];
                     $schemaCurrent = isset($result['current']) ? (int) $result['current'] : $schemaCurrent;
-
                     if ($appliedList !== []) {
                         $message = function_exists('__')
                             ? sprintf(__('update_database.msg_success'), count($appliedList))
@@ -112,13 +143,9 @@ class UpdateDatabaseController
                             ? __('update_database.msg_uptodate')
                             : 'Schema is already up to date.';
                     }
-
-                    // Auto-remove emergency flag after a successful run when up to date
-                    if ($schemaCurrent >= $schemaLatest && is_file($flagPath)) {
-                        if (@unlink($flagPath)) {
-                            $emergencyOk = false;
-                            $message .= ' Emergency access file removed.';
-                        }
+                    if ($schemaCurrent >= $schemaLatest) {
+                        $this->closeEmergencyAccess();
+                        $emergencyOk = $this->isEmergencyOpen();
                     }
                 } catch (Exception $e) {
                     $error = (function_exists('__') ? __('update_database.err_failed') . ' ' : 'Update failed: ')
@@ -127,7 +154,6 @@ class UpdateDatabaseController
             }
         }
 
-        // Up to date: logged-in admins go to settings; emergency visitors stay here to remove flag
         if ($schemaCurrent >= $schemaLatest && $serverMethod === 'GET') {
             if (!$emergencyOk && isset($_SESSION['user_id'])) {
                 header('Location: ' . $basePath . '/admin/settings');
@@ -137,11 +163,9 @@ class UpdateDatabaseController
                 header('Location: ' . $basePath . '/login');
                 exit;
             }
-            // emergencyOk && up to date → fall through to view so they can remove the flag
         }
 
         $schemaBehind = ($schemaCurrent < $schemaLatest);
-
         require_once __DIR__ . '/../Views/update_database/index.php';
     }
 }

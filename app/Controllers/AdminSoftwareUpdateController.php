@@ -75,14 +75,40 @@ class AdminSoftwareUpdateController
         }
 
         if ($result['ok']) {
-            $_SESSION['message'] = (function_exists('__') && __('updates.files_ok') !== 'updates.files_ok'
+            $access = dirname(__DIR__, 2) . '/includes/prd_update_access.php';
+            if (is_file($access)) {
+                require_once $access;
+            }
+            $msg = (function_exists('__') && __('updates.files_ok') !== 'updates.files_ok'
                 ? __('updates.files_ok')
                 : 'File package applied.')
-                . ' ' . substr($result['sha'], 0, 7)
-                . '. '
-                . (function_exists('__') && __('updates.now_db') !== 'updates.now_db'
-                    ? __('updates.now_db')
-                    : 'If the database version is behind, use Update database next.');
+                . ' ' . substr($result['sha'], 0, 7) . '.';
+            $runner = dirname(__DIR__, 2) . '/db/migrate_runner.php';
+            if (is_file($runner)) {
+                require_once $runner;
+            }
+            if (function_exists('prd_mark_pending_migrate')) {
+                prd_mark_pending_migrate();
+            }
+            if (function_exists('run_pending_migrations')) {
+                try {
+                    $migrated = run_pending_migrations($this->pdo);
+                    if (function_exists('prd_clear_pending_migrate')) {
+                        prd_clear_pending_migrate();
+                    }
+                    if (!empty($migrated['applied'])) {
+                        $msg .= ' ' . (function_exists('__') && __('updates.db_ran') !== 'updates.db_ran'
+                            ? __('updates.db_ran')
+                            : 'The database was updated as well.');
+                    }
+                } catch (Throwable $e) {
+                    error_log('pRD auto-migrate after file package: ' . $e->getMessage());
+                    $msg .= ' ' . (function_exists('__') && __('updates.db_pending') !== 'updates.db_pending'
+                        ? __('updates.db_pending')
+                        : 'If the site asks you to update the database next, open that page. You do not need to create any extra files.');
+                }
+            }
+            $_SESSION['message'] = $msg;
         } else {
             $_SESSION['error'] = $result['message'];
         }
