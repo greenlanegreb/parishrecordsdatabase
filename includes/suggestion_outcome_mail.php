@@ -91,16 +91,40 @@ function send_suggestion_outcome_mail(PDO $pdo, array $suggestion, string $decis
         '{feedback_link}' => $feedbackLink,
     ];
 
-    if (!function_exists('send_templated_mail')) {
+    try {
+        if (function_exists('send_templated_mail')) {
+            $ok = send_templated_mail(
+                $pdo,
+                $to,
+                (string) ($tpl['subject'] ?? ''),
+                (string) ($tpl['body'] ?? ''),
+                $tags,
+                'suggestion_outcome'
+            );
+            if ($ok) {
+                return true;
+            }
+        }
+        if (function_exists('send_user_invitation')) {
+            $subject = str_replace(array_keys($tags), array_values($tags), (string) ($tpl['subject'] ?? ''));
+            $body = str_replace(array_keys($tags), array_values($tags), (string) ($tpl['body'] ?? ''));
+            return send_user_invitation(
+                $pdo,
+                $to,
+                '',
+                [
+                    'first_name' => $tags['{first_name}'],
+                    'surname' => '',
+                    'username' => '',
+                    'role_name' => '',
+                ],
+                'suggestion_outcome',
+                $subject,
+                $body
+            );
+        }
+    } catch (\Throwable $e) {
         return false;
     }
-
-    return send_templated_mail(
-        $pdo,
-        $to,
-        (string) ($tpl['subject'] ?? ''),
-        (string) ($tpl['body'] ?? ''),
-        $tags,
-        'suggestion_outcome'
-    );
+    return false;
 }

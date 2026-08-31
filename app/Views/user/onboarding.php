@@ -162,4 +162,56 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     </div>
 </div>
 
+
+<script>
+(function () {
+    var form = document.querySelector('form[action*="onboarding"]') || document.querySelector('form');
+    if (!form) return;
+    var key = 'prd_onboarding_draft';
+    function save() {
+        var data = {};
+        form.querySelectorAll('input, select, textarea').forEach(function (el) {
+            if (!el.name || el.type === 'hidden' || el.type === 'password') return;
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                if (el.checked) data[el.name] = el.value;
+            } else {
+                data[el.name] = el.value;
+            }
+        });
+        try { sessionStorage.setItem(key, JSON.stringify(data)); } catch (e) {}
+    }
+    function restore() {
+        var raw;
+        try { raw = sessionStorage.getItem(key); } catch (e) { return; }
+        if (!raw) return;
+        var data;
+        try { data = JSON.parse(raw); } catch (e) { return; }
+        Object.keys(data).forEach(function (name) {
+            var el = form.querySelector('[name="' + name + '"]');
+            if (!el || el.type === 'hidden') return;
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                el.checked = (el.value === data[name]);
+            } else if (el.value === '' || name === 'language') {
+                // always keep language from server after switch; restore other empty fields
+                if (name !== 'language') el.value = data[name];
+            } else if (name === 'first_name' || name === 'surname') {
+                if (!el.value) el.value = data[name];
+            }
+        });
+        // Always restore typed names/settings even if server sent empty strings
+        ['first_name','surname','timezone','date_format','time_format','attribution_display_mode'].forEach(function (name) {
+            var el = form.querySelector('[name="' + name + '"]');
+            if (el && data[name] !== undefined && data[name] !== '') el.value = data[name];
+        });
+    }
+    form.addEventListener('input', save);
+    form.addEventListener('change', save);
+    restore();
+    // Nav language links: save then let them proceed
+    document.querySelectorAll('a[href*="lang="]').forEach(function (a) {
+        a.addEventListener('click', save);
+    });
+})();
+</script>
+
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

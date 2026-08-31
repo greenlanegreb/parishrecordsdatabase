@@ -409,18 +409,22 @@ function install_show_complete_page(?array $removeResult = null): void
         <div class="card border-0 shadow-sm p-5 text-center bg-white">
             <h1 class="h4 fw-bold text-success mb-3"><?= htmlspecialchars(__('install.complete_heading'), ENT_QUOTES, 'UTF-8') ?></h1>
             <p class="text-secondary small mb-4"><?= htmlspecialchars(__('install.complete_desc'), ENT_QUOTES, 'UTF-8') ?></p>
-            <div class="mb-4">
-                <a href="<?= htmlspecialchars($basePath . '/login', ENT_QUOTES, 'UTF-8') ?>" class="btn btn-primary btn-sm px-3 fw-bold text-decoration-none me-2"><?= htmlspecialchars(__('install.login_link'), ENT_QUOTES, 'UTF-8') ?></a>
+            <div class="mb-4 d-flex flex-wrap gap-2 justify-content-center">
+                <a href="<?= htmlspecialchars($basePath . '/login', ENT_QUOTES, 'UTF-8') ?>" class="btn btn-primary btn-sm px-3 fw-bold text-decoration-none"><?= htmlspecialchars(__('install.login_link'), ENT_QUOTES, 'UTF-8') ?></a>
                 <a href="<?= htmlspecialchars($basePath . '/', ENT_QUOTES, 'UTF-8') ?>" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('install.home_link'), ENT_QUOTES, 'UTF-8') ?></a>
+                <?php if (is_dir(dirname(__DIR__) . '/install')): ?>
+                <button type="submit" form="install-remove-form" class="btn btn-outline-danger btn-sm px-3"><?= htmlspecialchars((__('install.remove_folder_btn') !== 'install.remove_folder_btn') ? __('install.remove_folder_btn') : 'Remove the install folder', ENT_QUOTES, 'UTF-8') ?></button>
+                <?php endif; ?>
             </div>
+            <form method="post" id="install-remove-form" class="d-none">
+                <input type="hidden" name="action" value="remove_installer">
+            </form>
             <?php if (is_array($removeResult)): ?>
                 <div class="alert <?= !empty($removeResult['ok']) ? 'alert-success' : 'alert-warning' ?> small text-start" role="status">
                     <?= htmlspecialchars((string) ($removeResult['message'] ?? ''), ENT_QUOTES, 'UTF-8') ?>
                 </div>
             <?php endif; ?>
-            <?php
-            $installDirStillThere = is_dir(dirname(__DIR__) . '/install');
-            ?>
+            <?php $installDirStillThere = is_dir(dirname(__DIR__) . '/install'); ?>
             <?php if ($installDirStillThere): ?>
                 <form method="post" class="mb-3">
                     <input type="hidden" name="action" value="remove_installer">
@@ -428,7 +432,7 @@ function install_show_complete_page(?array $removeResult = null): void
                         <?= htmlspecialchars((__('install.remove_folder_btn') !== 'install.remove_folder_btn') ? __('install.remove_folder_btn') : 'Remove the install folder', ENT_QUOTES, 'UTF-8') ?>
                     </button>
                 </form>
-                <p class="small text-muted mb-0 text-start"><?= htmlspecialchars((__('install.delete_folder_hint') !== 'install.delete_folder_hint') ? __('install.delete_folder_hint') : 'For safety, delete or rename the install folder when you are done. If the button cannot remove it, use your host file manager or FTP: open the pRD project folder and delete the install directory.', ENT_QUOTES, 'UTF-8') ?></p>
+                <p class="small text-muted mb-0 text-start"><?= htmlspecialchars((__('install.delete_folder_hint') !== 'install.delete_folder_hint') ? __('install.delete_folder_hint') : 'Many hosts will not let the installer delete its own folder. If the button does nothing, open your hosting file manager or FTP, go to the pRD project folder, and delete or rename the install directory.', ENT_QUOTES, 'UTF-8') ?></p>
             <?php else: ?>
                 <p class="small text-success mb-0"><?= htmlspecialchars((__('install.remove_ok') !== 'install.remove_ok') ? __('install.remove_ok') : 'The install folder has been removed.', ENT_QUOTES, 'UTF-8') ?></p>
             <?php endif; ?>
@@ -830,12 +834,16 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
                     var users = document.getElementById('install_mod_users');
                     var board = document.getElementById('install_mod_leaderboard');
                     if (!users || !board) return;
-                    function sync() {
+                    function sync(fromUserToggle) {
                         board.disabled = !users.checked;
-                        if (!users.checked) board.checked = false;
+                        if (!users.checked) {
+                            board.checked = false;
+                        } else if (fromUserToggle) {
+                            board.checked = true;
+                        }
                     }
-                    users.addEventListener('change', sync);
-                    sync();
+                    users.addEventListener('change', function () { sync(true); });
+                    sync(false);
                 })();
                 </script>
 
