@@ -123,7 +123,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                             $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                         ?>
                         <div class="col-md-4 col-sm-6">
-                            <?php if ($dataType !== 'DATE'): ?>
+                            <?php if ($dataType !== 'DATE' && $dataType !== 'TIME'): ?>
                             <label for="filter_<?= $cId ?>" class="form-label small fw-bold">
                                 <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>
                             </label>
@@ -178,6 +178,34 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                        <?= isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '' ? 'min="' . (int)$col['min_value'] . '"' : '' ?>
                                        <?= isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '' ? 'max="' . (int)$col['max_value'] . '"' : '' ?>
                                        aria-label="<?= htmlspecialchars(__('index.filter_aria') !== 'index.filter_aria' ? __('index.filter_aria') : 'Search filter for', ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?>">
+                            <?php elseif ($dataType === 'TIME'):
+                                $tpref = function_exists('resolve_viewer_time_format')
+                                    ? resolve_viewer_time_format(isset($currentUser) && is_array($currentUser) ? $currentUser : [], $pdo ?? null)
+                                    : '24';
+                                $tph = function_exists('get_time_placeholder') ? get_time_placeholder($tpref) : ($tpref === '12' ? '2:30 PM' : '14:30');
+                            ?>
+                                <fieldset class="border-0 p-0 m-0">
+                                    <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?></legend>
+                                    <div class="input-group input-group-sm">
+                                        <label class="visually-hidden" for="time_from_<?= $cId ?>"><?= htmlspecialchars($cName . ' — ' . (__('index.date_from_label') !== 'index.date_from_label' ? __('index.date_from_label') : 'From'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="text"
+                                               id="time_from_<?= $cId ?>"
+                                               name="date_filters[<?= $cId ?>][from]"
+                                               placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>"
+                                               class="form-control time-input"
+                                               inputmode="numeric"
+                                               autocomplete="off">
+                                        <span class="input-group-text bg-light text-muted small px-2" aria-hidden="true"><?= htmlspecialchars(__('index.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
+                                        <label class="visually-hidden" for="time_to_<?= $cId ?>"><?= htmlspecialchars($cName . ' — ' . (__('index.date_to_label') !== 'index.date_to_label' ? __('index.date_to_label') : 'To'), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <input type="text"
+                                               id="time_to_<?= $cId ?>"
+                                               name="date_filters[<?= $cId ?>][to]"
+                                               placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>"
+                                               class="form-control time-input"
+                                               inputmode="numeric"
+                                               autocomplete="off">
+                                    </div>
+                                </fieldset>
                             <?php elseif ($dataType === 'DATE'): ?>
                                 <fieldset class="border-0 p-0 m-0">
                                     <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?></legend>

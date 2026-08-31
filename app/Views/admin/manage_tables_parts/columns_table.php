@@ -63,6 +63,7 @@ $__t = static function (string $key, string $fallback = ''): string {
                                     'INT' => __('feedback_schema.type_int'),
                                     'BOOLEAN' => __('feedback_schema.type_boolean'),
                                     'DATE' => __('feedback_schema.type_date'),
+                                    'TIME' => ((__('manage_tables.type_time') !== 'manage_tables.type_time') ? __('manage_tables.type_time') : 'Time'),
                                     'SELECT' => (__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list'),
                                     'LOCATION' => (__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)'),
                                 ];

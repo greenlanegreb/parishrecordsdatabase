@@ -103,6 +103,7 @@ class UserEditRecordActionController
 
                 $isBool = ($dataType === 'BOOLEAN');
                 $isDate = ($dataType === 'DATE');
+                $isTime = ($dataType === 'TIME');
                 $isSelect = ($dataType === 'SELECT');
                 $isInt = ($dataType === 'INT');
                 $isLocation = ($dataType === 'LOCATION');
@@ -112,6 +113,10 @@ class UserEditRecordActionController
                 } elseif ($isDate) {
                     $cleanVal = function_exists('normalize_incoming_date')
                         ? normalize_incoming_date(is_scalar($val) ? (string) $val : null)
+                        : (is_scalar($val) ? trim((string) $val) : '');
+                } elseif ($isTime) {
+                    $cleanVal = function_exists('normalize_incoming_time')
+                        ? normalize_incoming_time(is_scalar($val) ? (string) $val : null)
                         : (is_scalar($val) ? trim((string) $val) : '');
                 } elseif ($isSelect) {
                     $cleanVal = function_exists('flatten_posted_column_value')

@@ -128,6 +128,8 @@ $jsColumnMeta = array_map(function($item) use ($userDateFormat) {
                             <?= htmlspecialchars(format_boolean_value($valCont, $boolFmt), ENT_QUOTES, 'UTF-8') ?>
                         <?php elseif ($dataType === 'DATE'): ?>
                             <?= htmlspecialchars(format_display_date($valCont, $userDateFormat), ENT_QUOTES, 'UTF-8') ?>
+                        <?php elseif ($dataType === 'TIME'): ?>
+                            <?= htmlspecialchars(function_exists('format_display_time') ? format_display_time($valCont, function_exists('resolve_viewer_time_format') ? resolve_viewer_time_format($currentUser ?? [], $pdo ?? null) : '24') : $valCont, ENT_QUOTES, 'UTF-8') ?>
                         <?php elseif ($dataType === 'LOCATION' && class_exists(\App\Services\LocationValueService::class)): ?>
                             <?= htmlspecialchars(\App\Services\LocationValueService::formatDisplay($valCont), ENT_QUOTES, 'UTF-8') ?>
                         <?php else: ?>
@@ -341,6 +343,12 @@ function renderInputType() {
         } else {
             container.innerHTML = '<p class="small text-muted">Location field.</p>';
         }
+    } else if (String(col.data_type || '').toUpperCase() === 'TIME') {
+        var wrap = document.createElement('div');
+        wrap.innerHTML = '<label class="form-label small fw-bold">' + proposedValueLabel + '</label>' +
+            '<input type="text" name="proposed_value" class="form-control form-control-sm time-input" inputmode="numeric" autocomplete="off">';
+        container.appendChild(wrap);
+        document.dispatchEvent(new Event('prd:location-ready'));
     } else if (String(col.data_type || '').toUpperCase() === 'DATE') {
         let currentValue = col.value_content_formatted || col.value_content || '';
         container.innerHTML = `
@@ -419,4 +427,10 @@ if (draftProposed !== '' && typeof draftProposed === 'string') {
 });
 </script>
 
+<?php
+$__dateScript = ROOT_PATH . '/partials/date_input_script.php';
+if (is_file($__dateScript)) {
+    require_once $__dateScript;
+}
+?>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

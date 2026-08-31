@@ -240,3 +240,73 @@ if (!function_exists('get_date_placeholder')) {
         return 'DD/MM/YYYY (e.g. 25/05/1955)';
     }
 }
+
+
+if (!function_exists('resolve_viewer_time_format')) {
+    /**
+     * @param array<string, mixed> $currentUser
+     */
+    function resolve_viewer_time_format(array $currentUser = [], ?PDO $pdo = null): string
+    {
+        [, , $siteTime] = array_pad(get_site_datetime_defaults($pdo), 3, '24');
+        $pref = isset($currentUser['time_format']) && is_string($currentUser['time_format']) && $currentUser['time_format'] !== ''
+            ? $currentUser['time_format']
+            : (string) $siteTime;
+        return $pref === '12' ? '12' : '24';
+    }
+}
+
+if (!function_exists('format_display_time')) {
+    function format_display_time(?string $timeStr, string $timePref = '24'): string
+    {
+        $t = trim((string) $timeStr);
+        if ($t === '') {
+            return '';
+        }
+        $dt = DateTime::createFromFormat('H:i:s', $t)
+            ?: DateTime::createFromFormat('H:i', $t)
+            ?: DateTime::createFromFormat('g:i A', $t)
+            ?: DateTime::createFromFormat('g:i a', $t)
+            ?: DateTime::createFromFormat('h:i A', $t);
+        if ($dt === false && preg_match('/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AaPp][Mm])?$/', $t, $m)) {
+            $h = (int) $m[1];
+            $i = (int) $m[2];
+            $ampm = $m[4] ?? '';
+            if ($ampm !== '') {
+                $ampm = strtoupper($ampm);
+                if ($ampm === 'PM' && $h < 12) {
+                    $h += 12;
+                }
+                if ($ampm === 'AM' && $h === 12) {
+                    $h = 0;
+                }
+            }
+            if ($h >= 0 && $h <= 23 && $i >= 0 && $i <= 59) {
+                $dt = DateTime::createFromFormat('H:i', sprintf('%02d:%02d', $h, $i));
+            }
+        }
+        if ($dt === false) {
+            return $t;
+        }
+        return $timePref === '12' ? $dt->format('g:i A') : $dt->format('H:i');
+    }
+}
+
+if (!function_exists('normalize_incoming_time')) {
+    function normalize_incoming_time(?string $val): string
+    {
+        $shown = format_display_time($val, '24');
+        if ($shown === '' || !preg_match('/^\d{2}:\d{2}$/', $shown)) {
+            $t = trim((string) $val);
+            return $t;
+        }
+        return $shown . ':00';
+    }
+}
+
+if (!function_exists('get_time_placeholder')) {
+    function get_time_placeholder(?string $timePref): string
+    {
+        return ($timePref === '12') ? '2:30 PM' : '14:30';
+    }
+}

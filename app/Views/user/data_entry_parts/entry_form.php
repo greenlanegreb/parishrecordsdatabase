@@ -75,6 +75,14 @@ $fieldErrors = $fieldErrors ?? [];
                                         </select>
                                     <?php elseif ($dataType === 'DATE'): ?>
                                         <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(get_date_placeholder($currentUser['date_format'] ?? null), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm date-input<?= $invClass ?>" title="<?= htmlspecialchars(__('data_entry.date_title_hint'), ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
+                                    <?php elseif ($dataType === 'TIME'):
+                                        $tpref = function_exists('resolve_viewer_time_format')
+                                            ? resolve_viewer_time_format(isset($currentUser) && is_array($currentUser) ? $currentUser : [], $pdo ?? null)
+                                            : '24';
+                                        $tshown = function_exists('format_display_time') ? format_display_time($savedVal, $tpref) : $savedVal;
+                                        $tph = function_exists('get_time_placeholder') ? get_time_placeholder($tpref) : ($tpref === '12' ? '2:30 PM' : '14:30');
+                                    ?>
+                                        <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($tshown, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm time-input<?= $invClass ?>" inputmode="numeric" autocomplete="off" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
                                     <?php elseif ($dataType === 'SELECT'): ?>
                                         <select id="col_<?= $colId ?>"
                                                 name="filters[<?= $colId ?>]<?= $allowMultiple ? '[]' : '' ?>"

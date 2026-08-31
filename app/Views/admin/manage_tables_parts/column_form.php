@@ -56,6 +56,7 @@ $keepColumnFormOpen = $editCol
                             <option value="INT" <?= ($formType === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_int'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="BOOLEAN" <?= ($formType === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="DATE" <?= ($formType === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="TIME" <?= ($formType === 'TIME') ? 'selected' : '' ?>><?= htmlspecialchars((__('manage_tables.type_time') !== 'manage_tables.type_time') ? __('manage_tables.type_time') : 'Time', ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="SELECT" <?= ($formType === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="LOCATION" <?= ($formType === 'LOCATION') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>

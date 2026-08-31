@@ -147,6 +147,19 @@ $tableName = (string) ($record['table_name'] ?? 'Record');
                                            placeholder="<?= htmlspecialchars($ph, ENT_QUOTES, 'UTF-8') ?>"
                                            autocomplete="off"
                                            <?= $req ? 'required' : '' ?>>
+                                                                <?php elseif ($type === 'TIME'):
+                                    $tpref = function_exists('resolve_viewer_time_format')
+                                        ? resolve_viewer_time_format(isset($currentUser) && is_array($currentUser) ? $currentUser : [], $pdo ?? null)
+                                        : '24';
+                                    $tshown = function_exists('format_display_time') ? format_display_time((string) $cur, $tpref) : (string) $cur;
+                                    $tph = function_exists('get_time_placeholder') ? get_time_placeholder($tpref) : ($tpref === '12' ? '2:30 PM' : '14:30');
+                                ?>
+                                    <input type="text" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
+                                           class="form-control time-input<?= $err ? ' is-invalid' : '' ?>"
+                                           value="<?= htmlspecialchars($tshown, ENT_QUOTES, 'UTF-8') ?>"
+                                           placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>"
+                                           inputmode="numeric" autocomplete="off"
+                                           <?= $req ? 'required' : '' ?>>
                                 <?php else: /* TEXT etc. */ ?>
                                     <input type="text" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
                                            class="form-control<?= $err ? ' is-invalid' : '' ?>"

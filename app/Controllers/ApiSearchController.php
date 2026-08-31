@@ -55,14 +55,17 @@ class ApiSearchController
         $userDateFormat = (
             isset($viewer['date_format']) && is_string($viewer['date_format']) && $viewer['date_format'] !== ''
         ) ? $viewer['date_format'] : $siteDateFormat;
+        $userTimePref = (
+            isset($viewer['time_format']) && is_string($viewer['time_format']) && $viewer['time_format'] !== ''
+        ) ? $viewer['time_format'] : $siteTime;
+        $userTimezone = (
+            isset($viewer['timezone']) && is_string($viewer['timezone']) && $viewer['timezone'] !== ''
+        ) ? $viewer['timezone'] : $siteTz;
         if (function_exists('get_user_time_prefs')) {
-            [$userTimezone, $fullFormatStr] = get_user_time_prefs($viewer, $this->pdo);
-        } else {
-            $userTimezone = (
-                isset($viewer['timezone']) && is_string($viewer['timezone']) && $viewer['timezone'] !== ''
-            ) ? $viewer['timezone'] : $siteTz;
-            $fullFormatStr = $userDateFormat . ($siteTime === '12' ? ' h:i A' : ' H:i');
+            [$userTimezone, ] = get_user_time_prefs($viewer, $this->pdo);
         }
+        $timeBit = ($userTimePref === '12') ? ' h:i A' : ' H:i';
+        $fullFormatStr = $userDateFormat . $timeBit;
 
         $colsStmt = $this->pdo->prepare(
             'SELECT * FROM table_columns WHERE table_id = ? ORDER BY sort_order ASC, column_name ASC'
@@ -178,6 +181,10 @@ class ApiSearchController
                             : $rawVal;
                     } elseif ($typeKey === 'LOCATION' && class_exists(\App\Services\LocationValueService::class)) {
                         $displayVal = \App\Services\LocationValueService::formatDisplay($rawStr);
+                    } elseif ($typeKey === 'TIME') {
+                        $displayVal = function_exists('format_display_time')
+                            ? format_display_time($rawStr, $userTimePref)
+                            : $rawStr;
                     } elseif ($typeKey === 'DATE' || $typeKey === 'DATETIME' || $looksIsoDate) {
                         $displayVal = function_exists('format_display_date')
                             ? format_display_date($rawStr, $userDateFormat)

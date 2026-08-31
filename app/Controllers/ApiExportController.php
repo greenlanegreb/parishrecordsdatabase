@@ -149,6 +149,11 @@ class ApiExportController
                         $row[] = format_boolean_value($rawVal, $boolFormat);
                     } elseif ($dataType === 'DATE') {
                         $row[] = format_display_date($rawVal, $userDateFormat);
+                    } elseif ($dataType === 'TIME') {
+                        $tpref = function_exists('resolve_viewer_time_format')
+                            ? resolve_viewer_time_format(isset($currentUser) && is_array($currentUser) ? $currentUser : [], $this->pdo)
+                            : '24';
+                        $row[] = function_exists('format_display_time') ? format_display_time((string) $rawVal, $tpref) : $rawVal;
                     } elseif ($dataType === 'LOCATION') {
                         $row[] = \App\Services\LocationValueService::formatDisplay($rawVal);
                     } else {

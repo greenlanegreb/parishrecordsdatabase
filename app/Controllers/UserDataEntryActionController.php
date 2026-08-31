@@ -77,6 +77,7 @@ class UserDataEntryActionController
                 $dataType = isset($colsMap[$cid]) ? (string)($colsMap[$cid]['data_type'] ?? '') : '';
                 $isBool = ($dataType === 'BOOLEAN');
                 $isDate = ($dataType === 'DATE');
+                $isTime = ($dataType === 'TIME');
                 $isSelect = ($dataType === 'SELECT');
                 $isInt = ($dataType === 'INT');
                 $isLocation = ($dataType === 'LOCATION');
@@ -86,6 +87,10 @@ class UserDataEntryActionController
                     $cleanVal = ($val !== '' && $val !== null && !is_array($val)) ? trim((string)$val) : '';
                 } elseif ($isDate) {
                     $cleanVal = normalize_incoming_date(is_scalar($val) ? (string)$val : null);
+                } elseif ($isTime) {
+                    $cleanVal = function_exists('normalize_incoming_time')
+                        ? normalize_incoming_time(is_scalar($val) ? (string)$val : null)
+                        : (is_scalar($val) ? trim((string)$val) : '');
                 } elseif ($isSelect) {
                     $cleanVal = flatten_posted_column_value($val);
                     $opts = parse_column_options($colsMap[$cid]['field_options'] ?? '');

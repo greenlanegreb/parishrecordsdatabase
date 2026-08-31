@@ -109,6 +109,9 @@ return function (RouteCollector $r): void {
     // --- System / Tools & Records ---
     $r->addRoute('GET', '/update-database', ['App\Controllers\UpdateDatabaseController', 'index']);
     $r->addRoute('POST', '/update-database', ['App\Controllers\UpdateDatabaseController', 'index']);
+    $r->addRoute('POST', '/admin/backup/archive', ['App\Controllers\AdminBackupController', 'downloadArchive']);
+    $r->addRoute('POST', '/admin/updates/apply', ['App\Controllers\AdminSoftwareUpdateController', 'apply']);
+    $r->addRoute('POST', '/admin/updates/channel', ['App\Controllers\AdminSoftwareUpdateController', 'saveChannel']);
     $r->addRoute('GET', '/user/suggest-edit', ['App\Controllers\UserSuggestEditController', 'show']);
     $r->addRoute('POST', '/user/suggest-edit/save', ['App\Controllers\UserSaveSuggestionActionController', 'handle']);
     $r->addRoute('GET', '/record_history.php', ['App\Controllers\RecordHistoryController', 'index']);

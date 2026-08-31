@@ -175,6 +175,9 @@ class UserSaveSuggestionActionController
         if (isset($col['data_type']) && $col['data_type'] === 'DATE' && function_exists('normalize_incoming_date')) {
             $proposedValue = normalize_incoming_date($proposedValue);
         }
+        if (isset($col['data_type']) && $col['data_type'] === 'TIME' && function_exists('normalize_incoming_time')) {
+            $proposedValue = normalize_incoming_time($proposedValue);
+        }
 
         $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
         if ($dataType === 'LOCATION') {

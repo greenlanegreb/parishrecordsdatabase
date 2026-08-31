@@ -15,20 +15,86 @@ $__t = static function (string $key, string $fallback = ''): string {
 
     <!-- Database backup + schema updates -->
     <div class="card shadow-sm border-0 bg-light p-4 mb-4">
-        <h4 class="h5 fw-bold text-dark mb-2"><?= htmlspecialchars(__('settings.db_updates_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
-        <p class="mb-3 text-muted small">
+        <h4 class="h5 fw-bold text-dark mb-2"><?= htmlspecialchars(__('updates.page_heading') !== 'updates.page_heading' ? __('updates.page_heading') : 'Updating pRD', ENT_QUOTES, 'UTF-8') ?></h4>
+        <?php
+            $prdUpdates = new \App\Services\ReleaseUpdateService($pdo);
+            $prdPkg = $prdUpdates->currentPackage();
+            $prdArchives = $prdUpdates->listArchives();
+            $prdRef = $prdUpdates->defaultRef();
+            $prdShaShort = isset($prdPkg['sha']) && $prdPkg['sha'] !== '' ? substr($prdPkg['sha'], 0, 7) : '';
+            $prdFiles = $prdUpdates->fileStatus();
+            $prdFileState = $prdFiles['state'] ?? 'unknown';
+        ?>
+        <p class="mb-2 text-muted small">
             <?= htmlspecialchars(__('settings.schema_current'), ENT_QUOTES, 'UTF-8') ?> <strong class="text-dark"><?= $schemaCurrent ?></strong>
             &nbsp;·&nbsp;
             <?= htmlspecialchars(__('settings.schema_latest'), ENT_QUOTES, 'UTF-8') ?> <strong class="text-dark"><?= $schemaLatest ?></strong>
         </p>
+        <?php if (!empty($schemaNeedsUpdate)): ?>
+            <p class="text-danger small fw-bold mb-1"><?= htmlspecialchars(__('updates.db_behind') !== 'updates.db_behind' ? __('updates.db_behind') : 'Database: an update is waiting', ENT_QUOTES, 'UTF-8') ?></p>
+        <?php else: ?>
+            <p class="text-success small fw-bold mb-1"><?= htmlspecialchars(__('settings.schema_uptodate'), ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endif; ?>
+        <?php if ($prdFileState === 'current'): ?>
+            <p class="text-success small fw-bold mb-3"><?= htmlspecialchars(__('updates.files_current') !== 'updates.files_current' ? __('updates.files_current') : 'Files: up to date with the update channel', ENT_QUOTES, 'UTF-8') ?></p>
+        <?php elseif ($prdFileState === 'behind'): ?>
+            <p class="text-danger small fw-bold mb-3"><?= htmlspecialchars(__('updates.files_behind') !== 'updates.files_behind' ? __('updates.files_behind') : 'Files: a newer package is available', ENT_QUOTES, 'UTF-8') ?></p>
+        <?php elseif ($prdFileState === 'error'): ?>
+            <p class="text-muted small fw-bold mb-3"><?= htmlspecialchars(__('updates.files_error') !== 'updates.files_error' ? __('updates.files_error') : 'Files: could not check GitHub just now', ENT_QUOTES, 'UTF-8') ?></p>
+        <?php else: ?>
+            <p class="text-muted small fw-bold mb-3"><?= htmlspecialchars(__('updates.files_unknown') !== 'updates.files_unknown' ? __('updates.files_unknown') : 'Files: not checked yet (apply a package once to start tracking)', ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endif; ?>
 
+        <h5 class="h6 fw-bold text-dark mb-2"><?= htmlspecialchars(__('updates.download_heading') !== 'updates.download_heading' ? __('updates.download_heading') : 'Downloading Your Database', ENT_QUOTES, 'UTF-8') ?></h5>
         <form method="POST" action="<?= $basePath ?>/admin/backup/download" class="mb-2">
             <?= csrf_field() ?>
             <button type="submit" class="btn btn-sm btn-outline-secondary"><?= htmlspecialchars(__('settings.download_backup_btn'), ENT_QUOTES, 'UTF-8') ?></button>
         </form>
         <p class="text-muted small mb-3">
-            <?= htmlspecialchars(__('settings.download_backup_desc'), ENT_QUOTES, 'UTF-8') ?>
+            <?= htmlspecialchars(__('updates.download_please') !== 'updates.download_please' ? __('updates.download_please') : 'Please download your database first. Keep your own copy as well as the private server copy.', ENT_QUOTES, 'UTF-8') ?>
         </p>
+        <div class="border-top pt-3 mt-3">
+            <h5 class="h6 fw-bold text-dark mb-2"><?= htmlspecialchars(__('updates.heading') !== 'updates.heading' ? __('updates.heading') : 'File Updates', ENT_QUOTES, 'UTF-8') ?></h5>
+            <p class="small text-muted mb-2">
+                <?= htmlspecialchars(__('updates.running') !== 'updates.running' ? __('updates.running') : 'This site is running', ENT_QUOTES, 'UTF-8') ?>
+                <strong><?= htmlspecialchars((string) ($prdPkg['ref'] ?? 'main'), ENT_QUOTES, 'UTF-8') ?></strong>
+                <?php if ($prdShaShort !== ''): ?>
+                    (<?= htmlspecialchars($prdShaShort, ENT_QUOTES, 'UTF-8') ?>)
+                <?php else: ?>
+                    (<?= htmlspecialchars(__('updates.no_sha') !== 'updates.no_sha' ? __('updates.no_sha') : 'no package recorded yet', ENT_QUOTES, 'UTF-8') ?>)
+                <?php endif; ?>
+                · <?= htmlspecialchars(__('settings.schema_current'), ENT_QUOTES, 'UTF-8') ?>
+                <?= (int) ($prdPkg['schema'] ?? 0) ?>
+            </p>
+            <p class="small text-muted"><?= htmlspecialchars(__('updates.help') !== 'updates.help' ? __('updates.help') : 'Download your database first. pRD also keeps a private copy on the server. File update does not change records. After files are updated, use Update database if a newer schema is waiting.', ENT_QUOTES, 'UTF-8') ?></p>
+            <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/updates/apply" class="mb-3" onsubmit="return confirm('<?= htmlspecialchars(__('updates.confirm') !== 'updates.confirm' ? __('updates.confirm') : 'Apply the file package now? Your records stay. Download a database copy first if you have not.', ENT_QUOTES, 'UTF-8') ?>');">
+                <?= csrf_field() ?>
+                <label class="form-label small fw-bold" for="update_ref"><?= htmlspecialchars(__('updates.channel_label') !== 'updates.channel_label' ? __('updates.channel_label') : 'Update channel (usually leave as main)', ENT_QUOTES, 'UTF-8') ?></label>
+                <div class="d-flex flex-wrap gap-2">
+                    <input type="text" class="form-control form-control-sm" style="max-width:16rem" id="update_ref" name="update_ref" value="<?= htmlspecialchars($prdRef, ENT_QUOTES, 'UTF-8') ?>" autocomplete="off">
+                    <button type="submit" class="btn btn-sm btn-outline-primary"><?= htmlspecialchars(__('updates.apply_btn') !== 'updates.apply_btn' ? __('updates.apply_btn') : 'Apply file package', ENT_QUOTES, 'UTF-8') ?></button>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" value="1" id="force_apply" name="force_apply">
+                    <label class="form-check-label small" for="force_apply"><?= htmlspecialchars(__('updates.force_apply') !== 'updates.force_apply' ? __('updates.force_apply') : 'Replace files anyway (only if something looks damaged)', ENT_QUOTES, 'UTF-8') ?></label>
+                </div>
+                <div class="form-text"><?= htmlspecialchars(__('updates.channel_help') !== 'updates.channel_help' ? __('updates.channel_help') : 'Please do not change the update channel unless you are a developer. Developers may put a tag or commit in this box.', ENT_QUOTES, 'UTF-8') ?></div>
+            </form>
+            <?php if ($prdArchives !== []): ?>
+                <p class="small fw-bold mb-1"><?= htmlspecialchars(__('updates.private_copies') !== 'updates.private_copies' ? __('updates.private_copies') : 'Private server copies (admin only)', ENT_QUOTES, 'UTF-8') ?></p>
+                <ul class="list-unstyled small mb-0">
+                    <?php foreach ($prdArchives as $arch): ?>
+                        <li class="mb-1">
+                            <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/backup/archive" class="d-inline">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="file" value="<?= htmlspecialchars($arch, ENT_QUOTES, 'UTF-8') ?>">
+                                <button type="submit" class="btn btn-link btn-sm p-0 align-baseline"><?= htmlspecialchars($arch, ENT_QUOTES, 'UTF-8') ?></button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
 
         <?php if ($schemaNeedsUpdate): ?>
             <div class="alert alert-warning py-2 px-3 small mb-2">
@@ -156,71 +222,6 @@ $__t = static function (string $key, string $fallback = ''): string {
                 </select>
             </fieldset>
 
-
-            <!-- Map Provider Configuration -->
-            <h4 class="h5 fw-bold text-dark mb-3" id="map-provider-heading"><?= htmlspecialchars(__('settings.map_provider_heading') !== 'settings.map_provider_heading' ? __('settings.map_provider_heading') : 'Map Provider Configuration', ENT_QUOTES, 'UTF-8') ?></h4>
-            <p class="small text-muted mb-3"><?= htmlspecialchars(__('settings.map_provider_intro') !== 'settings.map_provider_intro' ? __('settings.map_provider_intro') : 'Optional. Leave these empty to use the free built-in map pictures (CARTO/OpenStreetMap) and free place search (Nominatim). Paid keys stay on your server and are not shared with other sites.', ENT_QUOTES, 'UTF-8') ?></p>
-
-            <div class="mb-3">
-                <label for="map_tile_provider" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_provider') !== 'settings.map_tile_provider' ? __('settings.map_tile_provider') : 'Map pictures (tiles)', ENT_QUOTES, 'UTF-8') ?></label>
-                <select id="map_tile_provider" name="map_tile_provider" class="form-select" aria-describedby="map_tile_provider_help">
-                    <option value="default" <?= (($currentMapTileProvider ?? 'default') === 'default' || ($currentMapTileProvider ?? '') === 'carto') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_default') !== 'settings.map_tile_default' ? __('settings.map_tile_default') : 'Default free (OpenStreetMap)', ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="carto" <?= (($currentMapTileProvider ?? '') === 'carto') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_carto') !== 'settings.map_tile_carto' ? __('settings.map_tile_carto') : 'CARTO Voyager (free key from carto.com/basemaps/apikey)', ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="osm" <?= (($currentMapTileProvider ?? '') === 'osm') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_osm') !== 'settings.map_tile_osm' ? __('settings.map_tile_osm') : 'OpenStreetMap (free)', ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="mapbox" <?= (($currentMapTileProvider ?? '') === 'mapbox') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_mapbox') !== 'settings.map_tile_mapbox' ? __('settings.map_tile_mapbox') : 'Mapbox (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="stadia" <?= (($currentMapTileProvider ?? '') === 'stadia') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_stadia') !== 'settings.map_tile_stadia' ? __('settings.map_tile_stadia') : 'Stadia Maps (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="custom" <?= (($currentMapTileProvider ?? '') === 'custom') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_tile_custom') !== 'settings.map_tile_custom' ? __('settings.map_tile_custom') : 'Custom tile URL', ENT_QUOTES, 'UTF-8') ?></option>
-                </select>
-                <div class="form-text" id="map_tile_provider_help"><?= htmlspecialchars(__('settings.map_tile_provider_help') !== 'settings.map_tile_provider_help' ? __('settings.map_tile_provider_help') : 'If a paid option has no key, pRD falls back to the free default.', ENT_QUOTES, 'UTF-8') ?></div>
-            </div>
-
-            <div class="mb-3" id="map_tile_key_wrap">
-                <label for="map_tile_api_key" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_api_key') !== 'settings.map_tile_api_key' ? __('settings.map_tile_api_key') : 'Map tile API key', ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="password" id="map_tile_api_key" name="map_tile_api_key" value="" class="form-control" autocomplete="new-password" aria-describedby="map_tile_api_key_help" placeholder="<?= htmlspecialchars(__('settings.map_key_placeholder') !== 'settings.map_key_placeholder' ? __('settings.map_key_placeholder') : (empty($currentMapTileApiKey) ? 'Paste key if using Mapbox or Stadia' : 'Leave blank to keep current key'), ENT_QUOTES, 'UTF-8') ?>">
-                <div class="form-text" id="map_tile_api_key_help"><?= htmlspecialchars(__('settings.map_tile_api_key_help') !== 'settings.map_tile_api_key_help' ? __('settings.map_tile_api_key_help') : 'Needed for CARTO, Mapbox or Stadia. Leave blank to keep an existing key. Default OpenStreetMap needs no key.', ENT_QUOTES, 'UTF-8') ?></div>
-            </div>
-
-            <div class="mb-3" id="map_tile_url_wrap">
-                <label for="map_tile_url" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_tile_url') !== 'settings.map_tile_url' ? __('settings.map_tile_url') : 'Custom tile URL template', ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="url" id="map_tile_url" name="map_tile_url" value="<?= htmlspecialchars($currentMapTileUrl ?? '', ENT_QUOTES, 'UTF-8') ?>" class="form-control" autocomplete="off" placeholder="https://{s}.example.com/{z}/{x}/{y}.png" aria-describedby="map_tile_url_help">
-                <div class="form-text" id="map_tile_url_help"><?= htmlspecialchars(__('settings.map_tile_url_help') !== 'settings.map_tile_url_help' ? __('settings.map_tile_url_help') : 'Only used when “Custom tile URL” is selected. Must include {z}, {x}, {y} (and {s} if needed).', ENT_QUOTES, 'UTF-8') ?></div>
-            </div>
-
-            <div class="mb-3">
-                <label for="map_geocode_provider" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_geocode_provider') !== 'settings.map_geocode_provider' ? __('settings.map_geocode_provider') : 'Place search (geocoding)', ENT_QUOTES, 'UTF-8') ?></label>
-                <select id="map_geocode_provider" name="map_geocode_provider" class="form-select" aria-describedby="map_geocode_provider_help">
-                    <option value="nominatim" <?= (($currentMapGeocodeProvider ?? 'nominatim') === 'nominatim') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_geocode_nominatim') !== 'settings.map_geocode_nominatim' ? __('settings.map_geocode_nominatim') : 'Nominatim / OpenStreetMap (free, rate-limited)', ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="locationiq" <?= (($currentMapGeocodeProvider ?? '') === 'locationiq') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_geocode_locationiq') !== 'settings.map_geocode_locationiq' ? __('settings.map_geocode_locationiq') : 'LocationIQ (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
-                    <option value="opencage" <?= (($currentMapGeocodeProvider ?? '') === 'opencage') ? 'selected' : '' ?>><?= htmlspecialchars(__('settings.map_geocode_opencage') !== 'settings.map_geocode_opencage' ? __('settings.map_geocode_opencage') : 'OpenCage (API key required)', ENT_QUOTES, 'UTF-8') ?></option>
-                </select>
-                <div class="form-text" id="map_geocode_provider_help"><?= htmlspecialchars(__('settings.map_geocode_provider_help') !== 'settings.map_geocode_provider_help' ? __('settings.map_geocode_provider_help') : 'Used when data entry looks up a place name. Results are cached on this site.', ENT_QUOTES, 'UTF-8') ?></div>
-            </div>
-
-            <div class="mb-4">
-                <label for="map_geocode_api_key" class="form-label fw-bold"><?= htmlspecialchars(__('settings.map_geocode_api_key') !== 'settings.map_geocode_api_key' ? __('settings.map_geocode_api_key') : 'Place search API key', ENT_QUOTES, 'UTF-8') ?></label>
-                <input type="password" id="map_geocode_api_key" name="map_geocode_api_key" value="" class="form-control" autocomplete="new-password" aria-describedby="map_geocode_api_key_help" placeholder="<?= htmlspecialchars(__('settings.map_key_placeholder') !== 'settings.map_key_placeholder' ? __('settings.map_key_placeholder') : (empty($currentMapGeocodeApiKey) ? 'Paste key if using LocationIQ or OpenCage' : 'Leave blank to keep current key'), ENT_QUOTES, 'UTF-8') ?>">
-                <div class="form-text" id="map_geocode_api_key_help"><?= htmlspecialchars(__('settings.map_geocode_api_key_help') !== 'settings.map_geocode_api_key_help' ? __('settings.map_geocode_api_key_help') : 'Only needed for LocationIQ or OpenCage. Leave blank to keep an existing key. Without a key, free Nominatim is used.', ENT_QUOTES, 'UTF-8') ?></div>
-            </div>
-
-            <script>
-            (function () {
-                function syncMapProviderFields() {
-                    var tile = document.getElementById('map_tile_provider');
-                    var keyWrap = document.getElementById('map_tile_key_wrap');
-                    var urlWrap = document.getElementById('map_tile_url_wrap');
-                    if (!tile || !keyWrap || !urlWrap) return;
-                    var v = tile.value;
-                    keyWrap.style.display = (v === 'mapbox' || v === 'stadia' || v === 'carto') ? 'block' : 'none';
-                    urlWrap.style.display = (v === 'custom') ? 'block' : 'none';
-                }
-                var tile = document.getElementById('map_tile_provider');
-                if (tile) {
-                    tile.addEventListener('change', syncMapProviderFields);
-                    syncMapProviderFields();
-                }
-            })();
-            </script>
-
             <!-- CAPTCHA Configuration Settings -->
             <h4 class="h5 fw-bold text-dark mb-3"><?= htmlspecialchars(__('settings.captcha_heading'), ENT_QUOTES, 'UTF-8') ?></h4>
             <div class="mb-3">
@@ -282,6 +283,9 @@ $__t = static function (string $key, string $fallback = ''): string {
                 <label for="mail_from" class="form-label fw-bold"><?= htmlspecialchars(__('settings.mail_from_label'), ENT_QUOTES, 'UTF-8') ?></label>
                 <input type="email" id="mail_from" name="mail_from" value="<?= htmlspecialchars($currentMailFrom, ENT_QUOTES, 'UTF-8') ?>" placeholder="e.g. notifications@example.com" class="form-control">
                 <div class="form-text"><?= htmlspecialchars(__('settings.mail_from_desc'), ENT_QUOTES, 'UTF-8') ?></div>
+                <label for="map_tile_url" class="form-label fw-bold mt-3"><?= htmlspecialchars(__('settings.map_tile_url') !== 'settings.map_tile_url' ? __('settings.map_tile_url') : 'Map picture address (optional)', ENT_QUOTES, 'UTF-8') ?></label>
+                <input type="text" id="map_tile_url" name="map_tile_url" value="<?= htmlspecialchars($currentMapTileUrl ?? '', ENT_QUOTES, 'UTF-8') ?>" class="form-control" placeholder="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" autocomplete="off">
+                <div class="form-text"><?= htmlspecialchars(__('settings.map_tile_url_help') !== 'settings.map_tile_url_help' ? __('settings.map_tile_url_help') : 'Leave blank for the free OpenStreetMap pictures. Paid map services can go here; pRD does not ship a key.', ENT_QUOTES, 'UTF-8') ?></div>
             </div>
 
             <div class="mb-3">

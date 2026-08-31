@@ -82,6 +82,9 @@ class UserSavePublicSuggestionActionController
                 }
 
                 // Normalize date inputs automatically if the column is a DATE type
+                if (isset($col['data_type']) && (string)$col['data_type'] === 'TIME' && $proposedValue !== '' && function_exists('normalize_incoming_time')) {
+                    $proposedValue = normalize_incoming_time($proposedValue);
+                }
                 if (isset($col['data_type']) && (string)$col['data_type'] === 'DATE' && $proposedValue !== '') {
                     $proposedValue = normalize_incoming_date($proposedValue);
                 }

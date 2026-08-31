@@ -31,6 +31,12 @@ $propDisplay = $propVal;
 if ($dataType === 'BOOLEAN') {
     $liveDisplay = format_boolean_value($liveVal, $boolFormat);
     $propDisplay = format_boolean_value($propVal, $boolFormat);
+} elseif ($dataType === 'TIME') {
+    $tpref = function_exists('resolve_viewer_time_format')
+        ? resolve_viewer_time_format(isset($currentUser) && is_array($currentUser) ? $currentUser : [], $pdo ?? null)
+        : '24';
+    $liveDisplay = function_exists('format_display_time') ? format_display_time($liveVal, $tpref) : $liveVal;
+    $propDisplay = function_exists('format_display_time') ? format_display_time($propVal, $tpref) : $propVal;
 } elseif ($dataType === 'DATE') {
     $userDateFormat = 'd/m/Y';
     if (function_exists('get_site_datetime_defaults') && isset($pdo) && $pdo instanceof PDO) {
@@ -114,6 +120,13 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
                     <option value="1" <?= ($propVal === '1') ? 'selected' : '' ?>><?= htmlspecialchars($opt1Text, ENT_QUOTES, 'UTF-8') ?></option>
                     <option value="0" <?= ($propVal === '0') ? 'selected' : '' ?>><?= htmlspecialchars($opt2Text, ENT_QUOTES, 'UTF-8') ?></option>
                 </select>
+            <?php elseif ($dataType === 'TIME'):
+                $tpref = function_exists('resolve_viewer_time_format')
+                    ? resolve_viewer_time_format(isset($currentUser) && is_array($currentUser) ? $currentUser : [], $pdo ?? null)
+                    : '24';
+                $tph = function_exists('get_time_placeholder') ? get_time_placeholder($tpref) : ($tpref === '12' ? '2:30 PM' : '14:30');
+            ?>
+                <input type="text" id="final_value_<?= $sId ?>" name="final_value" value="<?= htmlspecialchars($propDisplay, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>" <?= $isRequired ? 'required' : '' ?> class="form-control form-control-sm mb-2 time-input" inputmode="numeric" autocomplete="off">
             <?php elseif ($dataType === 'DATE'): ?>
                 <?php
                     $userFmt = 'd/m/Y';

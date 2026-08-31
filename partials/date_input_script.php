@@ -133,3 +133,67 @@ $__hint = (__('data_entry.date_format_hint') !== 'data_entry.date_format_hint')
     }, true);
 })();
 </script>
+
+<?php
+$__tpref = function_exists('resolve_viewer_time_format')
+    ? resolve_viewer_time_format($__user, $__pdo instanceof PDO ? $__pdo : null)
+    : '24';
+$__tph = function_exists('get_time_placeholder') ? get_time_placeholder($__tpref) : ($__tpref === '12' ? '2:30 PM' : '14:30');
+$__thint = (__('data_entry.time_format_hint') !== 'data_entry.time_format_hint')
+    ? __('data_entry.time_format_hint')
+    : 'Please use the time format shown in the box.';
+?>
+<script>
+(function () {
+    var pref = <?= json_encode($__tpref, JSON_UNESCAPED_UNICODE) ?>;
+    var ph = <?= json_encode($__tph, JSON_UNESCAPED_UNICODE) ?>;
+    var hint = <?= json_encode($__thint, JSON_UNESCAPED_UNICODE) ?>;
+
+    function valid(v) {
+        v = (v || '').trim();
+        if (v === '') return true;
+        if (pref === '12') {
+            return /^(1[0-2]|0?[1-9]):[0-5]\d\s?([AaPp][Mm])$/.test(v);
+        }
+        return /^([01]?\d|2[0-3]):[0-5]\d$/.test(v);
+    }
+    function guide(el) {
+        var raw = el.value;
+        if (pref === '12') {
+            var am = /[Aa]/.test(raw) ? ' AM' : (/[Pp]/.test(raw) ? ' PM' : '');
+            var d = raw.replace(/[^\d]/g, '');
+            var out = d.slice(0, 2);
+            if (d.length > 2) out += ':' + d.slice(2, 4);
+            el.value = out + am;
+            return;
+        }
+        var d = raw.replace(/[^\d]/g, '');
+        var out = d.slice(0, 2);
+        if (d.length > 2) out += ':' + d.slice(2, 4);
+        el.value = out;
+    }
+    function bind(el) {
+        if (el.dataset.prdTimeBound) return;
+        el.dataset.prdTimeBound = '1';
+        if (!el.getAttribute('placeholder')) el.setAttribute('placeholder', ph);
+        el.setAttribute('inputmode', 'numeric');
+        el.setAttribute('autocomplete', 'off');
+        el.addEventListener('input', function () { guide(el); });
+        el.addEventListener('blur', function () {
+            if (!valid(el.value)) {
+                el.setCustomValidity(hint);
+                el.reportValidity();
+            } else {
+                el.setCustomValidity('');
+            }
+        });
+    }
+    function scan(root) {
+        (root || document).querySelectorAll('.time-input').forEach(bind);
+    }
+    scan(document);
+    document.addEventListener('prd:location-ready', function () { scan(document); });
+    var mo = new MutationObserver(function () { scan(document); });
+    if (document.body) mo.observe(document.body, { childList: true, subtree: true });
+})();
+</script>

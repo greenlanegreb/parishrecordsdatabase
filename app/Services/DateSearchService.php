@@ -62,6 +62,13 @@ class DateSearchService
                 $toInput   = isset($range['to'])   && is_string($range['to'])   ? trim($range['to'])   : '';
                 $cellVal   = trim($recordValuesMap[$recordId][$colId] ?? '');
 
+                if (self::isTimeRange($cellVal, $fromInput, $toInput)) {
+                    if (!self::timeCellInRange($cellVal, $fromInput, $toInput)) {
+                        return false;
+                    }
+                    continue;
+                }
+
                 // Empty cell is only allowed when both sides of the range are empty
                 if ($cellVal === '') {
                     if ($fromInput !== '' || $toInput !== '') {
@@ -295,5 +302,60 @@ class DateSearchService
             'date_format' => $dateFormat,
             'timezone'    => $timezone,
         ];
+    }
+
+    private static function isTimeRange(string $cell, string $from, string $to): bool
+    {
+        return self::looksLikeTime($cell) || self::looksLikeTime($from) || self::looksLikeTime($to);
+    }
+
+    private static function looksLikeTime(string $v): bool
+    {
+        $v = trim($v);
+        if ($v === '') {
+            return false;
+        }
+        if (preg_match('/^\d{1,2}:\d{2}(:\d{2})?(\s*[AaPp][Mm])?$/', $v)) {
+            return true;
+        }
+        return function_exists('normalize_incoming_time') && preg_match('/^\d{2}:\d{2}:\d{2}$/', normalize_incoming_time($v));
+    }
+
+    private static function timeToMinutes(string $v): ?int
+    {
+        $norm = function_exists('normalize_incoming_time') ? normalize_incoming_time($v) : $v;
+        if (!preg_match('/^(\d{2}):(\d{2})/', $norm, $m)) {
+            return null;
+        }
+        $h = (int) $m[1];
+        $i = (int) $m[2];
+        if ($h > 23 || $i > 59) {
+            return null;
+        }
+        return ($h * 60) + $i;
+    }
+
+    private static function timeCellInRange(string $cell, string $from, string $to): bool
+    {
+        if ($cell === '') {
+            return ($from === '' && $to === '');
+        }
+        $cellMin = self::timeToMinutes($cell);
+        if ($cellMin === null) {
+            return ($from === '' && $to === '');
+        }
+        if ($from !== '') {
+            $fromMin = self::timeToMinutes($from);
+            if ($fromMin === null || $cellMin < $fromMin) {
+                return false;
+            }
+        }
+        if ($to !== '') {
+            $toMin = self::timeToMinutes($to);
+            if ($toMin === null || $cellMin > $toMin) {
+                return false;
+            }
+        }
+        return true;
     }
 }

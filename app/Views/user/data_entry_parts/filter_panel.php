@@ -35,8 +35,9 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                 $colName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : '';
                                 $dataType = isset($col['data_type']) && is_string($col['data_type']) ? $col['data_type'] : '';
                                 $isDate  = ($dataType === 'DATE');
+                                $isTime  = ($dataType === 'TIME');
                             ?>
-                            <div class="<?= $isDate ? 'col-md-8' : 'col-md-4' ?>">
+                            <div class="<?= ($isDate || $isTime) ? 'col-md-8' : 'col-md-4' ?>">
                                 <?php if ($isDate): ?>
                                     <fieldset class="border-0 p-0 m-0">
                                         <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></legend>
@@ -91,6 +92,36 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                         <option value="1" <?= ($searchVal === '1') ? 'selected' : '' ?>><?= $opt1Text ?></option>
                                         <option value="0" <?= ($searchVal === '0') ? 'selected' : '' ?>><?= $opt2Text ?></option>
                                     </select>
+                                <?php elseif ($isTime):
+                                    $tpref = function_exists('resolve_viewer_time_format')
+                                        ? resolve_viewer_time_format(isset($currentUser) && is_array($currentUser) ? $currentUser : [], $pdo ?? null)
+                                        : '24';
+                                    $tph = function_exists('get_time_placeholder') ? get_time_placeholder($tpref) : ($tpref === '12' ? '2:30 PM' : '14:30');
+                                ?>
+                                    <fieldset class="border-0 p-0 m-0">
+                                        <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></legend>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <label class="visually-hidden" for="time_from_<?= $colId ?>"><?= htmlspecialchars($colName . ' — ' . (__('data_entry.date_from_label') !== 'data_entry.date_from_label' ? __('data_entry.date_from_label') : 'From'), ENT_QUOTES, 'UTF-8') ?></label>
+                                            <input type="text"
+                                                   id="time_from_<?= $colId ?>"
+                                                   name="date_filters[<?= $colId ?>][from]"
+                                                   value="<?= htmlspecialchars($dateFilters[$colId]['from'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                                   class="form-control form-control-sm time-input"
+                                                   inputmode="numeric"
+                                                   autocomplete="off"
+                                                   placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>">
+                                            <span class="text-muted small text-nowrap" aria-hidden="true"><?= htmlspecialchars(__('data_entry.date_to_label'), ENT_QUOTES, 'UTF-8') ?></span>
+                                            <label class="visually-hidden" for="time_to_<?= $colId ?>"><?= htmlspecialchars($colName . ' — ' . (__('data_entry.date_to_label') !== 'data_entry.date_to_label' ? __('data_entry.date_to_label') : 'To'), ENT_QUOTES, 'UTF-8') ?></label>
+                                            <input type="text"
+                                                   id="time_to_<?= $colId ?>"
+                                                   name="date_filters[<?= $colId ?>][to]"
+                                                   value="<?= htmlspecialchars($dateFilters[$colId]['to'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                                   class="form-control form-control-sm time-input"
+                                                   inputmode="numeric"
+                                                   autocomplete="off"
+                                                   placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>">
+                                        </div>
+                                    </fieldset>
                                 <?php else: ?>
                                     <label class="form-label small fw-bold" for="filter_<?= $colId ?>"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></label>
                                     <input type="text"
