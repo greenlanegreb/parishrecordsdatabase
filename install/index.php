@@ -659,8 +659,7 @@ if (
             }
             file_put_contents($lockFile, 'Installed ' . gmdate('c') . "\n");
             unset($_SESSION['install_db_ok'], $_SESSION['install_db'], $_SESSION['install_admin_id']);
-            $step = 6;
-            $message = __('install.msg_installation_complete');
+            install_show_complete_page();
         }
     } catch (Throwable $e) {
         $error = $e->getMessage();
@@ -745,12 +744,15 @@ $closeLabel = (__('install.close_alert') !== 'install.close_alert') ? __('instal
             <?php if ($step === 6): ?>
                 <h2 class="h5 fw-bold text-success mb-2" id="installStepHeading"><?= htmlspecialchars(__('install.done_heading'), ENT_QUOTES, 'UTF-8') ?></h2>
                 <p class="text-secondary small mb-3"><?= htmlspecialchars(__('install.done_message'), ENT_QUOTES, 'UTF-8') ?></p>
-                <p class="small mb-0">
-                    <a href="<?= htmlspecialchars($basePath . '/login', ENT_QUOTES, 'UTF-8') ?>" class="text-decoration-none fw-bold"><?= htmlspecialchars(__('install.login_link'), ENT_QUOTES, 'UTF-8') ?></a>
-                    ·
-                    <a href="<?= htmlspecialchars($basePath !== '' ? $basePath . '/' : '../', ENT_QUOTES, 'UTF-8') ?>" class="text-decoration-none text-muted"><?= htmlspecialchars(__('install.home_link'), ENT_QUOTES, 'UTF-8') ?></a>
-                </p>
-                <p class="small text-muted mt-3 mb-0"><em><?= __('install.delete_folder_hint') ?></em></p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <a href="<?= htmlspecialchars($basePath . '/login', ENT_QUOTES, 'UTF-8') ?>" class="btn btn-primary btn-sm px-3 fw-bold text-decoration-none"><?= htmlspecialchars(__('install.login_link'), ENT_QUOTES, 'UTF-8') ?></a>
+                    <a href="<?= htmlspecialchars($basePath !== '' ? $basePath . '/' : '../', ENT_QUOTES, 'UTF-8') ?>" class="btn btn-outline-secondary btn-sm px-3 text-decoration-none"><?= htmlspecialchars(__('install.home_link'), ENT_QUOTES, 'UTF-8') ?></a>
+                </div>
+                <form method="post" class="mb-2">
+                    <input type="hidden" name="action" value="remove_installer">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"><?= htmlspecialchars((__('install.remove_folder_btn') !== 'install.remove_folder_btn') ? __('install.remove_folder_btn') : 'Remove the install folder', ENT_QUOTES, 'UTF-8') ?></button>
+                </form>
+                <p class="small text-muted mb-0"><?= htmlspecialchars((__('install.delete_folder_hint') !== 'install.delete_folder_hint') ? __('install.delete_folder_hint') : 'Many hosts will not let the installer delete its own folder. If the button does nothing, open your hosting file manager or FTP, go to the pRD project folder, and delete or rename the install directory.', ENT_QUOTES, 'UTF-8') ?></p>
 
             <?php elseif ($step === 4): ?>
                 <h2 class="h5 fw-bold text-dark mb-1" id="installStepHeading"><?= htmlspecialchars(__('install.demo_heading') !== 'install.demo_heading' ? __('install.demo_heading') : 'Optional demo packs', ENT_QUOTES, 'UTF-8') ?></h2>
