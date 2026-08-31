@@ -68,6 +68,32 @@ $langCode = function_exists('get_active_language') ? get_active_language() : 'en
         }
     ?>
     <link href="<?= htmlspecialchars($prdCssHref, ENT_QUOTES, 'UTF-8') ?>" rel="stylesheet">
+    <?php
+    if (isset($pdo) && $pdo instanceof PDO) {
+        try {
+            $prdAppear = new \App\Services\AppearanceService($pdo);
+            $prdAppearCss = $prdAppear->cssVariables();
+        } catch (\Throwable $e) {
+            $prdAppearCss = '';
+        }
+        if ($prdAppearCss !== '') {
+            echo '<style id="prd-appearance">body:not(.high-contrast){'
+                . $prdAppearCss . ';'
+                . 'background-color:var(--prd-page-bg);'
+                . 'font-family:var(--prd-font);font-size:var(--prd-font-size);letter-spacing:var(--prd-letter-spacing);}'
+                . 'body:not(.high-contrast) #main-content{color:var(--prd-text);}'
+                . 'body:not(.high-contrast) #main-content a{color:var(--prd-link);}'
+                . 'body:not(.high-contrast) .navbar.navbar-light{background-color:var(--prd-header-bg);box-shadow:none;border-bottom:1px solid var(--prd-border,#dee2e6);}'
+                . 'body:not(.high-contrast) .navbar .nav-link{color:var(--prd-header-text);font-size:.95rem;padding:.45rem .7rem;}'
+                . 'body:not(.high-contrast) .navbar-brand{font-weight:600;}'
+                . 'body:not(.high-contrast) .btn-primary{background-color:var(--prd-button);border-color:var(--prd-button);color:var(--prd-button-text);}'
+                . 'body:not(.high-contrast) footer,.site-footer,.prd-site-footer{background-color:var(--prd-footer-bg)!important;color:var(--prd-footer-text);}'
+                . 'body:not(.high-contrast) footer a,.site-footer a,.prd-site-footer a{color:var(--prd-footer-link);}'
+                . 'body:not(.high-contrast) .site-footer .text-muted{color:var(--prd-footer-text)!important;}'
+                . '</style>';
+        }
+    }
+    ?>
 </head>
 <body id="page-body" class="<?= $isHighContrast ? 'high-contrast' : '' ?> bg-light d-flex flex-column min-vh-100">
     <a class="visually-hidden-focusable btn btn-sm btn-dark position-absolute top-0 start-0 m-2 z-3" href="#main-content"><?= htmlspecialchars(__('header.skip_to_content') !== 'header.skip_to_content' ? __('header.skip_to_content') : 'Skip to main content', ENT_QUOTES, 'UTF-8') ?></a>

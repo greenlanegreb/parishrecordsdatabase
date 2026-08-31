@@ -147,6 +147,26 @@ $userPoints = ($currentUser !== null && isset($currentUser['points'])) ? (int) $
 $navActive = static function (string $route) use ($currentRoute): string {
     return ($currentRoute === $route) ? 'active fw-bold text-primary' : '';
 };
+$prdNavItems = [];
+if ($pdoOk) {
+    try {
+        $prdNavItems = (new \App\Services\AppearanceService($pdo))->visibleNavItems([
+            'search' => $canPublicSearch,
+            'volunteer' => $canPublicVolunteer,
+            'feedback' => $canPublicFeedback,
+            'leaderboard' => $canPublicLeaderboard,
+            'data_entry' => $isLoggedIn && $canDataEntry,
+            'similar' => $isLoggedIn && $canManageDuplicates && !$canModerate,
+            'moderation' => $isLoggedIn && $canModerate,
+            'admin' => $isLoggedIn && $showAdminMenu,
+            'logged_in' => $isLoggedIn,
+            'admin_user' => $canManageSets,
+            'role_ids' => (isset($currentUser['role_id']) ? [(int) $currentUser['role_id']] : []),
+        ], $baseUrl, $currentRoute);
+    } catch (\Throwable $e) {
+        $prdNavItems = [];
+    }
+}
 ?>
 <!-- Top Accessibility & Language Bar -->
 <div class="bg-dark text-white py-1 px-3 small border-bottom">
@@ -184,8 +204,35 @@ $navActive = static function (string $route) use ($currentRoute): string {
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top" aria-label="Main Navigation">
     <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/">
-            <?= htmlspecialchars($systemName, ENT_QUOTES, 'UTF-8') ?>
+        <?php
+        $prdLogoOn = false;
+        $prdStrap = '';
+        $prdLogoH = 56;
+        $prdLogoAlign = 'center';
+        if ($pdoOk) {
+            try {
+                $prdAs = new \App\Services\AppearanceService($pdo);
+                $prdLogoOn = $prdAs->logoPath() !== null;
+                $prdA = $prdAs->load();
+                $prdStrap = (string) ($prdA['strapline'] ?? '');
+                $prdLogoH = $prdAs->logoMaxPx();
+                $prdLogoAlign = $prdAs->logoAlignItems();
+            } catch (\Throwable $e) {
+                $prdLogoOn = false;
+            }
+        }
+        ?>
+        <a class="navbar-brand fw-bold text-primary d-flex gap-2 py-2" style="align-items: <?= htmlspecialchars($prdLogoAlign, ENT_QUOTES, 'UTF-8') ?>;" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/">
+            <?php if ($prdLogoOn): ?>
+                <img src="<?= htmlspecialchars((new \App\Services\AppearanceService($pdo))->logoUrl($baseUrl), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($prdStrap !== '' ? $prdStrap : $systemName, ENT_QUOTES, 'UTF-8') ?>" style="max-height:<?= (int) $prdLogoH ?>px;width:auto;height:auto;">
+            <?php endif; ?>
+            <?php if ($prdLogoOn || $prdStrap !== ''): ?>
+                <?php if ($prdStrap !== ''): ?>
+                    <span class="<?= $prdLogoOn ? 'small fw-normal' : '' ?>"><?= htmlspecialchars($prdStrap, ENT_QUOTES, 'UTF-8') ?></span>
+                <?php endif; ?>
+            <?php else: ?>
+                <span><?= htmlspecialchars($systemName, ENT_QUOTES, 'UTF-8') ?></span>
+            <?php endif; ?>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
@@ -196,6 +243,61 @@ $navActive = static function (string $route) use ($currentRoute): string {
 
         <div class="collapse navbar-collapse" id="mainNavbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
+                <?php if (!empty($prdNavItems)): ?>
+                    <?php foreach ($prdNavItems as $nItem): ?>
+                        <?php if (($nItem['key'] ?? '') === 'admin'): ?>
+                            <?php if ($showAdminMenu): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle <?= (str_starts_with($currentRoute, '/admin') && !str_starts_with($currentRoute, '/admin/moderation') && !str_starts_with($currentRoute, '/admin/gh-feedback')) ? 'active fw-bold text-primary' : '' ?>"
+                               href="#" id="adminNavDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <?= htmlspecialchars(__('nav.admin'), ENT_QUOTES, 'UTF-8') ?>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="adminNavDropdown">
+                                <?php if ($canManageUsers): ?>
+                                    <li><a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/users') ? 'active' : '' ?>" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/users"><?= htmlspecialchars(__('nav.manage_users'), ENT_QUOTES, 'UTF-8') ?></a></li>
+                                <?php endif; ?>
+                                <?php if ($canManageCols): ?>
+                                    <li><a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/tables') ? 'active' : '' ?>" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tables"><?= htmlspecialchars(__('nav.manage_tables'), ENT_QUOTES, 'UTF-8') ?></a></li>
+                                <?php endif; ?>
+                                <?php if ($canManageVols): ?>
+                                    <li><a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/volunteers') ? 'active' : '' ?>" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/volunteers"><?= htmlspecialchars(__('nav.volunteer_dashboard'), ENT_QUOTES, 'UTF-8') ?></a></li>
+                                <?php endif; ?>
+                                <?php if ($canManageFeed): ?>
+                                    <li><a class="dropdown-item <?= str_starts_with($currentRoute, '/admin/tickets') ? 'active' : '' ?>" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/tickets"><?= htmlspecialchars(__('nav.feedback_dashboard'), ENT_QUOTES, 'UTF-8') ?></a></li>
+                                <?php endif; ?>
+                                <?php if ($canManageSets): ?>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item <?= ($currentRoute === '/admin' || str_starts_with($currentRoute, '/admin/settings')) ? 'active' : '' ?>" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin"><?= htmlspecialchars(__('nav.settings'), ENT_QUOTES, 'UTF-8') ?></a></li>
+                                <?php endif; ?>
+                            </ul>
+                        </li>
+                            <?php endif; ?>
+                        <?php elseif (($nItem['kind'] ?? '') === 'menu'): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?= htmlspecialchars((string) $nItem['label'], ENT_QUOTES, 'UTF-8') ?>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php if (($nItem['href'] ?? '') !== '' && ($nItem['href'] ?? '') !== '#'): ?>
+                                <li><a class="dropdown-item" href="<?= htmlspecialchars((string) $nItem['href'], ENT_QUOTES, 'UTF-8') ?>" <?= !empty($nItem['blank']) ? 'target="_blank" rel="noopener noreferrer"' : '' ?>><?= htmlspecialchars((string) $nItem['label'], ENT_QUOTES, 'UTF-8') ?></a></li>
+                            <?php endif; ?>
+                            <?php foreach ($nItem['children'] ?? [] as $child): ?>
+                                <li><a class="dropdown-item" href="<?= htmlspecialchars((string) ($child['href'] ?? '#'), ENT_QUOTES, 'UTF-8') ?>" <?= !empty($child['blank']) ? 'target="_blank" rel="noopener noreferrer"' : '' ?>><?= htmlspecialchars((string) ($child['label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                        <?php else: ?>
+                    <li class="nav-item">
+                        <a href="<?= htmlspecialchars((string) $nItem['href'], ENT_QUOTES, 'UTF-8') ?>"
+                           class="nav-link<?= !empty($nItem['active']) ? ' active fw-bold text-primary' : '' ?>"
+                           <?= !empty($nItem['blank']) ? 'target="_blank" rel="noopener noreferrer"' : '' ?>>
+                            <?= htmlspecialchars((string) $nItem['label'], ENT_QUOTES, 'UTF-8') ?>
+                        </a>
+                    </li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
                 <?php if ($canPublicSearch): ?>
                     <li class="nav-item">
                         <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/"
@@ -311,6 +413,7 @@ $navActive = static function (string $route) use ($currentRoute): string {
                             </ul>
                         </li>
                     <?php endif; ?>
+                <?php endif; ?>
                 <?php endif; ?>
             </ul>
 

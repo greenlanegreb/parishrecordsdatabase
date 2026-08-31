@@ -107,6 +107,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold" id="tab-core" data-bs-toggle="tab" data-bs-target="#panel-core" type="button" role="tab" aria-controls="panel-core" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_core', 'Core'), ENT_QUOTES, 'UTF-8') ?></button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold text-secondary" id="tab-appearance" data-bs-toggle="tab" data-bs-target="#panel-appearance" type="button" role="tab" aria-controls="panel-appearance" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_appearance', 'Appearance'), ENT_QUOTES, 'UTF-8') ?></button>
+        </li>
         <?php endif; ?>
         <?php if (!empty($canManageSettings)): ?>
         <li class="nav-item" role="presentation">
@@ -147,6 +150,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     <div class="tab-content">
         <?php if (!empty($canManageSettings)): ?>
             <?php require __DIR__ . '/settings_parts/core.php'; ?>
+            <?php require __DIR__ . '/settings_parts/appearance.php'; ?>
             <?php require __DIR__ . '/settings_parts/modules.php'; ?>
             <?php require __DIR__ . '/settings_parts/maintenance.php'; ?>
             <?php require __DIR__ . '/settings_parts/permissions.php'; ?>
