@@ -143,7 +143,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('settings.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
     <p class="text-muted mb-4"><?= htmlspecialchars($__t('settings.subheading', 'Manage Core Configurations, Mail Drivers, Security/CAPTCHA Options, Feature Modules, Maintenance Mode, Site Announcements, and Role Capabilities.'), ENT_QUOTES, 'UTF-8') ?></p>
     <!-- Accessible Bootstrap Nav Tabs -->
-    <ul class="nav nav-tabs mb-4 flex-nowrap" role="tablist" aria-label="Settings Sections">
+    <div class="prd-tabs-scroll">
+    <ul class="nav nav-tabs mb-0 flex-nowrap" role="tablist" aria-label="Settings Sections">
         <?php if (!empty($canManageSettings)): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold" id="tab-core" data-bs-toggle="tab" data-bs-target="#panel-core" type="button" role="tab" aria-controls="panel-core" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_core', 'Core'), ENT_QUOTES, 'UTF-8') ?></button>
@@ -188,6 +189,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         </li>
         <?php endif; ?>
     </ul>
+    </div>
     <div class="tab-content">
         <?php if (!empty($canManageSettings)): ?>
             <?php require __DIR__ . '/settings_parts/core.php'; ?>

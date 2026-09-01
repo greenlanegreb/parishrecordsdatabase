@@ -169,19 +169,19 @@ if ($pdoOk) {
 }
 ?>
 <!-- Top Accessibility & Language Bar -->
-<div class="bg-dark text-white py-1 px-3 small border-bottom">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <div class="d-inline-flex align-items-center gap-2 flex-wrap">
+<div class="bg-dark text-white py-1 px-3 small border-bottom prd-a11y-bar">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div class="d-inline-flex align-items-center gap-3 flex-wrap">
             <a href="?contrast=toggle" class="text-white text-decoration-none d-inline-flex align-items-center gap-1" role="button"
                aria-label="<?= htmlspecialchars(__('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?>">
                 <span aria-hidden="true">👁️</span>
                 <span><?= htmlspecialchars($isHighContrast ? __('nav.low_contrast') : __('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?></span>
             </a>
             <span class="text-white-50" aria-hidden="true">|</span>
-            <span class="d-inline-flex align-items-center gap-1" role="group" aria-label="<?= htmlspecialchars(__('nav.zoom_group') !== 'nav.zoom_group' ? __('nav.zoom_group') : 'Text size', ENT_QUOTES, 'UTF-8') ?>">
-                <a href="?zoom=down" class="text-white text-decoration-none px-1" aria-label="<?= htmlspecialchars(__('nav.zoom_out') !== 'nav.zoom_out' ? __('nav.zoom_out') : 'Smaller text', ENT_QUOTES, 'UTF-8') ?>">−</a>
+            <span class="d-inline-flex align-items-center gap-2 prd-zoom-ctrl" role="group" aria-label="<?= htmlspecialchars(__('nav.zoom_group') !== 'nav.zoom_group' ? __('nav.zoom_group') : 'Text size', ENT_QUOTES, 'UTF-8') ?>">
+                <a href="?zoom=down" class="text-white text-decoration-none px-2 py-1" aria-label="<?= htmlspecialchars(__('nav.zoom_out') !== 'nav.zoom_out' ? __('nav.zoom_out') : 'Smaller text', ENT_QUOTES, 'UTF-8') ?>">−</a>
                 <a href="?zoom=reset" class="text-white text-decoration-none" aria-label="<?= htmlspecialchars(__('nav.zoom_reset') !== 'nav.zoom_reset' ? __('nav.zoom_reset') : 'Reset text size', ENT_QUOTES, 'UTF-8') ?>"><?= (int) ($prdZoom ?? 100) ?>%</a>
-                <a href="?zoom=up" class="text-white text-decoration-none px-1" aria-label="<?= htmlspecialchars(__('nav.zoom_in') !== 'nav.zoom_in' ? __('nav.zoom_in') : 'Larger text', ENT_QUOTES, 'UTF-8') ?>">+</a>
+                <a href="?zoom=up" class="text-white text-decoration-none px-2 py-1" aria-label="<?= htmlspecialchars(__('nav.zoom_in') !== 'nav.zoom_in' ? __('nav.zoom_in') : 'Larger text', ENT_QUOTES, 'UTF-8') ?>">+</a>
             </span>
         </div>
         <?php if (count($navLanguages) > 1): ?>

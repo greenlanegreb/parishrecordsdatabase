@@ -86,8 +86,8 @@ $st = static function (string $key, string $fallback): string {
                                 <?= htmlspecialchars((string) $categoryName, ENT_QUOTES, 'UTF-8') ?>
                                 <span class="fw-normal text-muted small">(<?= count($catPerms) ?> permissions)</span>
                             </summary>
-                            <div class="mt-3 pt-3 border-top table-responsive">
-                                <table class="table table-hover align-middle mb-0 perm-role-table" role="table">
+                            <div class="mt-3 pt-3 border-top table-responsive perm-matrix-wrap">
+                                <table class="table table-striped table-hover align-middle mb-0 perm-role-table" role="table">
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col" style="width: 20%;" class="py-2"><?= htmlspecialchars($st('settings.th_role', 'Role'), ENT_QUOTES, 'UTF-8') ?></th>

@@ -57,6 +57,7 @@ class AdminUsersController
 
         $usersStmt = $this->pdo->query("
             SELECT u.id, u.username, u.email, u.points, u.email_verified, u.two_fa_enabled,
+                   (u.password_hash IS NOT NULL AND u.password_hash <> '') AS has_login_password,
                    u.is_active, u.created_at, u.role_id, r.role_name
             FROM users u
             LEFT JOIN roles r ON u.role_id = r.id

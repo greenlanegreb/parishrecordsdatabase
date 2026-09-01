@@ -91,7 +91,8 @@ class UserSetPasswordActionController
                     reset_token = NULL,
                     reset_expires_at = NULL,
                     is_new_user = 1,
-                    is_active = 1
+                    is_active = 1,
+                    email_verified = 1
                 WHERE id = ?
             ");
         } else {

@@ -45,10 +45,10 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
     <div class="card shadow-sm border-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" role="table">
+            <table class="table table-striped table-hover align-middle mb-0 w-100" role="table">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col" class="py-3 ps-3"><?= htmlspecialchars(__('feedback_dash.th_ticket_date') ?? 'Ticket ID / Date', ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3 ps-3"><?= htmlspecialchars(__('feedback_dash.th_ticket_date') ?? 'Date', ENT_QUOTES, 'UTF-8') ?></th>
                         <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_dash.th_submitter') ?? 'Submitter', ENT_QUOTES, 'UTF-8') ?></th>
                         <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_dash.th_subject_info') ?? 'Subject / Initial Info', ENT_QUOTES, 'UTF-8') ?></th>
                         <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_dash.th_status') ?? 'Status', ENT_QUOTES, 'UTF-8') ?></th>
@@ -78,10 +78,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 $subjectText = isset($t['subject']) && is_string($t['subject']) ? $t['subject'] : 'Support Inquiry';
                             ?>
                             <tr>
-                                <td class="ps-3">
-                                    <strong>#<?= $subId ?></strong><br>
-                                    <small class="text-muted"><?= format_user_time($createdAt, $userTimezone ?? 'UTC', $fullFormatStr ?? 'Y-m-d H:i:s') ?></small>
-                                </td>
+                                <td class="ps-3 text-nowrap"><?= format_user_time($createdAt, $userTimezone ?? 'UTC', $fullFormatStr ?? 'Y-m-d H:i:s') ?></td>
                                 <td>
                                     <strong class="text-dark"><?= htmlspecialchars($fullName, ENT_QUOTES, 'UTF-8') ?></strong><br>
                                     <?php if ($subEmail !== ''): ?>
@@ -92,15 +89,27 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <td>
                                     <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?></span>
                                 </td>
-                                <td class="text-end pe-3 text-nowrap">
-                                    <div class="d-flex justify-content-end gap-1">
-                                        <a href="<?= $basePath ?>/admin/tickets/<?= $subId ?>" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;"><?= htmlspecialchars(__('feedback_dash.open_ticket_btn') ?? 'Open Ticket & Dialogue', ENT_QUOTES, 'UTF-8') ?></a>
-                                        <form method="POST" action="<?= $basePath ?>/admin/tickets/action" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('feedback_dash.delete_confirm') ?? 'Are you sure you want to delete this ticket?', ENT_QUOTES, 'UTF-8') ?>');">
-                                            <?= csrf_field() ?>
-                                            <input type="hidden" name="action" value="delete_ticket">
-                                            <input type="hidden" name="ticket_id" value="<?= $subId ?>">
-                                            <button type="submit" class="btn btn-sm btn-danger py-0 px-2" style="font-size: 0.75rem;"><?= htmlspecialchars(__('btn.delete') ?? 'Delete', ENT_QUOTES, 'UTF-8') ?></button>
-                                        </form>
+                                <td class="text-end pe-3">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?= htmlspecialchars(__('index.th_actions') !== 'index.th_actions' ? __('index.th_actions') : 'Actions', ENT_QUOTES, 'UTF-8') ?>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                            <li>
+                                                <a class="dropdown-item" href="<?= $basePath ?>/admin/tickets/<?= $subId ?>">
+                                                    <?= htmlspecialchars(__('feedback_dash.open_ticket_btn') !== 'feedback_dash.open_ticket_btn' ? __('feedback_dash.open_ticket_btn') : 'Open Ticket', ENT_QUOTES, 'UTF-8') ?>
+                                                </a>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form method="POST" action="<?= $basePath ?>/admin/tickets/action" onsubmit="return confirm('<?= htmlspecialchars(__('feedback_dash.delete_confirm') !== 'feedback_dash.delete_confirm' ? __('feedback_dash.delete_confirm') : 'Delete this ticket?', ENT_QUOTES, 'UTF-8') ?>');">
+                                                    <?= csrf_field() ?>
+                                                    <input type="hidden" name="action" value="delete_ticket">
+                                                    <input type="hidden" name="ticket_id" value="<?= $subId ?>">
+                                                    <button type="submit" class="dropdown-item text-danger"><?= htmlspecialchars(__('btn.delete') !== 'btn.delete' ? __('btn.delete') : 'Delete', ENT_QUOTES, 'UTF-8') ?></button>
+                                                </form>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </td>
                             </tr>

@@ -46,11 +46,10 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
 
     <div class="card shadow-sm border-0">
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" role="table">
+            <table class="table table-striped table-hover align-middle mb-0 w-100" role="table">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col" class="py-3 ps-3"><?= htmlspecialchars(__('feedback_schema.th_id'), ENT_QUOTES, 'UTF-8') ?></th>
-                        <th scope="col" class="py-3"><?= htmlspecialchars(__('volunteer_dashboard.th_status'), ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="py-3 ps-3"><?= htmlspecialchars(__('volunteer_dashboard.th_status'), ENT_QUOTES, 'UTF-8') ?></th>
                         <th scope="col" class="py-3"><?= htmlspecialchars(__('volunteer_dashboard.th_name'), ENT_QUOTES, 'UTF-8') ?></th>
                         <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_email'), ENT_QUOTES, 'UTF-8') ?></th>
                         <?php foreach ($columns as $col): ?>
@@ -65,7 +64,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 <tbody>
                     <?php if (empty($submissions)): ?>
                         <tr>
-                            <td colspan="<?= count($columns) + 7 ?>" class="text-center py-4 text-muted"><?= htmlspecialchars(__('volunteer_dashboard.no_submissions'), ENT_QUOTES, 'UTF-8') ?></td>
+                            <td colspan="<?= count($columns) + 6 ?>" class="text-center py-4 text-muted"><?= htmlspecialchars(__('volunteer_dashboard.no_submissions'), ENT_QUOTES, 'UTF-8') ?></td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($submissions as $sub): ?>
@@ -96,8 +95,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                     ? $sub['created_at'] : '';
                             ?>
                             <tr>
-                                <td class="ps-3 fw-bold">#<?= $subId ?></td>
-                                <td>
+                                <td class="ps-3">
                                     <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?></span>
                                 </td>
                                 <td class="fw-bold text-dark">
@@ -145,27 +143,36 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                     <?php endif; ?>
                                 </td>
                                 <td><?= format_user_time($createdAt, $userTimezone, $fullFormatStr) ?></td>
-                                <td class="text-end pe-3 text-nowrap">
-                                    <div class="d-flex justify-content-end gap-1">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;"
-                                            onclick="openInterviewModal(<?= $subId ?>, '<?= htmlspecialchars(addslashes($status), ENT_QUOTES, 'UTF-8') ?>', '<?= htmlspecialchars($interviewDate, ENT_QUOTES, 'UTF-8') ?>', `<?= htmlspecialchars(addslashes($interviewNotes), ENT_QUOTES, 'UTF-8') ?>`)">
-                                            <?= htmlspecialchars(__('volunteer_dashboard.chat_notes_btn'), ENT_QUOTES, 'UTF-8') ?>
+                                <td class="text-end pe-3">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?>
                                         </button>
-                                        <?php if ($subEmail !== ''): ?>
-                                            <a href="<?= $basePath ?>/admin/users/create?email=<?= urlencode($subEmail) ?>&amp;first_name=<?= urlencode($firstName) ?>&amp;surname=<?= urlencode($surname) ?>&amp;volunteer_id=<?= $subId ?><?= $prefUser !== '' ? '&amp;username=' . urlencode($prefUser) : '' ?>"
-                                               class="btn btn-sm btn-success py-0 px-2 text-decoration-none"
-                                               style="font-size: 0.75rem; margin-left: 4px;"
-                                               title="<?= htmlspecialchars(__('volunteer_dashboard.accept_title'), ENT_QUOTES, 'UTF-8') ?>">
-                                                <?= htmlspecialchars(__('volunteer_dashboard.accept_invite_btn'), ENT_QUOTES, 'UTF-8') ?>
-                                            </a>
-                                        <?php endif; ?>
-                                        <form method="POST" action="<?= $basePath ?>/admin/volunteers" class="d-inline"
-                                              onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_dashboard.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
-                                            <?= csrf_field() ?>
-                                            <input type="hidden" name="action" value="delete_volunteer">
-                                            <input type="hidden" name="volunteer_id" value="<?= $subId ?>">
-                                            <button type="submit" class="btn btn-sm btn-danger py-0 px-2" style="font-size: 0.75rem;"><?= htmlspecialchars(__('btn.delete'), ENT_QUOTES, 'UTF-8') ?></button>
-                                        </form>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                            <li>
+                                                <button type="button" class="dropdown-item"
+                                                    onclick="openInterviewModal(<?= $subId ?>, '<?= htmlspecialchars(addslashes($status), ENT_QUOTES, 'UTF-8') ?>', '<?= htmlspecialchars($interviewDate, ENT_QUOTES, 'UTF-8') ?>', `<?= htmlspecialchars(addslashes($interviewNotes), ENT_QUOTES, 'UTF-8') ?>`)">
+                                                    <?= htmlspecialchars(__('volunteer_dashboard.chat_notes_btn'), ENT_QUOTES, 'UTF-8') ?>
+                                                </button>
+                                            </li>
+                                            <?php if ($subEmail !== ''): ?>
+                                            <li>
+                                                <a class="dropdown-item" href="<?= $basePath ?>/admin/users/create?email=<?= urlencode($subEmail) ?>&amp;first_name=<?= urlencode($firstName) ?>&amp;surname=<?= urlencode($surname) ?>&amp;volunteer_id=<?= $subId ?><?= $prefUser !== '' ? '&amp;username=' . urlencode($prefUser) : '' ?>">
+                                                    <?= htmlspecialchars(__('volunteer_dashboard.accept_invite_btn'), ENT_QUOTES, 'UTF-8') ?>
+                                                </a>
+                                            </li>
+                                            <?php endif; ?>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form method="POST" action="<?= $basePath ?>/admin/volunteers"
+                                                      onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_dashboard.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+                                                    <?= csrf_field() ?>
+                                                    <input type="hidden" name="action" value="delete_volunteer">
+                                                    <input type="hidden" name="volunteer_id" value="<?= $subId ?>">
+                                                    <button type="submit" class="dropdown-item text-danger"><?= htmlspecialchars(__('btn.delete'), ENT_QUOTES, 'UTF-8') ?></button>
+                                                </form>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </td>
                             </tr>

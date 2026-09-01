@@ -95,7 +95,7 @@ require_once ROOT_PATH . '/partials/header.php';
             <ul id="map-list" class="list-group list-group-flush small" style="max-height: 50vh; overflow-y: auto;" aria-labelledby="map-list-heading" aria-live="polite"></ul>
         </div>
         <div class="col-lg-9">
-            <div id="prd-map" style="min-height: 70vh; border: 1px solid #ccc;" role="application" aria-label="<?= htmlspecialchars(__('map.canvas_aria') !== 'map.canvas_aria' ? __('map.canvas_aria') : 'Map of records', ENT_QUOTES, 'UTF-8') ?>"></div>
+            <div id="prd-map" class="prd-map-canvas" style="min-height: 70vh; border: 1px solid #ccc;" role="application" aria-label="<?= htmlspecialchars(__('map.canvas_aria') !== 'map.canvas_aria' ? __('map.canvas_aria') : 'Map of records', ENT_QUOTES, 'UTF-8') ?>"></div>
         </div>
     </div>
 </div>
