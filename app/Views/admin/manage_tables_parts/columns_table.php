@@ -14,20 +14,20 @@ $__t = static function (string $key, string $fallback = ''): string {
     <h3 class="fw-bold mb-0"><?= htmlspecialchars(__('manage_tables.existing_cols_heading_prefix'), ENT_QUOTES, 'UTF-8') ?> "<?= htmlspecialchars((string) ($activeTableInfo['table_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"</h3>
 </div>
 <div class="card shadow-sm border-0">
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0" role="table">
+    <div class="table-responsive w-100">
+        <table class="table table-striped table-hover align-middle mb-0 w-100" role="table">
             <thead class="table-light">
                 <tr>
-                    <th scope="col" style="width: 50px;" class="text-center py-3 ps-3"><?= htmlspecialchars(__('feedback_schema.th_move'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_field_name'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_data_type'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_required'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('manage_tables.th_public_search'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('manage_tables.th_display_format'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_max_length'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('feedback_schema.th_created_by'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3"><?= htmlspecialchars(__('manage_tables.th_date_created'), ENT_QUOTES, 'UTF-8') ?></th>
-                    <th scope="col" class="py-3 pe-3 text-end"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" style="width: 50px;" class="text-center py-3 px-3"><?= htmlspecialchars(__('feedback_schema.th_move'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('feedback_schema.th_field_name'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('feedback_schema.th_data_type'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('feedback_schema.th_required'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('manage_tables.th_public_search'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('manage_tables.th_display_format'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('feedback_schema.th_max_length'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('feedback_schema.th_created_by'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3"><?= htmlspecialchars(__('manage_tables.th_date_created'), ENT_QUOTES, 'UTF-8') ?></th>
+                    <th scope="col" class="py-3 px-3 text-end"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></th>
                 </tr>
             </thead>
             <tbody id="sortable-columns-body">
@@ -90,15 +90,23 @@ $__t = static function (string $key, string $fallback = ''): string {
                             <td><?= htmlspecialchars((string) $maxLength, ENT_QUOTES, 'UTF-8') ?></td>
                             <td><?= htmlspecialchars($createdBy, ENT_QUOTES, 'UTF-8') ?></td>
                             <td><?= format_user_time($createdAt, $userTimezone, $fullFormatStr) ?></td>
-                            <td class="text-end pe-3 text-nowrap">
-                                <a href="<?= $basePath ?>/admin/tables?table_id=<?= (int) $activeTableId ?>&edit_column=<?= $colId ?>#create-column-details" class="btn btn-sm btn-outline-secondary me-1"><?= htmlspecialchars(__('feedback_schema.edit_btn'), ENT_QUOTES, 'UTF-8') ?></a>
-                                <form method="POST" action="<?= $basePath ?>/admin/tables" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('manage_tables.delete_col_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
-                                    <?= csrf_field() ?>
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="column_id" value="<?= $colId ?>">
-                                    <input type="hidden" name="table_id" value="<?= (int) $activeTableId ?>">
-                                    <button type="submit" class="btn btn-sm btn-danger" formnovalidate><?= htmlspecialchars(__('btn.delete'), ENT_QUOTES, 'UTF-8') ?></button>
-                                </form>
+                            <td class="text-end pe-3">
+                                <div class="dropdown d-inline-block">
+                                    <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2">
+                                        <li><a class="dropdown-item" href="<?= $basePath ?>/admin/tables?table_id=<?= (int) $activeTableId ?>&edit_column=<?= $colId ?>#create-column-details"><?= htmlspecialchars(__('feedback_schema.edit_btn'), ENT_QUOTES, 'UTF-8') ?></a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <form method="POST" action="<?= $basePath ?>/admin/tables" onsubmit="return confirm('<?= htmlspecialchars(__('manage_tables.delete_col_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="column_id" value="<?= $colId ?>">
+                                                <input type="hidden" name="table_id" value="<?= (int) $activeTableId ?>">
+                                                <button type="submit" class="dropdown-item text-danger" formnovalidate><?= htmlspecialchars(__('btn.delete'), ENT_QUOTES, 'UTF-8') ?></button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -8,7 +8,11 @@ $tid = isset($_GET['table_id']) ? (int) $_GET['table_id'] : 0;
 $brandLine = 'pRD — ' . $systemName;
 ?>
 <!DOCTYPE html>
-<html lang="<?= htmlspecialchars(function_exists('get_active_language') ? get_active_language() : 'en', ENT_QUOTES, 'UTF-8') ?>">
+<?php
+$printLang = function_exists('get_active_language') ? get_active_language() : 'en';
+$printRtl = in_array(strtolower((string) $printLang), ['ar', 'fa', 'he', 'ur', 'ps', 'prs', 'yi', 'ckb', 'dv'], true);
+?>
+<html lang="<?= htmlspecialchars($printLang, ENT_QUOTES, 'UTF-8') ?>" dir="<?= $printRtl ? 'rtl' : 'ltr' ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,10 +61,11 @@ $brandLine = 'pRD — ' . $systemName;
         th, td {
             border-bottom: 1px solid #ccc;
             padding: 0.45rem 0.55rem;
-            text-align: left;
-            vertical-align: top;
-            overflow-wrap: anywhere;
-            hyphens: auto;
+            text-align: center;
+            vertical-align: middle;
+            overflow-wrap: break-word;
+            word-break: normal;
+            hyphens: none;
         }
         th {
             background: #f4f4f4;
@@ -70,6 +75,7 @@ $brandLine = 'pRD — ' . $systemName;
             text-transform: uppercase;
             letter-spacing: 0.02em;
             border-bottom: 2px solid #222;
+            white-space: nowrap;
         }
         tr:nth-child(even) td { background: #fafafa; }
         @page {

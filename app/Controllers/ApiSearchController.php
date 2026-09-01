@@ -192,59 +192,35 @@ class ApiSearchController
                     } else {
                         $displayVal = $rawVal;
                     }
-                    echo '<td>' . htmlspecialchars((string) $displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
+                    echo '<td data-col-id="' . (int) $cId . '">' . htmlspecialchars((string) $displayVal, ENT_QUOTES, 'UTF-8') . '</td>';
                 }
 
-                $creatorId = isset($rec['created_by']) ? (int) $rec['created_by'] : 0;
-                if ($creatorId > 0) {
-                    $creator = [
-                        'id' => $creatorId,
-                        'username' => isset($rec['username']) && is_string($rec['username']) ? $rec['username'] : '',
-                        'first_name' => isset($rec['first_name']) && is_string($rec['first_name']) ? $rec['first_name'] : '',
-                        'surname' => isset($rec['surname']) && is_string($rec['surname']) ? $rec['surname'] : '',
-                        'attribution_display_mode' => isset($rec['attribution_display_mode']) && is_string($rec['attribution_display_mode'])
-                            ? $rec['attribution_display_mode']
-                            : 'initials_random',
-                    ];
-                    $createdByLabel = function_exists('format_user_display_name')
-                        ? format_user_display_name($this->pdo, $creator, $currentUser)
-                        : 'Contributor';
-                } else {
-                    $createdByLabel = 'System';
-                }
+                echo '<td class="text-end pe-2" data-col-id="actions">';
+                $actionsLabel = (__('index.th_actions') !== 'index.th_actions') ? __('index.th_actions') : 'Actions';
+                echo '<div class="dropdown d-inline-block">';
+                echo '<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">'
+                    . htmlspecialchars($actionsLabel, ENT_QUOTES, 'UTF-8') . '</button>';
+                echo '<ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2">';
+                $viewLabel = (__('record.view') !== 'record.view') ? __('record.view') : 'View record';
+                echo '<li><a class="dropdown-item" href="' . htmlspecialchars($basePath . '/records/' . $recId, ENT_QUOTES, 'UTF-8') . '">'
+                    . htmlspecialchars($viewLabel, ENT_QUOTES, 'UTF-8') . '</a></li>';
+                echo '<li><a class="dropdown-item" href="record_history.php?record_id=' . $recId . '">'
+                    . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a></li>';
 
-                if (!function_exists('show_created_by_column') || show_created_by_column($tableId)) {
-                    echo '<td>' . htmlspecialchars($createdByLabel, ENT_QUOTES, 'UTF-8') . '</td>';
-                }
-                if (!function_exists('show_created_at_column') || show_created_at_column($tableId)) {
-                    echo '<td>' . htmlspecialchars(format_user_time($recCreatedAt, $userTimezone, $fullFormatStr), ENT_QUOTES, 'UTF-8') . '</td>';
-                }
-
-                echo '<td class="text-end pe-3 text-nowrap">';
-
-                // History
-                echo '<a href="record_history.php?record_id=' . $recId
-                    . '" class="btn btn-sm btn-outline-secondary py-0 px-2 text-decoration-none me-1" style="font-size: 0.75rem;">'
-                    . htmlspecialchars(__('api_search.history_btn'), ENT_QUOTES, 'UTF-8') . '</a>';
-
-                // Suggest edit (moderation module / can_suggest_edit)
                 if ($canSuggestEdit) {
-                    echo '<button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 suggest-edit-btn me-1" data-record-id="'
-                        . $recId . '" style="font-size: 0.75rem;">'
-                        . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button>';
+                    echo '<li><button type="button" class="dropdown-item suggest-edit-btn" data-record-id="'
+                        . $recId . '">'
+                        . htmlspecialchars(__('api_search.suggest_edit_btn'), ENT_QUOTES, 'UTF-8') . '</button></li>';
                 }
 
-                // Direct edit (permission: edit_records) — independent of moderation module
                 if ($canEditRecords) {
                     $editLabel = (__('btn.edit') !== 'btn.edit') ? __('btn.edit') : 'Edit';
                     $returnUrl = $basePath . '/?table_id=' . (int) $tableId;
                     $editUrl = $basePath . '/records/' . $recId . '/edit?return=' . rawurlencode($returnUrl);
-                    echo '<a href="' . htmlspecialchars($editUrl, ENT_QUOTES, 'UTF-8')
-                        . '" class="btn btn-sm btn-outline-success py-0 px-2 me-1 text-decoration-none" style="font-size: 0.75rem;">'
-                        . htmlspecialchars($editLabel, ENT_QUOTES, 'UTF-8') . '</a>';
+                    echo '<li><a class="dropdown-item" href="' . htmlspecialchars($editUrl, ENT_QUOTES, 'UTF-8') . '">'
+                        . htmlspecialchars($editLabel, ENT_QUOTES, 'UTF-8') . '</a></li>';
                 }
 
-                // Delete (permission: delete_records)
                 if ($canDeleteRecords) {
                     $delLabel = (__('data_entry.delete_record_btn') !== 'data_entry.delete_record_btn')
                         ? __('data_entry.delete_record_btn') : 'Delete';
@@ -255,20 +231,19 @@ class ApiSearchController
                     $returnUrl = (str_contains($ref, '/data-entry'))
                         ? ($basePath . '/data-entry?table_id=' . (int) $tableId)
                         : ($basePath . '/?table_id=' . (int) $tableId);
-                    // Confirm on the button (more reliable than form onsubmit when HTML is injected via AJAX)
                     $confirmJs = 'return confirm(' . json_encode($delConfirm, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . ');';
-                    echo '<form method="POST" action="' . htmlspecialchars($basePath . '/records/delete', ENT_QUOTES, 'UTF-8')
-                        . '" class="d-inline-block ms-1">';
+                    echo '<li><hr class="dropdown-divider"></li><li>';
+                    echo '<form method="POST" action="' . htmlspecialchars($basePath . '/records/delete', ENT_QUOTES, 'UTF-8') . '">';
                     echo '<input type="hidden" name="csrf_token" value="' . htmlspecialchars((string) $csrfToken, ENT_QUOTES, 'UTF-8') . '">';
                     echo '<input type="hidden" name="record_id" value="' . $recId . '">';
                     echo '<input type="hidden" name="return_url" value="' . htmlspecialchars($returnUrl, ENT_QUOTES, 'UTF-8') . '">';
-                    echo '<button type="submit" class="btn btn-sm btn-outline-danger py-0 px-2" style="font-size: 0.75rem;" onclick="'
+                    echo '<button type="submit" class="dropdown-item text-danger" onclick="'
                         . htmlspecialchars($confirmJs, ENT_QUOTES, 'UTF-8') . '">'
                         . htmlspecialchars($delLabel, ENT_QUOTES, 'UTF-8') . '</button>';
-                    echo '</form>';
+                    echo '</form></li>';
                 }
 
-                echo '</td>';
+                echo '</ul></div></td>';
                 echo '</tr>';
             }
         }

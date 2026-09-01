@@ -171,22 +171,28 @@ if ($pdoOk) {
 <!-- Top Accessibility & Language Bar -->
 <div class="bg-dark text-white py-1 px-3 small border-bottom">
     <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <div>
+        <div class="d-inline-flex align-items-center gap-2 flex-wrap">
             <a href="?contrast=toggle" class="text-white text-decoration-none d-inline-flex align-items-center gap-1" role="button"
                aria-label="<?= htmlspecialchars(__('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?>">
                 <span aria-hidden="true">👁️</span>
                 <span><?= htmlspecialchars($isHighContrast ? __('nav.low_contrast') : __('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?></span>
             </a>
+            <span class="text-white-50" aria-hidden="true">|</span>
+            <span class="d-inline-flex align-items-center gap-1" role="group" aria-label="<?= htmlspecialchars(__('nav.zoom_group') !== 'nav.zoom_group' ? __('nav.zoom_group') : 'Text size', ENT_QUOTES, 'UTF-8') ?>">
+                <a href="?zoom=down" class="text-white text-decoration-none px-1" aria-label="<?= htmlspecialchars(__('nav.zoom_out') !== 'nav.zoom_out' ? __('nav.zoom_out') : 'Smaller text', ENT_QUOTES, 'UTF-8') ?>">−</a>
+                <a href="?zoom=reset" class="text-white text-decoration-none" aria-label="<?= htmlspecialchars(__('nav.zoom_reset') !== 'nav.zoom_reset' ? __('nav.zoom_reset') : 'Reset text size', ENT_QUOTES, 'UTF-8') ?>"><?= (int) ($prdZoom ?? 100) ?>%</a>
+                <a href="?zoom=up" class="text-white text-decoration-none px-1" aria-label="<?= htmlspecialchars(__('nav.zoom_in') !== 'nav.zoom_in' ? __('nav.zoom_in') : 'Larger text', ENT_QUOTES, 'UTF-8') ?>">+</a>
+            </span>
         </div>
         <?php if (count($navLanguages) > 1): ?>
             <div class="d-inline-flex align-items-center gap-2">
-                <label for="site-lang-select" class="text-white-50 mb-0">
-                    <span aria-hidden="true">🌐</span>
+                <label for="site-lang-select" class="mb-0 prd-lang-mark">
+                    <span aria-hidden="true">Aa</span>
                     <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
                 </label>
                 <select id="site-lang-select"
                         onchange="if(this.value) window.location.href='?lang=' + encodeURIComponent(this.value);"
-                        class="form-select form-select-sm bg-dark text-white border-secondary py-0 px-2"
+                        class="form-select form-select-sm prd-lang-select py-0 px-2"
                         style="width: auto; font-size: 0.85rem;"
                         aria-label="<?= htmlspecialchars(__('nav.select_language'), ENT_QUOTES, 'UTF-8') ?>"
                     <?php foreach ($navLanguages as $code => $label): ?>
@@ -420,7 +426,7 @@ if ($pdoOk) {
             <ul class="navbar-nav ms-auto align-items-lg-center gap-2 mt-3 mt-lg-0">
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item d-flex align-items-center gap-2">
-                        <span class="navbar-text small text-secondary">
+                        <span class="navbar-text text-secondary">
                             <?= htmlspecialchars(__('nav.welcome'), ENT_QUOTES, 'UTF-8') ?>
                             <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile"
                                class="fw-bold text-dark text-decoration-none <?= $navActive('/profile') ?>"
@@ -430,9 +436,10 @@ if ($pdoOk) {
                         </span>
                         <?php if ($modLeaderboard): ?>
                             <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard"
-                               class="badge bg-warning text-dark text-decoration-none px-2 py-1"
+                               class="badge bg-warning text-dark text-decoration-none px-2 py-2 prd-points-badge"
                                aria-label="<?= htmlspecialchars(__('nav.leaderboard_score'), ENT_QUOTES, 'UTF-8') ?>: <?= $userPoints ?>">
-                                ⭐ <span class="fw-bold"><?= $userPoints ?></span>
+                                <span class="prd-points-star" aria-hidden="true">★</span>
+                                <span class="fw-bold fs-6"><?= $userPoints ?></span>
                             </a>
                         <?php endif; ?>
                     </li>

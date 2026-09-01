@@ -214,11 +214,27 @@ class AdminSettingsController
 
         try {
             $this->settingsService->saveCoreSettings($_POST, $currentUser);
-            flash_success('Global site settings, mail configurations, and security parameters updated successfully.');
+            $ok = true;
+            $msg = function_exists('__') && __('settings.saved') !== 'settings.saved'
+                ? __('settings.saved')
+                : 'Saved.';
         } catch (Exception $e) {
-            flash_error($e->getMessage());
+            $ok = false;
+            $msg = $e->getMessage();
         }
 
+        $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower((string) $_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+        if ($ajax) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(['ok' => $ok, 'message' => $msg]);
+            exit;
+        }
+        if ($ok) {
+            flash_success('Global site settings, mail configurations, and security parameters updated successfully.');
+        } else {
+            flash_error($msg);
+        }
         redirect('/admin/settings');
     }
 }

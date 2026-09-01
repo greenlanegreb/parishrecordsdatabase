@@ -7,12 +7,35 @@
  */
 declare(strict_types=1);
 /** Translate with fallback when lang key is missing. @return string */
-$__t = static function (string $key, string $fallback = ''): string {
-    $v = function_exists('__') ? (string) __($key) : $key;
-    if ($v !== $key && $v !== '') {
-        return $v;
+$prdTitleCase = static function (string $text): string {
+    $small = ['a','an','and','as','at','but','by','for','from','in','into','of','on','or','the','to','with','via'];
+    $words = preg_split('/(\s+)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE) ?: [];
+    $i = 0;
+    $out = '';
+    foreach ($words as $w) {
+        if ($w === '' || preg_match('/^\s+$/', $w)) {
+            $out .= $w;
+            continue;
+        }
+        $low = function_exists('mb_strtolower') ? mb_strtolower($w) : strtolower($w);
+        $first = function_exists('mb_substr') ? mb_substr($low, 0, 1) : substr($low, 0, 1);
+        $rest = function_exists('mb_substr') ? mb_substr($low, 1) : substr($low, 1);
+        $cap = (function_exists('mb_strtoupper') ? mb_strtoupper($first) : strtoupper($first)) . $rest;
+        if ($i > 0 && in_array($low, $small, true)) {
+            $out .= $low;
+        } else {
+            $out .= $cap;
+        }
+        $i++;
     }
-    return $fallback !== '' ? $fallback : $key;
+    return $out;
+};
+$__t = static function (string $key, string $fallback = '') use ($prdTitleCase): string {
+    $v = function_exists('__') ? (string) __($key) : $key;
+    if ($v === $key || $v === '') {
+        $v = $fallback !== '' ? $fallback : $key;
+    }
+    return $prdTitleCase($v);
 };
 
 /** @var string $message */
@@ -85,8 +108,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
     animation: spin 0.8s linear infinite;
     display: inline-block;
 }
+#main-content .form-check {
+    margin-bottom: 0.7rem;
+}
+.perm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 0.5rem 1rem;
+    align-items: start;
+}
+.perm-role-table tbody tr td {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+#panel-appearance input[type=color] {
+    min-width: 3rem;
+    min-height: 2.25rem;
+}
 </style>
-<div class="container py-4" role="region" aria-label="Site Settings Form" style="max-width: 1100px;">
+<div class="container-fluid px-3 px-md-4 px-xl-5 py-4" role="region" aria-label="Site Settings Form">
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></strong>
@@ -100,9 +141,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         </div>
     <?php endif; ?>
     <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('settings.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
-    <p class="text-muted mb-4"><?= htmlspecialchars(__('settings.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
+    <p class="text-muted mb-4"><?= htmlspecialchars($__t('settings.subheading', 'Manage Core Configurations, Mail Drivers, Security/CAPTCHA Options, Feature Modules, Maintenance Mode, Site Announcements, and Role Capabilities.'), ENT_QUOTES, 'UTF-8') ?></p>
     <!-- Accessible Bootstrap Nav Tabs -->
-    <ul class="nav nav-tabs mb-4" role="tablist" aria-label="Settings Sections">
+    <ul class="nav nav-tabs mb-4 flex-nowrap" role="tablist" aria-label="Settings Sections">
         <?php if (!empty($canManageSettings)): ?>
         <li class="nav-item" role="presentation">
             <button class="nav-link fw-bold" id="tab-core" data-bs-toggle="tab" data-bs-target="#panel-core" type="button" role="tab" aria-controls="panel-core" aria-selected="false"><?= htmlspecialchars($__t('settings.tab_core', 'Core'), ENT_QUOTES, 'UTF-8') ?></button>
@@ -255,6 +296,25 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     activateTab(resolveButtonId());
+    function refreshAppearanceSwatches() {
+        const pane = document.getElementById('panel-appearance');
+        if (!pane) return;
+        pane.querySelectorAll('.tab-pane').forEach((p) => p.classList.remove('show', 'active'));
+        const colors = document.getElementById('appear-colors');
+        if (colors) colors.classList.add('show', 'active');
+        document.querySelectorAll('#appear-colors-tab, [data-bs-target="#appear-colors"]').forEach((b) => {
+            b.classList.add('active');
+            b.setAttribute('aria-selected', 'true');
+        });
+        pane.querySelectorAll('input[type=color]').forEach((el) => {
+            const parent = el.parentNode;
+            if (!parent) return;
+            const neu = el.cloneNode(true);
+            parent.replaceChild(neu, el);
+        });
+    }
+    document.getElementById('tab-appearance')?.addEventListener('shown.bs.tab', () => setTimeout(refreshAppearanceSwatches, 200));
+    document.getElementById('tab-appearance')?.addEventListener('click', () => setTimeout(refreshAppearanceSwatches, 250));
 });
 </script>
 
@@ -270,5 +330,47 @@ document.addEventListener('shown.bs.tab', function (ev) {
         window.history.replaceState({}, '', url.pathname + url.search);
     }
 });
+</script>
+<script>
+(function () {
+    var form = document.getElementById('settings-core-form');
+    if (!form) return;
+    var timer = null;
+    var lastEl = null;
+    var saved = <?= json_encode(function_exists('__') && __('settings.saved') !== 'settings.saved' ? __('settings.saved') : 'Saved.', JSON_UNESCAPED_UNICODE) ?>;
+    function mark(el) {
+        if (!el || !el.parentElement) return;
+        var tag = el.parentElement.querySelector('.appear-saved');
+        if (!tag) {
+            tag = document.createElement('span');
+            tag.className = 'appear-saved small text-success ms-2';
+            el.parentElement.appendChild(tag);
+        }
+        tag.hidden = false;
+        tag.textContent = saved;
+    }
+    function persist() {
+        var data = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            body: data,
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        }).then(function (r) { return r.json(); }).then(function () {
+            mark(lastEl);
+        }).catch(function () {});
+    }
+    form.addEventListener('change', function (e) {
+        lastEl = e.target;
+        clearTimeout(timer);
+        timer = setTimeout(persist, 250);
+    });
+    form.addEventListener('focusout', function (e) {
+        if (!e.target) return;
+        lastEl = e.target;
+        clearTimeout(timer);
+        timer = setTimeout(persist, 250);
+    });
+})();
 </script>
 <?php require_once ROOT_PATH . '/partials/footer.php'; ?>

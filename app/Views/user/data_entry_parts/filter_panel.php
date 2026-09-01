@@ -23,7 +23,25 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
     <div class="card-body">
         <details id="search-filter-details" <?= !empty($hasActiveSearch) ? 'open' : '' ?>>
             <summary class="fw-bold fs-6 text-dark" style="cursor: pointer; outline: none;">
-                <?= htmlspecialchars(__('data_entry.search_summary'), ENT_QUOTES, 'UTF-8') ?>
+                <?php
+                $deTbl = '';
+                if (!empty($allTables) && is_array($allTables)) {
+                    foreach ($allTables as $t) {
+                        if ((int) ($t['id'] ?? 0) === (int) ($activeTableId ?? 0)) {
+                            $deTbl = isset($t['table_name']) && is_string($t['table_name']) ? ucfirst($t['table_name']) : '';
+                            break;
+                        }
+                    }
+                }
+                $searchSum = __('data_entry.search_summary');
+                if ($searchSum === 'data_entry.search_summary') {
+                    $searchSum = 'Search and Filter Existing Records';
+                }
+                $searchSum = preg_replace('/\s*\(.*\)$/', '', (string) $searchSum) ?? $searchSum;
+                $forW = (__('search.heading_for') !== 'search.heading_for') ? __('search.heading_for') : 'for';
+                $clickW = (__('data_entry.click_expand') !== 'data_entry.click_expand') ? __('data_entry.click_expand') : 'Click to Expand/Collapse';
+                echo htmlspecialchars(trim($searchSum) . ($deTbl !== '' ? ' ' . $forW . ' ' . $deTbl : '') . ' (' . $clickW . ')', ENT_QUOTES, 'UTF-8');
+                ?>
             </summary>
             <div class="mt-3 pt-3 border-top">
                 <form id="search-form" onsubmit="return false;">
@@ -41,7 +59,7 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                 <?php if ($isDate): ?>
                                     <fieldset class="border-0 p-0 m-0">
                                         <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></legend>
-                                        <div class="d-flex gap-2 align-items-center">
+                                        <div class="d-flex flex-wrap gap-2 align-items-center">
                                             <label class="visually-hidden" for="date_from_<?= $colId ?>"><?= htmlspecialchars($colName . ' — ' . (__('data_entry.date_from_label') !== 'data_entry.date_from_label' ? __('data_entry.date_from_label') : 'From'), ENT_QUOTES, 'UTF-8') ?></label>
                                             <input type="text"
                                                    id="date_from_<?= $colId ?>"
@@ -100,7 +118,7 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                                 ?>
                                     <fieldset class="border-0 p-0 m-0">
                                         <legend class="form-label small fw-bold mb-1"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></legend>
-                                        <div class="d-flex gap-2 align-items-center">
+                                        <div class="d-flex flex-wrap gap-2 align-items-center">
                                             <label class="visually-hidden" for="time_from_<?= $colId ?>"><?= htmlspecialchars($colName . ' — ' . (__('data_entry.date_from_label') !== 'data_entry.date_from_label' ? __('data_entry.date_from_label') : 'From'), ENT_QUOTES, 'UTF-8') ?></label>
                                             <input type="text"
                                                    id="time_from_<?= $colId ?>"
@@ -150,9 +168,9 @@ $datePlaceholder = function_exists('get_date_placeholder') ? get_date_placeholde
                         <a href="#" id="export-json-btn" class="btn btn-sm btn-outline-secondary ">
                             <?= htmlspecialchars(__('data_entry.json_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
-                        <button type="button" id="copy-clipboard-btn" class="btn btn-sm btn-outline-secondary">
+                        <a href="#" id="copy-clipboard-btn" class="btn btn-sm btn-outline-secondary" role="button">
                             <?= htmlspecialchars(__('data_entry.copy_entire_btn'), ENT_QUOTES, 'UTF-8') ?>
-                        </button>
+                        </a>
                         <a href="#" id="print-records-btn" class="btn btn-sm btn-outline-secondary ">
                             <?= htmlspecialchars(__('cols.print_btn') !== 'cols.print_btn' ? __('cols.print_btn') : 'Print', ENT_QUOTES, 'UTF-8') ?>
                         </a>

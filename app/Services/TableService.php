@@ -180,6 +180,8 @@ class TableService
         $maxLength = isset($post['max_length']) && $post['max_length'] !== '' ? (int)$post['max_length'] : null;
         $isRequired = isset($post['is_required']) ? 1 : 0;
         $excludeFromPublicSearch = isset($post['exclude_from_public_search']) ? 1 : 0;
+        $showInList = isset($post['show_in_list']) ? 1 : 0;
+        $showInRecord = isset($post['show_in_record']) ? 1 : 0;
 
         $allowedTypes = ['VARCHAR', 'TEXT', 'INT', 'BOOLEAN', 'DATE', 'TIME', 'SELECT', 'LOCATION'];
         if (!in_array($dataType, $allowedTypes, true)) {
@@ -237,8 +239,8 @@ class TableService
             $orderStmt->execute([$tableId]);
             $nextSortOrder = (int)$orderStmt->fetchColumn();
 
-            $stmt = $this->pdo->prepare("INSERT INTO table_columns (table_id, column_name, data_type, max_length, boolean_display_format, date_search_behavior, sort_order, is_required, exclude_from_public_search, created_by, field_options, allow_multiple, min_value, max_value) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            if (!$stmt->execute([$tableId, $columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $nextSortOrder, $isRequired, $excludeFromPublicSearch, $currentUser['id'], $fieldOptions, $allowMultiple, $minValue, $maxValue])) {
+            $stmt = $this->pdo->prepare("INSERT INTO table_columns (table_id, column_name, data_type, max_length, boolean_display_format, date_search_behavior, sort_order, is_required, exclude_from_public_search, created_by, field_options, allow_multiple, min_value, max_value, show_in_list, show_in_record) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            if (!$stmt->execute([$tableId, $columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $nextSortOrder, $isRequired, $excludeFromPublicSearch, $currentUser['id'], $fieldOptions, $allowMultiple, $minValue, $maxValue, $showInList, $showInRecord])) {
                 throw new Exception("Failed to create column.");
             }
 
@@ -252,8 +254,8 @@ class TableService
                 throw new Exception("Invalid column selected for update.");
             }
 
-            $stmt = $this->pdo->prepare("UPDATE table_columns SET column_name = ?, data_type = ?, max_length = ?, boolean_display_format = ?, date_search_behavior = ?, is_required = ?, exclude_from_public_search = ?, field_options = ?, allow_multiple = ?, min_value = ?, max_value = ? WHERE id = ?");
-            if (!$stmt->execute([$columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $isRequired, $excludeFromPublicSearch, $fieldOptions, $allowMultiple, $minValue, $maxValue, $columnId])) {
+            $stmt = $this->pdo->prepare("UPDATE table_columns SET column_name = ?, data_type = ?, max_length = ?, boolean_display_format = ?, date_search_behavior = ?, is_required = ?, exclude_from_public_search = ?, field_options = ?, allow_multiple = ?, min_value = ?, max_value = ?, show_in_list = ?, show_in_record = ? WHERE id = ?");
+            if (!$stmt->execute([$columnName, $dataType, $maxLength, $booleanDisplayFormat, $dateSearchBehavior, $isRequired, $excludeFromPublicSearch, $fieldOptions, $allowMultiple, $minValue, $maxValue, $showInList, $showInRecord, $columnId])) {
                 throw new Exception("Failed to update column.");
             }
 

@@ -92,7 +92,7 @@ $basePath = $basePath ?? '';
         <p class="text-muted small"><?= htmlspecialchars($__t('admin_errors.no_recent', 'No entries in the structured error log yet.'), ENT_QUOTES, 'UTF-8') ?></p>
     <?php else: ?>
         <div class="table-responsive card shadow-sm border-0">
-            <table class="table table-sm table-hover mb-0 small">
+            <table class="table table-sm table-striped table-hover mb-0 small w-100">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">ID</th>

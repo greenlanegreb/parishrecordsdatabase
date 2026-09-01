@@ -41,7 +41,7 @@ $openTableForm = $editTable || ($draftTableName !== null && $draftTableName !== 
                     <div>
                         <button type="submit" class="btn btn-primary"><?= $editTable ? htmlspecialchars(__('manage_tables.save_table_btn'), ENT_QUOTES, 'UTF-8') : htmlspecialchars(__('manage_tables.create_table_btn'), ENT_QUOTES, 'UTF-8') ?></button>
                         <?php if ($editTable): ?>
-                            <a href="<?= $basePath ?>/admin/tables?table_id=<?= $activeTableId ?>" class="btn btn-outline-secondary ms-2"><?= htmlspecialchars(__('btn.cancel'), ENT_QUOTES, 'UTF-8') ?></a>
+                            <a href="<?= $basePath ?>/admin/tables?table_id=<?= $activeTableId ?>" class="btn btn-outline-dark ms-2"><?= htmlspecialchars(__('btn.cancel'), ENT_QUOTES, 'UTF-8') ?></a>
                         <?php endif; ?>
                     </div>
                 </form>

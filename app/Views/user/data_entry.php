@@ -187,6 +187,10 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 const csvBtn = document.getElementById('export-csv-btn');
                 const jsonBtn = document.getElementById('export-json-btn');
                 document.querySelectorAll('.js-col-vis:checked').forEach(cb => formData.append('cols[]', cb.value));
+                document.querySelectorAll('#data-entry-table thead th[data-col-id]').forEach(th => {
+                    const id = th.getAttribute('data-col-id');
+                    if (id && id !== 'actions') formData.append('col_order[]', id);
+                });
                 if (csvBtn) csvBtn.href = basePath + '/api/export?' + formData.toString();
                 if (jsonBtn) jsonBtn.href = basePath + '/api/export-json?' + formData.toString();
                 const printBtn = document.getElementById('print-records-btn');
@@ -201,8 +205,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 }
                 if (printBtn) {
                     printBtn.textContent = hasActiveFilter
-                        ? <?= json_encode(__('cols.print_filtered') !== 'cols.print_filtered' ? __('cols.print_filtered') : 'Print filtered') ?>
-                        : <?= json_encode(__('cols.print_entire') !== 'cols.print_entire' ? __('cols.print_entire') : 'Print all') ?>;
+                        ? <?= json_encode(__('cols.print_filtered') !== 'cols.print_filtered' ? __('cols.print_filtered') : 'Print Filtered') ?>
+                        : <?= json_encode(__('cols.print_entire') !== 'cols.print_entire' ? __('cols.print_entire') : 'Print All') ?>;
                 }
 
                 fetch(basePath + '/api/search?' + formData.toString())
@@ -213,6 +217,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     .then(data => {
                         const tbody = document.getElementById('data-entry-table-body');
                         if (tbody) tbody.innerHTML = data.html || '';
+                        var deTbl = document.getElementById('data-entry-table');
+                        if (deTbl) deTbl.dispatchEvent(new Event('prd-rows-updated'));
                         renderPagination(data.total_pages || 1, data.current_page || 1);
                     })
                     .catch(() => {
@@ -289,7 +295,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             }
 
             // Clipboard
-            document.getElementById('copy-clipboard-btn')?.addEventListener('click', () => {
+            document.getElementById('copy-clipboard-btn')?.addEventListener('click', (e) => {
+                e.preventDefault();
                 const table = document.getElementById('data-entry-table') || document.querySelector('.table');
                 if (!table) return;
 
@@ -327,27 +334,18 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     if (cb.value === 'created_by' || cb.value === 'created_at') return;
                     const th = document.createElement('th');
                     th.scope = 'col';
-                    th.className = 'py-3';
-                    th.style.maxWidth = '14rem';
+                    th.className = 'py-3 text-nowrap';
+                    th.dataset.colId = cb.value;
                     const lab = document.querySelector('label[for="' + cb.id + '"]');
                     th.textContent = lab ? lab.textContent.trim() : '';
                     row.appendChild(th);
                 });
-                [
-                    { label: <?= json_encode(__('data_entry.th_added_by'), JSON_UNESCAPED_UNICODE) ?>, token: 'created_by' },
-                    { label: <?= json_encode(__('data_entry.th_date_created'), JSON_UNESCAPED_UNICODE) ?>, token: 'created_at' },
-                    { label: <?= json_encode(__('index.th_actions'), JSON_UNESCAPED_UNICODE) ?>, token: '' }
-                ].forEach((item, i) => {
-                    if (item.token) {
-                        const box = document.getElementById('colvis_' + item.token);
-                        if (box && !box.checked) return;
-                    }
-                    const th = document.createElement('th');
-                    th.scope = 'col';
-                    th.className = item.token === '' ? 'py-3 text-end pe-3' : 'py-3';
-                    th.textContent = item.label;
-                    row.appendChild(th);
-                });
+                const act = document.createElement('th');
+                act.scope = 'col';
+                act.className = 'py-3 text-end pe-3';
+                act.dataset.colId = 'actions';
+                act.textContent = <?= json_encode(__('index.th_actions'), JSON_UNESCAPED_UNICODE) ?>;
+                row.appendChild(act);
             }
             document.querySelectorAll('.js-col-vis').forEach(cb => {
                 cb.addEventListener('change', () => {

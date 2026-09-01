@@ -66,7 +66,17 @@ $st = static function (string $key, string $fallback): string {
                     usort($catPerms, static function (array $a, array $b): int {
                         $ka = isset($a['permission_key']) && is_string($a['permission_key']) ? $a['permission_key'] : '';
                         $kb = isset($b['permission_key']) && is_string($b['permission_key']) ? $b['permission_key'] : '';
-                        return strcasecmp($ka, $kb);
+                        $la = function_exists('permission_display_label') ? permission_display_label($ka) : $ka;
+                        $lb = function_exists('permission_display_label') ? permission_display_label($kb) : $kb;
+                        return strcasecmp((string) $la, (string) $lb);
+                    });
+                    $rolesSorted = is_array($rolesList) ? $rolesList : [];
+                    usort($rolesSorted, static function (array $a, array $b): int {
+                        $na = isset($a['role_name']) && is_string($a['role_name']) ? $a['role_name'] : '';
+                        $nb = isset($b['role_name']) && is_string($b['role_name']) ? $b['role_name'] : '';
+                        $da = function_exists('role_display_name') ? role_display_name($na) : $na;
+                        $db = function_exists('role_display_name') ? role_display_name($nb) : $nb;
+                        return strcasecmp((string) $da, (string) $db);
                     });
                 ?>
                 <div class="card shadow-sm border-0">
@@ -77,7 +87,7 @@ $st = static function (string $key, string $fallback): string {
                                 <span class="fw-normal text-muted small">(<?= count($catPerms) ?> permissions)</span>
                             </summary>
                             <div class="mt-3 pt-3 border-top table-responsive">
-                                <table class="table table-hover align-middle mb-0" role="table">
+                                <table class="table table-hover align-middle mb-0 perm-role-table" role="table">
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col" style="width: 20%;" class="py-2"><?= htmlspecialchars($st('settings.th_role', 'Role'), ENT_QUOTES, 'UTF-8') ?></th>
@@ -85,19 +95,19 @@ $st = static function (string $key, string $fallback): string {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($rolesList as $r): ?>
+                                        <?php foreach ($rolesSorted as $r): ?>
                                             <?php
                                                 $rId = isset($r['id']) ? (int) $r['id'] : 0;
                                                 $rName = isset($r['role_name']) && is_string($r['role_name']) ? $r['role_name'] : '';
                                             ?>
-                                            <tr>
+                                            <tr class="align-top">
                                                 <td class="fw-bold text-capitalize align-top">
                                                     <div class="d-flex flex-column gap-1">
                                                         <span title="<?= htmlspecialchars($rName, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(function_exists('role_display_name') ? role_display_name($rName) : $rName, ENT_QUOTES, 'UTF-8') ?></span>
                                                         <?php if ($rId > 4): ?>
                                                             <button type="submit"
                                                                     form="delete-role-form-<?= $rId ?>"
-                                                                    class="btn btn-sm btn-danger py-0 px-2 align-self-start"
+                                                                    class="btn btn-sm btn-danger py-0 px-2 align-self-center mx-auto"
                                                                     style="font-size: 0.75rem;">
                                                                 <?= htmlspecialchars($st('settings.delete_btn', 'Delete'), ENT_QUOTES, 'UTF-8') ?>
                                                             </button>
@@ -105,13 +115,16 @@ $st = static function (string $key, string $fallback): string {
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex flex-wrap gap-2 align-items-center">
+                                                    <div class="perm-grid">
                                                         <?php foreach ($catPerms as $p): ?>
                                                             <?php
                                                                 $pId = isset($p['id']) ? (int) $p['id'] : 0;
                                                                 $pkey = isset($p['permission_key']) && is_string($p['permission_key']) ? $p['permission_key'] : '';
                                                                 $pDesc = isset($p['description']) && is_string($p['description']) ? $p['description'] : '';
                                                                 $pLabel = function_exists('permission_display_label') ? permission_display_label($pkey) : ucwords(str_replace('_', ' ', $pkey));
+                                                                if (function_exists('prd_title_case')) {
+                                                                    $pLabel = prd_title_case((string) $pLabel);
+                                                                }
                                                                 $isChecked = isset($activeMappings[$rId][$pId]);
                                                                 $isLockedAdmin = ($rId === 1 && $isChecked);
                                                                 $isGuestRole = function_exists('is_guest_role_name') && is_guest_role_name($rName);
@@ -169,12 +182,40 @@ $st = static function (string $key, string $fallback): string {
             <?php endforeach; ?>
         </div>
 
-        <div class="mt-4">
-            <button type="submit" class="btn btn-primary"><?= htmlspecialchars($st('settings.save_permissions_btn', 'Save permissions'), ENT_QUOTES, 'UTF-8') ?></button>
-        </div>
+        <p class="small text-muted mt-3 mb-0" id="perm-save-status" aria-live="polite"></p>
     </form>
     <script>
     (function () {
+        var form = document.querySelector('#panel-permissions form[action*="permissions/save"]');
+        var statusEl = document.getElementById('perm-save-status');
+        var savedWord = <?= json_encode($st('settings.perm_saved', 'Saved')) ?>;
+        function persistPerms() {
+            if (!form) return;
+            var data = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: data,
+                credentials: 'same-origin',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            }).then(function (r) { return r.json(); }).then(function (j) {
+                if (statusEl) {
+                    statusEl.textContent = savedWord;
+                    statusEl.className = 'small text-success mt-3 mb-0';
+                }
+            }).catch(function () {
+                if (statusEl) {
+                    statusEl.textContent = <?= json_encode($st('settings.perm_save_failed', 'Could not save just then.')) ?>;
+                    statusEl.className = 'small text-danger mt-3 mb-0';
+                }
+            });
+        }
+        if (form) {
+            form.addEventListener('change', function (e) {
+                if (e.target && e.target.classList && e.target.classList.contains('js-perm')) {
+                    persistPerms();
+                }
+            });
+        }
         var needsWord = <?= json_encode($st('settings.perm_needs', 'Requires')) ?>;
         var usedByWord = <?= json_encode($st('settings.perm_used_by', 'Required by')) ?>;
         var lockedWord = <?= json_encode($st('settings.perm_locked', 'This permission is mandatory for Administrators.')) ?>;

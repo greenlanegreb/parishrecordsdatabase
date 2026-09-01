@@ -121,6 +121,15 @@ class AdminPermissionsActionController
             $_SESSION['error'] = "Failed to update permissions: " . $e->getMessage();
         }
 
+        $xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && is_string($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+        if ($xhr) {
+            header('Content-Type: application/json; charset=utf-8');
+            $ok = empty($_SESSION['error']);
+            echo json_encode(['ok' => $ok, 'error' => $_SESSION['error'] ?? null]);
+            unset($_SESSION['message'], $_SESSION['error']);
+            exit;
+        }
         header('Location: ' . BASE_PATH . '/admin/settings?tab=permissions');
         exit;
     }

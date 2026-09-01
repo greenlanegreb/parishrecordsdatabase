@@ -113,12 +113,20 @@ $keepColumnFormOpen = $editCol
 
                     <div class="mb-3 form-check">
                         <input type="checkbox" id="is_required" name="is_required" value="1" <?= $colOn('is_required') ? 'checked' : '' ?> class="form-check-input">
-                        <label for="is_required" class="form-check-label"><?= htmlspecialchars(__('manage_tables.req_toggle_label'), ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="is_required" class="form-check-label"><?= htmlspecialchars((__('manage_tables.req_toggle_label') !== 'manage_tables.req_toggle_label') ? __('manage_tables.req_toggle_label') : 'Make This Column Required (Mandatory Data Entry)', ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
 
                     <div class="mb-3 form-check">
                         <input type="checkbox" id="exclude_from_public_search" name="exclude_from_public_search" value="1" <?= $colOn('exclude_from_public_search') ? 'checked' : '' ?> class="form-check-input">
-                        <label for="exclude_from_public_search" class="form-check-label"><?= htmlspecialchars(__('manage_tables.exclude_search_label'), ENT_QUOTES, 'UTF-8') ?></label>
+                        <label for="exclude_from_public_search" class="form-check-label"><?= htmlspecialchars((__('manage_tables.exclude_search_label') !== 'manage_tables.exclude_search_label') ? __('manage_tables.exclude_search_label') : 'Exclude This Column From Public Search', ENT_QUOTES, 'UTF-8') ?></label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" id="show_in_list" name="show_in_list" value="1" <?= (!isset($editCol) || $colOn('show_in_list') || !array_key_exists('show_in_list', $editCol ?? [])) ? 'checked' : '' ?> class="form-check-input">
+                        <label for="show_in_list" class="form-check-label"><?= htmlspecialchars(__('manage_tables.show_in_list') !== 'manage_tables.show_in_list' ? __('manage_tables.show_in_list') : 'Show On The Search / Data-Entry List', ENT_QUOTES, 'UTF-8') ?></label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" id="show_in_record" name="show_in_record" value="1" <?= (!isset($editCol) || $colOn('show_in_record') || !array_key_exists('show_in_record', $editCol ?? [])) ? 'checked' : '' ?> class="form-check-input">
+                        <label for="show_in_record" class="form-check-label"><?= htmlspecialchars(__('manage_tables.show_in_record') !== 'manage_tables.show_in_record' ? __('manage_tables.show_in_record') : 'Show On The Full Record Page', ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
 
                     <?php if ($editCol): ?>

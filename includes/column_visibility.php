@@ -35,12 +35,29 @@ function column_visibility_tokens(int $tableId): ?array
     return null;
 }
 
+function column_shown_on_list(array $col): bool
+{
+    return !array_key_exists('show_in_list', $col) || (int) $col['show_in_list'] === 1;
+}
+
+function column_shown_on_record(array $col): bool
+{
+    return !array_key_exists('show_in_record', $col) || (int) $col['show_in_record'] === 1;
+}
+
 /**
  * @param array<int, array<string, mixed>> $columns
  * @return array<int, array<string, mixed>>
  */
 function resolve_visible_columns(array $columns, int $tableId): array
 {
+    $list = [];
+    foreach ($columns as $col) {
+        if (column_shown_on_list($col)) {
+            $list[] = $col;
+        }
+    }
+    $columns = $list;
     $allIds = [];
     foreach ($columns as $col) {
         $cid = isset($col['id']) ? (int) $col['id'] : 0;
@@ -50,7 +67,7 @@ function resolve_visible_columns(array $columns, int $tableId): array
     }
     $tokens = column_visibility_tokens($tableId);
     if ($tokens === null) {
-        return $columns;
+        return apply_column_display_order($columns);
     }
     $allowed = [];
     foreach ($tokens as $token) {
@@ -69,7 +86,43 @@ function resolve_visible_columns(array $columns, int $tableId): array
             $visible[] = $col;
         }
     }
-    return $visible;
+    return apply_column_display_order($visible);
+}
+
+/**
+ * Honour dragged column order from col_order[] (export / print / list).
+ *
+ * @param array<int, array<string, mixed>> $columns
+ * @param list<mixed>|null $orderIds
+ * @return array<int, array<string, mixed>>
+ */
+function apply_column_display_order(array $columns, ?array $orderIds = null): array
+{
+    if ($orderIds === null && isset($_GET['col_order']) && is_array($_GET['col_order'])) {
+        $orderIds = $_GET['col_order'];
+    }
+    if (!is_array($orderIds) || $orderIds === []) {
+        return $columns;
+    }
+    $byId = [];
+    foreach ($columns as $col) {
+        $cid = isset($col['id']) ? (int) $col['id'] : 0;
+        if ($cid > 0) {
+            $byId[$cid] = $col;
+        }
+    }
+    $out = [];
+    foreach ($orderIds as $raw) {
+        $id = (int) $raw;
+        if (isset($byId[$id])) {
+            $out[] = $byId[$id];
+            unset($byId[$id]);
+        }
+    }
+    foreach ($byId as $col) {
+        $out[] = $col;
+    }
+    return $out;
 }
 
 /**

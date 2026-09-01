@@ -1,0 +1,28 @@
+<?php
+declare(strict_types=1);
+
+if (!function_exists('prd_title_case')) {
+    function prd_title_case(string $text): string
+    {
+        $small = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'from', 'in', 'into', 'of', 'on', 'or', 'the', 'to', 'with', 'via'];
+        $words = preg_split('/(\s+)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+        if ($words === false) {
+            return $text;
+        }
+        $i = 0;
+        $out = '';
+        foreach ($words as $w) {
+            if ($w === '' || preg_match('/^\s+$/', $w) === 1) {
+                $out .= $w;
+                continue;
+            }
+            $low = function_exists('mb_strtolower') ? mb_strtolower($w) : strtolower($w);
+            $first = function_exists('mb_substr') ? mb_substr($low, 0, 1) : substr($low, 0, 1);
+            $rest = function_exists('mb_substr') ? mb_substr($low, 1) : substr($low, 1);
+            $cap = (function_exists('mb_strtoupper') ? mb_strtoupper($first) : strtoupper($first)) . $rest;
+            $out .= ($i > 0 && in_array($low, $small, true)) ? $low : $cap;
+            $i++;
+        }
+        return $out;
+    }
+}

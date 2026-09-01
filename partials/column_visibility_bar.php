@@ -21,20 +21,14 @@ $visibleIds = function_exists('visible_column_ids') ? visible_column_ids($visibl
                 if ($cid < 1) {
                     continue;
                 }
+                if (function_exists('column_shown_on_list') && !column_shown_on_list($col)) {
+                    continue;
+                }
             ?>
             <div class="form-check">
                 <input class="form-check-input js-col-vis" type="checkbox" name="cols[]" value="<?= $cid ?>" id="colvis_<?= $cid ?>" <?= in_array($cid, $visibleIds, true) ? 'checked' : '' ?>>
                 <label class="form-check-label" for="colvis_<?= $cid ?>"><?= htmlspecialchars($cname, ENT_QUOTES, 'UTF-8') ?></label>
             </div>
         <?php endforeach; ?>
-            <?php $tableIdForMeta = isset($activeTableId) ? (int) $activeTableId : 0; ?>
-            <div class="form-check">
-                <input class="form-check-input js-col-vis" type="checkbox" name="cols[]" value="created_by" id="colvis_created_by" <?= ($tableIdForMeta < 1 || !function_exists('show_created_by_column') || show_created_by_column($tableIdForMeta)) ? 'checked' : '' ?>>
-                <label class="form-check-label" for="colvis_created_by"><?= htmlspecialchars(__('index.th_created_by') !== 'index.th_created_by' ? __('index.th_created_by') : 'Created by', ENT_QUOTES, 'UTF-8') ?></label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input js-col-vis" type="checkbox" name="cols[]" value="created_at" id="colvis_created_at" <?= ($tableIdForMeta < 1 || !function_exists('show_created_at_column') || show_created_at_column($tableIdForMeta)) ? 'checked' : '' ?>>
-                <label class="form-check-label" for="colvis_created_at"><?= htmlspecialchars(__('index.th_date_added') !== 'index.th_date_added' ? __('index.th_date_added') : 'Date added', ENT_QUOTES, 'UTF-8') ?></label>
-            </div>
     </div>
 </details>

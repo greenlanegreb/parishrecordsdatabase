@@ -18,7 +18,25 @@ $fieldErrors = $fieldErrors ?? [];
         <div class="card-body">
             <details id="add-entry-details" open>
                 <summary class="fw-bold fs-6 text-dark" style="cursor: pointer; outline: none;">
-                    <?= htmlspecialchars(__('data_entry.add_entry_summary'), ENT_QUOTES, 'UTF-8') ?>
+                    <?php
+                    $deTbl = '';
+                    if (!empty($allTables) && is_array($allTables)) {
+                        foreach ($allTables as $t) {
+                            if ((int) ($t['id'] ?? 0) === (int) ($activeTableId ?? 0)) {
+                                $deTbl = isset($t['table_name']) && is_string($t['table_name']) ? ucfirst($t['table_name']) : '';
+                                break;
+                            }
+                        }
+                    }
+                    $addSum = __('data_entry.add_entry_summary');
+                    if ($addSum === 'data_entry.add_entry_summary') {
+                        $addSum = 'Add New Data Entry';
+                    }
+                    $addSum = preg_replace('/\s*\(.*\)$/', '', (string) $addSum) ?? $addSum;
+                    $forW = (__('search.heading_for') !== 'search.heading_for') ? __('search.heading_for') : 'for';
+                    $clickW = (__('data_entry.click_expand') !== 'data_entry.click_expand') ? __('data_entry.click_expand') : 'Click to Expand/Collapse';
+                    echo htmlspecialchars($addSum . ($deTbl !== '' ? ' ' . $forW . ' ' . $deTbl : '') . ' (' . $clickW . ')', ENT_QUOTES, 'UTF-8');
+                    ?>
                 </summary>
                 <div class="mt-3 pt-3 border-top">
                     <form method="POST" action="" id="data-entry-form">

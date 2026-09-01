@@ -10,14 +10,21 @@ declare(strict_types=1);
 $basePath = isset($basePath) && is_string($basePath) ? $basePath : '';
 $demoPacks = $demoPacks ?? [];
 
+$tc = dirname(__DIR__, 3) . '/includes/prd_title_case.php';
+if (is_file($tc)) {
+    require_once $tc;
+}
 $nt = static function (string $key, string $fallback): string {
     $t = function_exists('__') ? (string) __($key) : $key;
-    return ($t !== $key && $t !== '') ? $t : $fallback;
+    if ($t === $key || $t === '') {
+        $t = $fallback;
+    }
+    return function_exists('prd_title_case') ? prd_title_case($t) : $t;
 };
 ?>
 <div class="tab-pane fade" id="panel-demo" role="tabpanel" aria-labelledby="tab-demo">
     <h2 class="h5 fw-bold mb-2"><?= htmlspecialchars($nt('demo.heading', 'Demo packs'), ENT_QUOTES, 'UTF-8') ?></h2>
-    <p class="text-muted" id="demoIntro"><?= htmlspecialchars($nt('demo.intro', 'Optional starter tables so you can try pRD before you design your own. You can add one pack or both. Nothing here is required for a live site.'), ENT_QUOTES, 'UTF-8') ?></p>
+    <p class="text-muted" id="demoIntro"><?= htmlspecialchars($nt('demo.intro', 'Optional starter tables so you can try PRD before you design your own. You can add one pack or both. Nothing here is required for a live site.'), ENT_QUOTES, 'UTF-8') ?></p>
 
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
@@ -36,20 +43,20 @@ $nt = static function (string $key, string $fallback): string {
                         $installed = !empty($pack['installed']);
                         $helpId = 'pack-help-' . $pack['slug'];
                         ?>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" name="packs[]"
+                        <div class="form-check mb-3 py-1">
+                            <input class="form-check-input fs-5" type="checkbox" name="packs[]"
                                    value="<?= $slug ?>"
                                    id="pack_<?= $slug ?>"
                                    aria-describedby="<?= htmlspecialchars($helpId, ENT_QUOTES, 'UTF-8') ?>"
                                    <?= $installed ? 'disabled aria-disabled="true"' : '' ?>>
                             <label class="form-check-label" for="pack_<?= $slug ?>">
-                                <strong><?= htmlspecialchars($pack['label'], ENT_QUOTES, 'UTF-8') ?></strong>
+                                <strong><?= htmlspecialchars(function_exists('prd_title_case') ? prd_title_case((string) $pack['label']) : (string) $pack['label'], ENT_QUOTES, 'UTF-8') ?></strong>
                                 <?php if ($installed): ?>
                                     <span class="badge bg-secondary"><?= htmlspecialchars($nt('demo.already_installed', 'Already installed'), ENT_QUOTES, 'UTF-8') ?></span>
                                 <?php endif; ?>
                             </label>
                             <p class="small text-muted mb-0" id="<?= htmlspecialchars($helpId, ENT_QUOTES, 'UTF-8') ?>">
-                                <?= htmlspecialchars($pack['summary'], ENT_QUOTES, 'UTF-8') ?>
+                                <?= htmlspecialchars(function_exists('prd_title_case') ? prd_title_case((string) $pack['summary']) : (string) $pack['summary'], ENT_QUOTES, 'UTF-8') ?>
                                 <?php if ($installed): ?>
                                     <?= htmlspecialchars($nt('demo.already_installed_hint', 'This pack is already installed, so it cannot be selected again.'), ENT_QUOTES, 'UTF-8') ?>
                                 <?php endif; ?>
@@ -59,12 +66,12 @@ $nt = static function (string $key, string $fallback): string {
                 </fieldset>
                 <fieldset class="mb-3">
                     <legend class="form-label fw-bold small"><?= htmlspecialchars($nt('demo.what_to_add', 'What to add'), ENT_QUOTES, 'UTF-8') ?></legend>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="with_data" id="demoSchemaOnly" value="0" checked>
+                    <div class="form-check mb-3 py-1">
+                        <input class="form-check-input fs-5" type="radio" name="with_data" id="demoSchemaOnly" value="0" checked>
                         <label class="form-check-label" for="demoSchemaOnly"><?= htmlspecialchars($nt('demo.schema_only', 'Tables and columns only (no sample rows)'), ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="with_data" id="demoSchemaData" value="1">
+                    <div class="form-check mb-3 py-1">
+                        <input class="form-check-input fs-5" type="radio" name="with_data" id="demoSchemaData" value="1">
                         <label class="form-check-label" for="demoSchemaData"><?= htmlspecialchars($nt('demo.schema_and_data', 'Tables, columns, and sample data'), ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
                 </fieldset>

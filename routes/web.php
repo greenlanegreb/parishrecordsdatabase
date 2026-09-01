@@ -114,6 +114,7 @@ return function (RouteCollector $r): void {
     $r->addRoute('POST', '/admin/updates/channel', ['App\Controllers\AdminSoftwareUpdateController', 'saveChannel']);
     $r->addRoute('GET', '/user/suggest-edit', ['App\Controllers\UserSuggestEditController', 'show']);
     $r->addRoute('POST', '/user/suggest-edit/save', ['App\Controllers\UserSaveSuggestionActionController', 'handle']);
+    $r->addRoute('GET', '/records/{id:\\d+}', ['App\\Controllers\\RecordViewController', 'show']);
     $r->addRoute('GET', '/record_history.php', ['App\Controllers\RecordHistoryController', 'index']);
     $r->addRoute('GET', '/api/export', ['App\Controllers\ApiExportController', 'export']);
     $r->addRoute('GET', '/api/export-json', ['App\Controllers\ApiExportJsonController', 'export']);

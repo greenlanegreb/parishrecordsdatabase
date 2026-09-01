@@ -54,7 +54,7 @@ $navLabels = [
                     <?php if (str_starts_with($key, 'footer_')) { continue; } ?>
                     <?php $val = $appearance['colors'][$key] ?? '#000000'; ?>
                     <div class="col-md-4 col-sm-6">
-                        <label class="form-label small fw-bold" for="color_<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?></label>
+                        <label class="form-label small fw-bold" for="color_<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(function_exists('prd_title_case') ? prd_title_case((string) $label) : (string) $label, ENT_QUOTES, 'UTF-8') ?></label>
                         <div class="d-flex gap-2 align-items-center appear-field">
                             <input type="color" class="form-control form-control-color" id="swatch_<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"
                                    value="<?= htmlspecialchars($val, ENT_QUOTES, 'UTF-8') ?>"
@@ -235,7 +235,7 @@ $navLabels = [
                     $val = $appearance['colors'][$key] ?? '#212529';
                 ?>
                     <div class="col-md-4 col-sm-6">
-                        <label class="form-label small fw-bold" for="color_<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?></label>
+                        <label class="form-label small fw-bold" for="color_<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(function_exists('prd_title_case') ? prd_title_case((string) $label) : (string) $label, ENT_QUOTES, 'UTF-8') ?></label>
                         <div class="d-flex gap-2 align-items-center appear-field">
                             <input type="color" class="form-control form-control-color" id="swatch_<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"
                                    value="<?= htmlspecialchars($val, ENT_QUOTES, 'UTF-8') ?>"
@@ -308,8 +308,7 @@ $navLabels = [
         </div>
         </div>
         <div class="d-flex flex-wrap gap-2 align-items-center">
-            <span id="appearance-save-status" class="small text-muted" role="status" aria-live="polite"><?= htmlspecialchars($__t('appearance.autosave_hint', 'Changes save when you leave a field.'), ENT_QUOTES, 'UTF-8') ?></span>
-            <button type="submit" name="reset_appearance" value="1" class="btn btn-outline-secondary ms-auto"
+            <button type="submit" name="reset_appearance" value="1" class="btn btn-outline-secondary"
                     onclick="return confirm('<?= htmlspecialchars($__t('appearance.reset_confirm', 'Reset colours, logo, type and menu order?'), ENT_QUOTES, 'UTF-8') ?>');">
                 <?= htmlspecialchars($__t('appearance.reset', 'Reset to default'), ENT_QUOTES, 'UTF-8') ?>
             </button>
