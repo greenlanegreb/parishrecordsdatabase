@@ -641,7 +641,7 @@ return [
     'updates.heading'                             => 'File Updates',
     'updates.help'                                => 'Please Download Your Database First. pRD Also Keeps a Private Copy on the Server. File Update Does Not Change Records. After Files Are Updated, Please Use \'Update Database\' If a Newer Database Version is Waiting.',
     'updates.no_sha'                              => 'No Package Recorded Just Yet',
-    'updates.now_db'                              => 'If the Database Version is Behind, Please Use \'Update database\' next.',
+    'updates.now_db'                              => 'If the Database Version is Behind, Please Use \'Update database\' Next.',
     'updates.page_heading'                        => 'Updating pRD',
     'updates.private_copies'                      => 'Private Server Copies (Admin Only)',
     'updates.running'                             => 'This Site Is Running',
