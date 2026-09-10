@@ -468,3 +468,13 @@ img, svg, video, canvas {
         padding-inline: 0.6rem !important;
     }
 }
+
+/* Moderation / settings tabs: inactive tab still looks like a tab */
+.nav-tabs .nav-link:not(.active) {
+    color: #495057;
+    background: #f1f3f5;
+    border: 1px solid #dee2e6;
+}
+.nav-tabs .nav-link.active {
+    font-weight: 700;
+}

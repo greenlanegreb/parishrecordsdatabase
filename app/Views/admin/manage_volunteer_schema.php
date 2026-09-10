@@ -100,6 +100,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <option value="INT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_int'), ENT_QUOTES, 'UTF-8') ?></option>
                                 <option value="BOOLEAN" <?= ($editCol && ($editCol['data_type'] ?? '') === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
                                 <option value="DATE" <?= ($editCol && ($editCol['data_type'] ?? '') === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="TIME" <?= ($editCol && ($editCol['data_type'] ?? '') === 'TIME') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_time') !== 'manage_tables.type_time' ? __('manage_tables.type_time') : 'Time', ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value="SELECT" <?= ($editCol && ($editCol['data_type'] ?? '') === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
                             </select>
                         </div>
 
@@ -135,7 +137,19 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                             <input type="number" id="max_length" name="max_length" value="<?= $editCol ? htmlspecialchars((string)($editCol['max_length'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" placeholder="e.g. 255" class="form-control max-width-400">
                         </div>
 
-                        <div class="mb-3 form-check">
+                                                <div id="int_bounds_wrapper" class="mb-3" style="display: <?= ($editCol && ($editCol['data_type'] ?? '') === 'INT') ? 'block' : 'none' ?>;">
+                            <div class="row g-2" style="max-width: 400px;">
+                                <div class="col-6">
+                                    <label for="min_value" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.min_value_label') !== 'manage_tables.min_value_label' ? __('manage_tables.min_value_label') : 'Minimum', ENT_QUOTES, 'UTF-8') ?></label>
+                                    <input type="number" id="min_value" name="min_value" value="<?= $editCol ? htmlspecialchars((string)($editCol['min_value'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" class="form-control">
+                                </div>
+                                <div class="col-6">
+                                    <label for="max_value" class="form-label fw-bold"><?= htmlspecialchars(__('manage_tables.max_value_label') !== 'manage_tables.max_value_label' ? __('manage_tables.max_value_label') : 'Maximum', ENT_QUOTES, 'UTF-8') ?></label>
+                                    <input type="number" id="max_value" name="max_value" value="<?= $editCol ? htmlspecialchars((string)($editCol['max_value'] ?? ''), ENT_QUOTES, 'UTF-8') : '' ?>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+<div class="mb-3 form-check">
                             <input type="checkbox" id="is_required" name="is_required" value="1" <?= ($editCol && !empty($editCol['is_required'])) ? 'checked' : '' ?> class="form-check-input">
                             <label for="is_required" class="form-check-label"><?= htmlspecialchars(__('feedback_schema.is_required_label'), ENT_QUOTES, 'UTF-8') ?> (<span class="text-danger">*</span>)</label>
                         </div>
@@ -157,7 +171,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         subSelect.innerHTML = '<option value=""><?= htmlspecialchars(__('feedback_schema.subtype_standard'), ENT_QUOTES, 'UTF-8') ?></option>';
 
         if (dataType === 'VARCHAR') {
-            subSelect.innerHTML += '<option value="email"><?= htmlspecialchars(__('feedback_schema.sub_email'), ENT_QUOTES, 'UTF-8') ?></option><option value="url"><?= htmlspecialchars(__('feedback_schema.sub_url'), ENT_QUOTES, 'UTF-8') ?></option><option value="select"><?= htmlspecialchars(__('feedback_schema.sub_select'), ENT_QUOTES, 'UTF-8') ?></option><option value="radio"><?= htmlspecialchars(__('feedback_schema.sub_radio'), ENT_QUOTES, 'UTF-8') ?></option><option value="checkbox"><?= htmlspecialchars(__('feedback_schema.sub_checkbox'), ENT_QUOTES, 'UTF-8') ?></option>';
+            subSelect.innerHTML += '<option value="email"><?= htmlspecialchars(__('feedback_schema.sub_email'), ENT_QUOTES, 'UTF-8') ?></option><option value="url"><?= htmlspecialchars(__('feedback_schema.sub_url'), ENT_QUOTES, 'UTF-8') ?></option><option value="select"><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option><option value="radio"><?= htmlspecialchars(__('feedback_schema.sub_radio'), ENT_QUOTES, 'UTF-8') ?></option><option value="checkbox"><?= htmlspecialchars(__('feedback_schema.sub_checkbox'), ENT_QUOTES, 'UTF-8') ?></option>';
         } else if (dataType === 'TEXT') {
             subSelect.innerHTML += '<option value="textarea"><?= htmlspecialchars(__('feedback_schema.sub_textarea'), ENT_QUOTES, 'UTF-8') ?></option>';
         } else if (dataType === 'INT') {
@@ -176,14 +190,12 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         var boolWrapper = document.getElementById('boolean_options_wrapper');
 
         boolWrapper.style.display = (dtype === 'BOOLEAN') ? 'block' : 'none';
+        var intWrap = document.getElementById('int_bounds_wrapper');
+        if (intWrap) intWrap.style.display = (dtype === 'INT') ? 'block' : 'none';
 
-        if (['select', 'dropdown', 'radio', 'checkbox'].includes(subtype)) {
-            optWrapper.style.display = 'block';
-            multiWrapper.style.display = 'block';
-        } else {
-            optWrapper.style.display = 'none';
-            multiWrapper.style.display = 'none';
-        }
+        var showOpts = ['select', 'dropdown', 'radio', 'checkbox'].includes(subtype) || dtype === 'SELECT';
+        optWrapper.style.display = showOpts ? 'block' : 'none';
+        multiWrapper.style.display = (subtype === 'select' || subtype === 'dropdown' || dtype === 'SELECT') ? 'block' : 'none';
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -227,15 +239,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <td><code class="text-dark"><?= htmlspecialchars($dataType, ENT_QUOTES, 'UTF-8') ?></code></td>
                                 <td><code class="text-secondary"><?= htmlspecialchars($fieldSubtype !== '' ? $fieldSubtype : __('feedback_schema.subtype_standard_lower'), ENT_QUOTES, 'UTF-8') ?></code></td>
                                 <td><?= $isRequired ? '<span class="text-success fw-bold">' . htmlspecialchars(__('manage_tables.yes') ?: 'Yes', ENT_QUOTES, 'UTF-8') . '</span>' : '<span class="text-muted">' . htmlspecialchars(__('manage_tables.no') ?: 'No', ENT_QUOTES, 'UTF-8') . '</span>' ?></td>
-                                <td class="text-end pe-3 text-nowrap">
-                                    <a href="<?= $basePath ?>/admin/volunteers/schema?edit_column=<?= $colId ?>#create-column-details" class="btn btn-sm btn-outline-secondary me-1"><?= htmlspecialchars(__('feedback_schema.edit_btn'), ENT_QUOTES, 'UTF-8') ?></a>
-
-                                    <form method="POST" action="<?= $basePath ?>/admin/volunteers/schema/store" class="d-inline" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_schema.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
-                                        <?= csrf_field() ?>
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="column_id" value="<?= $colId ?>">
-                                        <button type="submit" class="btn btn-sm btn-danger"><?= htmlspecialchars(__('btn.delete'), ENT_QUOTES, 'UTF-8') ?></button>
-                                    </form>
+                                <td class="text-end pe-3">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?= htmlspecialchars(__('index.th_actions') !== 'index.th_actions' ? __('index.th_actions') : 'Actions', ENT_QUOTES, 'UTF-8') ?>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                            <li>
+                                                <a class="dropdown-item" href="<?= $basePath ?>/admin/volunteers/schema?edit_column=<?= $colId ?>#create-column-details"><?= htmlspecialchars(__('feedback_schema.edit_btn'), ENT_QUOTES, 'UTF-8') ?></a>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form method="POST" action="<?= $basePath ?>/admin/volunteers/schema/store" onsubmit="return confirm('<?= htmlspecialchars(__('volunteer_schema.delete_confirm'), ENT_QUOTES, 'UTF-8') ?>');">
+                                                    <?= csrf_field() ?>
+                                                    <input type="hidden" name="action" value="delete">
+                                                    <input type="hidden" name="column_id" value="<?= $colId ?>">
+                                                    <button type="submit" class="dropdown-item text-danger"><?= htmlspecialchars(__('btn.delete'), ENT_QUOTES, 'UTF-8') ?></button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

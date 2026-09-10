@@ -132,7 +132,10 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                 <span class="text-danger" title="<?= htmlspecialchars(__('volunteer.required_field_title'), ENT_QUOTES, 'UTF-8') ?>">*</span>
                             <?php endif; ?>
                         </label>
-                        <?php if (isset($col['data_type']) && $col['data_type'] === 'BOOLEAN'): ?>
+                        <?php
+                            $dtype = isset($col['data_type']) && is_string($col['data_type']) ? strtoupper($col['data_type']) : '';
+                        ?>
+                        <?php if ($dtype === 'BOOLEAN'): ?>
                             <?php
                                 $fmt = isset($col['boolean_display_format']) && is_string($col['boolean_display_format']) ? $col['boolean_display_format'] : 'yes_no';
                                 $opt1 = ($fmt === 'true_false') ? __('data_entry.bool_true') : __('data_entry.bool_yes_true');
@@ -147,11 +150,19 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                             <input type="email" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" <?= $maxAttr ?> <?= $isRequired ? 'required' : '' ?>>
                         <?php elseif ($subtype === 'url'): ?>
                             <input type="url" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" <?= $maxAttr ?> <?= $isRequired ? 'required' : '' ?>>
-                        <?php elseif ($subtype === 'number'): ?>
-                            <input type="number" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" <?= $isRequired ? 'required' : '' ?>>
+                        <?php elseif ($subtype === 'number' || $dtype === 'INT'): ?>
+                            <?php
+                                $minAttr = (isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '') ? ' min="' . (int) $col['min_value'] . '"' : '';
+                                $maxAttrNum = (isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '') ? ' max="' . (int) $col['max_value'] . '"' : '';
+                            ?>
+                            <input type="number" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm"<?= $minAttr ?><?= $maxAttrNum ?> <?= $isRequired ? 'required' : '' ?>>
                         <?php elseif ($subtype === 'textarea'): ?>
                             <textarea id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" rows="3" class="form-control form-control-sm auto-expand-textarea" style="resize: vertical;" <?= $maxAttr ?> <?= $isRequired ? 'required' : '' ?>><?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?></textarea>
-                        <?php elseif ($subtype === 'select' || $subtype === 'dropdown'): ?>
+                        <?php elseif ($dtype === 'DATE'): ?>
+                            <input type="text" inputmode="numeric" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm date-input" <?= $isRequired ? 'required' : '' ?> autocomplete="off">
+                        <?php elseif ($dtype === 'TIME'): ?>
+                            <input type="text" inputmode="numeric" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm time-input" <?= $isRequired ? 'required' : '' ?> autocomplete="off">
+                        <?php elseif ($dtype === 'SELECT' || $subtype === 'select' || $subtype === 'dropdown'): ?>
                             <?php
                                 $selectedVals = $allowMulti
                                     ? (is_array($savedVal) ? $savedVal : explode(', ', is_string($savedVal) ? $savedVal : ''))

@@ -106,6 +106,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     $maxLen = isset($col['max_length']) ? (int)$col['max_length'] : 0;
                     $maxAttr = $maxLen > 0 ? 'maxlength="' . $maxLen . '"' : '';
                     $subtype = isset($col['field_subtype']) && is_string($col['field_subtype']) ? $col['field_subtype'] : '';
+                    $dtype = isset($col['data_type']) && is_string($col['data_type']) ? strtoupper($col['data_type']) : '';
                     
                     $fieldOpts = isset($col['field_options']) && is_string($col['field_options']) ? $col['field_options'] : '';
                     $options = array_filter(array_map('trim', explode(',', $fieldOpts)));
@@ -138,8 +139,12 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                         <?php elseif ($subtype === 'url'): ?>
                             <input type="url" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" <?= $maxAttr ?> <?= $isRequired ? 'required' : '' ?>>
 
-                        <?php elseif ($subtype === 'number'): ?>
-                            <input type="number" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" <?= $isRequired ? 'required' : '' ?>>
+                        <?php elseif ($subtype === 'number' || $dtype === 'INT'): ?>
+                            <?php
+                                $minAttr = (isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '') ? ' min="' . (int) $col['min_value'] . '"' : '';
+                                $maxAttrNum = (isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '') ? ' max="' . (int) $col['max_value'] . '"' : '';
+                            ?>
+                            <input type="number" id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" value="<?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm"<?= $minAttr ?><?= $maxAttrNum ?> <?= $isRequired ? 'required' : '' ?>>
 
                         <?php elseif ($subtype === 'textarea'): ?>
                             <textarea id="field_<?= $cId ?>" name="fields[<?= $cId ?>]" rows="3" class="form-control form-control-sm auto-expand-textarea" style="resize: vertical;" <?= $maxAttr ?> <?= $isRequired ? 'required' : '' ?>><?= htmlspecialchars(is_string($savedVal) ? $savedVal : '', ENT_QUOTES, 'UTF-8') ?></textarea>

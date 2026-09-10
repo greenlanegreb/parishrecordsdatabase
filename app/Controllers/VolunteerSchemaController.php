@@ -119,6 +119,10 @@ class VolunteerSchemaController
 
             $allowMultiple = isset($post['allow_multiple']) ? 1 : 0;
             $maxLength = !empty($post['max_length']) ? (int) $post['max_length'] : null;
+            $minValue = ($dataType === 'INT' && isset($post['min_value']) && is_string($post['min_value']) && $post['min_value'] !== '')
+                ? (int) $post['min_value'] : null;
+            $maxValue = ($dataType === 'INT' && isset($post['max_value']) && is_string($post['max_value']) && $post['max_value'] !== '')
+                ? (int) $post['max_value'] : null;
             $isRequired = isset($post['is_required']) ? 1 : 0;
             $booleanFormat = ($dataType === 'BOOLEAN')
                 ? (isset($post['boolean_display_format']) && is_string($post['boolean_display_format'])
@@ -130,22 +134,22 @@ class VolunteerSchemaController
                     $ordStmt = $this->pdo->query('SELECT COALESCE(MAX(sort_order), 0) + 1 FROM volunteer_columns');
                     $ord = $ordStmt !== false ? (int) $ordStmt->fetchColumn() : 1;
                     $stmt = $this->pdo->prepare(
-                        'INSERT INTO volunteer_columns (column_name, data_type, field_subtype, field_options, allow_multiple, max_length, boolean_display_format, sort_order, is_required, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                        'INSERT INTO volunteer_columns (column_name, data_type, field_subtype, field_options, allow_multiple, max_length, min_value, max_value, boolean_display_format, sort_order, is_required, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
                     );
                     $stmt->execute([
                         $columnName, $dataType, $fieldSubtype, $fieldOptions, $allowMultiple,
-                        $maxLength, $booleanFormat, $ord, $isRequired, $currentUser['id'],
+                        $maxLength, $minValue, $maxValue, $booleanFormat, $ord, $isRequired, $currentUser['id'],
                     ]);
                     $_SESSION['message'] = "Volunteer field '{$columnName}' created successfully.";
                 } else {
                     $colId = isset($post['column_id']) ? (int) $post['column_id'] : 0;
                     if ($colId > 0) {
                         $stmt = $this->pdo->prepare(
-                            'UPDATE volunteer_columns SET column_name = ?, data_type = ?, field_subtype = ?, field_options = ?, allow_multiple = ?, max_length = ?, boolean_display_format = ?, is_required = ? WHERE id = ?'
+                            'UPDATE volunteer_columns SET column_name = ?, data_type = ?, field_subtype = ?, field_options = ?, allow_multiple = ?, max_length = ?, min_value = ?, max_value = ?, boolean_display_format = ?, is_required = ? WHERE id = ?'
                         );
                         $stmt->execute([
                             $columnName, $dataType, $fieldSubtype, $fieldOptions, $allowMultiple,
-                            $maxLength, $booleanFormat, $isRequired, $colId,
+                            $maxLength, $minValue, $maxValue, $booleanFormat, $isRequired, $colId,
                         ]);
                         $_SESSION['message'] = 'Volunteer field updated successfully.';
                     }

@@ -41,7 +41,8 @@ $dupTab = !empty($dupTab);
     <h3 class="fw-bold mb-1"><?= htmlspecialchars(__('moderate.heading'), ENT_QUOTES, 'UTF-8') ?></h3>
     <p class="text-muted mb-3"><?= htmlspecialchars(__('moderate.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
 
-    <ul class="nav nav-pills mb-3" role="tablist">
+    <div class="prd-tabs-scroll mb-3">
+    <ul class="nav nav-tabs flex-nowrap" role="tablist">
         <li class="nav-item" role="presentation">
             <button type="button" class="nav-link <?= $dupTab ? '' : 'active' ?>" id="tab-suggestions" data-bs-toggle="tab" data-bs-target="#panel-suggestions" role="tab" aria-controls="panel-suggestions" aria-selected="<?= $dupTab ? 'false' : 'true' ?>">
                 <?= htmlspecialchars(__('moderate.tab_suggestions') !== 'moderate.tab_suggestions' ? __('moderate.tab_suggestions') : 'Suggestions', ENT_QUOTES, 'UTF-8') ?>
@@ -55,6 +56,7 @@ $dupTab = !empty($dupTab);
             </button>
         </li>
     </ul>
+    </div>
 
     <div class="tab-content">
         <div class="tab-pane fade <?= $dupTab ? '' : 'show active' ?>" id="panel-suggestions" role="tabpanel" aria-labelledby="tab-suggestions">
