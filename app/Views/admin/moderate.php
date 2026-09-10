@@ -113,13 +113,20 @@ $dupTab = !empty($dupTab);
             <?php else: ?>
                 <div class="row g-3">
                     <?php foreach ($dupQueue as $row): ?>
-                        <div class="col-12 col-md-6">
+                        <div class="col-12">
                             <article class="card h-100 border-0 shadow-sm">
                                 <div class="card-body">
-                                    <h2 class="h6 fw-bold"><?= htmlspecialchars((string) ($row['table_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></h2>
-                                    <p class="mb-2">#<?= (int) $row['record_a_id'] ?> · #<?= (int) $row['record_b_id'] ?></p>
-                                    <p class="mb-3"><span class="badge text-bg-warning"><?= (int) $row['score_percent'] ?>%</span></p>
-                                    <div class="d-flex flex-wrap gap-2">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                                        <h2 class="h6 fw-bold mb-0"><?= htmlspecialchars((string) ($row['table_name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></h2>
+                                        <span class="badge text-bg-warning"><?= (int) ($row['score_percent'] ?? 0) ?>% <?= htmlspecialchars(__('dup_queue.similar') !== 'dup_queue.similar' ? __('dup_queue.similar') : 'similar', ENT_QUOTES, 'UTF-8') ?></span>
+                                    </div>
+                                    <?php
+                                    $snippet = __DIR__ . '/duplicate_compare_snippet.php';
+                                    if (is_file($snippet)) {
+                                        require $snippet;
+                                    }
+                                    ?>
+                                    <div class="d-flex flex-wrap gap-2 mt-2">
                                         <a class="btn btn-sm btn-primary" href="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/merge?id=<?= (int) $row['id'] ?>"><?= htmlspecialchars(__('dup_queue.merge_btn') !== 'dup_queue.merge_btn' ? __('dup_queue.merge_btn') : 'Join into one', ENT_QUOTES, 'UTF-8') ?></a>
                                         <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/dismiss">
                                             <?= csrf_field() ?>
