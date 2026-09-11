@@ -280,6 +280,12 @@ if ($pdoOk) {
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item <?= ($currentRoute === '/admin' || str_starts_with($currentRoute, '/admin/settings')) ? 'active' : '' ?>" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin"><?= htmlspecialchars(__('nav.settings'), ENT_QUOTES, 'UTF-8') ?></a></li>
                                 <?php endif; ?>
+                                <?php if (!empty($nItem['children'])): ?>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <?php foreach ($nItem['children'] as $child): ?>
+                                        <li><a class="dropdown-item" href="<?= htmlspecialchars((string) ($child['href'] ?? '#'), ENT_QUOTES, 'UTF-8') ?>" <?= !empty($child['blank']) ? 'target="_blank" rel="noopener noreferrer"' : '' ?>><?= htmlspecialchars((string) ($child['label'] ?? ''), ENT_QUOTES, 'UTF-8') ?></a></li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </ul>
                         </li>
                             <?php endif; ?>

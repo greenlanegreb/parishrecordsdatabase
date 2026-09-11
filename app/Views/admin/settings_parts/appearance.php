@@ -146,13 +146,33 @@ $navLabels = [
         <div class="tab-pane fade" id="appear-nav" role="tabpanel">
         <div class="card shadow-sm border-0 p-4 mb-4">
             <h4 class="h5 fw-bold mb-3"><?= htmlspecialchars($__t('appearance.nav_heading', 'Navigation'), ENT_QUOTES, 'UTF-8') ?></h4>
-            <p class="small text-muted"><?= htmlspecialchars($__t('appearance.nav_help', 'Drag the handle to reorder. People still only see links they are allowed to use. Login and profile stay on the right.'), ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="small text-muted"><?= htmlspecialchars($__t('appearance.nav_help', 'Drag the handle to reorder built-in and custom links together. To put a link under Admin (or another heading), set Parent on that link. Address # makes a heading with no page of its own. Login and profile stay on the right.'), ENT_QUOTES, 'UTF-8') ?></p>
             <ul id="appearance-nav-sort" class="list-group mb-4">
-                <?php foreach ($appearance['nav_order'] as $key): ?>
-                    <li class="list-group-item d-flex align-items-center gap-3" data-key="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>">
+                <?php
+                $sortKeys = $appearance['nav_order'];
+                foreach ($appearance['nav_custom'] as $c) {
+                    $ck = 'custom:' . (string) ($c['id'] ?? '');
+                    if ($ck !== 'custom:' && !in_array($ck, $sortKeys, true)) {
+                        $sortKeys[] = $ck;
+                    }
+                }
+                foreach ($sortKeys as $key):
+                    $isCustom = str_starts_with((string) $key, 'custom:');
+                    $label = $navLabels[$key] ?? $key;
+                    if ($isCustom) {
+                        $cid = substr((string) $key, 7);
+                        foreach ($appearance['nav_custom'] as $c) {
+                            if (($c['id'] ?? '') === $cid) {
+                                $label = (string) ($c['label'] !== '' ? $c['label'] : $cid);
+                                break;
+                            }
+                        }
+                    }
+                ?>
+                    <li class="list-group-item d-flex align-items-center gap-3" data-key="<?= htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8') ?>">
                         <span class="text-muted fs-5 appearance-nav-handle" style="cursor:grab;" title="<?= htmlspecialchars($__t('appearance.drag', 'Drag to reorder'), ENT_QUOTES, 'UTF-8') ?>">☰</span>
-                        <span><?= htmlspecialchars($navLabels[$key] ?? $key, ENT_QUOTES, 'UTF-8') ?></span>
-                        <input type="hidden" name="nav_order[]" value="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>">
+                        <span><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?><?= $isCustom ? ' <span class="text-muted small">(' . htmlspecialchars($__t('appearance.custom_heading', 'Custom'), ENT_QUOTES, 'UTF-8') . ')</span>' : '' ?></span>
+                        <input type="hidden" name="nav_order[]" value="<?= htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8') ?>">
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -188,11 +208,18 @@ $navLabels = [
                         <div class="col-md-2">
                             <label class="form-label small"><?= htmlspecialchars($__t('appearance.custom_parent', 'Parent'), ENT_QUOTES, 'UTF-8') ?></label>
                             <select class="form-select form-select-sm custom-parent" name="custom_parent[]">
-                                <option value=""><?= htmlspecialchars($__t('appearance.parent_none', 'Top level'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <option value=""><?= htmlspecialchars($__t('appearance.parent_none', 'Top level — own menu item'), ENT_QUOTES, 'UTF-8') ?></option>
+                                <optgroup label="<?= htmlspecialchars($__t('appearance.parent_builtin', 'Built-in menus'), ENT_QUOTES, 'UTF-8') ?>">
+                                    <?php foreach ($navLabels as $nk => $nl): ?>
+                                        <option value="<?= htmlspecialchars($nk, ENT_QUOTES, 'UTF-8') ?>" <?= (($c['parent'] ?? '') === $nk) ? 'selected' : '' ?>><?= htmlspecialchars($nl, ENT_QUOTES, 'UTF-8') ?></option>
+                                    <?php endforeach; ?>
+                                </optgroup>
+                                <optgroup label="<?= htmlspecialchars($__t('appearance.parent_custom', 'Your headings'), ENT_QUOTES, 'UTF-8') ?>">
                                 <?php foreach ($appearance['nav_custom'] as $p): ?>
                                     <?php if (($p['id'] ?? '') === $cid || ($p['label'] ?? '') === '') { continue; } ?>
                                     <option value="<?= htmlspecialchars((string) $p['id'], ENT_QUOTES, 'UTF-8') ?>" <?= (($c['parent'] ?? '') === ($p['id'] ?? '')) ? 'selected' : '' ?>><?= htmlspecialchars((string) $p['label'], ENT_QUOTES, 'UTF-8') ?></option>
                                 <?php endforeach; ?>
+                                </optgroup>
                             </select>
                         </div>
                         <div class="col-md-2">

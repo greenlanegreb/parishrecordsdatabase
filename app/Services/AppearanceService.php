@@ -180,19 +180,31 @@ class AppearanceService
                 $vis = 'everyone';
             }
             $cid = isset($ids[$i]) && is_string($ids[$i]) && preg_match('/^c[a-z0-9]+$/', $ids[$i]) ? $ids[$i] : ('c' . ($i + 1));
-            $parent = isset($parents[$i]) && is_string($parents[$i]) ? $parents[$i] : '';
-            if ($parent === $cid) {
-                $parent = '';
+            $parent = isset($parents[$i]) && is_string($parents[$i]) ? trim($parents[$i]) : '';
+            if (str_starts_with($parent, 'custom:')) {
+                $parent = substr($parent, 7);
             }
+            $coreKeys = $this->defaults()['nav_order'];
+            $parentOk = $parent !== '' && $parent !== $cid && (
+                in_array($parent, $coreKeys, true)
+                || preg_match('/^c[a-z0-9]+$/', $parent) === 1
+            );
             $custom[] = [
                 'id' => $cid,
                 'label' => function_exists('mb_substr') ? mb_substr(trim($label), 0, 60) : substr(trim($label), 0, 60),
                 'url' => $safe,
                 'who' => $vis,
                 'blank' => !empty($blank[$i]),
-                'parent' => preg_match('/^c[a-z0-9]+$/', $parent) === 1 ? $parent : '',
+                'parent' => $parentOk ? $parent : '',
             ];
         }
+        foreach ($custom as $row) {
+            $ck = 'custom:' . (string) ($row['id'] ?? '');
+            if ($ck !== 'custom:' && !in_array($ck, $cleanOrder, true)) {
+                $cleanOrder[] = $ck;
+            }
+        }
+        $this->put('appearance_nav_order', json_encode($this->sanitizeOrder($cleanOrder)));
         $this->put('appearance_nav_custom', json_encode($custom));
         $this->put('appearance_footer_custom', json_encode($this->parseCustomFromPost($post, 'footer_')));
         return $this->load();
@@ -403,17 +415,22 @@ class AppearanceService
                 $vis = 'everyone';
             }
             $cid = isset($ids[$i]) && is_string($ids[$i]) && preg_match('/^c[a-z0-9]+$/', $ids[$i]) ? $ids[$i] : ('c' . ($i + 1));
-            $parent = isset($parents[$i]) && is_string($parents[$i]) ? $parents[$i] : '';
-            if ($parent === $cid) {
-                $parent = '';
+            $parent = isset($parents[$i]) && is_string($parents[$i]) ? trim($parents[$i]) : '';
+            if (str_starts_with($parent, 'custom:')) {
+                $parent = substr($parent, 7);
             }
+            $coreKeys = $this->defaults()['nav_order'];
+            $parentOk = $parent !== '' && $parent !== $cid && (
+                in_array($parent, $coreKeys, true)
+                || preg_match('/^c[a-z0-9]+$/', $parent) === 1
+            );
             $custom[] = [
                 'id' => $cid,
                 'label' => function_exists('mb_substr') ? mb_substr(trim($label), 0, 60) : substr(trim($label), 0, 60),
                 'url' => $safe,
                 'who' => $vis,
                 'blank' => !empty($blank[$i]),
-                'parent' => preg_match('/^c[a-z0-9]+$/', $parent) === 1 ? $parent : '',
+                'parent' => $parentOk ? $parent : '',
             ];
         }
         return $custom;
