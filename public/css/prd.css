@@ -397,13 +397,14 @@ img, svg, video, canvas {
         text-align: start;
     }
     .table th {
-        white-space: normal;
+        white-space: nowrap;
         line-height: 1.2;
-        hyphens: auto;
+        hyphens: none;
     }
     .table td {
-        overflow-wrap: anywhere;
-        word-break: break-word;
+        overflow-wrap: normal;
+        word-break: normal;
+        white-space: nowrap;
     }
     .form-control,
     .form-select,
@@ -516,4 +517,49 @@ a.btn-primary:active,
     line-height: 1;
     color: #6c757d;
     user-select: none;
+}
+
+/* Radios / checkboxes: fat-finger friendly, including Settings */
+.form-check {
+    min-height: 2.35rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.15rem;
+}
+.form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+}
+.form-check-label {
+    padding-top: 0.1rem;
+    cursor: pointer;
+}
+.form-check-inline {
+    margin-right: 1rem;
+}
+@media (max-width: 991.98px) {
+    .form-check {
+        min-height: 2.75rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    .form-check-input {
+        width: 1.35rem;
+        height: 1.35rem;
+    }
+}
+.card, .table-responsive {
+    overflow: visible;
+}
+.table-responsive {
+    overflow-x: auto;
+    overflow-y: visible;
+}
+.dropdown-menu {
+    z-index: 1080;
 }
