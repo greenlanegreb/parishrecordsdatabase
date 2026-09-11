@@ -51,16 +51,30 @@ $keepColumnFormOpen = $editCol
                     <div class="mb-3">
                         <label for="data_type" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.data_type_label'), ENT_QUOTES, 'UTF-8') ?></label>
                         <select id="data_type" name="data_type" class="form-select max-width-400" onchange="toggleFieldOptions(this.value)">
-                            <option value="VARCHAR" <?= ($formType === 'VARCHAR') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_varchar'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="TEXT" <?= ($formType === 'TEXT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_text_long'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="INT" <?= ($formType === 'INT') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_int'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="BOOLEAN" <?= ($formType === 'BOOLEAN') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_boolean'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="DATE" <?= ($formType === 'DATE') ? 'selected' : '' ?>><?= htmlspecialchars(__('feedback_schema.type_date'), ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="TIME" <?= ($formType === 'TIME') ? 'selected' : '' ?>><?= htmlspecialchars((__('manage_tables.type_time') !== 'manage_tables.type_time') ? __('manage_tables.type_time') : 'Time', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="SELECT" <?= ($formType === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="LOCATION" <?= ($formType === 'LOCATION') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="EMAIL" <?= ($formType === 'EMAIL') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_email') !== 'manage_tables.type_email' ? __('manage_tables.type_email') : 'Email address', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="URL" <?= ($formType === 'URL') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_url') !== 'manage_tables.type_url' ? __('manage_tables.type_url') : 'Web address', ENT_QUOTES, 'UTF-8') ?></option>
+                            <?php
+                            $typePick = [
+                                'BOOLEAN' => [__('manage_tables.type_boolean'), 'Boolean (Yes / No, True / False, And Similar)'],
+                                'SELECT' => [__('manage_tables.type_choice'), 'Choice List'],
+                                'DATE' => [__('manage_tables.type_date'), 'Date'],
+                                'EMAIL' => [__('manage_tables.type_email'), 'Email Address'],
+                                'INT' => [__('manage_tables.type_int'), 'Integer (Whole Number)'],
+                                'LOCATION' => [__('manage_tables.type_location'), 'Location (Map Pin)'],
+                                'TEXT' => [__('manage_tables.type_text_long'), 'Long Text'],
+                                'VARCHAR' => [__('manage_tables.type_varchar'), 'Short Text'],
+                                'TIME' => [__('manage_tables.type_time'), 'Time'],
+                                'URL' => [__('manage_tables.type_url'), 'Web Address'],
+                            ];
+                            $typeSorted = [];
+                            foreach ($typePick as $code => $pair) {
+                                $lab = (is_string($pair[0]) && $pair[0] !== '' && !str_starts_with($pair[0], 'manage_tables.') && !str_starts_with($pair[0], 'feedback_schema.'))
+                                    ? $pair[0] : $pair[1];
+                                $typeSorted[$code] = $lab;
+                            }
+                            natcasesort($typeSorted);
+                            foreach ($typeSorted as $code => $lab):
+                            ?>
+                                <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>" <?= ($formType === $code) ? 'selected' : '' ?>><?= htmlspecialchars($lab, ENT_QUOTES, 'UTF-8') ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div id="url_options_wrapper" class="mb-3" style="display: <?= ($formType === 'URL') ? 'block' : 'none' ?>;">
@@ -82,10 +96,10 @@ $keepColumnFormOpen = $editCol
                     <div id="boolean_options_wrapper" class="mb-3" style="display: <?= ($formType === 'BOOLEAN') ? 'block' : 'none' ?>;">
                         <label for="boolean_display_format" class="form-label fw-bold"><?= htmlspecialchars(__('feedback_schema.boolean_format'), ENT_QUOTES, 'UTF-8') ?></label>
                         <select id="boolean_display_format" name="boolean_display_format" class="form-select max-width-400">
-                                                        <option value="yes_no" <?= ($colStr('boolean_display_format', 'yes_no') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_yes_no') !== 'manage_tables.bool_yes_no' ? __('manage_tables.bool_yes_no') : 'Yes / No', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="true_false" <?= ($colStr('boolean_display_format') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_true_false') !== 'manage_tables.bool_true_false' ? __('manage_tables.bool_true_false') : 'True / False', ENT_QUOTES, 'UTF-8') ?></option>
-                            <option value="tick_cross" <?= ($colStr('boolean_display_format') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_tick_cross') !== 'manage_tables.bool_tick_cross' ? __('manage_tables.bool_tick_cross') : 'Tick / Cross', ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="male_female" <?= ($colStr('boolean_display_format') === 'male_female') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_male_female') !== 'manage_tables.bool_male_female' ? __('manage_tables.bool_male_female') : 'Male / Female', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="tick_cross" <?= ($colStr('boolean_display_format') === 'tick_cross') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_tick_cross') !== 'manage_tables.bool_tick_cross' ? __('manage_tables.bool_tick_cross') : 'Tick / Cross', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="true_false" <?= ($colStr('boolean_display_format') === 'true_false') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_true_false') !== 'manage_tables.bool_true_false' ? __('manage_tables.bool_true_false') : 'True / False', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="yes_no" <?= ($colStr('boolean_display_format', 'yes_no') === 'yes_no') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.bool_yes_no') !== 'manage_tables.bool_yes_no' ? __('manage_tables.bool_yes_no') : 'Yes / No', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
                     </div>
 

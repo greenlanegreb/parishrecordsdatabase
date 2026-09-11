@@ -58,14 +58,16 @@ $__t = static function (string $key, string $fallback = ''): string {
                             <td><span class="fw-bold"><?= htmlspecialchars($colName, ENT_QUOTES, 'UTF-8') ?></span></td>
                             <td><?php
                                 $typeLabels = [
-                                    'VARCHAR' => __('feedback_schema.type_varchar'),
-                                    'TEXT' => __('manage_tables.type_text_long'),
-                                    'INT' => __('feedback_schema.type_int'),
-                                    'BOOLEAN' => __('feedback_schema.type_boolean'),
-                                    'DATE' => __('feedback_schema.type_date'),
+                                    'BOOLEAN' => ((__('manage_tables.type_boolean') !== 'manage_tables.type_boolean') ? __('manage_tables.type_boolean') : 'Boolean (Yes / No, True / False, And Similar)'),
+                                    'SELECT' => ((__('manage_tables.type_choice') !== 'manage_tables.type_choice') ? __('manage_tables.type_choice') : 'Choice List'),
+                                    'DATE' => ((__('manage_tables.type_date') !== 'manage_tables.type_date') ? __('manage_tables.type_date') : 'Date'),
+                                    'EMAIL' => ((__('manage_tables.type_email') !== 'manage_tables.type_email') ? __('manage_tables.type_email') : 'Email Address'),
+                                    'INT' => ((__('manage_tables.type_int') !== 'manage_tables.type_int') ? __('manage_tables.type_int') : 'Integer (Whole Number)'),
+                                    'LOCATION' => ((__('manage_tables.type_location') !== 'manage_tables.type_location') ? __('manage_tables.type_location') : 'Location (Map Pin)'),
+                                    'TEXT' => ((__('manage_tables.type_text_long') !== 'manage_tables.type_text_long') ? __('manage_tables.type_text_long') : 'Long Text'),
+                                    'VARCHAR' => ((__('manage_tables.type_varchar') !== 'manage_tables.type_varchar') ? __('manage_tables.type_varchar') : 'Short Text'),
                                     'TIME' => ((__('manage_tables.type_time') !== 'manage_tables.type_time') ? __('manage_tables.type_time') : 'Time'),
-                                    'SELECT' => (__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list'),
-                                    'LOCATION' => (__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)'),
+                                    'URL' => ((__('manage_tables.type_url') !== 'manage_tables.type_url') ? __('manage_tables.type_url') : 'Web Address'),
                                 ];
                                 $typeLabel = $typeLabels[$dataType] ?? $dataType;
                                 echo htmlspecialchars((string) $typeLabel, ENT_QUOTES, 'UTF-8');
