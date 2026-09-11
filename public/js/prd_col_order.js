@@ -54,9 +54,23 @@
             return;
         }
         var coarse = mq('(pointer: coarse)');
+        headRow.querySelectorAll('th[data-col-id]:not([data-col-id="actions"])').forEach(function (th) {
+            if (!th.querySelector('.prd-col-handle')) {
+                var h = document.createElement('button');
+                h.type = 'button';
+                h.className = 'prd-col-handle btn btn-sm btn-link text-decoration-none p-0 me-1';
+                h.setAttribute('aria-label', 'Reorder column');
+                h.title = 'Drag to change column order';
+                h.textContent = '⋮⋮';
+                th.insertBefore(h, th.firstChild);
+            }
+        });
         window.Sortable.create(headRow, {
             animation: 150,
+            handle: '.prd-col-handle',
             draggable: 'th[data-col-id]:not([data-col-id="actions"])',
+            filter: '.sortable-label, .sort-indicator',
+            preventOnFilter: false,
             forceFallback: true,
             fallbackOnBody: true,
             delay: coarse ? 250 : 0,

@@ -135,8 +135,8 @@ if ($basePath === '') {
 
     <!-- Users Data Table Card -->
     <div class="card shadow-sm border-0 mb-4">
-        <div>
-            <table class="table table-striped table-hover align-middle mb-0 w-100" role="table">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0 w-100 prd-admin-grid" role="table">
                 <thead class="table-light">
                     <tr>
                         <th scope="col" class="py-3 ps-3"><?= htmlspecialchars($__t('admin_users.th_username', 'Username'), ENT_QUOTES, 'UTF-8') ?></th>

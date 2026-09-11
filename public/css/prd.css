@@ -478,3 +478,42 @@ img, svg, video, canvas {
 .nav-tabs .nav-link.active {
     font-weight: 700;
 }
+
+/* Admin grids: swipe sideways, do not stack letters down the page */
+.prd-admin-grid th,
+.prd-admin-grid td {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+    vertical-align: middle;
+    text-align: start;
+}
+.prd-admin-grid th:last-child,
+.prd-admin-grid td:last-child {
+    text-align: end;
+}
+.prd-audit-details {
+    max-width: 18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* Primary buttons that are links must keep readable label colour */
+a.btn-primary,
+.btn-primary {
+    color: var(--prd-button-text, #fff) !important;
+}
+a.btn-primary:hover,
+a.btn-primary:focus,
+a.btn-primary:active,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    color: var(--prd-button-text, #fff) !important;
+}
+.prd-col-handle {
+    cursor: grab;
+    line-height: 1;
+    color: #6c757d;
+    user-select: none;
+}

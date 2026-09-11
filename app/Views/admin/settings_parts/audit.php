@@ -54,7 +54,7 @@ $st = static function (string $key, string $fallback): string {
 
     <div class="card shadow-sm border-0 mb-3">
         <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle mb-0 small w-100" role="table">
+            <table class="table table-striped table-hover align-middle mb-0 small w-100 prd-admin-grid" role="table">
                 <thead class="table-light">
                     <tr>
                         <th scope="col" class="py-3 ps-4"><?= htmlspecialchars($st('settings.th_id', 'ID'), ENT_QUOTES, 'UTF-8') ?></th>
@@ -88,7 +88,7 @@ $st = static function (string $key, string $fallback): string {
                                 <td><?= htmlspecialchars($alUsername, ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><span class="badge bg-light text-dark border"><?= htmlspecialchars($alAction, ENT_QUOTES, 'UTF-8') ?></span></td>
                                 <td><?= $alRecordId > 0 ? '#' . $alRecordId : '—' ?></td>
-                                <td class="text-break"><?= htmlspecialchars($alDetails, ENT_QUOTES, 'UTF-8') ?></td>
+                                <td class="prd-audit-details" title="<?= htmlspecialchars($alDetails, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($alDetails, ENT_QUOTES, 'UTF-8') ?></td>
                                 <td class="pe-4 font-monospace"><?= htmlspecialchars($alIp, ENT_QUOTES, 'UTF-8') ?></td>
                             </tr>
                         <?php endforeach; ?>
