@@ -212,6 +212,7 @@ $navLabels = [
                                 <label class="form-check-label small"><?= htmlspecialchars($__t('appearance.new_tab', 'New tab'), ENT_QUOTES, 'UTF-8') ?></label>
                             </div>
                             <span class="appear-saved small text-success" hidden></span>
+                            <button type="button" class="btn btn-sm btn-outline-danger appear-remove-row"><?= htmlspecialchars($__t('appearance.remove_link', 'Remove'), ENT_QUOTES, 'UTF-8') ?></button>
                         </div>
                     </div>
                 </div>
@@ -385,6 +386,23 @@ $navLabels = [
         }
         bindAdd('appearance-add-link', 'appearance-custom-rows', 'appearance-custom-row');
         bindAdd('appearance-add-footer-link', 'appearance-footer-rows', 'appearance-footer-row');
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest('.appear-remove-row');
+            if (!btn) return;
+            var row = btn.closest('.appearance-custom-row, .appearance-footer-row');
+            if (!row) return;
+            var wrap = row.parentElement;
+            if (wrap && wrap.querySelectorAll('.appearance-custom-row, .appearance-footer-row').length < 2) {
+                row.querySelectorAll('input[type="text"]').forEach(function (i) { i.value = ''; });
+            } else {
+                row.remove();
+            }
+            schedule(btn);
+        });
+        var customList = document.getElementById('appearance-custom-rows');
+        if (customList && window.Sortable) {
+            Sortable.create(customList, { handle: '.appearance-custom-row', ghostClass: 'sortable-ghost', onEnd: persist });
+        }
         var list = document.getElementById('appearance-nav-sort');
         if (list && window.Sortable) {
             Sortable.create(list, {

@@ -169,24 +169,28 @@ if ($pdoOk) {
 }
 ?>
 <!-- Top Accessibility & Language Bar -->
-<div class="bg-dark text-white py-1 px-3 small border-bottom prd-a11y-bar">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
-        <div class="d-inline-flex align-items-center gap-3 flex-wrap">
+<div class="prd-a11y-bar bg-dark text-white py-1 px-3 small border-bottom">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div class="d-inline-flex align-items-center gap-2 flex-wrap">
             <a href="?contrast=toggle" class="text-white text-decoration-none d-inline-flex align-items-center gap-1" role="button"
                aria-label="<?= htmlspecialchars(__('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?>">
                 <span aria-hidden="true">👁️</span>
                 <span><?= htmlspecialchars($isHighContrast ? __('nav.low_contrast') : __('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?></span>
             </a>
             <span class="text-white-50" aria-hidden="true">|</span>
-            <span class="d-inline-flex align-items-center gap-2 prd-zoom-ctrl" role="group" aria-label="<?= htmlspecialchars(__('nav.zoom_group') !== 'nav.zoom_group' ? __('nav.zoom_group') : 'Text size', ENT_QUOTES, 'UTF-8') ?>">
-                <a href="?zoom=down" class="text-white text-decoration-none px-2 py-1" aria-label="<?= htmlspecialchars(__('nav.zoom_out') !== 'nav.zoom_out' ? __('nav.zoom_out') : 'Smaller text', ENT_QUOTES, 'UTF-8') ?>">−</a>
+            <span class="d-inline-flex align-items-center gap-1" role="group" aria-label="<?= htmlspecialchars(__('nav.zoom_group') !== 'nav.zoom_group' ? __('nav.zoom_group') : 'Text size', ENT_QUOTES, 'UTF-8') ?>">
+                <a href="?zoom=down" class="text-white text-decoration-none px-1" aria-label="<?= htmlspecialchars(__('nav.zoom_out') !== 'nav.zoom_out' ? __('nav.zoom_out') : 'Smaller text', ENT_QUOTES, 'UTF-8') ?>">−</a>
                 <a href="?zoom=reset" class="text-white text-decoration-none" aria-label="<?= htmlspecialchars(__('nav.zoom_reset') !== 'nav.zoom_reset' ? __('nav.zoom_reset') : 'Reset text size', ENT_QUOTES, 'UTF-8') ?>"><?= (int) ($prdZoom ?? 100) ?>%</a>
-                <a href="?zoom=up" class="text-white text-decoration-none px-2 py-1" aria-label="<?= htmlspecialchars(__('nav.zoom_in') !== 'nav.zoom_in' ? __('nav.zoom_in') : 'Larger text', ENT_QUOTES, 'UTF-8') ?>">+</a>
+                <a href="?zoom=up" class="text-white text-decoration-none px-1" aria-label="<?= htmlspecialchars(__('nav.zoom_in') !== 'nav.zoom_in' ? __('nav.zoom_in') : 'Larger text', ENT_QUOTES, 'UTF-8') ?>">+</a>
             </span>
         </div>
         <?php if (count($navLanguages) > 1): ?>
-            <div class="d-inline-flex align-items-center gap-2">
-                <label for="site-lang-select" class="mb-0 prd-lang-mark">
+            <div class="prd-lang-box d-inline-flex align-items-center gap-2">
+                <button type="button" class="prd-lang-toggle btn btn-link text-white text-decoration-none p-0 d-lg-none" aria-expanded="false" aria-controls="site-lang-select">
+                    <span aria-hidden="true">Aa</span>
+                    <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
+                </button>
+                <label for="site-lang-select" class="mb-0 prd-lang-mark d-none d-lg-inline">
                     <span aria-hidden="true">Aa</span>
                     <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
                 </label>
@@ -194,7 +198,7 @@ if ($pdoOk) {
                         onchange="if(this.value) window.location.href='?lang=' + encodeURIComponent(this.value);"
                         class="form-select form-select-sm prd-lang-select py-0 px-2"
                         style="width: auto; font-size: 0.85rem;"
-                        aria-label="<?= htmlspecialchars(__('nav.select_language'), ENT_QUOTES, 'UTF-8') ?>"
+                        aria-label="<?= htmlspecialchars(__('nav.select_language'), ENT_QUOTES, 'UTF-8') ?>">
                     <?php foreach ($navLanguages as $code => $label): ?>
                         <?php $flag = $languageMeta[$code]['flag'] ?? '🌐'; ?>
                         <option value="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>"
@@ -466,10 +470,12 @@ if ($pdoOk) {
                     <?php endif; ?>
                 <?php else: ?>
                     <li class="nav-item">
+                        <?php if ($currentRoute !== '/login' && $currentRoute !== '/user/login'): ?>
                         <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/login"
-                           class="btn btn-sm btn-primary px-3 <?= $navActive('/login') ?>">
+                           class="btn btn-sm btn-primary px-3">
                             <?= htmlspecialchars(__('nav.login'), ENT_QUOTES, 'UTF-8') ?>
                         </a>
+                        <?php endif; ?>
                     </li>
                 <?php endif; ?>
             </ul>

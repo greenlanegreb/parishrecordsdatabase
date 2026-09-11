@@ -573,3 +573,56 @@ a.btn-primary:active,
 @media (max-width: 991.98px) {
     .prd-btn-row { gap: 1rem; }
 }
+
+@media (max-width: 991.98px) {
+    .navbar-brand {
+        max-width: calc(100% - 3.5rem);
+        white-space: normal;
+        overflow: visible;
+        line-height: 1.2;
+        font-size: 1rem;
+    }
+    .navbar .container {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .navbar-toggler {
+        margin-top: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+    .navbar-collapse {
+        order: 3;
+        flex-basis: 100%;
+        margin-top: 0.75rem;
+        position: fixed;
+        inset: auto 0 0 0;
+        top: 0;
+        padding: 5.5rem 1.25rem 2rem;
+        background: #fff;
+        z-index: 1040;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+    .navbar-collapse.show,
+    .navbar-collapse.collapsing {
+        box-shadow: 0 0 0 100vw rgba(0,0,0,.35);
+    }
+    .navbar-collapse .navbar-nav.ms-auto {
+        order: -1;
+        margin-top: 0 !important;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #dee2e6;
+        width: 100%;
+    }
+    .navbar-collapse .nav-link,
+    .navbar-collapse .btn {
+        padding-top: 0.7rem;
+        padding-bottom: 0.7rem;
+    }
+    .prd-lang-select { display: none; }
+    .prd-a11y-bar.prd-lang-open .prd-lang-select { display: block; width: 100% !important; }
+    .prd-a11y-bar.prd-lang-open .prd-lang-box { flex: 1 1 100%; }
+    .prd-a11y-bar .d-flex { row-gap: 0.35rem; }
+}
+body.prd-nav-open { overflow: hidden; }
