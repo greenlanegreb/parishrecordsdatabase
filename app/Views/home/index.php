@@ -396,15 +396,14 @@ function fetchFilteredData(page = 1) {
     formData.append('dir', currentDir);
     formData.append('page', currentPage);
 
-    if (searchForm) {
-        const tableIdInput = searchForm.querySelector('input[name="table_id"]');
-        if (tableIdInput) formData.append('table_id', tableIdInput.value);
     document.querySelectorAll('.js-col-vis:checked').forEach(cb => formData.append('cols[]', cb.value));
     document.querySelectorAll('#data-table thead th[data-col-id]').forEach(th => {
         const id = th.getAttribute('data-col-id');
         if (id && id !== 'actions') formData.append('col_order[]', id);
     });
-
+    if (searchForm) {
+        const tableIdInput = searchForm.querySelector('input[name="table_id"]');
+        if (tableIdInput) formData.append('table_id', tableIdInput.value);
         searchForm.querySelectorAll('input[type="text"], select').forEach(input => {
             if (input.value.trim() !== '') {
                 formData.append(input.name, input.value.trim());
