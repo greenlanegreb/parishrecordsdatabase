@@ -183,7 +183,7 @@ class TableService
         $showInList = isset($post['show_in_list']) ? 1 : 0;
         $showInRecord = isset($post['show_in_record']) ? 1 : 0;
 
-        $allowedTypes = ['VARCHAR', 'TEXT', 'INT', 'BOOLEAN', 'DATE', 'TIME', 'SELECT', 'LOCATION'];
+        $allowedTypes = ['VARCHAR', 'TEXT', 'INT', 'BOOLEAN', 'DATE', 'TIME', 'SELECT', 'LOCATION', 'EMAIL', 'URL'];
         if (!in_array($dataType, $allowedTypes, true)) {
             $dataType = 'VARCHAR';
         }
@@ -208,6 +208,9 @@ class TableService
             $fieldOptions = implode("
 ", $opts);
             $allowMultiple = isset($post['allow_multiple']) ? 1 : 0;
+        }
+        if ($dataType === 'URL') {
+            $fieldOptions = json_encode(['new_tab' => !empty($post['url_new_tab'])]);
         }
 
         $minValue = null;

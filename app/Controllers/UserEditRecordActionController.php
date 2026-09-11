@@ -211,6 +211,29 @@ class UserEditRecordActionController
                     } else {
                         $cleanVal = LocationValueService::encode($locData);
                     }
+                } elseif ($dataType === 'EMAIL' || $dataType === 'URL') {
+                    $wf = dirname(__DIR__, 2) . '/includes/web_field.php';
+                    if (is_file($wf)) {
+                        require_once $wf;
+                    }
+                    $raw = is_scalar($val) ? trim((string) $val) : '';
+                    if ($raw === '') {
+                        $cleanVal = '';
+                    } elseif ($dataType === 'EMAIL' && function_exists('prd_valid_email') && prd_valid_email($raw)) {
+                        $cleanVal = prd_normalize_email($raw);
+                    } elseif ($dataType === 'URL' && function_exists('prd_valid_url') && prd_valid_url($raw)) {
+                        $cleanVal = prd_normalize_url($raw);
+                    } else {
+                        $msg = $dataType === 'EMAIL'
+                            ? sprintf(__('save_data_entry.err_email') !== 'save_data_entry.err_email' ? __('save_data_entry.err_email') : 'Please enter a valid email for %s.', $colName)
+                            : sprintf(__('save_data_entry.err_url') !== 'save_data_entry.err_url' ? __('save_data_entry.err_url') : 'Please enter a web address starting with http:// or https:// for %s.', $colName);
+                        if (function_exists('remember_field_error')) {
+                            remember_field_error($cid, $msg);
+                        }
+                        $_SESSION['error'] = $msg;
+                        $_SESSION['edit_record_draft'] = ['record_id' => $recordId, 'fields' => $fields];
+                        $redirectEdit();
+                    }
                 } else {
                     $cleanVal = function_exists('sanitize_incoming_text')
                         ? sanitize_incoming_text(is_scalar($val) ? (string) $val : '')

@@ -105,7 +105,7 @@ class DuplicateCheckService
             }
             $type = isset($colsMap[$cid]['data_type']) && is_string($colsMap[$cid]['data_type'])
                 ? $colsMap[$cid]['data_type'] : 'VARCHAR';
-            if (!in_array($type, ['VARCHAR', 'TEXT', 'SELECT', 'INT', 'DATE'], true)) {
+            if (!in_array($type, ['VARCHAR', 'TEXT', 'SELECT', 'INT', 'DATE', 'EMAIL', 'URL'], true)) {
                 continue;
             }
             $norm = $this->normalize($raw, $type);

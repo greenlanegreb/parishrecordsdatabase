@@ -1,4 +1,18 @@
 (function () {
+    document.addEventListener('click', function (e) {
+        var b = e.target.closest('.prd-email-btn');
+        if (!b) return;
+        var token = b.getAttribute('data-e') || '';
+        if (!token) return;
+        try {
+            token = token.replace(/-/g, '+').replace(/_/g, '/');
+            while (token.length % 4) token += '=';
+            var email = atob(token);
+            if (email.indexOf('@') !== -1) {
+                window.location.href = 'mailto:' + email;
+            }
+        } catch (err) {}
+    });
     document.querySelectorAll('.prd-lang-toggle').forEach(function (btn) {
         btn.addEventListener('click', function () {
             var bar = btn.closest('.prd-a11y-bar');

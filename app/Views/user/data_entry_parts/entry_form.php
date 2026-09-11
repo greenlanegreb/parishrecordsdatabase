@@ -162,6 +162,10 @@ $fieldErrors = $fieldErrors ?? [];
                                                <?= isset($col['min_value']) && $col['min_value'] !== null && $col['min_value'] !== '' ? 'min="' . (int)$col['min_value'] . '"' : '' ?>
                                                <?= isset($col['max_value']) && $col['max_value'] !== null && $col['max_value'] !== '' ? 'max="' . (int)$col['max_value'] . '"' : '' ?>
                                                <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
+                                    <?php elseif ($dataType === 'EMAIL'): ?>
+                                        <input type="email" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm<?= $invClass ?>" autocomplete="email" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
+                                    <?php elseif ($dataType === 'URL'): ?>
+                                        <input type="url" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm<?= $invClass ?>" placeholder="https://" inputmode="url" autocomplete="url" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
                                     <?php else: ?>
                                         <input type="text" id="col_<?= $colId ?>" name="filters[<?= $colId ?>]" value="<?= htmlspecialchars($savedVal, ENT_QUOTES, 'UTF-8') ?>" placeholder="<?= htmlspecialchars(__('data_entry.enter_value_placeholder'), ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm<?= $invClass ?>" <?= $isRequired ? 'required' : '' ?><?= $inv ?>>
                                     <?php endif; ?>

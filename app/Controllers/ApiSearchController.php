@@ -189,6 +189,18 @@ class ApiSearchController
                         $displayVal = function_exists('format_display_date')
                             ? format_display_date($rawStr, $userDateFormat)
                             : $rawStr;
+                    } elseif ($typeKey === 'EMAIL' || $typeKey === 'URL') {
+                        $wf = dirname(__DIR__, 2) . '/includes/web_field.php';
+                        if (is_file($wf)) {
+                            require_once $wf;
+                        }
+                        $logged = function_exists('is_logged_in') ? is_logged_in() : isset($_SESSION['user_id']);
+                        echo '<td data-col-id="' . (int) $cId . '" class="' . ($typeKey === 'URL' ? 'prd-url-cell' : '') . '">'
+                            . (function_exists('prd_render_web_cell')
+                                ? prd_render_web_cell($typeKey, $rawStr, $col, (bool) $logged)
+                                : htmlspecialchars($rawStr, ENT_QUOTES, 'UTF-8'))
+                            . '</td>';
+                        continue;
                     } else {
                         $displayVal = $rawVal;
                     }

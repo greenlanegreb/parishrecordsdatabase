@@ -59,7 +59,23 @@ $keepColumnFormOpen = $editCol
                             <option value="TIME" <?= ($formType === 'TIME') ? 'selected' : '' ?>><?= htmlspecialchars((__('manage_tables.type_time') !== 'manage_tables.type_time') ? __('manage_tables.type_time') : 'Time', ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="SELECT" <?= ($formType === 'SELECT') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_choice') !== 'manage_tables.type_choice' ? __('manage_tables.type_choice') : 'Choice list', ENT_QUOTES, 'UTF-8') ?></option>
                             <option value="LOCATION" <?= ($formType === 'LOCATION') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_location') !== 'manage_tables.type_location' ? __('manage_tables.type_location') : 'Location (map pin)', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="EMAIL" <?= ($formType === 'EMAIL') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_email') !== 'manage_tables.type_email' ? __('manage_tables.type_email') : 'Email address', ENT_QUOTES, 'UTF-8') ?></option>
+                            <option value="URL" <?= ($formType === 'URL') ? 'selected' : '' ?>><?= htmlspecialchars(__('manage_tables.type_url') !== 'manage_tables.type_url' ? __('manage_tables.type_url') : 'Web address', ENT_QUOTES, 'UTF-8') ?></option>
                         </select>
+                    </div>
+                    <div id="url_options_wrapper" class="mb-3" style="display: <?= ($formType === 'URL') ? 'block' : 'none' ?>;">
+                        <?php
+                            $urlNewTab = false;
+                            $fo = $colStr('field_options');
+                            if ($fo !== '' && str_starts_with($fo, '{')) {
+                                $foj = json_decode($fo, true);
+                                $urlNewTab = is_array($foj) && !empty($foj['new_tab']);
+                            }
+                        ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="url_new_tab" id="url_new_tab" value="1" <?= $urlNewTab ? 'checked' : '' ?>>
+                            <label class="form-check-label" for="url_new_tab"><?= htmlspecialchars(__('manage_tables.url_new_tab') !== 'manage_tables.url_new_tab' ? __('manage_tables.url_new_tab') : 'Open in a new tab', ENT_QUOTES, 'UTF-8') ?></label>
+                        </div>
                     </div>
 
                     <!-- Dynamic Boolean Display Style Option -->
@@ -150,7 +166,9 @@ function toggleFieldOptions(val) {
     var dateWrapper = document.getElementById('date_options_wrapper');
     var choiceWrapper = document.getElementById('choice_options_wrapper');
     var intWrapper = document.getElementById('int_bounds_wrapper');
+    var urlWrapper = document.getElementById('url_options_wrapper');
     if (boolWrapper) boolWrapper.style.display = (val === 'BOOLEAN') ? 'block' : 'none';
+    if (urlWrapper) urlWrapper.style.display = (val === 'URL') ? 'block' : 'none';
     if (dateWrapper) dateWrapper.style.display = (val === 'DATE') ? 'block' : 'none';
     if (choiceWrapper) choiceWrapper.style.display = (val === 'SELECT') ? 'block' : 'none';
     if (intWrapper) intWrapper.style.display = (val === 'INT') ? 'block' : 'none';

@@ -357,6 +357,18 @@ function renderInputType() {
                    value="${escapeHtml(currentValue)}" placeholder="${escapeHtml(datePlaceholder)}" autocomplete="off">
         `;
         attachSuggestDate(document.getElementById('proposed_value'));
+    } else if (col.data_type === 'EMAIL') {
+        const req = (String(col.is_required) === '1' || col.is_required === true) ? 'required' : '';
+        container.innerHTML = `
+            <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
+            <input type="email" id="proposed_value" class="form-control form-control-sm" value="${escapeHtml(col.value_content || '')}" autocomplete="email" ${req}>
+        `;
+    } else if (col.data_type === 'URL') {
+        const req = (String(col.is_required) === '1' || col.is_required === true) ? 'required' : '';
+        container.innerHTML = `
+            <label for="proposed_value" class="form-label small fw-bold">${proposedValueLabel}</label>
+            <input type="url" id="proposed_value" class="form-control form-control-sm" value="${escapeHtml(col.value_content || '')}" placeholder="https://" inputmode="url" ${req}>
+        `;
     } else {
         let currentValue = col.value_content;
         container.innerHTML = `

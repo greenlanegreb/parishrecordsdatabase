@@ -626,3 +626,9 @@ a.btn-primary:active,
     .prd-a11y-bar .d-flex { row-gap: 0.35rem; }
 }
 body.prd-nav-open { overflow: hidden; }
+
+.prd-url-cell, a.prd-url-link {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+.prd-email-btn { white-space: nowrap; }

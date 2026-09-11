@@ -139,6 +139,31 @@ class UserDataEntryActionController
                     } else {
                         $cleanVal = \App\Services\LocationValueService::encode($locData);
                     }
+                } elseif ($dataType === 'EMAIL' || $dataType === 'URL') {
+                    $wf = dirname(__DIR__, 2) . '/includes/web_field.php';
+                    if (is_file($wf)) {
+                        require_once $wf;
+                    }
+                    $raw = is_scalar($val) ? trim((string) $val) : '';
+                    if ($raw === '') {
+                        $cleanVal = '';
+                    } elseif ($dataType === 'EMAIL') {
+                        if (!function_exists('prd_valid_email') || !prd_valid_email($raw)) {
+                            $_SESSION['error'] = sprintf(__('save_data_entry.err_email') !== 'save_data_entry.err_email' ? __('save_data_entry.err_email') : 'Please enter a valid email for %s.', $colName);
+                            remember_field_error($cid, $_SESSION['error']);
+                            header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
+                            exit;
+                        }
+                        $cleanVal = prd_normalize_email($raw);
+                    } else {
+                        if (!function_exists('prd_valid_url') || !prd_valid_url($raw)) {
+                            $_SESSION['error'] = sprintf(__('save_data_entry.err_url') !== 'save_data_entry.err_url' ? __('save_data_entry.err_url') : 'Please enter a web address starting with http:// or https:// for %s.', $colName);
+                            remember_field_error($cid, $_SESSION['error']);
+                            header('Location: ' . $basePath . '/data-entry?table_id=' . $tableId);
+                            exit;
+                        }
+                        $cleanVal = prd_normalize_url($raw);
+                    }
                 } else {
                     $cleanVal = sanitize_incoming_text(is_scalar($val) ? (string)$val : flatten_posted_column_value($val));
                 }

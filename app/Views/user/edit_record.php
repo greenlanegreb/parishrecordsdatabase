@@ -160,6 +160,19 @@ $tableName = (string) ($record['table_name'] ?? 'Record');
                                            placeholder="<?= htmlspecialchars($tph, ENT_QUOTES, 'UTF-8') ?>"
                                            inputmode="numeric" autocomplete="off"
                                            <?= $req ? 'required' : '' ?>>
+                                <?php elseif ($type === 'EMAIL'): ?>
+                                    <input type="email" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
+                                           class="form-control<?= $err ? ' is-invalid' : '' ?>"
+                                           value="<?= htmlspecialchars((string) $cur, ENT_QUOTES, 'UTF-8') ?>"
+                                           autocomplete="email"
+                                           <?= $req ? 'required' : '' ?>>
+                                <?php elseif ($type === 'URL'): ?>
+                                    <input type="url" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
+                                           class="form-control<?= $err ? ' is-invalid' : '' ?>"
+                                           value="<?= htmlspecialchars((string) $cur, ENT_QUOTES, 'UTF-8') ?>"
+                                           placeholder="https://"
+                                           inputmode="url" autocomplete="url"
+                                           <?= $req ? 'required' : '' ?>>
                                 <?php else: /* TEXT etc. */ ?>
                                     <input type="text" name="fields[<?= $cid ?>]" id="field_<?= $cid ?>"
                                            class="form-control<?= $err ? ' is-invalid' : '' ?>"
