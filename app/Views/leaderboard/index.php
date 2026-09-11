@@ -23,7 +23,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <p class="text-muted small mb-4"><?= htmlspecialchars(__('leaderboard.subheading'), ENT_QUOTES, 'UTF-8') ?></p>
 
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0" role="table">
+            <table class="table table-hover align-middle mb-0 prd-admin-grid" role="table">
                 <thead class="table-light">
                     <tr>
                         <th class="py-3 px-3" scope="col"><?= htmlspecialchars(__('leaderboard.th_rank'), ENT_QUOTES, 'UTF-8') ?></th>
@@ -94,7 +94,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                                         <span class="badge bg-primary bg-opacity-10 text-primary ms-2 small"><?= htmlspecialchars(__('leaderboard.you_badge'), ENT_QUOTES, 'UTF-8') ?></span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="py-3 px-3 text-capitalize"><?= htmlspecialchars(isset($u['role']) && is_string($u['role']) ? $u['role'] : __('leaderboard.default_role'), ENT_QUOTES, 'UTF-8') ?></td>
+                                <td class="py-3 px-3 text-capitalize text-nowrap"><?= htmlspecialchars(isset($u['role']) && is_string($u['role']) ? $u['role'] : __('leaderboard.default_role'), ENT_QUOTES, 'UTF-8') ?></td>
                                 <td class="py-3 px-3 text-end fw-semibold">⭐ <?= isset($u['points']) ? (int)$u['points'] : 0 ?></td>
                             </tr>
                         <?php $rank++; endforeach; ?>

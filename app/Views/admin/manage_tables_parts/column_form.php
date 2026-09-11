@@ -129,13 +129,15 @@ $keepColumnFormOpen = $editCol
                         <label for="show_in_record" class="form-check-label"><?= htmlspecialchars(__('manage_tables.show_in_record') !== 'manage_tables.show_in_record' ? __('manage_tables.show_in_record') : 'Show On The Full Record Page', ENT_QUOTES, 'UTF-8') ?></label>
                     </div>
 
+                    <div class="prd-btn-row">
                     <?php if ($editCol): ?>
                         <button type="submit" class="btn btn-primary"><?= htmlspecialchars(__('feedback_schema.save_field_btn'), ENT_QUOTES, 'UTF-8') ?></button>
-                        <a href="<?= $basePath ?>/admin/tables?table_id=<?= $activeTableId ?>" class="btn btn-outline-secondary ms-2"><?= htmlspecialchars(__('btn.cancel'), ENT_QUOTES, 'UTF-8') ?></a>
+                        <a href="<?= $basePath ?>/admin/tables?table_id=<?= $activeTableId ?>" class="btn btn-outline-secondary"><?= htmlspecialchars(__('btn.cancel'), ENT_QUOTES, 'UTF-8') ?></a>
                     <?php else: ?>
                         <button type="submit" name="after_save" value="done" class="btn btn-primary"><?= htmlspecialchars(__('manage_tables.create_col_btn') !== 'manage_tables.create_col_btn' ? __('manage_tables.create_col_btn') : 'Save column', ENT_QUOTES, 'UTF-8') ?></button>
-                        <button type="submit" name="after_save" value="add_another" class="btn btn-outline-primary ms-2"><?= htmlspecialchars(__('manage_tables.save_and_add_col') !== 'manage_tables.save_and_add_col' ? __('manage_tables.save_and_add_col') : 'Save and add another', ENT_QUOTES, 'UTF-8') ?></button>
+                        <button type="submit" name="after_save" value="add_another" class="btn btn-outline-primary"><?= htmlspecialchars(__('manage_tables.save_and_add_col') !== 'manage_tables.save_and_add_col' ? __('manage_tables.save_and_add_col') : 'Save and add another', ENT_QUOTES, 'UTF-8') ?></button>
                     <?php endif; ?>
+                    </div>
                 </form>
             </div>
         </details>

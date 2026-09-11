@@ -563,3 +563,13 @@ a.btn-primary:active,
 .dropdown-menu {
     z-index: 1080;
 }
+
+.prd-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+@media (max-width: 991.98px) {
+    .prd-btn-row { gap: 1rem; }
+}
