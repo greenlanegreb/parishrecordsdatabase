@@ -275,11 +275,18 @@ return [
     'manage_tables.th_date_created'               => 'د جوړولو نېټه',
     'manage_tables.th_display_format'             => 'د ښودلو بڼه',
     'manage_tables.th_public_search'              => 'عامه پلټنه؟',
-    'manage_tables.type_choice'                   => 'د انتخابونو لړۍ',
-    'manage_tables.type_location'                 => 'ځای (د نقشې پین)',
+    'manage_tables.type_boolean'                  => 'منطقي (نارینه / ښځینه، ټیک / کراْس، رښتیا / دروغ، هو / نه)',
+    'manage_tables.type_choice'                   => 'د ټاکلو لست',
+    'manage_tables.type_date'                     => 'نېټه',
+    'manage_tables.type_email'                    => 'برېښنالیک پته',
+    'manage_tables.type_int'                      => 'بشپړ عدد',
+    'manage_tables.type_location'                 => 'موقعیت (د نقشې پن)',
     'manage_tables.type_location_help'            => 'ځایونه باید د لټون له لیست څخه وټاکل شي ترڅو وکولی شي د دې جدول په نقشه کې څرګند شي. مهرباني وکړئ یو عادي متن کالم وکاروئ که تاسو یوازې د لیکل شوي ځای نوم ته اړتیا لرئ.',
-    'manage_tables.type_text_long'                => 'TEXT (اوږد پارګراف)',
+    'manage_tables.type_text_long'                => 'اوږد متن',
     'manage_tables.type_time'                     => 'وخت',
+    'manage_tables.type_url'                      => 'د وېب پته',
+    'manage_tables.type_varchar'                  => 'لنډ متن',
+    'manage_tables.url_new_tab'                   => 'په نوي ټب کې پرانیستل',
     'manage_tables.yes'                           => 'هو',
 
     // ------------------------------------------------------------------
@@ -443,11 +450,24 @@ return [
     // ------------------------------------------------------------------
     // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'appearance.add_link'                         => 'لینک اضافه کول',
     'appearance.brand_heading'                    => 'لوګو او شعار',
     'appearance.colors_heading'                   => 'رنګونه',
     'appearance.colors_help'                      => 'لوړ کنټراست تل دا تنظیمات له پامه غورځوي کله چې څوک له دې تڼۍ څخه کار اخلي.',
+    'appearance.custom_heading'                   => 'شخصي لینکونه',
+    'appearance.custom_help'                      => 'مهرباني وکړئ څومره چې غواړئ اضافه کړئ. د بل سرلیک لاندې یا د مدیر په څیر د جوړ شوي مینو لاندې د لینک ځای پر ځای کولو لپاره مهرباني وکړئ مور پلار (ارثي) تنظیم کړئ. مهرباني وکړئ د # څخه د پته په توګه د هغه سرلیک لپاره کار واخلئ چې یوازې یو سرلیک وي.',
+    'appearance.custom_label'                     => 'نښکاره (لیبل)',
+    'appearance.custom_parent'                    => 'اصلي (مور)',
+    'appearance.custom_url'                       => 'پته',
+    'appearance.custom_who'                       => 'څوک یې لیدلی شي',
+    'appearance.drag'                             => 'مهرباني وکړئ د بیا تنظیمولو لپاره یې راکش کړئ',
     'appearance.nav_heading'                      => 'لارښود (Navigation)',
-    'appearance.nav_help'                         => 'دا د ټول سایټ لپاره ترتیب دی. خلک لاهم یوازې هغه لینکونه ویني چې د کارولو اجازه لري یې. د ننوتلو او پروفایل لارښود په جلا توګه ځای پر ځای شوی دی.',
+    'appearance.nav_help'                         => 'تاسو کولی شئ لاسي برخه راکش کړئ ترڅو جوړ شوي او شخصي لینکونه یوځای بیا تنظیم کړئ. د مدیر (أو بل سرلیک) لاندې د لینک د ایښودلو لپاره، مهرباني وکړئ په هغه لینک کې مور پلار تنظیم کړئ. د # پته یو داسې سرلیک جوړوي چې خپله کومه پاڼه نه لري. ننوتل او پروفایل په خپلو جوړ شویو ځایونو کې پاتې کیږي.',
+    'appearance.new_tab'                          => 'نوی ټب',
+    'appearance.parent_builtin'                   => 'جوړ شوي مینوګانې',
+    'appearance.parent_custom'                    => 'ستاسو سرلیکونه',
+    'appearance.parent_none'                      => 'پورتنۍ کچه — د خپل مینو توکی',
+    'appearance.remove_link'                      => 'لیرې کول',
     'appearance.reset'                            => 'اصلي حالت ته ګرځول',
     'appearance.reset_ok'                         => 'ظاهري بڼه اصلي بڼې ته وگرځېده.',
     'appearance.save'                             => 'ظاهري بڼه ساتل',
@@ -472,9 +492,12 @@ return [
     'settings.core_sys_heading'                   => 'د سیستم اصلي تنظیمات',
     'settings.create_role_btn'                    => 'رول جوړ کړئ',
     'settings.create_role_heading'                => 'نوی رول جوړول',
-    'settings.cron_command_label'                 => 'د سرور وړاندیز شوی کرون کمانډ (په ه ساعت/ورځ کې اجرای کړئ):',
-    'settings.cron_maintenance_desc'              => 'د اعتبار پای ته رسیدلي تایید ټوکينونه له منځه یوسي او د فعالو کاروونکو حسابونو څخه پاتې لینکونه په اتوماتیک یا لاسي ډول پاک کړئ.',
+    'settings.cron_command_label'                 => 'دلته هغه امر دی چې په خپلو کرون دندو کې یې پسټ کړئ (په ورځ کې یو ځل ښه کار کوي!)',
+    'settings.cron_exec_ok'                       => 'دې پاڼې ته اجازه ورکړل شوه چې دلته د PHP ازموینه وکړي (اختياري)',
+    'settings.cron_maintenance_desc'              => 'pRD په اوتومات ډول ستاسو د وېب سرور کتلی او د شپې یو امر وړاندیز کوي. تاسو لاهم اړتیا لرئ چې دا په خپلو کرون دندو (Cron Jobs) کې پسټ کړئ. تاسو کولی شئ اوس پاکونه هم وځغلوئ.',
     'settings.cron_maintenance_heading'           => 'د ټوکينونو اتوماتیک ساتنه او د کرون تنظیم',
+    'settings.cron_php_ok'                        => 'د PHP امر وپلټل شو',
+    'settings.cron_script_ok'                     => 'مبارک وي - ستاسو د پاکولو سکریپټ په خپل ځای دی!',
     'settings.db_updates_heading'                 => 'د ډیټابیس تازه معلومات',
     'settings.default_date_format'                => 'اصلي نیټې بڼه',
     'settings.default_lang_desc'                  => 'د مېلمنو او هغو کاروونکو لپاره کارول کیږي چې ژبه یې نه ده ټاکلې. د نورو ژبو لپاره فایلونه په lang/ كې کېږدئ (لکه ps.php).',
@@ -1107,17 +1130,19 @@ return [
     // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'په جدول کې د ID %d سره ریکارډ جوړ شو.',
+    'save_data_entry.err_email'                   => 'مهرباني وکړئ د %s لپاره یو سم برېښنالیک دننه کړئ.',
     'save_data_entry.err_invalid_choice'          => 'مهرباني وکړئ د %s لپاره یو لړل لړ شوی انتخاب وټاکئ.',
     'save_data_entry.err_location'                => 'د لیست څخه یو ځای وټاکئ او د %s لپاره سرلیک او لنډ متن اضافه کړئ.',
     'save_data_entry.err_max'                     => '%s د زیاتترلږه څخه پورته دی.',
     'save_data_entry.err_min'                     => '%s د لږترلږه څخه کم دی.',
     'save_data_entry.err_not_number'              => '%s باید یو بشپړ عدد وي.',
     'save_data_entry.err_required_field'          => 'لازمي برخه \'%s\' نشي کولی خالي وي.',
+    'save_data_entry.err_url'                     => 'مهرباني وکړئ د %s لپاره د http:// یا https:// په پیل کولو سره یوه وېب پته دننه کړئ.',
     'save_data_entry.msg_success'                 => 'ریکارډ په بریا سره اضافه شو!',
 
     // ------------------------------------------------------------------
     // 37. Save Public Suggestion Action
-    // ---------------------------------------------------               -------
+    // ------------------------------------------------------------------
     'save_public_suggestion.err_failed_submit'    => 'د سمون وړاندیز په لېږلو کې پاتې راتلل، مهرباني وکړئ بیا هڅه وکړئ.',
     'save_public_suggestion.err_field_required'   => 'دا برخه لازمي ده او نشي کولی خالي ولېږل شي.',
     'save_public_suggestion.err_invalid_column'   => 'ټاکل شوې ستون سمه نه ده.',

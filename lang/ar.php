@@ -127,7 +127,6 @@ return [
     'cols.show_heading'                           => 'انتخاب ستون‌های قابل نمایش',
     'cols.show_help'                              => 'تیک یک ستون را بردارید تا در اینجا، هنگام دانلود و در هنگام چاپ پنهان شود. در تلفن همراه، خواندن ستون‌های کمتر آسان‌تر است.',
 
-
     // ------------------------------------------------------------------
     // 7. Admin: Create User / Invite Form
     // ------------------------------------------------------------------
@@ -276,11 +275,18 @@ return [
     'manage_tables.th_date_created'               => 'تاريخ الإنشاء',
     'manage_tables.th_display_format'             => 'تنسيق العرض',
     'manage_tables.th_public_search'              => 'بحث عام؟',
+    'manage_tables.type_boolean'                  => 'منطقي (ذكر / أنثى، صح / خطأ، صواب / خطأ، نعم / لا)',
     'manage_tables.type_choice'                   => 'قائمة الخيارات',
+    'manage_tables.type_date'                     => 'التاريخ',
+    'manage_tables.type_email'                    => 'البريد الإلكتروني',
+    'manage_tables.type_int'                      => 'عدد صحيح',
     'manage_tables.type_location'                 => 'الموقع (دبوس الخريطة)',
     'manage_tables.type_location_help'            => 'يجب اختيار الأماكن من القائمة المنسدلة لكي تظهر على خريطة هذا الجدول. يُرجى استخدام عمود نصي عادى إذا كنت بحاجة فقط إلى اسم مكان مكتوب.',
-    'manage_tables.type_text_long'                => 'TEXT (فقرة طويلة)',
+    'manage_tables.type_text_long'                => 'نص طويل',
     'manage_tables.type_time'                     => 'الوقت',
+    'manage_tables.type_url'                      => 'عنوان الويب',
+    'manage_tables.type_varchar'                  => 'نص قصير',
+    'manage_tables.url_new_tab'                   => 'فتح في علامة تبويب جديدة',
     'manage_tables.yes'                           => 'نعم',
 
     // ------------------------------------------------------------------
@@ -444,11 +450,24 @@ return [
     // ------------------------------------------------------------------
     // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'appearance.add_link'                         => 'إضافة رابط',
     'appearance.brand_heading'                    => 'الشعار والشعار الفرعي',
     'appearance.colors_heading'                   => 'الألوان',
     'appearance.colors_help'                      => 'التباين العالي يتخطى هذه الإعدادات دائماً عندما يستخدم شخص ما هذا الخيار.',
+    'appearance.custom_heading'                   => 'روابط مخصصة',
+    'appearance.custom_help'                      => 'لا تتردد في إضافة ما تشاء. يرجى تعيين الأصل لتضمين رابط تحت عنوان آخر أو تحت قائمة مضمنة مثل الإدارة. يرجى استخدام # كعنوان للعنوان الذي يكون مجرد عنوان رئيسي.',
+    'appearance.custom_label'                     => 'التسمية',
+    'appearance.custom_parent'                    => 'الأصل',
+    'appearance.custom_url'                       => 'العنوان',
+    'appearance.custom_who'                       => 'من يمكنه رؤيته',
+    'appearance.drag'                             => 'يرجى السحب لإعادة الترتيب',
     'appearance.nav_heading'                      => 'التنقل',
-    'appearance.nav_help'                         => 'هذا هو الترتيب لكامل الموقع. يرى الأفراد فقط الروابط المسموح لهم باستخدامها. يتم وضع تنقل تسجيل الدخول والملف الشخصي بشكل منفصل.',
+    'appearance.nav_help'                         => 'يمكنك سحب المقبض لإعادة ترتيب الروابط المضمنة والمخصصة معاً. لوضع رابط تحت الإدارة (أو عنوان آخر)، يرجى تعيين الأصل على هذا الرابط. العنوان # ينشئ عنواناً بدون صفحة خاص به. يظل تسجيل الدخول والملف الشخصي في موقعهما المضمن.',
+    'appearance.new_tab'                          => 'علامة تبويب جديدة',
+    'appearance.parent_builtin'                   => 'القوائم المضمنة',
+    'appearance.parent_custom'                    => 'عناوينك',
+    'appearance.parent_none'                      => 'المستوى الأعلى - عنصر القائمة الخاص',
+    'appearance.remove_link'                      => 'إزالة',
     'appearance.reset'                            => 'إعادة التعيين إلى الافتراضي',
     'appearance.reset_ok'                         => 'تمت إعادة تعيين المظهر إلى الشكل الافتراضي.',
     'appearance.save'                             => 'حفظ المظهر',
@@ -473,9 +492,12 @@ return [
     'settings.core_sys_heading'                   => 'إعدادات النظام الأساسية',
     'settings.create_role_btn'                    => 'إنشاء الدور',
     'settings.create_role_heading'                => 'إنشاء دور جديد',
-    'settings.cron_command_label'                 => 'أمر Cron المقترح للخادم (يُشغّل كل ساعة أو يومياً):',
-    'settings.cron_maintenance_desc'              => 'حذف الرموز التلقائية منتهية الصلاحية وتنظيف الروابط المعلقة من حسابات المستخدمين النشطة تلقائياً أو يدوياً.',
+    'settings.cron_command_label'                 => 'إليك الأمر لصقه في مهام Cron الخاصة بك (مرة في اليوم ستكون ممتازة!)',
+    'settings.cron_exec_ok'                       => 'تم السماح لهذه الصفحة باختبار PHP من هنا (اختياري)',
+    'settings.cron_maintenance_desc'              => 'قام pRD بفحص خادم الويب الخاص بك تلقائياً واقترح أمراً ليلياً. لا يزال يتعين عليك لصقه في مهام Cron الخاصة بك من فضلك. يمكنك أيضاً تشغيل عملية تنظيف الآن.',
     'settings.cron_maintenance_heading'           => 'صيانة الرموز التلقائية وإعداد Cron',
+    'settings.cron_php_ok'                        => 'تم العثور على أمر PHP',
+    'settings.cron_script_ok'                     => 'تهانينا - سكريبت التنظيف الخاص بك جاهز!',
     'settings.db_updates_heading'                 => 'تحديثات قاعدة البيانات',
     'settings.default_date_format'                => 'تنسيق التاريخ الافتراضي',
     'settings.default_lang_desc'                  => 'تستخدم للضيوف والمستخدمين الذين لم يختاروا لغة. أضف ملفات تحت lang/ (مثل cy.php) لتوفير خيارات أكثر.',
@@ -1108,12 +1130,14 @@ return [
     // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'أُنشئ إدخال سجل في جدول بمعرف %d.',
+    'save_data_entry.err_email'                   => 'الرجاء إدخال بريد إلكتروني صالح لـ %s.',
     'save_data_entry.err_invalid_choice'          => 'يرجى اختيار خيار مدرج لـ %s.',
     'save_data_entry.err_location'                => 'اختر مكاناً من القائمة وأضف عنواناً ونصاً قصيراً لـ %s.',
     'save_data_entry.err_max'                     => '%s أعلى من الحد الأقصى.',
     'save_data_entry.err_min'                     => '%s أقل من الحد الأدنى.',
     'save_data_entry.err_not_number'              => 'يجب أن يكون %s رقماً صحيحاً.',
     'save_data_entry.err_required_field'          => 'الحقل المطلوب \'%s\' لا يمكن تركُه فارغاً.',
+    'save_data_entry.err_url'                     => 'الرجاء إدخال عنوان ويب يبدأ بـ http:// أو https:// لـ %s.',
     'save_data_entry.msg_success'                 => 'تمت إضافة السجل بنجاح!',
 
     // ------------------------------------------------------------------

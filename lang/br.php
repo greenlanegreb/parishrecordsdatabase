@@ -275,11 +275,18 @@ return [
     'manage_tables.th_date_created'               => 'Deiziad krouidigezh',
     'manage_tables.th_display_format'             => 'Furmad diskouez',
     'manage_tables.th_public_search'              => 'Klask foran ?',
-    'manage_tables.type_choice'                   => 'Roll dibaboù',
-    'manage_tables.type_location'                 => 'Lec\'hiadur (pin ar gartenn)',
+    'manage_tables.type_boolean'                  => 'Boolean (Paur / Gwregel, Tik / Kroaz, Gwir / Gaou, Ya / Nann)',
+    'manage_tables.type_choice'                   => 'Roll an dibaboù',
+    'manage_tables.type_date'                     => 'Deiziad',
+    'manage_tables.type_email'                    => 'Chomlec\'h postel',
+    'manage_tables.type_int'                      => 'Niver a-bezh (Niver a-bezh)',
+    'manage_tables.type_location'                 => 'Lec\'hiadur (Penn ar gartenn)',
     'manage_tables.type_location_help'            => 'Ret eo dibab al lec\'hioù diwar ar c\'hlask evit ma c\'hellfent dont war wel war gartenn an daolenn-mañ. Implijit ur bann testenn boas ma n\'ho peus ezhomm nemet eus un anv-lec\'h skrivet.',
-    'manage_tables.type_text_long'                => 'TESTENN (Pennad hir)',
+    'manage_tables.type_text_long'                => 'Testenn hir',
     'manage_tables.type_time'                     => 'Amzer',
+    'manage_tables.type_url'                      => 'Chomlec\'h Web',
+    'manage_tables.type_varchar'                  => 'Testenn verr',
+    'manage_tables.url_new_tab'                   => 'Digeriñ en un ivinell nevez',
     'manage_tables.yes'                           => 'Ya',
 
     // ------------------------------------------------------------------
@@ -443,11 +450,24 @@ return [
     // ------------------------------------------------------------------
     // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'appearance.add_link'                         => 'Ouzhpennañ ul liamm',
     'appearance.brand_heading'                    => 'Logo ha strapline',
     'appearance.colors_heading'                   => 'Livioù',
     'appearance.colors_help'                      => 'Ar c\'hontrast uhel a dreuzkas anezho c\'hoazh pa implij unan bennak an alc\'hwez-se.',
+    'appearance.custom_heading'                   => 'Liammoù personelaet',
+    'appearance.custom_help'                      => 'Mar plij, n\'ho peus ket da c\'houlenn ouzhpennañ kement ha ma fell deoc\'h. Lakait ar Parent da lakaat ul liamm dindan un titl all pe dindan ur meni enkorfet evel merour. Implijit # evel chomlec\'h evit un titl n\'eo nemet un titl.',
+    'appearance.custom_label'                     => 'Tikedenn',
+    'appearance.custom_parent'                    => 'Tad ha mamm',
+    'appearance.custom_url'                       => 'Chomlec\'h',
+    'appearance.custom_who'                       => 'Piv a zeuio da welet anezhañ',
+    'appearance.drag'                             => 'Riklañ evit adkempenn mar plij',
     'appearance.nav_heading'                      => 'Merdeiñ',
-    'appearance.nav_help'                         => 'Setu an Urzh evit al lec\'hienn a-bezh. Ne wel an dud c\'hoazh nemet liammoù aotreet dezho implijout. Lec\'hiet eo ar c\'hennask hag ar merdeiñ dre ar profil war-eeun.',
+    'appearance.nav_help'                         => 'Gallout a rit riklañ an troc\'h evit adlakaat al liammoù enkorfet ha personelaet asambles. Evit lakaat ul liamm dindan merour (pe un titl all), mar plij, lakait ar gerent war al liamm-se. Chomlec\'h # Ober un titl hep pajenn ebet dezhañ e-unan. Chom a ra ar c\'hennask hag ar profil en o lec\'h savet.',
+    'appearance.new_tab'                          => 'Ivinell nevez',
+    'appearance.parent_builtin'                   => 'Mennozhioù enkorfet',
+    'appearance.parent_custom'                    => 'Ho pennadoù',
+    'appearance.parent_none'                      => 'Live uhelañ — Elfenn eus al lañser personel',
+    'appearance.remove_link'                      => 'Lemel kuit',
     'appearance.reset'                            => 'Adderaouekaat d\'an dre ziouer',
     'appearance.reset_ok'                         => 'Adderaouekaat an neuz d\'an neuz dre ziouer.',
     'appearance.save'                             => 'Enrollañ an neuz',
@@ -472,9 +492,12 @@ return [
     'settings.core_sys_heading'                   => 'Arventennoù diazez ar reizhiad',
     'settings.create_role_btn'                    => 'Krouiñ ur roll',
     'settings.create_role_heading'                => 'Krouiñ ur roll nevez',
-    'settings.cron_command_label'                 => 'Urzh Cron servijer kinniget (Lakaat da vont en-dro bep eurvezh/bemdez) :',
-    'settings.cron_maintenance_desc'              => 'Naetaat an tokennoù gwiriekaat diamzeret ha naetaat al liammoù krog diwar ar c\'hontoù implijer gweredekaet ent emgefre pe dre zorn.',
+    'settings.cron_command_label'                 => 'Setu ar gemennadenn evit pegañ en ho labourioù Cron (ur wech bemdez a vo mat !)',
+    'settings.cron_exec_ok'                       => 'Aotreet eo bet ar bajenn-mañ da amprouiñ PHP adalek amañ (dibar)',
+    'settings.cron_maintenance_desc'              => 'pRD en deus sellet ouzh ho servijer Web ent emgefre ha kinniget en deus ur gemennadenn bep noz. Ret eo deoc\'h c\'hoazh pegañ anezhañ en ho labourioù Cron mar plij. Gallout a rit ivez ober un naetaat bremañ.',
     'settings.cron_maintenance_heading'           => 'Kempenn token emgefreek ha kefluniadur Cron',
+    'settings.cron_php_ok'                        => 'Kavet eo bet ar gemennadenn PHP',
+    'settings.cron_script_ok'                     => 'Gourc\'hemennoù - Ho senario naetaat a zo e plas !',
     'settings.db_updates_heading'                 => 'Hizivadennoù an diaz roadennoù',
     'settings.default_date_format'                => 'Furmad deiziad dre ziouer',
     'settings.default_lang_desc'                  => 'Implijet evit an dud pedet hag an implijerien n\'o deus ket dibabet ur yezh. Ouzhpennañ restroù dindan lang/ (da sk. cy.php) evit kinnig muioc\'h a zibaboù.',
@@ -887,7 +910,6 @@ return [
     'gh.type_to_search'                           => 'Krog da skrivañ un titl evit klask...',
     'gh.type_translation'                         => '4. Kinnig un droidigezh yezh',
 
-
     // ------------------------------------------------------------------
     // 26. Security Engine & Firewall
     // ------------------------------------------------------------------
@@ -1110,12 +1132,14 @@ return [
     // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Krouet eo bet an enrolladenn en daolenn ID %d.',
+    'save_data_entry.err_email'                   => 'Enankit ur postel reizh evit %s.',
     'save_data_entry.err_invalid_choice'          => 'Dibabit un dibab meneget evit %s mar plij.',
     'save_data_entry.err_location'                => 'Dibabit ul lec\'h er roll hag ouzhpennit un titl hag un destenn verr evit %s.',
     'save_data_entry.err_max'                     => '%s a zo dreist ar muiañ.',
     'save_data_entry.err_min'                     => '%s a zo dindan ar feur izelañ.',
     'save_data_entry.err_not_number'              => '%s a rank bezañ un niver a-bezh.',
     'save_data_entry.err_required_field'          => 'N\'haller ket lezel goullo ar vaezienn rekis \'%s\'.',
+    'save_data_entry.err_url'                     => 'Enankit ur chomlec\'h Web o kregiñ gant http:// pe https:// evit %s.',
     'save_data_entry.msg_success'                 => 'Ouzhpennet eo bet an enrolladenn gant berzh !',
 
     // ------------------------------------------------------------------

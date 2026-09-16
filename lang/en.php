@@ -275,11 +275,18 @@ return [
     'manage_tables.th_date_created'               => 'Date Created',
     'manage_tables.th_display_format'             => 'Display Format',
     'manage_tables.th_public_search'              => 'Public Search?',
-    'manage_tables.type_choice'                   => 'Choice list',
-    'manage_tables.type_location'                 => 'Location (map pin)',
+    'manage_tables.type_boolean'                  => 'Boolean (Male / Female, Tick / Cross, True / False, Yes / No)',
+    'manage_tables.type_choice'                   => 'Choice List',
+    'manage_tables.type_date'                     => 'Date',
+    'manage_tables.type_email'                    => 'Email Address',
+    'manage_tables.type_int'                      => 'Integer (Whole Number)',
+    'manage_tables.type_location'                 => 'Location (Map Pin)',
     'manage_tables.type_location_help'            => 'Places must be chosen from the lookup so they can appear on this table\'s map. Please use a normal text column if you only need a written place name.',
-    'manage_tables.type_text_long'                => 'TEXT (Long Paragraph)',
+    'manage_tables.type_text_long'                => 'Long Text',
     'manage_tables.type_time'                     => 'Time',
+    'manage_tables.type_url'                      => 'Web Address',
+    'manage_tables.type_varchar'                  => 'Short Text',
+    'manage_tables.url_new_tab'                   => 'Open In A New Tab',
     'manage_tables.yes'                           => 'Yes',
 
     // ------------------------------------------------------------------
@@ -443,11 +450,24 @@ return [
     // ------------------------------------------------------------------
     // 18. Admin: Global Site Settings, Modules & Permissions
     // ------------------------------------------------------------------
+    'appearance.add_link'                         => 'Add a link',
     'appearance.brand_heading'                    => 'Logo And Strapline',
     'appearance.colors_heading'                   => 'Colours',
     'appearance.colors_help'                      => 'High Contrast Still Overrides These When Someone Uses that Toggle.',
+    'appearance.custom_heading'                   => 'Custom Links',
+    'appearance.custom_help'                      => 'Please Feel Free to Add as Many as You Need. Please Set the Parent to Nest a Link Under Another Heading or Under a Built-In Menu Such as Admin. Please Use # as The Address For a Heading That Is Only a Title.',
+    'appearance.custom_label'                     => 'Label',
+    'appearance.custom_parent'                    => 'Parent',
+    'appearance.custom_url'                       => 'Address',
+    'appearance.custom_who'                       => 'Who Gets to See It',
+    'appearance.drag'                             => 'Please Drag to Reorder',
     'appearance.nav_heading'                      => 'Navigation',
-    'appearance.nav_help'                         => 'This is the Order for the Whole Site. People Still Only See Links They Are Allowed to Use. Login and Profile Navigation Is Positioned Separately.',
+    'appearance.nav_help'                         => 'You Can Drag The Handle to Reorder Built-In and Custom Links Together. To Put a Link Under Admin (Or Another Heading), Please Set The Parent on That Link. Address # Makes a Heading With No Page Of Its Own. Login and Profile Remain in Their Built in Position.',
+    'appearance.new_tab'                          => 'New tab',
+    'appearance.parent_builtin'                   => 'Built-In Menus',
+    'appearance.parent_custom'                    => 'Your Headings',
+    'appearance.parent_none'                      => 'Top level — Own Menu Item',
+    'appearance.remove_link'                      => 'Remove',
     'appearance.reset'                            => 'Reset to Default',
     'appearance.reset_ok'                         => 'Appearance Reset to the Default Look.',
     'appearance.save'                             => 'Save Appearance',
@@ -472,9 +492,12 @@ return [
     'settings.core_sys_heading'                   => 'Core System Settings',
     'settings.create_role_btn'                    => 'Create Role',
     'settings.create_role_heading'                => 'Create New Role',
-    'settings.cron_command_label'                 => 'Suggested Server Cron Command (Run hourly/daily):',
-    'settings.cron_maintenance_desc'              => 'Purge expired verification tokens and clean up dangling links from activated user accounts automatically or manually.',
+    'settings.cron_command_label'                 => 'Here\'s the Command to Paste Into Your Cron Jobs (Once a Day Will Do Nicely!)',
+    'settings.cron_exec_ok'                       => 'This Page Was Allowed to Test PHP From Here (Optional)',
+    'settings.cron_maintenance_desc'              => 'pRD Has Automatically Looked at Your Web Server and Suggests a Nightly Command. You Still Need to Paste it Into Your Cron Jobs Please. You Can Also Run a Cleanup Now.',
     'settings.cron_maintenance_heading'           => 'Automated Token Maintenance & Cron Setup',
+    'settings.cron_php_ok'                        => 'PHP Command Found',
+    'settings.cron_script_ok'                     => 'Congratulations - Your Cleanup Script Is In Place!',
     'settings.db_updates_heading'                 => 'Database updates',
     'settings.default_date_format'                => 'Default date format',
     'settings.default_lang_desc'                  => 'Used for guests and users who have not chosen a language. Add files under lang/ (e.g. cy.php) to offer more options.',
@@ -645,7 +668,6 @@ return [
     'updates.page_heading'                        => 'Updating pRD',
     'updates.private_copies'                      => 'Private Server Copies (Admin Only)',
     'updates.running'                             => 'This Site Is Running',
-
 
     // ------------------------------------------------------------------
     // 19. Admin: User Account Management & Leaderboard Moderation
@@ -1019,7 +1041,6 @@ return [
     'demo.schema_only'                            => 'Tables and Columns Only (No Sample Rows)',
     'demo.what_to_add'                            => 'What to Add',
 
-
     // ------------------------------------------------------------------
     // 29. Leaderboard
     // ------------------------------------------------------------------
@@ -1110,12 +1131,14 @@ return [
     // 36. Save Data Entry Action
     // ------------------------------------------------------------------
     'save_data_entry.audit_created_prefix'        => 'Created record entry in table ID %d.',
+    'save_data_entry.err_email'                   => 'Please Enter a Valid Email For %s.',
     'save_data_entry.err_invalid_choice'          => 'Please choose a listed option for %s.',
     'save_data_entry.err_location'                => 'Choose a place from the list and add a title and short text for %s.',
     'save_data_entry.err_max'                     => '%s is above the maximum.',
     'save_data_entry.err_min'                     => '%s is below the minimum.',
     'save_data_entry.err_not_number'              => '%s must be a whole number.',
     'save_data_entry.err_required_field'          => 'The required field \'%s\' cannot be left blank.',
+    'save_data_entry.err_url'                     => 'Please Enter a Web Address Starting With http:// or https:// for %s.',
     'save_data_entry.msg_success'                 => 'Record successfully added!',
 
     // ------------------------------------------------------------------
