@@ -29,7 +29,8 @@ class DuplicateCheckService
     {
         $picky = $picky === 'exact' ? 'exact' : 'similar';
         $criteria = $this->filledCriteria($valuesByColId, $colsMap);
-        if ($criteria === []) {
+        // One shared tick (e.g. both “Female”) is not enough to call two thin test rows a match
+        if (count($criteria) < 2) {
             return [];
         }
 

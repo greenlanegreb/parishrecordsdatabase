@@ -231,14 +231,25 @@ class DuplicateReviewService
 
         // Only core columns — avoid failing on installs missing optional column attributes
         // boolean_display_format drives Male/Female vs Yes/No etc (same as data entry)
-        $colsStmt = $this->pdo->prepare(
-            'SELECT id, column_name, data_type, boolean_display_format
-             FROM table_columns
-             WHERE table_id = ?
-             ORDER BY id ASC'
-        );
-        $colsStmt->execute([$tableId]);
-        $cols = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $colsStmt = $this->pdo->prepare(
+                'SELECT id, column_name, data_type, boolean_display_format
+                 FROM table_columns
+                 WHERE table_id = ?
+                 ORDER BY id ASC'
+            );
+            $colsStmt->execute([$tableId]);
+            $cols = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Throwable $e) {
+            $colsStmt = $this->pdo->prepare(
+                'SELECT id, column_name, data_type
+                 FROM table_columns
+                 WHERE table_id = ?
+                 ORDER BY id ASC'
+            );
+            $colsStmt->execute([$tableId]);
+            $cols = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        }
         if (!is_array($cols) || $cols === []) {
             return [];
         }
@@ -319,10 +330,19 @@ class DuplicateReviewService
                 }
             }
             if ($dataType === 'DATE' && function_exists('format_display_date')) {
-                $formatted = format_display_date($raw, null);
+                $formatted = format_display_date($raw, $this->viewerDateFormat());
                 if (is_string($formatted) && $formatted !== '') {
                     return $formatted;
                 }
+            }
+            if ($dataType === 'TIME' && function_exists('format_display_time')) {
+                $formatted = format_display_time($raw, $this->viewerTimeFormat());
+                if (is_string($formatted) && $formatted !== '') {
+                    return $formatted;
+                }
+            }
+            if ($dataType === 'EMAIL' || $dataType === 'URL') {
+                return $raw;
             }
             if (($dataType === 'LOCATION' || ($raw[0] ?? '') === '{') && str_starts_with(ltrim($raw), '{')) {
                 $d = json_decode($raw, true);
@@ -361,6 +381,51 @@ class DuplicateReviewService
             }
         }
         return $row;
+    }
+
+    private function viewerDateFormat(): string
+    {
+        $user = [];
+        if (function_exists('get_current_user_data')) {
+            try {
+                $loaded = get_current_user_data($this->pdo);
+                if (is_array($loaded)) {
+                    $user = $loaded;
+                }
+            } catch (\Throwable $e) {
+                $user = [];
+            }
+        }
+        if (function_exists('get_site_datetime_defaults')) {
+            [, $siteDate] = get_site_datetime_defaults($this->pdo);
+        } else {
+            $siteDate = 'd/m/Y';
+        }
+        $pref = isset($user['date_format']) && is_string($user['date_format']) && $user['date_format'] !== ''
+            ? $user['date_format']
+            : $siteDate;
+        $allowed = ['d/m/Y', 'd.m.Y', 'Y-m-d', 'm/d/Y', 'd-m-Y'];
+        return in_array($pref, $allowed, true) ? $pref : 'd/m/Y';
+    }
+
+    private function viewerTimeFormat(): string
+    {
+        $user = [];
+        if (function_exists('get_current_user_data')) {
+            try {
+                $loaded = get_current_user_data($this->pdo);
+                if (is_array($loaded)) {
+                    $user = $loaded;
+                }
+            } catch (\Throwable $e) {
+                $user = [];
+            }
+        }
+        if (function_exists('resolve_viewer_time_format')) {
+            $t = resolve_viewer_time_format($user, $this->pdo);
+            return ($t === '12' || $t === '24') ? $t : '24';
+        }
+        return '24';
     }
 
 }
