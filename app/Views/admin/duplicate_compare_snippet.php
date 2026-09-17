@@ -45,8 +45,8 @@ $missing = !empty($row['records_missing']);
                     ?>
                     <tr class="<?= $diff ? 'table-warning' : '' ?>">
                         <th scope="row" class="text-nowrap"><?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?></th>
-                        <td><?= htmlspecialchars($va !== '' ? $va : '—', ENT_QUOTES, 'UTF-8') ?></td>
-                        <td><?= htmlspecialchars($vb !== '' ? $vb : '—', ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="text-start"><?= htmlspecialchars($va !== '' ? $va : '—', ENT_QUOTES, 'UTF-8') ?></td>
+                        <td class="text-start"><?= htmlspecialchars($vb !== '' ? $vb : '—', ENT_QUOTES, 'UTF-8') ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

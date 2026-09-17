@@ -87,7 +87,7 @@ $previewB = $previewLine($fields, 'b');
             <p class="text-muted"><?= htmlspecialchars(__('dup_merge.no_fields') !== 'dup_merge.no_fields' ? __('dup_merge.no_fields') : 'No field values were found for these records.', ENT_QUOTES, 'UTF-8') ?></p>
         <?php else: ?>
             <div class="table-responsive mb-3">
-                <table class="table table-bordered align-middle">
+                <table class="table table-bordered align-top">
                     <caption class="visually-hidden"><?= htmlspecialchars(__('dup_merge.fields_caption') !== 'dup_merge.fields_caption' ? __('dup_merge.fields_caption') : 'Choose a value for each field', ENT_QUOTES, 'UTF-8') ?></caption>
                     <thead class="table-light">
                         <tr>
@@ -108,6 +108,9 @@ $previewB = $previewLine($fields, 'b');
                                 $rawB = isset($field['value_b']) ? (string) $field['value_b'] : '';
                                 $labelA = $cellLabel($field, 'a');
                                 $labelB = $cellLabel($field, 'b');
+                                $isLocation = strtoupper((string) ($field['data_type'] ?? '')) === 'LOCATION'
+                                    || str_starts_with(ltrim($rawA), '{')
+                                    || str_starts_with(ltrim($rawB), '{');
                                 $diff = ($rawA !== $rawB);
                                 // Default pick: same → A; only one side filled → that side; both differ → A (still changeable)
                                 $checkA = true;
@@ -117,25 +120,25 @@ $previewB = $previewLine($fields, 'b');
                             ?>
                             <tr class="<?= $diff ? 'table-warning' : '' ?>">
                                 <th scope="row" class="text-nowrap"><?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8') ?></th>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio"
+                                <td class="text-start align-top">
+                                    <div class="form-check<?= $isLocation ? ' d-flex align-items-start gap-2' : '' ?>">
+                                        <input class="form-check-input flex-shrink-0 mt-1" type="radio"
                                                name="keep_col[<?= $cid ?>]"
                                                id="col<?= $cid ?>a"
                                                value="a"
                                                <?= $checkA ? 'checked' : '' ?>
                                                required>
-                                        <label class="form-check-label" for="col<?= $cid ?>a"><?= htmlspecialchars($labelA, ENT_QUOTES, 'UTF-8') ?></label>
+                                        <label class="form-check-label text-start<?= $isLocation ? ' d-block' : '' ?>" for="col<?= $cid ?>a"><?= htmlspecialchars($labelA, ENT_QUOTES, 'UTF-8') ?></label>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio"
+                                <td class="text-start align-top">
+                                    <div class="form-check<?= $isLocation ? ' d-flex align-items-start gap-2' : '' ?>">
+                                        <input class="form-check-input flex-shrink-0 mt-1" type="radio"
                                                name="keep_col[<?= $cid ?>]"
                                                id="col<?= $cid ?>b"
                                                value="b"
                                                <?= !$checkA ? 'checked' : '' ?>>
-                                        <label class="form-check-label" for="col<?= $cid ?>b"><?= htmlspecialchars($labelB, ENT_QUOTES, 'UTF-8') ?></label>
+                                        <label class="form-check-label text-start<?= $isLocation ? ' d-block' : '' ?>" for="col<?= $cid ?>b"><?= htmlspecialchars($labelB, ENT_QUOTES, 'UTF-8') ?></label>
                                     </div>
                                 </td>
                             </tr>
