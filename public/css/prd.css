@@ -182,10 +182,15 @@ img, svg, video, canvas {
     white-space: nowrap;
     word-break: normal;
     overflow-wrap: normal;
-    vertical-align: bottom;
-    text-align: center;
+    vertical-align: middle;
 }
 .table td {
+    word-break: normal;
+    overflow-wrap: anywhere;
+    vertical-align: middle;
+}
+ .prd-table-sticky th,
+.prd-table-sticky td {
     text-align: center;
 }
 .prd-table-sticky [data-col-id="actions"] {
@@ -922,4 +927,312 @@ body.prd-nav-open { overflow: hidden; }
         font-size: 0.92rem;
         padding: 0.6rem 0.4rem;
     }
+}
+
+.prd-users {
+    font-size: 1.05rem;
+}
+.prd-users .form-control,
+.prd-users .form-select,
+.prd-users .btn {
+    font-size: 1rem;
+}
+.prd-users-email-form input[type="email"] {
+    min-width: 0;
+    flex: 1 1 16rem;
+    overflow-wrap: anywhere;
+}
+@media (max-width: 1199.98px) {
+    .prd-users .table-responsive {
+        overflow: visible;
+    }
+    .prd-users table,
+    .prd-users thead,
+    .prd-users tbody,
+    .prd-users th,
+    .prd-users td,
+    .prd-users tr {
+        display: block;
+        width: 100%;
+    }
+    .prd-users thead { display: none; }
+    .prd-users tbody tr {
+        margin-bottom: 1.15rem;
+        padding: 1rem 0.9rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.4rem;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .prd-users td {
+        border: 0 !important;
+        padding: 0.4rem 0 !important;
+        font-size: 1.08rem !important;
+    }
+    .prd-users td:first-child {
+        font-size: 1.2rem !important;
+        margin-bottom: 0.25rem;
+    }
+    .prd-users .form-control,
+    .prd-users .form-select,
+    .prd-users .btn {
+        min-height: 2.75rem;
+        font-size: 1.05rem !important;
+        width: auto;
+    }
+    .prd-users-email-form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center !important;
+    }
+    .prd-users-email-form input[type="email"] {
+        flex: 1 1 100%;
+        width: 100%;
+        min-width: 0;
+        height: 2.75rem;
+        min-height: 2.75rem;
+        max-height: 2.75rem;
+        font-size: 1.05rem !important;
+        box-sizing: border-box;
+    }
+    .prd-users-email-form .btn {
+        width: auto;
+        min-height: 2.75rem;
+        flex: 0 0 auto;
+    }
+    .prd-users-email-form .badge {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        line-height: 1.2;
+        padding: 0.45rem 0.65rem;
+        font-size: 0.9rem;
+        align-self: center;
+    }
+}
+
+.prd-user-search {
+    width: 100%;
+    max-width: 36rem;
+    min-height: 2.75rem;
+}
+
+.prd-users {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+.prd-users-head h3 { font-size: 1.65rem; }
+.prd-users-invite-summary {
+    font-size: 1.15rem !important;
+    padding: 0.35rem 0;
+}
+.prd-user-search {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 3rem;
+}
+.prd-users .card-body {
+    padding: 1.15rem 1.15rem;
+}
+.prd-users .table-responsive {
+    padding: 0.75rem 1rem 1rem;
+}
+.prd-users .badge {
+    font-size: 0.95rem;
+    padding: 0.45rem 0.65rem;
+}
+.prd-users .dropdown-item,
+.prd-users .dropdown-toggle {
+    font-size: 1.05rem;
+}
+.prd-users .dropdown-item {
+    padding: 0.55rem 1rem;
+}
+.prd-users-email-form .btn,
+.prd-users-email-form .badge {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+@media (max-width: 1199.98px) {
+    .prd-users {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .prd-users tbody tr {
+        padding: 1rem 1rem !important;
+    }
+}
+
+.prd-nav-welcome { color: #4a7c9b !important; }
+@media (min-width: 992px) {
+    .navbar-brand {
+        margin-right: 30px;
+    }
+    .prd-nav-links {
+        justify-content: flex-start;
+        margin-left: 0;
+        width: auto;
+        flex: 1 1 auto;
+    }
+    .prd-nav-links > .navbar-nav.me-auto {
+        margin-right: auto;
+    }
+}
+@media (min-width: 1200px) {
+    .prd-users .table-responsive {
+        padding: 1rem 1.25rem 1.25rem;
+    }
+    .prd-users td {
+        vertical-align: top;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    .prd-users-email-form {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.45rem !important;
+    }
+    .prd-users-email-form input[type="email"] {
+        width: 100%;
+        max-width: 22rem;
+        height: 2.5rem !important;
+        min-height: 2.5rem !important;
+        max-height: 2.5rem !important;
+    }
+    .prd-users-email-form .btn,
+    .prd-users-email-form .badge {
+        height: 2.35rem;
+        min-height: 2.35rem !important;
+        max-height: 2.35rem;
+        width: auto;
+        font-size: 0.95rem !important;
+    }
+}
+
+.prd-user-email { display: flex; flex-direction: column; align-items: stretch; gap: 0.4rem; }
+.prd-user-email-input { height: 2.5rem; max-height: 2.5rem; width: 100%; max-width: 24rem; }
+.prd-user-email-actions { display: flex; flex-direction: row; align-items: center; gap: 0.4rem; }
+.prd-user-email-save,
+.prd-user-email-badge {
+    height: 2.35rem !important;
+    min-height: 2.35rem !important;
+    max-height: 2.35rem !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem !important;
+    padding: 0 0.75rem !important;
+}
+.prd-users .card .table-responsive { padding: 1rem 1.25rem; }
+@media (min-width: 992px) {
+    .prd-nav-drawer {
+        position: static !important;
+        transform: none !important;
+        visibility: visible !important;
+        width: auto !important;
+        flex: 1 1 auto;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+    .prd-nav-links { justify-content: flex-start !important; }
+}
+
+.prd-users-table td,
+.prd-users-table th {
+    white-space: normal !important;
+    vertical-align: top !important;
+    text-align: start !important;
+}
+.prd-user-email-cell {
+    white-space: normal !important;
+    vertical-align: top !important;
+    min-width: 15rem;
+}
+
+@media (max-width: 1199.98px) {
+    .prd-users-table.table-striped > tbody > tr > *,
+    .prd-users-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+    .prd-users-table tbody tr {
+        padding: 1.1rem 1.15rem !important;
+        background-color: #fff !important;
+    }
+    .prd-users-table tbody tr:nth-of-type(odd) {
+        background-color: #f4f6f8 !important;
+    }
+    .prd-users-table td {
+        background-color: transparent !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+.prd-user-role {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+.prd-user-role-select {
+    min-width: 0;
+    flex: 1 1 12rem;
+}
+.prd-user-role-update {
+    white-space: nowrap !important;
+    flex: 0 0 auto;
+}
+@media (max-width: 575.98px) {
+    .prd-user-role {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .prd-user-role-select,
+    .prd-user-role-update {
+        width: 100%;
+        min-width: 0 !important;
+    }
+}
+
+.prd-user-role-select.form-select {
+    height: 2.75rem !important;
+    min-height: 2.75rem !important;
+    max-height: 2.75rem !important;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    line-height: 1.2;
+}
+@media (max-width: 575.98px) {
+    .prd-user-role-select.form-select {
+        height: 2.75rem !important;
+        max-height: 2.75rem !important;
+    }
+}
+
+.prd-table-sticky thead th[data-col-id]:not([data-col-id="actions"]):not(:first-child) {
+    position: relative;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+}
+.prd-table-sticky thead th:first-child {
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+}
+.prd-table-sticky tbody td:not([data-col-id="actions"]) {
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+}
+.prd-table-sticky .prd-col-handle {
+    position: absolute !important;
+    left: 0.1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+    min-width: 1.1rem !important;
+    min-height: 1.1rem !important;
+    margin: 0 !important;
 }

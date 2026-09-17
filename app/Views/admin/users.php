@@ -38,7 +38,7 @@ if ($basePath === '') {
     }
 }
 ?>
-<div class="container py-4" role="region" aria-label="Admin User Management" style="max-width: 1300px;">
+<div class="container py-4 prd-users" data-prd-layout="20260917" role="region" aria-label="Admin User Management" style="max-width: 1300px;">
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></strong>
@@ -53,21 +53,17 @@ if ($basePath === '') {
         </div>
     <?php endif; ?>
 
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <div>
-            <h3 class="fw-bold mb-1"><?= htmlspecialchars($__t('admin_users.heading', 'User Management'), ENT_QUOTES, 'UTF-8') ?></h3>
-            <p class="text-muted mb-0"><?= htmlspecialchars($__t('admin_users.subheading', 'Manage registered users, roles, email verification, and security settings.'), ENT_QUOTES, 'UTF-8') ?></p>
-        </div>
-        <div>
-            <a href="<?= $basePath ?>/admin/users/emails" class="btn btn-outline-secondary">✉️ <?= htmlspecialchars($__t('admin_users.manage_templates_btn', 'Manage Email Templates'), ENT_QUOTES, 'UTF-8') ?></a>
-        </div>
+    <div class="prd-users-head mb-4">
+        <h3 class="fw-bold mb-2"><?= htmlspecialchars($__t('admin_users.heading', 'User Management'), ENT_QUOTES, 'UTF-8') ?></h3>
+        <p class="text-muted mb-3"><?= htmlspecialchars($__t('admin_users.subheading', 'Manage registered users, roles, email verification, and security settings.'), ENT_QUOTES, 'UTF-8') ?></p>
+        <a href="<?= $basePath ?>/admin/users/emails" class="btn btn-outline-secondary"><?= htmlspecialchars($__t('admin_users.manage_templates_btn', 'Manage Email Templates'), ENT_QUOTES, 'UTF-8') ?></a>
     </div>
 
     <!-- Integrated Inline Invite User Accordion Card -->
     <div class="card shadow-sm border-0 mb-4 bg-light">
         <div class="card-body">
             <details id="invite-user-section" <?= ($volunteerId > 0) ? 'open' : '' ?>>
-                <summary class="fw-bold text-dark fs-6" style="cursor: pointer; outline: none;">
+                <summary class="fw-bold text-dark prd-users-invite-summary" style="cursor: pointer; outline: none;">
                     ➕ <?= htmlspecialchars($__t('create_user.heading', 'Invite New User'), ENT_QUOTES, 'UTF-8') ?>
                 </summary>
                 <div class="mt-3 pt-3 border-top">
@@ -122,10 +118,10 @@ if ($basePath === '') {
 
     <div class="card shadow-sm border-0 mb-3">
         <div class="card-body py-3">
-            <label for="user-search" class="form-label small fw-bold mb-1"><?= htmlspecialchars($__t('admin_users.find_user', 'Find user'), ENT_QUOTES, 'UTF-8') ?></label>
+            <label for="user-search" class="form-label small fw-bold mb-1"><?= htmlspecialchars($__t('admin_users.find_user_label', 'Find User'), ENT_QUOTES, 'UTF-8') ?></label>
             <input type="search"
                    id="user-search"
-                   class="form-control"
+                   class="form-control prd-user-search"
                    placeholder="<?= htmlspecialchars($__t('admin_users.search_placeholder', 'Username, email, or role…'), ENT_QUOTES, 'UTF-8') ?>"
                    autocomplete="off">
             <div class="form-text"><?= htmlspecialchars($__t('admin_users.search_help', 'Filters the list as you type. Clear the box to show everyone again.'), ENT_QUOTES, 'UTF-8') ?></div>
@@ -136,7 +132,7 @@ if ($basePath === '') {
     <!-- Users Data Table Card -->
     <div class="card shadow-sm border-0 mb-4">
         <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle mb-0 w-100 prd-admin-grid" role="table">
+            <table class="table table-striped table-hover mb-0 w-100 prd-users-table" role="table">
                 <thead class="table-light">
                     <tr>
                         <th scope="col" class="py-3 ps-3"><?= htmlspecialchars($__t('admin_users.th_username', 'Username'), ENT_QUOTES, 'UTF-8') ?></th>
@@ -173,35 +169,37 @@ if ($basePath === '') {
                                 'UTF-8'
                             ) ?>">
                                 <td class="ps-3 fw-bold text-dark"><?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?></td>
-                                <td>
-                                    <form method="POST" action="<?= $basePath ?>/admin/users" class="d-flex gap-1 align-items-center mb-1">
+                                <td class="prd-user-email-cell" style="white-space:normal;vertical-align:top;">
+                                    <form method="POST" action="<?= $basePath ?>/admin/users" class="prd-user-email" style="display:flex;flex-direction:column;align-items:flex-start;">
                                         <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="update_email">
                                         <input type="hidden" name="target_user_id" value="<?= $uId ?>">
                                         <label class="visually-hidden" for="new_email_<?= (int)$uId ?>"><?= htmlspecialchars((__('admin_users.email_for') !== 'admin_users.email_for' ? __('admin_users.email_for') : 'Email for') . ' ' . $uUsername, ENT_QUOTES, 'UTF-8') ?></label>
-                                        <input type="email" id="new_email_<?= (int)$uId ?>" name="new_email" value="<?= htmlspecialchars($uEmail, ENT_QUOTES, 'UTF-8') ?>" class="form-control form-control-sm" style="min-width: 16rem; width: 100%;" required aria-label="<?= htmlspecialchars((__('admin_users.email_for') !== 'admin_users.email_for' ? __('admin_users.email_for') : 'Email for') . ' ' . $uUsername, ENT_QUOTES, 'UTF-8') ?>">
-                                        <button type="submit" class="btn btn-sm btn-outline-dark py-0 px-2" style="font-size: 0.75rem;" title="<?= htmlspecialchars($__t('admin_users.save_email_title', 'Save Email'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($__t('btn.save', 'Save'), ENT_QUOTES, 'UTF-8') ?></button>
+                                        <input type="email" id="new_email_<?= (int)$uId ?>" name="new_email" value="<?= htmlspecialchars($uEmail, ENT_QUOTES, 'UTF-8') ?>" class="form-control prd-user-email-input" style="height:2.5rem;max-height:2.5rem;width:100%;max-width:24rem;display:block;" required aria-label="<?= htmlspecialchars((__('admin_users.email_for') !== 'admin_users.email_for' ? __('admin_users.email_for') : 'Email for') . ' ' . $uUsername, ENT_QUOTES, 'UTF-8') ?>">
+                                        <div class="prd-user-email-actions" style="display:flex;flex-direction:row;align-items:center;gap:0.4rem;margin-top:0.4rem;">
+                                        <button type="submit" class="btn btn-outline-dark prd-user-email-save" style="height:2.35rem;min-height:2.35rem;padding:0 0.75rem;" title="<?= htmlspecialchars($__t('admin_users.save_email_title', 'Save Email'), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($__t('btn.save', 'Save'), ENT_QUOTES, 'UTF-8') ?></button>
                                         <?php if ($uVerified): ?>
-                                            <span class="badge bg-success"><?= htmlspecialchars($__t('admin_users.verified_badge', 'Verified'), ENT_QUOTES, 'UTF-8') ?></span>
+                                            <span class="badge bg-success prd-user-email-badge" style="height:2.35rem;display:inline-flex;align-items:center;padding:0 0.65rem;"><?= htmlspecialchars($__t('admin_users.verified_badge', 'Verified'), ENT_QUOTES, 'UTF-8') ?></span>
                                         <?php else: ?>
-                                            <span class="badge bg-light text-dark border"><?= htmlspecialchars($__t('admin_users.not_verified_badge', 'Not Verified'), ENT_QUOTES, 'UTF-8') ?></span>
+                                            <span class="badge bg-light text-dark border prd-user-email-badge" style="height:2.35rem;display:inline-flex;align-items:center;padding:0 0.65rem;"><?= htmlspecialchars($__t('admin_users.not_verified_badge', 'Not Verified'), ENT_QUOTES, 'UTF-8') ?></span>
                                         <?php endif; ?>
+                                        </div>
                                     </form>
                                 </td>
                                 <td>
                                     <?php if ($isFirstAdmin): ?>
-                                        <div class="d-flex gap-1 align-items-center">
-                                            <select class="form-select form-select-sm" style="min-width: 12rem;" disabled aria-label="<?= htmlspecialchars($__t('admin_users.protected_admin', 'Protected Admin'), ENT_QUOTES, 'UTF-8') ?>">
+                                        <div class="prd-user-role">
+                                            <select class="form-select prd-user-role-select" disabled aria-label="<?= htmlspecialchars($__t('admin_users.protected_admin', 'Protected Admin'), ENT_QUOTES, 'UTF-8') ?>">
                                                 <option selected><?= htmlspecialchars(function_exists('role_display_name') ? role_display_name($uRoleName) : $uRoleName, ENT_QUOTES, 'UTF-8') ?></option>
                                             </select>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;" disabled><?= htmlspecialchars($__t('admin_users.update_btn', 'Update'), ENT_QUOTES, 'UTF-8') ?></button>
+                                            <button type="button" class="btn btn-outline-secondary prd-user-role-update" disabled><?= htmlspecialchars($__t('admin_users.update_btn', 'Update'), ENT_QUOTES, 'UTF-8') ?></button>
                                         </div>
                                     <?php else: ?>
-                                        <form method="POST" action="<?= $basePath ?>/admin/users" class="d-flex gap-1 align-items-center">
+                                        <form method="POST" action="<?= $basePath ?>/admin/users" class="prd-user-role">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="action" value="change_role">
                                             <input type="hidden" name="target_user_id" value="<?= $uId ?>">
-                                            <select name="new_role_id" class="form-select form-select-sm" style="min-width: 12rem;" aria-label="Role for <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>">
+                                            <select name="new_role_id" class="form-select prd-user-role-select" aria-label="Role for <?= htmlspecialchars($uUsername, ENT_QUOTES, 'UTF-8') ?>">
                                                 <?php foreach ($rolesList as $r): ?>
                                                     <?php
                                                         $rId = isset($r['id']) ? (int)$r['id'] : 0;
@@ -215,7 +213,7 @@ if ($basePath === '') {
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: 0.75rem;"><?= htmlspecialchars($__t('admin_users.update_btn', 'Update'), ENT_QUOTES, 'UTF-8') ?></button>
+                                            <button type="submit" class="btn btn-outline-secondary prd-user-role-update"><?= htmlspecialchars($__t('admin_users.update_btn', 'Update'), ENT_QUOTES, 'UTF-8') ?></button>
                                         </form>
                                     <?php endif; ?>
                                 </td>

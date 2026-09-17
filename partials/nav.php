@@ -240,7 +240,7 @@ if ($pdoOk) {
             }
         }
         ?>
-        <a class="navbar-brand fw-bold text-primary d-flex gap-2 py-2" style="align-items: <?= htmlspecialchars($prdLogoAlign, ENT_QUOTES, 'UTF-8') ?>;" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/">
+        <a class="navbar-brand fw-bold text-primary d-flex gap-2 py-2 prd-nav-brand" style="margin-right:30px;align-items: <?= htmlspecialchars($prdLogoAlign, ENT_QUOTES, 'UTF-8') ?>;" href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/">
             <?php if ($prdLogoOn): ?>
                 <img src="<?= htmlspecialchars((new \App\Services\AppearanceService($pdo))->logoUrl($baseUrl), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($prdStrap !== '' ? $prdStrap : $systemName, ENT_QUOTES, 'UTF-8') ?>" style="max-height:<?= (int) $prdLogoH ?>px;width:auto;height:auto;">
             <?php endif; ?>
@@ -259,12 +259,12 @@ if ($pdoOk) {
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="mainNavbarContent" aria-labelledby="prdNavMenuTitle">
+        <div class="offcanvas-lg offcanvas-end prd-nav-drawer" tabindex="-1" id="mainNavbarContent" aria-labelledby="prdNavMenuTitle">
             <div class="offcanvas-header border-bottom d-lg-none">
                 <h2 class="offcanvas-title h5 mb-0" id="prdNavMenuTitle"><?= htmlspecialchars(__('nav.menu') !== 'nav.menu' ? __('nav.menu') : 'Menu', ENT_QUOTES, 'UTF-8') ?></h2>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#mainNavbarContent" aria-label="<?= htmlspecialchars(__('nav.close_menu') !== 'nav.close_menu' ? __('nav.close_menu') : 'Close menu', ENT_QUOTES, 'UTF-8') ?>"></button>
             </div>
-            <div class="offcanvas-body d-lg-flex flex-lg-row align-items-lg-center w-100">
+            <div class="offcanvas-body d-lg-flex flex-lg-row align-items-lg-center flex-lg-grow-1 prd-nav-links">
             <ul class="navbar-nav d-lg-none mb-3 prd-mobile-account">
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item prd-mobile-profile">
@@ -496,7 +496,7 @@ if ($pdoOk) {
             <ul class="navbar-nav ms-auto align-items-lg-center gap-2 mt-3 mt-lg-0 d-none d-lg-flex">
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item d-flex align-items-center gap-2">
-                        <span class="navbar-text text-secondary">
+                        <span class="navbar-text prd-nav-welcome" style="color:#4a7c9b;">
                             <?= htmlspecialchars(__('nav.welcome'), ENT_QUOTES, 'UTF-8') ?>
                             <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile"
                                class="fw-bold text-dark text-decoration-none <?= $navActive('/profile') ?>"

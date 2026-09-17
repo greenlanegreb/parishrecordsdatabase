@@ -215,4 +215,14 @@
 
     window.prdInitColOrder = bind;
     window.prdMarkSort = markSort;
+
+    document.addEventListener('prd-rows-updated', function (e) {
+        var table = e.target;
+        if (!table || !table.classList || !table.classList.contains('prd-col-order')) return;
+        var id = table.getAttribute('data-table-id') || '0';
+        var order = [];
+        try { order = JSON.parse(localStorage.getItem('prd-col-order-' + id) || '[]'); } catch (err) { order = []; }
+        if (!order.length) order = currentOrder(table);
+        applyOrder(table, order);
+    }, true);
 })();
