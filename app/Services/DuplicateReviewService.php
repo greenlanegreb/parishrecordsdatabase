@@ -225,32 +225,16 @@ class DuplicateReviewService
      */
     public function compareValues(int $tableId, int $recordA, int $recordB): array
     {
-        if ($tableId < 1 || $recordA < 1 || $recordB < 1) {
+        if ($recordA < 1 || $recordB < 1) {
             return [];
         }
 
-        // Only core columns — avoid failing on installs missing optional column attributes
-        // boolean_display_format drives Male/Female vs Yes/No etc (same as data entry)
-        try {
-            $colsStmt = $this->pdo->prepare(
-                'SELECT id, column_name, data_type, boolean_display_format
-                 FROM table_columns
-                 WHERE table_id = ?
-                 ORDER BY id ASC'
-            );
-            $colsStmt->execute([$tableId]);
-            $cols = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (\Throwable $e) {
-            $colsStmt = $this->pdo->prepare(
-                'SELECT id, column_name, data_type
-                 FROM table_columns
-                 WHERE table_id = ?
-                 ORDER BY id ASC'
-            );
-            $colsStmt->execute([$tableId]);
-            $cols = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($tableId < 1) {
+            $tableId = $this->tableIdForRecords($recordA, $recordB);
         }
-        if (!is_array($cols) || $cols === []) {
+
+        $cols = $this->columnsForCompare($tableId, $recordA, $recordB);
+        if ($cols === []) {
             return [];
         }
 
@@ -366,9 +350,13 @@ class DuplicateReviewService
         $tableId = isset($row['table_id']) ? (int) $row['table_id'] : 0;
         $a = isset($row['record_a_id']) ? (int) $row['record_a_id'] : 0;
         $b = isset($row['record_b_id']) ? (int) $row['record_b_id'] : 0;
-        if ($tableId < 1 || $a < 1 || $b < 1) {
+        if ($a < 1 || $b < 1) {
             $row['field_compare'] = [];
             return $row;
+        }
+        if ($tableId < 1) {
+            $tableId = $this->tableIdForRecords($a, $b);
+            $row['table_id'] = $tableId;
         }
         try {
             $row['field_compare'] = $this->compareValues($tableId, $a, $b);
@@ -381,6 +369,88 @@ class DuplicateReviewService
             }
         }
         return $row;
+    }
+
+    private function tableIdForRecords(int $recordA, int $recordB): int
+    {
+        $stmt = $this->pdo->prepare('SELECT table_id FROM records WHERE id IN (?, ?) LIMIT 2');
+        $stmt->execute([$recordA, $recordB]);
+        $ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        if (!is_array($ids) || $ids === []) {
+            return 0;
+        }
+        return (int) $ids[0];
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    private function columnsForCompare(int $tableId, int $recordA, int $recordB): array
+    {
+        $cols = [];
+        if ($tableId > 0) {
+            try {
+                $colsStmt = $this->pdo->prepare(
+                    'SELECT id, column_name, data_type, boolean_display_format
+                     FROM table_columns
+                     WHERE table_id = ?
+                     ORDER BY id ASC'
+                );
+                $colsStmt->execute([$tableId]);
+                $got = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+                if (is_array($got)) {
+                    $cols = $got;
+                }
+            } catch (\Throwable $e) {
+                try {
+                    $colsStmt = $this->pdo->prepare(
+                        'SELECT id, column_name, data_type
+                         FROM table_columns
+                         WHERE table_id = ?
+                         ORDER BY id ASC'
+                    );
+                    $colsStmt->execute([$tableId]);
+                    $got = $colsStmt->fetchAll(PDO::FETCH_ASSOC);
+                    if (is_array($got)) {
+                        $cols = $got;
+                    }
+                } catch (\Throwable $e2) {
+                    $cols = [];
+                }
+            }
+        }
+        if ($cols !== []) {
+            return $cols;
+        }
+        $valStmt = $this->pdo->prepare(
+            'SELECT DISTINCT column_id FROM record_values WHERE record_id IN (?, ?)'
+        );
+        $valStmt->execute([$recordA, $recordB]);
+        $cids = $valStmt->fetchAll(PDO::FETCH_COLUMN);
+        if (!is_array($cids) || $cids === []) {
+            return [];
+        }
+        $ph = implode(',', array_fill(0, count($cids), '?'));
+        try {
+            $nStmt = $this->pdo->prepare(
+                "SELECT id, column_name, data_type FROM table_columns WHERE id IN ({$ph})"
+            );
+            $nStmt->execute(array_map('intval', $cids));
+            $named = $nStmt->fetchAll(PDO::FETCH_ASSOC);
+            if (is_array($named) && $named !== []) {
+                return $named;
+            }
+        } catch (\Throwable $e) {
+        }
+        $fallback = [];
+        foreach ($cids as $cid) {
+            $fallback[] = [
+                'id' => (int) $cid,
+                'column_name' => 'Field ' . (int) $cid,
+                'data_type' => 'VARCHAR',
+            ];
+        }
+        return $fallback;
     }
 
     private function viewerDateFormat(): string
