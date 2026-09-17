@@ -644,24 +644,25 @@ a.btn-primary:active,
         z-index: 6;
     }
     .prd-lang-select { display: none; }
+    .prd-a11y-bar.prd-lang-open {
+        z-index: 1080;
+    }
+    .prd-a11y-bar.prd-lang-open .prd-a11y-inner {
+        flex-wrap: wrap !important;
+    }
     .prd-a11y-bar.prd-lang-open .prd-lang-box {
-        position: absolute;
-        inset: 0;
-        z-index: 5;
+        position: relative;
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.35rem 0.75rem;
-        background: #212529;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
         width: 100%;
-        flex: none;
+        flex: 1 1 100%;
+        background: #212529;
+        padding-bottom: 0.35rem;
     }
     .prd-a11y-bar.prd-lang-open .prd-lang-select {
-        display: block !important;
-        flex: 1 1 auto;
-        width: auto !important;
-        min-height: 2.75rem;
-        font-size: 1rem !important;
+        display: none !important;
     }
     .prd-a11y-bar .d-flex { row-gap: 0.35rem; }
     .prd-mobile-account {
@@ -696,3 +697,36 @@ body.prd-nav-open { overflow: hidden; }
     word-break: break-word;
 }
 .prd-email-btn { white-space: nowrap; }
+
+.prd-lang-sheet {
+    display: none;
+}
+.prd-a11y-bar.prd-lang-open .prd-lang-sheet {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    position: relative;
+    max-height: 50vh;
+    overflow-y: auto;
+    width: 100%;
+    background: #212529;
+    border: 1px solid #495057;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+}
+.prd-lang-choice {
+    display: block;
+    width: 100%;
+    text-align: left;
+    min-height: 2.6rem;
+    padding: 0.45rem 0.7rem;
+    border: 0;
+    background: transparent;
+    color: #f5f0e6;
+    font-size: 1rem;
+}
+.prd-lang-choice.is-current { font-weight: 700; background: #343a40; }
+.prd-lang-choice:focus, .prd-lang-choice:hover { background: #495057; color: #fff; }
+@media (min-width: 992px) {
+    .prd-lang-sheet { display: none !important; }
+}

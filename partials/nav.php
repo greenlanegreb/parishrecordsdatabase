@@ -170,7 +170,7 @@ if ($pdoOk) {
 ?>
 <!-- Top Accessibility & Language Bar -->
 <div class="prd-a11y-bar bg-dark text-white py-1 px-3 small border-bottom">
-    <div class="container d-flex justify-content-between align-items-center flex-nowrap gap-2 prd-a11y-inner">
+    <div class="container d-flex justify-content-between align-items-center flex-nowrap gap-3 prd-a11y-inner">
         <div class="d-inline-flex align-items-center gap-2 flex-nowrap">
             <a href="?contrast=toggle" class="text-white text-decoration-none d-inline-flex align-items-center gap-1" role="button"
                aria-label="<?= htmlspecialchars(__('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?>">
@@ -196,7 +196,7 @@ if ($pdoOk) {
                 </label>
                 <select id="site-lang-select"
                         onchange="if(this.value) window.location.href='?lang=' + encodeURIComponent(this.value);"
-                        class="form-select form-select-sm prd-lang-select py-0 px-2"
+                        class="form-select form-select-sm prd-lang-select py-0 px-2 d-none d-lg-inline-block"
                         style="width: auto; font-size: 0.85rem;"
                         aria-label="<?= htmlspecialchars(__('nav.select_language'), ENT_QUOTES, 'UTF-8') ?>">
                     <?php foreach ($navLanguages as $code => $label): ?>
@@ -207,6 +207,14 @@ if ($pdoOk) {
                         </option>
                     <?php endforeach; ?>
                 </select>
+                <div class="prd-lang-sheet" id="prd-lang-sheet" hidden>
+                    <?php foreach ($navLanguages as $code => $label): ?>
+                        <?php $flag = $languageMeta[$code]['flag'] ?? '🌐'; ?>
+                        <button type="button" class="prd-lang-choice<?= ($code === $activeLang) ? ' is-current' : '' ?>" data-lang="<?= htmlspecialchars($code, ENT_QUOTES, 'UTF-8') ?>">
+                            <?= htmlspecialchars(trim($flag . ' ' . $label), ENT_QUOTES, 'UTF-8') ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php endif; ?>
     </div>
@@ -539,9 +547,13 @@ if ($pdoOk) {
     var btn = document.querySelector('.prd-lang-toggle');
     var sel = document.getElementById('site-lang-select');
     if (btn && bar && sel) {
+        var sheet = document.getElementById('prd-lang-sheet');
         function setOpen(open) {
             bar.classList.toggle('prd-lang-open', open);
             btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            if (sheet) {
+                sheet.hidden = !open;
+            }
         }
         btn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -552,12 +564,26 @@ if ($pdoOk) {
                 try { sel.focus(); } catch (err) {}
             }
         });
-        sel.addEventListener('change', function () {
+        var sheet = document.getElementById('prd-lang-sheet');
+        function goLang(code) {
             setOpen(false);
+            if (!code) {
+                return;
+            }
+            window.location.href = '?lang=' + encodeURIComponent(code);
+        }
+        sel.addEventListener('change', function () {
+            goLang(sel.value);
         });
-        sel.addEventListener('blur', function () {
-            setTimeout(function () { setOpen(false); }, 150);
-        });
+        if (sheet) {
+            sheet.addEventListener('click', function (ev) {
+                var t = ev.target.closest('.prd-lang-choice');
+                if (!t) {
+                    return;
+                }
+                goLang(t.getAttribute('data-lang') || '');
+            });
+        }
     }
 })();
 </script>
