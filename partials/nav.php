@@ -170,8 +170,8 @@ if ($pdoOk) {
 ?>
 <!-- Top Accessibility & Language Bar -->
 <div class="prd-a11y-bar bg-dark text-white py-1 px-3 small border-bottom">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <div class="d-inline-flex align-items-center gap-2 flex-wrap">
+    <div class="container d-flex justify-content-between align-items-center flex-nowrap gap-2 prd-a11y-inner">
+        <div class="d-inline-flex align-items-center gap-2 flex-nowrap">
             <a href="?contrast=toggle" class="text-white text-decoration-none d-inline-flex align-items-center gap-1" role="button"
                aria-label="<?= htmlspecialchars(__('nav.high_contrast'), ENT_QUOTES, 'UTF-8') ?>">
                 <span aria-hidden="true">👁️</span>
@@ -539,12 +539,24 @@ if ($pdoOk) {
     var btn = document.querySelector('.prd-lang-toggle');
     var sel = document.getElementById('site-lang-select');
     if (btn && bar && sel) {
-        btn.addEventListener('click', function () {
-            var open = bar.classList.toggle('prd-lang-open');
+        function setOpen(open) {
+            bar.classList.toggle('prd-lang-open', open);
             btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var open = !bar.classList.contains('prd-lang-open');
+            setOpen(open);
             if (open) {
-                try { sel.focus(); } catch (e) {}
+                try { sel.focus(); } catch (err) {}
             }
+        });
+        sel.addEventListener('change', function () {
+            setOpen(false);
+        });
+        sel.addEventListener('blur', function () {
+            setTimeout(function () { setOpen(false); }, 150);
         });
     }
 })();
