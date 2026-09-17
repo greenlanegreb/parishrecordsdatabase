@@ -186,7 +186,11 @@ if ($pdoOk) {
         </div>
         <?php if (count($navLanguages) > 1): ?>
             <div class="prd-lang-box d-inline-flex align-items-center gap-2">
-                <label for="site-lang-select" class="mb-0 prd-lang-mark">
+                <button type="button" class="prd-lang-toggle btn btn-link text-white text-decoration-none px-2 d-lg-none" aria-expanded="false" aria-controls="site-lang-select">
+                    <span aria-hidden="true">Aa</span>
+                    <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
+                </button>
+                <label for="site-lang-select" class="mb-0 prd-lang-mark d-none d-lg-inline">
                     <span aria-hidden="true">Aa</span>
                     <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
                 </label>
@@ -253,7 +257,7 @@ if ($pdoOk) {
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#mainNavbarContent" aria-label="<?= htmlspecialchars(__('nav.close_menu') !== 'nav.close_menu' ? __('nav.close_menu') : 'Close menu', ENT_QUOTES, 'UTF-8') ?>"></button>
             </div>
             <div class="offcanvas-body d-lg-flex flex-lg-row align-items-lg-center w-100">
-            <ul class="navbar-nav d-lg-none mb-3 gap-2">
+            <ul class="navbar-nav d-lg-none mb-3 prd-mobile-account">
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
                         <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile"
@@ -529,3 +533,19 @@ if ($pdoOk) {
         </div>
     </div>
 </nav>
+<script>
+(function () {
+    var bar = document.querySelector('.prd-a11y-bar');
+    var btn = document.querySelector('.prd-lang-toggle');
+    var sel = document.getElementById('site-lang-select');
+    if (btn && bar && sel) {
+        btn.addEventListener('click', function () {
+            var open = bar.classList.toggle('prd-lang-open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            if (open) {
+                try { sel.focus(); } catch (e) {}
+            }
+        });
+    }
+})();
+</script>
