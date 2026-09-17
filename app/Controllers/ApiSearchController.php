@@ -137,6 +137,36 @@ class ApiSearchController
             }
         }
 
+        $sortValue = static function (array $rec) use ($sortCol, $recordValues): string {
+            $rid = (int) ($rec['id'] ?? 0);
+            if ($sortCol === 'date' || $sortCol === 'created_at') {
+                return (string) ($rec['created_at'] ?? '');
+            }
+            if ($sortCol === 'created_by') {
+                $name = trim((string) ($rec['first_name'] ?? '') . ' ' . (string) ($rec['surname'] ?? ''));
+                return strtolower($name !== '' ? $name : (string) ($rec['username'] ?? ''));
+            }
+            if (str_starts_with((string) $sortCol, 'col_')) {
+                $cid = (int) substr((string) $sortCol, 4);
+                $raw = '';
+                if (isset($recordValues[$rid][$cid]) && is_string($recordValues[$rid][$cid])) {
+                    $raw = $recordValues[$rid][$cid];
+                } elseif (isset($recordValues[(string) $rid][$cid]) && is_string($recordValues[(string) $rid][$cid])) {
+                    $raw = $recordValues[(string) $rid][$cid];
+                }
+                $trim = trim($raw);
+                if ($trim !== '' && $trim[0] === '{' && class_exists(\App\Services\LocationValueService::class)) {
+                    $raw = \App\Services\LocationValueService::formatDisplay($trim);
+                }
+                return strtolower($raw);
+            }
+            return str_pad((string) $rid, 12, '0', STR_PAD_LEFT);
+        };
+        usort($matchedRecords, static function (array $a, array $b) use ($sortValue, $sortDir): int {
+            $cmp = strnatcasecmp($sortValue($a), $sortValue($b));
+            return $sortDir === 'DESC' ? -$cmp : $cmp;
+        });
+
         $totalMatched = count($matchedRecords);
         $totalPages = (int) ceil($totalMatched / $perPage);
         if ($totalPages < 1) {

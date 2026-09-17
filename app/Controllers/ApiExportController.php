@@ -101,6 +101,17 @@ class ApiExportController
             $recordValues[$recId][$colId] = $valCont;
         }
 
+        $sortCol = isset($queryGet['sort']) && is_string($queryGet['sort']) ? $queryGet['sort'] : 'id';
+        $sortDir = (isset($queryGet['dir']) && is_string($queryGet['dir']) && strtoupper($queryGet['dir']) === 'ASC')
+            ? 'ASC' : 'DESC';
+        $sortHelper = dirname(__DIR__, 2) . '/includes/record_sort_helpers.php';
+        if (is_file($sortHelper)) {
+            require_once $sortHelper;
+        }
+        if (function_exists('prd_sort_record_rows')) {
+            $records = prd_sort_record_rows($records, $recordValues, $sortCol, $sortDir);
+        }
+
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename="prd-table-' . $tableId . '-export-' . date('Y-m-d') . '.csv"');
         header('Cache-Control: no-store, no-cache, must-revalidate');

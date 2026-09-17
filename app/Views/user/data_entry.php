@@ -85,6 +85,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
         <?php require __DIR__ . '/data_entry_parts/duplicate_modal.php'; ?>
         <?php require __DIR__ . '/data_entry_parts/entry_form.php'; ?>
         <?php require __DIR__ . '/data_entry_parts/filter_panel.php'; ?>
+        <?php require dirname(__DIR__, 3) . '/partials/column_visibility_bar.php'; ?>
+        <?php require __DIR__ . '/data_entry_parts/records_table.php'; ?>
 
         <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -92,6 +94,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             const searchForm = document.getElementById('search-form');
             const dataEntryForm = document.getElementById('data-entry-form');
             let currentPage = 1;
+            let currentSort = 'id';
+            let currentDir = 'DESC';
 
             // ---------- Keyboard Shortcuts ----------
             if (dataEntryForm) {
@@ -168,8 +172,8 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             function fetchFilteredData(page = 1) {
                 currentPage = page;
                 const formData = new URLSearchParams();
-                formData.append('sort', 'id');
-                formData.append('dir', 'DESC');
+                formData.append('sort', currentSort);
+                formData.append('dir', currentDir);
                 formData.append('page', currentPage);
 
                 if (searchForm) {
@@ -326,6 +330,26 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 }
             });
 
+            function bindHeaderSort() {
+                const table = document.getElementById('data-entry-table');
+                if (!table) return;
+                table.querySelectorAll('th.sortable').forEach(th => {
+                    th.addEventListener('click', (ev) => {
+                        if (ev.target.closest('.prd-col-handle')) return;
+                        const sortKey = th.getAttribute('data-sort');
+                        if (!sortKey) return;
+                        if (currentSort === sortKey) {
+                            currentDir = currentDir === 'ASC' ? 'DESC' : 'ASC';
+                        } else {
+                            currentSort = sortKey;
+                            currentDir = 'ASC';
+                        }
+                        if (window.prdMarkSort) window.prdMarkSort(table, currentSort, currentDir);
+                        fetchFilteredData(1);
+                    });
+                });
+            }
+
                         function rebuildVisibleHeaders() {
                 const row = document.querySelector('#data-entry-table thead tr');
                 if (!row) return;
@@ -334,8 +358,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                     if (cb.value === 'created_by' || cb.value === 'created_at') return;
                     const th = document.createElement('th');
                     th.scope = 'col';
-                    th.className = 'py-3 text-nowrap';
+                    th.className = 'sortable py-3 text-nowrap';
                     th.dataset.colId = cb.value;
+                    th.dataset.sort = 'col_' + cb.value;
                     const lab = document.querySelector('label[for="' + cb.id + '"]');
                     th.textContent = lab ? lab.textContent.trim() : '';
                     row.appendChild(th);
@@ -346,6 +371,9 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
                 act.dataset.colId = 'actions';
                 act.textContent = <?= json_encode(__('index.th_actions'), JSON_UNESCAPED_UNICODE) ?>;
                 row.appendChild(act);
+                const deTbl = document.getElementById('data-entry-table');
+                if (deTbl && window.prdInitColOrder) window.prdInitColOrder(deTbl);
+                bindHeaderSort();
             }
             document.querySelectorAll('.js-col-vis').forEach(cb => {
                 cb.addEventListener('change', () => {
@@ -355,14 +383,16 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             });
 
             // Initial load
+            bindHeaderSort();
+            if (window.prdInitColOrder) {
+                const deTbl = document.getElementById('data-entry-table');
+                if (deTbl) window.prdInitColOrder(deTbl);
+            }
             fetchFilteredData(1);
         });
         </script>
 
         <hr class="my-4">
-
-        <?php require dirname(__DIR__, 3) . '/partials/column_visibility_bar.php'; ?>
-        <?php require __DIR__ . '/data_entry_parts/records_table.php'; ?>
 
     <?php endif; ?>
 </div>

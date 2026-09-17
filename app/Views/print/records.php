@@ -34,8 +34,7 @@ $printRtl = in_array(strtolower((string) $printLang), ['ar', 'fa', 'he', 'ur', '
         .brand {
             font-family: system-ui, sans-serif;
             font-size: 0.8rem;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
+            letter-spacing: 0.02em;
             color: #444;
             margin: 0 0 0.2rem;
         }

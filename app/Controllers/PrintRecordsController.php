@@ -75,6 +75,18 @@ class PrintRecordsController
             $recordValues[(int) $row['record_id']][(int) $row['column_id']] = (string) ($row['value_content'] ?? '');
         }
 
+        $queryGet = $_GET;
+        $sortCol = isset($queryGet['sort']) && is_string($queryGet['sort']) ? $queryGet['sort'] : 'id';
+        $sortDir = (isset($queryGet['dir']) && is_string($queryGet['dir']) && strtoupper($queryGet['dir']) === 'ASC')
+            ? 'ASC' : 'DESC';
+        $sortHelper = dirname(__DIR__, 2) . '/includes/record_sort_helpers.php';
+        if (is_file($sortHelper)) {
+            require_once $sortHelper;
+        }
+        if (function_exists('prd_sort_record_rows')) {
+            $records = prd_sort_record_rows($records, $recordValues, $sortCol, $sortDir);
+        }
+
         $searchFilters = isset($_GET['filters']) && is_array($_GET['filters']) ? $_GET['filters'] : [];
         $dateFilters = isset($_GET['date_filters']) && is_array($_GET['date_filters']) ? $_GET['date_filters'] : [];
 

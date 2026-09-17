@@ -267,12 +267,20 @@ if ($pdoOk) {
             <div class="offcanvas-body d-lg-flex flex-lg-row align-items-lg-center w-100">
             <ul class="navbar-nav d-lg-none mb-3 prd-mobile-account">
                 <?php if ($isLoggedIn): ?>
-                    <li class="nav-item">
+                    <li class="nav-item prd-mobile-profile">
                         <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile"
-                           class="nav-link fw-bold <?= $navActive('/profile') ?>">
+                           class="prd-mobile-profile-link <?= $navActive('/profile') ?>">
                             <?= htmlspecialchars(__('nav.profile'), ENT_QUOTES, 'UTF-8') ?>
-                            (<?= htmlspecialchars($displayIdentifier, ENT_QUOTES, 'UTF-8') ?>)
+                            <span class="prd-mobile-profile-name"><?= htmlspecialchars($displayIdentifier, ENT_QUOTES, 'UTF-8') ?></span>
                         </a>
+                        <?php if ($modLeaderboard): ?>
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/leaderboard"
+                               class="badge bg-warning text-dark text-decoration-none px-2 py-1 prd-points-badge"
+                               aria-label="<?= htmlspecialchars(__('nav.leaderboard_score'), ENT_QUOTES, 'UTF-8') ?>: <?= $userPoints ?>">
+                                <span class="prd-points-star" aria-hidden="true">★</span>
+                                <span class="fw-bold"><?= $userPoints ?></span>
+                            </a>
+                        <?php endif; ?>
                     </li>
                     <li class="nav-item">
                         <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/logout"
@@ -549,21 +557,21 @@ if ($pdoOk) {
     if (btn && bar && sel) {
         var sheet = document.getElementById('prd-lang-sheet');
         function setOpen(open) {
-            bar.classList.toggle('prd-lang-open', open);
+            if (open) bar.classList.add('prd-lang-open');
+            else bar.classList.remove('prd-lang-open');
             btn.setAttribute('aria-expanded', open ? 'true' : 'false');
             if (sheet) {
-                sheet.hidden = !open;
+                if (open) sheet.removeAttribute('hidden');
+                else sheet.setAttribute('hidden', 'hidden');
             }
         }
-        btn.addEventListener('click', function (e) {
+        function onToggle(e) {
             e.preventDefault();
             e.stopPropagation();
             var open = !bar.classList.contains('prd-lang-open');
             setOpen(open);
-            if (open) {
-                try { sel.focus(); } catch (err) {}
-            }
-        });
+        }
+        btn.addEventListener('click', onToggle);
         var sheet = document.getElementById('prd-lang-sheet');
         function goLang(code) {
             setOpen(false);

@@ -64,8 +64,17 @@ if ($pdoForFooter instanceof PDO) {
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <?php
     $prdAssetBase = defined('BASE_PATH') ? rtrim((string) BASE_PATH, '/') : '';
+    $prdJsHref = $prdAssetBase . '/js/prd_col_order.js';
+    $prdUiHref = $prdAssetBase . '/js/prd_ui.js';
+    if (defined('ROOT_PATH') && is_file(ROOT_PATH . '/public/js/prd_col_order.js')) {
+        $prdJsHref = $prdAssetBase . '/public/js/prd_col_order.js';
+        $prdUiHref = $prdAssetBase . '/public/js/prd_ui.js';
+    } elseif (is_file(dirname(__DIR__) . '/public/js/prd_col_order.js')) {
+        $prdJsHref = $prdAssetBase . '/public/js/prd_col_order.js';
+        $prdUiHref = $prdAssetBase . '/public/js/prd_ui.js';
+    }
 ?>
-<script src="<?= htmlspecialchars($prdAssetBase, ENT_QUOTES, 'UTF-8') ?>/js/prd_col_order.js"></script>
-<script src="<?= htmlspecialchars($prdAssetBase, ENT_QUOTES, 'UTF-8') ?>/js/prd_ui.js"></script>
+<script src="<?= htmlspecialchars($prdJsHref, ENT_QUOTES, 'UTF-8') ?>?v=20260917c"></script>
+<script src="<?= htmlspecialchars($prdUiHref, ENT_QUOTES, 'UTF-8') ?>"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@ if (isset($activeTableInfo['table_name']) && is_string($activeTableInfo['table_n
                     <?php foreach (($visibleColumns ?? $columns) as $col): ?>
                         <?php $cName = isset($col['column_name']) && is_string($col['column_name']) ? $col['column_name'] : ''; ?>
                         <?php $cId = isset($col['id']) ? (int) $col['id'] : 0; ?>
-                        <th scope="col" class="py-3 text-nowrap" data-col-id="<?= $cId ?>"><?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?></th>
+                        <th scope="col" class="sortable py-3 text-nowrap" data-col-id="<?= $cId ?>" data-sort="col_<?= $cId ?>"><?= htmlspecialchars($cName, ENT_QUOTES, 'UTF-8') ?></th>
                     <?php endforeach; ?>
                     <th scope="col" class="py-3 text-end pe-3" data-col-id="actions"><?= htmlspecialchars(__('index.th_actions'), ENT_QUOTES, 'UTF-8') ?></th>
                 </tr>

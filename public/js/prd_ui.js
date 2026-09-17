@@ -13,14 +13,6 @@
             }
         } catch (err) {}
     });
-    document.querySelectorAll('.prd-lang-toggle').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var bar = btn.closest('.prd-a11y-bar');
-            if (!bar) return;
-            var on = bar.classList.toggle('prd-lang-open');
-            btn.setAttribute('aria-expanded', on ? 'true' : 'false');
-        });
-    });
     var collapse = document.getElementById('mainNavbarContent');
     if (collapse) {
         collapse.addEventListener('shown.bs.collapse', function () {
