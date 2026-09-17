@@ -24,7 +24,7 @@ $dupTables = $dupTables ?? [];
 $dupTab = !empty($dupTab);
 ?>
 
-<div class="container py-4" style="max-width: 1200px;">
+<div class="container py-4 prd-moderate" style="max-width: 1200px;">
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></strong>
@@ -150,6 +150,14 @@ $dupTab = !empty($dupTab);
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('textarea.prd-autosize').forEach((box) => {
+        const grow = () => {
+            box.style.height = 'auto';
+            box.style.height = Math.max(box.scrollHeight, 96) + 'px';
+        };
+        box.addEventListener('input', grow);
+        grow();
+    });
     document.querySelectorAll('.moderation-form').forEach(form => {
         form.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {

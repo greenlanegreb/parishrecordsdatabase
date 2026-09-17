@@ -75,12 +75,12 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
     </td>
     <td class="align-top">
         <div class="row g-2 p-2 bg-light border rounded mb-2">
-            <div class="col-md-6 border-end">
-                <span class="d-block text-uppercase text-muted fw-bold" style="font-size: 0.75rem;"><?= htmlspecialchars(__('moderate.live_value_label'), ENT_QUOTES, 'UTF-8') ?></span>
+            <div class="col-12 col-xl-6 pe-xl-3 pb-2 pb-xl-0 mb-2 mb-xl-0 border-bottom border-xl-0">
+                <span class="d-block text-uppercase text-muted fw-bold prd-mod-kicker"><?= htmlspecialchars(__('moderate.live_value_label'), ENT_QUOTES, 'UTF-8') ?></span>
                 <div class="text-secondary text-break"><?= htmlspecialchars($liveDisplay !== '' ? $liveDisplay : __('moderate.empty_placeholder'), ENT_QUOTES, 'UTF-8') ?></div>
             </div>
-            <div class="col-md-6">
-                <span class="d-block text-uppercase text-success fw-bold" style="font-size: 0.75rem;"><?= htmlspecialchars(__('moderate.proposed_value_label'), ENT_QUOTES, 'UTF-8') ?></span>
+            <div class="col-12 col-xl-6 ps-xl-3">
+                <span class="d-block text-uppercase text-success fw-bold prd-mod-kicker"><?= htmlspecialchars(__('moderate.proposed_value_label'), ENT_QUOTES, 'UTF-8') ?></span>
                 <div class="text-success fw-medium text-break"><?= htmlspecialchars($propDisplay, ENT_QUOTES, 'UTF-8') ?></div>
             </div>
         </div>
@@ -174,7 +174,7 @@ $suggestorDisplayName = format_user_display_name($pdo, $suggestorData, $currentU
                 <p class="small text-muted mb-1"><?= htmlspecialchars(__('moderate.rationale_optional') !== 'moderate.rationale_optional' ? __('moderate.rationale_optional') : 'Optional note (kept on the record).', ENT_QUOTES, 'UTF-8') ?></p>
             <?php endif; ?>
             <label class="visually-hidden" for="moderator_rationale_<?= $sId ?>"><?= htmlspecialchars(__('moderate.rationale_label') !== 'moderate.rationale_label' ? __('moderate.rationale_label') : 'Note for the person who suggested this', ENT_QUOTES, 'UTF-8') ?></label>
-            <textarea id="moderator_rationale_<?= $sId ?>" name="moderator_rationale" rows="2" class="form-control form-control-sm mb-2" placeholder="<?= htmlspecialchars(__('moderate.rationale_placeholder') !== 'moderate.rationale_placeholder' ? __('moderate.rationale_placeholder') : 'Why you accepted or declined this change', ENT_QUOTES, 'UTF-8') ?>"></textarea>
+            <textarea id="moderator_rationale_<?= $sId ?>" name="moderator_rationale" rows="4" class="form-control mb-2 prd-autosize" placeholder="<?= htmlspecialchars(__('moderate.rationale_placeholder') !== 'moderate.rationale_placeholder' ? __('moderate.rationale_placeholder') : 'Why you accepted or declined this change', ENT_QUOTES, 'UTF-8') ?>"></textarea>
 
             <div class="d-flex gap-1 justify-content-end">
                 <button type="submit" name="action" value="approve" class="btn btn-sm btn-success approve-btn"><?= htmlspecialchars(__('moderate.approve_btn'), ENT_QUOTES, 'UTF-8') ?></button>
