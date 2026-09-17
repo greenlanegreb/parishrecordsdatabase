@@ -55,6 +55,12 @@ class RecordMaintenanceService
                     'DELETE FROM duplicate_reviews WHERE record_a_id = ? OR record_b_id = ? OR merge_kept_id = ?'
                 )->execute([$recordId, $recordId, $recordId]);
             } catch (\Throwable $e) {
+                try {
+                    $this->pdo->prepare(
+                        'DELETE FROM duplicate_reviews WHERE record_a_id = ? OR record_b_id = ?'
+                    )->execute([$recordId, $recordId]);
+                } catch (\Throwable $e2) {
+                }
             }
             // Values (also cascade if FK exists)
             $this->pdo->prepare('DELETE FROM record_values WHERE record_id = ?')->execute([$recordId]);
