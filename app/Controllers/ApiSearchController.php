@@ -210,7 +210,7 @@ class ApiSearchController
                 echo '<td class="text-end pe-2" data-col-id="actions">';
                 $actionsLabel = (__('index.th_actions') !== 'index.th_actions') ? __('index.th_actions') : 'Actions';
                 echo '<div class="dropdown d-inline-block">';
-                echo '<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">'
+                echo '<button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-popper-config="{&quot;strategy&quot;:&quot;fixed&quot;}" aria-expanded="false" aria-haspopup="true">'
                     . htmlspecialchars($actionsLabel, ENT_QUOTES, 'UTF-8') . '</button>';
                 echo '<ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2">';
                 $viewLabel = (__('record.view') !== 'record.view') ? __('record.view') : 'View record';

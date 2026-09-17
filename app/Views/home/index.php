@@ -288,7 +288,7 @@ $basePath = defined('BASE_PATH') ? rtrim(BASE_PATH, '/') : '';
             <h2 class="h5 fw-bold mb-2"><?= htmlspecialchars($searchTableName, ENT_QUOTES, 'UTF-8') ?></h2>
         <?php endif; ?>
         <!-- LIVE DATA TABLE -->
-        <div class="card border-0 shadow-sm mb-4 bg-white overflow-hidden">
+        <div class="card border-0 shadow-sm mb-4 bg-white">
             <div class="table-responsive mb-0" aria-live="polite">
                 <table id="data-table" class="table table-striped table-hover align-middle mb-0 prd-table-sticky prd-col-order" role="table" data-table-id="<?= (int) ($activeTableId ?? 0) ?>">
                     <thead class="table-light">
