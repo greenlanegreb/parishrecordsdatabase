@@ -7,8 +7,13 @@ declare(strict_types=1);
 $fields = isset($row['field_compare']) && is_array($row['field_compare']) ? $row['field_compare'] : [];
 $recA = (int) ($row['record_a_id'] ?? 0);
 $recB = (int) ($row['record_b_id'] ?? 0);
+$missing = !empty($row['records_missing']);
 ?>
-<?php if ($fields === []): ?>
+<?php if ($missing): ?>
+    <p class="small text-muted mb-0">#<?= $recA ?> · #<?= $recB ?>
+        <span class="d-block"><?= htmlspecialchars(__('dup_queue.records_gone') !== 'dup_queue.records_gone' ? __('dup_queue.records_gone') : 'One or both of these records have been deleted. Mark this as not a duplicate to clear the ticket. Nothing to join.', ENT_QUOTES, 'UTF-8') ?></span>
+    </p>
+<?php elseif ($fields === []): ?>
     <p class="small text-muted mb-0">#<?= $recA ?> · #<?= $recB ?>
         <span class="d-block"><?= htmlspecialchars(__('dup_queue.no_field_preview') !== 'dup_queue.no_field_preview' ? __('dup_queue.no_field_preview') : 'No field values to preview here. Use Review and join to compare the two records.', ENT_QUOTES, 'UTF-8') ?></span>
     </p>

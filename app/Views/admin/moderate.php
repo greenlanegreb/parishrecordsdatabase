@@ -129,7 +129,9 @@ $dupTab = !empty($dupTab);
                                     }
                                     ?>
                                     <div class="d-flex flex-wrap gap-2 mt-2">
+                                        <?php if (empty($row['records_missing'])): ?>
                                         <a class="btn btn-sm btn-primary" href="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/merge?id=<?= (int) $row['id'] ?>"><?= htmlspecialchars(__('dup_queue.merge_btn') !== 'dup_queue.merge_btn' ? __('dup_queue.merge_btn') : 'Join into one', ENT_QUOTES, 'UTF-8') ?></a>
+                                        <?php endif; ?>
                                         <form method="POST" action="<?= htmlspecialchars($basePath, ENT_QUOTES, 'UTF-8') ?>/admin/duplicates/dismiss">
                                             <?= csrf_field() ?>
                                             <input type="hidden" name="review_id" value="<?= (int) $row['id'] ?>">

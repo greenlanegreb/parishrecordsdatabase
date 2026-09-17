@@ -314,9 +314,15 @@ class DuplicateReviewService
                 }
             }
             if ($dataType === 'DATE' && function_exists('format_display_date')) {
-                $formatted = format_display_date($raw, $this->viewerDateFormat());
+                $dateOnly = $raw;
+                if (preg_match('/^(\d{4}-\d{2}-\d{2})[ T]\d/', $raw, $m)) {
+                    $dateOnly = $m[1];
+                } elseif (preg_match('/^(.+?)\s+\d{1,2}:\d{2}(:\d{2})?$/', $raw, $m)) {
+                    $dateOnly = trim($m[1]);
+                }
+                $formatted = format_display_date($dateOnly, $this->viewerDateFormat());
                 if (is_string($formatted) && $formatted !== '') {
-                    return $formatted;
+                    return preg_replace('/\s+\d{1,2}:\d{2}(:\d{2})?(\s*[AaPp][Mm])?$/', '', $formatted) ?? $formatted;
                 }
             }
             if ($dataType === 'TIME' && function_exists('format_display_time')) {
@@ -352,11 +358,22 @@ class DuplicateReviewService
         $b = isset($row['record_b_id']) ? (int) $row['record_b_id'] : 0;
         if ($a < 1 || $b < 1) {
             $row['field_compare'] = [];
+            $row['records_missing'] = true;
             return $row;
         }
+        $alive = $this->recordsStillExist($a, $b);
+        $row['records_missing'] = !$alive;
         if ($tableId < 1) {
             $tableId = $this->tableIdForRecords($a, $b);
             $row['table_id'] = $tableId;
+        }
+        if ($tableId > 0 && (!isset($row['table_name']) || trim((string) $row['table_name']) === '')) {
+            $tn = $this->pdo->prepare('SELECT table_name FROM dynamic_tables WHERE id = ?');
+            $tn->execute([$tableId]);
+            $name = $tn->fetchColumn();
+            if (is_string($name) && $name !== '') {
+                $row['table_name'] = $name;
+            }
         }
         try {
             $row['field_compare'] = $this->compareValues($tableId, $a, $b);
@@ -369,6 +386,13 @@ class DuplicateReviewService
             }
         }
         return $row;
+    }
+
+    private function recordsStillExist(int $recordA, int $recordB): bool
+    {
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM records WHERE id IN (?, ?)');
+        $stmt->execute([$recordA, $recordB]);
+        return (int) $stmt->fetchColumn() === 2;
     }
 
     private function tableIdForRecords(int $recordA, int $recordB): int
