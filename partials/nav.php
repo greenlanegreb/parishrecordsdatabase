@@ -186,11 +186,7 @@ if ($pdoOk) {
         </div>
         <?php if (count($navLanguages) > 1): ?>
             <div class="prd-lang-box d-inline-flex align-items-center gap-2">
-                <button type="button" class="prd-lang-toggle btn btn-link text-white text-decoration-none p-0 d-lg-none" aria-expanded="false" aria-controls="site-lang-select">
-                    <span aria-hidden="true">Aa</span>
-                    <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
-                </button>
-                <label for="site-lang-select" class="mb-0 prd-lang-mark d-none d-lg-inline">
+                <label for="site-lang-select" class="mb-0 prd-lang-mark">
                     <span aria-hidden="true">Aa</span>
                     <span class="visually-hidden"><?= htmlspecialchars(__('nav.language_label'), ENT_QUOTES, 'UTF-8') ?></span>
                 </label>
@@ -245,13 +241,57 @@ if ($pdoOk) {
             <?php endif; ?>
         </a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#mainNavbarContent" aria-controls="mainNavbarContent"
-                aria-expanded="false" aria-label="<?= htmlspecialchars(__('nav.toggle_navigation'), ENT_QUOTES, 'UTF-8') ?>">
+                aria-label="<?= htmlspecialchars(__('nav.toggle_navigation'), ENT_QUOTES, 'UTF-8') ?>">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="mainNavbarContent">
+        <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="mainNavbarContent" aria-labelledby="prdNavMenuTitle">
+            <div class="offcanvas-header border-bottom d-lg-none">
+                <h2 class="offcanvas-title h5 mb-0" id="prdNavMenuTitle"><?= htmlspecialchars(__('nav.menu') !== 'nav.menu' ? __('nav.menu') : 'Menu', ENT_QUOTES, 'UTF-8') ?></h2>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#mainNavbarContent" aria-label="<?= htmlspecialchars(__('nav.close_menu') !== 'nav.close_menu' ? __('nav.close_menu') : 'Close menu', ENT_QUOTES, 'UTF-8') ?>"></button>
+            </div>
+            <div class="offcanvas-body d-lg-flex flex-lg-row align-items-lg-center w-100">
+            <ul class="navbar-nav d-lg-none mb-3 gap-2">
+                <?php if ($isLoggedIn): ?>
+                    <li class="nav-item">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/profile"
+                           class="nav-link fw-bold <?= $navActive('/profile') ?>">
+                            <?= htmlspecialchars(__('nav.profile'), ENT_QUOTES, 'UTF-8') ?>
+                            (<?= htmlspecialchars($displayIdentifier, ENT_QUOTES, 'UTF-8') ?>)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/logout"
+                           class="btn btn-sm btn-outline-danger"><?= htmlspecialchars(__('nav.logout'), ENT_QUOTES, 'UTF-8') ?></a>
+                    </li>
+                    <?php if ($canManageSets): ?>
+                        <li class="nav-item">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/admin/gh-feedback"
+                               class="btn btn-sm btn-outline-primary bg-white text-primary"><?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?></a>
+                        </li>
+                    <?php elseif ($modFeedback): ?>
+                        <li class="nav-item">
+                            <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback"
+                               class="btn btn-sm btn-outline-primary bg-white text-primary"><?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?></a>
+                        </li>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <?php if ($currentRoute !== '/login' && $currentRoute !== '/user/login'): ?>
+                    <li class="nav-item">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/login"
+                           class="btn btn-sm btn-primary px-3"><?= htmlspecialchars(__('nav.login'), ENT_QUOTES, 'UTF-8') ?></a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if ($canPublicFeedback): ?>
+                    <li class="nav-item">
+                        <a href="<?= htmlspecialchars($baseUrl, ENT_QUOTES, 'UTF-8') ?>/feedback"
+                           class="btn btn-sm btn-outline-primary bg-white text-primary"><?= htmlspecialchars(__('nav.feedback'), ENT_QUOTES, 'UTF-8') ?></a>
+                    </li>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
                 <?php if (!empty($prdNavItems)): ?>
                     <?php foreach ($prdNavItems as $nItem): ?>
@@ -433,7 +473,7 @@ if ($pdoOk) {
                 <?php endif; ?>
             </ul>
 
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-2 mt-3 mt-lg-0">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-2 mt-3 mt-lg-0 d-none d-lg-flex">
                 <?php if ($isLoggedIn): ?>
                     <li class="nav-item d-flex align-items-center gap-2">
                         <span class="navbar-text text-secondary">
@@ -485,6 +525,7 @@ if ($pdoOk) {
                     </li>
                 <?php endif; ?>
             </ul>
+            </div>
         </div>
     </div>
 </nav>
